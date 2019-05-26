@@ -1,0 +1,138 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+#logo {
+vertical-align: left;
+width: 50px;
+height: 50px;
+text-align: left;
+}
+
+.nav>li>a:hover {
+  background-color: none;
+  color: red;
+}
+
+.btn-sign{
+  background-color: #eb593c;
+}
+/*no background*/
+.no-bg {
+  color: #fffcec;
+  border: solid 1px #fffcec;
+  background-color: transparent;
+}
+.container-fluid {
+  width: 100%;
+}
+
+.mt15 {
+  margin-top: 15px;
+}
+.mt60 {
+  margin-top: 60px;
+}
+.mt10 {
+  margin-top: 10px;
+}
+.mt5 {
+  margin-top: 5px;
+}
+.pd-bot10 {
+  padding-bottom: 10px;
+}
+.mg-right50{
+  margin-right: 50px;
+}
+
+.btn-menu {
+  width: 120px;
+  font-size: 16px;
+  padding: 13px;
+  float: right;
+     margin-right: 10px;
+
+}
+
+.pd-top60 {
+  padding-top: 60px;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.menu {
+  font-size: 16px;
+  width: 100%;
+}
+.bar {
+  /*height: 200px;*/
+  background-color: #abdcd6
+}
+
+
+.menuactive {
+  font-color: #eb2f06;
+}
+
+.my-link {
+  margin-right: 10px;
+  margin-left: 20px;
+   color: #000000;
+   background-color: none
+}
+
+.navbar-nav>li:hover>a {
+  color: #eb2f06 !important;
+  text-decoration: none !important;
+  background-color: transparent;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+  color: #000000;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+input::-webkit-input-placeholder {
+color: #95a5a6 !important;
+}
+ 
+input:-moz-placeholder { /* Firefox 18- */
+color: #95a5a6 !important;  
+}
+ 
+input::-moz-placeholder {  /* Firefox 19+ */
+color: #95a5a6 !important;  
+}
+ 
+input:-ms-input-placeholder {  
+color: #95a5a6 !important;  
+}
