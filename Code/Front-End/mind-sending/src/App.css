@@ -36,13 +36,19 @@ text-align: left;
 }
 
 .btn-sign{
+  color: #fffcec !important; 
   background-color: #eb593c;
 }
 /*no background*/
 .no-bg {
-  color: #fffcec;
+  /*color: #000000;*/
   border: solid 1px #fffcec;
   background-color: transparent;
+  
+}
+
+.no-bg:hover {
+  color: #eb593c;
 }
 .container-fluid {
   width: 100%;
@@ -73,6 +79,7 @@ text-align: left;
   padding: 13px;
   float: right;
      margin-right: 10px;
+     color: #000
 
 }
 
@@ -102,7 +109,7 @@ text-align: left;
   margin-right: 10px;
   margin-left: 20px;
    color: #000000;
-   background-color: none
+   background-color: transparent !important;
 }
 
 .navbar-nav>li:hover>a {
