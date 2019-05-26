@@ -50,7 +50,8 @@ class Menu extends Component {
 
           {this.showMenu(menus)}      
           <div className = "mg-right50">
-				<button type="button" className="btn btn-warning btn-menu btn-sign">Sign Up Free</button>
+				{/*<button type="button" className="btn btn-warning btn-menu btn-sign">Sign Up Free</button>*/}
+        <Link to="/register"  className="btn btn-warning btn-menu btn-sign">Sign Up Free</Link>
           		<Link to="/login"  className="btn btn-menu no-bg">Login</Link>
           </div>
           

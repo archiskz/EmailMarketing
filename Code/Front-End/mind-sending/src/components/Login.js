@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Link } from 'react-router-dom';
-import img from '../access/img/icons8-idea-64.png';
+import img from '../access/img/logo.PNG';
 import Radium, { Style } from 'radium';
 
 class Login extends Component {
@@ -14,7 +14,7 @@ class Login extends Component {
 				<form className="login100-form validate-form">
 					<span className="login100-form-logo">
 						{/*<i className="zmdi zmdi-landscape"></i>*/}
-						<img className="zmdi zmdi-landscape" alt="" src={img}/> 
+						<img className="zmdi zmdi-landscape logo" alt="" src={img}/> 
 					</span>
 
 					<span className="login100-form-title p-b-34 p-t-27">
