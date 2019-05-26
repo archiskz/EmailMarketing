@@ -47,12 +47,12 @@ class Login extends Component {
 						{/*<Link to="/"  className="login100-form-btn">Login</Link>*/}
 					</div>
 
-					<div className="text-center p-t-10">
+					<div className="text-center p-t-20">
 						<a className="txt1" >
 							Forgot Password?
 						</a>
 					</div>
-					<div className="text-center p-t-60">
+					<div className="text-center p-t-20">
 						<a className="txt1" >
 							Not a member? SIGN UP
 						</a>
