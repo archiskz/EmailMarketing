@@ -48,12 +48,10 @@ class Login extends Component {
 					</div>
 
 					<div className="text-center p-t-20">
-						<a className="txt1" >
-							Forgot Password?
-						</a>
+						<a href="/register"  className="a-link">Forgot Password?</a>
 					</div>
 					<div className="text-center p-t-20">
-						{/*<Link to="/register"  className="">Not a member? SIGN UP</Link>*/}
+						<a href="/register"  className="a-link">Not a member? SIGN UP</a>
 					</div>
 
 				</form>

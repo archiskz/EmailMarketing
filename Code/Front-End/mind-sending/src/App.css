@@ -147,3 +147,8 @@ color: #95a5a6 !important;
 input:-ms-input-placeholder {  
 color: #95a5a6 !important;  
 }
+.a-link {
+  text-decoration: none;
+  color: black;
+  font-size: 13px;
+}
