@@ -2,6 +2,7 @@ import React from 'react';
 import Home from './Home';
 import Login from './Login';
 import MakeCampaign from './MakeCampaign';
+import Register from './Register';
 
 const routes = [
 {
@@ -18,6 +19,11 @@ const routes = [
 	path:'/make-campaign',
 	exact : false,
 	main: () => <MakeCampaign />
+},
+{
+	path:'/register',
+	exact : false,
+	main: () => <Register />
 },
 // {
 // 	path:'/about',
