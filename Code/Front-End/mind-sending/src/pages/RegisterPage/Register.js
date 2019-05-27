@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Link } from 'react-router-dom';
-import img from '../access/img/logo.PNG';
-import Radium, { Style } from 'radium';
 
-class Login extends Component {
+class Register extends Component {
 	render(){
 		 return (
     <div className="font-poppins container-login100">
@@ -15,8 +13,7 @@ class Login extends Component {
                 <h2 className="title">Registration Info</h2>
                 <form method="POST">
                   <div className="input-group">
-                    <input className="input100 validate-input" type="text" placeholder="Username" name="name" />
-                    <span className="focus-input100" data-placeholder="&#xf207;"></span>
+                    <input className="input--style-3" type="text" placeholder="Username" name="name" />
                   </div>
                  {/* <div className="input-group">
                     <input className="input--style-3 js-datepicker" type="text" placeholder="Birthdate" name="birthday" />
@@ -34,16 +31,13 @@ class Login extends Component {
                     </div>
                   </div>*/}
                   <div className="input-group">
-                    <input className="input100" type="email" placeholder="Email" name="email" />
-                    <span className="focus-input100" data-placeholder="&#xf15a;"></span>
+                    <input className="input--style-3" type="email" placeholder="Email" name="email" />
                   </div>
                   <div className="input-group">
-                    <input className="input100 validate-input" type="password" placeholder="Password" name="password" />
-                    <span className="focus-input100" data-placeholder="&#xf191;"></span>
+                    <input className="input--style-3" type="password" placeholder="Password" name="password" />
                   </div>
                   <div className="input-group">
-                    <input className="input100 validate-input" type="password" placeholder="Re-Confirm Password" name="confirm" />
-                    <span className="focus-input100" data-placeholder="&#xf191;"></span>
+                    <input className="input--style-3" type="password" placeholder="Re-Confirm Password" name="confirm" />
                   </div>
                   <div className="p-t-10 al-center ">
                     <button className="login100-form-btn" type="submit">Register</button>
@@ -58,4 +52,4 @@ class Login extends Component {
  
 }
 
-export default Login;
+export default Register;

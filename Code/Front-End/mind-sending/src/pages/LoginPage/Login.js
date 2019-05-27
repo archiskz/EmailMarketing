@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Link } from 'react-router-dom';
-import img from '../access/img/logo.PNG';
-import Radium, { Style } from 'radium';
+import img from './../../access/img/logo.PNG';
 
 class Login extends Component {
 	render(){

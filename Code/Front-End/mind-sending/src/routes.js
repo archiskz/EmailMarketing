@@ -1,8 +1,8 @@
 import React from 'react';
-import Home from './Home';
-import Login from './Login';
-import MakeCampaign from './MakeCampaign';
-import Register from './Register';
+import Home from './pages/HomePage/Home';
+import Login from './pages/LoginPage/Login';
+import MakeCampaign from './components/MakeCampaign';
+import Register from './pages/RegisterPage/Register';
 
 const routes = [
 {

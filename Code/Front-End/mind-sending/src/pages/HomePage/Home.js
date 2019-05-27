@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import Menu from './Menu';
-import SideBar from './SideBar';
-import background from './../access/img/billboard.jpg';
+import Menu from './../../components/Menu';
+// import SideBar from './SideBar';
 class Home extends Component {
 
 	
