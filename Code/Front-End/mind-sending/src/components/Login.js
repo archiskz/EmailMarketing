@@ -22,8 +22,7 @@ class Login extends Component {
 					</span>
 
 					<div className="wrap-input100 validate-input" data-validate = "Enter username">
-					<Style scopeSelector='.myClass' 
-					rules={{'::-webkit-input-placeholder': {color: '#2c3e50'}}} />
+					
 						<input className="input100 myClass" type="text" name="username" placeholder="Username"/>
 						<span className="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>

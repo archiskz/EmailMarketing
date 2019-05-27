@@ -14,7 +14,7 @@ constructor (props) {
     
     <nav  className= { this.state.condition ? "sidebar active" : "sidebar" }>
         <div className="sidebar-header">
-            <h3>SideBar</h3>
+            <h3>Menu</h3>
         </div>
 
         <ul className="list-unstyled components">
@@ -61,11 +61,11 @@ constructor (props) {
     <div id="content">
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-
-            <button type="button" id="sidebarCollapse" onClick={this.openSideBar} className="btn btn-info">
-                <i className="fas fa-align-left"></i>
-                <span>Toggle Sidebar</span>
-            </button>
+            <button type="button" id="sidebarCollapse" onClick={this.openSideBar} className="menubutton">
+                            
+                <span className="focus-input100" data-placeholder="&#xf197;"></span>
+                        </button>
+            
 
         </div>
     </nav>

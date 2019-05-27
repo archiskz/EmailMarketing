@@ -188,6 +188,7 @@ a[data-toggle="collapse"] {
 .sidebar .sidebar-header {
     padding: 20px;
     background: #abdcd6;
+    color: #000;
 }
 
 .sidebar ul.components {
@@ -218,4 +219,44 @@ ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
     background: #abdcd6;
+}
+.mainmenu, .submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.mainmenu a {
+  display: block;
+  background-color: #CCC;
+  text-decoration: none;
+  padding: 10px;
+  color: #000;
+}
+.mainmenu a:hover {
+    background-color: #C5C5C5;
+}
+.mainmenu li:hover .submenu {
+  display: block;
+  max-height: 200px;
+}
+.submenu a {
+  background-color: #999;
+}
+.submenu a:hover {
+  background-color: #666;
+}
+.submenu {
+  overflow: hidden;
+  max-height: 0;
+  -webkit-transition: all 0.5s ease-out;
+}
+.menubutton {
+  background-color: transparent !important; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }

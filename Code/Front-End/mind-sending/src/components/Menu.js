@@ -47,7 +47,7 @@ class Menu extends Component {
         	<img alt="" className="mt10" src={img}/> 
         </div>
           <ul className="nav navbar-nav menu" >  
-
+          
           {this.showMenu(menus)}      
           <div className = "mg-right50">
 				{/*<button type="button" className="btn btn-warning btn-menu btn-sign">Sign Up Free</button>*/}
