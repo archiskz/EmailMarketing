@@ -97,7 +97,7 @@ text-align: left;
 }
 .bar {
   /*height: 200px;*/
-  background-color: #abdcd6
+  background-color: #042E29
 }
 
 
@@ -108,7 +108,7 @@ text-align: left;
 .my-link {
   margin-right: 10px;
   margin-left: 20px;
-   color: #000000;
+   color: #000;
    background-color: transparent !important;
 }
 
@@ -175,6 +175,9 @@ a[data-toggle="collapse"] {
     }
 
 .sidebar {
+  position: absolute;
+  display: block;
+  z-index: 1;
   width: 200px;
   margin-left: 0px;
   color: #fff;

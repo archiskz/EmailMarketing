@@ -40,8 +40,8 @@ var active = match ? 'active menuactive' : '';
 class Menu extends Component {
   render(){
      return (
-    <div className="bar">
-      <nav className="bar">
+    <div className="trasparent_nav">
+      <nav className="wrapper">
         <div className="container-fluid pd-top10 pd-bot10">
         <div id="logo">
         	<img alt="" className="mt10" src={img}/> 
