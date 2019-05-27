@@ -53,7 +53,7 @@ class Login extends Component {
 						</a>
 					</div>
 					<div className="text-center p-t-20">
-						{/*<Link to="/register"  className="">Not a member? SIGN UP</Link>*/}
+						<Link to="/register"  className="">Not a member? SIGN UP</Link>
 					</div>
 
 				</form>
