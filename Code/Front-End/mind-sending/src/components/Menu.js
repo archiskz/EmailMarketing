@@ -12,7 +12,7 @@ const menus = [
 },
 {
 	name: 'What is MindSending',
-	to: '/about',
+	to: '/aboutus',
 	exact: false
 },
 {
