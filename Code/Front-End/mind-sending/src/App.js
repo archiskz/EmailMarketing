@@ -2,10 +2,13 @@ import React, {Component} from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import routes from './routes';
+import demo from './demo';
+import { connect } from 'react-redux';
 
 
 class App extends Component {
     render(){
+        console.log(this.props.accounts);
   return (
     <Router>
         <div>
@@ -33,4 +36,10 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+return {
+    accounts: state.accounts
+}
+} ;
+
+export default connect(mapStateToProps, null)(App);
