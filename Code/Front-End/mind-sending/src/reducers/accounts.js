@@ -1,3 +1,5 @@
+import * as types from './../constants/ActionTypes';
+
 var initialState = [{
 	id:1,
 	username: "son",
@@ -5,9 +7,13 @@ var initialState = [{
 }];
 
 
-const accounts = (state = initialState, action) => {
-	switch(action.type){
-		default: return [...state];
-	}
-};
- export default accounts;
+var myReducer = (state = initialState, action) =>{
+switch(action.type){
+	case types.LIST_ALL:
+	return state;
+	default: return state; 
+}
+return state;
+}
+
+export default myReducer;
