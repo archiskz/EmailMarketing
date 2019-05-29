@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface SubscriberService {
 
-
-
     boolean createSubscriber(Subscriber subscriber);
 
     List<Subscriber> ediSubscribers();
