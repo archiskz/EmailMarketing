@@ -44,7 +44,12 @@ text-align: left;
   /*color: #000000;*/
   border: solid 1px #fffcec;
   background-color: transparent;
+  padding: 5px;
   
+}
+.alignCenter{
+  text-align: center;
+  height: 100%;
 }
 
 .no-bg:hover {
@@ -155,8 +160,11 @@ color: #95a5a6 !important;
   font-size: 13px;
 }
 .wrapper {
+height: 100%;
     display: flex;
-    align-items: stretch;
+    align-items: center;
+    left: 50%;
+    top: 50%;
 }
 
 

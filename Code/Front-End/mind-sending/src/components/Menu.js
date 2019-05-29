@@ -45,23 +45,23 @@ var active = match ? 'active menuactive' : '';
 class Menu extends Component {
   render(){
      return (
-    <div className="trasparent_nav">
-      <nav className="wrapper">
-        <div className="container-fluid pd-top10 pd-bot10">
+    < div className = "trasparent_nav" >
+
+        <div className = "container-fluid pd-top10 pd-bot10 alignCenter" >
         
-          <ul className="nav navbar-nav menu" >  
+          <ul className="nav navbar-nav menu alignCenter" >  
           
           {this.showMenu(menus)}      
           <div className = "mg-right50">
 				{/*<button type="button" className="btn btn-warning btn-menu btn-sign">Sign Up Free</button>*/}
-        <Link to="/register"  className="btn btn-warning btn-menu btn-sign">Sign Up Free</Link>
-          		<Link to="/login"  className="btn btn-menu no-bg">Login</Link>
+        <Link to="/login"  className="btn btn-warning btn-menu btn-sign">Get Stated</Link>
+          		{/* <Link to="/login"  className="btn btn-menu no-bg">Get Stated</Link> */}
           </div>
           
 	  	  
           </ul>
         </div>
-      </nav>
+    
     </div>
   );
   }
