@@ -12,8 +12,6 @@ public interface SubscriberRepository extends JpaRepository<Subscriber, Integer>
 
     List<Subscriber> findAllByIDGreaterThanEqual(int id);
 
-
-
     Subscriber findSubscriberById(Integer id);
 
     Subscriber findSubscriberByName(String name);

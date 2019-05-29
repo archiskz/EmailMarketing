@@ -6,37 +6,76 @@ import com.emailmkt.emailmarketing.service.SubscriberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+
 @Service
-public class SubscriberServiceImpl implements SubscriberService {
+public abstract class SubscriberServiceImpl implements SubscriberService {
 
     @Autowired
-    AccountRepository subscriberRepository;
+    SubscriberRepository subscriberRepository;
 
     @Override
     public boolean addSubscriber(Subscriber subscriber) {
-        System.out.println(subscriber.getId());
-        Subscriber checkExistedSubscriber = subscriberRepository.findById(subscriber.getId());
+        System.out.println(subscriber);
+        Optional<Subscriber> checkExistedSubscriber = subscriberRepository.findById(subscriber.getId());
         if (checkExistedSubscriber != null) {
             return false;
         }
-        subscriber.setCreatedTime(LocalDateTime.now().toString());
-        subscriber.setPassword(account.getPassword());
         subscriberRepository.save(subscriber);
         return true;
     }
 
     @Override
-    public List<subscriber> getAllSubscriber() {
+    public boolean createSubscriber(Subscriber subscriber) {
+        return false;
+    }
+
+    @Override
+    public Subscriber getSubscriberByName(String name) {
+        return null;
+    }
+
+    @Override
+    public List<Subscriber> getAllSubscriber() {
         System.out.println("toi day chưa ahihihi");
         return subscriberRepository.findAll();
     }
 
     @Override
-    public Account editSubscriber(subscriber subscriber) {
+    public Subscriber editEmail(Subscriber email) {
+        return null;
+    }
+
+    @Override
+    public List<Subscriber> getAllSubscriberByName() {
+        return null;
+    }
+
+    @Override
+    public List<Subscriber> getAllSubscriberByStatus() {
+        return null;
+    }
+
+    @Override
+    public Subscriber getSubscriberByStatus(String status) {
+        return null;
+    }
+
+    @Override
+    public List<Subscriber> getAllSubscriberById(int Id) {
+        return null;
+    }
+
+    @Override
+    public Subscriber updateSubscriber(Subscriber subscriber) {
+        return null;
+    }
+
+    @Override
+    public Subscriber editSubscriber(Subscriber subscriber) {
         try {
-            subscriber checkExistedsubscriber = subscriberRepository.findsubscriberById(subscriber.getId());
+            Subscriber checkExistedsubscriber = subscriberRepository.findSubscriberById(subscriber.getId());
             if (checkExistedsubscriber != null) {
                 System.out.println("TEST");
                 checkExistedsubscriber.setEmail(subscriber.getEmail());
@@ -53,7 +92,7 @@ public class SubscriberServiceImpl implements SubscriberService {
 
 
     @Override
-    public subscriber updatesubscriber(Subscriber subscriber) {
+    public Subscriber updatesubscriber(Subscriber subscriber) {
         return null;
     }
 
@@ -66,4 +105,5 @@ public class SubscriberServiceImpl implements SubscriberService {
     public Subscriber createNewSubscriber(Subscriber subscriber) {
         return subscriberRepository.save(subscriber);
     }
+}
 
