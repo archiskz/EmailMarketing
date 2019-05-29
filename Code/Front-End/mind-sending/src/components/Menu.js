@@ -6,17 +6,22 @@ import img from '../access/img/icons8-idea-64.png';
 
 const menus = [
 {
-	name:  'MindSending',
+	name:  'Home',
 	to: '/',
 	exact: true
 },
 {
-	name: 'What is MindSending',
+	name: 'About',
 	to: '/about',
 	exact: false
 },
 {
-	name: 'Make your campaigns',
+	name: 'Features',
+	to: '/make-campaign',
+	exact: false
+},
+{
+	name: 'Contact',
 	to: '/make-campaign',
 	exact: false
 }
@@ -43,9 +48,7 @@ class Menu extends Component {
     <div className="trasparent_nav">
       <nav className="wrapper">
         <div className="container-fluid pd-top10 pd-bot10">
-        <div id="logo">
-        	<img alt="" className="mt10" src={img}/> 
-        </div>
+        
           <ul className="nav navbar-nav menu" >  
           
           {this.showMenu(menus)}      

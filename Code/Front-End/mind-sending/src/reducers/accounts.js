@@ -1,9 +1,9 @@
 import * as types from './../constants/ActionTypes';
 
 var initialState = [{
-	id:1,
-	username: "son",
-	password: "1234"
+	id: '',
+	username: '',
+	password: ''
 }];
 
 
