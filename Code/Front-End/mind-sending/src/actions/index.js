@@ -17,3 +17,10 @@ return {
 	type: types.LIST_ALL,
 }
 }
+
+export const loginAction = (username, password) => {
+	return {
+		type: types.LOGIN,
+		loginAction
+	}
+}

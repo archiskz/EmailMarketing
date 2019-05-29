@@ -109,6 +109,8 @@ text-align: left;
   margin-right: 10px;
   margin-left: 20px;
    color: #000;
+   font-size:16px;
+   font-weight: 400 !important;
    background-color: transparent !important;
 }
 

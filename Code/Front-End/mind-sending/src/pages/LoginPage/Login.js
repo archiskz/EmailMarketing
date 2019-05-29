@@ -1,9 +1,47 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Link } from 'react-router-dom';
 import img from './../../access/img/logo.PNG';
+import callApi from './../../utils/apiCaller';
+import axios from 'axios';
+import {
+	connect
+} from 'react-redux';
 
 class Login extends Component {
+
+constructor(props) {
+	super(props);
+	this.state = {
+			usernameInput: '',
+			passwordInput: '',
+	};
+}
+
+componentDidMount(){
+    //gọi sau khi component render lần đầu
+callApi('accounts', 'GET', null).then(res => {
+    this.setState({
+        accounts : this.refs.data
+    })
+})
+}
+
+tryLogin = () =>{
+alert('Email address is ' + this.state.usernameInput + ' Password is ' + this.state.passwordInput);
+axios.post('api/accounts', {
+		email: this.state.email,
+		password: this.state.password
+	})
+	.then(function (response) {
+		console.log(response);
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
 	render(){
+		var string = "";
 		 return (
     <div className="limiter">
     
@@ -20,14 +58,22 @@ class Login extends Component {
 						Log in
 					</span>
 
-					<div className="wrap-input100 validate-input" data-validate = "Enter username">
+					<div className="wrap-input100 validate-input" data-validate = "Enter username" value={this.state.username} 
+					onChange = { evt => this.updateUsernameInput(evt)} >
 					
 						<input className="input100 myClass" type="text" name="username" placeholder="Username"/>
 						<span className="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div className="wrap-input100 validate-input" data-validate="Enter password">
-						<input className="input100" type="password" name="pass" placeholder="Password"/>
+						<input className="input100" type="password" name="pass" placeholder="Password"
+							value = {
+								this.state.username
+							}
+							onChange = {
+								evt => this.updatePasswordInput(evt)
+							}
+						/>
 						<span className="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
@@ -39,7 +85,7 @@ class Login extends Component {
 					</div>
 
 					<div className="container-login100-form-btn">
-						<button className="login100-form-btn">
+						<button type="button" onClick={()=> {this.tryLogin()}} className="login100-form-btn">
 							Login
 						</button>
 						{/*<Link to="/"  className="login100-form-btn">Login</Link>*/}
@@ -57,8 +103,33 @@ class Login extends Component {
 		</div>
 	</div>
   );
-	}
+	
+
+
+	
+
+
  
 }
 
-export default Login;
+updateUsernameInput(evt) {
+	this.setState({
+		usernameInput: evt.target.value
+	});
+}
+
+
+updatePasswordInput(evt) {
+	this.setState({
+		passwordInput: evt.target.value
+	});
+}
+}
+const mapStateToProps = (state) => {
+	return {
+		loginReducer: state.loginReducer
+	}
+};
+
+
+export default connect(mapStateToProps, null)(Login);
