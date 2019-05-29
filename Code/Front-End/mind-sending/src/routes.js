@@ -3,6 +3,7 @@ import Home from './pages/HomePage/Home';
 import Login from './pages/LoginPage/Login';
 import MakeCampaign from './components/MakeCampaign';
 import Register from './pages/RegisterPage/Register';
+import About from './pages/HomePage/About';
 
 const routes = [
 {
@@ -25,11 +26,11 @@ const routes = [
 	exact : false,
 	main: () => <Register />
 },
-// {
-// 	path:'/about',
-// 	exact : false,
-// 	main: () => <MakeCampaign />
-// }
+{
+ 	path:'/about',
+ 	exact : false,
+	main: () => <About />
+}
 ]
 
 
