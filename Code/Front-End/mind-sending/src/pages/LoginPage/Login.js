@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Link } from 'react-router-dom';
 import img from './../../access/img/logo.PNG';
-import callApi from './../../utils/apiCaller';
+import {callApi} from './../../utils/apiCaller';
 import axios from 'axios';
+import {commonCallApi} from './../../utils/commonCallApi';
+import * as Config from './../../constants/Config';
 import {
 	connect
 } from 'react-redux';
@@ -14,33 +16,37 @@ constructor(props) {
 	this.state = {
 			usernameInput: '',
 			passwordInput: '',
+			user: {
+				username: '',
+				password: ''
+			},
+			posts: [],
+				isLoading: true,
+				errors: null
 	};
+
 }
 
-componentDidMount(){
-    //gọi sau khi component render lần đầu
-callApi('accounts', 'GET', null).then(res => {
-    this.setState({
-        accounts : this.refs.data
-    })
-})
-}
 
-tryLogin = () =>{
-alert('Email address is ' + this.state.usernameInput + ' Password is ' + this.state.passwordInput);
-axios.post('api/accounts', {
-		email: this.state.email,
-		password: this.state.password
-	})
-	.then(function (response) {
-		console.log(response);
-	})
-	.catch(function (error) {
-		console.log(error);
-	});
-}
+
+
+// tryLogin = () => {
+// callApi('accounts', 'GET', null).then(res => {
+// 	this.setState({
+// 		accounts: this.res.data
+// 	});
+// 	alert(res);
+// 	console.log(res);
+// 	console.log('data' + this.refs.data)
+// })
+// }
 
 	render(){
+		const {
+			isLoading,
+			users,
+			error
+		} = this.state;
 		var string = "";
 		 return (
     <div className="limiter">
@@ -51,11 +57,11 @@ axios.post('api/accounts', {
 				<form className="login100-form validate-form">
 					<span className="login100-form-logo">
 						{/*<i className="zmdi zmdi-landscape"></i>*/}
-						<img className="zmdi zmdi-landscape logo" alt="" src={img}/> 
+						<img className="zmdi zmdi-landscape logo" alt="" src='images/logo.png'/> 
 					</span>
 
 					<span className="login100-form-title p-b-34 p-t-27">
-						Log in
+						LOG IN
 					</span>
 
 					<div className="wrap-input100 validate-input" data-validate = "Enter username" value={this.state.username} 
@@ -85,7 +91,7 @@ axios.post('api/accounts', {
 					</div>
 
 					<div className="container-login100-form-btn">
-						<button type="button" onClick={()=> {this.tryLogin()}} className="login100-form-btn">
+						<button type="button" onClick={()=> {this.getPosts()}} className="login100-form-btn">
 							Login
 						</button>
 						{/*<Link to="/"  className="login100-form-btn">Login</Link>*/}
@@ -99,17 +105,46 @@ axios.post('api/accounts', {
 					</div>
 
 				</form>
+
+{/* START TEST */}
+				{/* <h2>Random Post</h2>
+        <div>
+          {!isLoading ? (
+            this.state.posts.map(post => {
+              const { _id, title, content } = post;
+              return (
+                <div key={_id}>
+                  <h2>{title}</h2>
+                  <p>{content}</p>
+                  <hr />
+                </div>
+              );
+            })
+          ) : (
+            <p>Loading...</p>
+          )}
+					</div> */}
+			 {/* STOP */}
 			</div>
 		</div>
 	</div>
   );
-	
+}
 
-
-	
-
-
- 
+getPosts() {
+	axios.get("https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/posts.json")
+		// Once we get a response and store data, let's change the loading state
+		.then(response => {
+			this.setState({
+				posts: response.data.posts,
+				isLoading: false
+			});
+		})
+		// If we catch any errors connecting, let's update accordingly
+		.catch(error => this.setState({
+			error,
+			isLoading: false
+		}));
 }
 
 updateUsernameInput(evt) {

@@ -42,7 +42,9 @@ body, html {
 	font-family: Poppins-Regular, sans-serif;
 }
 .wide {
+    
   padding-left: 200px;
+  padding-bottom: 120px;
 }
 
 .al-center {
@@ -172,7 +174,7 @@ iframe {
 .container-loginafter {
   width: 100%;  
   min-height: 100vh;
-  opacity: 0.4;
+  /* opacity: 0.4; */
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -182,7 +184,7 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-background-image: url("map-of-the-world-2401458_1920.jpg");
+background-image: url('./../images/pattern.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -247,7 +249,7 @@ background-image: url("map-of-the-world-2401458_1920.jpg");
   justify-content: center;
   align-items: center;
  /* padding: 15px;*/
-/*background-image: url("map-of-the-world-2401458_1920.jpg");*/
+background-image: url('./../images/pattern.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -277,11 +279,11 @@ background-image: url("map-of-the-world-2401458_1920.jpg");
   overflow: hidden;
   padding: 30px 30px 30px 30px;
 z-index: 1;
-  background: #9152f8;
-  background: -webkit-linear-gradient(top, #abdcd6, #fffcec);
+  background: #00a650;
+  /* background: -webkit-linear-gradient(top, #abdcd6, #fffcec);
   background: -o-linear-gradient(top, #abdcd6, #fffcec);
   background: -moz-linear-gradient(top, #abdcd6, #fffcec);
-  background: linear-gradient(top, #abdcd6, #fffcec);
+  background: linear-gradient(top, #abdcd6, #fffcec); */
 }
 .wrapper--w780{
   position: absolute;
@@ -314,17 +316,18 @@ z-index: 1;
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: none;
   margin: 0 auto;
+  margin-bottom: 20px;
 }
 
 .login100-form-title {
-  font-family: Poppins-Medium;
+  font-family: Poppins-Medium !important;
   font-size: 30px;
-  color: #000000;
+  color: white;
   line-height: 1.2;
   text-align: center;
-  text-transform: uppercase;
+  text-transform: uppercase !important;
 
   display: block;
 }
@@ -341,16 +344,16 @@ z-index: 1;
 }
 
 .input100 {
-  font-family: Poppins-Regular;
-  font-size: 16px;
-  color: #000000;
-  line-height: 1.2;
+  font-family: Poppins-Regular !important;
+  font-size: 16px !important;
+  color: white !important;
+  line-height: 1.2 !important;
 
-  display: block;
-  width: 100%;
-  height: 45px;
-  background: transparent;
-  padding: 0 5px 0 38px;
+  display: block !important;
+  width: 100% !important;
+  height: 45px !important;
+  background: transparent !important;
+  padding: 0 5px 0 38px !important;
 }
 
 /*---------------------------------------------*/ 
@@ -361,7 +364,7 @@ z-index: 1;
   height: 100%;
   top: 0;
   left: 0;
-  color: #000000;
+  color: white;
   pointer-events: none;
 }
 
@@ -373,7 +376,7 @@ z-index: 1;
   left: 0;
   width: 0;
   height: 2px;
-color: #000000;
+color: white;
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
@@ -498,19 +501,21 @@ color: #000000;
   justify-content: center;
   text-align: center;
 
+
 }
 
 .login100-form-btn {
-  font-family: Poppins-Medium;
+    text-transform: uppercase;
+  font-family: 'Franklin Gothic Medium' !important;
   font-size: 16px;
-  color: #555555;
+  color: black;
   line-height: 1.2;
-
+font-size: 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
   display: -ms-flexbox;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   padding: 0 20px;
@@ -856,7 +861,11 @@ h6 {
    #WRAPPER
    ========================================================================== */
 .wrapper {
+  border-radius: 20px;
   margin: 0 auto;
+  top : 0 !important;
+  left : 25% !important;
+  margin: 30px;
 }
 
 .wrapper--w960 {
@@ -1124,10 +1133,10 @@ input {
    #CARD
    ========================================================================== */
 .card {
-  overflow: hidden;
+  /* overflow: hidden; */
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  border-radius: 3px;
+  border-radius: 50px !important;
   background: #fff;
 }
 
@@ -1163,7 +1172,7 @@ input {
   .card-3 .card-heading {
     display: block;
     width: 100%;
-    padding-top: 400px;
+    /* padding-top: 400px; */
     background-position: center center;
   }
   .card-3 .card-body {
@@ -1265,7 +1274,10 @@ footer a:hover{
     opacity: 1;
 }
 
-
+.img-header {
+  height: 90px !important;
+  width: 100px !important;
+}
 header.trasparent_nav .logo,
 header.fixed_nav .logo{
     float: left;
@@ -1344,7 +1356,10 @@ header.fixed_nav{
 }
 
 
-
+/* .one-section {
+  width: 100%;
+  height: 100%;
+} */
 
 /*  Call To Action Section  */
 .cta{
@@ -3144,10 +3159,24 @@ input::-moz-focus-inner {
 .s-header {
   z-index: 500;
   width: 100%;
-  height: 78px;
+  height: 100px;
   background-color: transparent;
-  position: absolute;
-  top: 28px;
+  position: fixed;
+  top: 0;
+
+}
+.fixed-menu {
+  height: 100%;
+}
+
+.s-header-black {
+  z-index: 500;
+  width: 100%;
+  height: 78px;
+  background-color: black;
+  position: fixed;
+  top: 0;
+
 }
 
 .s-header.sticky {
@@ -3172,8 +3201,9 @@ input::-moz-focus-inner {
   -ms-transform: translate3d(0, -50%, 0);
   transform: translate3d(0, -50%, 0);
   position: absolute;
-  left: 4.8rem;
-  top: 50%;
+  left: 10%;
+  top: 45%;
+  ;
 }
 
 .header-logo a {
@@ -3185,8 +3215,9 @@ input::-moz-focus-inner {
 
 .header-logo img {
   width: 140px;
-  height: 16px;
+  height: 140px;
 }
+
 
 /* ------------------------------------------------------------------- 
  * ## navigation 
@@ -3236,7 +3267,7 @@ input::-moz-focus-inner {
   margin: 15px 0 0 0;
   position: absolute;
   top: 0;
-  right: 4rem;
+  right: 100px;
 }
 
 .header-nav-wrap .header-social li {
@@ -3285,7 +3316,7 @@ input::-moz-focus-inner {
  * ## menu trigger
  * ------------------------------------------------------------------- */
 .header-menu-toggle {
-  display: none;
+  display: block;
   height: 42px;
   width: 42px;
   line-height: 42px;
@@ -3380,7 +3411,7 @@ input::-moz-focus-inner {
   }
 
   .header-nav-wrap .header-main-nav {
-    padding-left: 240px;
+    padding-left: 120px;
   }
 
 }
@@ -3392,7 +3423,7 @@ input::-moz-focus-inner {
   }
 
   .header-nav-wrap .header-main-nav {
-    padding-left: 230px;
+    padding-left: 80px;
   }
 
   .header-nav-wrap .header-social li a {
@@ -3554,7 +3585,7 @@ input::-moz-focus-inner {
   display: block;
   content: "";
   width: calc(50% - 200px);
-  height: 100vh;
+  height: 80%;
   background-image: url(../images/app-user.jpg);
   background-origin: center top;
   background-repeat: no-repeat;
@@ -4138,6 +4169,7 @@ html.no-csstransitions .home-content__main {
   color: rgba(255, 255, 255, 0.8);
   overflow: hidden;
   position: relative;
+  height: 768px;
 }
 
 .s-about .display-1,
@@ -4817,8 +4849,7 @@ html.no-csstransitions .home-content__main {
  *
  * ------------------------------------------------------------------- */
 .s-footer {
-  padding-top: 16rem;
-  padding-bottom: 12rem;
+  padding: 50px;
   color: rgba(255, 255, 255, 0.4);
   position: relative;
 }
@@ -5069,7 +5100,7 @@ html.no-csstransitions .home-content__main {
 }
 
 .cl-copyright span::after {
-  content: "·";
+  content: "ï¿½";
   display: inline-block;
   padding: 0 1rem 0 1.2rem;
   color: white;

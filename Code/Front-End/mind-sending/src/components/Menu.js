@@ -45,22 +45,34 @@ var active = match ? 'active menuactive' : '';
 class Menu extends Component {
   render(){
      return (
-    < div className = "trasparent_nav" >
-
-        <div className = "container-fluid pd-top10 pd-bot10 alignCenter" >
-        
-          <ul className="nav navbar-nav menu alignCenter" >  
-          
-          {this.showMenu(menus)}      
-          <div className = "mg-right50">
-				{/*<button type="button" className="btn btn-warning btn-menu btn-sign">Sign Up Free</button>*/}
-        <Link to="/login"  className="btn btn-warning btn-menu btn-sign">Get Stated</Link>
-          		{/* <Link to="/login"  className="btn btn-menu no-bg">Get Stated</Link> */}
-          </div>
-          
-	  	  
-          </ul>
+    < div className = "fixed-menu" >
+        <div className="header-logo">
+            <a className="site-logo" href="index.html">
+                <img className= "img-header" src="images/logo.png" alt="Homepage"/>
+            </a>
         </div>
+
+        <nav className="row header-nav-wrap wide">
+            <ul className="header-main-nav">
+                <li className="current"><a className="smoothscroll" href="#home" title="intro">Intro</a></li>
+                <li><a className="smoothscroll" href="#about" title="about">About</a></li>
+                <li><a className="smoothscroll" href="#features" title="features">Features</a></li>
+                <li><a className="smoothscroll" href="#pricing" title="pricing">Pricing</a></li>
+                <li><a href="blog.html" title="blog">Blog</a></li>	
+            </ul>
+
+            <ul className="header-social mr-50">
+                <li><a href="#0"><i className="fab fa-facebook-f" aria-hidden="true"></i></a></li>
+                <li><a href="#0"><i className="fab fa-twitter" aria-hidden="true"></i></a></li>
+                <li><a href="#0"><i className="fab fa-instagram" aria-hidden="true"></i></a></li>
+                
+            </ul>
+            
+            
+
+        </nav>
+
+        <a className="header-menu-toggle" href="#"><span>Menu</span></a>
     
     </div>
   );
