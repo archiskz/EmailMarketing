@@ -1,31 +1,32 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, withRouter } from 'react-router-dom';
+// import AccountDropdown from './dropdowns/AccountDropdown';
 
 
 const menus = [
 {
 	name:  'Campaigns',
-	to: '/campaigns',
+	to: '/dashboard',
 	exact: true
 },
 {
 	name: 'Templates',
-	to: '/templates',
+	to: '/dashboard/templates',
 	exact: false
 },
 {
 	name: 'Lists',
-	to: '/lists',
+	to: '/dashboard/lists',
 	exact: false
 },
 {
 	name: 'Reports',
-	to: '/reports',
+	to: '/dashboard/reports',
 	exact: false
 },
 {
     name: 'Automations',
-    to: '/automations',
+    to: '/dashboard/automations',
     exact: false
 }
 ]
@@ -46,6 +47,13 @@ var active = match ? 'active menu-active' : '';
 }
 
 class Menu extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			dropdowns: false,
+		};
+	}
   render(){
      return (
          
@@ -64,13 +72,28 @@ class Menu extends Component {
             
 
         </nav>
-
-        <a className="header-menu-toggle" href="#"><span>Menu</span></a>
+		<div className="dropdown-div" onClick={this.showDropdown}>
+			<img src = "images/avatars/user-01.jpg"  className="avatar-small" />
+        <span className="username">
+		Son NLH
+		</span>
+		</div>
+		
+		<div id="myDropdown" className= {"dropdown-content " + (this.state.dropdowns ? "show" : "")}>
+    <a href="/dashboard">Profile</a>
+    <a href="/dashboard/dashboard">Account</a>
+    <a href="/dashboard">Log Out</a>
+  </div>
     
     </nav>
   );
   }
 
+showDropdown = () => {
+	this.setState({
+		dropdowns: !this.state.dropdowns,
+	})
+}
 
   showMenu = (menus) => {
 	var result = null;
@@ -88,6 +111,7 @@ class Menu extends Component {
 	}
 	return result;
 }
+
 
 
 

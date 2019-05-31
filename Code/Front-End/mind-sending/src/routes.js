@@ -8,6 +8,7 @@ import Automations from './pages/DashboardPage/Automations';
 import Lists from './pages/DashboardPage/Lists';
 import Campaigns from './pages/DashboardPage/Campaigns';
 import Reports from './pages/DashboardPage/Reports';
+import Templates from './pages/DashboardPage/Templates';
 
 const routes = [
 {
@@ -21,39 +22,44 @@ const routes = [
 	main: () => <Login />
 },
 {
-	path:'/automations',
-	exact : false,
-	main: () => <Automations />
-},
-{
 	path:'/register',
 	exact : false,
-	main: () => <Register />
+	main: () => <Register/>
 },
 {
  	path:'/about',
  	exact : false,
-	main: () => <About />
+	main: () => <About/>
 },
 {
 	path: '/dashboard',
 	exact: false,
-	main: () => <Dashboard / >
+	main: () => <Dashboard/>
 },
 {
-	path: '/lists',
+	path: '/dashboard/lists',
 	exact: false,
-	main: () => <Lists / >
+	main: () => <Lists/>
 },
 {
-	path: '/campaigns',
+	path: '/dashboard/automations',
 	exact: false,
-	main: () => <Campaigns / >
+	main: () => <Automations/>
 },
 {
-	path: '/reports',
+	path: '/dashboard/campaigns',
 	exact: false,
-	main: () => <Reports / >
+	main: () => <Campaigns/>
+},
+{
+	path: '/dashboard/reports',
+	exact: false,
+	main: () => <Reports/>
+},
+{
+	path: '/dashboard/templates',
+	exact: false,
+	main: () => <Templates/>
 }
 ]
 

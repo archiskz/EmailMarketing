@@ -11,6 +11,7 @@ import {
   Route,
   Switch
 } from "react-router-dom";
+import Templates from './Templates';
 
 class DashBoard extends Component {
   constructor(props) {
@@ -23,21 +24,25 @@ class DashBoard extends Component {
   render(){
      return (
        < div >
-      <body data-spy = "scroll" data-target = ".fixed-menu"
+      <div data-spy = "scroll" data-target = ".fixed-menu"
     data-offset = "50" >
         <header id="s-header" className="s-header s-header-black"> 
           <MenuDashboard /> 
         </header>
-        
-       </body>
+        <div className="dashboard-component">
+        DashBoard
+           <Switch >
+             {/* <Route path="/" exact component={DashBoard} /> */}
+             <Route path="/dashboard" exact component={Campaigns} />
+             <Route path="/dashboard/lists" component={Lists} />
+             <Route path="/dashboard/reports" component={Reports} />
+              <Route path="/dashboard/templates" component={Templates} />
+             <Route path="/dashboard/automations" component={Automations} />
+           </Switch>
+           </div>
+       </div>
  
-  <Switch >
-    <Route path="/" exact component={DashBoard} />
-        <Route path="/lists" component={Lists} />
-        <Route path="/campaigns" component={Campaigns} />
-        <Route path="/reports" component={Reports} />
-        <Route path="/automations" component={Automations} />
-        </Switch>
+  
   </div>
 
       );
