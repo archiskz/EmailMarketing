@@ -37,6 +37,7 @@ align-content: center;
 }
 .row {
    display: inline-block !important;
+   margin-top: 20px !important;
 }
   #features {
     padding-top: 50px;
@@ -63,6 +64,12 @@ body, html {
     
   padding-left: 200px;
   padding-bottom: 120px;
+}
+
+.wide_footer{
+ padding-left: 65px;
+  padding-bottom: 120px;
+}
 }
 
 .al-center {
@@ -2980,7 +2987,7 @@ input::-moz-focus-inner {
 .display-1 {
   font-family: "IBM Plex Serif", serif;
   font-weight: 600;
-  font-size: 6rem;
+  font-size: 5rem;
   line-height: 1.2;
   letter-spacing: -0.03rem;
   margin-top: 0;
@@ -2988,6 +2995,7 @@ input::-moz-focus-inner {
   margin: 0 auto;
   align-content: center;
   width: 100%;
+  color: #000;
 }
 
 .display-2 {
@@ -2997,6 +3005,7 @@ input::-moz-focus-inner {
   line-height: 1.244;
   margin-top: 0;
   margin-bottom: 3.2rem;
+  color: #000 ;
 }
 
 .subhead {
@@ -3013,6 +3022,12 @@ input::-moz-focus-inner {
   line-height: 1.2;
   margin-top: 0;
   margin-bottom: 2rem;
+  color: #000 !important;
+
+}
+
+.item-title p{
+  color: #3D3C3C !important;
 }
 
 /* ------------------------------------------------------------------- 
@@ -3115,6 +3130,7 @@ input::-moz-focus-inner {
 
   .display-2 {
     font-size: 4.2rem;
+    color: #000 !important;
   }
 
 }
@@ -3163,6 +3179,7 @@ input::-moz-focus-inner {
 
   .display-2 {
     font-size: 3.4rem;
+    color: #000 !important;
   }
 
   .subhead {
@@ -4195,7 +4212,7 @@ html.no-csstransitions .home-content__main {
 
 .s-about .display-1,
 .s-about h3 {
-  color: #FFFFFF;
+  color: #000;
 }
 
 .s-about p.lead {
@@ -4350,7 +4367,7 @@ html.no-csstransitions .home-content__main {
 .s-features {
   padding-top: 19.2rem;
   padding-bottom: 17.6rem;
-  background-color: #f2f2f2;
+  background-color: #E7E6E6 !important;
   overflow: hidden;
   position: relative;
   text-align: center;
@@ -4489,6 +4506,7 @@ html.no-csstransitions .home-content__main {
   text-align: center;
   padding-top: 6.4rem;
   position: relative;
+
 }
 
 .testimonials-header::before {
@@ -4513,6 +4531,7 @@ html.no-csstransitions .home-content__main {
   margin-top: 4rem;
   padding-bottom: 7.2rem;
   position: relative;
+  background-color: #E7E6E6 !important;
 }
 
 .testimonials__slide {
@@ -4588,6 +4607,7 @@ html.no-csstransitions .home-content__main {
 
   .testimonials-header {
     padding-top: 6.4rem !important;
+    background-color: #E7E6E6 !important;
   }
 
   .testimonials__slide {
@@ -4764,7 +4784,7 @@ html.no-csstransitions .home-content__main {
 
 .s-download .display-1,
 .s-download .display-2 {
-  color: #FFFFFF;
+  color: #000 !important;
 }
 
 .s-download .download-content__badges {
@@ -4903,7 +4923,9 @@ html.no-csstransitions .home-content__main {
 .footer__bottom {
   margin-top: 4.8rem;
   padding-top: 3.9rem;
+  padding-right: 2rem !important;
   border-top: 1px solid rgba(255, 255, 255, 0.03);
+  width: 100% !important;
 }
 
 /* -------------------------------------------------------------------
@@ -4998,10 +5020,15 @@ html.no-csstransitions .home-content__main {
   font-family: "IBM Plex Sans", sans-serif;
   font-size: 1.3rem;
   padding: 0 2rem;
+  padding-right: 60px;
 }
 
 .footer__subscribe #mc-form label i {
   padding-right: 6px;
+}
+
+.col-five{
+  text-align: left;
 }
 
 /* -------------------------------------------------------------------

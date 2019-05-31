@@ -25,6 +25,7 @@ class About extends Component {
                 <h1 class="display-1">
                     Loaded With Features You Would Surely Love.
                 </h1>
+                <hr></hr>
                 <p class="lead">
                     Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
                     Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 

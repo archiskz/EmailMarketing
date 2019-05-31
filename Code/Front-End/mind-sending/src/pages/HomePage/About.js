@@ -26,6 +26,8 @@ const settings = {
                 <h1 class="display-1">
                     The Most Popular And Number 1 Mail App.
                 </h1>
+                <br></br>
+                <br></br>
                 <p class="lead">
                     Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
                     Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
@@ -40,7 +42,7 @@ const settings = {
                 <div aria-live="polite" class="slick-list draggable"><div class="slick-track"  role="listbox">
                 <Slider {...settings}>
                 <div class="about-desc__slide slick-slide slick-cloned" data-slick-index="-3" aria-hidden="true" tabindex="-1" >
-                    <h3 class="item-title">User-Friendly.</h3>
+                    <h3 class="item-title">USER-FRIENDLY.</h3>
 
                     <p>
                     Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
@@ -49,7 +51,7 @@ const settings = {
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide slick-cloned" data-slick-index="-2" aria-hidden="true" tabindex="-1" >
-                    <h3 class="item-title">Powerful.</h3>
+                    <h3 class="item-title">POWERFUL.</h3>
 
                     <p>
                     Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
@@ -58,7 +60,7 @@ const settings = {
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true" tabindex="-1"  >
-                    <h3 class="item-title">Secure.</h3>
+                    <h3 class="item-title">SECURE.</h3>
 
                     <p>
                     Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
@@ -67,7 +69,7 @@ const settings = {
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide" data-slick-index="0" aria-hidden="true" tabindex="-1" role="option" aria-describedby="slick-slide00"  >
-                    <h3 class="item-title">Smart.</h3>
+                    <h3 class="item-title">SMART.</h3>
 
                     <p>
                     Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
@@ -148,6 +150,7 @@ const settings = {
         <div class="row">
             <div class="col-full text-center aos-init aos-animate" data-aos="fade-up">
                 <h2 class="display-2">How The App Works?</h2>
+                <hr></hr>
             </div>
         </div>
 
