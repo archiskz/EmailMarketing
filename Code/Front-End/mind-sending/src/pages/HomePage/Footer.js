@@ -33,21 +33,20 @@ class Home extends Component {
             </div>
         </div>
 
-        <div className="row footer__bottom wide">
+        <div className="row footer__bottom wide_footer">
             <div className="col-five tab-full">
                 <div className="footer__logo">
-                    <a href="index.html">
-                        <img src="images/logo.svg" alt="Homepage"/>
+                    <a href="#home"> MINDSENDING
+                        
                     </a>
                 </div>
 
                 <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed 
                 do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-                laboris nisi ut aliquip ex ea commodo consequat.
+                Ut enim ad minim veniam.
                 </p>
-
+                <br></br>
                 <ul className="footer__social">
                     <li><a href="#0"><i className="fab fa-facebook-f" aria-hidden="true"></i></a></li>
                     <li><a href="#0"><i className="fab fa-twitter" aria-hidden="true"></i></a></li>
@@ -66,15 +65,10 @@ class Home extends Component {
 
                 <p className="footer__contact">
                     Do you have a question? Send us a word: <br/>
-                    <a href="mailto:#0" className="footer__mail-link">support@standout.com</a>
+                    <a href="mailto:#0" className="footer__mail-link">support@mindsending@fpt.edu.vn</a>
                 </p>
 
-                <div className="cl-copyright">
-                    <span>
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i className="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-
-</span>
-                </div>
+                
             </div>
 
         </div>
