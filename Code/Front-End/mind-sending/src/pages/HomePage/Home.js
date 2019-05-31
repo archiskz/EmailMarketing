@@ -20,13 +20,11 @@ class Home extends Component {
     };
   }
 
-getHeight = () => {
 
-}
 
 componentDidMount() {
   window.addEventListener("scroll", this.handleScroll);
-  this.getHeight();
+  
 }
 
 componentWillUnmount() {
@@ -49,12 +47,6 @@ componentWillUnmount() {
        <Footer />
        </body>
     </div>
-
-
-
-
-
-
       );
   }
 

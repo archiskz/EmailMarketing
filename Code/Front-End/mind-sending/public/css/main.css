@@ -4296,6 +4296,7 @@ html.no-csstransitions .home-content__main {
   background-color: #FFFFFF;
   overflow: hidden;
   position: relative;
+  text-align: center
 }
 
 .s-process .process-bottom-image {
@@ -4874,6 +4875,7 @@ html.no-csstransitions .home-content__main {
   padding: 50px;
   color: rgba(255, 255, 255, 0.4);
   position: relative;
+  text-align: center;
 }
 
 .s-footer a {

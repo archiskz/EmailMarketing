@@ -18,7 +18,7 @@ const settings = {
     };
 
         return ( 
-        
+        <div>
     <section id="about" class="s-about target-section">
 
         <div class="row section-header narrower align-center aos-init aos-animate" data-aos="fade-up">
@@ -143,7 +143,61 @@ const settings = {
          </div>
 
     </section>
-  
+  <section id="process" class="s-process">
+
+        <div class="row">
+            <div class="col-full text-center aos-init aos-animate" data-aos="fade-up">
+                <h2 class="display-2">How The App Works?</h2>
+            </div>
+        </div>
+
+        <div class="row process block-1-4 block-m-1-2 block-tab-full">
+            <div class="col-block item-process aos-init aos-animate" data-aos="fade-up">
+                <div class="item-process__text">
+                    <h3>Sign Up</h3>
+                    <p>
+                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo non quis magni recusandae. 
+                    Numquam debitis pariatur omnis facere unde. 
+                    </p>
+                </div>
+            </div>
+            <div class="col-block item-process aos-init aos-animate" data-aos="fade-up">
+                <div class="item-process__text">
+                    <h3>Create</h3>
+                    <p>
+                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo non quis magni recusandae. 
+                    Numquam debitis pariatur omnis facere unde. 
+                    </p>
+                </div>
+            </div>
+            <div class="col-block item-process aos-init aos-animate" data-aos="fade-up">
+                <div class="item-process__text">
+                    <h3>Compose</h3>
+                    <p>
+                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo non quis magni recusandae. 
+                    Numquam debitis pariatur omnis facere unde. 
+                    </p>
+                </div>
+            </div>
+            <div class="col-block item-process aos-init aos-animate" data-aos="fade-up">
+                <div class="item-process__text">
+                    <h3>Send</h3>
+                    <p>
+                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo non quis magni recusandae. 
+                    Numquam debitis pariatur omnis facere unde. 
+                    </p>
+                </div>
+            </div>
+        </div> 
+
+        <div class="row process-bottom-image aos-init aos-animate" data-aos="fade-up">
+            <img src="images/phone-app-screens-1000.png" srcset="images/phone-app-screens-600.png 600w, 
+                         images/phone-app-screens-1000.png 1000w, 
+                         images/phone-app-screens-2000.png 2000w" sizes="(max-width: 2000px) 100vw, 2000px" alt="App Screenshots"/> 
+         </div>
+        
+    </section>
+    </div>
 
         );
     }

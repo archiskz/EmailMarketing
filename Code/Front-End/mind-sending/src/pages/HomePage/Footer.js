@@ -80,7 +80,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         </div>
 
         <div className="go-top">
-            <a className="smoothscroll" title="Back to Top" href="#top"></a>
+            <a className="smoothscroll" title="Back to Top" href="#top">hello</a>
         </div>
          <div className="go-top">
             <a className="smoothscroll" title="Back to Top" href="#top"></a>
