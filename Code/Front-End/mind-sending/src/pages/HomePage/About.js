@@ -2,8 +2,6 @@ import React, {
     Component
 } from 'react';
 import Slider from "react-slick";
-import Menu from './../../components/Menu';
-import HomeContent from './../HomePage/HomeContent';
 class About extends Component {
 
 
@@ -15,6 +13,7 @@ const settings = {
       speed: 500,
       slidesToShow: 3,
       slidesToScroll: 1,
+      autoplay: true
     };
 
         return ( 

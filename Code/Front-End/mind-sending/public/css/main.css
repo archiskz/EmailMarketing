@@ -3192,7 +3192,9 @@ input::-moz-focus-inner {
 .fixed-menu {
   height: 100%;
 }
-
+.menu-dashboard {
+  background-color: #000000 !important;
+}
 .s-header-black {
   z-index: 500;
   width: 100%;

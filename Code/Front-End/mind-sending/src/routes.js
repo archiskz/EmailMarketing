@@ -1,9 +1,13 @@
 import React from 'react';
 import Home from './pages/HomePage/Home';
 import Login from './pages/LoginPage/Login';
-import MakeCampaign from './components/MakeCampaign';
 import Register from './pages/RegisterPage/Register';
 import About from './pages/HomePage/About';
+import Dashboard from './pages/DashboardPage/Dashboard';
+import Automations from './pages/DashboardPage/Automations';
+import Lists from './pages/DashboardPage/Lists';
+import Campaigns from './pages/DashboardPage/Campaigns';
+import Reports from './pages/DashboardPage/Reports';
 
 const routes = [
 {
@@ -17,9 +21,9 @@ const routes = [
 	main: () => <Login />
 },
 {
-	path:'/make-campaign',
+	path:'/automations',
 	exact : false,
-	main: () => <MakeCampaign />
+	main: () => <Automations />
 },
 {
 	path:'/register',
@@ -30,18 +34,27 @@ const routes = [
  	path:'/about',
  	exact : false,
 	main: () => <About />
+},
+{
+	path: '/dashboard',
+	exact: false,
+	main: () => <Dashboard / >
+},
+{
+	path: '/lists',
+	exact: false,
+	main: () => <Lists / >
+},
+{
+	path: '/campaigns',
+	exact: false,
+	main: () => <Campaigns / >
+},
+{
+	path: '/reports',
+	exact: false,
+	main: () => <Reports / >
 }
 ]
-
-
-// class Home extends Component {
-//   render(){
-//      return (
-//     <div className="App">
-//       <Menu />
-//     </div>
-//   );
-//   }
-// }
 
 export default routes;

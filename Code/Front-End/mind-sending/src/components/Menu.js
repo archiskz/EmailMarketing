@@ -1,47 +1,4 @@
 import React, {Component} from 'react';
-import { BrowserRouter as Router, Route, Link, Switch, withRouter } from 'react-router-dom';
-import img from '../access/img/icons8-idea-64.png';
-
-
-
-const menus = [
-{
-	name:  'Home',
-	to: '/',
-	exact: true
-},
-{
-	name: 'About',
-	to: '/about',
-	exact: false
-},
-{
-	name: 'Features',
-	to: '/make-campaign',
-	exact: false
-},
-{
-	name: 'Contact',
-	to: '/make-campaign',
-	exact: false
-}
-]
-
-
-const MenuLink = ({ label, to, activeOnlyWhenExact}) =>{
-return(
-<Route path={to} exact = {activeOnlyWhenExact} children= {({ match }) => {
-var active = match ? 'active menuactive' : '';
-        return(
-            <li className={active}>
-            	<Link to={to} className="my-link mt15">{label}</Link>
-           
-            </li>
-        ) 
-}} />
-    )
-}
-
 class Menu extends Component {
   render(){
      return (
@@ -58,7 +15,7 @@ class Menu extends Component {
                 <li className="current"><a id="homepart" className="smoothscroll" href="#home" title="intro">Intro</a></li>
                 <li><a id="aboutpart" className="smoothscroll" href="#about" title="about">About</a></li>
                 <li><a id="featurespart" className="smoothscroll" href="#features" title="features">Features</a></li>
-                <li><a href="blog.html" title="blog">Blog</a></li>	
+                <li><a href="/dashboard" title="Email Marketing">Email Marketing</a></li>	
             </ul>
 
             <ul className="header-social mr-50">
@@ -77,28 +34,6 @@ class Menu extends Component {
     </nav>
   );
   }
-
-
-  showMenu = (menus) => {
-	var result = null;
-	if(menus.length > 0){
-		result = menus.map((menu, index) => {
-			return (
-			<MenuLink 
-				key={index} 
-				label = {menu.name} 
-				to= {menu.to} 
-				activeOnlyWhenExact = {menu.exact} 
-			/>
-			)
-		});
-	}
-	return result;
-}
-
-
-
-
 }
 
 export default Menu;
