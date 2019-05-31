@@ -30,6 +30,24 @@
 
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
+#about {padding-top:50px;color: #fff; background-color: #00a650;
+text-align: center !important;
+align-content: center;
+/* padding-left: 10%; */
+}
+.row {
+   display: inline-block !important;
+}
+  #features {
+    padding-top: 50px;
+
+    color: #fff;
+    background-color: white;
+  }
+  #section3 {padding-top:50px;height:500px;color: #fff; background-color: #ff9800;}
+  #section41 {padding-top:50px;height:500px;color: #fff; background-color: #00bcd4;}
+  #section42 {padding-top:50px;height:500px;color: #fff; background-color: #009688;}
+
 
 * {
 	margin: 0px; 
@@ -1253,7 +1271,9 @@ footer a:hover{
   -o-transition:all .2s linear;
 }
 
-
+.smoothscroll {
+  color: white ;
+}
 
 
 
@@ -2965,6 +2985,9 @@ input::-moz-focus-inner {
   letter-spacing: -0.03rem;
   margin-top: 0;
   margin-bottom: 4rem;
+  margin: 0 auto;
+  align-content: center;
+  width: 100%;
 }
 
 .display-2 {
@@ -3024,6 +3047,7 @@ input::-moz-focus-inner {
 
 .slick-slider .slick-slide {
   outline: none;
+  text-align: left;
 }
 
 .slick-slider .slick-dots {
@@ -3258,9 +3282,6 @@ input::-moz-focus-inner {
   color: #00a650;
 }
 
-.header-nav-wrap .header-main-nav li.current a {
-  color: #00a650;
-}
 
 .header-nav-wrap .header-social {
   list-style: none;
@@ -4169,7 +4190,7 @@ html.no-csstransitions .home-content__main {
   color: rgba(255, 255, 255, 0.8);
   overflow: hidden;
   position: relative;
-  height: 768px;
+  text-align: center !important;
 }
 
 .s-about .display-1,
@@ -4331,6 +4352,7 @@ html.no-csstransitions .home-content__main {
   background-color: #f2f2f2;
   overflow: hidden;
   position: relative;
+  text-align: center;
 }
 
 /* ------------------------------------------------------------------- 

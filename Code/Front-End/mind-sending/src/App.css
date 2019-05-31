@@ -8,6 +8,9 @@
   pointer-events: none;
 }
 
+.menu-active {
+  color: #00a650 !important;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

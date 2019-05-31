@@ -45,19 +45,19 @@ var active = match ? 'active menuactive' : '';
 class Menu extends Component {
   render(){
      return (
-    < div className = "fixed-menu" >
+         
+    <nav className = "fixed-menu" >
         <div className="header-logo">
-            <a className="site-logo" href="index.html">
+            <a className="site-logo" href="/">
                 <img className= "img-header" src="images/logo.png" alt="Homepage"/>
             </a>
         </div>
 
         <nav className="row header-nav-wrap wide">
             <ul className="header-main-nav">
-                <li className="current"><a className="smoothscroll" href="#home" title="intro">Intro</a></li>
-                <li><a className="smoothscroll" href="#about" title="about">About</a></li>
-                <li><a className="smoothscroll" href="#features" title="features">Features</a></li>
-                <li><a className="smoothscroll" href="#pricing" title="pricing">Pricing</a></li>
+                <li className="current"><a id="homepart" className="smoothscroll" href="#home" title="intro">Intro</a></li>
+                <li><a id="aboutpart" className="smoothscroll" href="#about" title="about">About</a></li>
+                <li><a id="featurespart" className="smoothscroll" href="#features" title="features">Features</a></li>
                 <li><a href="blog.html" title="blog">Blog</a></li>	
             </ul>
 
@@ -74,7 +74,7 @@ class Menu extends Component {
 
         <a className="header-menu-toggle" href="#"><span>Menu</span></a>
     
-    </div>
+    </nav>
   );
   }
 
