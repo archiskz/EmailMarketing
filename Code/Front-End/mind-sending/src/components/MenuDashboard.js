@@ -54,6 +54,16 @@ class Menu extends Component {
 			dropdowns: false,
 		};
 	}
+componentWillMount(){
+	document.addEventListener('mousedown', this.handleClick, false);
+}
+componentWillUnmount(){
+	document.removeEventListener('mousedown', this.handleClick, false);
+}
+
+
+
+	
   render(){
      return (
          
@@ -72,14 +82,14 @@ class Menu extends Component {
             
 
         </nav>
-		<div className="dropdown-div" onClick={this.showDropdown}>
+		<div ref={btn => this.btn = btn} className="dropdown-div">
 			<img src = "images/avatars/user-01.jpg"  className="avatar-small" />
         <span className="username">
 		Son NLH
 		</span>
 		</div>
 		
-		<div id="myDropdown" className= {"dropdown-content " + (this.state.dropdowns ? "show" : "")}>
+		<div ref={node => this.node = node} id="myDropdown" className= {"dropdown-content " + (this.state.dropdowns ? "show" : "")}>
     <a href="/dashboard">Profile</a>
     <a href="/dashboard/dashboard">Account</a>
     <a href="/dashboard">Log Out</a>
@@ -88,12 +98,6 @@ class Menu extends Component {
     </nav>
   );
   }
-
-showDropdown = () => {
-	this.setState({
-		dropdowns: !this.state.dropdowns,
-	})
-}
 
   showMenu = (menus) => {
 	var result = null;
@@ -113,6 +117,28 @@ showDropdown = () => {
 }
 
 
+
+handleClick = (e) => {
+	if (this.state.dropdowns == true && this.btn.contains(e.target)) {
+		this.setState({
+			dropdowns: false
+		});
+		return;
+	} else if (!this.node.contains(e.target) && this.state.dropdowns == true && !this.btn.contains(e.target)) {
+		console.log("handle" + this.state.dropdowns);
+		this.setState({
+			dropdowns: false
+		});
+
+		return;
+	} else if (this.state.dropdowns == false && this.btn.contains(e.target)) {
+		this.setState({
+			dropdowns: true
+		});
+	}
+
+	return;
+}
 
 
 

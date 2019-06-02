@@ -6370,7 +6370,7 @@ body.search-is-visible {
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   top: 100px;
-  right: 0;
+  right: 50px;
   display: none;
   position: absolute;
   background-color: #f1f1f1;
