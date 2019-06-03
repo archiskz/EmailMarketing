@@ -32,7 +32,7 @@ class Home extends Component {
 
             </div> 
 
-            <a href="#about" className="home-scroll smoothscroll">
+            <a href="#features" className="home-scroll smoothscroll">
                 <span className="home-scroll__text">Scroll Down</span>
                 <span className="home-scroll__icon"></span>
             </a>

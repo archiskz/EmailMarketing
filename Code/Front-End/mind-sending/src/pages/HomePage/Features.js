@@ -201,6 +201,11 @@ class About extends Component {
                 </div>
             </div>
         </div>
+        <a href="#home" className="home-scroll smoothscroll">
+                
+                <span className="home-scroll__icon_up"></span>
+                <span className = "home-scroll__text" > Scroll Up </span>
+            </a>
   </section>
 
         );

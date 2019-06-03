@@ -3839,6 +3839,22 @@ input::-moz-focus-inner {
   top: 0;
   right: 0;
 }
+.home-scroll__icon_up {
+  display: block;
+  height: 5.6rem;
+  width: 5.6rem;
+  background-color: #000000;
+  background-image: url(../images/icons/icon-arrow-up.svg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 10px 15px;
+  border-radius: 50%;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
 .home-scroll:hover .home-scroll__text {
   border-bottom: 1px solid #FFFFFF;
