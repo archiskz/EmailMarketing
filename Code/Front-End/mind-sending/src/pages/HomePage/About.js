@@ -18,16 +18,16 @@ const settings = {
 
         return ( 
         <div>
-    <section id="about" class="s-about target-section wow fadeOut">
+    <section id="about" class="s-about target-section ">
 
         <div class="row section-header narrower align-center aos-init aos-animate" data-aos="fade-up">
             <div class="col-full">
-                <h1 class="display-1">
+                <h1 class="display-1 wow fadeInUp">
                     The Most Popular And Number 1 Mail App.
                 </h1>
                 <br></br>
                 <br></br>
-                <p class="lead">
+                <p class="lead wow fadeInUp">
                     Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
                     Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
                     omnis ea.
@@ -35,7 +35,7 @@ const settings = {
             </div>
         </div> 
 
-        <div class="row about-desc aos-init aos-animate" data-aos="fade-up">
+        <div class="row about-desc aos-init aos-animate wow fadeInUp" data-aos="fade-up ">
             <div class="col-full slick-slider about-desc__slider slick-initialized slick-dotted" role="toolbar">
 
                 <div aria-live="polite" class="slick-list draggable"><div class="slick-track"  role="listbox">
@@ -137,7 +137,7 @@ const settings = {
             </div> 
         </div>
 
-        <div class="row about-bottom-image aos-init aos-animate" data-aos="fade-up">
+        <div class="row about-bottom-image aos-init aos-animate wow fadeInUp" data-aos="fade-up">
             <img src="images/app-screen-1400.png" srcset="images/app-screen-600.png 600w, 
                          images/app-screen-1400.png 1400w, 
                          images/app-screen-2800.png 2800w" sizes="(max-width: 2800px) 100vw, 2800px" alt="App Screenshots"/> 
@@ -147,14 +147,14 @@ const settings = {
   <section id="process" class="s-process">
 
         <div class="row">
-            <div class="col-full text-center aos-init aos-animate" data-aos="fade-up">
+            <div class="col-full text-center aos-init aos-animate wow fadeInUp" data-aos="fade-up">
                 <h2 class="display-2">How The App Works?</h2>
                 <hr></hr>
             </div>
         </div>
 
         <div class="row process block-1-4 block-m-1-2 block-tab-full">
-            <div class="col-block item-process aos-init aos-animate" data-aos="fade-up">
+            <div class="col-block item-process aos-init aos-animate wow fadeInUp" data-aos="fade-up">
                 <div class="item-process__text">
                     <h3>Sign Up</h3>
                     <p>
@@ -163,7 +163,7 @@ const settings = {
                     </p>
                 </div>
             </div>
-            <div class="col-block item-process aos-init aos-animate" data-aos="fade-up">
+            <div class="col-block item-process aos-init aos-animate wow fadeInUp" data-aos="fade-up">
                 <div class="item-process__text">
                     <h3>Create</h3>
                     <p>
@@ -172,7 +172,7 @@ const settings = {
                     </p>
                 </div>
             </div>
-            <div class="col-block item-process aos-init aos-animate" data-aos="fade-up">
+            <div class="col-block item-process aos-init aos-animate wow fadeInUp" data-aos="fade-up">
                 <div class="item-process__text">
                     <h3>Compose</h3>
                     <p>
@@ -181,7 +181,7 @@ const settings = {
                     </p>
                 </div>
             </div>
-            <div class="col-block item-process aos-init aos-animate" data-aos="fade-up">
+            <div class="col-block item-process aos-init aos-animate wow fadeInUp" data-aos="fade-up">
                 <div class="item-process__text">
                     <h3>Send</h3>
                     <p>
@@ -192,7 +192,7 @@ const settings = {
             </div>
         </div> 
 
-        <div class="row process-bottom-image aos-init aos-animate" data-aos="fade-up">
+        <div class="row process-bottom-image aos-init aos-animate wow fadeInUp" data-aos="fade-up">
             <img src="images/phone-app-screens-1000.png" srcset="images/phone-app-screens-600.png 600w, 
                          images/phone-app-screens-1000.png 1000w, 
                          images/phone-app-screens-2000.png 2000w" sizes="(max-width: 2000px) 100vw, 2000px" alt="App Screenshots"/> 

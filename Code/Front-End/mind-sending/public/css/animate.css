@@ -1254,7 +1254,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 .fadeOut {
   -webkit-animation-name: fadeOut;
-  animation-name: fadeOut !important;
+  animation-name: fadeOut ;
 }
 
 @-webkit-keyframes fadeOutDown {

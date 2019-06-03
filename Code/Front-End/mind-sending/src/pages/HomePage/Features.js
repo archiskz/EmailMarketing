@@ -20,7 +20,7 @@ class About extends Component {
         
     <section id="features" class="s-features target-section">
 
-        <div class="row section-header narrower align-center has-bottom-sep aos-init aos-animate" data-aos="fade-up">
+        <div class="row section-header narrower align-center has-bottom-sep aos-init aos-animate wow fadeInUp" data-aos="fade-up">
             <div class="col-full">
                 <h1 class="display-1">
                     Loaded With Features You Would Surely Love.
@@ -36,7 +36,7 @@ class About extends Component {
 
         <div class="row bit-narrow features block-1-2 block-mob-full">
 
-            <div class="col-block item-feature aos-init aos-animate" data-aos="fade-up">
+            <div class="col-block item-feature aos-init aos-animate wow fadeInUp" data-aos="fade-up">
                 <div class="item-feature__icon">
                     <i class="icon-upload"></i>
                 </div>
@@ -49,7 +49,7 @@ class About extends Component {
                 </div>
             </div>
 
-            <div class="col-block item-feature aos-init aos-animate" data-aos="fade-up">
+            <div class="col-block item-feature aos-init aos-animate wow fadeInUp" data-aos="fade-up">
                 <div class="item-feature__icon">
                     <i class="icon-video-camera"></i>
                 </div>
@@ -62,7 +62,7 @@ class About extends Component {
                 </div>
             </div>
 
-            <div class="col-block item-feature aos-init aos-animate" data-aos="fade-up">
+            <div class="col-block item-feature aos-init aos-animate wow fadeInUp" data-aos="fade-up">
                 <div class="item-feature__icon">
                     <i class="icon-shield"></i>
                 </div>  
@@ -75,7 +75,7 @@ class About extends Component {
                 </div>
             </div>
 
-            <div class="col-block item-feature aos-init aos-animate" data-aos="fade-up">
+            <div class="col-block item-feature aos-init aos-animate wow fadeInUp" data-aos="fade-up">
                 <div class="item-feature__icon">
                     <i class="icon-lego-block"></i>
                 </div>
@@ -88,7 +88,7 @@ class About extends Component {
                 </div>
             </div>
 
-            <div class="col-block item-feature aos-init aos-animate" data-aos="fade-up">
+            <div class="col-block item-feature aos-init aos-animate wow fadeInUp" data-aos="fade-up">
                 <div class="item-feature__icon">
                     <i class="icon-chat"></i>
                 </div>
@@ -101,7 +101,7 @@ class About extends Component {
                 </div>
             </div>
     
-            <div class="col-block item-feature aos-init aos-animate" data-aos="fade-up">
+            <div class="col-block item-feature aos-init aos-animate wow fadeInUp" data-aos="fade-up">
                 <div class="item-feature__icon">
                     <i class="icon-wallet"></i>
                 </div>
@@ -116,15 +116,15 @@ class About extends Component {
 
         </div> 
 
-        <div class="testimonials-wrap aos-init aos-animate" data-aos="fade-up">
+        <div class="testimonials-wrap aos-init aos-animate wow fadeInUp" data-aos="fade-up">
 
-            <div class="row">
+            <div class="row wow fadeInUp">
                 <div class="col-full testimonials-header">
                     <h2 class="display-2">1 Million+ Users Can't Be Wrong.</h2>
                 </div>
             </div>
 
-            <div class="row testimonials">
+            <div class="row testimonials wow fadeInUp">
 
                 <div class="col-full slick-slider testimonials__slider slick-initialized slick-dotted" role="toolbar">
 
