@@ -7,7 +7,7 @@ class Home extends Component {
   render(){
      return (
       
-	   <footer className="s-footer footer">
+	   <footer className="s-footer footer wow fadeInUp">
 
         <div className="row footer__top">
             <div className="col-six md-full">
@@ -33,7 +33,7 @@ class Home extends Component {
             </div>
         </div>
 
-        <div className="row footer__bottom wide_footer">
+        <div className="row footer__bottom wide_footer wow fadeInUp">
             <div className="col-five tab-full">
                 <div className="footer__logo">
                     <a href="#home"> MINDSENDING
@@ -54,7 +54,7 @@ class Home extends Component {
                 </ul>
             </div>
 
-            <div className="col-six tab-full end">
+            <div className="col-six tab-full end wow fadeInUp">
                 <ul className="footer__site-links">
                     <li><a className="smoothscroll" href="#home" title="intro">Intro</a></li>
                     <li><a className="smoothscroll" href="#about" title="about">About</a></li>
@@ -62,8 +62,8 @@ class Home extends Component {
                     <li><a className="smoothscroll" href="#pricing" title="pricing">Pricing</a></li>
                     <li><a href="blog.html" title="blog">Blog</a></li>	
                 </ul>
-
-                <p className="footer__contact">
+ 
+                <p className="footer__contact wow fadeInUp">
                     Do you have a question? Send us a word: <br/>
                     <a href="mailto:#0" className="footer__mail-link">support@mindsending@fpt.edu.vn</a>
                 </p>
