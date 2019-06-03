@@ -9,6 +9,7 @@ import Lists from './pages/DashboardPage/Lists';
 import Campaigns from './pages/DashboardPage/Campaigns';
 import Reports from './pages/DashboardPage/Reports';
 import Templates from './pages/DashboardPage/Templates';
+import Profile from './pages/ProfilePage/Profile';
 
 const routes = [
 {
@@ -60,6 +61,11 @@ const routes = [
 	path: '/dashboard/templates',
 	exact: false,
 	main: () => <Templates/>
+},
+{
+	path: '/profile',
+	exact: false,
+	main: () => <Profile / >
 }
 ]
 
