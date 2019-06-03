@@ -18,7 +18,7 @@ const settings = {
 
         return ( 
         <div>
-    <section id="about" class="s-about target-section">
+    <section id="about" class="s-about target-section wow fadeOut">
 
         <div class="row section-header narrower align-center aos-init aos-animate" data-aos="fade-up">
             <div class="col-full">
@@ -204,8 +204,8 @@ const settings = {
         );
     }
 }
-
-
+ 
+  
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (
