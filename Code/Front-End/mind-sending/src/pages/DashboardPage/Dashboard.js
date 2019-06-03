@@ -23,13 +23,13 @@ class DashBoard extends Component {
 	
   render(){
      return (
-       < div >
-      <div data-spy = "scroll" data-target = ".fixed-menu"
+       <div >
+  <body data-spy = "scroll" data-target = ".fixed-menu"
     data-offset = "50" >
         <header id="s-header" className="s-header s-header-black"> 
           <MenuDashboard /> 
         </header>
-        <div className="dashboard-component">
+       <div className="dashboard-component">
         DashBoard
            <Switch >
              {/* <Route path="/" exact component={DashBoard} /> */}
@@ -40,9 +40,7 @@ class DashBoard extends Component {
              <Route path="/dashboard/automations" component={Automations} />
            </Switch>
            </div>
-       </div>
- 
-  
+       </body>
   </div>
 
       );

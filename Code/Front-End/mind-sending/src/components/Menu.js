@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import AccountDropdown from './dropdowns/AccountDropdown';
 class Menu extends Component {
   render(){
      return (
@@ -18,18 +19,13 @@ class Menu extends Component {
                 <li><a href="/dashboard" title="Email Marketing">Email Marketing</a></li>	
             </ul>
 
-            <ul className="header-social mr-50">
-                <li><a href="#0"><i className="fab fa-facebook-f" aria-hidden="true"></i></a></li>
-                <li><a href="#0"><i className="fab fa-twitter" aria-hidden="true"></i></a></li>
-                <li><a href="#0"><i className="fab fa-instagram" aria-hidden="true"></i></a></li>
-                
-            </ul>
+            <AccountDropdown/>
             
             
 
         </nav>
 
-        <a className="header-menu-toggle" href="#"><span>Menu</span></a>
+        {/* <a className="header-menu-toggle" href="#"><span>Menu</span></a> */}
     
     </nav>
   );
