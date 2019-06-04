@@ -15,8 +15,8 @@ constructor (props) {
     <a href="#" className="sidebar-icon"> <span className="fa fa-bars" /> </a> 
   </header>
   <div style={{borderTop: '1px ridge rgba(255, 255, 255, 0.15)'}} />
-  <div className="menu">
-    <ul id="menu">
+  <div className="menuside">
+    <ul id="menuside">
       <li><a href="index.html"><i className="fa fa-tachometer" /> <span style={{position: 'relative'}}>Dashboard</span><div className="clearfix" /></a></li>
       <li id="menu-academico"><a href="inbox.html"><i className="fa fa-envelope nav_icon" /><span style={{position: 'relative'}}>Inbox</span><div className="clearfix" /></a></li>
       <li><a href="gallery.html"><i className="fa fa-picture-o" aria-hidden="true" /><span style={{position: 'relative'}}>Gallery</span><div className="clearfix" /></a></li>
