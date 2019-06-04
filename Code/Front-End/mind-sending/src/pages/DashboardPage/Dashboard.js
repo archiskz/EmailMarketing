@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import MenuDashboard from '../../components/MenuDashboard';
+import SideBar from './../../components/SideBar';
 import Automations from './Automations';
 import Lists from './Lists';
 import Campaigns from './Campaigns';
 import Reports from './Reports';
 import Home from './../HomePage/Home';
+
 
 import {
   BrowserRouter as Router,
@@ -26,11 +28,9 @@ class DashBoard extends Component {
        <div >
   <body data-spy = "scroll" data-target = ".fixed-menu"
     data-offset = "50" >
-        <header id="s-header" className="s-header s-header-black"> 
-          <MenuDashboard /> 
-        </header>
+          <SideBar /> 
        <div className="dashboard-component">
-        DashBoard
+       
            <Switch >
              {/* <Route path="/" exact component={DashBoard} /> */}
              <Route path="/dashboard" exact component={Campaigns} />
