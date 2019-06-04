@@ -47,7 +47,6 @@ componentWillUnmount() {
        <Footer />
        </body>
     </div>
-    
       );
   }
 
