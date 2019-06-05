@@ -46,19 +46,19 @@ addActiveClass = (index) => {
         <header className="logo1">
             <a href="#" className="sidebar-icon"> <span className="fa fa-bars" /> </a> 
         </header>
-    <div style={{borderTop: '1px ridge rgba(255, 255, 255, 0.15)'}} />
-    <div className="menuside">
-        <ul id="menuside">
+        <div style={{borderTop: '1px ridge rgba(255, 255, 255, 0.15)'}} />
+        <div className="menuside">
+            <ul id="menuside">
             
             {/* DASHBOARD */}
-            <li>
-                <a href="/dashboard">
-                    <i className="fa fa-tachometer" /> 
-                    <span style={{position: 'relative'}}>Dashboard</span>
-                    <div className="clearfix" />
-                </a>
+                <li>
+                    <a href="/dashboard">
+                        <i className="fa fa-tachometer" /> 
+                        <span style={{position: 'relative'}}>Dashboard</span>
+                        <div className="clearfix" />
+                    </a>
 
-            </li>
+                </li>
             {/* DASHBOARD */}
 
             {/* LIST */}
@@ -147,8 +147,8 @@ addActiveClass = (index) => {
                 </ul>
             </li>
             
-    </ul>
-  </div>
+        </ul>
+        </div>
 </div>
     );
     
