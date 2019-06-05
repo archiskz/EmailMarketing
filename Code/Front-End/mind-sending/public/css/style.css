@@ -383,3 +383,158 @@ ul#menu-academico-sub {
 li#menu-academico {
     z-index: 999;
 }
+
+.header-main-dashboard {
+    padding:1em;
+    background:#fff;
+     box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    -o-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.w3layouts-right {
+    float: left;
+    width: 24.25%;
+    background: #e74c3c;
+    text-align: center;
+    padding: 1.3em 1em 0.1em;
+    margin: 0 1%;
+}
+.logo-w3-agile h1 {
+    margin: 0;
+    font-size: 35px;
+}
+.logo-w3-agile h1 a {
+    color: #fff;
+    text-transform: uppercase;
+    display: inline-block;
+}
+.w3layouts-left {
+    float: left;
+    width: 24.25%;
+    background: #ff9501;
+    padding: 1em;
+}
+.profile_details {
+    float: left;
+    width: 24.25%;
+    background: #1b93e1;
+    text-align: center;
+    padding: 0.3em 1em;
+}
+.logo-w3-agile {
+    background: #a2d200;
+    float: left;
+    width: 24.25%;
+    text-align: center;
+     padding: 1em;
+     margin-right: 1%;
+}
+.w3-search-box {
+    float: left;
+    width:100%;
+    margin-top: 0em;
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    border:2px solid #fff;
+}
+.nofitications-dropdown {
+    padding: 0;
+}
+.dropdown.head-dpdn {
+    display: inline-block;
+    padding: 0.2em 0;
+    float: left;
+}
+.dropdown.head-dpdn .dropdown-toggle {
+    margin: 1em 1.3em;
+}
+.badge {
+        font-size: 10px;
+        line-height: 17px;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 10%;
+        padding: 2px 0 0;
+        left: 67%;
+    }
+.notification_header{
+    background-color:#FAFAFA;
+    padding: 10px 15px;
+    border-bottom:1px solid rgba(0, 0, 0, 0.05);
+    margin-bottom: 8px;
+}
+.user_img{
+    float:left;
+    width:19%;
+}
+.notification_desc{
+    float:left;
+    width:70%;
+    margin-left:5%;
+}
+.notification_bottom {
+    background-color:rgba(93, 90, 88, 0.07);
+    padding: 4px 0;
+    text-align: center;
+    margin-top: 5px;
+}
+.blue111 {
+    background-color: #68AE00;
+}
+.task-info .percentage{
+    float:right;
+    height:inherit;
+    line-height:inherit;
+}
+.task-desc{
+    font-size:12px;
+}
+.progress {
+    height: 10px;
+    margin: 7px 0;
+    overflow: hidden;
+    background: #e1e1e1;
+    z-index: 1;
+    cursor: pointer;
+}
+progress-striped .yellow {
+    background: #f0ad4e;
+}
+.progress .bar {
+    z-index: 2;
+    height: 15px;
+    font-size: 12px;
+    color: white;
+    text-align: center;
+    float: left;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -ms-box-sizing: content-box;
+    box-sizing: content-box;
+    -webkit-transition: width 0.6s ease;
+    -moz-transition: width 0.6s ease;
+    -o-transition: width 0.6s ease;
+    transition: width 0.6s ease;
+}
+.profile_details {
+    float: left;
+    width: 24.25%;
+    background: #1b93e1;
+    text-align: center;
+    padding: 0.3em 1em;
+}
+.profile_img .prfil-img{
+    float:left;
+}
+.user-name {
+    float: left;
+    margin-top: 7px;
+    margin-left: 11px;
+    height: 35px;
+}
+.dropdown-menu.drp-mnu {
+    margin-right: 0.5em;
+}
