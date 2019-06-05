@@ -6355,8 +6355,9 @@ body.search-is-visible {
 
 /* DASHBOARD */
 .dashboard-component {
-  padding-top: 200px;
-  margin-top: 140px !important;
+  margin-left: 200px;
+  width: 100%;
+  height: 100%;
 }
 
 
