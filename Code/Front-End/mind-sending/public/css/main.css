@@ -6355,9 +6355,12 @@ body.search-is-visible {
 
 /* DASHBOARD */
 .dashboard-component {
-  margin-left: 200px;
-  width: 100%;
+  float: right;
+  width: 86%;
   height: 100%;
+}
+.dashboard-main {
+  width: 100%;
 }
 
 

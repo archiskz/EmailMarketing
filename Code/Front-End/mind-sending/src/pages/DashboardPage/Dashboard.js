@@ -5,6 +5,7 @@ import Lists from './Lists';
 import Campaigns from './Campaigns';
 import Reports from './Reports';
 import SubDashboard from './SubDashboard';
+import AddContact from './AddContacts';
 
 
 import {
@@ -24,14 +25,15 @@ class DashBoard extends Component {
 	
   render(){
      return (
-       <div className="">
+       <div className="dashboard-main">
 
           <SideBar /> 
        <div className="dashboard-component">
        
            <Switch >
              <Route path="/dashboard" exact component={SubDashboard} />
-             <Route path="/dashboard/campaigns" exact component={Campaigns} />
+             <Route path="/dashboard/campaigns"  component={Campaigns} />
+             <Route path="/dashboard/add-contacts"  component={AddContact} />
              <Route path="/dashboard/lists" component={Lists} />
              <Route path="/dashboard/reports" component={Reports} />
               <Route path="/dashboard/templates" component={Templates} />

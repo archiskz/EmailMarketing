@@ -10,6 +10,7 @@ import Campaigns from './pages/DashboardPage/Campaigns';
 import Reports from './pages/DashboardPage/Reports';
 import Templates from './pages/DashboardPage/Templates';
 import Profile from './pages/ProfilePage/Profile';
+import AddContact from './pages/DashboardPage/AddContacts';
 
 const routes = [
 {
@@ -66,6 +67,11 @@ const routes = [
 	path: '/profile',
 	exact: false,
 	main: () => <Profile / >
+},
+{
+	path: '/dashboard/add-contacts',
+	exact: false,
+	main: () => <AddContact />
 }
 ]
 

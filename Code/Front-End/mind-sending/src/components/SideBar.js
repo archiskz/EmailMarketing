@@ -69,6 +69,11 @@ addActiveClass = (index) => {
                     <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
                     <div className="clearfix" />
                 </a>
+                <Link to = "/dashboard/add-contacts" >
+                    <i className="fa " /> 
+                    <span style={{position: 'relative'}}>Contacts</span>
+                    <div className="clearfix" />
+                </Link>
                 <Link to="/dashboard/lists">
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>Create New List</span>
