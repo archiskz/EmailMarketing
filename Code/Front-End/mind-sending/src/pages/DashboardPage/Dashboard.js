@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import SideBar from './../../components/SideBar';
 import Automations from './Automations';
-import Lists from './Lists';
+import Lists from './ListsComponent/Lists';
 import Campaigns from './Campaigns';
 import Reports from './Reports';
 import SubDashboard from './SubDashboard';
-import AddContact from './AddContacts';
+import AddContact from './ListsComponent/AddContacts';
 
 
 import {

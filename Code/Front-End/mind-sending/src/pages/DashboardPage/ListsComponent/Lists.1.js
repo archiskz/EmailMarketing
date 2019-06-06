@@ -1,28 +1,26 @@
 import React, {Component} from 'react';
 
-class AddContact extends Component {
-  constructor(props) {
-    super(props);
+class Lists extends Component {
+   constructor(props) {
+     super(props);
 
-    this.state = {
-      visible: true,
-      dropdown_visible: false,
-    };
-  }
-  onToggleDropdown = () =>{
-      this.setState({
-          dropdown_visible : !this.state.dropdown_visible
-      })
-  }
-
+     this.state = {
+       visible: true,
+       dropdown_visible: false,
+     };
+   }
+   onToggleDropdown = () => {
+     this.setState({
+       dropdown_visible: !this.state.dropdown_visible
+     })
+   }
 
 
 	
   render(){
      return (
-      
-	<div className = "">
-        <div class="flash_notice">
+	  <div className = "" >
+   <div class="flash_notice">
         </div>
         <div class="container" data-role="main-app-container">
             <div>
@@ -158,9 +156,10 @@ class AddContact extends Component {
             </article>
         </div>
     </div>
+  
     </div>
       );
   }
 
 }
-export default AddContact;
+export default Lists;

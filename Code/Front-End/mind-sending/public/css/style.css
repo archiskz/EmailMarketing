@@ -554,7 +554,9 @@ progress-striped .yellow {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+
     
 }
 .btn-list {
@@ -739,4 +741,76 @@ progress-striped .yellow {
 .table-wrap thead tr th {
     text-transform: uppercase;
     color: #4A4A4A;
+   
+}
+.table-wrap tbody tr  {
+    padding-top: 30px;
+}
+.listFormPresenter-css__list-form-presenter___1RHBp {
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+.input-checkbox-wrap, .input-radio-wrap {
+    margin-bottom: 20px;
+}
+.listFormPresenter-css__list-form-presenter___1RHBp div input {
+    margin: 4px 0 0;
+/* margin-top: 1px \9; */
+line-height: normal;
+width: 15px;
+margin-right: 2px;
+}
+.input-radio-wrap{
+    width: 60%;
+}
+.input-radio-wrap label {
+    font-weight: 400;
+}
+
+input[type='radio']:after {
+    color: #007bff
+}
+input[type='radio']{
+    color: #007bff
+}
+.title-h3{
+    font-weight: 500;
+    display: inline-block;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+
+.row {
+    width: 100% !important;
+    margin-bottom: 30px;
+}
+.inputContact {
+    /* border-bottom: 2px solid #007bff; */
+    font-size: 13px !important;
+    background-color: transparent !important;
+    width: 90%;
+    border: 1px solid #007bff !important;
+    border-right: none !important;
+    border-top: none !important;
+    border-left: none !important;
+    height: 100% !important;
+    border-radius: 0px 0 0 0px !important;
+    outline: none !important;
+    color: black !important;
+    padding:1px !important;
+}
+.inputContact:focus {
+    box-shadow: none !important;
+    border: 1px solid transparent !important;
+    line-height: 30px !important;    
+    border: 1px solid #007bff !important;
+    border-right: none !important;
+    border-top: none !important;
+    border-left: none !important;
 }

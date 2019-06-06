@@ -5,12 +5,12 @@ import Register from './pages/RegisterPage/Register';
 import About from './pages/HomePage/About';
 import Dashboard from './pages/DashboardPage/Dashboard';
 import Automations from './pages/DashboardPage/Automations';
-import Lists from './pages/DashboardPage/Lists';
+import Lists from './pages/DashboardPage/ListsComponent/Lists';
 import Campaigns from './pages/DashboardPage/Campaigns';
 import Reports from './pages/DashboardPage/Reports';
 import Templates from './pages/DashboardPage/Templates';
 import Profile from './pages/ProfilePage/Profile';
-import AddContact from './pages/DashboardPage/AddContacts';
+import AddContact from './pages/DashboardPage/ListsComponent/AddContacts';
 
 const routes = [
 {
