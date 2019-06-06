@@ -6,6 +6,7 @@ import Campaigns from './Campaigns';
 import Reports from './Reports';
 import SubDashboard from './SubDashboard';
 import AddContact from './ListsComponent/AddContacts';
+import CreateList from './ListsComponent/CreateList';
 
 
 import {
@@ -38,6 +39,7 @@ class DashBoard extends Component {
              <Route path="/dashboard/reports" component={Reports} />
               <Route path="/dashboard/templates" component={Templates} />
              <Route path="/dashboard/automations" component={Automations} />
+             <Route path="/dashboard/create-list" component={CreateList} />
            </Switch>
            </div>
  

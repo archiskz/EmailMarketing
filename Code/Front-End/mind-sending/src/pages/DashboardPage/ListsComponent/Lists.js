@@ -38,10 +38,10 @@ class Lists extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <a icon="segment" className="btn-create-segment" href="/marketing_campaigns/ui/contacts/segment">
+                                <Link icon="segment" className="btn-create-segment" to="/dashboard/create-list">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create Segment
-                                </a>
+                                </Link>
                                 
                                 <div onClick={this.onToggleDropdown} className="btn-create-segment" data-dropdown-toggle="true" data-role="bulk-actions-toggle">
                                     <i className="fa fa-users"></i>
@@ -94,7 +94,7 @@ class Lists extends Component {
 
                                         </div>
                                     </div>
-                                <table className="table-wrap has-checkboxes">
+                                <table className="table-wrap has-checkboxes segment-conditions">
                                     <thead>
                                         <tr>
                                            

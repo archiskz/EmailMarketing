@@ -74,11 +74,11 @@ addActiveClass = (index) => {
                     <span style={{position: 'relative'}}>Contacts</span>
                     <div className="clearfix" />
                 </Link>
-                <Link to="/dashboard/lists">
+                {/* <Link to="/dashboard/lists">
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>Create New List</span>
                     <div className="clearfix" />
-                </Link>
+                </Link> */}
                 <Link to = "/dashboard/lists" >
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>View Lists</span>

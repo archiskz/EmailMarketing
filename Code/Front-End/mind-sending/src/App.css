@@ -61,7 +61,9 @@ text-align: left;
 .container-fluid {
   width: 100%;
 }
-
+.mt25 {
+  margin-top: 25px;
+}
 .mt15 {
   margin-top: 15px;
 }

@@ -563,6 +563,7 @@ progress-striped .yellow {
     margin-top: 5%;
     height: 100%;
     bottom: 0;
+    padding-left: 50px !important;
 }
 .article {
     width: 100%;
@@ -575,6 +576,7 @@ progress-striped .yellow {
     
 }
 .btn-create-segment{
+
         cursor: pointer;
         color: #007bff;
         background-color: transparent;
@@ -594,6 +596,9 @@ progress-striped .yellow {
         line-height: 1.5;
         margin-right: 20px;
         text-decoration: none !important;
+}
+.btn-create-segment span {
+    font-family: Calibri
 }
 .btn-create-segment:hover {
     background-color: #1b93e1;
@@ -665,6 +670,7 @@ progress-striped .yellow {
 }
 
 .search {
+    top: 10px;
     height: 30px !important;
     width: 100%;
     position: relative;
@@ -761,7 +767,13 @@ width: 15px;
 margin-right: 2px;
 }
 .input-radio-wrap{
+    top: 10px;
+    bottom: 10px;   
     width: 60%;
+}
+.input-radio-wrap input{
+    width: 15px;
+    margin-right: 5px !important;
 }
 .input-radio-wrap label {
     font-weight: 400;
@@ -813,4 +825,27 @@ input[type='radio']{
     border-right: none !important;
     border-top: none !important;
     border-left: none !important;
+}
+.input-select-wrap {
+    height: 30px;
+}
+.segment-conditions{
+    background-color: #fbfbfb;
+border: 1px solid #d8d8d8;
+border-radius: 5px;
+margin: 20px 0;
+padding: 20px;
+}
+.input-text-label {
+    color: #4A4A4A;
+    font-weight: 400;
+    position: absolute;
+    top: 5px;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 18px;
+    pointer-events: none;
+    transition: top .3s,font-size .3s;
+        transition-timing-function: ease, ease;
+    transition-timing-function: cubic-bezier(.02,.01,.47,1);
 }
