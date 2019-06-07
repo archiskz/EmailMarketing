@@ -12,6 +12,7 @@ import Templates from './pages/DashboardPage/Templates';
 import Profile from './pages/ProfilePage/Profile';
 import AddContact from './pages/DashboardPage/ListsComponent/AddContacts';
 import CreateList from './pages/DashboardPage/ListsComponent/CreateList';
+import AddContactsFile from './pages/DashboardPage/ListsComponent/AddContactsFile';
 
 const routes = [
 {
@@ -73,6 +74,11 @@ const routes = [
 	path: '/dashboard/add-contacts',
 	exact: false,
 	main: () => <AddContact />
+},
+{
+	path: '/dashboard/add-contacts-file',
+	exact: false,
+	main: () => <AddContactsFile />
 },
 {
 	path: '/dashboard/create-list',

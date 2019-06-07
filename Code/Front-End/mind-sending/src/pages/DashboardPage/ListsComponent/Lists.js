@@ -47,11 +47,11 @@ class Lists extends Component {
                                     <i className="fa fa-users"></i>
                                     Add Contacts
                                     <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
-                                        <Link data-role="dropdown-link" to="" className="dropdown-link dropdown-link-with-icon" href="/marketing_campaigns/ui/contacts/upload_csv">
+                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
                                             <i className="sg-icon sg-icon-csv"></i>
                                             <span>Upload CSV</span>
                                         </Link>
-                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts" className="dropdown-link dropdown-link-with-icon" href="/marketing_campaigns/ui/contacts/manual_add">
+                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts" className="dropdown-link dropdown-link-with-icon" >
                                             <i className="sg-icon sg-icon-contacts-alt"></i>
                                             <span>Manual Add</span>
                                         </Link>

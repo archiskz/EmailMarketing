@@ -164,7 +164,7 @@ class SubDashboard extends Component {
       <li className="dropdown profile_details_drop">
         <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
           <div className="profile_img"> 
-            <span className="prfil-img"><img src="images/son.jpg" alt /> </span> 
+            <span className="prfil-img"><img src="" alt /> </span> 
             <div className="user-name">
               <p>Thắng Nguyễn</p>
               <span>Administrator</span>

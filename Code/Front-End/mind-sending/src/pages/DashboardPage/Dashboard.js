@@ -15,6 +15,7 @@ import {
   Switch
 } from "react-router-dom";
 import Templates from './Templates';
+import AddContactsFile from './ListsComponent/AddContactsFile';
 
 class DashBoard extends Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class DashBoard extends Component {
              <Route path="/dashboard" exact component={SubDashboard} />
              <Route path="/dashboard/campaigns"  component={Campaigns} />
              <Route path="/dashboard/add-contacts"  component={AddContact} />
+             <Route path="/dashboard/add-contacts-file"  component={AddContactsFile} />
              <Route path="/dashboard/lists" component={Lists} />
              <Route path="/dashboard/reports" component={Reports} />
               <Route path="/dashboard/templates" component={Templates} />
