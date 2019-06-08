@@ -1,4 +1,8 @@
+
+//Reducer
+
 import status from './status';
+import isDisplayPreviewModal from './isDisplayPreviewModal';
 import sort from './sort';
 import accounts from './accounts';
 import loginReducer from './loginReducer';
@@ -8,7 +12,8 @@ const myReducer = combineReducers({
 status : status,
 sort : sort,
 accounts: accounts,
-loginReducer: loginReducer
+loginReducer: loginReducer,
+isDisplayPreviewModal: isDisplayPreviewModal
 });
 
 export default myReducer;

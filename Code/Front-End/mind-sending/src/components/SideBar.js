@@ -100,12 +100,12 @@ addActiveClass = (index) => {
                     <span style={{position: 'relative'}}>Gallery</span>
                     <div className="clearfix" />
                 </Link>
-                <Link href="">
+                <Link to="">
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>My Templates</span>
                     <div className="clearfix" />
                 </Link>
-                <Link href="">
+                <Link to="">
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>Landing Page</span>
                     <div className="clearfix" />
@@ -131,7 +131,7 @@ addActiveClass = (index) => {
                     <span style={{position: 'relative'}}>Automation Campaigns</span>
                     <div className="clearfix" />
                 </Link>
-                <Link href="index.html">
+                <Link to="">
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>View</span>
                     <div className="clearfix" />
