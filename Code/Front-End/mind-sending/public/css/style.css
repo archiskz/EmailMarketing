@@ -439,10 +439,32 @@ li#menu-academico {
     display: inline-block;
     border:2px solid #fff;
 }
+.w3-search-box input[type="text"] {
+    outline: none;
+    background: #fff;
+    width: 88%;
+    margin: 0;
+    z-index: 10;
+    font-size: 0.9em;
+    color: #7A7B78;
+    padding: 0.5em 0.5em;
+    border: none;
+    -webkit-appearance: none;
+    display: inline-block;
+}
+.w3-search-box input[type="submit"] {
+    background: url(../images/search.png)no-repeat;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: text-top;
+    border: none;
+    outline: none;
+}
 .nofitications-dropdown {
     padding: 0;
 }
-.dropdown.head-dpdn {
+li.dropdown.head-dpdn {
     display: inline-block;
     padding: 0.2em 0;
     float: left;

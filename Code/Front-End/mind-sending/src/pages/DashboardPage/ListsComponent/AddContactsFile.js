@@ -112,7 +112,37 @@ class AddContactsFile extends Component {
           </article>
           </div>
         </div>
+        <div class="file-upload-wrapper">
+        <div class="card card-body view file-upload">
+        <div class="card-text file-upload-message">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Drag and drop a file here or click</p>
+        <p class="file-upload-error">Ooops, something wrong happended.</p>
+        </div>
+        <div class="mask rgba-stylish-slight"></div>
+        <div class="file-upload-errors-container">
+        <ul></ul>
+        </div>
+        <input type="file" id="input-file-now" class="file_upload"></input>
+        <button type="button" class="btn btn-sm btn-danger">Remove<i class="far fa-trash-alt ml-1"></i>
+        </button>
+        <div class="file-upload-preview">
+        <span class="file-upload-render"></span>
+        <div class="file-upload-infos">
+        <div class="file-upload-infos-inner">
+        <p class="file-upload-filename">
+        <span class="file-upload-filename-inner"></span>
+        </p>
+        <p class="file-upload-infos-message">Drag and drop or click to replace</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
+      </div>
+
+     
     );
   }
 
