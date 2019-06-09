@@ -4,9 +4,9 @@
     transition-delay: 300ms;
 }
 
-.sidebar-menu {
+/* .sidebar-menu {
     position: absolute;
-}
+} */
 
 .sidebar-menu {
     position: fixed;
@@ -15,6 +15,7 @@
 }
 
 .sidebar-menu {
+    height: 100vh;
     position: fixed;
     float: left;
     width: 230px;
@@ -162,9 +163,9 @@ a.sidebar-icon:hover {
     transition-delay: 300ms;
 }
 
-.sidebar-menu {
+/* .sidebar-menu {
     position: absolute;
-}
+} */
 
 .menuside {
     text-align: left;
@@ -642,6 +643,7 @@ progress-striped .yellow {
     visibility: visible;
 }
 
+
 .dropdown.is-active .dropdown-menu {
     top: 100%;
     z-index: 1000;
@@ -652,8 +654,45 @@ progress-striped .yellow {
 [data-role="main-app-container"] .dropdown-menu {
     text-align: left;
 }
-
-
+.dropdown-btn:hover .dropdown-template{
+    top:0;
+    z-index: 1000;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: 0 2px 6px 0 rgba(41, 70, 97, .2);
+    position: relative;
+    margin-top: -30px;
+    /* top: 50%; */
+    right:-15px;
+    display: inline-block;
+    min-width: 180px;
+    padding: 10px 0;
+    margin: 1px -1px;
+    overflow: hidden;
+    cursor: default;
+    background: #fbfbfc;
+    border: 1px solid #e9ecef;
+    border-radius: 2px;
+}
+.dropdown-template{
+    box-shadow: 0 2px 6px 0 rgba(41, 70, 97, .2);
+    position: relative;
+    margin-top: -30px;
+    /* top: 50%; */
+    right:-15px;
+    display: inline-block;
+    min-width: 180px;
+    padding: 10px 0;
+    margin: 1px -1px;
+    overflow: hidden;
+    cursor: default;
+    background: #fbfbfc;
+    border: 1px solid #e9ecef;
+    border-radius: 2px;
+    opacity: 0;
+    visibility: hidden;
+    transition: top .3s, opacity .3s;
+}
 .dropdown-menus {
     box-shadow: 0 2px 6px 0 rgba(41, 70, 97, .2);
     position: absolute;
@@ -675,6 +714,12 @@ progress-striped .yellow {
 
 .dropdown-active {
     top:100%;
+    z-index: 1000;
+    opacity: 1;
+    visibility: visible;
+}
+.dropdown-template-active {
+    top:0;
     z-index: 1000;
     opacity: 1;
     visibility: visible;
@@ -890,22 +935,33 @@ padding: 20px;
     width: 100%;
 }
 .thumbnail-view {
-    /* width: 100%; */
+    width: 80%;
     display: grid;
     grid-template-columns: auto auto auto;
     padding: 10px;
+    grid-gap: 5px;
+  }
+  .thumbnail-details{
+      width: calc(100% + 30px);
   }
  
   .thumbnail-actions .btn {
-/*     
-    margin: 0 auto 20px; */
     width: 130px;
     display: inline-block
 
 }
 .template-name{
     width: 100%;
-    text-align: center;
+    height: 30px;
+}
+
+.template-name a{
+    width: calc(100%-30px) !important;
+}
+.template-name div{
+    float: right;
+    height: 30px;
+    width: 30px !important;
 }
 .btn-on-dark.btn-secondary {
     text-transform: none;

@@ -86,26 +86,7 @@ class AddContactsFile extends Component {
                       </div>
                     </section>
                   </div>
-                  <span className="title-h3">
-                    Contact Info
-                </span>
-                  <section className="row">
-                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                      <div className="search">
-                        <input type="text" className="inputContact" placeholder="First name"/>                                       
-                      </div>
-                    </div>
-                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <div className="search">
-                        <input type="text" className="inputContact" placeholder="Last name"/>                                       
-                      </div>
-                    </div>
-                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                      <div className="search">
-                          <input type="text" className="inputContact" placeholder="Email"/>                                       
-                      </div>
-                    </div>
-                  </section>
+                  
                 </form>
               </div>
             </div>
