@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import ReactDropzone from 'react-dropzone';
+import { render } from "react-dom";
+import {useDropzone} from 'react-dropzone';
+import Dropzone from 'react-dropzone'
+
 
 class AddContactsFile extends Component {
   constructor(props) {
@@ -19,6 +24,8 @@ class AddContactsFile extends Component {
 
 
   render() {
+    
+
     return (
 
       <div className role="main">
@@ -111,40 +118,30 @@ class AddContactsFile extends Component {
             </div>
           </article>
           </div>
-        </div>
-        <div class="file-upload-wrapper">
-        <div class="card card-body view file-upload">
-        <div class="card-text file-upload-message">
-        <i class="fas fa-cloud-upload-alt"></i>
-        <p>Drag and drop a file here or click</p>
-        <p class="file-upload-error">Ooops, something wrong happended.</p>
-        </div>
-        <div class="mask rgba-stylish-slight"></div>
-        <div class="file-upload-errors-container">
-        <ul></ul>
-        </div>
-        <input type="file" id="input-file-now" class="file_upload"></input>
-        <button type="button" class="btn btn-sm btn-danger">Remove<i class="far fa-trash-alt ml-1"></i>
-        </button>
-        <div class="file-upload-preview">
-        <span class="file-upload-render"></span>
-        <div class="file-upload-infos">
-        <div class="file-upload-infos-inner">
-        <p class="file-upload-filename">
-        <span class="file-upload-filename-inner"></span>
-        </p>
-        <p class="file-upload-infos-message">Drag and drop or click to replace</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
+             <div className="contact_file">
+            <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+  {({getRootProps, getInputProps}) => (
+    <section>
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        <span>
+          "Drag or drop your 
+          file"
+          or
+        </span>
+        <span className="browse_link"> import your contact here </span>
       </div>
+    </section>
+  )}
+</Dropzone>
       </div>
-
+        </div>
+      </div>
+      
      
     );
   }
 
 }
+
 export default AddContactsFile;
