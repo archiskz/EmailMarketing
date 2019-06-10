@@ -38,7 +38,7 @@ class Campaigns extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <Link icon="segment" className="btn-create-segment" to="/dashboard/create-list">
+                                <Link icon="segment" className="btn-create-segment" to="/create-campaign">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create Campaigns
                                 </Link>
