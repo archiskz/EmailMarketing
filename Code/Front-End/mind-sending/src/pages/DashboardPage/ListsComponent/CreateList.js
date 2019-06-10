@@ -174,9 +174,7 @@ class CreateList extends Component {
                           <div className="col-md-4">
                             <div className="input-select-wrap is-required">
                               <label className="input-select-label">Text</label>
-                              <div className="search">
-                                <input type="text" className="inputContact" placeholder=""/>                                       
-                      </div>
+                                <input type="text" className="inputContact" placeholder=""/>         
                               <div className="input-info-tooltip" />
                             </div>
                           </div>

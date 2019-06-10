@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import EmailEditor from 'react-email-editor';
 import returnic from './../../../access/img/return_icon.png';
+import {Link} from 'react-router-dom';
 class NewTemplate extends Component {
   constructor(props) {
     super(props);
@@ -28,10 +29,10 @@ class NewTemplate extends Component {
       </div>
       <div className="col-md-6">
                             <nav className="pull-right">
-                                <a icon="segment" className="btn-create-segment" href="/marketing_campaigns/ui/contacts/segment">
+                                <Link icon="segment" className="btn-create-segment" to="/dashboard/templates">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Save Template
-                                </a>
+                                </Link>
                             </nav>
                         </div>
       </div>
