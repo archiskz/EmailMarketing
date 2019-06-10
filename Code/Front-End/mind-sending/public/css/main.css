@@ -3206,6 +3206,35 @@ input::-moz-focus-inner {
   top: 0;
 
 }
+.fullscreen{
+  width: 100%;
+  height: 100%;
+}
+/* #editor{
+  width: 100%;
+  height: 100%;
+} */
+.back-btn{
+  /* border-right: 2px solid #2c3e50; */
+  padding-top: 14px;
+  height: 100%;
+  width: 100px;
+  text-align: center;
+}
+.back-btn img {
+  color: black;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  width: 50%;
+}
+.height150 {
+  width: 100%;
+  height: 78px;
+  background-color: white;
+  border-bottom: 1px solid #ecf0f1;
+}
 .fixed-menu {
   height: 100%;
 }
@@ -6363,9 +6392,31 @@ body.search-is-visible {
   width: 100%;
 }
 
+
+input[type="file" i] {
+    -webkit-appearance: initial;
+    background-color: initial;
+    cursor: default;
+    align-items: baseline;
+    color: inherit;
+    text-align: start !important;
+    padding: initial;
+    border: initial;
+}
+.file-upload {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;}
+
 .contact_file{
 display: flex;
-
     -ms-flex-align: center;
     align-items: center;
     -ms-flex-wrap: wrap;
@@ -6382,7 +6433,68 @@ display: flex;
 .browse_link{
   color: #000;
     font-weight: 700;
-    cursor: pointer;
+    display: none;
+}
+.file-upload-wrapper .card.card-body .file-upload-errors-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    background: rgba(243, 65, 65, .8);
+    text-align: left;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: visibility 0s linear .15s, opacity .15s linear;
+    -o-transition: visibility 0s linear .15s, opacity .15s linear;
+    transition: visibility 0s linear .15s, opacity .15s linear;
+}
+.file-upload-wrapper{
+  width: 100%;
+  height: 100%;
+}
+.file-upload-wrapper .card.card-body .file-upload-preview {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    text-align: center;
+}
+.file-upload-wrapper .card.card-body .file-upload-preview .file-upload-infos {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    background: rgba(0, 0, 0, .7);
+    opacity: 0;
+    -webkit-transition: opacity .15s linear;
+    -o-transition: opacity .15s linear;
+    transition: opacity .15s linear;
+}
+.file-upload-wrapper .card.card-body .file-upload-preview .file-upload-infos .file-upload-infos-inner {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0, -40%);
+    -ms-transform: translate(0, -40%);
+    transform: translate(0, -40%);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    width: 100%;
+    padding: 0 20px;
+    -webkit-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
 }
 .browse_link:hover{
   color: #2484df;

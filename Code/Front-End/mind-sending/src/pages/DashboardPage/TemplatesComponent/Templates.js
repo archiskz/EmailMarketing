@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
-import OneTemplate from './../../components/OneTemplate';
+import OneTemplate from '../../../components/OneTemplate';
 import {connect} from 'react-redux';
-import PreviewModal from './../../components/modals/PreviewModal';
+import PreviewModal from '../../../components/modals/PreviewModal';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from "react-router-dom";
 class Templates extends Component {
   constructor(props) {
     super(props);
@@ -59,10 +64,10 @@ class Templates extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <a icon="segment" className="btn-create-segment" href="/marketing_campaigns/ui/contacts/segment">
+                                <Link icon="segment" className="btn-create-segment" to="/new-template">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create New Template
-                                </a>
+                                </Link>
                             </nav>
                         </div>
         <div className="col-md-12">
@@ -82,10 +87,16 @@ class Templates extends Component {
       <div className="thumbnail-view">
         <OneTemplate         
           />
+        <OneTemplate         
+        />
+        <OneTemplate         
+          />
+        <OneTemplate         
+        />
           
-          <PreviewModal  isOpen={true}
+        <PreviewModal  isOpen={true}
          />
-        </div>
+      </div>
     </div>
   </div>
 </div>

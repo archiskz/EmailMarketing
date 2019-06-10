@@ -8,11 +8,12 @@ import Automations from './pages/DashboardPage/Automations';
 import Lists from './pages/DashboardPage/ListsComponent/Lists';
 import Campaigns from './pages/DashboardPage/Campaigns';
 import Reports from './pages/DashboardPage/Reports';
-import Templates from './pages/DashboardPage/Templates';
+import Templates from './pages/DashboardPage/TemplatesComponent/Templates';
 import Profile from './pages/ProfilePage/Profile';
 import AddContact from './pages/DashboardPage/ListsComponent/AddContacts';
 import CreateList from './pages/DashboardPage/ListsComponent/CreateList';
 import AddContactsFile from './pages/DashboardPage/ListsComponent/AddContactsFile';
+import NewTemplate from './pages/DashboardPage/TemplatesComponent/NewTemplate';
 
 const routes = [
 {
@@ -84,6 +85,11 @@ const routes = [
 	path: '/dashboard/create-list',
 	exact: false,
 	main: () => <CreateList />
+},
+{
+	path: '/new-template',
+	exact: false,
+	main: () => <NewTemplate />
 }
 ]
 

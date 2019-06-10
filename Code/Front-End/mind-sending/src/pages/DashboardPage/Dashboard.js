@@ -14,7 +14,7 @@ import {
   Route,
   Switch
 } from "react-router-dom";
-import Templates from './Templates';
+import Templates from './TemplatesComponent/Templates';
 import AddContactsFile from './ListsComponent/AddContactsFile';
 
 class DashBoard extends Component {
