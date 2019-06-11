@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 class AddContact extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      visible: true,
-      dropdown_visible: false,
+      account_id:"1",
+      email: "sonnlh3@gmailas.com",
+      name: "Hong Son",
     };
   }
   onToggleDropdown = () => {
@@ -14,6 +15,30 @@ class AddContact extends Component {
       dropdown_visible: !this.state.dropdown_visible
     })
   }
+
+  onSave= () => {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT fefege...'
+    }
+    this.setState({
+        account_id: this.state.account_id,
+        email: this.state.email,
+        name: this.state.name
+    });
+    var json = JSON.stringify(this.state);
+    alert(json);
+    axios.post('http://45.77.172.104:8080/api/subcriber/create', 
+        {json}, 
+        headers
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
 
 
 
@@ -40,7 +65,7 @@ class AddContact extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <a icon="segment" className="btn-create-segment" href="/marketing_campaigns/ui/contacts/segment">
+                                <a onClick={this.onSave} icon="segment" className="btn-create-segment">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Save Contact
                                 </a>
@@ -55,9 +80,9 @@ class AddContact extends Component {
                 </p>
                 <form>
                   <div className="listFormPresenter-css__list-form-presenter___1RHBp">
-                    <div className="input-radio-wrap radioInput-css__radio-container___3sajG" data-role style={{ position: 'relative' }}>
-                      <input type="radio" name="existing-or-new" id="radio-manual-add-to-all-contacts" defaultValue="all_contacts" />
-                      <label className="input-radio-label" htmlFor="radio-manual-add-to-all-contacts">
+                    <div className="input-radio-wrap radioInput-css__radio-container___3sajG"  style={{ position: 'relative' }}>
+                      <input type="radio" name="contacts" id="all" defaultChecked />
+                      <label className="input-radio-label" htmlFor="all">
                         <span>
                           <span data-tooltip="Recipients will be added to All Contacts by default.  You can manage your contacts using Lists and Segments." data-tooltip-pos="up" data-tooltip-length="large" className="has-underline">
                             Add contacts
@@ -66,16 +91,16 @@ class AddContact extends Component {
                       </label>
                       <span />
                     </div>
-                    <div className="input-radio-wrap radioInput-css__radio-container___3sajG" data-role style={{ position: 'relative' }}>
-                      <input type="radio" name="existing-or-new" id="radio-manual-add-to-existing" defaultValue="existing" />
-                      <label className="input-radio-label" htmlFor="radio-manual-add-to-existing">
+                    <div className="input-radio-wrap radioInput-css__radio-container___3sajG"  style={{ position: 'relative' }}>
+                      <input type="radio" name="contacts" id="exist"/>
+                      <label className="input-radio-label" htmlFor="exist">
                         Add contacts and include in an existing list
                       </label>
                       <span />
                     </div>
-                    <div className="input-radio-wrap radioInput-css__radio-container___3sajG" data-role style={{ position: 'relative' }}>
-                      <input type="radio" name="existing-or-new" id="radio-manual-add-to-new" defaultValue="new" />
-                      <label className="input-radio-label" htmlFor="radio-manual-add-to-new">
+                    <div className="input-radio-wrap radioInput-css__radio-container___3sajG"  style={{ position: 'relative' }}>
+                      <input type="radio" name="contacts" id="new"  />
+                      <label className="input-radio-label" htmlFor="new">
                         Add contacts and include in a new list
                       </label>
                       <span />
