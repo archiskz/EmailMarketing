@@ -8,9 +8,13 @@
     "material-ui": "^0.20.2",
     "radium": "^0.25.1",
     "react": "^16.8.6",
-    "react-bootstrap": "^1.0.0-beta.8",
+    "react-awesome-modal": "^2.0.5",
+    "react-bootstrap": "^1.0.0-beta.9",
     "react-dom": "^16.8.6",
+    "react-dropzone": "^10.1.5",
+    "react-email-editor": "^0.9.9",
     "react-metismenu": "^1.4.0",
+    "react-modal": "^3.8.1",
     "react-redux": "^7.0.3",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
@@ -18,7 +22,8 @@
     "react-sidebar": "^3.0.2",
     "react-slick": "^0.24.0",
     "reactstrap": "^8.0.0",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "superagent": "^5.0.6"
   },
   "scripts": {
     "start": "react-scripts start",

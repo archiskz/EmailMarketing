@@ -24,3 +24,16 @@ export const loginAction = (username, password) => {
 		loginAction
 	}
 }
+
+export const openPreviewTemplate = () =>{
+	return {
+		type: types.OPEN_PREVIEW_TEMPLATE,
+	
+	}
+}
+export const closePreviewTemplate = () =>{
+	return {
+		type: types.CLOSE_PREVIEW_TEMPLATE,
+	
+	}
+}

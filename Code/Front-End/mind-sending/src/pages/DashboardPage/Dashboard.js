@@ -1,17 +1,22 @@
 import React, {Component} from 'react';
-import MenuDashboard from '../../components/MenuDashboard';
+import SideBar from './../../components/SideBar';
 import Automations from './Automations';
-import Lists from './Lists';
-import Campaigns from './Campaigns';
+import Lists from './ListsComponent/Lists';
+import Campaigns from './CampaignsComponent/Campaigns';
 import Reports from './Reports';
-import Home from './../HomePage/Home';
+import SubDashboard from './SubDashboard';
+import AddContact from './ListsComponent/AddContacts';
+import CreateList from './ListsComponent/CreateList';
+
 
 import {
   BrowserRouter as Router,
   Route,
   Switch
 } from "react-router-dom";
-import Templates from './Templates';
+import Templates from './TemplatesComponent/Templates';
+import AddContactsFile from './ListsComponent/AddContactsFile';
+import CreateCampaign from './CampaignsComponent/CreateCampaigns';
 
 class DashBoard extends Component {
   constructor(props) {
@@ -23,26 +28,28 @@ class DashBoard extends Component {
 	
   render(){
      return (
-       <div >
-  <body data-spy = "scroll" data-target = ".fixed-menu"
-    data-offset = "50" >
-        <header id="s-header" className="s-header s-header-black"> 
-          <MenuDashboard /> 
-        </header>
+       <div className="dashboard-main">
+
+          <SideBar /> 
        <div className="dashboard-component">
-        DashBoard
+       
            <Switch >
-             {/* <Route path="/" exact component={DashBoard} /> */}
-             <Route path="/dashboard" exact component={Campaigns} />
+             <Route path="/dashboard" exact component={SubDashboard} />
+             <Route path="/dashboard/campaigns"  component={Campaigns} />
+             <Route path="/dashboard/add-contacts"  component={AddContact} />
+             <Route path="/dashboard/add-contacts-file"  component={AddContactsFile} />
              <Route path="/dashboard/lists" component={Lists} />
              <Route path="/dashboard/reports" component={Reports} />
               <Route path="/dashboard/templates" component={Templates} />
              <Route path="/dashboard/automations" component={Automations} />
+             <Route path="/dashboard/create-list" component={CreateList} />
            </Switch>
            </div>
-       </body>
+          
+           
+ 
   </div>
-
+ 
       );
   }
 

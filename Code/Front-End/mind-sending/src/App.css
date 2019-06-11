@@ -61,7 +61,9 @@ text-align: left;
 .container-fluid {
   width: 100%;
 }
-
+.mt25 {
+  margin-top: 25px;
+}
 .mt15 {
   margin-top: 15px;
 }
@@ -188,13 +190,15 @@ a[data-toggle="collapse"] {
     }
 
 .sidebar {
+  height: 100%;
   position: absolute;
+  top: 0;
   display: block;
   z-index: 1;
   width: 200px;
   margin-left: 0px;
   color: #fff;
-    background: #abdcd6;
+  background: black;
     /* don't forget to add all the previously mentioned styles here too */
     /*background: #7386D5;*/
     color: #fff;
@@ -203,7 +207,7 @@ a[data-toggle="collapse"] {
 
 .sidebar .sidebar-header {
     padding: 20px;
-    background: #abdcd6;
+    background: black;
     color: #000;
 }
 
@@ -228,13 +232,13 @@ a[data-toggle="collapse"] {
 }
 
 .sidebar ul li > a, a[aria-expanded="true"] {
-    color: #000000;
-    background: #abdcd6;
+    color: white;
+    background: black;
 }
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #abdcd6;
+    background: black;
 }
 .mainmenu, .submenu {
   list-style: none;
@@ -276,3 +280,4 @@ ul ul a {
   display: inline-block;
   font-size: 16px;
 }
+

@@ -5,11 +5,17 @@ import Register from './pages/RegisterPage/Register';
 import About from './pages/HomePage/About';
 import Dashboard from './pages/DashboardPage/Dashboard';
 import Automations from './pages/DashboardPage/Automations';
-import Lists from './pages/DashboardPage/Lists';
-import Campaigns from './pages/DashboardPage/Campaigns';
+import Lists from './pages/DashboardPage/ListsComponent/Lists';
+import Campaigns from './pages/DashboardPage/CampaignsComponent/Campaigns';
+import CreateCampaign from './pages/DashboardPage/CampaignsComponent/CreateCampaigns';
 import Reports from './pages/DashboardPage/Reports';
-import Templates from './pages/DashboardPage/Templates';
+import Templates from './pages/DashboardPage/TemplatesComponent/Templates';
 import Profile from './pages/ProfilePage/Profile';
+import AddContact from './pages/DashboardPage/ListsComponent/AddContacts';
+import CreateList from './pages/DashboardPage/ListsComponent/CreateList';
+import AddContactsFile from './pages/DashboardPage/ListsComponent/AddContactsFile';
+import NewTemplate from './pages/DashboardPage/TemplatesComponent/NewTemplate';
+
 
 const routes = [
 {
@@ -53,6 +59,11 @@ const routes = [
 	main: () => <Campaigns/>
 },
 {
+	path: '/create-campaign',
+	exact: false,
+	main: () => <CreateCampaign/>
+},
+{
 	path: '/dashboard/reports',
 	exact: false,
 	main: () => <Reports/>
@@ -66,6 +77,26 @@ const routes = [
 	path: '/profile',
 	exact: false,
 	main: () => <Profile / >
+},
+{
+	path: '/dashboard/add-contacts',
+	exact: false,
+	main: () => <AddContact />
+},
+{
+	path: '/dashboard/add-contacts-file',
+	exact: false,
+	main: () => <AddContactsFile />
+},
+{
+	path: '/dashboard/create-list',
+	exact: false,
+	main: () => <CreateList />
+},
+{
+	path: '/new-template',
+	exact: false,
+	main: () => <NewTemplate />
 }
 ]
 

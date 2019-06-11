@@ -8,9 +8,9 @@ import * as serviceWorker from './serviceWorker';
 import myReducer from './reducers/index';
 import {Provider} from 'react-redux';
 
+//Store
 const store = createStore(
-	myReducer,
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() 
+	myReducer
 	);
 
 

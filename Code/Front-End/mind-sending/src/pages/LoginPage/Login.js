@@ -132,13 +132,14 @@ constructor(props) {
 }
 
 getPosts() {
-	axios.get("https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/posts.json")
+	axios.get("http://25.36.135.233:8080/api/accounts")
 		// Once we get a response and store data, let's change the loading state
 		.then(response => {
 			this.setState({
 				posts: response.data.posts,
 				isLoading: false
 			});
+			console.log(response);
 		})
 		// If we catch any errors connecting, let's update accordingly
 		.catch(error => this.setState({
