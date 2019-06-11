@@ -1,61 +1,42 @@
 package com.emailmkt.emailmarketing.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-public class Account implements Serializable {
+public class Subcriber implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    public Account(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-    @Basic
-    @Column(name = "username")
-    private String username;
 
     @Basic
-    @Column(name = "fullname")
-    private String fullname;
+    @Column(name = "name")
+    private String name;
 
     @Basic
     @Column(name = "email")
     private String email;
 
     @Basic
-    @Column(name = "password")
-    private String password;
-
-
-
-    @Basic
-    @Column(name = "phone")
-    private String phone;
-
-    @Basic
-    @Column(name = "gender")
-    private String gender;
-
-    @Basic
     @Column(name = "address")
     private String address;
 
     @Basic
-    @Column(name = "authority_id")
-    private int authorityId;
+    @Column(name = "type")
+    private String type;
+
+    @Basic
+    @Column(name = "tag")
+    private String tag;
 
     @Basic
     @Column(name = "createdTime")
@@ -64,6 +45,14 @@ public class Account implements Serializable {
     @Basic
     @Column(name = "updatedTime")
     private String updatedTime;
+
+    @Basic
+    @Column(name = "account_id")
+    private String account_id;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private Account account;
 
 
 

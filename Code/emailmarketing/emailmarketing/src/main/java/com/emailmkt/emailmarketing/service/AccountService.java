@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.service;
 
 import com.emailmkt.emailmarketing.model.Account;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -12,19 +13,23 @@ public interface AccountService {
 
     Account editProfile(Account account);
 
-    List<Account> getAllAccountsByCustomer();
+    List<Account> getAllAccountsByStaff();
 
     Account getAccountById(int id);
 
-    Account loginForCustomer(String username, String password);
+    Account loginForStaff(String username, String password);
 
-    List<Account> getAllAccountByRoleId(int roleId);
+    List<Account> getAllAccountByauthorityId(int authorityId);
 
     Account updateAccount(Account account);
 
-    int countTotalUserAccount(int roleId);
+    int countTotalUserAccount(int authorityId);
 
     Account createNewAccount(Account account);
 
     Account getAccountByUsername(String username);
+    List<Account> getAllAccountsByCustomer();
+    Account loginForCustomer(String username, String password);
+    List<Account> searchByUsernameOrFullname( String searchValue);
+
 }

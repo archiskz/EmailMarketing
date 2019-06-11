@@ -4,6 +4,7 @@ import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     AccountRepository accountRepository;
+
+//    @Autowired
+//    BCryptPasswordEncoder encoder;
 //    private final AccountRepository accountRepository;
 //
 //    public AccountServiceImpl(AccountRepository accountRepository) {
@@ -27,6 +31,7 @@ public class AccountServiceImpl implements AccountService {
             return false;
         }
         account.setCreatedTime(LocalDateTime.now().toString());
+//        account.setPassword(encoder.encode(account.getPassword()));
         account.setPassword(account.getPassword());
         accountRepository.save(account);
         return true;
@@ -48,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
                 checkExistedAccount.setPhone(account.getPhone());
                 checkExistedAccount.setGender(account.getGender());
                 checkExistedAccount.setAddress(account.getAddress());
-                checkExistedAccount.setRoleId(account.getRoleId());
+                checkExistedAccount.setAuthorityId(account.getAuthorityId());
                 checkExistedAccount.setUpdatedTime(LocalDateTime.now().toString());
                 checkExistedAccount.setFullname(account.getFullname());
 
@@ -62,8 +67,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public List<Account> getAllAccountsByStaff() {
+        return accountRepository.findAllByauthorityIdGreaterThanEqual(3);
+    }
+
+    @Override
     public List<Account> getAllAccountsByCustomer() {
-        return accountRepository.findAllByRoleIdGreaterThanEqual(2);
+        return accountRepository.findAllByauthorityIdGreaterThanEqual(2);
     }
 
     @Override
@@ -72,26 +82,38 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account loginForStaff(String username, String password) {
+        return null;
+    }
+
+    @Override
     public Account loginForCustomer(String username, String password) {
         return accountRepository.findAccountByUsernameAndPassword(username, password);
     }
 
     @Override
-    public List<Account> getAllAccountByRoleId(int roleId) {
-        return accountRepository.findAllByRoleIdOrderByCreatedTimeDesc(roleId);
+    public List<Account> searchByUsernameOrFullname(String searchValue) {
+        return accountRepository.searchByUsernameOrFullname(searchValue);
+    }
+
+    @Override
+    public List<Account> getAllAccountByauthorityId(int authorityId) {
+        return accountRepository.findAllByauthorityIdOrderByCreatedTimeDesc(authorityId);
     }
 
     @Override
     public Account updateAccount(Account account) {
         return null;
+
     }
 
     @Override
-    public int countTotalUserAccount(int roleId) {
-        return accountRepository.countAllByRoleId(roleId);
+    public int countTotalUserAccount(int authorityId) {
+        return accountRepository.countAllByauthorityId(authorityId);
     }
 
     @Override
+
     public Account createNewAccount(Account account) {
         return accountRepository.save(account);
     }
