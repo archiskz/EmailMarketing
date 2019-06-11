@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+<<<<<<< HEAD
 import {
   BrowserRouter as Router,
   Route,
   Switch
 } from "react-router-dom";
 import CreateCampaign from './CreateCampaigns';
+=======
+import CampaignPopUp from './../../../components//modals/CampaignPopUp.js';
+>>>>>>> 7fa4c3060663cb3b73bfebff537a7e87be32ff38
 
 class Campaigns extends Component {
    constructor(props) {
@@ -44,10 +48,9 @@ class Campaigns extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <Link icon="segment" className="btn-create-segment" to="/create-campaign">
-                                    <i className="sg-icon sg-icon-segment"></i>
-                                    Create Campaigns
-                                </Link>
+                                
+                              <a class="btn-create-segment" href="#popup">Create campaign</a>
+                             <CampaignPopUp />
                             </nav>
                         </div>
                     </header>
