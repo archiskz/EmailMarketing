@@ -1,11 +1,12 @@
 package com.emailmkt.emailmarketing.controller;
 
 import com.emailmkt.emailmarketing.model.Account;
+import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,14 +18,20 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
 @RequestMapping("/api")
+@CrossOrigin("http://localhost:3000")
 public class AccountController {
-    public static final String BASE_URK = "account";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
+//    private final AuthenticationManager authenticationManager;
+
+
+
+
     @Autowired
      AccountService accountService;
 
 
-//    public AccountController(AccountService accountService) {
+    //    public AccountController(AccountService accountService) {
 //        this.accountService = accountService;
 //    }
     @GetMapping("/accounts")
@@ -46,7 +53,7 @@ public class AccountController {
         return accountService.getAllAccountsByCustomer();
     }
 
-    @PutMapping("edit")
+    @PutMapping("account/edit")
     public ResponseEntity updateProfile(@RequestBody Account account) {
         Account accountEdited = accountService.editProfile(account);
         if (accountEdited != null) {
@@ -59,10 +66,29 @@ public class AccountController {
         return accountService.getAccountById(id);
     }
 
-    @GetMapping("getAllAccountByRoleId")
-    public List<Account> getAllAccountByRoleId(@RequestParam(value = "roleId") int roleId) {
-        return accountService.getAllAccountByRoleId(roleId);
+    @GetMapping("getAllAccountByAuthorityId")
+    public List<Account> getAllAccountByAuthorityId(@RequestParam(value = "authorityId") int authorityId) {
+        return accountService.getAllAccountByauthorityId(authorityId);
+    }
+
+    @PostMapping("/account/search/{searchValue}")
+    public List<Account> searchAccount(@PathVariable(value = "searchValue") String searchValue){
+
+        return accountService.searchByUsernameOrFullname(searchValue); //này request param đúng ko hay chỉ param thôi?
     }
 
 
-}
+
+    @PostMapping("updateAccount")
+    public boolean updateAccount(@RequestBody Account account) {
+        Account accountUpdated = accountService.updateAccount(account);
+        if (accountUpdated == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+//
+
+
+    }

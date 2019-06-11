@@ -19,6 +19,10 @@ public class Account implements Serializable {
     @Column(name = "id")
     private int id;
 
+    public Account(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
     @Basic
     @Column(name = "username")
     private String username;
@@ -50,8 +54,8 @@ public class Account implements Serializable {
     private String address;
 
     @Basic
-    @Column(name = "role_id")
-    private Integer roleId;
+    @Column(name = "authority_id")
+    private int authorityId;
 
     @Basic
     @Column(name = "createdTime")
