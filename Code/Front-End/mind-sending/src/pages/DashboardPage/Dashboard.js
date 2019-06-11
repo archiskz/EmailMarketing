@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import SideBar from './../../components/SideBar';
 import Automations from './Automations';
 import Lists from './ListsComponent/Lists';
-import Campaigns from './Campaigns';
+import Campaigns from './CampaignsComponent/Campaigns';
 import Reports from './Reports';
 import SubDashboard from './SubDashboard';
 import AddContact from './ListsComponent/AddContacts';
@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 import Templates from './TemplatesComponent/Templates';
 import AddContactsFile from './ListsComponent/AddContactsFile';
+import CreateCampaign from './CampaignsComponent/CreateCampaigns';
 
 class DashBoard extends Component {
   constructor(props) {
@@ -44,9 +45,11 @@ class DashBoard extends Component {
              <Route path="/dashboard/create-list" component={CreateList} />
            </Switch>
            </div>
+          
+           
  
   </div>
-
+ 
       );
   }
 

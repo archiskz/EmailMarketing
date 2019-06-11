@@ -6,7 +6,8 @@ import About from './pages/HomePage/About';
 import Dashboard from './pages/DashboardPage/Dashboard';
 import Automations from './pages/DashboardPage/Automations';
 import Lists from './pages/DashboardPage/ListsComponent/Lists';
-import Campaigns from './pages/DashboardPage/Campaigns';
+import Campaigns from './pages/DashboardPage/CampaignsComponent/Campaigns';
+import CreateCampaign from './pages/DashboardPage/CampaignsComponent/CreateCampaigns';
 import Reports from './pages/DashboardPage/Reports';
 import Templates from './pages/DashboardPage/TemplatesComponent/Templates';
 import Profile from './pages/ProfilePage/Profile';
@@ -14,6 +15,7 @@ import AddContact from './pages/DashboardPage/ListsComponent/AddContacts';
 import CreateList from './pages/DashboardPage/ListsComponent/CreateList';
 import AddContactsFile from './pages/DashboardPage/ListsComponent/AddContactsFile';
 import NewTemplate from './pages/DashboardPage/TemplatesComponent/NewTemplate';
+
 
 const routes = [
 {
@@ -55,6 +57,11 @@ const routes = [
 	path: '/dashboard/campaigns',
 	exact: false,
 	main: () => <Campaigns/>
+},
+{
+	path: '/create-campaign',
+	exact: false,
+	main: () => <CreateCampaign/>
 },
 {
 	path: '/dashboard/reports',

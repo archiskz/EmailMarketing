@@ -89,16 +89,41 @@ class CreateList extends Component {
                       <span />
                     </div>
                     <section className="row">
-                      <div className="col-md-4">
-                      <div className="search">
-                      {/* <label id="ip" class="input-text-label">List Name</label> */}
-                        <input id="txtListName" type="text" className="inputContact" placeholder="List Name"/>                                       
-                      </div>
-                      </div>
-                      <div className="col-md-4" />
-                    </section>
+                    <div className="col-md-4">
+                            <div className="input-select-wrap is-required">
+                              <label className="input-select-label">List Name</label>
+                                <input type="text" className="inputContact" placeholder=""/>         
+                              <div className="input-info-tooltip" />
+                            </div>
+                          </div>
+                     
+                    <div className="col-md-4">
+                            <div className="input-select-wrap is-required">
+                              <label
+                                className="input-select-label"
+                                htmlFor="select2-operator-07"
+                              >
+                                Select List
+                                <div className="input-info-tooltip select2-css__select-2-tooltip___3jy71" />
+                              </label>
+                              <select className="inputContact" id="select2-operator-07" name="operator-0" data-index={0} tabIndex={-1} aria-hidden="true">
+                                <option value="eq">is</option>
+                                <option value="ne">is not</option>
+                                <option value="contains">
+                                  contains word
+                                </option>
+                                <option value="empty">is empty</option>
+                                <option value="not_empty">
+                                  is not empty
+                                </option>
+                              </select>
+                                <div />
+                            </div>
+                          </div>
+                              
+                        </section>
                     {/* Condition */}
-                    <div className="segment-conditions">
+                    <div className="segment-conditions mt25">
                       <div>
                         <div className="row">
                           <div className="col-md-4">
@@ -150,14 +175,7 @@ class CreateList extends Component {
                               >
                                 Criteria<div className="input-info-tooltip select2-css__select-2-tooltip___3jy71" />
                               </label>
-                              <select
-                              className="inputContact"
-                                id="select2-operator-07"
-                                name="operator-0"
-                                data-index={0}
-                                tabIndex={-1}
-                                aria-hidden="true"
-                              >
+                              <select className="inputContact" id="select2-operator-07" name="operator-0" data-index={0} tabIndex={-1} aria-hidden="true">
                                 <option value="eq">is</option>
                                 <option value="ne">is not</option>
                                 <option value="contains">
