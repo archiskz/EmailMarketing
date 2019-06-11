@@ -28,12 +28,18 @@ class CampaignPopUp extends Component {
       </div>
 
         <div className="popuptext">
-        <div>
-        <img className="img-pop-up padding-right--lv2" src="https://img.icons8.com/cool-color/64/000000/upload-mail.png"/>
+        <div className="popup-header">
+        <img className="img-pop-up" src="https://img.icons8.com/cool-color/64/000000/upload-mail.png"/>
         <h1>CAMPAIGN NAME</h1>
-        <p>Keep your subscribers engaged by sharing your latest news, promoting a line of products, or announcing an event.</p>
         </div>
-        <input className="iput_pop_up" placeholder="Ahihi" autocomplete="off"/> 
+        <p>Keep your subscribers engaged by sharing your latest news, promoting a line of products, or announcing an event.</p>
+        <input className="iput_pop_up" placeholder="Write down your campaign name" autocomplete="off"/> 
+        <div>
+        <btn className="btn-create-segment-pop-up" href="#">Begin</btn>
+        <btn className="btn-create-segment-pop-up" href="#">Cancel</btn>
+        </div>
+      
+        
       </div>
       <a class="closepopup" href="#">X</a>
     </div>

@@ -1,15 +1,12 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-<<<<<<< HEAD
 import {
   BrowserRouter as Router,
   Route,
   Switch
 } from "react-router-dom";
 import CreateCampaign from './CreateCampaigns';
-=======
 import CampaignPopUp from './../../../components//modals/CampaignPopUp.js';
->>>>>>> 7fa4c3060663cb3b73bfebff537a7e87be32ff38
 
 class Campaigns extends Component {
    constructor(props) {
