@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import Popup from "reactjs-popup";
 
 class CreateCampaign extends Component {
    constructor(props) {
@@ -20,9 +21,7 @@ class CreateCampaign extends Component {
 	
   render(){
      return (
-	  <div className = "" >
-  CreateCampaign
-    </div>
+	  <div></div>
       );
   }
 

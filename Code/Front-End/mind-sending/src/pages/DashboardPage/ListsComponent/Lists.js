@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import ListRow from './../../../components/row/ListRow';
 
 class Lists extends Component {
    constructor(props) {
@@ -15,10 +16,25 @@ class Lists extends Component {
        dropdown_visible: !this.state.dropdown_visible
      })
    }
+//    componentDidMount(){
+//     axios.get(`https://jsonplaceholder.typicode.com/users`)
+//     .then(res => {
+//       const persons = res.data;
+//       this.setState({ persons });
+//     })
+//    }
+
+  
 
 
 	
   render(){
+    var lists = [
+        {listName:'All Contact', description:'List All Contact', totalContacts:'10'},
+        {listName:'Abc', description:'List ads', totalContacts:'3'},
+        {listName:'10/2', description:'List asd', totalContacts:'7'},
+        {listName:'hello', description:'List has', totalContacts:'9'}
+    ];
      return (
 	  <div className = "" >
    <div className="flash_notice">
@@ -30,7 +46,7 @@ class Lists extends Component {
                         <div className="col-md-6">
                             <span>
                                 <h1 className="">
-                                    <span className="pageTitle-css__title-heading___3H2vL">Contact Lists &amp; Segments
+                                    <span className="pageTitle-css__title-heading___3H2vL">Contact Lists
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
@@ -97,55 +113,25 @@ class Lists extends Component {
                                 <table className="table-wrap has-checkboxes segment-conditions">
                                     <thead>
                                         <tr>
-                                           
-                                            <th>Type</th>
-                                            <th>Lists/Segments</th>
+                                            <th>Lists</th>
+                                            <th>Description</th>
                                             <th>Contacts</th>
                                             <th className="actions">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr className="queryRow-css__container___2FcAu infinitely-scrollable-item">
-                                            
-                                            <td className="cell-label">
-                                                <span className="label label-global">global</span>
-                                            </td>
-                                            <td className="list-name">
-                                                <a href="/marketing_campaigns/ui/all_contacts">All Contacts</a>
-                                            </td>
-                                            <td className="numeric">
-                                                <span className="query-count-container">
-                                                    0
-                                                    <div className="queryCount-css__reload-tooltip___JH8R9">
-                                                        <span data-tooltip="Refresh Contact Count" data-tooltip-pos="up" data-tooltip-length="" className="">
-                                                            <i className="sg-icon sg-icon-reload" data-refresh-count="true"></i>
-                                                        </span>
-                                                    </div>
-                                                </span>
-                                            </td>
-                                            <td className="actions">
-                                                <i className="sg-icon sg-icon-ellipsis"></i>
-                                                <div className="action-icons">
-                                                    <span data-tooltip="Export" data-tooltip-pos="up" data-tooltip-length="" className="">
-                                                        <i className="sg-icon sg-icon-export" data-role="export-global"></i>
-                                                    </span>
-                                                    <span data-tooltip="Edit" data-tooltip-pos="up" data-tooltip-length="" className="">
-                                                        <a href="/marketing_campaigns/ui/all_contacts">
-                                                            <i className="sg-icon sg-icon-pencil" data-role="edit-global" data-scroll-top="true"></i>
-                                                        </a>
-                                                    </span>
-                                                    <span data-tooltip="Create Segment" data-tooltip-pos="up" data-tooltip-length="" className="">
-                                                        <a href="/marketing_campaigns/ui/contacts/segment/0">
-                                                            <i className="sg-icon sg-icon-segment" data-role="make-segment-global" data-scroll-top="true"></i>
-                                                        </a>
-                                                    </span>
-                                                    <span data-tooltip="Delete All Contacts" data-tooltip-pos="up" data-tooltip-length="" className="">
-                                                        <i className="sg-icon sg-icon-trash" data-role="delete-global"></i>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                    {lists.map(list=>(
+                                        <ListRow
+                                        key={list.index}
+                                         listName={list.listName}
+                                    description={list.description}
+                                    totalContacts={list.totalContacts} />
+                                    ))}
+                                    
+                                    <ListRow listName={"All Contacts"}
+                                    description={"All Contacts"}
+                                    totalContacts={"0"} />
+                                          </tbody>
                                 </table>
                             </section>
                         </section>

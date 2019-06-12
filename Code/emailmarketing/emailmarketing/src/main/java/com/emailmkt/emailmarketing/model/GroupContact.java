@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Subcriber implements Serializable {
+public class GroupContact implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -24,21 +24,10 @@ public class Subcriber implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Basic
-    @Column(name = "email")
-    private String email;
 
     @Basic
-    @Column(name = "address")
-    private String address;
-
-    @Basic
-    @Column(name = "type")
-    private String type;
-
-    @Basic
-    @Column(name = "tag")
-    private String tag;
+    @Column(name = "description")
+    private String description;
 
     @Basic
     @Column(name = "createdTime")
@@ -47,7 +36,6 @@ public class Subcriber implements Serializable {
     @Basic
     @Column(name = "updatedTime")
     private String updatedTime;
-
     @Basic
     @Column(name = "account_id")
     private String account_id;
@@ -61,8 +49,13 @@ public class Subcriber implements Serializable {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             })
-//            mappedBy = "group_contact_has_subcriber")
-    private Set<GroupContact> groupContacts = new HashSet<>();
+    @JoinTable(name = "group_contact_has_subcriber",
+            joinColumns = { @JoinColumn(name = "group_contact_id") },
+            inverseJoinColumns = { @JoinColumn(name = "subcriber_id") })
+    private Set<Subcriber> subcribers = new HashSet<>();
+
+
+
 
 
 
