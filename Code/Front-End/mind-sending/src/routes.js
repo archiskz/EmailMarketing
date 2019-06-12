@@ -15,7 +15,7 @@ import AddContact from './pages/DashboardPage/ListsComponent/AddContacts';
 import CreateList from './pages/DashboardPage/ListsComponent/CreateList';
 import AddContactsFile from './pages/DashboardPage/ListsComponent/AddContactsFile';
 import NewTemplate from './pages/DashboardPage/TemplatesComponent/NewTemplate';
-
+import CreateContact from './pages/DashboardPage/ContactComponent/CreateContact';
 
 const routes = [
 {
@@ -90,6 +90,11 @@ const routes = [
 },
 {
 	path: '/dashboard/create-list',
+	exact: false,
+	main: () => <CreateList />
+},
+{
+	path: '/dashboard/create-contact',
 	exact: false,
 	main: () => <CreateList />
 },

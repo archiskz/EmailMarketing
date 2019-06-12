@@ -11,32 +11,30 @@ import java.io.Serializable;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Group implements Serializable {
+public class Template implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
+    @Basic
+    @Column(name = "nameTemplate")
+    private String nameTemplate;
 
     @Basic
-    @Column(name = "name")
-    private String name;
-
-
-    @Basic
-    @Column(name = "description")
-    private String description;
+    @Column(name = "type")
+    private String type;
 
     @Basic
-    @Column(name = "createdTime")
-    private String createdTime;
+    @Column(name = "content")
+    private String content;
 
     @Basic
-    @Column(name = "updatedTime")
-    private String updatedTime;
+    @Column(name = "created_time")
+    private String created_time;
 
-
-
-
-
+    @Basic
+    @Column(name = "updated_time")
+    private String updated_time;
 }
+

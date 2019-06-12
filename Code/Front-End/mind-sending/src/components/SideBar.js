@@ -33,6 +33,10 @@ addActiveClass = (index) => {
             this.setState({
                 activeClasses2: !this.state.activeClasses2
                 })
+            case 3:
+            this.setState({
+                activeClasses3: !this.state.activeClasses3
+                })
             return;
         default: return;
         
@@ -129,19 +133,30 @@ addActiveClass = (index) => {
             </li>
 
             {/* END CAMPAIGNS */}
-            <li id="menu-academico">
-                <a href="#"><i className="fa fa-list-ul" aria-hidden="true" />
-                    <span style={{position: 'relative'}}> Short Codes</span> 
+            <li id="menu-academico" className={this.state.activeClasses3 ? "opend" : "closed"} >
+               <a  onClick={() => this.addActiveClass(3)}>
+                    <i className="fa fa-users nav_icon" />
+                    <span style={{position: 'relative'}}>Contact</span>
                     <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
                     <div className="clearfix" />
-                </a>
-                <ul id="menu-academico-sub">
-                    <li id="menu-academico-avaliacoes"><a href="icons.html">Icons</a></li>
-                    <li id="menu-academico-avaliacoes"><a href="typography.html">Typography</a></li>
-                    <li id="menu-academico-avaliacoes"><a href="faq.html">Faq</a></li>
-                </ul>
+                    </a>
+                <Link to="/dashboard/create-contact">
+                    <i className="fa " /> 
+                    <span style={{position: 'relative'}}>Create Contacts</span>
+                    <div className="clearfix" />
+                </Link>
+                <Link to="">
+                    <i className="fa " /> 
+                    <span style={{position: 'relative'}}>Manage Contacts</span>
+                    <div className="clearfix" />
+                </Link>
+                <Link to="">
+                    <i className="fa " /> 
+                    <span style={{position: 'relative'}}>View Contacts</span>
+                    <div className="clearfix" />
+                </Link>
             </li>
-            
+            {/* END CONTACT */}
         </ul>
         </div>
 </div>

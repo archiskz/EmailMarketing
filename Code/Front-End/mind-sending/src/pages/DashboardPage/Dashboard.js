@@ -7,7 +7,7 @@ import Reports from './Reports';
 import SubDashboard from './SubDashboard';
 import AddContact from './ListsComponent/AddContacts';
 import CreateList from './ListsComponent/CreateList';
-
+import CreateContact from './ContactComponent/CreateContact';
 
 import {
   BrowserRouter as Router,
@@ -43,6 +43,7 @@ class DashBoard extends Component {
               <Route path="/dashboard/templates" component={Templates} />
              <Route path="/dashboard/automations" component={Automations} />
              <Route path="/dashboard/create-list" component={CreateList} />
+             <Route path="/dashboard/create-contact" component={CreateContact} />
            </Switch>
            </div>
           
