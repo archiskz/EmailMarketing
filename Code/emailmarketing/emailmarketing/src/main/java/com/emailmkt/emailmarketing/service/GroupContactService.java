@@ -1,6 +1,8 @@
 package com.emailmkt.emailmarketing.service;
 
 import com.emailmkt.emailmarketing.model.GroupContact;
+import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
+import com.emailmkt.emailmarketing.model.Subcriber;
 
 import java.util.List;
 
@@ -20,6 +22,12 @@ public interface GroupContactService {
     GroupContact createNewGroupContact(GroupContact GroupContact);
 
     List<GroupContact> searchByName( String searchValue);
+//
+//    List<Subcriber> findSubcriberByGroupContactId(int groupContactId);
+    Long countTotalContactsByGroupId(String groupContactId);
+    List<GroupContactSubcriber> getAllSubcriber();
+    List<Subcriber> findSubcriberByGroupContactId(String groupContactId);
+
 
 
 }

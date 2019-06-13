@@ -58,11 +58,11 @@ public class Account implements Serializable {
     private int authorityId;
 
     @Basic
-    @Column(name = "createdTime")
+    @Column(name = "created_time")
     private String createdTime;
 
     @Basic
-    @Column(name = "updatedTime")
+    @Column(name = "updated_time")
     private String updatedTime;
 
 
