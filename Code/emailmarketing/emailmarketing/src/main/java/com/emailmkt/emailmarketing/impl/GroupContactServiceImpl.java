@@ -65,9 +65,11 @@ public class GroupContactServiceImpl implements GroupContactService {
     }
 
     @Override
-    public int countTotalGroupContact(int GroupContactId) {
-        return GroupContactRepository.countAllById(GroupContactId);
+    public Long countTotalGroupContacts() {
+        return GroupContactRepository.countTotalGroupContacts();
     }
+
+
 
     @Override
     public GroupContact createNewGroupContact(GroupContact GroupContact) {
