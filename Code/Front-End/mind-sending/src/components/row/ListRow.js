@@ -14,9 +14,10 @@ class ListRow extends Component {
 
       render(){
           return( 
-            <div onClick = {()=> this.toListContact(this.props.contactId)} class="rowt">
+            <div class="rowt">
         <div  class="cellt" data-title="email">
-        {this.props.contactEmail}
+        <a onClick = {()=> this.toListContact(this.props.contactId)} >{this.props.contactEmail}</a>
+        
         </div>
         <div class="cellt" data-title="status">
         {this.props.contactStatus}
