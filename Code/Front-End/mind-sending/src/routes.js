@@ -61,7 +61,7 @@ const routes = [
 {
 	path: '/create-campaign',
 	exact: false,
-	main: () => <CreateCampaign/>
+	main: ({match}) => <CreateCampaign match ={match}/>
 },
 {
 	path: '/dashboard/reports',

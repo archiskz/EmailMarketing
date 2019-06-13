@@ -1,58 +1,37 @@
 import React, {Component} from 'react';
-
-import {connect} from 'react-redux';
-import PreviewModal from '../../../components/modals/PreviewModal';
-import OneTemplate from '../../../components/OneTemplate';
+import Modal from 'react-awesome-modal';
+import OneTemplate from '../../components/OneTemplate';
 import {
   BrowserRouter as Router,
   Route,
   Link
 } from "react-router-dom";
-class Templates extends Component {
+import {connect} from 'react-redux';
+import * as actions from './../../actions/index';
+import Templates from './../../pages/DashboardPage/TemplatesComponent/Templates';
+class ChooseTemplateModal extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      modalIsOpen: false,
-      visible: true,
-      visibleAll: true,
-      visibleCustom: false,
-      visibleMs: false
-    };
-    this.openModal = this.openModal.bind(this);
-    this.afterOpenModal = this.afterOpenModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-  }
-  openModal() {
-    console.log("open now");
-    this.setState({modalIsOpen: true});
-    console.log(this.state.modalIsOpen)
-  }
+        visible : true
+    }
+}
+closePreviewModal=() => {
+  this.props.onCloseModal();
+}
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    this.subtitle.style.color = '#f00';
-  }
-
-  closeModal() {
-    this.setState({modalIsOpen: false});
-  }
-
-
-	
   render(){
-    var { isDisplayModal } = this.props;
-    
      return (
-      
-	  <div className = "" >
-        <div className >
+      <Modal visible={this.props.isDisplayTemplatesList} width="90%" height="96%" effect="fadeInUp" 
+      onClickAway={this.closePreviewModal}>
+            
+            
           <div className="flash_notice">
           </div>
         <div className="container" data-role="main-app-container">
         <div>
   <div data-role="marketing-templates-app" className="container">
-    <div className="templates-list-view listView-css__list-view___1G-eZ">
+    <div className="templates-list-views listView-css__list-view___1G-eZ">
       <header className="row">
                         <div className="col-md-6">
                             <span>
@@ -85,7 +64,31 @@ class Templates extends Component {
         <div className="col-md-6">
         </div>
       </header>
-      <div className="thumbnail-view">
+      <div className="thumbnail-views">
+        <OneTemplate         
+          />
+        <OneTemplate         
+        />
+        <OneTemplate         
+          />
+        <OneTemplate         
+        />
+        <OneTemplate         
+          />
+        <OneTemplate         
+        />
+        <OneTemplate         
+          />
+        <OneTemplate         
+        />
+        <OneTemplate         
+          />
+        <OneTemplate         
+        />
+        <OneTemplate         
+          />
+        <OneTemplate         
+        />
         <OneTemplate         
           />
         <OneTemplate         
@@ -95,7 +98,6 @@ class Templates extends Component {
         <OneTemplate         
         />
           
-        <PreviewModal  isOpen={true}
          />
       </div>
     </div>
@@ -103,22 +105,24 @@ class Templates extends Component {
 </div>
 
         </div>
-        </div>
         
-    </div>
-      );
+    
+        
+  </Modal>
+  );
   }
-
 }
 
 const mapStateToProps = (state) => {
-return {
-  isPreviewOpen: state.models
-}
-};
-const mapDispatchToProps = (dispatch, props) => {
-  return{
-
+  return {
+    isDisplayTemplatesList: state.isDisplayTemplatesList
+  }
   };
-};
-export default connect(mapStateToProps, mapDispatchToProps) (Templates);
+  const mapDispatchToProps = (dispatch, props) => {
+    return{
+        onCloseModal: ()=> {
+          dispatch(actions.closePreviewTemplate())
+        }
+    };
+  };
+  export default connect(mapStateToProps, mapDispatchToProps) (ChooseTemplateModal);

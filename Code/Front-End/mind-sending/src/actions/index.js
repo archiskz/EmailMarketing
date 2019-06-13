@@ -37,3 +37,23 @@ export const closePreviewTemplate = () =>{
 	
 	}
 }
+export const createNewCampaign = (newCampaign) =>{
+	return {
+		type: types.CREATE_NEW_CAMPAIGN,
+		newCampaign
+	
+	}
+}
+export const openTemplatesList = () =>{
+	return {
+		type: types.OPEN_PREVIEW_TEMPLATE,
+	
+	}
+}
+
+export const openAllTemplatesList = () =>{
+	return {
+		type: types.OPEN_TEMPLATES_LIST,
+	
+	}
+}
