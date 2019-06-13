@@ -55,7 +55,7 @@ class CreateContact extends Component {
         <div className="container" data-role="main-app-container">
             <div>
                 <article>
-                    <header className="row">
+                    <header className="contact_row">
                         <div className="col-md-6">
                             <span>
                                 <h1 className="">
