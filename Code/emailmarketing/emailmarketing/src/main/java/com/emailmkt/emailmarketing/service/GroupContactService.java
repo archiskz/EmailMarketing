@@ -15,10 +15,11 @@ public interface GroupContactService {
 
     GroupContact updateGroupContact(GroupContact subcriber);
 
-    int countTotalGroupContact(int GroupContactId);
+    Long countTotalGroupContacts();
 
     GroupContact createNewGroupContact(GroupContact GroupContact);
 
     List<GroupContact> searchByName( String searchValue);
+
 
 }

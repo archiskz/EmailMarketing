@@ -46,8 +46,8 @@ public class GroupContactController {
         return groupContactService.searchByName(searchValue);
     }
     @GetMapping("/groupContact/count")
-    public int countTotalGroup(int id) {
-        return groupContactService.countTotalGroupContact(id);
+    public Long countTotalGroup() {
+        return groupContactService.countTotalGroupContacts();
     }
 
 
