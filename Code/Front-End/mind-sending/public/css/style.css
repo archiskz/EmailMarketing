@@ -22,7 +22,7 @@
     top: 0;
     left: 0;
     bottom: 0;
-    background-color: #333333;
+    background-color: #19222a;
     color: #aaabae;
     box-shadow: 0px 0px 10px 0px rgb(58, 41, 31);
     -o-box-shadow: 0px 0px 10px 0px rgb(58, 41, 31);
@@ -211,7 +211,7 @@ a.sidebar-icon:hover {
     color: #fff;
     white-space: nowrap;
     z-index: 2;
-    background-color: #333333;
+    background-color:#19222a;
     font-size: 15sp;
     font-family: 'Roboto', sans-serif;
     border: none;
@@ -570,6 +570,24 @@ progress-striped .yellow {
     padding-right: 40px !important;
     padding-top: 20px !important;
     padding-bottom: 20px !important;
+   
+}
+.pace-running{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #D7E2EB, #64BCF6,#227093);
+}
+.pace-done{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #D7E2EB, #64BCF6,#227093);
+
+}
+#root {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #D7E2EB, #64BCF6,#227093);
+
 }
 .pageTitle-css__title-heading___3H2vL {
     display: inline-block;
@@ -618,9 +636,9 @@ progress-striped .yellow {
 .btn-create-segment{
 
         cursor: pointer;
-        color: #007bff;
+        color: #000;
         background-color: transparent;
-        border-color: #007bff;
+        border-color: #000;
         display: inline-block;
         font-weight: 400;
         text-align: center;
@@ -630,7 +648,7 @@ progress-striped .yellow {
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        border: 1px solid #007bff;
+        border: 1px solid #000;
         padding: 15px !important;
         font-size: 13px !important;
         line-height: 1.5;
@@ -641,7 +659,7 @@ progress-striped .yellow {
     font-family: Calibri
 }
 .btn-create-segment:hover {
-    background-color: #007bff;
+    background-color: #6c7ae0;
     color: white;
 }
 .btn-cancel:hover {
@@ -1058,7 +1076,7 @@ z-index: 20;
 .segment-filter{
     border-radius: 5px;
     padding-left: 20px;
-    border: 1px solid #d8d8d8;
+    border: 1px solid #000;
     width: 70%;
     margin-left: 20px;
 }
@@ -1085,7 +1103,7 @@ z-index: 20;
 .segment-filter div div div label {
     margin-left: 5px;
     font-weight: 400;
-    color: #7A7B78
+    color: #000
 }
 .open-div{
     visibility: hidden;
@@ -1516,4 +1534,15 @@ textarea.inputContact{
     .rowSelected{
 
     }
+}
+.contact_row{
+        width: 100% !important;
+    margin-bottom: 30px;
+            margin-right: -15px;
+    margin-left: -15px;
+    max-width: 1200px;
+    margin: 0 auto;
+        flex-wrap: wrap;
+            display: inline-block !important;
+            
 }
