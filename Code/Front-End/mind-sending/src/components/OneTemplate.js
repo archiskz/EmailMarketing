@@ -58,7 +58,7 @@ class OneTemplate extends Component {
                 </ul>
               </div>
               <a href="/marketing_campaigns/ui/marketing_templates/16281fff-9e91-45c3-b27f-654b115b3435/preview">
-                Modern Holiday 
+                {this.props.templateName}
               </a>
             </div>          
              <div className="clearfix" />

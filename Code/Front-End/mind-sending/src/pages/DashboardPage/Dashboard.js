@@ -43,7 +43,9 @@ class DashBoard extends Component {
               <Route path="/dashboard/templates" component={Templates} />
              <Route path="/dashboard/automations" component={Automations} />
              <Route path="/dashboard/create-list" component={CreateList} />
-             <Route path="/dashboard/create-contact" component={CreateContact} />
+             <Route path="/dashboard/contacts" render={()=> (<CreateContact title='All Contacts'/>)} />
+             <Route path="/dashboard/contacts/:id" component={CreateContact} />
+             {/* <Route path="/dashboard/lists/:id" render={()=> (</>)} /> */}
            </Switch>
            </div>
           

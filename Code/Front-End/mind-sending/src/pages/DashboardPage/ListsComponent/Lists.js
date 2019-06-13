@@ -1,40 +1,38 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 import ListRow from './../../../components/row/ListRow';
+import Modal from 'react-awesome-modal';
 
 class Lists extends Component {
    constructor(props) {
      super(props);
 
      this.state = {
+         newList:{
+            name: "",
+            description: ""
+         },
+        createListVisible: false,
+         groupContacts: [{}],
        visible: true,
        dropdown_visible: false,
+       
      };
+     this.handleChange1 = this.handleChange1.bind(this);
+     this.handleChange2 = this.handleChange2.bind(this);
    }
+
    onToggleDropdown = () => {
      this.setState({
        dropdown_visible: !this.state.dropdown_visible
      })
    }
-//    componentDidMount(){
-//     axios.get(`https://jsonplaceholder.typicode.com/users`)
-//     .then(res => {
-//       const persons = res.data;
-//       this.setState({ persons });
-//     })
-//    }
-
-  
-
-
-	
+   componentDidMount(){
+     this.getAllListContact();
+   }	
   render(){
-    var lists = [
-        {listName:'All Contact', description:'List All Contact', totalContacts:'10'},
-        {listName:'Abc', description:'List ads', totalContacts:'3'},
-        {listName:'10/2', description:'List asd', totalContacts:'7'},
-        {listName:'hello', description:'List has', totalContacts:'9'}
-    ];
+    var lists = this.state.groupContacts;
      return (
 	  <div className = "" >
    <div className="flash_notice">
@@ -54,6 +52,12 @@ class Lists extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
+
+                                <a onClick={()=>this.openModal()} icon="segment" className="btn-create-segment" >
+                                    <i className="sg-icon sg-icon-segment"></i>
+                                    Create List
+                                </a>
+
                                 <Link icon="segment" className="btn-create-segment" to="/dashboard/create-list">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create Segment
@@ -110,29 +114,35 @@ class Lists extends Component {
 
                                         </div>
                                     </div>
-                                <table className="table-wrap has-checkboxes segment-conditions">
-                                    <thead>
-                                        <tr>
-                                            <th>Lists</th>
-                                            <th>Description</th>
-                                            <th>Contacts</th>
-                                            <th className="actions">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                               
+                            
+                                <div class="tablet">
+
+                                    <div class="rowt headert">
+                                        <div class="cellt">
+                                        List Name
+                                        </div>
+                                        <div class="cellt">
+                                            Description
+                                        </div>
+                                        <div class="cellt">
+                                            Contacts
+                                        </div>
+                                        <div class="cellt">
+                                            Actions
+                                        </div>
+                                    </div>
                                     {lists.map(list=>(
                                         <ListRow
                                         key={list.index}
-                                         listName={list.listName}
-                                    description={list.description}
-                                    totalContacts={list.totalContacts} />
+                                        contactId={list.id}
+                                         contactEmail={list.name}
+                                    contactStatus={list.description}
+                                    contactDateAdded={list.totalContacts} />
                                     ))}
-                                    
-                                    <ListRow listName={"All Contacts"}
-                                    description={"All Contacts"}
-                                    totalContacts={"0"} />
-                                          </tbody>
-                                </table>
+
+                                    </div>
+                            
                             </section>
                         </section>
                         <section className="loading-status-container">
@@ -143,9 +153,90 @@ class Lists extends Component {
             </article>
         </div>
     </div>
-  
+  {/* MODAL */}
+                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createListVisible} width="400" height="400" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    
+                    <div class="header-top-template" >Create List</div>
+                    
+                        <h4 style={{"textAlign": "left", "marginTop": "30px", "marginLeft":"20px"}}>
+                        List Name
+                    </h4>
+                    <form>
+                    <input value={this.state.newList.name} onChange={this.handleChange1} required className="name ml10" type="text" />
+                    <h4 style={{"textAlign": "left", "marginTop": "30px", "marginLeft":"20px"}}>
+                        List Description
+                    </h4>
+                    <input value={this.state.newList.description} onChange={this.handleChange2} required className="description ml10" type="text" />
+                    <div style={{"width":"100%"}}>
+                                <a onClick={()=>this.saveNewList()} icon="segment" type="submit" className="btn-save btn-create-segment" >
+                                    Create
+                                </a>
+
+                                <a icon="segment" className="btn-cancel btn-create-segment" onClick={()=>this.closeModal()}>
+                                    Cancel
+                                </a>
+                    </div>
+                    
+                    </form>
+                </Modal>
+    
+{/* END MODAAL */}
     </div>
       );
+  }
+  
+
+  getAllListContact=()=>{
+    axios.get("http://45.77.172.104:8080/api/groupContacts",{
+    })
+    .then(res => {
+      const listContacts = res.data;
+      console.log(listContacts);
+      this.setState({groupContacts:listContacts})
+    })
+  }
+
+  saveNewList(){
+console.log(this.state.newList);
+    axios.post("http://45.77.172.104:8080/api/groupContact/create", this.state.newList)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+
+  handleChange1=(event)=> {
+      var name = event.target.value;
+    this.setState({
+        newList: {
+            name: name,
+            description: this.state.newList.description
+        }
+    });
+}
+handleChange2=(event)=> {
+    var desc = event.target.value
+    this.setState({
+        newList: {
+            name: this.state.newList.name ,
+            description: desc
+        }
+    });
+}
+
+  openModal() {
+    this.setState({
+        createListVisible : true
+    });
+  }
+  
+  closeModal() {
+    this.setState({
+        createListVisible : false
+    });
   }
 
 }
