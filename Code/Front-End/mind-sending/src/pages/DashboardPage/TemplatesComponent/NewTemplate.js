@@ -7,29 +7,61 @@ import sample from './../../../sample.json';
 import TemplateNameModal from './../../../components/modals/TemplateNameModal';
 import * as actions from './../../../actions/index';
 import Modal from 'react-awesome-modal';
+import axios from 'axios';
 
 class NewTemplate extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      content: {
+        "counters":{"u_column":2,"u_row":2,"u_content_html":1},"body":{"rows":[{"cells":[1],"columns":[{"contents":[],"values":{"backgroundColor":"","padding":"0px","border":{},"_meta":{"htmlID":"u_column_2","htmlClassNames":"u_column"}}}],"values":{"columns":false,"backgroundColor":"","columnsBackgroundColor":"","backgroundImage":{"url":"","fullWidth":true,"repeat":false,"center":true,"cover":false},"padding":"0px","hideMobile":false,"noStackMobile":false,"_meta":{"htmlID":"u_row_2","htmlClassNames":"u_row"},"selectable":true,"draggable":true,"deletable":true}},{"cells":[1],"columns":[{"contents":[{"type":"html","values":{"containerPadding":"10px","_meta":{"htmlID":"u_content_html_1","htmlClassNames":"u_content_html"},"selectable":true,"draggable":true,"deletable":true,"html":"<div data-role=\"module-unsubscribe\" class=\"module unsubscribe-css__unsubscribe___2CDlR\" role=\"module\" data-type=\"unsubscribe\" style=\"color: rgb(68, 68, 68); font-size: 12px; line-height: 20px; padding: 16px; text-align: center;\"><div class=\"Unsubscribe--addressLine\"><p class=\"Unsubscribe--senderName\" style=\"font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 20px;\">[Sender_Name]</p><p style=\"font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 20px;\"><span class=\"Unsubscribe--senderAddress\">[Sender_Address]</span>, <span class=\"Unsubscribe--senderCity\">[Sender_City]</span>, <span class=\"Unsubscribe--senderState\">[Sender_State]</span> <span class=\"Unsubscribe--senderZip\">[Sender_Zip]</span> </p></div><p style=\"font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 20px;\"><a class=\"Unsubscribe--unsubscribeLink\" href=\"#\">Unsubscribe</a> - <a class=\"Unsubscribe--unsubscribePreferences\" href=\"#\">Unsubscribe Preferences</a></p></div>"}}],"values":{"backgroundColor":"","padding":"0px","border":{},"_meta":{"htmlID":"u_column_1","htmlClassNames":"u_column"}}}],"values":{"columns":false,"backgroundColor":"","columnsBackgroundColor":"","backgroundImage":{"url":"","fullWidth":true,"repeat":false,"center":true,"cover":false},"padding":"0px","hideMobile":false,"noStackMobile":false,"_meta":{"htmlID":"u_row_1","htmlClassNames":"u_row"},"selectable":true,"draggable":true,"deletable":true}}],"values":{"backgroundColor":"#e7e7e7","backgroundImage":{"url":"","fullWidth":true,"repeat":false,"center":true,"cover":false},"contentWidth":"500px","fontFamily":{"label":"Arial","value":"arial,helvetica,sans-serif"},"_meta":{"htmlID":"u_body","htmlClassNames":"u_body"}}}
+      },
+      
+      templates:[
+        {
+            id: 1,
+            nameTemplate: "",
+            type: "",
+            content: "", 
+            created_time: null,
+            updated_time: null
+        }
+        
+    ],
       html: "",
       visible: false,
     };
   }
+
+  componentDidMount(){
+    axios.get("http://45.77.172.104:8080/api/template",{
+    })
+    .then(res => {
+      // console.log(res.data);
+      this.setState({templates: res.data});
+      
+      var a = this.state.templates;
+      let obj = a.find(obj => obj.id == 2);
+      this.setState({
+        content: obj.content
+      })
+      console.log(this.state.content)
+    }) 
+   }	
    
   render(){
+    
      return (
       <div>
        <div className="fullscreen"></div>
 
-      {/* <div>
+      <div>
         <button onClick={this.exportHtml}>Export HTML</button>
       </div>
       <div>
         <button onClick={this.onLoad}>Load HTML</button>
       </div> 
-      <div>{this.state.html}</div> */}
 
       
    
@@ -99,11 +131,6 @@ class NewTemplate extends Component {
             `,
             
           ],
-          customJS: [
-            `
-              console.log('I am custom JS!');
-            `
-          ]
         }}
       minHeight="780px"
         ref={editor => this.editor = editor}
@@ -116,9 +143,9 @@ class NewTemplate extends Component {
 
   
   onLoad = () => {
-    console.log(sample)
+    // console.log(sample)
     // this.editor.addEventListener('onDesignLoad', this.onDesignLoad)
-    this.editor.loadDesign(sample)
+    this.editor.loadDesign(this.state.content)
 }
 
 

@@ -61,7 +61,7 @@ const routes = [
 {
 	path: '/create-campaign',
 	exact: false,
-	main: ({match}) => <CreateCampaign match ={match}/>
+	main: ({match}) => <CreateCampaign/>
 },
 {
 	path: '/dashboard/reports',
@@ -78,11 +78,7 @@ const routes = [
 	exact: false,
 	main: () => <Profile / >
 },
-{
-	path: '/dashboard/add-contacts',
-	exact: false,
-	main: () => <AddContact />
-},
+
 {
 	path: '/dashboard/add-contacts-file',
 	exact: false,
@@ -94,15 +90,20 @@ const routes = [
 	main: () => <CreateList />
 },
 {
-	path: '/dashboard/create-contact',
+	path: '/dashboard/contacts/',
 	exact: false,
-	main: () => <CreateList />
+	main: () => <CreateContact  title={'All Contacts'} />
 },
 {
 	path: '/new-template',
 	exact: false,
 	main: () => <NewTemplate />
-}
+},
+{/* {
+	path: '/dashboard/contacts/:id',
+	exact: false,
+	main: () => <CreateContact  title={'All Contacts'} />
+} */}
 ]
 
 export default routes;

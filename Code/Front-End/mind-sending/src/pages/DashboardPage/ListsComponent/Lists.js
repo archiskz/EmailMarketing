@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 import ListRow from './../../../components/row/ListRow';
 
 class Lists extends Component {
@@ -7,34 +8,28 @@ class Lists extends Component {
      super(props);
 
      this.state = {
+         groupContacts: [{}],
        visible: true,
        dropdown_visible: false,
      };
    }
+
    onToggleDropdown = () => {
      this.setState({
        dropdown_visible: !this.state.dropdown_visible
      })
    }
-//    componentDidMount(){
-//     axios.get(`https://jsonplaceholder.typicode.com/users`)
-//     .then(res => {
-//       const persons = res.data;
-//       this.setState({ persons });
-//     })
-//    }
-
-  
-
-
-	
+   componentDidMount(){
+    axios.get("http://45.77.172.104:8080/api/groupContacts",{
+    })
+    .then(res => {
+      const listContacts = res.data;
+      console.log(listContacts);
+      this.setState({groupContacts:listContacts})
+    }) 
+   }	
   render(){
-    var lists = [
-        {listName:'All Contact', description:'List All Contact', totalContacts:'10'},
-        {listName:'Abc', description:'List ads', totalContacts:'3'},
-        {listName:'10/2', description:'List asd', totalContacts:'7'},
-        {listName:'hello', description:'List has', totalContacts:'9'}
-    ];
+    var lists = this.state.groupContacts;
      return (
 	  <div className = "" >
    <div className="flash_notice">
@@ -110,29 +105,35 @@ class Lists extends Component {
 
                                         </div>
                                     </div>
-                                <table className="table-wrap has-checkboxes segment-conditions">
-                                    <thead>
-                                        <tr>
-                                            <th>Lists</th>
-                                            <th>Description</th>
-                                            <th>Contacts</th>
-                                            <th className="actions">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                               
+                            
+                                <div class="tablet">
+
+                                    <div class="rowt headert">
+                                        <div class="cellt">
+                                        List Name
+                                        </div>
+                                        <div class="cellt">
+                                            Description
+                                        </div>
+                                        <div class="cellt">
+                                            Contacts
+                                        </div>
+                                        <div class="cellt">
+                                            Actions
+                                        </div>
+                                    </div>
                                     {lists.map(list=>(
                                         <ListRow
                                         key={list.index}
-                                         listName={list.listName}
-                                    description={list.description}
-                                    totalContacts={list.totalContacts} />
+                                        contactId={list.id}
+                                         contactEmail={list.name}
+                                    contactStatus={list.description}
+                                    contactDateAdded={list.totalContacts} />
                                     ))}
-                                    
-                                    <ListRow listName={"All Contacts"}
-                                    description={"All Contacts"}
-                                    totalContacts={"0"} />
-                                          </tbody>
-                                </table>
+
+                                    </div>
+                            
                             </section>
                         </section>
                         <section className="loading-status-container">

@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import { withRouter } from "react-router";
+import axios from 'axios';
+import ContactRow from './../../../components/row/ContactRow';
 
 class CreateContact extends Component {
    constructor(props) {
      super(props);
 
      this.state = {
+        //  title: match.params.id,
+         listAccounts:[{ id: "", name: "", email: "",address:"",createdTime:""}],
        visible: true,
        dropdown_visible: false,
      };
@@ -15,23 +21,46 @@ class CreateContact extends Component {
      })
    }
 
+   componentDidMount(){
+    
+    // console.log(this.props.history.location.state);
+
+    console.log("props:" + this.props);
+    axios.get("http://45.77.172.104:8080/api/subcriber",{
+        params: {
+            account_id: 1
+        }
+    })
+    .then(res => {
+      const listAccounts = res.data;
+    //   console.log(listAccounts);
+      this.setState({listAccounts:listAccounts})
+      
+    })
+
+    // const { myKey } = this.props.match.params.id
+    // console.log(myKey)
+   }
+
+  
+
 
 	
   render(){
+    var lists = this.state.listAccounts;
      return (
 	  <div className = "" >
-        <div class="flash_notice">
+   <div className="flash_notice">
         </div>
-        <div class="container" data-role="main-app-container">
-        <div>
-          <article>
-
-          <header className="row">
+        <div className="container" data-role="main-app-container">
+            <div>
+                <article>
+                    <header className="row">
                         <div className="col-md-6">
                             <span>
                                 <h1 className="">
-                                    <span style={{"font-family": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">
-                                    Create New Contact
+                                    <span className="pageTitle-css__title-heading___3H2vL">{this.props.title}
+                                   
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
@@ -39,107 +68,109 @@ class CreateContact extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <a style={{"width": "150px"}} icon="segment" className="btn-create-segment" href="/marketing_campaigns/ui/contacts/segment">
+                                {/* <Link icon="segment" className="btn-create-segment" to="/dashboard/create-list">
                                     <i className="sg-icon sg-icon-segment"></i>
-                                    Save Contact
-                                </a>
+                                    Create Segment
+                                </Link> */}
+                                
+                                <div onClick={this.onToggleDropdown} className="btn-create-segment" data-dropdown-toggle="true" data-role="bulk-actions-toggle">
+                                    <i className="fa fa-users"></i>
+                                    Add Contacts
+                                    <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
+                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
+                                            <i className="sg-icon sg-icon-csv"></i>
+                                            <span>Upload CSV</span>
+                                        </Link>
+                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts" className="dropdown-link dropdown-link-with-icon" >
+                                            <i className="sg-icon sg-icon-contacts-alt"></i>
+                                            <span>Manual Add</span>
+                                        </Link>
+                                    </ul>
+                                </div>
                             </nav>
                         </div>
                     </header>
-            <div className="row">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <article data-role="segment-builder">
-                  <div className="segment-builder-form-wrapper">
-                    <p>
-                      When you bring all your contacts into MindSending, we’ll make them engage with you as long as you want.
-                    </p>
-                    <br/>
-                    <br/>
-                    
                     <section className="row">
-                    
-                     
-                    <div className="col-md-4">
-                            <div className="input-select-wrap is-required">
-                              
-                              <label
-                                className="input-select-label"
-                                htmlFor="select2-operator-07"
-                              >
-                                Search By
-                                <div className="input-info-tooltip select2-css__select-2-tooltip___3jy71" />
-                              </label>
-                              
-                              <br/>
-                              <div className="search">
-                              <select className="inputContact" id="select2-operator-07" name="operator-0" data-index={0} tabIndex={-1} aria-hidden="true">
-                                <option value="eq">First Name</option>
-                                <option value="ne">Last Name</option>
-                                <option value="qq">
-                                  Email
-                               
-                                </option>
-                              </select>
-                              <button type="submit" className="searchButton">
+                        <div className="col-md-3">
+                            <section>
+                                <div className="wrap">
+                                    <div className="search">
+                                        <input type="text" className="searchTerm" placeholder="Search by email address"/>
+                                        <button type="submit" className="searchButton">
                                             <i className="fa fa-search"></i>
                                         </button>
-                                        </div>
-                                <div />
-                            </div>
-                          </div>
-                              
-                        </section>
-                    {/* Condition */}
-                    <br/>
-                    <br/>
-                    <br/>
-                    <span className="title-h3">
-                    Contact Info
-                </span>
-                    <div className="segment-conditions mt25">
-                      <div>
-                        <div className="row">
-                          <div className="col-md-4">
-                            <div className="input-select-wrap is-required">
-                              <label className="input-select-label">First Name</label>
-                                <input type="text" className="inputContact" placeholder=""/>         
-                              <div className="input-info-tooltip" />
-                            </div>
-                          </div>
-                          
-                          <div className="col-md-4">
-                            <div className="input-select-wrap is-required">
-                              <label className="input-select-label">Last Name</label>
-                                <input type="text" className="inputContact" placeholder=""/>         
-                              <div className="input-info-tooltip" />
-                            </div>
-                          </div>
-                          <div className="col-md-4">
-                            <div className="input-select-wrap is-required">
-                              <label className="input-select-label">Email</label>
-                                <input type="text" className="inputContact" placeholder=""/>         
-                              <div className="input-info-tooltip" />
-                            </div>
-                          </div>
-                          <div className="col-md-1" />
+                                    </div>
+                                </div>
+                            </section>
                         </div>
+                    </section>
+                    <section>
+                        <div className="infinitelyScrollable-css__container___pDiPC" data-infinitely-scrollable="true">
+                            <section className="items-collection-container">
+                                <section>
+                                    <div>
+                                        <div className="sg-modal " data-modal="true">
 
-                      </div>
+                                        </div>
+                                        <div className="modal-mask ">
 
-                      <div data-role="add" className="btn-create-segment mt25">
-                         + Add More Contact  
-                      </div>
-                    </div> 
-                  </div>
-                </article>
-              </div>
-            </div>
-          </article>
-</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="sg-modal " data-modal="true">
+
+                                        </div>
+                                        <div className="modal-mask ">
+
+                                        </div>
+                                    </div>
+
+
+                          <div class="tablet">
+
+                                <div class="rowt headert">
+                                    <div class="cellt">
+                                        Email Address
+                                    </div>
+                                    <div class="cellt">
+                                        Status
+                                    </div>
+                                    <div class="cellt">
+                                        Date Added
+                                    </div>
+                                    <div class="cellt">
+                                        Actions
+                                    </div>
+                                </div>
+                                {lists.map(list=>(
+                                        <ContactRow
+                                        key={list.index}
+                                         contactEmail={list.email}
+                                        
+                                         contactDateAdded={list.createdTime}
+                                         
+                                          />
+                                    ))}
+                                
+                                </div>
+
+
+
+
+                            </section>
+                        </section>
+                        <section className="loading-status-container">
+                        
+                        </section>
+                    </div>
+                </section>
+            </article>
         </div>
+    </div>
+  
     </div>
       );
   }
 
 }
-export default CreateContact;
+export default withRouter(CreateContact);

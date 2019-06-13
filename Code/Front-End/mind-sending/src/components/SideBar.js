@@ -12,6 +12,7 @@ constructor(props) {
         activeClasses0: false,
         activeClasses1: false,
         activeClasses2: false,
+        activeClasses3: false,
     };
      this.addActiveClass = this.addActiveClass.bind(this);
 
@@ -33,6 +34,7 @@ addActiveClass = (index) => {
             this.setState({
                 activeClasses2: !this.state.activeClasses2
                 })
+                return;
             case 3:
             this.setState({
                 activeClasses3: !this.state.activeClasses3
@@ -140,9 +142,9 @@ addActiveClass = (index) => {
                     <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
                     <div className="clearfix" />
                     </a>
-                <Link to="/dashboard/create-contact">
+                <Link to="/dashboard/contacts">
                     <i className="fa " /> 
-                    <span style={{position: 'relative'}}>Create Contacts</span>
+                    <span style={{position: 'relative'}}>View Contacts</span>
                     <div className="clearfix" />
                 </Link>
                 <Link to="">
