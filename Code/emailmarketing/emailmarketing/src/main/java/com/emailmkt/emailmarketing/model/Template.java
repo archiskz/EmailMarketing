@@ -18,7 +18,7 @@ public class Template implements Serializable {
     private int id;
 
     @Basic
-    @Column(name = "nameTemplate")
+    @Column(name = "name")
     private String nameTemplate;
 
     @Basic

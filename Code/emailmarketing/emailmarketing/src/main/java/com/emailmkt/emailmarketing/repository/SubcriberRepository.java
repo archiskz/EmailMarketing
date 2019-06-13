@@ -16,10 +16,10 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 //    List<Account> findAllByauthorityIdGreaterThanEqual(int authority_id);
 //
 //
+@Query("SELECT su FROM Subcriber su WHERE " +
+        "(LOWER(su.name) like %:searchValue% or su.email like %:searchValue%) " )
+List<Subcriber> searchByEmailAndName(@Param("searchValue") String searchValue);
 //
-     @Query("SELECT su FROM Subcriber su WHERE " +
-             "(LOWER(su.name) like %:searchValue% or su.email like %:searchValue%) " )
-     List<Subcriber> searchByEmailAndName(@Param("searchValue") String searchValue);
 
      Subcriber findSubcriberById(Integer id);
      List<Subcriber>findSubcriberByAccount_id(Integer id);

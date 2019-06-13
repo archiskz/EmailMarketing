@@ -32,10 +32,10 @@ public class TemplateController {
         return templateService.getAllTemplates();
     }
 
-    @PostMapping("/template/search/{searchValue}")
-    public List<Template> searchByNameOrType(@PathVariable(value = "searchValue") String searchValue) {
-        return templateService.searchByNameorType(searchValue);
-    }
+//    @PostMapping("/template/search/{searchValue}")
+//    public List<Template> searchByNameOrType(@PathVariable(value = "searchValue") String searchValue) {
+//        return templateService.searchByNameorType(searchValue);
+//    }
 
     @GetMapping("getAllTemplatesByType")
     public List<Template> getAllTemplatesByType(@RequestParam(value = "type") String type) {

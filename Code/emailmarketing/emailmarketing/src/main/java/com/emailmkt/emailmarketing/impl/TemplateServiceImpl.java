@@ -50,9 +50,9 @@ public class TemplateServiceImpl implements TemplateService {
         return null;
     }
 
-    @Override
-    public List<Template> searchByNameorType(String searchValue) {
-        return templateRepository.searchByNameorType(searchValue);
-    }
+//    @Override
+//    public List<Template> searchByNameorType(String searchValue) {
+//        return templateRepository.searchByNameorType(searchValue);
+//    }
 
 }

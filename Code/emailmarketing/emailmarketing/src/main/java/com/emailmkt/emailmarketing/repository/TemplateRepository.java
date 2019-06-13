@@ -2,6 +2,8 @@ package com.emailmkt.emailmarketing.repository;
 import com.emailmkt.emailmarketing.model.Template;
 import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +16,8 @@ public interface TemplateRepository extends JpaRepository<Template, Integer> {
 
     List<Template> findAll();
 
-    List<Template> searchByNameorType(String searchValue);
-
+//    @Query("SELECT tem FROM Template tem WHERE " +
+//            "(LOWER(tem.name) like %:searchValue%) " )
+//    List<Template> searchByNameorType(@Param("searchValue") String searchValue);
     Template findByNameTemplate(java.lang.String nameTemplate);
 }
