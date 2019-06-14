@@ -34,6 +34,11 @@ public class GroupContactController {
         return groupContactService.getAllGroupContacts();
     }
 
+    @GetMapping("/groupContact/contactById")
+    public GroupContact getGroupById(@RequestParam(value = "id") int id) {
+        return groupContactService.getGroupById(id);
+    }
+
     @GetMapping("/groupContacts/subcribers")
     public List<GroupContactSubcriber> getAllSubcribers() {
         return groupContactService.getAllSubcriber();
@@ -58,11 +63,11 @@ public class GroupContactController {
         return groupContactService.countTotalGroupContacts();
     }
 
-    @GetMapping("/groupContact/countContact/{id}")
+    @PostMapping("/groupContact/countContact/{id}")
     public Long countTotalContactsByGroupId(@PathVariable(value = "id") String id) {
         return groupContactService.countTotalContactsByGroupId(id);
     }
-    @GetMapping("/groupContact={id}/contacts")
+    @PostMapping("/groupContact={id}/contacts")
     public List<Subcriber> findSubcriberByGroupContactId(@PathVariable(value = "id") String id) {
         System.out.println("Tới đây chưa ?");
         return groupContactService.findSubcriberByGroupContactId(id);

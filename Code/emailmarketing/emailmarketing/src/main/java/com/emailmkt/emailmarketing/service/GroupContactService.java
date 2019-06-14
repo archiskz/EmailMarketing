@@ -14,6 +14,7 @@ public interface GroupContactService {
     GroupContact editGroupContact(GroupContact GroupContact);
 
     GroupContact getGroupContactByName(String name);
+    GroupContact getGroupById(int id);
 
     GroupContact updateGroupContact(GroupContact subcriber);
 
