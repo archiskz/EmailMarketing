@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import ListRow from './../../../components/row/ListRow';
 import Modal from 'react-awesome-modal';
+import * as Config from './../../../constants/Config';
 
 class Lists extends Component {
    constructor(props) {
@@ -168,7 +169,7 @@ class Lists extends Component {
   
 
   getAllListContact=()=>{
-    axios.get("http://192.168.100.106:8080/api/groupContacts",{
+    axios.get(`${Config.API_URL}groupContacts`,{
     })
     .then(res => {
       const listContacts = res.data;
@@ -179,7 +180,7 @@ class Lists extends Component {
 
   saveNewList(){
 console.log(this.state.newList);
-    axios.post("http://192.168.100.106:8080/api/groupContact/create", this.state.newList)
+    axios.post(`${Config.API_URL}groupContact/create`, this.state.newList)
       .then(function (response) {
         console.log(response);
       })

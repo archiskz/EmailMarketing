@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import { withRouter } from "react-router";
 import axios from 'axios';
 import ContactRow from './../../../components/row/ContactRow';
+import * as Config from './../../../constants/Config';
 
 class CreateContact extends Component {
    constructor(props) {
@@ -30,16 +31,15 @@ class CreateContact extends Component {
     // console.log("props:" + this.props);
     // console.log(`http://192.168.100.106:8080/api/groupContact=1/contacts`);
     const id = this.props.history.location.state;
-    console.log("id: " + id)
     if(this.props.history.location.state != null){ 
-        axios.post(`http://192.168.100.106:8080/api/groupContact=${this.props.history.location.state}/contacts`,)
+        axios.post(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`,)
         .then(res => {
             
             // console.log(res.data);
           const listAccounts = res.data;
         //   console.log(listAccounts);
           this.setState({listAccounts:listAccounts})
-                    axios.get(`http://192.168.100.106:8080/api/groupContact/contactById?id=${id}`,)
+                    axios.get(`${Config.API_URL}groupContact/contactById?id=${id}`,)
                     .then(response => {
                        
                         console.log(response.data)
@@ -54,7 +54,7 @@ class CreateContact extends Component {
         
 
     } else {
-        axios.get("http://45.77.172.104:8080/api/subcriber",{
+        axios.get(`${Config.API_URL}subcriber`,{
         params: {
             account_id: 1
         }
