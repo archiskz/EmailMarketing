@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -41,11 +42,11 @@ public class Subcriber implements Serializable {
     private String tag;
 
     @Basic
-    @Column(name = "createdTime")
+    @Column(name = "created_time")
     private String createdTime;
 
     @Basic
-    @Column(name = "updatedTime")
+    @Column(name = "updated_time")
     private String updatedTime;
 
     @Basic
@@ -56,13 +57,17 @@ public class Subcriber implements Serializable {
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-//            mappedBy = "group_contact_has_subcriber")
-    private Set<GroupContact> groupContacts = new HashSet<>();
+    @OneToMany(mappedBy = "subcriber",cascade = CascadeType.ALL)
+    private List<GroupContactSubcriber> groupContactSubcribers;
+
+
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            })
+////            mappedBy = "group_contact_has_subcriber")
+//    private Set<GroupContact> groupContact = new HashSet<>();
 
 
 

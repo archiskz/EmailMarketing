@@ -2,6 +2,8 @@ package com.emailmkt.emailmarketing.controller;
 
 
 import com.emailmkt.emailmarketing.model.GroupContact;
+import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
+import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.service.GroupContactService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +28,23 @@ public class GroupContactController {
     GroupContactService groupContactService;
 
 
+
     @GetMapping("/groupContacts")
     public List<GroupContact> getAllGroups() {
         return groupContactService.getAllGroupContacts();
     }
 
-    @PostMapping("groupContact/create")
+    @GetMapping("/groupContact/contactById")
+    public GroupContact getGroupById(@RequestParam(value = "id") int id) {
+        return groupContactService.getGroupById(id);
+    }
+
+    @GetMapping("/groupContacts/subcribers")
+    public List<GroupContactSubcriber> getAllSubcribers() {
+        return groupContactService.getAllSubcriber();
+    }
+
+    @PostMapping("/groupContact/create")
     public ResponseEntity createGroupContact(@RequestBody GroupContact groupContact) {
         boolean flag = groupContactService.createGroupContact(groupContact);
         if (flag == false) {
@@ -49,6 +62,19 @@ public class GroupContactController {
     public Long countTotalGroup() {
         return groupContactService.countTotalGroupContacts();
     }
+
+    @PostMapping("/groupContact/countContact/{id}")
+    public Long countTotalContactsByGroupId(@PathVariable(value = "id") String id) {
+        return groupContactService.countTotalContactsByGroupId(id);
+    }
+    @PostMapping("/groupContact={id}/contacts")
+    public List<Subcriber> findSubcriberByGroupContactId(@PathVariable(value = "id") String id) {
+        System.out.println("Tới đây chưa ?");
+        return groupContactService.findSubcriberByGroupContactId(id);
+    }
+
+
+
 
 
 

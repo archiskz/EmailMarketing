@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.controller;
 
+import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.service.AccountService;
@@ -35,8 +36,8 @@ public class SubcriberController {
     }
 
     @PostMapping("subcriber/create")
-    public ResponseEntity createSubcriber(@RequestBody Subcriber subcriber) {
-        boolean flag = subcriberService.createSubcrbier(subcriber);
+    public ResponseEntity createSubcriber(@RequestBody SubcriberDTO dto) {
+        boolean flag = subcriberService.createSubcrbier(dto);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Email đã tồn tại vui lòng thêm email khác");
         }
