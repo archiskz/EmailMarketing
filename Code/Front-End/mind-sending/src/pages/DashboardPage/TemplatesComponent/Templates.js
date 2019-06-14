@@ -80,7 +80,7 @@ class Templates extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <Link icon="segment" className="btn-create-segment" to="/new-template">
+                                <Link icon="segment" className="button button-primary button-big" to="/new-template">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create New Template
                                 </Link>

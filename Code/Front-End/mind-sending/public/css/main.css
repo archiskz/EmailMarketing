@@ -121,10 +121,7 @@ ul, li {
 
 
 /*---------------------------------------------*/
-input {
-	outline: none;
-	border: none;
-}
+
 
 textarea {
   outline: none;
@@ -995,17 +992,7 @@ input[type="date" i] {
 /* ==========================================================================
    #FORM
    ========================================================================== */
-input {
-  outline: none;
-  margin: 0;
-  border: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  width: 100%;
-  font-size: 14px;
-  font-family: inherit;
-}
+
 
 .input-icon {
   position: absolute;
@@ -2161,31 +2148,7 @@ fieldset {
   border: none;
 }
 
-input[type="email"],
-input[type="number"],
-input[type="search"],
-input[type="text"],
-input[type="tel"],
-input[type="url"],
-input[type="password"],
-textarea,
-select {
-  display: block;
-  height: 6.4rem;
-  padding: 1.5rem 24px 1.5rem;
-  border: 0;
-  outline: none;
-  color: rgba(0, 0, 0, 0.7);
-  font-family: "IBM Plex Sans", sans-serif;
-  font-size: 1.6rem;
-  line-height: 3.2rem;
-  max-width: 100%;
-  background-color: rgba(0, 0, 0, 0.1);
-  border: 1px solid transparent;
-  border-radius: 5px;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
+
 
 .cl-custom-select {
   position: relative;
@@ -2245,19 +2208,6 @@ textarea {
   min-height: 25.6rem;
 }
 
-input[type="email"]:focus,
-input[type="number"]:focus,
-input[type="search"]:focus,
-input[type="text"]:focus,
-input[type="tel"]:focus,
-input[type="url"]:focus,
-input[type="password"]:focus,
-textarea:focus,
-select:focus {
-  color: #000000;
-  box-shadow: 0 0 5px rgba(0, 166, 80, 0.8);
-  border: 1px solid #00a650;
-}
 
 label,
 legend {
@@ -2270,10 +2220,6 @@ legend {
   display: block;
 }
 
-input[type="checkbox"],
-input[type="radio"] {
-  display: inline;
-}
 
 label > .label-text {
   display: inline-block;
@@ -2356,48 +2302,6 @@ select:-webkit-autofill:focus {
  * # buttons
  *
  * ------------------------------------------------------------------- */
-.btn,
-button,
-input[type="submit"],
-input[type="reset"],
-input[type="button"] {
-  display: inline-block;
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 700;
-  font-size: 1.5rem;
-  text-transform: uppercase;
-  letter-spacing: .4rem;
-  height: 6rem;
-  line-height: 5.6rem;
-  padding: 0 3.2rem;
-  margin: 0 .4rem 1.6rem 0;
-  border-radius: 5px;
-  color: #000000;
-  text-decoration: none;
-  text-align: center;
-  white-space: nowrap;
-  cursor: pointer;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  background-color: #c5c5c5;
-  border: .2rem solid #c5c5c5;
-}
-
-.btn:hover,
-button:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover,
-input[type="button"]:hover,
-.btn:focus,
-button:focus,
-input[type="submit"]:focus,
-input[type="reset"]:focus,
-input[type="button"]:focus {
-  background-color: #b8b8b8;
-  border-color: #b8b8b8;
-  color: #000000;
-  outline: 0;
-}
 
 /* button primary
  * ------------------------------------------------- */
