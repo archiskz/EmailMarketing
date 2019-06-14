@@ -24,11 +24,11 @@
     bottom: 0;
     background-color: #19222a;
     color: #aaabae;
-    box-shadow: 0px 0px 10px 0px rgb(58, 41, 31);
+    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2) !important;
     -o-box-shadow: 0px 0px 10px 0px rgb(58, 41, 31);
     -webkit-box-shadow: 0px 0px 10px 0px rgb(58, 41, 31);
     -moz-box-shadow: 0px 0px 10px 0px rgb(58, 41, 31);
-    z-index: 999;
+    z-index: 1;
 }
 
 .sidebar-menu {
@@ -36,21 +36,43 @@
     float: left;
     width: 14%;
 }
-
-.logo1 {
+.sidebar-menu2{
+    background-image: url("./../images/sidebar-4.jpg");
+    top: 0;
+    left: 0;
     width: 100%;
-    padding: 15px 14px 15px;
-    box-sizing: border-box;
-    background: #1b93e1;
-    text-align: center;
+    height: 100%;
+    z-index: 1;
+    display: block;
+    position: absolute;
+    background-size: cover;
+    background-position: center center;
+}
+.sidebar-menu2:after {
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    content: "";
+    display: block;
+    opacity: .8;
+    position: absolute;
+    background: #000;
 }
 
 .logo1 {
-    padding: 21px 0;
-    height: 63px;
-    box-sizing: border-box;
-    transition: all 100ms ease-in-out;
-    transition-delay: 300ms;
+    padding: 15px 15px; 
+    z-index: 4;
+    position: relative;
+}
+.logo1:after {
+    right: 15px;
+    width: calc(100% - 30px);
+    bottom: 0;
+    height: 1px;
+    content: "";
+    position: absolute;
+    background-color: rgba(180, 180, 180, 0.3);
+
 }
 
 span#logo1 {
@@ -78,14 +100,14 @@ a.sidebar-icon:hover {
 
 .sidebar-icon {
     margin-top: -2px;
-    border: 1px solid #1b93e1;
+   
     text-align: right;
     line-height: 1;
     font-size: 19px;
     padding: 5px 10px;
     border-radius: 0px;
     color: #1b93e1;
-    background: #fff;
+    
     float: none;
 }
 
@@ -211,11 +233,11 @@ a.sidebar-icon:hover {
     color: #fff;
     white-space: nowrap;
     z-index: 2;
-    background-color:#19222a;
+    
     font-size: 15sp;
     font-family: 'Roboto', sans-serif;
     border: none;
-    border-left: 4px solid #333333;
+    
 }
 #menuside li a:nth-child(n+2) {
    padding-left: 50px;
@@ -227,11 +249,12 @@ a.sidebar-icon:hover {
     color: #fff;
     white-space: nowrap;
     z-index: 2;
-    background-color: #333333;
+    
+
     font-size: 0.9em;
     font-family: 'Roboto', sans-serif;
     border: none;
-    border-left: 4px solid #333323;
+    
     opacity: 0.7;
 }
 
@@ -575,18 +598,18 @@ progress-striped .yellow {
 .pace-running{
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, #D7E2EB, #64BCF6,#227093);
+    background: linear-gradient(to right, #F2F1F1, #F0EDF0,#D1D3D4);
 }
 .pace-done{
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, #D7E2EB, #64BCF6,#227093);
+    background: linear-gradient(to right, #F2F1F1, #F0EDF0,#D1D3D4);
 
 }
 #root {
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, #D7E2EB, #64BCF6,#227093);
+    background: linear-gradient(to right, #F2F1F1, #F0EDF0,#D1D3D4);
 
 }
 .pageTitle-css__title-heading___3H2vL {
