@@ -1,8 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
-import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Subcriber;
-import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.SubcriberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ public class SubcriberServiceImpl implements SubcriberService {
 
     @Autowired
     SubcriberRepository subcriberRepository;
+
 
 
     @Override
@@ -81,4 +80,6 @@ public class SubcriberServiceImpl implements SubcriberService {
     public List<Subcriber> searchByNameorEmail(String searchValue) {
         return subcriberRepository.searchByEmailAndName(searchValue);
     }
+
+
 }

@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PreviewModal from '../../../components/modals/PreviewModal';
 import OneTemplate from '../../../components/OneTemplate';
+import axios from 'axios';
 import {
   BrowserRouter as Router,
   Route,
@@ -13,6 +14,7 @@ class Templates extends Component {
     super(props);
 
     this.state = {
+      templates: [],
       modalIsOpen: false,
       visible: true,
       visibleAll: true,
@@ -38,6 +40,19 @@ class Templates extends Component {
     this.setState({modalIsOpen: false});
   }
 
+  componentDidMount(){
+    axios.get("http://45.77.172.104:8080/api/template",{
+    })
+    .then(res => {
+      console.log(res.data);
+      this.setState({templates: res.data});
+      // let obj = a.find(obj => obj.id == 2);
+      // this.setState({
+      //   content: obj.content
+      // })
+      // console.log(this.state.templates)
+    }) 
+   }	
 
 	
   render(){
@@ -86,14 +101,21 @@ class Templates extends Component {
         </div>
       </header>
       <div className="thumbnail-view">
-        <OneTemplate         
+          {this.state.templates.map(list=>(
+               <OneTemplate
+                   key={list.index}
+                    templateName={list.nameTemplate}   
+                     />
+                                    ))}
+        {/* <OneTemplate  
+        templateName={}       
           />
         <OneTemplate         
         />
         <OneTemplate         
           />
         <OneTemplate         
-        />
+        /> */}
           
         <PreviewModal  isOpen={true}
          />

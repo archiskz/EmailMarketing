@@ -40,7 +40,7 @@ class NewTemplate extends Component {
     .then(res => {
       // console.log(res.data);
       this.setState({templates: res.data});
-      
+      // console.log("template day ne: " + this.state.templates);
       var a = this.state.templates;
       let obj = a.find(obj => obj.id == 2);
       this.setState({

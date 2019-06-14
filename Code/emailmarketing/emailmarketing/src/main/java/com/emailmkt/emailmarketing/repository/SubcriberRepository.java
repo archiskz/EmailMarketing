@@ -21,6 +21,7 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 List<Subcriber> searchByEmailAndName(@Param("searchValue") String searchValue);
 //
 
+
      Subcriber findSubcriberById(Integer id);
      List<Subcriber>findSubcriberByAccount_id(Integer id);
      List<Subcriber>findSubcriberByTag(String tag);

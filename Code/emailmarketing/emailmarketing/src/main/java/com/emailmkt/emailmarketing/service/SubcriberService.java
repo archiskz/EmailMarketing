@@ -28,6 +28,7 @@ public interface SubcriberService {
     Subcriber getSubcriberByEmail(String email);
 
     List<Subcriber> searchByNameorEmail( String searchValue);
+
 //    List<Account> getAllAccountsByCustomer();
 //    Account loginForCustomer(String username, String password);
 }

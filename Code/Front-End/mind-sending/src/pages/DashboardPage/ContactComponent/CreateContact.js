@@ -23,9 +23,9 @@ class CreateContact extends Component {
 
    componentDidMount(){
     
-    // console.log(this.props.history.location.state);
+    console.log(this.props.history.location.state);
 
-    console.log("props:" + this.props);
+    // console.log("props:" + this.props);
     axios.get("http://45.77.172.104:8080/api/subcriber",{
         params: {
             account_id: 1
