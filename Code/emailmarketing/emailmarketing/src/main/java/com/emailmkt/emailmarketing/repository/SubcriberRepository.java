@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.repository;
 
+import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Subcriber;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,7 @@ import java.util.List;
 @Repository
 public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
      Subcriber findByEmail(String email);
+
 
 //    List<Account> findAllByauthorityIdGreaterThanEqual(int authority_id);
 //

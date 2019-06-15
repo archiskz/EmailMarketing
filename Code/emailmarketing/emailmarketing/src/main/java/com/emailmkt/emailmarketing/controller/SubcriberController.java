@@ -1,9 +1,8 @@
 package com.emailmkt.emailmarketing.controller;
 
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
-import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Subcriber;
-import com.emailmkt.emailmarketing.service.AccountService;
+import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.SubcriberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static javax.security.auth.callback.ConfirmationCallback.OK;
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
@@ -21,19 +19,31 @@ import static org.springframework.http.HttpStatus.*;
 @RequestMapping("/api")
 @CrossOrigin("http://localhost:3000")
 public class SubcriberController {
-
+    private final SubcriberRepository subcriberRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(SubcriberController.class);
     @Autowired
     SubcriberService subcriberService;
+
+    @Autowired
+    public SubcriberController(SubcriberRepository subcriberRepository) {
+        this.subcriberRepository = subcriberRepository;
+    }
 
 
     //    public AccountController(AccountService accountService) {
 //        this.accountService = accountService;
 //    }
-    @GetMapping("/subcriber")
-    public List<Subcriber> getAllSubcribers() {
-        return subcriberService.getAllSubcribers();
+    @GetMapping("/subcribers")
+    Iterable<Subcriber> getAll() {
+        return subcriberRepository.findAll();
     }
+
+    @GetMapping("/subcribersV2")
+    public List<SubcriberDTO> getAllSubcriber() {
+        return subcriberService.getAllSubcriberV2();
+    }
+
+
 
     @PostMapping("subcriber/create")
     public ResponseEntity createSubcriber(@RequestBody SubcriberDTO dto) {

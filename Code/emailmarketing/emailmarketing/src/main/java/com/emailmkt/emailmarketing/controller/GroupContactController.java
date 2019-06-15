@@ -64,11 +64,11 @@ public class GroupContactController {
     }
 
     @PostMapping("/groupContact/countContact/{id}")
-    public Long countTotalContactsByGroupId(@PathVariable(value = "id") String id) {
+    public Long countTotalContactsByGroupId(@PathVariable(value = "id") int id) {
         return groupContactService.countTotalContactsByGroupId(id);
     }
     @PostMapping("/groupContact={id}/contacts")
-    public List<Subcriber> findSubcriberByGroupContactId(@PathVariable(value = "id") String id) {
+    public List<Subcriber> findSubcriberByGroupContactId(@PathVariable(value = "id") int id) {
         System.out.println("Tới đây chưa ?");
         return groupContactService.findSubcriberByGroupContactId(id);
     }

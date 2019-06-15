@@ -95,7 +95,7 @@ public class GroupContactServiceImpl implements GroupContactService {
     }
 
     @Override
-    public List<Subcriber> findSubcriberByGroupContactId(String groupContactId) {
+    public List<Subcriber> findSubcriberByGroupContactId(int groupContactId) {
         return groupContactRepository.findSubcriberByGroupContactId(groupContactId);
     }
 
@@ -104,7 +104,7 @@ public class GroupContactServiceImpl implements GroupContactService {
 
 
     @Override
-    public Long countTotalContactsByGroupId(String groupContactId ) {
+    public Long countTotalContactsByGroupId(int groupContactId ) {
         return groupContactRepository.countTotalContactsByGroupId(groupContactId);
     }
 }

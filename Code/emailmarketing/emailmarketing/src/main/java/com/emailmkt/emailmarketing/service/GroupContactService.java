@@ -25,9 +25,9 @@ public interface GroupContactService {
     List<GroupContact> searchByName( String searchValue);
 //
 //    List<Subcriber> findSubcriberByGroupContactId(int groupContactId);
-    Long countTotalContactsByGroupId(String groupContactId);
+    Long countTotalContactsByGroupId(int groupContactId);
     List<GroupContactSubcriber> getAllSubcriber();
-    List<Subcriber> findSubcriberByGroupContactId(String groupContactId);
+    List<Subcriber> findSubcriberByGroupContactId(int groupContactId);
 
 
 

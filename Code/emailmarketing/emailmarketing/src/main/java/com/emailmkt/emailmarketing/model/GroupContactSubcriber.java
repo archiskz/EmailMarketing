@@ -1,5 +1,7 @@
 package com.emailmkt.emailmarketing.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "group_contact_has_subcriber")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
 public class GroupContactSubcriber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,18 +30,18 @@ public class GroupContactSubcriber {
 
 //    @Basic
 //    @Column(name = "subcriber_id")
-//    private String subcriberId;
+//    private int subcriberId;
 
     @ManyToOne
-    @JoinColumn(name = "subcriber_id")
+    @JoinColumn(name = "subcriber_id", insertable = false, updatable = false)
     private Subcriber subcriber;
 
 //    @Basic
-//    @Column(name = "group_contact_id")
-//    private String groupContactId;
+//    @Column(name = "group_contact_id" )
+//    private int groupContactId;
 
     @ManyToOne
-    @JoinColumn(name = "group_contact_id")
+    @JoinColumn(name = "group_contact_id", insertable = false, updatable = false )
     private GroupContact groupContact;
 
 
