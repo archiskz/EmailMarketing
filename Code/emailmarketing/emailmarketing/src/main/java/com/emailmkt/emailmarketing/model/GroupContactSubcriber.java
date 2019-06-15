@@ -25,20 +25,20 @@ public class GroupContactSubcriber {
     @Column(name = "updated_time")
     private String updatedTime;
 
-    @Basic
-    @Column(name = "subcriber_id")
-    private String subcriberId;
+//    @Basic
+//    @Column(name = "subcriber_id")
+//    private String subcriberId;
 
     @ManyToOne
-    @JoinColumn(name = "subcriber_id", insertable = false, updatable = false)
+    @JoinColumn(name = "subcriber_id")
     private Subcriber subcriber;
 
-    @Basic
-    @Column(name = "group_contact_id")
-    private String groupContactId;
+//    @Basic
+//    @Column(name = "group_contact_id")
+//    private String groupContactId;
 
     @ManyToOne
-    @JoinColumn(name = "group_contact_id", insertable = false, updatable = false)
+    @JoinColumn(name = "group_contact_id")
     private GroupContact groupContact;
 
 

@@ -62,6 +62,12 @@ public class GroupContactServiceImpl implements GroupContactService {
     }
 
     @Override
+    public GroupContact getGroupById(int id) {
+        return groupContactRepository.findGroupById(id);
+
+    }
+
+    @Override
     public GroupContact updateGroupContact(GroupContact GroupContact) {
         return null;
     }

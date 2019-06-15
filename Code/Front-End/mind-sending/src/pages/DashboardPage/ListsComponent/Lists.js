@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import ListRow from './../../../components/row/ListRow';
 import Modal from 'react-awesome-modal';
+import * as Config from './../../../constants/Config';
 
 class Lists extends Component {
    constructor(props) {
@@ -53,20 +54,18 @@ class Lists extends Component {
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
 
-                                <a onClick={()=>this.openModal()} icon="segment" className="btn-create-segment" >
-                                    <i className="sg-icon sg-icon-segment"></i>
-                                    Create List
-                                </a>
-
-                                <Link icon="segment" className="btn-create-segment" to="/dashboard/create-list">
+                                <Link  className="button button-primary button-big" to="/dashboard/create-list">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create Segment
                                 </Link>
                                 
-                                <div onClick={this.onToggleDropdown} className="btn-create-segment" data-dropdown-toggle="true" data-role="bulk-actions-toggle">
-                                    <i className="fa fa-users"></i>
+                                <a onClick={this.onToggleDropdown} className="button button-secondary-filled button-big" >
+                                    {/* <i className="fa fa-users"></i> */}
                                     Add Contacts
-                                    <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
+                                </a>
+                                
+                            </nav>
+                            <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
                                         <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
                                             <i className="sg-icon sg-icon-csv"></i>
                                             <span>Upload CSV</span>
@@ -76,20 +75,20 @@ class Lists extends Component {
                                             <span>Manual Add</span>
                                         </Link>
                                     </ul>
-                                </div>
-                            </nav>
                         </div>
                     </header>
                     <section className="row">
                         <div className="col-md-3">
                             <section>
                                 <div className="wrap">
-                                    <div className="search">
-                                        <input type="text" className="searchTerm" placeholder="Search by email address"/>
-                                        <button type="submit" className="searchButton">
-                                            <i className="fa fa-search"></i>
-                                        </button>
+                                <form class="subscribe-box" id="newsletter-form">
+                                    <div class="input-field input-field-medium sticky-button">
+                                        <label for="newsletter-email">
+                                            <input id="newsletter-email" type="email" name="email" placeholder="Search list"/>
+                                        </label>
+                                        <button class="button button-primary button-big" id="subscribe-button-footer" type="submit"></button>
                                     </div>
+                                    <div class="error-label"></div></form>
                                 </div>
                             </section>
                         </div>
@@ -97,25 +96,7 @@ class Lists extends Component {
                     <section>
                         <div className="infinitelyScrollable-css__container___pDiPC" data-infinitely-scrollable="true">
                             <section className="items-collection-container">
-                                <section>
-                                    <div>
-                                        <div className="sg-modal " data-modal="true">
-
-                                        </div>
-                                        <div className="modal-mask ">
-
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="sg-modal " data-modal="true">
-
-                                        </div>
-                                        <div className="modal-mask ">
-
-                                        </div>
-                                    </div>
-                               
-                            
+                                <section>           
                                 <div class="tablet">
 
                                     <div class="rowt headert">
@@ -145,9 +126,10 @@ class Lists extends Component {
                             
                             </section>
                         </section>
-                        <section className="loading-status-container">
-                        
-                        </section>
+                        <a onClick={()=>this.openModal()}  className="button button-primary button-big mt15" >
+                                    <i className="sg-icon sg-icon-segment"></i>
+                                    Create List
+                                </a>
                     </div>
                 </section>
             </article>
@@ -187,7 +169,7 @@ class Lists extends Component {
   
 
   getAllListContact=()=>{
-    axios.get("http://45.77.172.104:8080/api/groupContacts",{
+    axios.get(`${Config.API_URL}groupContacts`,{
     })
     .then(res => {
       const listContacts = res.data;
@@ -198,7 +180,7 @@ class Lists extends Component {
 
   saveNewList(){
 console.log(this.state.newList);
-    axios.post("http://45.77.172.104:8080/api/groupContact/create", this.state.newList)
+    axios.post(`${Config.API_URL}groupContact/create`, this.state.newList)
       .then(function (response) {
         console.log(response);
       })

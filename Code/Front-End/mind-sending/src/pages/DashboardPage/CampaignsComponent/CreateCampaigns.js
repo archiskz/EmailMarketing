@@ -6,6 +6,7 @@ import * as actions from './../../../actions/index';
 import apiCaller from './../../../utils/apiCaller';
 import ChooseTemplateModal from './../../../components/modals/ChooseTemplateModal';
 import axios from 'axios';
+import * as Config from './../../../constants/Config';
 
 class CreateCampaign extends Component{
    constructor(props) {
@@ -32,8 +33,8 @@ class CreateCampaign extends Component{
   
    
    componentDidMount (){
-     console.log(this.props.newCampaign)
-    axios.get('http://45.77.172.104:8080/api/groupContacts')
+     console.log(`${Config.API_URL}groupContacts`);
+    axios.get(`${Config.API_URL}groupContacts`)
     .then(response => {
       this.setState({
         lists: response.data

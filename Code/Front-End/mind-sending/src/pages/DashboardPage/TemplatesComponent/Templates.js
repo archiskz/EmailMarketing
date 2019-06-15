@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PreviewModal from '../../../components/modals/PreviewModal';
 import OneTemplate from '../../../components/OneTemplate';
+import * as Config from '../../../constants/Config';
 import axios from 'axios';
 import {
   BrowserRouter as Router,
@@ -41,7 +42,7 @@ class Templates extends Component {
   }
 
   componentDidMount(){
-    axios.get("http://45.77.172.104:8080/api/template",{
+    axios.get(`${Config.API_URL}template`,{
     })
     .then(res => {
       console.log(res.data);
@@ -80,7 +81,7 @@ class Templates extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <Link icon="segment" className="btn-create-segment" to="/new-template">
+                                <Link icon="segment" className="button button-primary button-big" to="/new-template">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create New Template
                                 </Link>
@@ -107,15 +108,12 @@ class Templates extends Component {
                     templateName={list.nameTemplate}   
                      />
                                     ))}
-        {/* <OneTemplate  
-        templateName={}       
-          />
-        <OneTemplate         
-        />
-        <OneTemplate         
-          />
-        <OneTemplate         
-        /> */}
+                                    {this.state.templates.map(list=>(
+               <OneTemplate
+                   key={list.index}
+                    templateName={list.nameTemplate}   
+                     />
+                                    ))}
           
         <PreviewModal  isOpen={true}
          />
