@@ -5,6 +5,7 @@ import axios from 'axios';
 import ContactRow from './../../../components/row/ContactRow';
 import * as Config from './../../../constants/Config';
 
+
 class CreateContact extends Component {
    constructor(props) {
      super(props);
@@ -102,13 +103,7 @@ class CreateContact extends Component {
                             </span>
                         </div>
                         <div className="col-md-6">
-                            <nav className="btn-list pull-right">
-                                {/* <Link icon="segment" className="btn-create-segment" to="/dashboard/create-list">
-                                    <i className="sg-icon sg-icon-segment"></i>
-                                    Create Segment
-                                </Link> */}
-                                
-                                <div onClick={this.onToggleDropdown} className="btn-create-segment" data-dropdown-toggle="true" data-role="bulk-actions-toggle">
+                                <div onClick={this.onToggleDropdown} className="btn_create_contact" tabindex="0" type="button" data-dropdown-toggle="true" data-role="bulk-actions-toggle">
                                     <i className="fa fa-users"></i>
                                     Add Contacts
                                     <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
@@ -122,83 +117,71 @@ class CreateContact extends Component {
                                         </Link>
                                     </ul>
                                 </div>
-                            </nav>
+                            
                         </div>
                     </header>
                     <section className="row">
-                        <div className="col-md-3">
-                            <section>
-                                <div className="wrap">
-                                    <div className="search">
-                                        <input type="text" className="searchTerm" placeholder="Search by email address"/>
-                                        <button type="submit" className="searchButton">
-                                            <i className="fa fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </section>
+                        <div class="col-md-3">
+                        <section>
+                        <div class="wrap">
+                        <form class="subscribe-box" id="newsletter-form">
+                        <div class="input-field input-field-medium sticky-button">
+                        <label for="newsletter-email">
+                        <input id="newsletter-email" type="email" name="email" placeholder="Search list"/>
+                        </label>
+                        <button class="button button-primary button-big" id="subscribe-button-footer" type="submit">
+                        <i class="btn_searching fa fa-search"></i>
+                        </button>
+                        </div>
+                        <div class="error-label">
+                        </div>
+                        </form>
+                        </div>
+                        </section>
                         </div>
                     </section>
-                    <section>
-                        <div className="infinitelyScrollable-css__container___pDiPC" data-infinitely-scrollable="true">
-                            <section className="items-collection-container">
-                                <section>
-                                    <div>
-                                        <div className="sg-modal " data-modal="true">
-
-                                        </div>
-                                        <div className="modal-mask ">
-
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="sg-modal " data-modal="true">
-
-                                        </div>
-                                        <div className="modal-mask ">
-
-                                        </div>
-                                    </div>
-
-
-                          <div class="tablet">
-
-                                <div class="rowt headert">
-                                    <div class="cellt">
-                                        Email Address
-                                    </div>
-                                    <div class="cellt">
-                                        Status
-                                    </div>
-                                    <div class="cellt">
-                                        Date Added
-                                    </div>
-                                    <div class="cellt">
-                                        Actions
-                                    </div>
-                                </div>
-                                {lists.map(list=>(
-                                        <ContactRow
-                                        key={list.index}
-                                         contactEmail={list.email}
-                                        
-                                         contactDateAdded={list.createdTime}
-                                         
-                                          />
-                                    ))}
+                    
+                    <div className="md_tablet1">
+                    <div className="md_tablet2">
+                        <div className="md_tablet3">
+                        <h4 className="md_tablet_h4">Contact List</h4>
+                        <p className="md_tablet_p">Here is the list of your contacts </p>
+                        </div>
+                    <div className="md_tablet4">
+                        <div className="md_tablet5">
+                        <table className="md_tablet6">
+                            <thead className="md_tablet6_thead">
+                            <tr className="md_tablet6_tr">
+                                <th className="md_tablet6_th" scope="col">Email</th>
+                                <th className="md_tablet6_th" scope="col">First Name</th>
+                                <th className="md_tablet6_th" scope="col">Last Name</th>
+                                <th className="md_tablet6_th" scope="col">Type</th>
+                            </tr>
                                 
-                                </div>
-
-
-
-
-                            </section>
-                        </section>
-                        <section className="loading-status-container">
-                        
-                        </section>
+                            </thead>
+                            <tbody>
+                                <tr className="md_tablet6_tbody_tr">
+                                <td class="md_tablet6_tbody_td">thangnguyen15297@gmail.com</td>
+                                    <td class="md_tablet6_tbody_td">Thắng</td>
+                                    <td class="md_tablet6_tbody_td">Đẹp trai</td>
+                                    
+                                    <td class="md_tablet6_tbody_td">New subcriber</td>
+                                   
+                                </tr>
+                                <tr className="md_tablet6_tbody_tr">
+                                <td class="md_tablet6_tbody_td">sonxauxi@gmail.com</td>
+                                    <td class="md_tablet6_tbody_td">Sơn</td>
+                                    <td class="md_tablet6_tbody_td">Xấu chó</td>
+                                    
+                                    <td class="md_tablet6_tbody_td">New subcriber</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
                     </div>
-                </section>
+                    </div>
+                    </div>
+
             </article>
         </div>
     </div>
