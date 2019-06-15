@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import { withRouter } from "react-router";
 import axios from 'axios';
 import ContactRow from './../../../components/row/ContactRow';
+import * as Config from './../../../constants/Config';
 
 class CreateContact extends Component {
    constructor(props) {
@@ -11,6 +12,7 @@ class CreateContact extends Component {
      this.state = {
         //  title: match.params.id,
          listAccounts:[{ id: "", name: "", email: "",address:"",createdTime:""}],
+         listAccount: {id: 1, name: "Group 2", description: "Test Group V2", createdTime: "2019-06-12T13:08:24.810", updatedTime: "string"},
        visible: true,
        dropdown_visible: false,
      };
@@ -21,12 +23,38 @@ class CreateContact extends Component {
      })
    }
 
-   componentDidMount(){
+    componentDidMount(){
     
     console.log(this.props.history.location.state);
 
     // console.log("props:" + this.props);
-    axios.get("http://45.77.172.104:8080/api/subcriber",{
+    // console.log("props:" + this.props);
+    // console.log(`http://192.168.100.106:8080/api/groupContact=1/contacts`);
+    const id = this.props.history.location.state;
+    if(this.props.history.location.state != null){ 
+        axios.post(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`,)
+        .then(res => {
+            
+            // console.log(res.data);
+          const listAccounts = res.data;
+        //   console.log(listAccounts);
+          this.setState({listAccounts:listAccounts})
+                    axios.get(`${Config.API_URL}groupContact/contactById?id=${id}`,)
+                    .then(response => {
+                       
+                        console.log(response.data)
+                        this.setState({
+                            listAccount: response.data,
+                        })
+                    
+                    })
+
+        })
+
+        
+
+    } else {
+        axios.get(`${Config.API_URL}subcriber`,{
         params: {
             account_id: 1
         }
@@ -37,11 +65,17 @@ class CreateContact extends Component {
       this.setState({listAccounts:listAccounts})
       
     })
-
-    // const { myKey } = this.props.match.params.id
-    // console.log(myKey)
+    }
+    
    }
 
+   renderTitle(){
+       if(this.props.history.location.state != null){
+           return this.state.listAccount.name
+       } else {
+           return "All Contact";
+       }
+   }
   
 
 
@@ -59,8 +93,9 @@ class CreateContact extends Component {
                         <div className="col-md-6">
                             <span>
                                 <h1 className="">
-                                    <span className="pageTitle-css__title-heading___3H2vL">{this.props.title}
-                                   
+                                    <span className="pageTitle-css__title-heading___3H2vL">
+                                    {/* {this.state.listAccount.name} */}
+                                   {this.renderTitle()}
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
