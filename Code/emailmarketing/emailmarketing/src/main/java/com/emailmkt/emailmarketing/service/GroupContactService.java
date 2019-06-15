@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.service;
 
+import com.emailmkt.emailmarketing.dto.GroupContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
@@ -8,7 +9,7 @@ import com.emailmkt.emailmarketing.model.Subcriber;
 import java.util.List;
 
 public interface GroupContactService {
-    boolean createGroupContact(GroupContact GroupContact);
+    boolean createGroupContact(GroupContactDTO groupContactDTO);
 
     List<GroupContact> getAllGroupContacts();
 

@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.controller;
 
 
+import com.emailmkt.emailmarketing.dto.GroupContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
@@ -46,8 +47,8 @@ public class GroupContactController {
     }
 
     @PostMapping("/groupContact/create")
-    public ResponseEntity createGroupContact(@RequestBody GroupContact groupContact) {
-        boolean flag = groupContactService.createGroupContact(groupContact);
+    public ResponseEntity createGroupContact(@RequestBody GroupContactDTO groupContactDTO) {
+        boolean flag = groupContactService.createGroupContact(groupContactDTO);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Group đã tồn tại tạo group mới");
         }

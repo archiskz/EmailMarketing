@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
+import com.emailmkt.emailmarketing.dto.GroupContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
@@ -21,16 +22,18 @@ public class GroupContactServiceImpl implements GroupContactService {
 
 
     @Override
-    public boolean createGroupContact(GroupContact GroupContact) {
-        System.out.println(GroupContact.getName());
-        GroupContact checkExistedGroupContact = groupContactRepository.findByName(GroupContact.getName());
+    public boolean createGroupContact(GroupContactDTO groupContactDTO) {
+        System.out.println(groupContactDTO.getName());
+        GroupContact checkExistedGroupContact = groupContactRepository.findByName(groupContactDTO.getName());
         if (checkExistedGroupContact != null) {
             return false;
         }
-        GroupContact.setCreatedTime(LocalDateTime.now().toString());
-        GroupContact.setName(GroupContact.getName());
-        GroupContact.setDescription(GroupContact.getDescription());
-        groupContactRepository.save(GroupContact);
+        GroupContact groupContact = new GroupContact();
+        groupContact.setCreatedTime(LocalDateTime.now().toString());
+        groupContact.setName(groupContactDTO.getName());
+        groupContact.setDescription(groupContactDTO.getDescription());
+        groupContact.setAccount_id(1);
+        groupContactRepository.save(groupContact);
         return true;
     }
 
