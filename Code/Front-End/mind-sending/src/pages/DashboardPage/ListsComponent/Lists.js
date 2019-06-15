@@ -180,9 +180,12 @@ class Lists extends Component {
 
   saveNewList(){
 console.log(this.state.newList);
-    axios.post(`${Config.API_URL}groupContact/create`, this.state.newList)
+    axios.post(`${Config.API_URL}groupContact/create`, this.state.newList,{params:{
+        name: this.state.newList.name,
+        description: this.state.newList.description,
+    }})
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
       })
       .catch(function (error) {
         console.log(error);

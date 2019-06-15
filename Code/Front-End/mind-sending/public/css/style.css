@@ -238,6 +238,11 @@ a.sidebar-icon:hover {
     border: none;
     /* border-left: 4px solid #1c2434; */
 }
+.filter{
+    width: 80%;
+    background-color: white;
+    border-radius: 10px;
+}
 #menuside li a:nth-child(n+2) {
    padding-left: 50px;
     font-style: italic;

@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import ReactDropzone from 'react-dropzone';
 import { render } from "react-dom";
 import {useDropzone} from 'react-dropzone';
-import Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone';
+import FileUpload from './../../../components/UploadFile';
+import ReactFileReader from 'react-file-reader';
+import csv from 'csv';
 
 
 class AddContactsFile extends Component {
@@ -10,6 +13,7 @@ class AddContactsFile extends Component {
     super(props);
 
     this.state = {
+      csvUploadFile: "",
       visible: true,
       dropdown_visible: false,
     };
@@ -100,21 +104,22 @@ class AddContactsFile extends Component {
           </article>
           </div>
              <div className="contact_file">
-            <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
-  {({getRootProps, getInputProps}) => (
-    <section>
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        <span>
-          "Drag or drop your 
-          file"
-          or
-        </span>
-        <span className="browse_link"> import your contact here </span>
-      </div>
-    </section>
-  )}
-</Dropzone>
+            {/* <FileUpload /> */}
+              <Dropzone onDrop={this.onDrop}>
+                {({getRootProps, getInputProps}) => (
+                  <section>
+                    <div {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      <span>
+                        "Drag or drop your 
+                        file"
+                        or
+                      </span>
+                      <span className="browse_link"> import your contact here </span>
+                    </div>
+                  </section>
+                )}
+              </Dropzone>
       </div>
         </div>
       </div>
@@ -122,6 +127,18 @@ class AddContactsFile extends Component {
      
     );
   }
+
+   onDrop = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+        csv.parse(reader.result, (err, data) => {
+            console.log(data);
+        });
+    };
+
+    reader.readAsBinaryString(e[0]);
+}
+
 
 }
 

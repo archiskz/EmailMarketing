@@ -54,7 +54,7 @@ class CreateContact extends Component {
         
 
     } else {
-        axios.get(`${Config.API_URL}subcriber`,{
+        axios.get(`${Config.API_URL}subcribersV2`,{
         params: {
             account_id: 1
         }

@@ -8,6 +8,7 @@ import TemplateNameModal from './../../../components/modals/TemplateNameModal';
 import * as actions from './../../../actions/index';
 import Modal from 'react-awesome-modal';
 import axios from 'axios';
+import * as Config from './../../../constants/Config'
 
 class NewTemplate extends Component {
   constructor(props) {
@@ -29,6 +30,10 @@ class NewTemplate extends Component {
         }
         
     ],
+      template:{
+            nameTemplate: "",
+            content: "", 
+      },
       html: "",
       visible: false,
     };
@@ -55,16 +60,6 @@ class NewTemplate extends Component {
      return (
       <div>
        <div className="fullscreen"></div>
-
-      <div>
-        <button onClick={this.exportHtml}>Export HTML</button>
-      </div>
-      <div>
-        <button onClick={this.onLoad}>Load HTML</button>
-      </div> 
-
-      
-   
       <div className = "height150" >
       <div className="" style={{"paddingTop":"18px", "paddingLeft": "5%"}}>
         <span className="pageTitle-css__title-heading___3H2vL" style={{"height": "100%", "float": "left"}}>
@@ -83,31 +78,28 @@ class NewTemplate extends Component {
           </nav>
             
       </div>
-      <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.visible} width="400" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-      
-      <div class="header-top-template" >Save Template</div>
-      
-        <h4 style={{"textAlign": "left", "marginTop": "30px", "marginLeft":"20px"}}>
-        Name your template   
-       </h4>
-       <form>
-       <input required className=" ml10" type="text" />
-       <div style={{"width":"100%"}}>
-                 <Link to="/dashboard/templates" icon="segment" type="submit" className="btn-save btn-create-segment" onClick={()=>this.openModal()}>
-                    Save
-                  </Link>
+            <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.visible} width="400" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+              <div class="header-top-template" >Save Template</div>
+                <h4 style={{"textAlign": "left", "marginTop": "30px", "marginLeft":"20px"}}>
+                  Name your template   
+                </h4>
+                <form>
+                  <input value={this.state.template.nameTemplate}  onChange={this.handleChange} required className=" ml10" type="text" />
+                  <div style={{"width":"100%"}}>
+                    <Link icon="segment" type="submit" className="btn-save btn-create-segment" onClick={()=>this.saveTemplate()}>
+                          Save
+                    </Link>
+                    <a icon="segment" className="btn-cancel btn-create-segment" onClick={()=>this.closeModal()}>
+                      Cancel
+                    </a>
+            </div>
+            
+            </form>
+            
 
-                  <a icon="segment" className="btn-cancel btn-create-segment" onClick={()=>this.closeModal()}>
-                    Cancel
-                  </a>
-       </div>
-       
-       </form>
-       
-
-          
-      
-                </Modal>
+                
+            
+                      </Modal>
       <EmailEditor
       projectId={1071}
       onLoad={this.onLoad}
@@ -140,8 +132,20 @@ class NewTemplate extends Component {
     
     );
   }
+handleChange = (event)=>{
+  this.setState({template:{templateName: event.target.value, content: this.state.content}});
+}
 
-  
+  saveTemplate = () =>{
+  this.exportHtml();
+  axios.post(`${Config.API_URL}template/create`,this.state.template)
+  .then(res => {
+    // const listAccounts = res.data;
+  //   console.log(listAccounts);
+    console.log("contact ID: " + res.data)
+    this.setState({count: res.data})
+   })
+  }
   onLoad = () => {
     // console.log(sample)
     // this.editor.addEventListener('onDesignLoad', this.onDesignLoad)
@@ -154,8 +158,11 @@ exportHtml = () => {
     const { design, html } = data
     console.log('exportHtml', JSON.stringify(design))
     this.setState({
-      html: JSON.stringify(design)
-    })
+      template: {
+        nameTemplate: this.state.template.nameTemplate,
+        content: JSON.stringify(design)
+      }
+    });
   })
 }
 openModal() {

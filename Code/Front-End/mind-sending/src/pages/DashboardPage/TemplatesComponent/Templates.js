@@ -90,7 +90,7 @@ class Templates extends Component {
         <div className="col-md-12">
          
           <div className="filter">
-            <ul className="filter">
+            <ul className="">
             <li><a className="">Filter By</a></li>
               <li><a  href="#home" className="active">All</a></li>
               <li><a href="#news">Custom Templates</a></li>
@@ -107,13 +107,26 @@ class Templates extends Component {
                    key={list.index}
                     templateName={list.nameTemplate}   
                      />
-                                    ))}
-                                    {this.state.templates.map(list=>(
+          ))}
+
+          {this.state.templates.map(list=>(
                <OneTemplate
                    key={list.index}
                     templateName={list.nameTemplate}   
                      />
-                                    ))}
+          ))}
+          {this.state.templates.map(list=>(
+               <OneTemplate
+                   key={list.index}
+                    templateName={list.nameTemplate}   
+                     />
+          ))}
+          {this.state.templates.map(list=>(
+               <OneTemplate
+                   key={list.index}
+                    templateName={list.nameTemplate}   
+                     />
+          ))}
           
         <PreviewModal  isOpen={true}
          />
