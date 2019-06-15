@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
+import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -95,8 +97,20 @@ public class GroupContactServiceImpl implements GroupContactService {
     }
 
     @Override
-    public List<Subcriber> findSubcriberByGroupContactId(int groupContactId) {
-        return groupContactRepository.findSubcriberByGroupContactId(groupContactId);
+    public List<SubcriberDTO> findSubcriberByGroupContactId(int groupContactId) {
+        List<Subcriber>subcribers = groupContactRepository.findSubcriberByGroupContactId(groupContactId);
+        List<SubcriberDTO> dtos = new ArrayList<>();
+        for(Subcriber subcriber : subcribers){
+            SubcriberDTO dto = new SubcriberDTO();
+            dto.setId(subcriber.getId());
+            dto.setEmail(subcriber.getEmail());
+            dto.setName(subcriber.getName());
+            dto.setTag(subcriber.getName());
+            dto.setType(subcriber.getType());
+            dtos.add(dto);
+        }
+        return dtos;
+
     }
 
 
