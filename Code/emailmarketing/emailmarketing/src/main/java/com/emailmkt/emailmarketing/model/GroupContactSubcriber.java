@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "group_contact_has_subcriber")
 public class GroupContactSubcriber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
