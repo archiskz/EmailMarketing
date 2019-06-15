@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.controller;
 
 
+import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -68,7 +69,7 @@ public class GroupContactController {
         return groupContactService.countTotalContactsByGroupId(id);
     }
     @PostMapping("/groupContact={id}/contacts")
-    public List<Subcriber> findSubcriberByGroupContactId(@PathVariable(value = "id") int id) {
+    public List<SubcriberDTO> findSubcriberByGroupContactId(@PathVariable(value = "id") int id) {
         System.out.println("Tới đây chưa ?");
         return groupContactService.findSubcriberByGroupContactId(id);
     }

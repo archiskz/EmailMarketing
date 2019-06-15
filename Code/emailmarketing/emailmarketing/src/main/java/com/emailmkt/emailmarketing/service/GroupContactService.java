@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.service;
 
+import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -24,10 +25,9 @@ public interface GroupContactService {
 
     List<GroupContact> searchByName( String searchValue);
 //
-//    List<Subcriber> findSubcriberByGroupContactId(int groupContactId);
     Long countTotalContactsByGroupId(int groupContactId);
     List<GroupContactSubcriber> getAllSubcriber();
-    List<Subcriber> findSubcriberByGroupContactId(int groupContactId);
+    List<SubcriberDTO> findSubcriberByGroupContactId(int groupContactId);
 
 
 
