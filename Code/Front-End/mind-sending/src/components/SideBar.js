@@ -69,19 +69,8 @@ addActiveClass = (index) => {
 
             {/* LIST */}
             <li id="menu-academico" className={this.state.activeClasses0 ? "opend" : "closed"} >
-                <a  onClick={() => this.addActiveClass(0)}>
-                    <i className="fa fa-users nav_icon" />
-                    <span style={{position: 'relative'}}>Lists</span>
-                    <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
-                    <div className="clearfix" />
-                </a>
-                {/* <Link to = "/dashboard/add-contacts" >
-                    <i className="fa " /> 
-                    <span style={{position: 'relative'}}>Contacts</span>
-                    <div className="clearfix" />
-                </Link> */}
                 <Link to = "/dashboard/lists" >
-                    <i className="fa " /> 
+                <i className="fa fa-users nav_icon" />
                     <span style={{position: 'relative'}}>Lists</span>
                     <div className="clearfix" />
                 </Link>
@@ -147,7 +136,7 @@ addActiveClass = (index) => {
                     <span style={{position: 'relative'}}>View Contacts</span>
                     <div className="clearfix" />
                 </Link>
-                <Link to="">
+                {/* <Link to="">
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>Manage Contacts</span>
                     <div className="clearfix" />
@@ -156,7 +145,7 @@ addActiveClass = (index) => {
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>View Contacts</span>
                     <div className="clearfix" />
-                </Link>
+                </Link> */}
             </li>
             {/* END CONTACT */}
         </ul>

@@ -4,7 +4,6 @@ import { render } from "react-dom";
 import {useDropzone} from 'react-dropzone';
 import Dropzone from 'react-dropzone';
 import FileUpload from './../../../components/UploadFile';
-import ReactFileReader from 'react-file-reader';
 import csv from 'csv';
 
 
@@ -51,7 +50,7 @@ class AddContactsFile extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <a icon="segment" className="btn-create-segment" href="/marketing_campaigns/ui/contacts/segment">
+                                <a icon="segment" className="btn_create_contact" href="/marketing_campaigns/ui/contacts/segment">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Save Contact
                                 </a>

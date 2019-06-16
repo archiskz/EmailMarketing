@@ -52,22 +52,18 @@ class ListRow extends Component {
 
       render(){
           return( 
-            <div class="rowt">
-        <div  class="cellt" data-title="listname">
-        <a onClick = {()=> this.toListContact(this.props.contactId)} >{this.props.contactEmail}</a>
-        
-        </div>
-        <div class="cellt" data-title="description">
-        {this.props.contactStatus}
-        </div>
-        <div class="cellt" data-title="contacts">
-        {this.state.count}
-        </div>
-        <div class="cellt" data-title="action">
+<tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
+<td class="md_tablet6_tbody_td"><a onClick = {()=> this.toListContact(this.props.contactId)} >{this.props.contactEmail}</a></td>
+    <td class="md_tablet6_tbody_td">{this.props.contactStatus}</td>
+    <td class="md_tablet6_tbody_td">{this.state.count}</td>
+    
+    <td class="md_tablet6_tbody_td">
+    {this.props.contactActions}
+    <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
+    </td>
+   
+</tr>
 
-           {this.props.contactActions}
-        </div>
-    </div> 
           );
       }
 

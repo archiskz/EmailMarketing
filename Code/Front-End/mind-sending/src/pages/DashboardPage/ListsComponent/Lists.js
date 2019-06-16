@@ -52,19 +52,18 @@ class Lists extends Component {
                             </span>
                         </div>
                         <div className="col-md-6">
-                            <nav className="btn-list pull-right">
+                            
 
-                                <Link  className="button button-primary button-big" to="/dashboard/create-list">
+                                <Link  className="btn_create_contact" to="/dashboard/create-list">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create Segment
                                 </Link>
                                 
-                                <a onClick={this.onToggleDropdown} className="button button-secondary-filled button-big" >
+                                {/* <a onClick={this.onToggleDropdown} className="btn_create_contact" > */}
                                     {/* <i className="fa fa-users"></i> */}
-                                    Add Contacts
-                                </a>
+                                    {/* Add Contacts */}
+                                {/* </a> */}
                                 
-                            </nav>
                             <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
                                         <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
                                             <i className="sg-icon sg-icon-csv"></i>
@@ -95,25 +94,27 @@ class Lists extends Component {
                     </section>
                     <section>
                         <div className="infinitelyScrollable-css__container___pDiPC" data-infinitely-scrollable="true">
-                            <section className="items-collection-container">
-                                <section>           
-                                <div class="tablet">
-
-                                    <div class="rowt headert">
-                                        <div class="cellt">
-                                        List Name
-                                        </div>
-                                        <div class="cellt">
-                                            Description
-                                        </div>
-                                        <div class="cellt">
-                                            Contacts
-                                        </div>
-                                        <div class="cellt">
-                                            Actions
-                                        </div>
-                                    </div>
-                                    {lists.map(list=>(
+                        <section>
+                    <div className="md_tablet1">
+                    <div className="md_tablet2">
+                        <div className="md_tablet3">
+                        <h4 className="md_tablet_h4">Groups List</h4>
+                        <p className="md_tablet_p">Here is the list of your Groups </p>
+                        </div>
+                    <div className="md_tablet4">
+                        <div className="md_tablet5">
+                        <table className="md_tablet6">
+                            <thead className="md_tablet6_thead">
+                            <tr className="md_tablet6_tr">
+                                <th className="md_tablet6_th" scope="col">Group's Name</th>
+                                <th className="md_tablet6_th" scope="col">Description</th>
+                                <th className="md_tablet6_th" scope="col">Contacts</th>
+                                <th className="md_tablet6_th" scope="col">Actions</th>
+                            </tr>
+                                
+                            </thead>
+                            <tbody>
+                            {lists.map(list=>(
                                         <ListRow
                                         key={list.index}
                                         contactId={list.id}
@@ -122,16 +123,23 @@ class Lists extends Component {
                                     contactDateAdded={list.totalContacts} />
                                     ))}
 
-                                    </div>
-                            
-                            </section>
-                        </section>
-                        <a onClick={()=>this.openModal()}  className="button button-primary button-big mt15" >
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    <a onClick={()=>this.openModal()}  className="button button-primary button-big mt15" >
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create List
                                 </a>
+                    </section>
+
+             
+                        
                     </div>
                 </section>
+                   
             </article>
         </div>
     </div>

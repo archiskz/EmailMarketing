@@ -153,28 +153,21 @@ class CreateContact extends Component {
                             <thead className="md_tablet6_thead">
                             <tr className="md_tablet6_tr">
                                 <th className="md_tablet6_th" scope="col">Email</th>
-                                <th className="md_tablet6_th" scope="col">First Name</th>
+                                <th className="md_tablet6_th" scope="col">Name</th>
                                 <th className="md_tablet6_th" scope="col">Last Name</th>
                                 <th className="md_tablet6_th" scope="col">Type</th>
                             </tr>
                                 
                             </thead>
                             <tbody>
-                                <tr className="md_tablet6_tbody_tr">
-                                <td class="md_tablet6_tbody_td">thangnguyen15297@gmail.com</td>
-                                    <td class="md_tablet6_tbody_td">Thắng</td>
-                                    <td class="md_tablet6_tbody_td">Đẹp trai</td>
-                                    
-                                    <td class="md_tablet6_tbody_td">New subcriber</td>
-                                   
-                                </tr>
-                                <tr className="md_tablet6_tbody_tr">
-                                <td class="md_tablet6_tbody_td">sonxauxi@gmail.com</td>
-                                    <td class="md_tablet6_tbody_td">Sơn</td>
-                                    <td class="md_tablet6_tbody_td">Xấu chó</td>
-                                    
-                                    <td class="md_tablet6_tbody_td">New subcriber</td>
-                                </tr>
+                            {lists.map(list=>(
+                                        <ContactRow
+                                        key={list.index}
+                                        contactEmail={list.email}
+                                        contactStatus={list.name}
+                                        contactDateAdded={list.createdTime}
+                                    />
+                                    ))}
                             </tbody>
                         </table>
                         </div>
