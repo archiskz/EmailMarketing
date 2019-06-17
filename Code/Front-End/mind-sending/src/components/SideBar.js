@@ -13,6 +13,7 @@ constructor(props) {
         activeClasses1: false,
         activeClasses2: false,
         activeClasses3: false,
+        activeClasses4: false,
     };
      this.addActiveClass = this.addActiveClass.bind(this);
 
@@ -38,6 +39,10 @@ addActiveClass = (index) => {
             case 3:
             this.setState({
                 activeClasses3: !this.state.activeClasses3
+                })
+            case 4:
+            this.setState({
+                activeClasses4: !this.state.activeClasses4
                 })
             return;
         default: return;
@@ -66,7 +71,14 @@ addActiveClass = (index) => {
 
                 </li>
             {/* DASHBOARD */}
+                <li>
+                    <a href="/dashboard/view-user-profile">
+                        <i className="fa fa-tachometer" /> 
+                        <span style={{position: 'relative'}}>User Profile</span>
+                        <div className="clearfix" />
+                    </a>
 
+                </li>
             {/* LIST */}
             <li id="menu-academico" className={this.state.activeClasses0 ? "opend" : "closed"} >
                 <Link to = "/dashboard/lists" >
