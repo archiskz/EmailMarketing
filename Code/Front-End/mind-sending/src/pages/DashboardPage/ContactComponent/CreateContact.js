@@ -127,7 +127,7 @@ class CreateContact extends Component {
                         <form class="subscribe-box" id="newsletter-form">
                         <div class="input-field input-field-medium sticky-button">
                         <label for="newsletter-email">
-                        <input id="newsletter-email" type="email" name="email" placeholder="Search list"/>
+                        <input id="newsletter-email" type="email" name="email" placeholder="Search by email"/>
                         </label>
                         <button class="button button-primary button-big" id="subscribe-button-footer" type="submit">
                         <i class="btn_searching fa fa-search"></i>
