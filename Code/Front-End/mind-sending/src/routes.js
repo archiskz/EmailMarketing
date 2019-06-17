@@ -16,7 +16,7 @@ import CreateList from './pages/DashboardPage/ListsComponent/CreateList';
 import AddContactsFile from './pages/DashboardPage/ListsComponent/AddContactsFile';
 import NewTemplate from './pages/DashboardPage/TemplatesComponent/NewTemplate';
 import CreateContact from './pages/DashboardPage/ContactComponent/CreateContact';
-
+import ViewUserProfile from './pages/DashboardPage/UserComponent/ViewUserProfile';
 const routes = [
 {
 	path:'/',
@@ -90,10 +90,16 @@ const routes = [
 	main: () => <CreateList />
 },
 {
+	path: '/dashboard/view-user-profile',
+	exact: false,
+	main: () => <ViewUserProfile />
+},
+{
 	path: '/dashboard/contacts/',
 	exact: false,
 	main: () => <CreateContact  title={'All Contacts'} />
 },
+
 {
 	path: '/new-template',
 	exact: false,
