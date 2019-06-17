@@ -2,8 +2,6 @@ package com.emailmkt.emailmarketing.repository;
 import com.emailmkt.emailmarketing.model.Template;
 import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,8 +9,8 @@ import java.util.List;
 @Repository
 public interface TemplateRepository extends JpaRepository<Template, Integer> {
 
-
     Template findByType (String type);
+//    Template findById(int id);
 
     List<Template> findAll();
 

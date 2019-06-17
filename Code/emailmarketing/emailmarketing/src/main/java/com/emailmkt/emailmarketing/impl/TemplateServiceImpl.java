@@ -51,6 +51,17 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
 //    @Override
+//    public Template getTemplateById(int id) {
+//        return templateRepository.findById(id);
+//    }
+
+    @Override
+    public boolean editTemplate(int id) {
+        return false;
+    }
+
+
+//    @Override
 //    public List<Template> searchByNameorType(String searchValue) {
 //        return templateRepository.searchByNameorType(searchValue);
 //    }

@@ -17,5 +17,12 @@ public interface TemplateService {
 
     Template editTemplate(Template template);
 
+//    Template getTemplateById(int id);
+
+    boolean editTemplate(int id);
+
+
+
+
 //    List<Template> searchByNameorType( String searchValue);
 }

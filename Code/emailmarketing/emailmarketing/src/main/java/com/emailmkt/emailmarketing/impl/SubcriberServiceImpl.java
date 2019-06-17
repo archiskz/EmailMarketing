@@ -57,6 +57,10 @@ public class SubcriberServiceImpl implements SubcriberService {
         return true;
     }
 
+    @Override
+    public boolean createListSubcrbier(List<SubcriberDTO> dto) {
+        return false;
+    }
 
 
     @Override
