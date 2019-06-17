@@ -9,16 +9,27 @@ import {
 import {connect} from 'react-redux';
 import * as actions from './../../actions/index';
 import Templates from './../../pages/DashboardPage/TemplatesComponent/Templates';
+import * as Config from '../../constants/Config';
+import axios from 'axios';
 class ChooseTemplateModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        visible : true
+        visible : true,
+        templates: [],
     }
 }
 closePreviewModal=() => {
   this.props.onCloseModal();
 }
+componentDidMount(){
+  axios.get(`${Config.API_URL}template`,{
+  })
+  .then(res => {
+    console.log(res.data);
+    this.setState({templates: res.data});
+  }) 
+ }	
 
   render(){
      return (
@@ -28,7 +39,7 @@ closePreviewModal=() => {
             
           <div className="flash_notice">
           </div>
-        <div className="container" data-role="main-app-container">
+        <div className="container" style={{"background":"white", "height":"96%"}} data-role="main-app-container">
         <div>
   <div data-role="marketing-templates-app" className="container">
     <div className="templates-list-views listView-css__list-view___1G-eZ">
@@ -42,13 +53,17 @@ closePreviewModal=() => {
                                 </h1>
                             </span>
                         </div>
-                        <div className="col-md-6">
-                            <nav className="btn-list pull-right">
-                                <Link icon="segment" className="btn-create-segment" to="/new-template">
+                        <div className="col-md-6" style={{"display": "block", "textAlign":"left", "paddingLeft":"13%"}}>
+                            
+                            <Link icon="segment" style={{"float":"left","display": "inline-block"}} className="width50 btn_create_contact" to="/new-template">
                                     <i className="sg-icon sg-icon-segment"></i>
-                                    Create New Template
+                                    Continue
                                 </Link>
-                            </nav>
+                                <Link icon="segment" style={{"float":"left","display": "inline-block"}} className="width50 btn_create_contact" to="/new-template">
+                                    <i className="sg-icon sg-icon-segment"></i>
+                                    Cancel
+                                </Link>
+                            
                         </div>
         <div className="col-md-12">
          
@@ -65,40 +80,14 @@ closePreviewModal=() => {
         </div>
       </header>
       <div className="thumbnail-views">
-        <OneTemplate         
-          />
-        <OneTemplate         
-        />
-        <OneTemplate         
-          />
-        <OneTemplate         
-        />
-        <OneTemplate         
-          />
-        <OneTemplate         
-        />
-        <OneTemplate         
-          />
-        <OneTemplate         
-        />
-        <OneTemplate         
-          />
-        <OneTemplate         
-        />
-        <OneTemplate         
-          />
-        <OneTemplate         
-        />
-        <OneTemplate         
-          />
-        <OneTemplate         
-        />
-        <OneTemplate         
-          />
-        <OneTemplate         
-        />
-          
-         />
+      {this.state.templates.map(list=>(
+               <OneTemplate
+                   key={list.index}
+                    templateName={list.nameTemplate}   
+                    image={this.state.htmlImage}
+                    preview={false}
+                     />
+          ))}    
       </div>
     </div>
   </div>

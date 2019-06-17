@@ -60,7 +60,7 @@ public class TemplateController {
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Template này đã tồn tại ");
         }
-        return ResponseEntity.status(CREATED).body("Thêm thành công");
+        return ResponseEntity.status(CREATED).body("Okay");
 
     }
 

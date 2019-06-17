@@ -15,6 +15,7 @@ class Templates extends Component {
     super(props);
 
     this.state = {
+      htmlImage: "",
       templates: [],
       modalIsOpen: false,
       visible: true,
@@ -80,17 +81,17 @@ class Templates extends Component {
                             </span>
                         </div>
                         <div className="col-md-6">
-                            <nav className="btn-list pull-right">
-                                <Link icon="segment" className="button button-primary button-big" to="/new-template">
+                           
+                                <Link icon="segment" className="btn_create_contact" to="/new-template">
                                     <i className="sg-icon sg-icon-segment"></i>
-                                    Create New Template
+                                    New Template
                                 </Link>
-                            </nav>
+                            
                         </div>
         <div className="col-md-12">
          
           <div className="filter">
-            <ul className="filter">
+            <ul className="">
             <li><a className="">Filter By</a></li>
               <li><a  href="#home" className="active">All</a></li>
               <li><a href="#news">Custom Templates</a></li>
@@ -106,15 +107,10 @@ class Templates extends Component {
                <OneTemplate
                    key={list.index}
                     templateName={list.nameTemplate}   
+                    image={this.state.htmlImage}
+                    preview={true}
                      />
-                                    ))}
-                                    {this.state.templates.map(list=>(
-               <OneTemplate
-                   key={list.index}
-                    templateName={list.nameTemplate}   
-                     />
-                                    ))}
-          
+          ))}     
         <PreviewModal  isOpen={true}
          />
       </div>

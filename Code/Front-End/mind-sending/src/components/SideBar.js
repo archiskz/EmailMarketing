@@ -13,6 +13,7 @@ constructor(props) {
         activeClasses1: false,
         activeClasses2: false,
         activeClasses3: false,
+        activeClasses4: false,
     };
      this.addActiveClass = this.addActiveClass.bind(this);
 
@@ -38,6 +39,10 @@ addActiveClass = (index) => {
             case 3:
             this.setState({
                 activeClasses3: !this.state.activeClasses3
+                })
+            case 4:
+            this.setState({
+                activeClasses4: !this.state.activeClasses4
                 })
             return;
         default: return;
@@ -66,22 +71,18 @@ addActiveClass = (index) => {
 
                 </li>
             {/* DASHBOARD */}
+                <li>
+                    <a href="/dashboard/view-user-profile">
+                        <i className="fa fa-tachometer" /> 
+                        <span style={{position: 'relative'}}>User Profile</span>
+                        <div className="clearfix" />
+                    </a>
 
+                </li>
             {/* LIST */}
             <li id="menu-academico" className={this.state.activeClasses0 ? "opend" : "closed"} >
-                <a  onClick={() => this.addActiveClass(0)}>
-                    <i className="fa fa-users nav_icon" />
-                    <span style={{position: 'relative'}}>Lists</span>
-                    <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
-                    <div className="clearfix" />
-                </a>
-                {/* <Link to = "/dashboard/add-contacts" >
-                    <i className="fa " /> 
-                    <span style={{position: 'relative'}}>Contacts</span>
-                    <div className="clearfix" />
-                </Link> */}
                 <Link to = "/dashboard/lists" >
-                    <i className="fa " /> 
+                <i className="fa fa-users nav_icon" />
                     <span style={{position: 'relative'}}>Lists</span>
                     <div className="clearfix" />
                 </Link>
@@ -147,7 +148,7 @@ addActiveClass = (index) => {
                     <span style={{position: 'relative'}}>View Contacts</span>
                     <div className="clearfix" />
                 </Link>
-                <Link to="">
+                {/* <Link to="">
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>Manage Contacts</span>
                     <div className="clearfix" />
@@ -156,7 +157,7 @@ addActiveClass = (index) => {
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>View Contacts</span>
                     <div className="clearfix" />
-                </Link>
+                </Link> */}
             </li>
             {/* END CONTACT */}
         </ul>

@@ -8,7 +8,7 @@ import SubDashboard from './SubDashboard';
 import AddContact from './ListsComponent/AddContacts';
 import CreateList from './ListsComponent/CreateList';
 import CreateContact from './ContactComponent/CreateContact';
-
+import ViewUserProfile from './UserComponent/ViewUserProfile';
 import {
   BrowserRouter as Router,
   Route,
@@ -35,6 +35,7 @@ class DashBoard extends Component {
        
            <Switch >
              <Route path="/dashboard" exact component={SubDashboard} />
+             <Route path="/dashboard/view-user-profile" exact component={ViewUserProfile} />
              <Route path="/dashboard/campaigns"  component={Campaigns} />
              <Route path="/dashboard/add-contacts"  component={AddContact} />
              <Route path="/dashboard/add-contacts-file"  component={AddContactsFile} />

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import ReactDropzone from 'react-dropzone';
 import { render } from "react-dom";
 import {useDropzone} from 'react-dropzone';
-import Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone';
+import FileUpload from './../../../components/UploadFile';
+import csv from 'csv';
 
 
 class AddContactsFile extends Component {
@@ -10,6 +12,7 @@ class AddContactsFile extends Component {
     super(props);
 
     this.state = {
+      csvUploadFile: "",
       visible: true,
       dropdown_visible: false,
     };
@@ -47,7 +50,7 @@ class AddContactsFile extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <a icon="segment" className="btn-create-segment" href="/marketing_campaigns/ui/contacts/segment">
+                                <a icon="segment" className="btn_create_contact" href="/marketing_campaigns/ui/contacts/segment">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Save Contact
                                 </a>
@@ -99,29 +102,43 @@ class AddContactsFile extends Component {
             </div>
           </article>
           </div>
-             <div className="contact_file">
-            <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
-  {({getRootProps, getInputProps}) => (
-    <section>
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        <span>
-          "Drag or drop your 
-          file"
-          or
-        </span>
-        <span className="browse_link"> import your contact here </span>
-      </div>
-    </section>
-  )}
-</Dropzone>
-      </div>
+             
+            {/* <FileUpload /> */}
+              <Dropzone onDrop={this.onDrop}>
+                {({getRootProps, getInputProps}) => (
+                  <section>
+                    <div {...getRootProps()}>
+                    <div className="contact_file">
+                      <input {...getInputProps()} />
+                      <span>
+                        "Drag or drop your 
+                        file"
+                        or
+                      <a style = {{"fontWeight":"bold", "cursor":"pointer"}}> import your contact here</a> </span>
+                    </div>
+                    </div>
+                  </section>
+                )}
+              </Dropzone>
+      
         </div>
       </div>
       
      
     );
   }
+
+   onDrop = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+        csv.parse(reader.result, (err, data) => {
+            console.log(data);
+        });
+    };
+
+    reader.readAsBinaryString(e[0]);
+}
+
 
 }
 

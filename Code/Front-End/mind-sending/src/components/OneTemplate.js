@@ -20,13 +20,16 @@ class OneTemplate extends Component {
   showModal =()=>{
     this.props.onOpenModal();
   }
+  onSelectTemplate = ()=>{
+      console.log("Hello true")
+  }
   render(){
-    console.log("Props is " +this.props.isDisplayPreviewModal);
+    console.log("Props is " +this.props.preview);
      return (
          
-        <div className="list-item-container">
+        <div className={"list-item-container" + (this.props.preview ? " " : " ontemplate")} >
         <div className="thumbnail-box">
-          <div className="preview">
+          <div className="preview" onClick={()=>console.log("hello guy")}>
             <div
               className="thumbnail-container"
               style={{
@@ -36,16 +39,21 @@ class OneTemplate extends Component {
             >
               <div className="thumbnail-actions">
                 <a
-                  className="btn btn-secondary btn-on-dark"
+                  className={"btn btn-secondary btn-on-dark " +(this.props.preview ? " " : "displayFalse") }
                   onClick={this.showModal} >
                   Preview
+                </a>
+                <a
+                  className={"btn btn-secondary btn-on-dark " +(this.props.preview ? " displayFalse" : "") }
+                  onClick={this.showModal} >
+                  Choose
                 </a>
               </div>
             </div>
           </div>
           <div className="thumbnail-details">
             <div className="template-name">
-            <div className="dropdown-btn"><i class="fas fa-cog"></i>
+            <div className={"dropdown-btn " + (this.props.preview ? " " : "displayFalse")}><i class="fas fa-cog"></i>
                 <ul  className={"dropdown-template " + (this.state.dropdown_visible ? "dropdown-template-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
                   <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
                     <i className="sg-icon sg-icon-csv"></i>

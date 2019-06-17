@@ -52,19 +52,18 @@ class Lists extends Component {
                             </span>
                         </div>
                         <div className="col-md-6">
-                            <nav className="btn-list pull-right">
+                            
 
-                                <Link  className="button button-primary button-big" to="/dashboard/create-list">
+                                <Link  className="btn_create_contact" to="/dashboard/create-list">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create Segment
                                 </Link>
                                 
-                                <a onClick={this.onToggleDropdown} className="button button-secondary-filled button-big" >
+                                {/* <a onClick={this.onToggleDropdown} className="btn_create_contact" > */}
                                     {/* <i className="fa fa-users"></i> */}
-                                    Add Contacts
-                                </a>
+                                    {/* Add Contacts */}
+                                {/* </a> */}
                                 
-                            </nav>
                             <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
                                         <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
                                             <i className="sg-icon sg-icon-csv"></i>
@@ -95,25 +94,27 @@ class Lists extends Component {
                     </section>
                     <section>
                         <div className="infinitelyScrollable-css__container___pDiPC" data-infinitely-scrollable="true">
-                            <section className="items-collection-container">
-                                <section>           
-                                <div class="tablet">
-
-                                    <div class="rowt headert">
-                                        <div class="cellt">
-                                        List Name
-                                        </div>
-                                        <div class="cellt">
-                                            Description
-                                        </div>
-                                        <div class="cellt">
-                                            Contacts
-                                        </div>
-                                        <div class="cellt">
-                                            Actions
-                                        </div>
-                                    </div>
-                                    {lists.map(list=>(
+                        <section>
+                    <div className="md_tablet1">
+                    <div className="md_tablet2">
+                        <div className="md_tablet3">
+                        <h4 className="md_tablet_h4">Groups List</h4>
+                        <p className="md_tablet_p">Here is the list of your Groups </p>
+                        </div>
+                    <div className="md_tablet4">
+                        <div className="md_tablet5">
+                        <table className="md_tablet6">
+                            <thead className="md_tablet6_thead">
+                            <tr className="md_tablet6_tr">
+                                <th className="md_tablet6_th" scope="col">Group's Name</th>
+                                <th className="md_tablet6_th" scope="col">Description</th>
+                                <th className="md_tablet6_th" scope="col">Contacts</th>
+                                <th className="md_tablet6_th" scope="col">Actions</th>
+                            </tr>
+                                
+                            </thead>
+                            <tbody>
+                            {lists.map(list=>(
                                         <ListRow
                                         key={list.index}
                                         contactId={list.id}
@@ -122,44 +123,56 @@ class Lists extends Component {
                                     contactDateAdded={list.totalContacts} />
                                     ))}
 
-                                    </div>
-                            
-                            </section>
-                        </section>
-                        <a onClick={()=>this.openModal()}  className="button button-primary button-big mt15" >
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    <a onClick={()=>this.openModal()}  className="button button-primary button-big mt15" >
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create List
                                 </a>
+                    </section>
+
+             
+                        
                     </div>
                 </section>
+                   
             </article>
         </div>
     </div>
   {/* MODAL */}
-                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createListVisible} width="400" height="400" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                    
-                    <div class="header-top-template" >Create List</div>
-                    
-                        <h4 style={{"textAlign": "left", "marginTop": "30px", "marginLeft":"20px"}}>
-                        List Name
-                    </h4>
-                    <form>
-                    <input value={this.state.newList.name} onChange={this.handleChange1} required className="name ml10" type="text" />
-                    <h4 style={{"textAlign": "left", "marginTop": "30px", "marginLeft":"20px"}}>
-                        List Description
-                    </h4>
-                    <input value={this.state.newList.description} onChange={this.handleChange2} required className="description ml10" type="text" />
-                    <div style={{"width":"100%"}}>
-                                <a onClick={()=>this.saveNewList()} icon="segment" type="submit" className="btn-save btn-create-segment" >
-                                    Create
-                                </a>
+                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <form class="contact1-form validate-form">
+				<span class="contact1-form-title">
+					New Group
+				</span>
 
-                                <a icon="segment" className="btn-cancel btn-create-segment" onClick={()=>this.closeModal()}>
-                                    Cancel
-                                </a>
-                    </div>
-                    
-                    </form>
+				<div className="wrap-input1 validate-input" >
+					<input  value={this.state.newList.name} onChange={this.handleChange1} className="name input1" type="text" name="name" placeholder="Group Name"/>
+					<span class="shadow-input1"></span>
+				</div>
+
+				<div class="wrap-input1 validate-input" >
+					<input value={this.state.newList.description} onChange={this.handleChange2}  className="description input1" type="text" name="email" placeholder="Description"/>
+					<span class="shadow-input1"></span>
+				</div>
+
+				<div class="container-contact1-form-btn">
+					<a onClick={()=>this.saveNewList()}  class="contact1-form-btn">
+						<span>
+							Create
+						</span>
+					</a>
+                    <a onClick={()=>this.closeModal()}  class="contact1-form-btn">
+						<span>
+                            Cancel
+						</span>
+					</a>
+				</div>
+			</form>
                 </Modal>
     
 {/* END MODAAL */}
@@ -179,10 +192,11 @@ class Lists extends Component {
   }
 
   saveNewList(){
-console.log(this.state.newList);
+    console.log(this.state.newList);
     axios.post(`${Config.API_URL}groupContact/create`, this.state.newList)
-      .then(function (response) {
-        console.log(response);
+      .then(res => {
+        this.getAllListContact();
+        this.closeModal();
       })
       .catch(function (error) {
         console.log(error);
