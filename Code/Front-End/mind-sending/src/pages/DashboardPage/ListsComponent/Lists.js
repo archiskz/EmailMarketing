@@ -144,30 +144,35 @@ class Lists extends Component {
         </div>
     </div>
   {/* MODAL */}
-                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createListVisible} width="400" height="400" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                    
-                    <div class="header-top-template" >Create List</div>
-                    
-                        <h4 style={{"textAlign": "left", "marginTop": "30px", "marginLeft":"20px"}}>
-                        List Name
-                    </h4>
-                    <form>
-                    <input value={this.state.newList.name} onChange={this.handleChange1} required className="name ml10" type="text" />
-                    <h4 style={{"textAlign": "left", "marginTop": "30px", "marginLeft":"20px"}}>
-                        List Description
-                    </h4>
-                    <input value={this.state.newList.description} onChange={this.handleChange2} required className="description ml10" type="text" />
-                    <div style={{"width":"100%"}}>
-                                <a onClick={()=>this.saveNewList()} icon="segment" type="submit" className="btn-save btn-create-segment" >
-                                    Create
-                                </a>
+                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <form class="contact1-form validate-form">
+				<span class="contact1-form-title">
+					New Group
+				</span>
 
-                                <a icon="segment" className="btn-cancel btn-create-segment" onClick={()=>this.closeModal()}>
-                                    Cancel
-                                </a>
-                    </div>
-                    
-                    </form>
+				<div className="wrap-input1 validate-input" >
+					<input  value={this.state.newList.name} onChange={this.handleChange1} className="name input1" type="text" name="name" placeholder="Group Name"/>
+					<span class="shadow-input1"></span>
+				</div>
+
+				<div class="wrap-input1 validate-input" >
+					<input value={this.state.newList.description} onChange={this.handleChange2}  className="description input1" type="text" name="email" placeholder="Description"/>
+					<span class="shadow-input1"></span>
+				</div>
+
+				<div class="container-contact1-form-btn">
+					<a onClick={()=>this.saveNewList()}  class="contact1-form-btn">
+						<span>
+							Create
+						</span>
+					</a>
+                    <a onClick={()=>this.closeModal()}  class="contact1-form-btn">
+						<span>
+                            Cancel
+						</span>
+					</a>
+				</div>
+			</form>
                 </Modal>
     
 {/* END MODAAL */}
@@ -187,13 +192,14 @@ class Lists extends Component {
   }
 
   saveNewList(){
-console.log(this.state.newList);
+    console.log(this.state.newList);
     axios.post(`${Config.API_URL}groupContact/create`, this.state.newList,{params:{
         name: this.state.newList.name,
         description: this.state.newList.description,
     }})
-      .then(function (response) {
-        // console.log(response);
+      .then(res => {
+        this.getAllListContact();
+        this.closeModal();
       })
       .catch(function (error) {
         console.log(error);

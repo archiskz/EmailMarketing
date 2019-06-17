@@ -102,24 +102,25 @@ class AddContactsFile extends Component {
             </div>
           </article>
           </div>
-             <div className="contact_file">
+             
             {/* <FileUpload /> */}
               <Dropzone onDrop={this.onDrop}>
                 {({getRootProps, getInputProps}) => (
                   <section>
                     <div {...getRootProps()}>
+                    <div className="contact_file">
                       <input {...getInputProps()} />
                       <span>
                         "Drag or drop your 
                         file"
                         or
-                      </span>
-                      <span className="browse_link"> import your contact here </span>
+                      <a style = {{"fontWeight":"bold", "cursor":"pointer"}}> import your contact here</a> </span>
+                    </div>
                     </div>
                   </section>
                 )}
               </Dropzone>
-      </div>
+      
         </div>
       </div>
       
