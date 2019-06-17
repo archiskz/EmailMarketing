@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import * as Config from './../../../constants/Config';
+import AddContactRow from './../../../components/row/AddContactRow';
 class AddContact extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      account_id:"1",
-      email: "sonnlh3@gmailas.com",
+      email: "sonnlh53@gmailas.com",
       name: "Hong Son",
+      contacts: [{
+        name: "",
+        email:""
+      }]
     };
   }
   onToggleDropdown = () => {
@@ -22,13 +27,13 @@ class AddContact extends Component {
       'Authorization': 'JWT fefege...'
     }
     this.setState({
-        account_id: this.state.account_id,
+        // account_id: this.state.account_id,
         email: this.state.email,
         name: this.state.name
     });
     var json = JSON.stringify(this.state);
     alert(json);
-    axios.post('http://45.77.172.104:8080/api/subcriber/create', 
+    axios.post(`${Config.API_URL}subcriber/create`, 
         {json}, 
         headers
       )
@@ -65,10 +70,7 @@ class AddContact extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <a onClick={this.onSave} icon="segment" className="btn-create-segment">
-                                    <i className="sg-icon sg-icon-segment"></i>
-                                    Save Contact
-                                </a>
+                                
                             </nav>
                         </div>
                     </header>
@@ -114,23 +116,12 @@ class AddContact extends Component {
                   <span className="title-h3">
                     Contact Info
                 </span>
-                  <section className="row">
-                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                      <div className="search">
-                        <input type="text" className="inputContact" placeholder="First name"/>                                       
-                      </div>
-                    </div>
-                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <div className="search">
-                        <input type="text" className="inputContact" placeholder="Last name"/>                                       
-                      </div>
-                    </div>
-                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                      <div className="search">
-                          <input type="text" className="inputContact" placeholder="Email"/>                                       
-                      </div>
-                    </div>
-                  </section>
+                  {this.createUI()}        
+                    <a type='button' className="btn-create-segment" value='add more' onClick={this.addClick.bind(this)}>Add More</a>
+                    <a onClick={this.onSave} icon="segment" className="btn-create-segment">
+                      <i className="sg-icon sg-icon-segment"></i>
+                        Save Contact
+                  </a>
                 </form>
               </div>
             </div>
@@ -140,6 +131,43 @@ class AddContact extends Component {
       </div>
     );
   }
+  addClick(){
+    this.setState(prevState => ({ 
+    	contacts: [...prevState.contacts, { name: "", email: "" }]
+    }))
+    console.log(this.state.contacts)
+  }
+  
+  createUI(){
+     return this.state.contacts.map((el, i) => (
+        <div className="row" key={i}>
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    	      <input className="inputContact" placeholder="Name" name="name" value={el.name ||''} onChange={this.handleChange.bind(this, i)} />
+          </div>
+        <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <input className="inputContact" placeholder="Email" name="email" value={el.email ||''} onChange={this.handleChange.bind(this, i)} />   	  
+       </div>
+       <input type='button' className="btn-create-segment" value='remove' onClick={this.removeClick.bind(this, i)}/>
+       </div>          
+     ))
+  }
 
+  handleChange(i, e) {
+    const { name, value } = e.target;
+    let contacts = [...this.state.contacts];
+    contacts[i] = {...contacts[i], [name]: value};
+    this.setState({ contacts });
+ }
+ 
+ removeClick(i){
+    let contacts = [...this.state.contacts];
+    contacts.splice(i, 1);
+    this.setState({ contacts });
+ }
+
+  addRowContact(){
+this.setState({contacts: [...this.state.contacts,{name:"", email: ""}]})
+console.log(this.state.contacts)
+  }
 }
 export default AddContact;

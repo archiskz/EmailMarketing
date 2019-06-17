@@ -26,12 +26,12 @@ public interface GroupContactRepository extends JpaRepository<GroupContact, Inte
     List<GroupContactSubcriber> getAllSubcriber();
 
 
-    @Query("SELECT gr.subcriber FROM GroupContactSubcriber gr WHERE gr.groupContactId = :groupContactId")
-    List<Subcriber> findSubcriberByGroupContactId(@Param("groupContactId")String groupContactId);
+    @Query("SELECT gr.subcriber FROM GroupContactSubcriber gr WHERE gr.groupContact.id = :groupContactId")
+    List<Subcriber> findSubcriberByGroupContactId(@Param("groupContactId")int groupContactId);
 
 
-    @Query("SELECT COUNT(gr.subcriberId) FROM GroupContactSubcriber gr WHERE gr.groupContactId = :groupContactId")
-    Long countTotalContactsByGroupId(@Param("groupContactId")String groupContactId);
+    @Query("SELECT COUNT(gr.subcriber.id) FROM GroupContactSubcriber gr WHERE gr.groupContact.id  = :groupContactId")
+    Long countTotalContactsByGroupId(@Param("groupContactId")int groupContactId);
 
 
 

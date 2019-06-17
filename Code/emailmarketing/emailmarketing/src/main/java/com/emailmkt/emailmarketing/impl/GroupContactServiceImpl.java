@@ -1,5 +1,7 @@
 package com.emailmkt.emailmarketing.impl;
 
+import com.emailmkt.emailmarketing.dto.GroupContactDTO;
+import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,16 +22,18 @@ public class GroupContactServiceImpl implements GroupContactService {
 
 
     @Override
-    public boolean createGroupContact(GroupContact GroupContact) {
-        System.out.println(GroupContact.getName());
-        GroupContact checkExistedGroupContact = groupContactRepository.findByName(GroupContact.getName());
+    public boolean createGroupContact(GroupContactDTO groupContactDTO) {
+        System.out.println(groupContactDTO.getName());
+        GroupContact checkExistedGroupContact = groupContactRepository.findByName(groupContactDTO.getName());
         if (checkExistedGroupContact != null) {
             return false;
         }
-        GroupContact.setCreatedTime(LocalDateTime.now().toString());
-        GroupContact.setName(GroupContact.getName());
-        GroupContact.setDescription(GroupContact.getDescription());
-        groupContactRepository.save(GroupContact);
+        GroupContact groupContact = new GroupContact();
+        groupContact.setCreatedTime(LocalDateTime.now().toString());
+        groupContact.setName(groupContactDTO.getName());
+        groupContact.setDescription(groupContactDTO.getDescription());
+        groupContact.setAccount_id(1);
+        groupContactRepository.save(groupContact);
         return true;
     }
 
@@ -62,6 +67,12 @@ public class GroupContactServiceImpl implements GroupContactService {
     }
 
     @Override
+    public GroupContact getGroupById(int id) {
+        return groupContactRepository.findGroupById(id);
+
+    }
+
+    @Override
     public GroupContact updateGroupContact(GroupContact GroupContact) {
         return null;
     }
@@ -89,8 +100,20 @@ public class GroupContactServiceImpl implements GroupContactService {
     }
 
     @Override
-    public List<Subcriber> findSubcriberByGroupContactId(String groupContactId) {
-        return groupContactRepository.findSubcriberByGroupContactId(groupContactId);
+    public List<SubcriberDTO> findSubcriberByGroupContactId(int groupContactId) {
+        List<Subcriber>subcribers = groupContactRepository.findSubcriberByGroupContactId(groupContactId);
+        List<SubcriberDTO> dtos = new ArrayList<>();
+        for(Subcriber subcriber : subcribers){
+            SubcriberDTO dto = new SubcriberDTO();
+            dto.setId(subcriber.getId());
+            dto.setEmail(subcriber.getEmail());
+            dto.setName(subcriber.getName());
+            dto.setTag(subcriber.getName());
+            dto.setType(subcriber.getType());
+            dtos.add(dto);
+        }
+        return dtos;
+
     }
 
 
@@ -98,7 +121,7 @@ public class GroupContactServiceImpl implements GroupContactService {
 
 
     @Override
-    public Long countTotalContactsByGroupId(String groupContactId ) {
+    public Long countTotalContactsByGroupId(int groupContactId ) {
         return groupContactRepository.countTotalContactsByGroupId(groupContactId);
     }
 }

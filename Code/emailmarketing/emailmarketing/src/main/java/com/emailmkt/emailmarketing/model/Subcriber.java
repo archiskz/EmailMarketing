@@ -1,18 +1,22 @@
 package com.emailmkt.emailmarketing.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
 public class Subcriber implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +60,28 @@ public class Subcriber implements Serializable {
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;
 
+    @OneToMany(fetch=FetchType.LAZY,mappedBy = "subcriber",cascade = CascadeType.ALL)
+    private List<GroupContactSubcriber> groupContactSubcribers;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subcriber subcriber = (Subcriber) o;
+        return id == subcriber.id &&
+                Objects.equals(name, subcriber.name) &&
+                Objects.equals(email, subcriber.email) &&
+                Objects.equals(address, subcriber.address) &&
+                Objects.equals(type, subcriber.type) &&
+                Objects.equals(tag, subcriber.tag) &&
+                Objects.equals(createdTime, subcriber.createdTime) &&
+                Objects.equals(updatedTime, subcriber.updatedTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, address,type,tag, createdTime, updatedTime);
+    }
 //    @ManyToMany(fetch = FetchType.LAZY,
 //            cascade = {
 //                    CascadeType.PERSIST,

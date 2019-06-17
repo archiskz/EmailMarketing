@@ -50,7 +50,7 @@ addActiveClass = (index) => {
      return (
     <div className="sidebar-menu">
         <header className="logo1">
-            <a href="#" className="sidebar-icon"> <span className="fa fa-bars" /> </a> 
+            <a href="#" className="sidebar-icon"> <span className="fa fa-bars" />MindSending </a> 
         </header>
         <div style={{borderTop: '1px ridge rgba(255, 255, 255, 0.15)'}} />
         <div className="menuside">
@@ -69,19 +69,8 @@ addActiveClass = (index) => {
 
             {/* LIST */}
             <li id="menu-academico" className={this.state.activeClasses0 ? "opend" : "closed"} >
-                <a  onClick={() => this.addActiveClass(0)}>
-                    <i className="fa fa-users nav_icon" />
-                    <span style={{position: 'relative'}}>Lists</span>
-                    <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
-                    <div className="clearfix" />
-                </a>
-                {/* <Link to = "/dashboard/add-contacts" >
-                    <i className="fa " /> 
-                    <span style={{position: 'relative'}}>Contacts</span>
-                    <div className="clearfix" />
-                </Link> */}
                 <Link to = "/dashboard/lists" >
-                    <i className="fa " /> 
+                <i className="fa fa-users nav_icon" />
                     <span style={{position: 'relative'}}>Lists</span>
                     <div className="clearfix" />
                 </Link>
@@ -147,7 +136,7 @@ addActiveClass = (index) => {
                     <span style={{position: 'relative'}}>View Contacts</span>
                     <div className="clearfix" />
                 </Link>
-                <Link to="">
+                {/* <Link to="">
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>Manage Contacts</span>
                     <div className="clearfix" />
@@ -156,10 +145,12 @@ addActiveClass = (index) => {
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>View Contacts</span>
                     <div className="clearfix" />
-                </Link>
+                </Link> */}
             </li>
             {/* END CONTACT */}
         </ul>
+        </div>
+        <div className="sidebar-menu2">
         </div>
 </div>
     );

@@ -13,21 +13,32 @@ class ContactRow extends Component {
 
       render(){
           return( 
-            <div class={"rowt " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
-          <div class="cellt" data-title="email">
-          {this.props.contactEmail}
-          </div>
-          <div class="cellt" data-title="status">
-          {this.props.contactStatus}
-          </div>
-          <div class="cellt" data-title="dateAdded">
-          {this.props.contactDateAdded}
-          </div>
-          <div class="cellt" data-title="action">
-             {this.props.contactActions}
-             <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
-          </div>
-      </div> 
+      //       <div class={"rowt " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
+      //     <div class="cellt" data-title="email">
+      //     {this.props.contactEmail}
+      //     </div>
+      //     <div class="cellt" data-title="status">
+      //     {this.props.contactStatus}
+      //     </div>
+      //     <div class="cellt" data-title="dateAdded">
+      //     {this.props.contactDateAdded}
+      //     </div>
+      //     <div class="cellt" data-title="action">
+      //        {this.props.contactActions}
+      //        <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
+      //     </div>
+      // </div> 
+      <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
+      <td class="md_tablet6_tbody_td">{this.props.contactEmail}</td>
+          <td class="md_tablet6_tbody_td">{this.props.contactStatus}</td>
+          <td class="md_tablet6_tbody_td">{this.props.contactDateAdded}</td>
+          
+          <td class="md_tablet6_tbody_td">
+          {this.props.contactActions}
+          <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
+          </td>
+         
+      </tr>
           );
       }
 

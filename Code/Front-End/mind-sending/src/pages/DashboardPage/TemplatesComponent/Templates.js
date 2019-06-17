@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PreviewModal from '../../../components/modals/PreviewModal';
 import OneTemplate from '../../../components/OneTemplate';
+import * as Config from '../../../constants/Config';
 import axios from 'axios';
 import {
   BrowserRouter as Router,
@@ -41,7 +42,7 @@ class Templates extends Component {
   }
 
   componentDidMount(){
-    axios.get("http://45.77.172.104:8080/api/template",{
+    axios.get(`${Config.API_URL}template`,{
     })
     .then(res => {
       console.log(res.data);
@@ -79,17 +80,17 @@ class Templates extends Component {
                             </span>
                         </div>
                         <div className="col-md-6">
-                            <nav className="btn-list pull-right">
-                                <Link icon="segment" className="btn-create-segment" to="/new-template">
+                           
+                                <Link icon="segment" className="btn_create_contact" to="/new-template">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create New Template
                                 </Link>
-                            </nav>
+                            
                         </div>
         <div className="col-md-12">
          
           <div className="filter">
-            <ul className="filter">
+            <ul className="">
             <li><a className="">Filter By</a></li>
               <li><a  href="#home" className="active">All</a></li>
               <li><a href="#news">Custom Templates</a></li>
@@ -106,16 +107,26 @@ class Templates extends Component {
                    key={list.index}
                     templateName={list.nameTemplate}   
                      />
-                                    ))}
-        {/* <OneTemplate  
-        templateName={}       
-          />
-        <OneTemplate         
-        />
-        <OneTemplate         
-          />
-        <OneTemplate         
-        /> */}
+          ))}
+
+          {this.state.templates.map(list=>(
+               <OneTemplate
+                   key={list.index}
+                    templateName={list.nameTemplate}   
+                     />
+          ))}
+          {this.state.templates.map(list=>(
+               <OneTemplate
+                   key={list.index}
+                    templateName={list.nameTemplate}   
+                     />
+          ))}
+          {this.state.templates.map(list=>(
+               <OneTemplate
+                   key={list.index}
+                    templateName={list.nameTemplate}   
+                     />
+          ))}
           
         <PreviewModal  isOpen={true}
          />

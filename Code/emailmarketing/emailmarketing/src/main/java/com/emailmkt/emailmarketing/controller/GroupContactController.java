@@ -1,6 +1,8 @@
 package com.emailmkt.emailmarketing.controller;
 
 
+import com.emailmkt.emailmarketing.dto.GroupContactDTO;
+import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -34,14 +36,19 @@ public class GroupContactController {
         return groupContactService.getAllGroupContacts();
     }
 
+    @GetMapping("/groupContact/contactById")
+    public GroupContact getGroupById(@RequestParam(value = "id") int id) {
+        return groupContactService.getGroupById(id);
+    }
+
     @GetMapping("/groupContacts/subcribers")
     public List<GroupContactSubcriber> getAllSubcribers() {
         return groupContactService.getAllSubcriber();
     }
 
     @PostMapping("/groupContact/create")
-    public ResponseEntity createGroupContact(@RequestBody GroupContact groupContact) {
-        boolean flag = groupContactService.createGroupContact(groupContact);
+    public ResponseEntity createGroupContact(@RequestBody GroupContactDTO groupContactDTO) {
+        boolean flag = groupContactService.createGroupContact(groupContactDTO);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Group đã tồn tại tạo group mới");
         }
@@ -58,12 +65,12 @@ public class GroupContactController {
         return groupContactService.countTotalGroupContacts();
     }
 
-    @GetMapping("/groupContact/countContact/{id}")
-    public Long countTotalContactsByGroupId(@PathVariable(value = "id") String id) {
+    @PostMapping("/groupContact/countContact/{id}")
+    public Long countTotalContactsByGroupId(@PathVariable(value = "id") int id) {
         return groupContactService.countTotalContactsByGroupId(id);
     }
-    @GetMapping("/groupContact={id}/contacts")
-    public List<Subcriber> findSubcriberByGroupContactId(@PathVariable(value = "id") String id) {
+    @PostMapping("/groupContact={id}/contacts")
+    public List<SubcriberDTO> findSubcriberByGroupContactId(@PathVariable(value = "id") int id) {
         System.out.println("Tới đây chưa ?");
         return groupContactService.findSubcriberByGroupContactId(id);
     }

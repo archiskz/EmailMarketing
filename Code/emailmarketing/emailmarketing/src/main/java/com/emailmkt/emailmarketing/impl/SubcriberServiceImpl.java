@@ -1,13 +1,20 @@
 package com.emailmkt.emailmarketing.impl;
 
+import com.emailmkt.emailmarketing.dto.SubcriberDTO;
+import com.emailmkt.emailmarketing.model.Account;
+import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
+import com.emailmkt.emailmarketing.repository.AccountRepository;
+import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.SubcriberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubcriberServiceImpl implements SubcriberService {
@@ -16,25 +23,50 @@ public class SubcriberServiceImpl implements SubcriberService {
     @Autowired
     SubcriberRepository subcriberRepository;
 
+    @Autowired
+    GroupContactRepository groupContactRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
+
 
 
     @Override
-    public boolean createSubcrbier(Subcriber subcriber) {
-        System.out.println(subcriber.getName());
-        Subcriber checkExistedSubcriber = subcriberRepository.findByEmail(subcriber.getEmail());
+    public boolean createSubcrbier(SubcriberDTO dto) {
+        System.out.println(dto.getName());
+        Subcriber checkExistedSubcriber = subcriberRepository.findByEmail(dto.getEmail());
         if (checkExistedSubcriber != null) {
             return false;
         }
+        Subcriber subcriber = new Subcriber();
         subcriber.setCreatedTime(LocalDateTime.now().toString());
-        subcriber.setEmail(subcriber.getEmail());
+        subcriber.setEmail(dto.getEmail());
+        subcriber.setTag(dto.getTag());
+        subcriber.setType("New Subcriber");
+        Account account = accountRepository.findAccountById(1);
+        subcriber.setAccount_id(account.getId() + "");
+        List<GroupContactSubcriber> groupContactSubcribers = dto.getGcSubcriberDTOS().stream().map(g->{
+            GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
+            groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
+            groupContactSubcriber.setCreatedTime(LocalDateTime.now().toString());
+            groupContactSubcriber.setSubcriber(subcriber);
+            return groupContactSubcriber;
+        }).collect(Collectors.toList());
+        subcriber.setGroupContactSubcribers(groupContactSubcribers);
         subcriberRepository.save(subcriber);
         return true;
     }
 
+
+
     @Override
     public List<Subcriber> getAllSubcribers() {
         return subcriberRepository.findAll();
+
     }
+
+
+
 
     @Override
     public Subcriber editSubcriber(Subcriber subcriber) {
@@ -72,6 +104,32 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
     @Override
+    public boolean createSubcriberNormal(SubcriberDTO dto) {
+        System.out.println(dto.getName());
+        Subcriber checkExistedSubcriber = subcriberRepository.findByEmail(dto.getEmail());
+        if (checkExistedSubcriber != null) {
+            return false;
+        }
+        Subcriber subcriber = new Subcriber();
+        subcriber.setCreatedTime(LocalDateTime.now().toString());
+        subcriber.setEmail(dto.getEmail());
+        subcriber.setTag(dto.getTag());
+        subcriber.setType("New Subcriber");
+        Account account = accountRepository.findAccountById(1);
+        subcriber.setAccount_id(account.getId() + "");
+        List<GroupContactSubcriber> groupContactSubcribers = dto.getGcSubcriberDTOS().stream().map(g->{
+            GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
+            groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(1));
+            groupContactSubcriber.setCreatedTime(LocalDateTime.now().toString());
+            groupContactSubcriber.setSubcriber(subcriber);
+            return groupContactSubcriber;
+        }).collect(Collectors.toList());
+        subcriber.setGroupContactSubcribers(groupContactSubcribers);
+        subcriberRepository.save(subcriber);
+        return true;
+    }
+
+    @Override
     public Subcriber getSubcriberByEmail(String email) {
         return subcriberRepository.findSubcriberByEmail(email);
     }
@@ -79,6 +137,22 @@ public class SubcriberServiceImpl implements SubcriberService {
     @Override
     public List<Subcriber> searchByNameorEmail(String searchValue) {
         return subcriberRepository.searchByEmailAndName(searchValue);
+    }
+
+    @Override
+    public List<SubcriberDTO> getAllSubcriberV2() {
+        List<Subcriber>subcribers = subcriberRepository.findAll();
+        List<SubcriberDTO> dtos = new ArrayList<>();
+        for(Subcriber subcriber : subcribers){
+            SubcriberDTO dto = new SubcriberDTO();
+            dto.setId(subcriber.getId());
+            dto.setEmail(subcriber.getEmail());
+            dto.setName(subcriber.getName());
+            dto.setTag(subcriber.getName());
+            dto.setType(subcriber.getType());
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
 

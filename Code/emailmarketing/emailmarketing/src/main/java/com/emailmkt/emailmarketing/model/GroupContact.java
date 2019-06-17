@@ -38,7 +38,7 @@ public class GroupContact implements Serializable {
     private String updatedTime;
     @Basic
     @Column(name = "account_id")
-    private String account_id;
+    private int account_id;
 
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)

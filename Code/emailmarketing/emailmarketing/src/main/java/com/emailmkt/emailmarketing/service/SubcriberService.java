@@ -1,12 +1,13 @@
 package com.emailmkt.emailmarketing.service;
 
 
+import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.Subcriber;
 
 import java.util.List;
 
 public interface SubcriberService {
-    boolean createSubcrbier(Subcriber subcriber);
+    boolean createSubcrbier(SubcriberDTO dto);
 
     List<Subcriber> getAllSubcribers();
 
@@ -25,9 +26,13 @@ public interface SubcriberService {
 
     Subcriber createNewSubcriber(Subcriber subcriber);
 
+    boolean createSubcriberNormal(SubcriberDTO dto);
+
     Subcriber getSubcriberByEmail(String email);
 
     List<Subcriber> searchByNameorEmail( String searchValue);
+
+    List<SubcriberDTO>getAllSubcriberV2();
 
 //    List<Account> getAllAccountsByCustomer();
 //    Account loginForCustomer(String username, String password);

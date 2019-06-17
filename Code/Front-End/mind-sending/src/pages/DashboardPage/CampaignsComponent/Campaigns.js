@@ -115,97 +115,43 @@ class Campaigns extends Component {
                      </section>
                     <section>
                     {/* end filter */}
-                        <div className="infinitelyScrollable-css__container___pDiPC" data-infinitely-scrollable="true">
-                            <section className="items-collection-container">
-                                <section>
-                                    <div>
-                                        <div className="sg-modal " data-modal="true">
+                    <div className="md_tablet1">
+                    <div className="md_tablet2">
+                        <div className="md_tablet3">
+                        <h4 className="md_tablet_h4">Campaign Lists</h4>
+                        <p className="md_tablet_p">Here is the list of your Campaigns </p>
+                        </div>
+                    <div className="md_tablet4">
+                        <div className="md_tablet5">
+                        <table className="md_tablet6">
+                            <thead className="md_tablet6_thead">
+                            <tr className="md_tablet6_tr">
+                                <th className="md_tablet6_th" scope="col">Status</th>
+                                <th className="md_tablet6_th" scope="col">Campaign Name</th>
+                                <th className="md_tablet6_th" scope="col">Clicks</th>
+                                <th className="md_tablet6_th" scope="col">Opens</th>
+                                <th className="md_tablet6_th" scope="col">Unsubcribe</th>
+                            </tr>
+                                
+                            </thead>
+                            <tbody>
+                            {/* {lists.map(list=>(
+                                        <ListRow
+                                        key={list.index}
+                                        contactId={list.id}
+                                         contactEmail={list.name}
+                                    contactStatus={list.description}
+                                    contactDateAdded={list.totalContacts} />
+                                    ))} */}
 
-                                        </div>
-                                        <div className="modal-mask ">
-
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="sg-modal " data-modal="true">
-
-                                        </div>
-                                        <div className="modal-mask ">
-
-                                        </div>
-                                    </div>
-                                <table className="table-wrap has-checkboxes segment-conditions">
-                                    <thead>
-                                        <tr>
-                                           
-                                            <th>Status</th>
-                                            <th>Campaign Name</th>
-                                            <th>Sent</th>
-                                            <th>Opens</th>
-                                            <th>Clicks</th>
-                                            <th>Unsubcribes</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr className="queryRow-css__container___2FcAu infinitely-scrollable-item">
-                                            
-                                            <td className="cell-label">
-                                                <span className="label label-global">Draft</span>
-                                            </td>
-                                            <td className="list-name">
-                                                <a href="/marketing_campaigns/ui/all_contacts">Welcome Campaign</a>
-                                            </td>
-                                            <td className="numeric">
-                                                <span className="query-count-container">
-                                                    -
-                                                    <div className="queryCount-css__reload-tooltip___JH8R9">
-                                                        <span data-tooltip="Refresh Contact Count" data-tooltip-pos="up" data-tooltip-length="" className="">
-                                                            <i className="sg-icon sg-icon-reload" data-refresh-count="true"></i>
-                                                        </span>
-                                                    </div>
-                                                </span>
-                                            </td>
-                                            <td className="numeric">
-                                                <span className="query-count-container">
-                                                    -
-                                                    <div className="queryCount-css__reload-tooltip___JH8R9">
-                                                        <span data-tooltip="Refresh Contact Count" data-tooltip-pos="up" data-tooltip-length="" className="">
-                                                            <i className="sg-icon sg-icon-reload" data-refresh-count="true"></i>
-                                                        </span>
-                                                    </div>
-                                                </span>
-                                            </td>
-                                            <td className="numeric">
-                                                <span className="query-count-container">
-                                                    -
-                                                    <div className="queryCount-css__reload-tooltip___JH8R9">
-                                                        <span data-tooltip="Refresh Contact Count" data-tooltip-pos="up" data-tooltip-length="" className="">
-                                                            <i className="sg-icon sg-icon-reload" data-refresh-count="true"></i>
-                                                        </span>
-                                                    </div>
-                                                </span>
-                                            </td>
-                                            <td className="numeric">
-                                                <span className="query-count-container">
-                                                    -
-                                                    <div className="queryCount-css__reload-tooltip___JH8R9">
-                                                        <span data-tooltip="Refresh Contact Count" data-tooltip-pos="up" data-tooltip-length="" className="">
-                                                            <i className="sg-icon sg-icon-reload" data-refresh-count="true"></i>
-                                                        </span>
-                                                    </div>
-                                                </span>
-                                            </td>
-                                            
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </section>
-                        </section>
-                        <section className="loading-status-container">
-                       
-                        </section>
+                            </tbody>
+                        </table>
+                        </div>
                     </div>
-                </section>
+                    </div>
+                    </div>
+                  
+                          </section>
             </article>
         </div>
     </div>

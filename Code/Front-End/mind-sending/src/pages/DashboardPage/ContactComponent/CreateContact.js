@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import { withRouter } from "react-router";
 import axios from 'axios';
 import ContactRow from './../../../components/row/ContactRow';
+import * as Config from './../../../constants/Config';
+
 
 class CreateContact extends Component {
    constructor(props) {
@@ -11,6 +13,7 @@ class CreateContact extends Component {
      this.state = {
         //  title: match.params.id,
          listAccounts:[{ id: "", name: "", email: "",address:"",createdTime:""}],
+         listAccount: {id: 1, name: "Group 2", description: "Test Group V2", createdTime: "2019-06-12T13:08:24.810", updatedTime: "string"},
        visible: true,
        dropdown_visible: false,
      };
@@ -21,12 +24,38 @@ class CreateContact extends Component {
      })
    }
 
-   componentDidMount(){
+    componentDidMount(){
     
     console.log(this.props.history.location.state);
 
     // console.log("props:" + this.props);
-    axios.get("http://45.77.172.104:8080/api/subcriber",{
+    // console.log("props:" + this.props);
+    // console.log(`http://192.168.100.106:8080/api/groupContact=1/contacts`);
+    const id = this.props.history.location.state;
+    if(this.props.history.location.state != null){ 
+        axios.post(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`,)
+        .then(res => {
+            
+            // console.log(res.data);
+          const listAccounts = res.data;
+        //   console.log(listAccounts);
+          this.setState({listAccounts:listAccounts})
+                    axios.get(`${Config.API_URL}groupContact/contactById?id=${id}`,)
+                    .then(response => {
+                       
+                        console.log(response.data)
+                        this.setState({
+                            listAccount: response.data,
+                        })
+                    
+                    })
+
+        })
+
+        
+
+    } else {
+        axios.get(`${Config.API_URL}subcribersV2`,{
         params: {
             account_id: 1
         }
@@ -37,11 +66,17 @@ class CreateContact extends Component {
       this.setState({listAccounts:listAccounts})
       
     })
-
-    // const { myKey } = this.props.match.params.id
-    // console.log(myKey)
+    }
+    
    }
 
+   renderTitle(){
+       if(this.props.history.location.state != null){
+           return this.state.listAccount.name
+       } else {
+           return "All Contact";
+       }
+   }
   
 
 
@@ -59,21 +94,16 @@ class CreateContact extends Component {
                         <div className="col-md-6">
                             <span>
                                 <h1 className="">
-                                    <span className="pageTitle-css__title-heading___3H2vL">{this.props.title}
-                                   
+                                    <span className="pageTitle-css__title-heading___3H2vL">
+                                    {/* {this.state.listAccount.name} */}
+                                   {this.renderTitle()}
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
                             </span>
                         </div>
                         <div className="col-md-6">
-                            <nav className="btn-list pull-right">
-                                {/* <Link icon="segment" className="btn-create-segment" to="/dashboard/create-list">
-                                    <i className="sg-icon sg-icon-segment"></i>
-                                    Create Segment
-                                </Link> */}
-                                
-                                <div onClick={this.onToggleDropdown} className="btn-create-segment" data-dropdown-toggle="true" data-role="bulk-actions-toggle">
+                                <div onClick={this.onToggleDropdown} className="btn_create_contact" tabindex="0" type="button" data-dropdown-toggle="true" data-role="bulk-actions-toggle">
                                     <i className="fa fa-users"></i>
                                     Add Contacts
                                     <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
@@ -87,83 +117,64 @@ class CreateContact extends Component {
                                         </Link>
                                     </ul>
                                 </div>
-                            </nav>
+                            
                         </div>
                     </header>
                     <section className="row">
-                        <div className="col-md-3">
-                            <section>
-                                <div className="wrap">
-                                    <div className="search">
-                                        <input type="text" className="searchTerm" placeholder="Search by email address"/>
-                                        <button type="submit" className="searchButton">
-                                            <i className="fa fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </section>
+                        <div class="col-md-3">
+                        <section>
+                        <div class="wrap">
+                        <form class="subscribe-box" id="newsletter-form">
+                        <div class="input-field input-field-medium sticky-button">
+                        <label for="newsletter-email">
+                        <input id="newsletter-email" type="email" name="email" placeholder="Search by email"/>
+                        </label>
+                        <button class="button button-primary button-big" id="subscribe-button-footer" type="submit">
+                        <i class="btn_searching fa fa-search"></i>
+                        </button>
+                        </div>
+                        <div class="error-label">
+                        </div>
+                        </form>
+                        </div>
+                        </section>
                         </div>
                     </section>
-                    <section>
-                        <div className="infinitelyScrollable-css__container___pDiPC" data-infinitely-scrollable="true">
-                            <section className="items-collection-container">
-                                <section>
-                                    <div>
-                                        <div className="sg-modal " data-modal="true">
-
-                                        </div>
-                                        <div className="modal-mask ">
-
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="sg-modal " data-modal="true">
-
-                                        </div>
-                                        <div className="modal-mask ">
-
-                                        </div>
-                                    </div>
-
-
-                          <div class="tablet">
-
-                                <div class="rowt headert">
-                                    <div class="cellt">
-                                        Email Address
-                                    </div>
-                                    <div class="cellt">
-                                        Status
-                                    </div>
-                                    <div class="cellt">
-                                        Date Added
-                                    </div>
-                                    <div class="cellt">
-                                        Actions
-                                    </div>
-                                </div>
-                                {lists.map(list=>(
+                    
+                    <div className="md_tablet1">
+                    <div className="md_tablet2">
+                        <div className="md_tablet3">
+                        <h4 className="md_tablet_h4">Contact List</h4>
+                        <p className="md_tablet_p">Here is the list of your contacts </p>
+                        </div>
+                    <div className="md_tablet4">
+                        <div className="md_tablet5">
+                        <table className="md_tablet6">
+                            <thead className="md_tablet6_thead">
+                            <tr className="md_tablet6_tr">
+                                <th className="md_tablet6_th" scope="col">Email</th>
+                                <th className="md_tablet6_th" scope="col">Name</th>
+                                <th className="md_tablet6_th" scope="col">Last Name</th>
+                                <th className="md_tablet6_th" scope="col">Type</th>
+                            </tr>
+                                
+                            </thead>
+                            <tbody>
+                            {lists.map(list=>(
                                         <ContactRow
                                         key={list.index}
-                                         contactEmail={list.email}
-                                        
-                                         contactDateAdded={list.createdTime}
-                                         
-                                          />
+                                        contactEmail={list.email}
+                                        contactStatus={list.name}
+                                        contactDateAdded={list.createdTime}
+                                    />
                                     ))}
-                                
-                                </div>
-
-
-
-
-                            </section>
-                        </section>
-                        <section className="loading-status-container">
-                        
-                        </section>
+                            </tbody>
+                        </table>
+                        </div>
                     </div>
-                </section>
+                    </div>
+                    </div>
+
             </article>
         </div>
     </div>

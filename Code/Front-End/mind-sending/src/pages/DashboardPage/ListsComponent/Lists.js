@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import ListRow from './../../../components/row/ListRow';
 import Modal from 'react-awesome-modal';
+import * as Config from './../../../constants/Config';
 
 class Lists extends Component {
    constructor(props) {
@@ -51,22 +52,19 @@ class Lists extends Component {
                             </span>
                         </div>
                         <div className="col-md-6">
-                            <nav className="btn-list pull-right">
+                            
 
-                                <a onClick={()=>this.openModal()} icon="segment" className="btn-create-segment" >
-                                    <i className="sg-icon sg-icon-segment"></i>
-                                    Create List
-                                </a>
-
-                                <Link icon="segment" className="btn-create-segment" to="/dashboard/create-list">
+                                <Link  className="btn_create_contact" to="/dashboard/create-list">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create Segment
                                 </Link>
                                 
-                                <div onClick={this.onToggleDropdown} className="btn-create-segment" data-dropdown-toggle="true" data-role="bulk-actions-toggle">
-                                    <i className="fa fa-users"></i>
-                                    Add Contacts
-                                    <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
+                                {/* <a onClick={this.onToggleDropdown} className="btn_create_contact" > */}
+                                    {/* <i className="fa fa-users"></i> */}
+                                    {/* Add Contacts */}
+                                {/* </a> */}
+                                
+                            <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
                                         <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
                                             <i className="sg-icon sg-icon-csv"></i>
                                             <span>Upload CSV</span>
@@ -76,63 +74,47 @@ class Lists extends Component {
                                             <span>Manual Add</span>
                                         </Link>
                                     </ul>
-                                </div>
-                            </nav>
                         </div>
                     </header>
                     <section className="row">
                         <div className="col-md-3">
                             <section>
                                 <div className="wrap">
-                                    <div className="search">
-                                        <input type="text" className="searchTerm" placeholder="Search by email address"/>
-                                        <button type="submit" className="searchButton">
-                                            <i className="fa fa-search"></i>
-                                        </button>
+                                <form class="subscribe-box" id="newsletter-form">
+                                    <div class="input-field input-field-medium sticky-button">
+                                        <label for="newsletter-email">
+                                            <input id="newsletter-email" type="email" name="email" placeholder="Search list"/>
+                                        </label>
+                                        <button class="button button-primary button-big" id="subscribe-button-footer" type="submit"></button>
                                     </div>
+                                    <div class="error-label"></div></form>
                                 </div>
                             </section>
                         </div>
                     </section>
                     <section>
                         <div className="infinitelyScrollable-css__container___pDiPC" data-infinitely-scrollable="true">
-                            <section className="items-collection-container">
-                                <section>
-                                    <div>
-                                        <div className="sg-modal " data-modal="true">
-
-                                        </div>
-                                        <div className="modal-mask ">
-
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="sg-modal " data-modal="true">
-
-                                        </div>
-                                        <div className="modal-mask ">
-
-                                        </div>
-                                    </div>
-                               
-                            
-                                <div class="tablet">
-
-                                    <div class="rowt headert">
-                                        <div class="cellt">
-                                        List Name
-                                        </div>
-                                        <div class="cellt">
-                                            Description
-                                        </div>
-                                        <div class="cellt">
-                                            Contacts
-                                        </div>
-                                        <div class="cellt">
-                                            Actions
-                                        </div>
-                                    </div>
-                                    {lists.map(list=>(
+                        <section>
+                    <div className="md_tablet1">
+                    <div className="md_tablet2">
+                        <div className="md_tablet3">
+                        <h4 className="md_tablet_h4">Groups List</h4>
+                        <p className="md_tablet_p">Here is the list of your Groups </p>
+                        </div>
+                    <div className="md_tablet4">
+                        <div className="md_tablet5">
+                        <table className="md_tablet6">
+                            <thead className="md_tablet6_thead">
+                            <tr className="md_tablet6_tr">
+                                <th className="md_tablet6_th" scope="col">Group's Name</th>
+                                <th className="md_tablet6_th" scope="col">Description</th>
+                                <th className="md_tablet6_th" scope="col">Contacts</th>
+                                <th className="md_tablet6_th" scope="col">Actions</th>
+                            </tr>
+                                
+                            </thead>
+                            <tbody>
+                            {lists.map(list=>(
                                         <ListRow
                                         key={list.index}
                                         contactId={list.id}
@@ -141,43 +123,56 @@ class Lists extends Component {
                                     contactDateAdded={list.totalContacts} />
                                     ))}
 
-                                    </div>
-                            
-                            </section>
-                        </section>
-                        <section className="loading-status-container">
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    <a onClick={()=>this.openModal()}  className="button button-primary button-big mt15" >
+                                    <i className="sg-icon sg-icon-segment"></i>
+                                    Create List
+                                </a>
+                    </section>
+
+             
                         
-                        </section>
                     </div>
                 </section>
+                   
             </article>
         </div>
     </div>
   {/* MODAL */}
-                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createListVisible} width="400" height="400" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                    
-                    <div class="header-top-template" >Create List</div>
-                    
-                        <h4 style={{"textAlign": "left", "marginTop": "30px", "marginLeft":"20px"}}>
-                        List Name
-                    </h4>
-                    <form>
-                    <input value={this.state.newList.name} onChange={this.handleChange1} required className="name ml10" type="text" />
-                    <h4 style={{"textAlign": "left", "marginTop": "30px", "marginLeft":"20px"}}>
-                        List Description
-                    </h4>
-                    <input value={this.state.newList.description} onChange={this.handleChange2} required className="description ml10" type="text" />
-                    <div style={{"width":"100%"}}>
-                                <a onClick={()=>this.saveNewList()} icon="segment" type="submit" className="btn-save btn-create-segment" >
-                                    Create
-                                </a>
+                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <form class="contact1-form validate-form">
+				<span class="contact1-form-title">
+					New Group
+				</span>
 
-                                <a icon="segment" className="btn-cancel btn-create-segment" onClick={()=>this.closeModal()}>
-                                    Cancel
-                                </a>
-                    </div>
-                    
-                    </form>
+				<div className="wrap-input1 validate-input" >
+					<input  value={this.state.newList.name} onChange={this.handleChange1} className="name input1" type="text" name="name" placeholder="Group Name"/>
+					<span class="shadow-input1"></span>
+				</div>
+
+				<div class="wrap-input1 validate-input" >
+					<input value={this.state.newList.description} onChange={this.handleChange2}  className="description input1" type="text" name="email" placeholder="Description"/>
+					<span class="shadow-input1"></span>
+				</div>
+
+				<div class="container-contact1-form-btn">
+					<a onClick={()=>this.saveNewList()}  class="contact1-form-btn">
+						<span>
+							Create
+						</span>
+					</a>
+                    <a onClick={()=>this.closeModal()}  class="contact1-form-btn">
+						<span>
+                            Cancel
+						</span>
+					</a>
+				</div>
+			</form>
                 </Modal>
     
 {/* END MODAAL */}
@@ -187,7 +182,7 @@ class Lists extends Component {
   
 
   getAllListContact=()=>{
-    axios.get("http://45.77.172.104:8080/api/groupContacts",{
+    axios.get(`${Config.API_URL}groupContacts`,{
     })
     .then(res => {
       const listContacts = res.data;
@@ -197,10 +192,14 @@ class Lists extends Component {
   }
 
   saveNewList(){
-console.log(this.state.newList);
-    axios.post("http://45.77.172.104:8080/api/groupContact/create", this.state.newList)
-      .then(function (response) {
-        console.log(response);
+    console.log(this.state.newList);
+    axios.post(`${Config.API_URL}groupContact/create`, this.state.newList,{params:{
+        name: this.state.newList.name,
+        description: this.state.newList.description,
+    }})
+      .then(res => {
+        this.getAllListContact();
+        this.closeModal();
       })
       .catch(function (error) {
         console.log(error);
