@@ -31,7 +31,7 @@ class CreateList extends Component {
                             <span>
                                 <h1 className="">
                                     <span style={{"font-family": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">
-                                    Create New List
+                                    Create New Segment
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
@@ -39,9 +39,9 @@ class CreateList extends Component {
                         </div>
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
-                                <a style={{"width": "150px"}} icon="segment" className="btn-create-segment" href="/marketing_campaigns/ui/contacts/segment">
+                                <a style={{"width": "150px"}} icon="segment" className="btn_create_contact" href="/marketing_campaigns/ui/contacts/segment">
                                     <i className="sg-icon sg-icon-segment"></i>
-                                    Save List
+                                    Save Segment
                                 </a>
                             </nav>
                         </div>
