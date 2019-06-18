@@ -167,7 +167,7 @@ handleChange = (event)=>{
   });
   }
   onLoad = () => {
-    this.editor.loadDesign(this.state.content)
+    // this.editor.loadDesign(this.state.content)
 }
 
 

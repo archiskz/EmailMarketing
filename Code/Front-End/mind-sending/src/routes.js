@@ -15,6 +15,7 @@ import AddContact from './pages/DashboardPage/ListsComponent/AddContacts';
 import CreateList from './pages/DashboardPage/ListsComponent/CreateList';
 import AddContactsFile from './pages/DashboardPage/ListsComponent/AddContactsFile';
 import NewTemplate from './pages/DashboardPage/TemplatesComponent/NewTemplate';
+import EditTemplate from './pages/DashboardPage/TemplatesComponent/EditTemplate';
 import CreateContact from './pages/DashboardPage/ContactComponent/CreateContact';
 import ViewUserProfile from './pages/DashboardPage/UserComponent/ViewUserProfile';
 const routes = [
@@ -104,6 +105,11 @@ const routes = [
 	path: '/new-template',
 	exact: false,
 	main: () => <NewTemplate />
+},
+{
+	path: '/edit-template/:id',
+	exact: false,
+	main: () => <EditTemplate />
 },
 {/* {
 	path: '/dashboard/contacts/:id',

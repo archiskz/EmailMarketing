@@ -3,6 +3,7 @@ import AccountDropdown from './dropdowns/AccountDropdown';
 import {connect} from 'react-redux';
 import * as actions from './../actions/index';
 import {Link} from 'react-router-dom';
+import { withRouter } from "react-router";
 class OneTemplate extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +46,7 @@ class OneTemplate extends Component {
                 </a>
                 <a
                   className={"btn btn-secondary btn-on-dark " +(this.props.preview ? " displayFalse" : "") }
-                  onClick={this.showModal} >
+                  onClick = {()=> this.toTemplateEdit(this.props.id)}>
                   Choose
                 </a>
               </div>
@@ -78,6 +79,14 @@ class OneTemplate extends Component {
        
   );
   }
+
+  toTemplateEdit = (id)=> {        
+    this.props.history.push({
+        pathname:`/edit-template/:${id}`,
+        state : id
+    });
+    }
+
 }
 
 const mapStateToProps = (state) => {
@@ -92,5 +101,5 @@ const mapStateToProps = (state) => {
       }
     };
   };
-  export default connect(mapStateToProps, mapDispatchToProps) (OneTemplate);
+  export default connect(mapStateToProps, mapDispatchToProps) (withRouter(OneTemplate));
   

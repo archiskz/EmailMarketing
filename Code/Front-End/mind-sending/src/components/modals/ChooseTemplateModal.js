@@ -82,6 +82,7 @@ componentDidMount(){
       <div className="thumbnail-views">
       {this.state.templates.map(list=>(
                <OneTemplate
+               id={list.id}
                    key={list.index}
                     templateName={list.nameTemplate}   
                     image={this.state.htmlImage}

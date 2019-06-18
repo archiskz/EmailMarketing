@@ -106,6 +106,7 @@ class Templates extends Component {
           {this.state.templates.map(list=>(
                <OneTemplate
                    key={list.index}
+                   id={list.id}
                     templateName={list.nameTemplate}   
                     image={this.state.htmlImage}
                     preview={true}
