@@ -46,7 +46,7 @@ class Campaigns extends Component {
                         <div className="col-md-6">
                             <nav className="btn-list pull-right">
                                 
-                              <a class="btn-create-segment" href="#popup">Create campaign</a>
+                              <a class="btn_create_contact" href="#popup">Create campaign</a>
                              <CampaignPopUp />
                             </nav>
                         </div>

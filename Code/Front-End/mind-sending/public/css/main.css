@@ -7168,9 +7168,8 @@ color: #e04427;
     color: #FFF;
     margin: 0 20px;
     position: relative;
-        z-index: 3 !important;
-        border-bottom: none;
-
+    z-index: 1 !important;
+    border-bottom: none;
 }
 .md_tablet_h4{
     color: #FFFFFF;

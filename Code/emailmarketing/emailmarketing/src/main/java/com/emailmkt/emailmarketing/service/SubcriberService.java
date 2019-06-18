@@ -9,6 +9,8 @@ import java.util.List;
 public interface SubcriberService {
     boolean createSubcrbier(SubcriberDTO dto);
 
+    boolean createListSubcrbier(List<SubcriberDTO> dto);
+
     List<Subcriber> getAllSubcribers();
 
     Subcriber editSubcriber(Subcriber subcriber);

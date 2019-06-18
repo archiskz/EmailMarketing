@@ -32,6 +32,8 @@ class NewTemplate extends Component {
             nameTemplate: "",
             content: "", 
       },
+      nameTemplate:"",
+      content: "",
       html: "",
       visible: false,
     };
@@ -93,35 +95,13 @@ class NewTemplate extends Component {
                         Save
                       </span>
                     </a>
-                              <a onClick={()=>this.closeModal()}  class="contact1-form-btn">
+                        <a onClick={()=>this.closeModal()}  class="contact1-form-btn">
                       <span>
                                       Cancel
                       </span>
                     </a>
                   </div>
-                </form>
-
-
-              {/* <div class="header-top-template" >Save Template</div>
-                <h4 style={{"textAlign": "left", "marginTop": "30px", "marginLeft":"20px"}}>
-                  Name your template   
-                </h4>
-                <form>
-                  <input value={this.state.template.nameTemplate}  onChange={this.handleChange} required className=" ml10" type="text" />
-                  <div style={{"width":"100%"}}>
-                    <Link icon="segment" type="submit" className="btn-save btn-create-segment" onClick={()=>this.saveTemplate()}>
-                          Save
-                    </Link>
-                    <a icon="segment" className="btn-cancel btn-create-segment" onClick={()=>this.closeModal()}>
-                      Cancel
-                    </a>
-            </div>
-            
-            </form> */}
-            
-
-                
-            
+                </form>         
                       </Modal>
       <EmailEditor
       projectId={1071}
@@ -160,22 +140,33 @@ class NewTemplate extends Component {
     );
   }
 handleChange = (event)=>{
-  this.setState({template:{templateName: event.target.value, content: this.state.content}});
+  const target = event.target;
+  const value = target.value;
+  console.log(value);
+  const name = target.name;
+  this.setState({
+    template: {
+      ...this.state.template,
+      nameTemplate: value
+    }
+  })
+  
+ 
 }
 
   saveTemplate = () =>{
   this.exportHtml();
+  console.log(this.state.template)
+ 
   axios.post(`${Config.API_URL}template/create`,this.state.template)
   .then(res => {
-    // const listAccounts = res.data;
-  //   console.log(listAccounts);
     console.log("contact ID: " + res.data)
-    this.setState({count: res.data})
-   })
+    // this.setState({count: res.data})
+   }).catch(function (error) {
+    console.log(error);
+  });
   }
   onLoad = () => {
-    // console.log(sample)
-    // this.editor.addEventListener('onDesignLoad', this.onDesignLoad)
     this.editor.loadDesign(this.state.content)
 }
 
@@ -183,19 +174,22 @@ handleChange = (event)=>{
 exportHtml = () => {
   this.editor.exportHtml(data => {
     const { design, html } = data
-    console.log('exportHtml', JSON.stringify(design))
     this.setState({
-      template: {
-        nameTemplate: this.state.template.nameTemplate,
+      content: JSON.stringify(design),
+      template:{
+        ...this.state.template,
         content: JSON.stringify(design)
       }
     });
   })
+
+
 }
 openModal() {
   this.setState({
       visible : true
   });
+  this.exportHtml();
 }
 
 closeModal() {

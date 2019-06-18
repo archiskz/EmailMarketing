@@ -32,18 +32,18 @@ class CreateCampaign extends Component{
    }
   
    
-  //  componentDidMount (){
-  //    console.log(`${Config.API_URL}groupContacts`);
-  //   axios.get(`${Config.API_URL}groupContacts`)
-  //   .then(response => {
-  //     this.setState({
-  //       lists: response.data
-  //     });
-  //   })
-  //   .catch(error => {
-  //     console.log(error);
-  //   });
-  //  }
+   componentDidMount (){
+     console.log(`${Config.API_URL}groupContacts`);
+    axios.get(`${Config.API_URL}groupContacts`)
+    .then(response => {
+      this.setState({
+        lists: response.data
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+   }
 
 
    clickToOpen= (id)=>{

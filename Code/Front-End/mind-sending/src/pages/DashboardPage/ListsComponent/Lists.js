@@ -193,10 +193,7 @@ class Lists extends Component {
 
   saveNewList(){
     console.log(this.state.newList);
-    axios.post(`${Config.API_URL}groupContact/create`, this.state.newList,{params:{
-        name: this.state.newList.name,
-        description: this.state.newList.description,
-    }})
+    axios.post(`${Config.API_URL}groupContact/create`, this.state.newList)
       .then(res => {
         this.getAllListContact();
         this.closeModal();
