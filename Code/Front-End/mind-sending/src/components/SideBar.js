@@ -64,25 +64,27 @@ addActiveClass = (index) => {
             {/* DASHBOARD */}
                 <li>
                     <a href="/dashboard">
-                        <i className="fa fa-tachometer" /> 
+                        <i className="fa fa-chart-line" /> 
                         <span style={{position: 'relative'}}>Dashboard</span>
                         <div className="clearfix" />
                     </a>
 
                 </li>
             {/* DASHBOARD */}
+            {/* USERPROFILE */}
                 <li>
                     <a href="/dashboard/view-user-profile">
-                        <i className="fa fa-tachometer" /> 
+                        <i className="fa fa-address-card" /> 
                         <span style={{position: 'relative'}}>User Profile</span>
                         <div className="clearfix" />
                     </a>
 
                 </li>
+            {/* USERPROFILE */}
             {/* LIST */}
             <li id="menu-academico" className={this.state.activeClasses0 ? "opend" : "closed"} >
                 <Link to = "/dashboard/lists" >
-                <i className="fa fa-users nav_icon" />
+                <i className="fa fa-list-alt" />
                     <span style={{position: 'relative'}}>Lists</span>
                     <div className="clearfix" />
                 </Link>
@@ -92,7 +94,7 @@ addActiveClass = (index) => {
             {/* TEMPLATE */}
             <li className={this.state.activeClasses1? "opend" : "closed"}>
                 <a onClick={() => this.addActiveClass(1)}>
-                    <i className="fa fa-wpforms" aria-hidden="true" />
+                    <i className="fa fa-image" aria-hidden="true" />
                     <span style={{position: 'relative'}}>Templates</span>
                     <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
                     <div className="clearfix" />
