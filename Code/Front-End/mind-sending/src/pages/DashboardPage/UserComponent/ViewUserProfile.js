@@ -26,7 +26,7 @@ class ViewUserProfile extends Component {
                         <div className="col-md-6">
                             <span>
                                 <h1 className="">
-                                    <span style={{"fontFamily": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">User Profile
+                                    <span Style={{"fontFamily": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">User Profile
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
@@ -38,86 +38,101 @@ class ViewUserProfile extends Component {
         <div className="user_profile3">
         	<div className="user_profile4">
         		<div className="user_profile5">
-        		<h4 class="user_profile5_h4">Edit Profile</h4>
-        		<p class="user_profile5_p">Complete your profile</p>
+        		<h4 className="user_profile5_h4">Edit Profile</h4>
+        		<p className="user_profile5_p">Complete your profile</p>
         		</div>
         		<div className="user_profile6">
         			<div className="user_profile7">
-        				<div className="user_profile7_sub">
+        				<div className="user_profile9_sub">
         					<div className="user_profile7_sub1">
-        						<label class="user_profile7_sub1_label" data-shrink="false" for="company-disabled">Company </label>
+        						<label className="user_profile_w3_label" >Company </label>
         						<div className="user_profile7_sub2">
-        						<input aria-invalid="false" class="user_profile7_sub2_input" disabled="" id="company-disabled" type="text" value=""/>
+        						<input aria-invalid="false" className="user_profile_w3_input" disabled="" id="company-disabled" type="text"value="MindSending" />
         						</div>
         					</div>
         				</div>
-        				<div className="user_profile8_sub">
+        				
+        				<div className="user_profile9_sub">
         					<div className="user_profile8_sub1">
-        						<label class="user_profile8_sub1_label" data-shrink="false" for="username">Username</label>
-        						<div className="user_profile8_sub2">
-        						<input aria-invalid="false" class="user_profile8_sub2_input" id="username" type="text" value=""/>
-        						</div>
-        					</div>
-        				</div>
-        				<div className="user_profile8_sub">
-        					<div className="user_profile8_sub1">
-        						<label class="user_profile8_sub1_label" data-shrink="false" for="username">Email address</label>
-        						<div className="user_profile8_sub2">
-        						<input aria-invalid="false" class="user_profile8_sub2_input" id="username" type="text" value=""/>
-        						</div>
+        						<label className="user_profile_w3_label" data-shrink="false" for="username">Email address</label>
+        						
+        						<input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value="thangnguyen15297@gmail.com"/>
+        						
         					</div>
         				</div>
         			</div>
         			<div className="user_profile9">
         				<div className="user_profile9_sub">
         					<div className="user_profile9_sub1">
-        						<label class="user_profile9_sub1_label" data-shrink="false" for="first-name">First Name</label>
-        						<div className="user_profile9_sub2">
-        						<input aria-invalid="false" class="user_profile8_sub2_input" id="first-name" type="text" value=""/>
-        						</div>
+        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">First Name</label>
+        						
+        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="Thắng"/>
+        						
         					</div>
         				</div>
         				<div className="user_profile9_sub">
         					<div className="user_profile9_sub1">
-        						<label class="user_profile9_sub1_label" data-shrink="false" for="first-name">Last Name</label>
-        						<div className="user_profile9_sub2">
-        						<input aria-invalid="false" class="user_profile8_sub2_input" id="first-name" type="text" value=""/>
-        						</div>
+        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">Last Name</label>
+        						
+        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text"value="Nguyễn" />
+        						
         					</div>
         				</div>
         			</div>
         			<div className="user_profile9">
         				<div className="user_profile10">
         					<div className="user_profile9_sub1">
-        						<label class="user_profile9_sub1_label" data-shrink="false" for="first-name">City</label>
-        						<div className="user_profile9_sub2">
-        						<input aria-invalid="false" class="user_profile8_sub2_input" id="first-name" type="text" value=""/>
-        						</div>
+        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">City</label>
+        						
+        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="Hồ Chí Minh city"/>
+        						
         					</div>
         				</div>
         				<div className="user_profile10">
         					<div className="user_profile9_sub1">
-        						<label class="user_profile9_sub1_label" data-shrink="false" for="first-name">Country</label>
-        						<div className="user_profile9_sub2">
-        						<input aria-invalid="false" class="user_profile8_sub2_input" id="first-name" type="text" value=""/>
-        						</div>
+        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">Country</label>
+        						
+        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="Việt Nam" />
+        						
         					</div>
         				</div>
         				<div className="user_profile10">
         					<div className="user_profile9_sub1">
-        						<label class="user_profile9_sub1_label" data-shrink="false" for="first-name">Postal code</label>
+        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">Postal code</label>
+        					
+        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="70000" />
+        						
+        					</div>
+        				</div>
+        			</div>
+        			<div className="user_profile16">
+        				<div className="user_profile16_sub">
+        					<label className="user_profile16_label" Style="color: rgb(170, 170, 170);">Keep in touch with me</label>
+        					<div className="user_profile16_sub1">
+        						<label className="user_profile16_sub1_label" data-shrink="true" for="about-me">Below is my information:</label>
+        						
         						<div className="user_profile9_sub2">
-        						<input aria-invalid="false" class="user_profile8_sub2_input" id="first-name" type="text" value=""/>
+        						<textarea aria-invalid="false" className="user_profile16_sub1_textarea" id="about-me" rows="3">
+        						MindSending is an internet marketing platform designed for small businesses. 
+        						With MindSending, you can launch various campaigns to engage with your subscribers,
+        						like emails, SMS, Facebook messenger and social campaigns for all major social media platforms,
+        						automated drip email campaigns.
+
+								MindSending also offers a bundle of advanced marketing automation features, 
+								transactional email delivery API, and all-in-one CRM for small businesses to manage their customers and teams efficiently on the MindSending app.                                                                       FPT University, Quang Trung Software, 0938169174.                                                                            
+
+        						</textarea>
         						</div>
         					</div>
         				</div>
         			</div>
-        			<div className="user_profile11">
-        				<button class="user_profile_btn" tabindex="0" type="button">
+        			
+        		</div>	
+        		<div className="user_profile11">
+        				<button className="user_profile_btn" tabindex="0" type="button">
         					Update Profile
         				</button>
         			</div>
-        		</div>	
         	</div>
         	
         </div>
