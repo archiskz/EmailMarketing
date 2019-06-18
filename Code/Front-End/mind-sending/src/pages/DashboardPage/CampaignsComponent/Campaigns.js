@@ -44,11 +44,11 @@ class Campaigns extends Component {
                             </span>
                         </div>
                         <div className="col-md-6">
-                            <nav className="btn-list pull-right">
+                            
                                 
                               <a class="btn_create_contact" href="#popup">Create campaign</a>
                              <CampaignPopUp />
-                            </nav>
+                           
                         </div>
                     </header>
                     {/* fiLTER */}

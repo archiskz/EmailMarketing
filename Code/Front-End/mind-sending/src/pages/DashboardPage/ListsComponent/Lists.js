@@ -85,7 +85,7 @@ class Lists extends Component {
                                         <label for="newsletter-email">
                                             <input id="newsletter-email" type="email" name="email" placeholder="Search list"/>
                                         </label>
-                                        <button class="button button-primary button-big" id="subscribe-button-footer" type="submit"></button>
+                                        <button class="button button-primary button-big" id="subscribe-button-footer" type="submit"><i class="btn_searching fa fa-search"></i></button>
                                     </div>
                                     <div class="error-label"></div></form>
                                 </div>
