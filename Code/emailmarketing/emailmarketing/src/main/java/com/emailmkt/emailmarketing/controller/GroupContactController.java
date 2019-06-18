@@ -5,15 +5,15 @@ import com.emailmkt.emailmarketing.dto.GroupContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
-import com.emailmkt.emailmarketing.model.Subcriber;
+import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.service.GroupContactService;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -28,6 +28,9 @@ public class GroupContactController {
 
     @Autowired
     GroupContactService groupContactService;
+
+    @Autowired
+    GroupContactRepository groupContactRepository;
 
 
 
@@ -73,6 +76,25 @@ public class GroupContactController {
     public List<SubcriberDTO> findSubcriberByGroupContactId(@PathVariable(value = "id") int id) {
         System.out.println("Tới đây chưa ?");
         return groupContactService.findSubcriberByGroupContactId(id);
+    }
+
+    @PutMapping("/groupcontact/edit/{id}")
+    GroupContact update(@RequestBody GroupContact updatingGroupContact, @PathVariable int id) {
+        return groupContactRepository.findById(id)
+                .map(groupContact -> {
+                    groupContact.setDescription(updatingGroupContact.getDescription());
+                    groupContact.setName(updatingGroupContact.getName());
+                    groupContact.setUpdatedTime(LocalDateTime.now().toString());
+
+
+                    return groupContactRepository.save(groupContact);
+                })
+                .orElseGet(() -> {
+                    updatingGroupContact.setId(id);
+
+                    return groupContactRepository.save(updatingGroupContact);
+                });
+
     }
 
 
