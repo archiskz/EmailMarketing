@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
@@ -67,6 +69,24 @@ public class SubcriberController {
     @GetMapping("subcriber/getSubcriberByTag")
     public List<Subcriber> getSubcriberByTag(@RequestParam(value = "tag") String tag) {
         return subcriberService.getSubcriberByTag(tag);
+    }
+    @PutMapping("subcriber/edit/{id}")
+    Subcriber update(@RequestBody Subcriber updatingSubcriber, @PathVariable int id) {
+        return subcriberRepository.findById(id)
+                .map(subcriber -> {
+                    subcriber.setEmail(updatingSubcriber.getEmail());
+                    subcriber.setName(updatingSubcriber.getName());
+                    subcriber.setUpdatedTime(LocalDateTime.now().toString());
+
+
+                    return subcriberRepository.save(subcriber);
+                })
+                .orElseGet(() -> {
+                    updatingSubcriber.setId(id);
+
+                    return subcriberRepository.save(updatingSubcriber);
+                });
+
     }
 //
 //    @PutMapping("account/edit")
