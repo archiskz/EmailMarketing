@@ -140,18 +140,38 @@ class ContactInformation extends Component {
 
         		</div>
         		<div className="user_profile13">
+        		 <div className="user_section user_line">	
+        		  <div className="user_line">	
         			<div className="contact_information_detail">
         				<h4 >
                     		0%
                			</h4>
         				<p >Open rate</p>
         			</div>
-        			<div className="contact_information_detail2">
+        			<div className="contact_information_detail">
         				<h4 >
                     		0%
                			</h4>
         				<p >Click rate</p>
         			</div>
+        			</div>
+        		 </div>
+        		 <div className="user_section user_line">	
+        		  <div className="user_line">	
+        			<div className="contact_information_detail">
+        				<h4 >
+                    		0%
+               			</h4>
+        				<p >Reply rate</p>
+        			</div>
+        			<div className="contact_information_detail">
+        				<h4 >
+                    		0%
+               			</h4>
+        				<p >Report rate</p>
+        			</div>
+        			</div>
+        		 </div>		
         		</div>
         	</div>
         </div>
