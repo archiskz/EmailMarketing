@@ -87,6 +87,7 @@ componentDidMount(){
                     templateName={list.nameTemplate}   
                     image={this.state.htmlImage}
                     preview={false}
+                    content={list.content}
                      />
           ))}    
       </div>

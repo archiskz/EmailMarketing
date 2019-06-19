@@ -71,49 +71,8 @@ addActiveClass = (index) => {
 
                 </li>
             {/* DASHBOARD */}
-            {/* USERPROFILE */}
-                <li>
-                    <a href="/dashboard/view-user-profile">
-                        <i className="fa fa-address-card" /> 
-                        <span style={{position: 'relative'}}>User Profile</span>
-                        <div className="clearfix" />
-                    </a>
-
-                </li>
-            {/* USERPROFILE */}
-            {/* LIST */}
-            <li id="menu-academico" className={this.state.activeClasses0 ? "opend" : "closed"} >
-                <Link to = "/dashboard/lists" >
-                <i className="fa fa-list-alt" />
-                    <span style={{position: 'relative'}}>Lists</span>
-                    <div className="clearfix" />
-                </Link>
-            </li>
-            {/* END LIST */}
-
-            {/* TEMPLATE */}
-            <li className={this.state.activeClasses1? "opend" : "closed"}>
-                <a onClick={() => this.addActiveClass(1)}>
-                    <i className="fa fa-image" aria-hidden="true" />
-                    <span style={{position: 'relative'}}>Templates</span>
-                    <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
-                    <div className="clearfix" />
-                </a>
-                <Link to="/dashboard/templates">
-                    <i className="fa " /> 
-                    <span style={{position: 'relative'}}>Gallery</span>
-                    <div className="clearfix" />
-                </Link>
-                <Link to="">
-                    <i className="fa " /> 
-                    <span style={{position: 'relative'}}>Landing Page</span>
-                    <div className="clearfix" />
-                </Link>
-            </li>
-            {/* END TEMPLATE */}
-
-            {/* CAMPAIGNS */}
-            <li id="menu-academico" className={this.state.activeClasses2? "opend" : "closed"}>
+             {/* CAMPAIGNS */}
+             <li id="menu-academico" className={this.state.activeClasses2? "opend" : "closed"}>
                 <a onClick={() => this.addActiveClass(2)}>
                     <i className="fa fa-bullhorn" />
                     <span style={{position: 'relative'}}>Campaigns</span>
@@ -138,6 +97,16 @@ addActiveClass = (index) => {
             </li>
 
             {/* END CAMPAIGNS */}
+             {/* LIST */}
+             <li id="menu-academico" className={this.state.activeClasses0 ? "opend" : "closed"} >
+                <Link to = "/dashboard/lists" >
+                <i className="fa fa-list-alt" />
+                    <span style={{position: 'relative'}}>Lists</span>
+                    <div className="clearfix" />
+                </Link>
+            </li>
+            {/* END LIST */}
+
             <li id="menu-academico" className={this.state.activeClasses3 ? "opend" : "closed"} >
                <a  onClick={() => this.addActiveClass(3)}>
                     <i className="fa fa-users nav_icon" />
@@ -162,6 +131,41 @@ addActiveClass = (index) => {
                 </Link> */}
             </li>
             {/* END CONTACT */}
+
+            {/* TEMPLATE */}
+            <li className={this.state.activeClasses1? "opend" : "closed"}>
+                <a onClick={() => this.addActiveClass(1)}>
+                    <i className="fa fa-image" aria-hidden="true" />
+                    <span style={{position: 'relative'}}>Templates</span>
+                    <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
+                    <div className="clearfix" />
+                </a>
+                <Link to="/dashboard/templates">
+                    <i className="fa " /> 
+                    <span style={{position: 'relative'}}>Gallery</span>
+                    <div className="clearfix" />
+                </Link>
+                <Link to="">
+                    <i className="fa " /> 
+                    <span style={{position: 'relative'}}>Landing Page</span>
+                    <div className="clearfix" />
+                </Link>
+            </li>
+            {/* END TEMPLATE */}
+
+            {/* USERPROFILE */}
+                <li>
+                    <Link to="/dashboard/profile">
+                        <i className="fa fa-address-card" /> 
+                        <span style={{position: 'relative'}}>User Profile</span>
+                        <div className="clearfix" />
+                    </Link>
+
+                </li>
+            {/* USERPROFILE */}
+           
+           
+           
         </ul>
         </div>
         <div className="sidebar-menu2">

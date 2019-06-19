@@ -606,21 +606,27 @@ progress-striped .yellow {
     width: 100%;
     height: 100%;
     
-     background: linear-gradient(60deg, #f5f6fa, #D1D3D9); 
+     background: #f5f6fa
 }
 .pace-done{
     max-height: 120%;
     width: 100%;
     height: 100%;
-     background: linear-gradient(60deg, #f5f6fa, #D1D3D9); 
+     background: #f5f6fa
    
 }
 #root {
     width: 100%;
     min-height: 100%;
-         background: linear-gradient(60deg, #f5f6fa, #D1D3D9); 
+         background: #f5f6fa
         
 
+}
+.no_border_bottom td {
+    border-bottom: solid 1px transparent !important
+}
+.no_border_bottom th {
+    border-bottom: solid 1px transparent !important
 }
 .pageTitle-css__title-heading___3H2vL {
     display: inline-block;
@@ -962,11 +968,12 @@ input[type='radio']{
 
 
 .inputContact {
+    padding-bottom: 5px !important;
     /* border-bottom: 2px solid #007bff; */
     font-size: 13px !important;
     background-color: transparent !important;
     width: 90%;
-    border: 1px solid #007bff !important;
+    /* border: 1px solid #007bff !important; */
     border-right: none !important;
     border-top: none !important;
     border-left: none !important;
@@ -974,7 +981,64 @@ input[type='radio']{
     border-radius: 0px 0 0 0px !important;
     outline: none !important;
     color: black !important;
-    padding:1px !important;
+    /* padding:1px !important; */
+    /* background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc);
+    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em !important;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em !important; 
+    background-repeat: no-repeat !important; */
+
+}
+.lefts{
+    margin-left: 30px;
+    margin-top: 30px;
+    border-radius: 5px;
+    /* padding: 15px; */
+    /* background-image: url('./../images/bgr-campaign.jpg') !important; */
+    width: 38% !important;
+    height: 110vh !important;
+    float: left;
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.lefts img{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+.bgrd{
+    color: rgba(0, 0, 0, 0.87);
+
+width: 100%;
+
+border: 0;
+
+display: flex;
+
+position: relative;
+
+min-width: 0;
+
+word-wrap: break-word;
+
+font-size: .875rem;
+
+margin-top: 30px;
+
+background: #FFF;
+
+box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+
+margin-bottom: 30px;
+
+border-radius: 6px;
+
+flex-direction: column;
+}
+.right{
+    width: 59% !important;
+    float:left;
+    max-width: 70%;
 }
 .inputContact:focus {
     box-shadow: none !important;
@@ -1229,20 +1293,27 @@ textarea.inputContact{
     border-radius: 5px;
     border: 1px solid #007bff;
 }
+.bgr{
+    background: #007bff !important
+}
 .new-campaign-header{
     margin-top: 30px;
+    margin-bottom: 20px;
 }
 .full tr td:nth-child(1){
-    width: 80%;
+    width: 500px;
 }
 .full tr td:nth-child(2){
     right: 0;
+    width: 200px;
 }
 .full { 
+    /* padding-left: 10%;
+    padding-right: 10%; */
     margin-top: 30px;
-    border: 1px solid #007bff !important;
-    border-radius: 5px !important;
-    height: 200%;
+    background: white;
+    border-radius: 15px !important;
+    /* height: %; */
     width: 100% !important;
     max-width: 100% !important;
 }
@@ -1262,7 +1333,7 @@ textarea.inputContact{
     display: flex;
 } */
 .padding--lv3 {
-    padding: 18px;
+    padding: 40px;
 }
 .c-checklistEditor_items .c-checklistSlat {
     border-top: 1px dotted #dedddc;
@@ -1320,10 +1391,15 @@ textarea.inputContact{
     margin-right: auto;
 }
 .new-campaign-container{
-    width: 100%;
-    height: 200%;
-    padding-left: 20%;
-    padding-right: 20%;
+    /* padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 30px;
+    padding-right: 30px; */
+    background: white;
+    width: 38%;
+    height: 120vh;
+    /* margin-left: 5%;
+    margin-right: 5%; */
     max-height: 2000px;
 }
 

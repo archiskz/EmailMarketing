@@ -17,6 +17,7 @@ import {
 import Templates from './TemplatesComponent/Templates';
 import AddContactsFile from './ListsComponent/AddContactsFile';
 import CreateCampaign from './CampaignsComponent/CreateCampaigns';
+import Profile from './UserComponent/ViewUserProfile';
 
 class DashBoard extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class DashBoard extends Component {
        
            <Switch >
              <Route path="/dashboard" exact component={SubDashboard} />
-             <Route path="/dashboard/view-user-profile" exact component={ViewUserProfile} />
+             {/* <Route path="/dashboard/view-user-profile" exact component={ViewUserProfile} /> */}
              <Route path="/dashboard/campaigns"  component={Campaigns} />
              <Route path="/dashboard/add-contacts"  component={AddContact} />
              <Route path="/dashboard/add-contacts-file"  component={AddContactsFile} />
@@ -46,6 +47,7 @@ class DashBoard extends Component {
              <Route path="/dashboard/create-list" component={CreateList} />
              <Route path="/dashboard/contacts" render={()=> (<CreateContact title='All Contacts'/>)} />
              <Route path="/dashboard/contacts/:id" component={CreateContact} />
+             <Route path="/dashboard/profile" component={Profile} />
              {/* <Route path="/dashboard/lists/:id" render={()=> (</>)} /> */}
            </Switch>
            </div>

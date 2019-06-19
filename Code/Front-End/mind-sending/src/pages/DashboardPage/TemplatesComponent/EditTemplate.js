@@ -17,56 +17,38 @@ class EditTemplate extends Component {
 
     this.state = {
       // content: {} 
-      id: this.props.history.location.state,
+      id: this.props.history.location.state.id,
       template:{
             id: "",
             nameTemplate: "",
             content: {}, 
       },
       nameTemplate:"",
-      content: {"counters":{"u_column":1,"u_row":1,"u_content_image":1,"u_content_text":2},"body":{"rows":[{"cells":[1],"columns":[{"contents":[{"type":"image","values":{"containerPadding":"10px","_meta":{"htmlID":"u_content_image_1","htmlClassNames":"u_content_image"},"selectable":true,"draggable":true,"deletable":true,"src":{"url":"https://via.placeholder.com/500x100?text=IMAGE","width":500,"height":100},"fullWidth":false,"textAlign":"center","maxWidth":"100%","altText":"Image","action":{"url":"","target":""}}},{"type":"text","values":{"containerPadding":"10px","_meta":{"htmlID":"u_content_text_1","htmlClassNames":"u_content_text"},"selectable":true,"draggable":true,"deletable":true,"color":"#000","textAlign":"left","lineHeight":"140%","text":"<p style=\"font-size: 14px; line-height: 140%;\"><span style=\"font-size: 14px; line-height: 19.6px;\">This is a new Text block. Change the text.</span></p>"}},{"type":"text","values":{"containerPadding":"10px","_meta":{"htmlID":"u_content_text_2","htmlClassNames":"u_content_text"},"selectable":true,"draggable":true,"deletable":true,"color":"#000","textAlign":"left","lineHeight":"140%","text":"<p style=\"font-size: 14px; line-height: 140%;\"><span style=\"font-size: 14px; line-height: 19.6px;\">SON SON SON<br /></span></p>"}}],"values":{"backgroundColor":"","padding":"0px","border":{},"_meta":{"htmlID":"u_column_1","htmlClassNames":"u_column"}}}],"values":{"columns":false,"backgroundColor":"","columnsBackgroundColor":"","backgroundImage":{"url":"","fullWidth":true,"repeat":false,"center":true,"cover":false},"padding":"0px","hideMobile":false,"noStackMobile":false,"_meta":{"htmlID":"u_row_1","htmlClassNames":"u_row"},"selectable":true,"draggable":true,"deletable":true}}],"values":{"backgroundColor":"#e7e7e7","backgroundImage":{"url":"","fullWidth":true,"repeat":false,"center":true,"cover":false},"contentWidth":"500px","fontFamily":{"label":"Arial","value":"arial,helvetica,sans-serif"},"_meta":{"htmlID":"u_body","htmlClassNames":"u_body"}}}},
-      html: "",
+      content: JSON.parse(this.props.history.location.state.content) ,
+          html: "",
       visible: false,
     };
   }
 
-  componentWillMount(){
-    console.log(this.props.history.location.state);
-    const id = this.props.history.location.state;
-    var self = this;
-    
-      axios.get(`${Config.API_URL}${id}`)
-    .then(res => {
-    var content = res.data.content;
-    console.log(content)
-     
-    // content.replace(/[{\}]/g,'a');
    
-      // console.log("Hello" + JSON.parse(JSON.stringify(res.data.content)))
-       self.setState({content: JSON.parse(res.data.content)})
-      //  console.log(this.state.content)
-   }).catch(function (error) {
-    console.log(error);
-  });
-   }	
    componentDidMount(){
     console.log(this.props.history.location.state);
-    const id = this.props.history.location.state;
-    var self = this;
+  //   const id = this.props.history.location.state;
+  //   var self = this;
     
-      axios.get(`${Config.API_URL}${id}`)
-    .then(res => {
-    var content = res.data.content;
-    console.log(content)
+  //     axios.get(`${Config.API_URL}${id}`)
+  //   .then(res => {
+  //   var content = res.data.content;
+  //   console.log(content)
      
-    // content.replace(/[{\}]/g,'a');
+  //   // content.replace(/[{\}]/g,'a');
    
-      // console.log("Hello" + JSON.parse(JSON.stringify(res.data.content)))
-       self.setState({content: JSON.parse(res.data.content)})
-      //  console.log(this.state.content)
-   }).catch(function (error) {
-    console.log(error);
-  });
+  //     // console.log("Hello" + JSON.parse(JSON.stringify(res.data.content)))
+  //      self.setState({content: res.data.content})
+  //     //  console.log(this.state.content)
+  //  }).catch(function (error) {
+  //   console.log(error);
+  // });
    }	
    
   render(){
@@ -87,37 +69,12 @@ class EditTemplate extends Component {
           <nav className="pull-right">
              <div icon="segment" className="contact1-form-btn" onClick={()=>this.openModal()}>
               <i className="sg-icon sg-icon-segment"></i>
-                Save Template
+                Save &amp; Close
               </div>
           </nav>
             
       </div>
-            <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.visible} width="400" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                      <form class="contact1-form validate-form">
-                  <span class="contact1-form-title">
-                    Save Template
-                  </span>
-
-                  <div className="wrap-input1 validate-input" >
-                    <input  value={this.state.template.nameTemplate}  onChange={this.handleChange} required className="name input1" type="text" name="name" placeholder="Template Name"/>
-                    <span class="shadow-input1"></span>
-                  </div>
-
-                  <div class="container-contact1-form-btn">
-                    <a onClick={()=>this.saveTemplate()}  class="contact1-form-btn">
-                      <span>
-                        Save
-                      </span>
-                    </a>
-                        <a onClick={()=>this.closeModal()}  class="contact1-form-btn">
-                      <span>
-                                      Cancel
-                      </span>
-                    </a>
-                  </div>
-                </form>         
-                      </Modal>
-      <EmailEditor
+                <EmailEditor
       projectId={1071}
       onLoad={this.onLoad}
       options={{
@@ -180,28 +137,11 @@ handleChange = (event)=>{
     console.log(error);
   });
   }
+
   onLoad = () => {
-    console.log(this.props.history.location.state);
-    const id = this.props.history.location.state;
-    var self = this;
-    
-      axios.get(`${Config.API_URL}${id}`)
-    .then(res => {
-    var content = res.data.content;
-     
-    // content.replace(/[{\}]/g,'a');
-   
-      // console.log("Hello" + JSON.parse(JSON.stringify(res.data.content)))
-       self.setState({content: JSON.parse(JSON.stringify(res.data.content))})
-       console.log(this.state.content)
-   }).catch(function (error) {
-    console.log(error);
-  });
-    const content = this.state.content
-  
-    console.log(content)
-      this.editor.loadDesign(content)
-      console.log("HI hohohohohohho IHIH IHI HI HI HI HI ")
+    if(this.props.history.location.state != null){
+      this.editor.loadDesign(JSON.parse(this.props.history.location.state.content))
+    } else this.editor.loadDesign();
 }
 
 

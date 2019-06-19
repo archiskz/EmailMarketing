@@ -25,7 +25,6 @@ class OneTemplate extends Component {
       console.log("Hello true")
   }
   render(){
-    console.log("Props is " +this.props.preview);
      return (
          
         <div className={"list-item-container" + (this.props.preview ? " " : " ontemplate")} >
@@ -66,7 +65,7 @@ class OneTemplate extends Component {
                   </Link>
                 </ul>
               </div>
-              <a href="/marketing_campaigns/ui/marketing_templates/16281fff-9e91-45c3-b27f-654b115b3435/preview">
+              <a>
                 {this.props.templateName}
               </a>
             </div>          
@@ -83,7 +82,10 @@ class OneTemplate extends Component {
   toTemplateEdit = (id)=> {        
     this.props.history.push({
         pathname:`/edit-template/:${id}`,
-        state : id
+        state : {
+          id: id,
+          content: this.props.content
+        }
     });
     }
 
