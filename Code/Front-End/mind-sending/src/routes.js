@@ -18,6 +18,7 @@ import NewTemplate from './pages/DashboardPage/TemplatesComponent/NewTemplate';
 import EditTemplate from './pages/DashboardPage/TemplatesComponent/EditTemplate';
 import CreateContact from './pages/DashboardPage/ContactComponent/CreateContact';
 import ViewUserProfile from './pages/DashboardPage/UserComponent/ViewUserProfile';
+import ContactInformation from './pages/DashboardPage/ContactComponent/ContactInformation';
 const routes = [
 {
 	path:'/',
@@ -43,6 +44,11 @@ const routes = [
 	path: '/dashboard',
 	exact: false,
 	main: () => <Dashboard/>
+},
+{
+	path: '/contacts/detail',
+	exact: false,
+	main: () => <ContactInformation/>
 },
 {
 	path: '/dashboard/lists',
