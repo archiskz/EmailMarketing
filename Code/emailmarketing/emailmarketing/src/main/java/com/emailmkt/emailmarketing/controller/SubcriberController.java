@@ -45,7 +45,11 @@ public class SubcriberController {
         return subcriberService.getAllSubcriberV2();
     }
 
-
+    @GetMapping(value="subcriber/{id}")
+    Subcriber read(@PathVariable int id) {
+        return subcriberRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found"));
+    }
 
     @PostMapping("subcriber/create")
     public ResponseEntity createSubcriber(@RequestBody SubcriberDTO dto) {

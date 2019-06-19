@@ -82,4 +82,14 @@ public class TemplateController {
                 });
 
     }
+
+    @PostMapping("template/copy/{id}")
+    public ResponseEntity copyTemplate(@PathVariable int id) {
+        boolean flag = templateService.copyTemplateGallery(id);
+        if (flag == true) {
+            return ResponseEntity.status(CONFLICT).body("Đã copy thành công ");
+        }
+        return ResponseEntity.status(CREATED).body("Fail");
+
+    }
 }

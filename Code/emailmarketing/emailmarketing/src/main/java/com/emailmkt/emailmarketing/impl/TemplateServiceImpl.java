@@ -7,6 +7,7 @@ import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,7 +18,7 @@ public class TemplateServiceImpl implements TemplateService {
 
 
     @Override
-    public Boolean createTemplate(Template template) {
+    public boolean createTemplate(Template template) {
             System.out.println(template.getNameTemplate());
             Template checkExistedTemplate = templateRepository.findByNameTemplate(template.getNameTemplate());
             if (checkExistedTemplate != null) {
@@ -25,8 +26,25 @@ public class TemplateServiceImpl implements TemplateService {
             }
             template.setNameTemplate(template.getNameTemplate());
             template.setType(template.getType());
+            template.setCreated_time(LocalDateTime.now().toString());
             templateRepository.save(template);
             return true;
+    }
+
+    @Override
+    public boolean copyTemplateGallery(int templateId) {
+        Template templateGallery = templateRepository.findTemplateById(templateId);
+        Template template = new Template();
+        if(templateGallery != null) {
+            template.setAccount_id(2);
+            template.setContent(templateGallery.getContent());
+            template.setCreated_time(LocalDateTime.now().toString());
+            template.setNameTemplate(templateGallery.getNameTemplate() + "Copy");
+            template.setType(templateGallery.getType());
+            templateRepository.save(template);
+            return true;
+        }
+        return false;
     }
 
     @Override

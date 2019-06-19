@@ -12,6 +12,8 @@ public interface TemplateRepository extends JpaRepository<Template, Integer> {
     Template findByType (String type);
 //    Template findById(int id);
 
+    Template findTemplateById(int id);
+
     List<Template> findAll();
 
 //    @Query("SELECT tem FROM Template tem WHERE " +
