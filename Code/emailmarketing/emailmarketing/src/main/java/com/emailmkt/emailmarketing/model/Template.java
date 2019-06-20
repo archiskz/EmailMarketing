@@ -30,6 +30,15 @@ public class Template implements Serializable {
     private String content;
 
     @Basic
+    @Column(name = "account_id")
+    private int account_id;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private Account account;
+
+
+    @Basic
     @Column(name = "created_time")
     private String created_time;
 

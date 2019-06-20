@@ -7,7 +7,8 @@ import java.util.List;
 
 
 public interface TemplateService {
-    Boolean createTemplate(Template template);
+    boolean createTemplate(Template template);
+
 
     List<Template> getAllTemplates();
 
@@ -21,7 +22,7 @@ public interface TemplateService {
 
     boolean editTemplate(int id);
 
-
+    boolean copyTemplateGallery( int id);
 
 
 //    List<Template> searchByNameorType( String searchValue);

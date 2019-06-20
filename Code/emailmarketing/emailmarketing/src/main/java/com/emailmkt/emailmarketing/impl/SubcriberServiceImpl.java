@@ -59,7 +59,15 @@ public class SubcriberServiceImpl implements SubcriberService {
 
     @Override
     public boolean createListSubcrbier(List<SubcriberDTO> dto) {
-        return false;
+        List<Subcriber> subcribers = subcriberRepository.findByEmailInList(subcriberRepository.listEmailSubcriber());
+
+
+
+
+        Subcriber subcriber = new Subcriber();
+
+
+        return true;
     }
 
 

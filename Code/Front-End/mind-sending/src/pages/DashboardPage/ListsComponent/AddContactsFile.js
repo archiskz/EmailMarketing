@@ -49,12 +49,12 @@ class AddContactsFile extends Component {
                             </span>
                         </div>
                         <div className="col-md-6">
-                            <nav className="btn-list pull-right">
+                            
                                 <a icon="segment" className="btn_create_contact" href="/marketing_campaigns/ui/contacts/segment">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Save Contact
                                 </a>
-                            </nav>
+                            
                         </div>
                     </header>
 

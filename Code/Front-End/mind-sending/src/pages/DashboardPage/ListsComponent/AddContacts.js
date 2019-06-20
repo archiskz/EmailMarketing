@@ -113,18 +113,27 @@ class AddContact extends Component {
                       </div>
                     </section>
                   </div>
-                  <span className="title-h3">
-                    Contact Info
-                </span>
-                  {this.createUI()}        
-                    <a type='button' className="btn-create-segment" value='add more' onClick={this.addClick.bind(this)}>Add More</a>
-                    <a onClick={this.onSave} icon="segment" className="btn-create-segment">
-                      <i className="sg-icon sg-icon-segment"></i>
-                        Save Contact
-                  </a>
+                  
                 </form>
               </div>
             </div>
+                 <div className="md_tablet1">
+                  <div className="md_tablet2">
+                    <div className="md_tablet3">
+                    <h4 class="md_tablet_h4">Groups List</h4>
+                    <p class="md_tablet_p">Here is the list of your Groups </p>
+                    </div>
+                      <div className="md_tablet4">
+                  {this.createUI()}        
+                    <a type='button' className="btn_create_contact4" value='add more' onClick={this.addClick.bind(this)}>Add More</a>
+                    <a onClick={this.onSave} icon="segment" className="btn_create_contact4">
+                      <i className="sg-icon sg-icon-segment"></i>
+                        Save Contact
+                  </a>
+                  </div>
+                 
+                </div>
+                </div>  
           </article>
           </div>
         </div>
@@ -141,13 +150,17 @@ class AddContact extends Component {
   createUI(){
      return this.state.contacts.map((el, i) => (
         <div className="row" key={i}>
-          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-    	      <input className="inputContact" placeholder="Name" name="name" value={el.name ||''} onChange={this.handleChange.bind(this, i)} />
-          </div>
         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <input className="inputContact" placeholder="Email" name="email" value={el.email ||''} onChange={this.handleChange.bind(this, i)} />   	  
+            <input className="user_contact_inputContact" placeholder="Email" name="email" value={el.email ||''} onChange={this.handleChange.bind(this, i)} />       
        </div>
-       <input type='button' className="btn-create-segment" value='remove' onClick={this.removeClick.bind(this, i)}/>
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    	      <input className="user_contact_inputContact" placeholder="First Name" name="name" value={el.name ||''} onChange={this.handleChange.bind(this, i)} />
+          </div>
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <input className="user_contact_inputContact" placeholder="Last Name" name="name" value={el.name ||''} onChange={this.handleChange.bind(this, i)} />
+          </div>
+        
+       <input type='button' className="btn_create_contact3" value='remove' onClick={this.removeClick.bind(this, i)}/>
        </div>          
      ))
   }

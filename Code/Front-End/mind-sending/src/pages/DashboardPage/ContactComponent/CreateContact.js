@@ -157,7 +157,7 @@ class CreateContact extends Component {
                                 <th className="md_tablet6_th" scope="col">Email</th>
                                 <th className="md_tablet6_th" scope="col">First Name</th>
                                 <th className="md_tablet6_th" scope="col">Last Name</th>
-                                <th className="md_tablet6_th" scope="col">Type</th>
+                                <th className="md_tablet6_th" scope="col">Status</th>
                                 
                                 <th  className="md_tablet6_th" role="presentation">
                                 Action
