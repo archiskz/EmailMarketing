@@ -50,6 +50,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
             groupContactSubcriber.setCreatedTime(LocalDateTime.now().toString());
             groupContactSubcriber.setSubcriber(subcriber);
+
             return groupContactSubcriber;
         }).collect(Collectors.toList());
         subcriber.setGroupContactSubcribers(groupContactSubcribers);
@@ -58,16 +59,34 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
     @Override
-    public boolean createListSubcrbier(List<SubcriberDTO> dto) {
-        List<Subcriber> subcribers = subcriberRepository.findByEmailInList(subcriberRepository.listEmailSubcriber());
+    public boolean createListSubcrbier(List<SubcriberDTO> subcriberDTOS) {
+        for(SubcriberDTO subcriberDTO : subcriberDTOS){
+            Subcriber result = subcriberRepository.findByEmail(subcriberDTO.getEmail());
+            if(result!=null){
+                continue;
+            }
+            Subcriber subcriber = new Subcriber();
+            subcriber.setName(subcriberDTO.getName());
+            subcriber.setEmail(subcriberDTO.getEmail());
+            subcriber.setCreatedTime(LocalDateTime.now().toString());
+            subcriber.setType(subcriberDTO.getType());
+            subcriber.setTag(subcriberDTO.getTag());
+            Account account = accountRepository.findAccountById(1);
+            subcriber.setAccount_id(account.getId() + "");
+            List<GroupContactSubcriber> groupContactSubcribers = subcriberDTO.getGcSubcriberDTOS().stream().map(g->{
+                GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
+                groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
+                groupContactSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                groupContactSubcriber.setSubcriber(subcriber);
+                return groupContactSubcriber;
+            }).collect(Collectors.toList());
+            subcriber.setGroupContactSubcribers(groupContactSubcribers);
+            subcriberRepository.save(subcriber);
 
-
-
-
-        Subcriber subcriber = new Subcriber();
-
+        }
 
         return true;
+
     }
 
 

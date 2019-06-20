@@ -25,5 +25,6 @@ public interface TemplateService {
     boolean copyTemplateGallery( int id);
 
 
+
 //    List<Template> searchByNameorType( String searchValue);
 }
