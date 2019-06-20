@@ -30,7 +30,7 @@ class ContactInformation extends Component {
         					<div className="user_profile7_sub1">
         						<label className="user_profile_w3_label" >Email address </label>
         						<div className="user_profile7_sub2">
-        						<input aria-invalid="false" className="user_profile_w3_input" disabled="" id="company-disabled" type="text"value="MindSending" />
+        						<input aria-invalid="false" className="user_profile_w3_input" disabled="" id="company-disabled" type="text"value="thangnguyen15297@gmail.com" />
         						</div>
         					</div>
         				</div>
@@ -39,7 +39,7 @@ class ContactInformation extends Component {
         					<div className="user_profile8_sub1">
         						<label className="user_profile_w3_label" data-shrink="false" for="username">Phone number</label>
         						
-        						<input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value="thangnguyen15297@gmail.com"/>
+        						<input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value="0938169174"/>
         						
         					</div>
         				</div>
@@ -62,32 +62,25 @@ class ContactInformation extends Component {
         					</div>
         				</div>
         			</div>
-        			<div className="user_profile9">
-        				<div className="user_profile10">
-        					<div className="user_profile9_sub1">
-        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">Address</label>
-        						
-        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="Hồ Chí Minh city"/>
-        						
-        					</div>
-        				</div>
-        				<div className="user_profile10">
-        					<div className="user_profile9_sub1">
-        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">City</label>
-        						
-        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="Việt Nam" />
-        						
-        					</div>
-        				</div>
-        				<div className="user_profile10">
-        					<div className="user_profile9_sub1">
-        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">Date of birth</label>
-        					
-        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="70000" />
-        						
-        					</div>
-        				</div>
-        			</div>
+                    <div className="user_profile9">
+                        <div className="user_profile9_sub">
+                            <div className="user_profile9_sub1">
+                                <label className="user_profile_w3_label" data-shrink="false" for="first-name">Address</label>
+                                
+                                <input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="755/14"/>
+                                
+                            </div>
+                        </div>
+                        <div className="user_profile9_sub">
+                            <div className="user_profile9_sub1">
+                                <label className="user_profile_w3_label" data-shrink="false" for="first-name">Date of birth</label>
+                                
+                                <input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text"value="15/02" />
+                                
+                            </div>
+                        </div>
+                    </div>
+        			
         			<div className="user_profile16">
         				<div className="user_profile16_sub">
         					<label className="user_profile16_label" Style="color: rgb(170, 170, 170);">Write a note for this contact</label>

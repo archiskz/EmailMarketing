@@ -159,9 +159,20 @@ class AddContact extends Component {
           <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
             <input className="user_contact_inputContact" placeholder="Last Name" name="name" value={el.name ||''} onChange={this.handleChange.bind(this, i)} />
           </div>
-        
+        <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <input className="user_contact_inputContact" placeholder="Phone number" name="email" value={el.email ||''} onChange={this.handleChange.bind(this, i)} />       
+       </div>
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <input className="user_contact_inputContact" placeholder="Address" name="name" value={el.name ||''} onChange={this.handleChange.bind(this, i)} />
+          </div>
+          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <input className="user_contact_inputContact" placeholder="Date of birth" name="name" value={el.name ||''} onChange={this.handleChange.bind(this, i)} />
+          </div>
        <input type='button' className="btn_create_contact3" value='remove' onClick={this.removeClick.bind(this, i)}/>
-       </div>          
+       </div>    
+      
+      
+          
      ))
   }
 
