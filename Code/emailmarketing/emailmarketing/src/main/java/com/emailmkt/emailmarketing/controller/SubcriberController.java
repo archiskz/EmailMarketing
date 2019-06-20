@@ -70,6 +70,16 @@ public class SubcriberController {
 
     }
 
+    @PostMapping("subcriber/createListSubcriber")
+    public ResponseEntity createListSubcriber(@RequestBody List<SubcriberDTO> dtos) {
+        boolean flag = subcriberService.createListSubcrbier(dtos);
+        if (flag == false) {
+            return ResponseEntity.status(CONFLICT).body("Email đã tồn tại vui lòng thêm email khác");
+        }
+        return ResponseEntity.status(CREATED).body("Thêm thành công");
+
+    }
+
     @GetMapping("subcriber/getSubcriberByTag")
     public List<Subcriber> getSubcriberByTag(@RequestParam(value = "tag") String tag) {
         return subcriberService.getSubcriberByTag(tag);

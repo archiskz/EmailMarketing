@@ -40,6 +40,7 @@ class CreateContact extends Component {
           const listAccounts = res.data;
         //   console.log(listAccounts);
           this.setState({listAccounts:listAccounts})
+          console.log(this.state.listAccounts)
                     axios.get(`${Config.API_URL}groupContact/contactById?id=${id}`,)
                     .then(response => {
                        
@@ -64,6 +65,7 @@ class CreateContact extends Component {
       const listAccounts = res.data;
     //   console.log(listAccounts);
       this.setState({listAccounts:listAccounts})
+      console.log(this.state.listAccounts)
       
     })
     }

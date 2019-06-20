@@ -36,7 +36,7 @@ public class TemplateServiceImpl implements TemplateService {
         Template templateGallery = templateRepository.findTemplateById(templateId);
         Template template = new Template();
         if(templateGallery != null) {
-            template.setAccount_id(2);
+            template.setAccount_id("1");
             template.setContent(templateGallery.getContent());
             template.setCreated_time(LocalDateTime.now().toString());
             template.setNameTemplate(templateGallery.getNameTemplate() + "Copy");

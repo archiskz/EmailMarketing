@@ -9,7 +9,7 @@ import java.util.List;
 public interface SubcriberService {
     boolean createSubcrbier(SubcriberDTO dto);
 
-    boolean createListSubcrbier(List<SubcriberDTO> dto);
+    boolean createListSubcrbier(List<SubcriberDTO> subcriberDTO);
 
     List<Subcriber> getAllSubcribers();
 

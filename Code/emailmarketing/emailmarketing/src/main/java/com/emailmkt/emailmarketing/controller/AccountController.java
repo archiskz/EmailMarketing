@@ -1,14 +1,13 @@
 package com.emailmkt.emailmarketing.controller;
 
 import com.emailmkt.emailmarketing.model.Account;
-import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.service.AccountService;
+import com.emailmkt.emailmarketing.service.AmazonSESSample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -29,6 +28,8 @@ public class AccountController {
 
     @Autowired
      AccountService accountService;
+    @Autowired
+    AmazonSESSample amazonSESSample;
 
 
     //    public AccountController(AccountService accountService) {
@@ -37,6 +38,11 @@ public class AccountController {
     @GetMapping("/accounts")
     public List<Account> getAllAccounts() {
         return accountService.getAllAccounts();
+    }
+
+    @GetMapping("/accounts/testSendMail")
+    public void sendTestEmail(){
+        amazonSESSample.sendMail();
     }
 
     @PostMapping("sign-up")

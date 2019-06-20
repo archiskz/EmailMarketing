@@ -1,22 +1,21 @@
 package com.emailmkt.emailmarketing.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class Subcriber implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,7 +59,7 @@ public class Subcriber implements Serializable {
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;
 
-    @OneToMany(fetch=FetchType.LAZY,mappedBy = "subcriber",cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "subcriber", cascade = CascadeType.ALL)
     private List<GroupContactSubcriber> groupContactSubcribers;
 
     @Override
@@ -80,7 +79,7 @@ public class Subcriber implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, address,type,tag, createdTime, updatedTime);
+        return Objects.hash(id, name, email, address, type, tag, createdTime, updatedTime);
     }
 //    @ManyToMany(fetch = FetchType.LAZY,
 //            cascade = {
@@ -89,7 +88,6 @@ public class Subcriber implements Serializable {
 //            })
 ////            mappedBy = "group_contact_has_subcriber")
 //    private Set<GroupContact> groupContact = new HashSet<>();
-
 
 
 }

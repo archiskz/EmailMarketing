@@ -116,6 +116,7 @@ class Lists extends Component {
                             <tbody>
                             {lists.map(list=>(
                                         <ListRow
+                                        update={this.getAllListContact}
                                         key={list.index}
                                         contactId={list.id}
                                          contactEmail={list.name}
