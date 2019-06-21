@@ -136,6 +136,7 @@ handleChange = (event)=>{
    }).catch(function (error) {
     console.log(error);
   });
+  this.closeModal();
   }
 
   onLoad = () => {

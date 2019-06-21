@@ -157,6 +157,7 @@ class CreateContact extends Component {
                                 <th className="md_tablet6_th" scope="col">Email</th>
                                 <th className="md_tablet6_th" scope="col">First Name</th>
                                 <th className="md_tablet6_th" scope="col">Last Name</th>
+                                <th className="md_tablet6_th" scope="col">Date of Birth</th>
                                 <th className="md_tablet6_th" scope="col">Status</th>
                                 
                                 <th  className="md_tablet6_th" role="presentation">
@@ -169,10 +170,13 @@ class CreateContact extends Component {
                             <tbody>
                             {lists.map(list=>(
                                         <ContactRow
+                                        dob={list.dob}
+                                        firstName={list.firstName}
                                         key={list.index}
-                                        contactEmail={list.email}
-                                        contactStatus={list.name}
-                                        contactDateAdded={list.createdTime}
+                                        email={list.email}
+                                        lastName={list.lastName}
+                                        createdTime={list.createdTime}
+                                        type={list.type}
                                     />
                                     ))}
                             </tbody>

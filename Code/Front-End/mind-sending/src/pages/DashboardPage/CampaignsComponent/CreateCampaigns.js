@@ -105,7 +105,8 @@ class CreateCampaign extends Component{
         						<label className="user_profile_w3_label" data-shrink="false" for="username">Segment</label>
         						
         						{/* <input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value="thangnguyen15297@gmail.com"/> */}
-        						<select className="inputContact mt15" style={{"width": "250px", "borderBottom":"1px solid #ccc !important"}} value={this.state.selectValue} onChange={this.handleChange} type="text" tabindex="-1" readonly="readonly" role="presentation">
+        					
+                    <select className="inputContact mt15" style={{"width": "250px", "borderBottom":"1px solid #ccc !important"}} value={this.state.selectValue} onChange={this.handleChange} type="text" tabindex="-1" readonly="readonly" role="presentation">
                             {lists.map(list => <option value={list.name}  key={list.id}>{list.name}</option>)}
                             </select>
         					</div>

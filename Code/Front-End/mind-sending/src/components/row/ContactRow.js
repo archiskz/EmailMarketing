@@ -30,11 +30,12 @@ class ContactRow extends Component {
       // </div> 
       <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
           <td class="md_tablet6_tbody_td">
-          <a href="/contacts/detail">{this.props.contactEmail}</a>
+          <a href="/contacts/detail">{this.props.email}</a>
           </td>
-          <td class="md_tablet6_tbody_td">{this.props.contactStatus}</td>
-          <td class="md_tablet6_tbody_td">{this.props.contactDateAdded}</td>
-          <td class="md_tablet6_tbody_td">{this.props.contactDateAdded}</td>
+          <td class="md_tablet6_tbody_td">{this.props.firstName}</td>
+          <td class="md_tablet6_tbody_td">{this.props.lastName}</td>
+          <td class="md_tablet6_tbody_td">{this.props.dob}</td>
+          <td class="md_tablet6_tbody_td">{this.props.type}</td>
           <td class="md_tablet6_tbody_td">
           {this.props.contactActions}
           <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>

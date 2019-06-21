@@ -11,8 +11,16 @@ class AddContact extends Component {
       name: "Hong Son",
       contacts: [{
         name: "",
-        email:""
-      }]
+        email:"",
+        gcSubcriberDTOS: [
+          {
+            groupContactId: 0
+          }
+        ]
+      }],
+      lists:[{"id":3,"name":"TesTV3","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:35:30.025","updatedTime":"string","account_id":"1","account":{"id":1,"username":"admin","fullname":"Tan123","email":"string","password":"admin","phone":"0907403553","gender":"string","address":"q7","authorityId":1,"createdTime":"2019-06-11T06:01:25.959","updatedTime":"string"},"subcribers":[]},{"id":4,"name":"Test25894","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:39:49.668","updatedTime":"string","account_id":"2","account":{"id":2,"username":"archis","fullname":"Archis","email":"string","password":"Ahihihi","phone":"0907403553","gender":"Male","address":"HCM","authorityId":1,"createdTime":"2019-06-12T06:38:29.065","updatedTime":"string"},"subcribers":[]}],
+      selectValue:"",
+      selectId: 0
     };
   }
   onToggleDropdown = () => {
@@ -20,23 +28,22 @@ class AddContact extends Component {
       dropdown_visible: !this.state.dropdown_visible
     })
   }
+  componentDidMount (){
+    console.log(`${Config.API_URL}groupContacts`);
+   axios.get(`${Config.API_URL}groupContacts`)
+   .then(response => {
+     this.setState({
+       lists: response.data
+     });
+   })
+   .catch(error => {
+     console.log(error);
+   });
+  }
 
   onSave= () => {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'JWT fefege...'
-    }
-    this.setState({
-        // account_id: this.state.account_id,
-        email: this.state.email,
-        name: this.state.name
-    });
-    var json = JSON.stringify(this.state);
-    alert(json);
-    axios.post(`${Config.API_URL}subcriber/create`, 
-        {json}, 
-        headers
-      )
+    console.log(`${Config.API_URL}subcriber/createListSubcriber`)
+    axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts)
       .then((response) => {
         console.log(response);
       })
@@ -49,6 +56,7 @@ class AddContact extends Component {
 
 
   render() {
+    var lists = this.state.lists;
     return (
 
       <div className role="main">
@@ -98,6 +106,13 @@ class AddContact extends Component {
                       <label className="input-radio-label" htmlFor="exist">
                         Add contacts and include in an existing list
                       </label>
+                       {/* Existing List */}
+                       <h5>Choose A List</h5>
+                      <select className="inputContact mt15" style={{"width": "250px", "borderBottom":"1px solid #ccc !important"}}  onChange={this.handleChangeSelect} type="text" tabindex="-1" readonly="readonly" role="presentation">
+                       {lists.map(list => <option value={list.id}  key={list.id}>{list.name}</option>)}
+                            </select>
+                  
+                       {/* Existing List */}
                       <span />
                     </div>
                     <div className="input-radio-wrap radioInput-css__radio-container___3sajG"  style={{ position: 'relative' }}>
@@ -144,7 +159,7 @@ class AddContact extends Component {
     this.setState(prevState => ({ 
     	contacts: [...prevState.contacts, { name: "", email: "" }]
     }))
-    console.log(this.state.contacts)
+    // console.log(this.state.contacts)
   }
   
   createUI(){
@@ -164,12 +179,25 @@ class AddContact extends Component {
        </div>          
      ))
   }
+  handleChangeSelect=(event)=> {
+    const { value } = event.target;
 
+  this.setState({
+    selectValue: value
+  });
+  // console.log(this.state.contacts)
+
+}
   handleChange(i, e) {
     const { name, value } = e.target;
     let contacts = [...this.state.contacts];
-    contacts[i] = {...contacts[i], [name]: value};
+    contacts[i] = {...contacts[i], [name]: value,gcSubcriberDTOS: [
+      {
+        groupContactId: this.state.selectValue
+      }
+    ],};
     this.setState({ contacts });
+    // console.log(this.state.contacts)
  }
  
  removeClick(i){
@@ -180,7 +208,7 @@ class AddContact extends Component {
 
   addRowContact(){
 this.setState({contacts: [...this.state.contacts,{name:"", email: ""}]})
-console.log(this.state.contacts)
+// console.log(this.state.contacts)
   }
 }
 export default AddContact;

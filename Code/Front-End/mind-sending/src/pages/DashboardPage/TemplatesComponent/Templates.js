@@ -43,18 +43,16 @@ class Templates extends Component {
   }
 
   componentDidMount(){
+    this.getAllTemplates();
+   }	
+   getAllTemplates = ()=>{
     axios.get(`${Config.API_URL}template`,{
     })
     .then(res => {
       console.log(res.data);
       this.setState({templates: res.data});
-      // let obj = a.find(obj => obj.id == 2);
-      // this.setState({
-      //   content: obj.content
-      // })
-      // console.log(this.state.templates)
     }) 
-   }	
+   }
 
 	
   render(){
@@ -105,6 +103,7 @@ class Templates extends Component {
       <div className="thumbnail-view">
           {this.state.templates.map(list=>(
                <OneTemplate
+               update = {this.getAllTemplates}
                    key={list.index}
                    id={list.id}
                     templateName={list.nameTemplate}   

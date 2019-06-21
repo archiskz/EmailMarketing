@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import AccountDropdown from './dropdowns/AccountDropdown';
 import {connect} from 'react-redux';
+import axios from 'axios';
+import * as Config from './../constants/Config';
 import * as actions from './../actions/index';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router";
@@ -59,7 +61,7 @@ class OneTemplate extends Component {
                     <i className="sg-icon sg-icon-csv"></i>
                     <span>Create Campaign</span>
                   </Link>
-                  <Link data-role="dropdown-link" to="/dashboard/add-contacts" className="dropdown-link dropdown-link-with-icon" >
+                  <Link onClick={()=> this.onDuplicate(this.props.id)} data-role="dropdown-link" className="dropdown-link dropdown-link-with-icon" >
                     <i className="sg-icon sg-icon-contacts-alt"></i>
                     <span>Duplicate</span>
                   </Link>
@@ -77,6 +79,17 @@ class OneTemplate extends Component {
       </div>
        
   );
+  }
+  onDuplicate = (id)=>{
+    console.log(`${Config.API_URL}template/copy/${id}`);
+    axios.post(`${Config.API_URL}template/copy/${id}`)
+    .then(response => {
+     this.props.update()
+    })
+    .catch(error => {
+      console.log(error);
+      this.props.update()
+    });
   }
 
   toTemplateEdit = (id)=> {        
