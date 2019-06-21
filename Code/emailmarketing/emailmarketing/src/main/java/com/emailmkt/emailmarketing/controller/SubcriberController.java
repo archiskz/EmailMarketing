@@ -89,7 +89,8 @@ public class SubcriberController {
         return subcriberRepository.findById(id)
                 .map(subcriber -> {
                     subcriber.setEmail(updatingSubcriber.getEmail());
-                    subcriber.setName(updatingSubcriber.getName());
+                    subcriber.setFirstName(updatingSubcriber.getFirstName());
+                    subcriber.setLastName(updatingSubcriber.getLastName());
                     subcriber.setUpdatedTime(LocalDateTime.now().toString());
 
 

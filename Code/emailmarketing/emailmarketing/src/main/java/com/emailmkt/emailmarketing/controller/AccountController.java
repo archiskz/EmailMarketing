@@ -3,9 +3,15 @@ package com.emailmkt.emailmarketing.controller;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.service.AccountService;
 import com.emailmkt.emailmarketing.service.AmazonSESSample;
+import com.emailmkt.emailmarketing.service.MailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +37,9 @@ public class AccountController {
     @Autowired
     AmazonSESSample amazonSESSample;
 
+    @Autowired
+    MailService mailService;
+
 
     //    public AccountController(AccountService accountService) {
 //        this.accountService = accountService;
@@ -45,6 +54,11 @@ public class AccountController {
         amazonSESSample.sendMail();
     }
 
+    @GetMapping("/accounts/testSendMail2")
+    public void sendTestEmail2(){
+        mailService.sendSimpleMessage();
+    }
+
     @PostMapping("sign-up")
     public ResponseEntity createAccount(@RequestBody Account account) {
         boolean flag = accountService.createAccount(account);
@@ -55,8 +69,9 @@ public class AccountController {
 
     }
     @GetMapping("customer/accounts")
-    public List<Account> findAllAccountsByCustomer() {
-        return accountService.getAllAccountsByCustomer();
+    public ResponseEntity<List<Account>> findAllAccountsByCustomer() {
+        List<Account> vms = accountService.getAllAccountsByCustomer();
+        return new ResponseEntity<List<Account>>(vms, HttpStatus.OK);
     }
 
     @PutMapping("account/edit")
@@ -67,20 +82,32 @@ public class AccountController {
         }
         return ResponseEntity.status(NOT_FOUND).body("Tài khoản này không tồn tại");
     }
-    @GetMapping("update/{id}")
+    @GetMapping("account/{id}")
     public Account getAccount(@PathVariable(value = "id") int id) {
         return accountService.getAccountById(id);
     }
 
-    @GetMapping("getAllAccountByAuthorityId")
+    @GetMapping("accounts/allAccountByAuthorityId")
     public List<Account> getAllAccountByAuthorityId(@RequestParam(value = "authorityId") int authorityId) {
         return accountService.getAllAccountByauthorityId(authorityId);
     }
 
     @PostMapping("/account/search/{searchValue}")
-    public List<Account> searchAccount(@PathVariable(value = "searchValue") String searchValue){
-
-        return accountService.searchByUsernameOrFullname(searchValue); //này request param đúng ko hay chỉ param thôi?
+    public ResponseEntity<Page<Account>> searchAccount(@PathVariable(value = "searchValue") String searchValue,
+                                                       @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort,
+                                                       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                                       @RequestParam(name = "size", required = false, defaultValue = "5") Integer size){
+        Sort sortable = null;
+        if (sort.equals("ASC")) {
+            sortable = Sort.by(Account.PROP_USERNAME).ascending();
+        }
+        if (sort.equals("DESC")) {
+            sortable = Sort.by(Account.PROP_USERNAME).descending();
+        }
+        Pageable pageable = PageRequest.of(page, size, sortable);
+        Page<Account> vm = accountService.searchByUsernameOrFullname(pageable,searchValue);
+        LOGGER.info("Search Account: " + vm.getTotalElements());
+        return new ResponseEntity<Page<Account>>(vm, HttpStatus.OK);
     }
 
 

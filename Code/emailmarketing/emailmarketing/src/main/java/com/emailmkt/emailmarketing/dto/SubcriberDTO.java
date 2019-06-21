@@ -1,6 +1,5 @@
 package com.emailmkt.emailmarketing.dto;
 
-import com.emailmkt.emailmarketing.model.Subcriber;
 import lombok.Data;
 
 import java.util.List;
@@ -10,7 +9,11 @@ public class SubcriberDTO {
     private int id;
 
 
-    private String name;
+    private String firstName;
+
+    private String lastName;
+
+    private String dob;
 
     private String email;
 

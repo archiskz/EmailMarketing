@@ -24,8 +24,13 @@ public class Subcriber implements Serializable {
 
 
     @Basic
-    @Column(name = "name")
-    private String name;
+    @Column(name = "firstname")
+    private String firstName;
+
+    @Basic
+    @Column(name = "lastname")
+    private String lastName;
+
 
     @Basic
     @Column(name = "email")
@@ -38,6 +43,9 @@ public class Subcriber implements Serializable {
     @Basic
     @Column(name = "type")
     private String type;
+
+    @Column(name = "dob")
+    private String dob;
 
     @Basic
     @Column(name = "tag")
@@ -68,7 +76,8 @@ public class Subcriber implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Subcriber subcriber = (Subcriber) o;
         return id == subcriber.id &&
-                Objects.equals(name, subcriber.name) &&
+                Objects.equals(firstName, subcriber.firstName) &&
+                Objects.equals(lastName, subcriber.lastName) &&
                 Objects.equals(email, subcriber.email) &&
                 Objects.equals(address, subcriber.address) &&
                 Objects.equals(type, subcriber.type) &&
@@ -79,7 +88,7 @@ public class Subcriber implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, address, type, tag, createdTime, updatedTime);
+        return Objects.hash(id, firstName,lastName,dob, email, address, type, tag, createdTime, updatedTime);
     }
 //    @ManyToMany(fetch = FetchType.LAZY,
 //            cascade = {

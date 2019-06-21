@@ -24,10 +24,10 @@ public class AmazonSESSampleImpl implements AmazonSESSample {
     static final String TO ="archis123456@mindsending.cf";
 
     // Replace smtp_username with your Amazon SES SMTP user name.
-    static final String SMTP_USERNAME = "AKIAXTZGLCQ6AQGJT6HK";
+    static final String SMTP_USERNAME = "AKIAXTZGLCQ6F7AXMGGL";
 
     // Replace smtp_password with your Amazon SES SMTP password.
-    static final String SMTP_PASSWORD = "BOrLD/Tp8LMdGJ08YD/4MmJ5YRwGaKKp8pqrcChpcEQD";
+    static final String SMTP_PASSWORD = "BKy8tp5GllHPu1QnH+Vprgn2S72lMzw/P38rK4heBuZ5";
 
     // The name of the Configuration Set to use for this message.
     // If you comment out or remove this variable, you will also need to
@@ -46,7 +46,7 @@ public class AmazonSESSampleImpl implements AmazonSESSample {
 
     static final String BODY = String.join(
             System.getProperty("line.separator"),
-            "<h1>Amazon SES SMTP Email Test</h1>",
+            "<h1>TEST2</h1>",
             "<p>This email was sent with Amazon SES using the ",
             "<a href='https://github.com/javaee/javamail'>Javamail Package</a>",
             " for <a href='https://www.java.com'>Java</a>."

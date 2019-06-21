@@ -1,7 +1,8 @@
 package com.emailmkt.emailmarketing.service;
 
 import com.emailmkt.emailmarketing.model.Account;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -30,6 +31,6 @@ public interface AccountService {
     Account getAccountByUsername(String username);
     List<Account> getAllAccountsByCustomer();
     Account loginForCustomer(String username, String password);
-    List<Account> searchByUsernameOrFullname( String searchValue);
+    Page<Account> searchByUsernameOrFullname(Pageable pageable , String searchValue);
 
 }

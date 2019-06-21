@@ -33,7 +33,7 @@ public class SubcriberServiceImpl implements SubcriberService {
 
     @Override
     public boolean createSubcrbier(SubcriberDTO dto) {
-        System.out.println(dto.getName());
+        System.out.println(dto.getEmail());
         Subcriber checkExistedSubcriber = subcriberRepository.findByEmail(dto.getEmail());
         if (checkExistedSubcriber != null) {
             return false;
@@ -66,7 +66,9 @@ public class SubcriberServiceImpl implements SubcriberService {
                 continue;
             }
             Subcriber subcriber = new Subcriber();
-            subcriber.setName(subcriberDTO.getName());
+            subcriber.setLastName(subcriberDTO.getLastName());
+            subcriber.setFirstName(subcriberDTO.getFirstName());
+            subcriber.setDob(subcriberDTO.getDob());
             subcriber.setEmail(subcriberDTO.getEmail());
             subcriber.setCreatedTime(LocalDateTime.now().toString());
             subcriber.setType(subcriberDTO.getType());
@@ -136,7 +138,7 @@ public class SubcriberServiceImpl implements SubcriberService {
 
     @Override
     public boolean createSubcriberNormal(SubcriberDTO dto) {
-        System.out.println(dto.getName());
+        System.out.println(dto.getEmail());
         Subcriber checkExistedSubcriber = subcriberRepository.findByEmail(dto.getEmail());
         if (checkExistedSubcriber != null) {
             return false;
@@ -178,8 +180,10 @@ public class SubcriberServiceImpl implements SubcriberService {
             SubcriberDTO dto = new SubcriberDTO();
             dto.setId(subcriber.getId());
             dto.setEmail(subcriber.getEmail());
-            dto.setName(subcriber.getName());
-            dto.setTag(subcriber.getName());
+            dto.setLastName(subcriber.getLastName());
+            dto.setFirstName(subcriber.getFirstName());
+            dto.setDob(subcriber.getDob());
+            dto.setTag(subcriber.getTag());
             dto.setType(subcriber.getType());
             dtos.add(dto);
         }

@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -44,15 +43,18 @@ public class GroupContact implements Serializable {
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    @JoinTable(name = "group_contact_has_subcriber",
-            joinColumns = { @JoinColumn(name = "group_contact_id") },
-            inverseJoinColumns = { @JoinColumn(name = "subcriber_id") })
-    private Set<Subcriber> subcribers = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            })
+//    @JoinTable(name = "group_contact_has_subcriber",
+//            joinColumns = { @JoinColumn(name = "group_contact_id") },
+//            inverseJoinColumns = { @JoinColumn(name = "subcriber_id") })
+//    private Set<Subcriber> subcribers = new HashSet<>();
+
+    @OneToMany( mappedBy = "groupContact", cascade = CascadeType.ALL)
+    private List<GroupContactSubcriber> groupContactSubcribers;
 
 
 
