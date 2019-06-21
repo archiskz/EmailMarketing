@@ -4,11 +4,14 @@ import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Service
 public class AccountServiceImpl implements AccountService {
 
@@ -92,8 +95,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> searchByUsernameOrFullname(String searchValue) {
-        return accountRepository.searchByUsernameOrFullname(searchValue);
+     public Page<Account> searchByUsernameOrFullname(Pageable pageable , String searchValue) {
+        Page<Account> page = accountRepository.searchByUsernameOrFullname(pageable,searchValue);
+        if (page == null || page.isEmpty()) {
+            return null;
+        }
+        return page;
     }
 
     @Override

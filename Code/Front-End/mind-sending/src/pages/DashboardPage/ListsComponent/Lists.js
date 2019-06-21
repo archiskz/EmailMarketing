@@ -130,7 +130,7 @@ class Lists extends Component {
                     </div>
                     </div>
                     </div>
-                    <a onClick={()=>this.openModal()}  className="button button-primary button-big mt15" >
+                    <a onClick={()=>this.openModal()}  className="btn_create_contact " >
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create List
                                 </a>

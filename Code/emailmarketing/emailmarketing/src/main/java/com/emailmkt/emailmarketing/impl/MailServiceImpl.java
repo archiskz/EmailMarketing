@@ -17,6 +17,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,23 +32,29 @@ public class MailServiceImpl implements MailService {
     static final String SMTP_PASSWORD = "BOrLD/Tp8LMdGJ08YD/4MmJ5YRwGaKKp8pqrcChpcEQD";
 
     @Override
-    public void sendSimpleMessage(String to, String subject, String text) {
+    public void sendSimpleMessage() {
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-
-            message.setTo(to);
-            message.setSubject(subject);
-            message.setText(text);
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message,
+                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name());
+//            message.setFrom(new InternetAddress("test123@mindsending.cf", "Tấn Vô địch"));
+//            message.setFrom("test123@mindsending.cf");
+//            helper.setTo("archis123456@mindsending.cf");
+            helper.setTo("dragontna4997@gmail.com");
+            helper.setSubject("Amazon SES test (SMTP interface accessed using Java)");
+            helper.setText("ĐỒ NG0K NGẾK");
             emailSender.send(message);
-        } catch (MailException exception) {
-            exception.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
     }
 
     @Override
     public void sendSimpleMessageUsingTemplate(String to, String subject, SimpleMailMessage template, String... templateArgs) {
         String text = String.format(template.getText(), templateArgs);
-        sendSimpleMessage(to, subject, text);
+        sendSimpleMessage();
     }
 
     @Override

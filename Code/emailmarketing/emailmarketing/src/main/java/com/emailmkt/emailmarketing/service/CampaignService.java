@@ -2,8 +2,11 @@ package com.emailmkt.emailmarketing.service;
 
 import org.springframework.mail.SimpleMailMessage;
 
-public interface MailService {
-    void sendSimpleMessage();
+public interface CampaignService {
+    void sendSimpleMessage(String to,
+                           String subject,
+                           String text);
+
     void sendSimpleMessageUsingTemplate(String to,
                                         String subject,
                                         SimpleMailMessage template,

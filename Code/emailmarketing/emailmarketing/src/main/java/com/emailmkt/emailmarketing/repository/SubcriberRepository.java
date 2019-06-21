@@ -22,7 +22,7 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 //
 //
     @Query("SELECT su FROM Subcriber su WHERE " +
-            "(LOWER(su.name) like %:searchValue% or su.email like %:searchValue%) ")
+            "(LOWER(su.lastName) like %:searchValue% or su.email like %:searchValue%) ")
     List<Subcriber> searchByEmailAndName(@Param("searchValue") String searchValue);
 //
 

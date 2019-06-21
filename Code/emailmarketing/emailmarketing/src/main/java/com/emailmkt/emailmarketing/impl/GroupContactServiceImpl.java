@@ -107,8 +107,9 @@ public class GroupContactServiceImpl implements GroupContactService {
             SubcriberDTO dto = new SubcriberDTO();
             dto.setId(subcriber.getId());
             dto.setEmail(subcriber.getEmail());
-            dto.setName(subcriber.getName());
-            dto.setTag(subcriber.getName());
+            dto.setFirstName(subcriber.getFirstName());
+            dto.setLastName(subcriber.getLastName());
+            dto.setTag(subcriber.getTag());
             dto.setType(subcriber.getType());
             dtos.add(dto);
         }

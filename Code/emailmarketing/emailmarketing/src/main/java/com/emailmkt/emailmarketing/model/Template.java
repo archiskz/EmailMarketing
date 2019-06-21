@@ -31,7 +31,7 @@ public class Template implements Serializable {
 
     @Basic
     @Column(name = "account_id")
-    private int account_id;
+    private String account_id;
 
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)

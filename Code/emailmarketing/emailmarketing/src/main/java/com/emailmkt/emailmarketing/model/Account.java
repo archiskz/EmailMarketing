@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class Account implements Serializable {
+    public static final String PROP_USERNAME = "username";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
