@@ -289,3 +289,32 @@
      outline-offset: -2px !important;
         
 }
+.ul_contact_information{
+    margin-top: 10px;
+        margin-left: 90px;
+    list-style-type: none;
+     right:0px;
+     width: 200px;
+     background-color: white;
+     font-weight:bold;
+     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+     z-index: 1;
+}
+.ul_contact_information li a{
+    color: #000;
+     text-decoration: none;
+}
+.ul_contact_information li{
+      padding: 8px 16px;
+     border-bottom: 1px solid #e5e5e5;
+}
+.ul_contact_information li:last-child {
+     border-bottom: none;
+}
+.ul_contact_information li:hover {
+     background-color: #83ACF6;
+     color: white;
+}
+.i_contact_information{
+     margin-left: 10px;
+}

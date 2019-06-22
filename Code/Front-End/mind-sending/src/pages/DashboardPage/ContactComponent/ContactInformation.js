@@ -9,8 +9,22 @@ class ContactInformation extends Component {
         this.state = {
             visible: true,
         };
+        this.showDropdownMenu = this.showDropdownMenu.bind(this);
+      this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
     }
+showDropdownMenu(event) {
+    event.preventDefault();
+    this.setState({ displayMenu: true }, () => {
+    document.addEventListener('click', this.hideDropdownMenu);
+    });
+  }
 
+  hideDropdownMenu() {
+    this.setState({ displayMenu: false }, () => {
+      document.removeEventListener('click', this.hideDropdownMenu);
+    });
+
+  }
 
 
 
@@ -115,20 +129,26 @@ class ContactInformation extends Component {
         				
         				<h4>Thắng Nguyễn</h4>
         				<p>Added via MindSending on Wednesday, June 19, 2019</p>
-        				<div onClick={this.onToggleDropdown} className="btn_create_contact2" tabindex="0" type="button" data-dropdown-toggle="true" data-role="bulk-actions-toggle">
+        				 <div className="btn_create_contact2" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
                                     
                                     Action
-                                    <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
-                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
-                                            <i className="sg-icon sg-icon-csv"></i>
-                                            <span>Upload CSV</span>
-                                        </Link>
-                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts" className="dropdown-link dropdown-link-with-icon" >
-                                            <i className="sg-icon sg-icon-contacts-alt"></i>
-                                            <span>Manual Add</span>
-                                        </Link>
+                                    <i className="fa fa-caret-down i_contact_information"></i>
+                                    </div>
+                                   { this.state.displayMenu ? (
+                                    <ul className="ul_contact_information">
+                                   <li><a href="#">Add to list</a></li>
+                                   <li><a href="# ">Remove from list</a></li>
+                                   <li><a href="# ">Move to list</a></li>
+                                   <li><a href="# ">Copy to list</a></li>
+                                   <li><a href="# ">Unsubcribe</a></li>
+                                   <li><a href="# ">Resubcribe</a></li>                                  
+                                   <li><a href="# ">Delete</a></li>
                                     </ul>
-                                </div>
+        ):
+        (
+          null
+        )
+        }
         			</div>
 
         		</div>

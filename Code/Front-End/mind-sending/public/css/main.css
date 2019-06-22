@@ -6524,7 +6524,7 @@ display: flex;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  width: 40%;
+  width: auto;
   height: 100%;
   overflow: hidden;
 }

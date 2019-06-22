@@ -144,7 +144,7 @@ class ViewUserProfile extends Component {
         			<div className="user_profile15">
         				<h6>CEO / CO-FOUNDER</h6>
         				<h4>Thắng Nguyễn</h4>
-        				<p>Đẹp trai có gì là sai...</p>
+        				<p></p>
         			</div>
         		</div>
         	</div>
