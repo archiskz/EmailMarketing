@@ -54,13 +54,17 @@ public class Account implements Serializable {
     @Column(name = "address")
     private String address;
 
-    @Basic
-    @Column(name = "authority_id")
-    private int authorityId;
+
+    @Column(name = "status")
+    private String status;
 
     @Basic
     @Column(name = "created_time")
     private String createdTime;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @Basic
     @Column(name = "updated_time")

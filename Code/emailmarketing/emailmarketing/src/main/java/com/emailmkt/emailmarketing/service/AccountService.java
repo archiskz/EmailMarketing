@@ -14,22 +14,22 @@ public interface AccountService {
 
     Account editProfile(Account account);
 
-    List<Account> getAllAccountsByStaff();
+//    List<Account> getAllAccountsByStaff();
 
     Account getAccountById(int id);
 
     Account loginForStaff(String username, String password);
 
-    List<Account> getAllAccountByauthorityId(int authorityId);
+//    List<Account> getAllAccountByauthorityId(int authorityId);
 
     Account updateAccount(Account account);
 
-    int countTotalUserAccount(int authorityId);
+//    int countTotalUserAccount(int authorityId);
 
     Account createNewAccount(Account account);
 
     Account getAccountByUsername(String username);
-    List<Account> getAllAccountsByCustomer();
+//    List<Account> getAllAccountsByCucountAllByauthorityIdstomer();
     Account loginForCustomer(String username, String password);
     Page<Account> searchByUsernameOrFullname(Pageable pageable , String searchValue);
 
