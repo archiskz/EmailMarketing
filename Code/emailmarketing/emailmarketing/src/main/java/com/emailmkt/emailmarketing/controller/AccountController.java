@@ -68,11 +68,11 @@ public class AccountController {
         return ResponseEntity.status(CREATED).body("Đăng kí thành công");
 
     }
-    @GetMapping("customer/accounts")
-    public ResponseEntity<List<Account>> findAllAccountsByCustomer() {
-        List<Account> vms = accountService.getAllAccountsByCustomer();
-        return new ResponseEntity<List<Account>>(vms, HttpStatus.OK);
-    }
+//    @GetMapping("customer/accounts")
+//    public ResponseEntity<List<Account>> findAllAccountsByCustomer() {
+//        List<Account> vms = accountService.getAllAccountsByCustomer();
+//        return new ResponseEntity<List<Account>>(vms, HttpStatus.OK);
+//    }
 
     @PutMapping("account/edit")
     public ResponseEntity updateProfile(@RequestBody Account account) {
@@ -86,11 +86,11 @@ public class AccountController {
     public Account getAccount(@PathVariable(value = "id") int id) {
         return accountService.getAccountById(id);
     }
-
-    @GetMapping("accounts/allAccountByAuthorityId")
-    public List<Account> getAllAccountByAuthorityId(@RequestParam(value = "authorityId") int authorityId) {
-        return accountService.getAllAccountByauthorityId(authorityId);
-    }
+//
+//    @GetMapping("accounts/allAccountByAuthorityId")
+//    public List<Account> getAllAccountByAuthorityId(@RequestParam(value = "authorityId") int authorityId) {
+//        return accountService.getAllAccountByauthorityId(authorityId);
+//    }
 
     @PostMapping("/account/search/{searchValue}")
     public ResponseEntity<Page<Account>> searchAccount(@PathVariable(value = "searchValue") String searchValue,

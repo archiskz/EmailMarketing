@@ -26,10 +26,6 @@ import java.util.logging.Logger;
 public class MailServiceImpl implements MailService {
     @Autowired
     public JavaMailSender emailSender;
-    static final String SMTP_USERNAME = "AKIAXTZGLCQ6AQGJT6HK";
-
-    // Replace smtp_password with your Amazon SES SMTP password.
-    static final String SMTP_PASSWORD = "BOrLD/Tp8LMdGJ08YD/4MmJ5YRwGaKKp8pqrcChpcEQD";
 
     @Override
     public void sendSimpleMessage() {

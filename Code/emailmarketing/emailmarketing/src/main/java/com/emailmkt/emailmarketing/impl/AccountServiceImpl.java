@@ -6,12 +6,12 @@ import com.emailmkt.emailmarketing.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Service
 public class AccountServiceImpl implements AccountService {
 
@@ -33,9 +33,10 @@ public class AccountServiceImpl implements AccountService {
         if (checkExistedAccount != null) {
             return false;
         }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         account.setCreatedTime(LocalDateTime.now().toString());
 //        account.setPassword(encoder.encode(account.getPassword()));
-        account.setPassword(account.getPassword());
+        account.setPassword(encoder.encode(account.getPassword()));
         accountRepository.save(account);
         return true;
     }
@@ -56,7 +57,6 @@ public class AccountServiceImpl implements AccountService {
                 checkExistedAccount.setPhone(account.getPhone());
                 checkExistedAccount.setGender(account.getGender());
                 checkExistedAccount.setAddress(account.getAddress());
-                checkExistedAccount.setAuthorityId(account.getAuthorityId());
                 checkExistedAccount.setUpdatedTime(LocalDateTime.now().toString());
                 checkExistedAccount.setFullname(account.getFullname());
 
@@ -69,15 +69,15 @@ public class AccountServiceImpl implements AccountService {
         return null;
     }
 
-    @Override
-    public List<Account> getAllAccountsByStaff() {
-        return accountRepository.findAllByauthorityIdGreaterThanEqual(3);
-    }
-
-    @Override
-    public List<Account> getAllAccountsByCustomer() {
-        return accountRepository.findAllByauthorityIdGreaterThanEqual(2);
-    }
+//    @Override
+//    public List<Account> getAllAccountsByStaff() {
+//        return accountRepository.findAllByauthorityIdGreaterThanEqual(3);
+//    }
+//
+//    @Override
+//    public List<Account> getAllAccountsByCustomer() {
+//        return accountRepository.findAllByauthorityIdGreaterThanEqual(2);
+//    }
 
     @Override
     public Account getAccountById(int id) {
@@ -103,10 +103,10 @@ public class AccountServiceImpl implements AccountService {
         return page;
     }
 
-    @Override
-    public List<Account> getAllAccountByauthorityId(int authorityId) {
-        return accountRepository.findAllByauthorityIdOrderByCreatedTimeDesc(authorityId);
-    }
+//    @Override
+//    public List<Account> getAllAccountByauthorityId(int authorityId) {
+//        return accountRepository.findAllByauthorityIdOrderByCreatedTimeDesc(authorityId);
+//    }
 
     @Override
     public Account updateAccount(Account account) {
@@ -114,14 +114,16 @@ public class AccountServiceImpl implements AccountService {
 
     }
 
-    @Override
-    public int countTotalUserAccount(int authorityId) {
-        return accountRepository.countAllByauthorityId(authorityId);
-    }
+//    @Override
+//    public int countTotalUserAccount(int authorityId) {
+//        return accountRepository.countAllByauthorityId(authorityId);
+//    }
 
     @Override
-
     public Account createNewAccount(Account account) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        account.setPassword(encoder.encode(account.getPassword()));
+        System.out.println(account.getPassword());
         return accountRepository.save(account);
     }
 
@@ -129,4 +131,6 @@ public class AccountServiceImpl implements AccountService {
     public Account getAccountByUsername(String username) {
         return accountRepository.findByUsername(username);
     }
+
+
 }
