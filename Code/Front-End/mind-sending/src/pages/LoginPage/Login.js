@@ -30,16 +30,18 @@ constructor(props) {
 
 
 
-// tryLogin = () => {
-// callApi('accounts', 'GET', null).then(res => {
-// 	this.setState({
-// 		accounts: this.res.data
-// 	});
-// 	alert(res);
-// 	console.log(res);
-// 	console.log('data' + this.refs.data)
-// })
-// }
+tryLogin = () => {
+	// const header = Authorization: `Bearer-${Config.TOKEN}`
+	axios.post(`${Config.API_URL}groupContacts`)
+	.then(response => {
+	  this.setState({
+		lists: response.data
+	  });
+	})
+	.catch(error => {
+	  console.log(error);
+	});
+}
 
 	render(){
 		const {
