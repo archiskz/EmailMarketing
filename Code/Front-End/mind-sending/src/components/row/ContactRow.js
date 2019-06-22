@@ -34,7 +34,7 @@ class ContactRow extends Component {
           </td>
           <td class="md_tablet6_tbody_td">{this.props.firstName}</td>
           <td class="md_tablet6_tbody_td">{this.props.lastName}</td>
-          <td class="md_tablet6_tbody_td">{this.props.dob}</td>
+         
           <td class="md_tablet6_tbody_td">{this.props.type}</td>
           <td class="md_tablet6_tbody_td">
           {this.props.contactActions}

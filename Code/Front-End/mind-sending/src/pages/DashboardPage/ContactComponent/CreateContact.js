@@ -17,12 +17,30 @@ class CreateContact extends Component {
        visible: true,
        dropdown_visible: false,
      };
+      this.showDropdownMenu = this.showDropdownMenu.bind(this);
+      this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
    }
+   showDropdownMenu(event) {
+    event.preventDefault();
+    this.setState({ displayMenu: true }, () => {
+    document.addEventListener('click', this.hideDropdownMenu);
+    });
+  }
+
+  hideDropdownMenu() {
+    this.setState({ displayMenu: false }, () => {
+      document.removeEventListener('click', this.hideDropdownMenu);
+    });
+
+  }
+
+
    onToggleDropdown = () => {
      this.setState({
        dropdown_visible: !this.state.dropdown_visible
      })
    }
+
 
     componentDidMount(){
     
@@ -157,11 +175,32 @@ class CreateContact extends Component {
                                 <th className="md_tablet6_th" scope="col">Email</th>
                                 <th className="md_tablet6_th" scope="col">First Name</th>
                                 <th className="md_tablet6_th" scope="col">Last Name</th>
-                                <th className="md_tablet6_th" scope="col">Date of Birth</th>
+                                
                                 <th className="md_tablet6_th" scope="col">Status</th>
                                 
                                 <th  className="md_tablet6_th" role="presentation">
-                                Action
+                                
+                                <div className="ul_create_contact" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
+                                    
+                                    Action
+                                    <i class="fa fa-caret-down"></i>
+                                    </div>
+                                   { this.state.displayMenu ? (
+                                    <ul className="">
+                                   <li><a className="active" href="#">Add to list</a></li>
+                                   <li><a href="# ">Remove from list</a></li>
+                                   <li><a href="# ">Move to list</a></li>
+                                   <li><a href="# ">Copy to list</a></li>
+                                   <li><a href="# ">Unsubcribe</a></li>
+                                   <li><a href="# ">Resubcribe</a></li>                                  
+                                   <li><a href="# ">Delete</a></li>
+                                    </ul>
+        ):
+        (
+          null
+        )
+        }
+                                
                                 </th>
                                 
                             </tr>
@@ -170,7 +209,7 @@ class CreateContact extends Component {
                             <tbody>
                             {lists.map(list=>(
                                         <ContactRow
-                                        dob={list.dob}
+                                        
                                         firstName={list.firstName}
                                         key={list.index}
                                         email={list.email}
