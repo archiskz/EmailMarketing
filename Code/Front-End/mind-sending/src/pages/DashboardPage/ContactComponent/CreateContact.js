@@ -209,7 +209,7 @@ class CreateContact extends Component {
                             <tbody>
                             {lists.map(list=>(
                                         <ContactRow
-                                        
+                                        id = {list.id}
                                         firstName={list.firstName}
                                         key={list.index}
                                         email={list.email}

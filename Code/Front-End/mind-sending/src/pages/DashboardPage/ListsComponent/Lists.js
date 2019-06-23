@@ -5,6 +5,7 @@ import ListRow from './../../../components/row/ListRow';
 import Modal from 'react-awesome-modal';
 import * as Config from './../../../constants/Config';
 
+
 class Lists extends Component {
    constructor(props) {
      super(props);
@@ -183,18 +184,25 @@ class Lists extends Component {
   
 
   getAllListContact=()=>{
-    axios.get(`${Config.API_URL}groupContacts`,{
-    })
+    let config = {};
+    config = {headers: 
+        {Authorization : Config.TOKEN
+}};
+
+    console.log(config);
+    axios.get(`${Config.API_URL}groupContacts`,config)
     .then(res => {
       const listContacts = res.data;
       console.log(listContacts);
       this.setState({groupContacts:listContacts})
-    })
+    }).catch(function (error) {
+        console.log(error);
+      });
   }
 
   saveNewList(){
-    console.log(this.state.newList);
-    axios.post(`${Config.API_URL}groupContact/create`, this.state.newList)
+
+    axios.post(`${Config.API_URL}groupContact/create`, this.state.newList,{headers: {'Authorization' : Config.TOKEN}})
       .then(res => {
         this.getAllListContact();
         this.closeModal();

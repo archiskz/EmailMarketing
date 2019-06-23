@@ -30,16 +30,18 @@ constructor(props) {
 
 
 
-// tryLogin = () => {
-// callApi('accounts', 'GET', null).then(res => {
-// 	this.setState({
-// 		accounts: this.res.data
-// 	});
-// 	alert(res);
-// 	console.log(res);
-// 	console.log('data' + this.refs.data)
-// })
-// }
+tryLogin = () => {
+	// const header = Authorization: `Bearer-${Config.TOKEN}`
+	axios.post(`${Config.API_URL}groupContacts`)
+	.then(response => {
+	  this.setState({
+		lists: response.data
+	  });
+	})
+	.catch(error => {
+	  console.log(error);
+	});
+}
 
 	render(){
 		const {
@@ -61,18 +63,18 @@ constructor(props) {
 					</span>
 
 					<span className="login100-form-title p-b-34 p-t-27">
-						LOG IN
+						BE THE REASON SOMEONE SMILES
 					</span>
 
 					<div className="wrap-input100 validate-input" data-validate = "Enter username" value={this.state.username} 
 					onChange = { evt => this.updateUsernameInput(evt)} >
 					
-						<input className="input100 myClass" type="text" name="username" placeholder="Username"/>
+						<input className="input100 myClass" type="text" name="username" placeholder="      Username"/>
 						<span className="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div className="wrap-input100 validate-input" data-validate="Enter password">
-						<input className="input100" type="password" name="pass" placeholder="Password"
+						<input className="input100" type="password" name="pass" placeholder="      Password"
 							value = {
 								this.state.username
 							}
@@ -91,7 +93,7 @@ constructor(props) {
 					</div>
 
 					<div className="container-login100-form-btn">
-						<button type="button" onClick={()=> {this.getPosts()}} className="login100-form-btn">
+						<button type="button" onClick={()=> {this.getPosts()}} className="btn_create_login">
 							Login
 						</button>
 						{/*<Link to="/"  className="login100-form-btn">Login</Link>*/}

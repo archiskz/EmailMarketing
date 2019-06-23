@@ -1,16 +1,29 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withRouter } from "react-router";
 import imgAvatar from './../../../access/img/client3.jpg'
+import axios from 'axios';
+import * as Config from './../../../constants/Config';
 
 class ContactInformation extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            visible: true,
+			visible: true,
+			contact: {},
+			contactEdit: {
+				email: "",
+				firstName: "",
+				lastName:"",
+				address:"",
+				dob:""
+			}
         };
         this.showDropdownMenu = this.showDropdownMenu.bind(this);
-      this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+	  this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+	  this.onUpdateProfile = this.onUpdateProfile.bind(this);
+	//   this.handleChange = this.handleChange.bind(this)
     }
 showDropdownMenu(event) {
     event.preventDefault();
@@ -26,9 +39,44 @@ showDropdownMenu(event) {
 
   }
 
+  componentDidMount(){
+	  console.log(this.props.history.location.state)
+	this.getSubcriberById(this.props.history.location.state)
+	console.log(this.state.contactEdit)
+  }
 
+  onUpdateProfile(){
+	console.log(this.state.contact)
+	axios.put(`${Config.API_URL}subcriber/edit/${this.props.history.location.state}`, this.state.contact)
+  .then((response) => {
+	console.log(response);
+  })
+  .catch((error) => {
+	console.log(error);
+  });
+}
+
+  getSubcriberById(id){
+	axios.get(`${Config.API_URL}subcriber/${id}`,)
+	.then(res => {
+		
+		// console.log(res.data);
+	  const contact = {
+		  firstName: res.data.firstName,
+		  lastName: res.data.lastName,
+		  email: res.data.email,
+		  address: res.data.address,
+		  createdTime: res.data.createTime,
+		  type: res.data.type,
+		  dob: res.data.dob
+	  };
+	  console.log(contact);
+	  this.setState({contact:contact})
+	})
+  }
 
     render() {
+
         return (
         	<div className="user_profile">
         <div className="user_profile2">
@@ -44,16 +92,16 @@ showDropdownMenu(event) {
         					<div className="user_profile7_sub1">
         						<label className="user_profile_w3_label" >Email address </label>
         						<div className="user_profile7_sub2">
-        						<input aria-invalid="false" className="user_profile_w3_input" disabled="" id="company-disabled" type="text"value="thangnguyen15297@gmail.com" />
+        						<input onChange={this.handleChange} aria-invalid="false" name="email" className="user_profile_w3_input" disabled="" id="company-disabled" type="text" value={this.state.contact.email} />
         						</div>
         					</div>
         				</div>
         				
         				<div className="user_profile9_sub">
         					<div className="user_profile8_sub1">
-        						<label className="user_profile_w3_label" data-shrink="false" for="username">Phone number</label>
+        						<label className="user_profile_w3_label"  data-shrink="false" for="username">Phone number</label>
         						
-        						<input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value="0938169174"/>
+        						<input  aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value=""/>
         						
         					</div>
         				</div>
@@ -61,9 +109,9 @@ showDropdownMenu(event) {
         			<div className="user_profile9">
         				<div className="user_profile9_sub">
         					<div className="user_profile9_sub1">
-        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">First Name</label>
+        						<label  className="user_profile_w3_label" data-shrink="false" for="first-name">First Name</label>
         						
-        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="Thắng"/>
+        						<input onChange={this.handleChange} name="firstName" aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value={this.state.contact.firstName}/>
         						
         					</div>
         				</div>
@@ -71,7 +119,7 @@ showDropdownMenu(event) {
         					<div className="user_profile9_sub1">
         						<label className="user_profile_w3_label" data-shrink="false" for="first-name">Last Name</label>
         						
-        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text"value="Nguyễn" />
+        						<input onChange={this.handleChange} name="lastName" aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value={this.state.contact.lastName} />
         						
         					</div>
         				</div>
@@ -81,7 +129,7 @@ showDropdownMenu(event) {
                             <div className="user_profile9_sub1">
                                 <label className="user_profile_w3_label" data-shrink="false" for="first-name">Address</label>
                                 
-                                <input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="755/14"/>
+                                <input onChange={this.handleChange} name="address" aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value={this.state.contact.address}/>
                                 
                             </div>
                         </div>
@@ -89,7 +137,7 @@ showDropdownMenu(event) {
                             <div className="user_profile9_sub1">
                                 <label className="user_profile_w3_label" data-shrink="false" for="first-name">Date of birth</label>
                                 
-                                <input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text"value="15/02" />
+                                <input onChange={this.handleChange} name="dob" aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value={this.state.contact.dob} />
                                 
                             </div>
                         </div>
@@ -113,10 +161,10 @@ showDropdownMenu(event) {
         			
         		</div>	
         		<div className="user_profile11">
-        				<button className="user_profile_btn" tabindex="0" type="button">
+        				<a onClick={this.onUpdateProfile} className="user_profile_btn" tabindex="0">
         					Update Profile
-        				</button>
-        			</div>
+        				</a>
+        		</div>
         	</div>
         	
         </div>
@@ -128,7 +176,7 @@ showDropdownMenu(event) {
         			<div className="user_profile15">
         				
         				<h4>Thắng Nguyễn</h4>
-        				<p>Added via MindSending on Wednesday, June 19, 2019</p>
+        				<p>Added via MindSending on {this.state.contact.createdTime}</p>
         				 <div className="btn_create_contact2" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
                                     
                                     Action
@@ -190,6 +238,19 @@ showDropdownMenu(event) {
         </div>
         </div>
         	);
-    }
+	}
+	
+	handleChange =(e)=> {
+		const { name, value } = e.target;
+		// let contact = state.contact;
+		// contact = {...contact, [name]: value};
+		this.setState({ contact: {
+			...this.state.contact,
+			[name]: value
+		} });
+		console.log(this.state.contact)
+	 }
+
+	
 }
-export default ContactInformation;
+export default withRouter(ContactInformation);

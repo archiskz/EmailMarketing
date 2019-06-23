@@ -43,7 +43,7 @@ class Register extends Component {
                   
                 </form>
                 <div className="p-t-10 al-center ">
-                    <button onClick={this.onRegister} className="login100-form-btn" type="">Register</button>
+                    <button onClick={this.onRegister} className="btn_create_register" type="">Register</button>
                   </div>
               </div>
             </div>

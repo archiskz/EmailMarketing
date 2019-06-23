@@ -206,7 +206,7 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-background-image: url('./../images/pattern.jpg');
+  background-image: url('./../images/top-background-pics-4.jpg.jpg') !important;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -271,7 +271,7 @@ background-image: url("map-of-the-world-2401458_1920.jpg");
   justify-content: center;
   align-items: center;
  /* padding: 15px;*/
-background-image: url('./../images/pattern.jpg');
+background-image: url('./../images/top-background-pics-4.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -294,14 +294,15 @@ background-image: url('./../images/pattern.jpg');
 }
 
 .wrap-login100 {
-  /*margin: 10px;*/
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 5px;
   position: absolute;
   width: 500px;
   border-radius: 20px;
   overflow: hidden;
   padding: 30px 30px 30px 30px;
 z-index: 1;
-  background: #00a650;
+  background: -webkit-linear-gradient(top, #abdcd6, #fffcec);
   /* background: -webkit-linear-gradient(top, #abdcd6, #fffcec);
   background: -o-linear-gradient(top, #abdcd6, #fffcec);
   background: -moz-linear-gradient(top, #abdcd6, #fffcec);
@@ -327,7 +328,7 @@ z-index: 1;
 .login100-form-logo {
   font-size: 60px; 
   color: #333333;
-
+  
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -335,9 +336,8 @@ z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 120px;
+  width: 100%;
   height: 120px;
-  border-radius: 50%;
   background-color: none;
   margin: 0 auto;
   margin-bottom: 20px;
@@ -345,8 +345,8 @@ z-index: 1;
 
 .login100-form-title {
   font-family: Poppins-Medium !important;
-  font-size: 30px;
-  color: white;
+  font-size: 25px;
+  color: #000;
   line-height: 1.2;
   text-align: center;
   text-transform: uppercase !important;
@@ -359,16 +359,19 @@ z-index: 1;
 [ Input ]*/
 
 .wrap-input100 {
+      margin-top: 20px;
   width: 100%;
   position: relative;
   border-bottom: 2px solid rgba(255,255,255,0.24);
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .input100 {
+  margin-left: -35px;
+  border:none;
   font-family: Poppins-Regular !important;
   font-size: 16px !important;
-  color: white !important;
+  color: black !important;
   line-height: 1.2 !important;
 
   display: block !important;
@@ -469,7 +472,7 @@ color: white;
 .label-checkbox100 {
   font-family: Poppins-Regular;
   font-size: 13px;
-  color: #000000;
+  color: #000;
   line-height: 1.2;
 
   display: block;
@@ -494,7 +497,8 @@ color: white;
   position: absolute;
   width: 16px;
   height: 16px;
-  border-radius: 2px;
+  border-radius: 5px;
+  border-color: #000 !important;
   background: #fff;
   left: 0;
   top: 50%;
@@ -1009,18 +1013,23 @@ input[type="date" i] {
 }
 
 .input-group {
+  border: none !important;
   position: relative;
   margin-bottom: 33px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .input--style-3 {
+  border: none;
   padding: 5px 0;
   font-size: 16px;
   color: #000000;
   background: transparent;
 }
-
+.input--style-3:focus{
+  outline: 0 !important;
+     outline-offset: -2px !important;
+}
 .input--style-3::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
   color: #ccc;
