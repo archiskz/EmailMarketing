@@ -1,12 +1,16 @@
 package com.emailmkt.emailmarketing.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Campaign implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

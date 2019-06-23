@@ -1,22 +1,12 @@
 package com.emailmkt.emailmarketing.service;
 
-import org.springframework.mail.SimpleMailMessage;
+import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.model.Template;
 
 public interface CampaignService {
-    void sendSimpleMessage(String to,
-                           String subject,
-                           String text);
-
-    void sendSimpleMessageUsingTemplate(String to,
-                                        String subject,
-                                        SimpleMailMessage template,
-                                        String ...templateArgs);
-    void sendMessageWithAttachment(String to,
-                                   String subject,
-                                   String text,
-                                   String pathToAttachment);
-    void prepareAndSend(String recipient, String message);
-    void sendMail(String smtpServerHost, String smtpServerPort,  String smtpUserName, String smtpUserPassword, String fromUserEmail, String fromUserFullName, String toEmail, String subject, String body);
+    boolean createCampaign(MailObjectDTO mailObjectDTO, int groupId);
+    boolean createCampaignWithTemplate(MailObjectDTO mailObjectDTO, int groupId, Template template);
+    boolean createAutoResponseCampaign(MailObjectDTO mailObjectDTO, int groupId, Template template);
 
 
 

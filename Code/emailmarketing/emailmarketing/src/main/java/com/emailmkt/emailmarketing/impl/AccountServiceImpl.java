@@ -123,7 +123,6 @@ public class AccountServiceImpl implements AccountService {
     public Account createNewAccount(Account account) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         account.setPassword(encoder.encode(account.getPassword()));
-        System.out.println(account.getPassword());
         return accountRepository.save(account);
     }
 

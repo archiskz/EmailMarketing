@@ -12,7 +12,11 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "group_contact_has_subcriber")
+@Table(name = "group_contact_has_subcriber",uniqueConstraints={
+        @UniqueConstraint(columnNames = {"subcriber_id", "group_contact_id"})
+}
+
+)
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
 public class GroupContactSubcriber {
     @Id
