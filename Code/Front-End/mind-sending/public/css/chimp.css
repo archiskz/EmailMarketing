@@ -289,6 +289,11 @@
      outline-offset: -2px !important;
         
 }
+.input100:focus{
+     outline: 0 !important;
+     outline-offset: -2px !important;
+        
+}
 .ul_contact_information{
     margin-top: 10px;
         margin-left: 90px;
@@ -317,4 +322,57 @@
 }
 .i_contact_information{
      margin-left: 10px;
+}
+.btn_create_login{
+    padding-bottom: 18px;
+        margin-top: -10px;
+    margin-left: 10px;
+    text-align: center;
+    height: 50px !important;
+    width: 150px !important;
+    background: linear-gradient(60deg, #54a0ff, #8e24aa);
+    color: #FFF;
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
+    padding-top: 18px;
+    position: relative;
+    min-width: auto;
+    font-size: 15px;
+    min-height: auto;
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    font-weight: 400;
+    will-change: box-shadow, transform;
+    line-height: 24px;
+    white-space: nowrap;
+    touch-action: manipulation;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    vertical-align: middle;
+    box-sizing: border-box;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    display: inline-flex;
+    outline: none;
+    justify-content: center;
+    text-decoration: none;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    word-spacing: normal;
+    text-indent: 0px;
+    text-shadow: none;
+    font: 400 13.3333px Arial;
+    -webkit-appearance: none !important;
+}
+.btn_create_login:hover{
+    box-shadow: 0 2px 2px 0 rgba(156, 39, 176, 0.14), 0 3px 1px -2px rgba(156, 39, 176, 0.2), 0 1px 5px 0 rgba(156, 39, 176, 0.12);
+    -moz-box-shadow:0px 0px 6px rgba(0, 0, 0, 10);
+    -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 10); 
+    text-decoration: none !important;
+    color: white !important;
+    /* background: rgba(156, 39, 176, 0.14) !important; */
+    -webkit-tap-highlight-color: transparent;
 }
