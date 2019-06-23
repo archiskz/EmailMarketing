@@ -15,6 +15,8 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     @Query("SELECT su FROM Subcriber su where LOWER(su.email) in :searchMail")
     List<Subcriber> findByEmailInList(@Param("searchMail") List<String> searchMail);
 
+
+
     @Query("SELECT su.email FROM Subcriber su")
     List<String>listEmailSubcriber();
 
@@ -24,7 +26,12 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     @Query("SELECT su FROM Subcriber su WHERE " +
             "(LOWER(su.lastName) like %:searchValue% or su.email like %:searchValue%) ")
     List<Subcriber> searchByEmailAndName(@Param("searchValue") String searchValue);
+
+    @Query("SELECT gr FROM GroupContactSubcriber gr WHERE gr.subcriber.id = :subcriberId AND gr.groupContact.id = :groupContactId")
+    Subcriber findSubcriberExisted(@Param("subcriberId")int subcriberId,@Param("groupContactId") int groupContactId );
+
 //
+
 
 
     Subcriber findSubcriberById(Integer id);
