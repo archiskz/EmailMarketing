@@ -4,6 +4,9 @@ import axios from 'axios';
 import ListRow from './../../../components/row/ListRow';
 import Modal from 'react-awesome-modal';
 import * as Config from './../../../constants/Config';
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+ 
 
 
 class Lists extends Component {
@@ -23,8 +26,23 @@ class Lists extends Component {
      };
      this.handleChange1 = this.handleChange1.bind(this);
      this.handleChange2 = this.handleChange2.bind(this);
+     this.addNotification = this.addNotification.bind(this);
+     this.notificationDOMRef = React.createRef();
    }
 
+   addNotification() {
+    this.notificationDOMRef.current.addNotification({
+      title: "Awesomeness",
+      message: "Add List Success!",
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
+  }
    onToggleDropdown = () => {
      this.setState({
        dropdown_visible: !this.state.dropdown_visible
@@ -38,6 +56,13 @@ class Lists extends Component {
      return (
 	  <div className = "" >
    <div className="flash_notice">
+   <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
         </div>
         <div className="container" data-role="main-app-container">
             <div>
@@ -206,6 +231,7 @@ class Lists extends Component {
       .then(res => {
         this.getAllListContact();
         this.closeModal();
+        this.addNotification()
       })
       .catch(function (error) {
         console.log(error);

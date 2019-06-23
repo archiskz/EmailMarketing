@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import * as Config from './../../../constants/Config';
 import AddContactRow from './../../../components/row/AddContactRow';
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+ 
 class AddContact extends Component {
   constructor(props) {
     super(props);
@@ -10,8 +13,10 @@ class AddContact extends Component {
       email: "sonnlh53@gmailas.com",
       name: "Hong Son",
       contacts: [{
-        name: "",
+        firstName: "",
+        lastName:"",
         email:"",
+        address:"",
         gcSubcriberDTOS: [
           {
             groupContactId: 0
@@ -22,6 +27,22 @@ class AddContact extends Component {
       selectValue:"",
       selectId: 0
     };
+    this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
+  }
+
+  addNotification() {
+    this.notificationDOMRef.current.addNotification({
+      title: "Awesomeness",
+      message: "Add Contact Success!",
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
   }
   onToggleDropdown = () => {
     this.setState({
@@ -42,10 +63,26 @@ class AddContact extends Component {
   }
 
   onSave= () => {
+    var contactList = this.state.contacts;
+    let contacts = contactList.map((contact)=>{
+      var contact= contact;
+      return {
+        ...contact,
+        gcSubcriberDTOS: [
+          {
+            groupContactId: this.state.selectValue
+          }
+        ]
+      }
+      });
+      this.setState({contacts: contacts})
+      console.log(this.state.contacts)
     console.log(`${Config.API_URL}subcriber/createListSubcriber`)
     axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts)
       .then((response) => {
-        console.log(response);
+        if(response != null){
+          this.addNotification()
+        } 
       })
       .catch((error) => {
         console.log(error);
@@ -61,6 +98,13 @@ class AddContact extends Component {
 
       <div className role="main">
         <div className="flash_notice">
+        <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
         </div>
         <div className="container" data-role="main-app-container">
           <div>
@@ -157,9 +201,9 @@ class AddContact extends Component {
   }
   addClick(){
     this.setState(prevState => ({ 
-    	contacts: [...prevState.contacts, { name: "", email: "" }]
+    	contacts: [...prevState.contacts, { email: "", firstName: "",lastName: "", "address":"",dob:"" }]
     }))
-    // console.log(this.state.contacts)
+    console.log(this.state.contacts)
   }
   
   createUI(){
@@ -169,19 +213,19 @@ class AddContact extends Component {
             <input className="user_contact_inputContact" placeholder="Email" name="email" value={el.email ||''} onChange={this.handleChange.bind(this, i)} />       
        </div>
           <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-    	      <input className="user_contact_inputContact" placeholder="First Name" name="name" value={el.name ||''} onChange={this.handleChange.bind(this, i)} />
+    	      <input className="user_contact_inputContact" placeholder="First Name" name="firstName" value={el.firstName ||''} onChange={this.handleChange.bind(this, i)} />
           </div>
           <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <input className="user_contact_inputContact" placeholder="Last Name" name="name" value={el.name ||''} onChange={this.handleChange.bind(this, i)} />
+            <input className="user_contact_inputContact" placeholder="Last Name" name="lastName" value={el.lastName ||''} onChange={this.handleChange.bind(this, i)} />
           </div>
         <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <input className="user_contact_inputContact" placeholder="Phone number" name="email" value={el.email ||''} onChange={this.handleChange.bind(this, i)} />       
+            <input className="user_contact_inputContact" placeholder="Phone number" name="phone" value={el.email ||''}  />       
        </div>
           <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <input className="user_contact_inputContact" placeholder="Address" name="name" value={el.name ||''} onChange={this.handleChange.bind(this, i)} />
+            <input className="user_contact_inputContact" placeholder="Address" name="address" value={el.address ||''} onChange={this.handleChange.bind(this, i)} />
           </div>
           <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <input className="user_contact_inputContact" placeholder="Date of birth" name="name" value={el.name ||''} onChange={this.handleChange.bind(this, i)} />
+            <input className="user_contact_inputContact" placeholder="Date of birth" name="dob" value={el.dob ||''} onChange={this.handleChange.bind(this, i)} />
           </div>
        <input type='button' className="btn_create_contact3" value='remove' onClick={this.removeClick.bind(this, i)}/>
        </div>    

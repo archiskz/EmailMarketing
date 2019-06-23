@@ -8,16 +8,21 @@ import axios from 'axios';
 import * as Config from './../../../constants/Config';
 import csv from 'csv';
 import CsvParse from '@vtex/react-csv-parse'
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+ 
 
 
 class AddContactsFile extends Component {
+  
   constructor(props) {
     super(props);
-
     this.state = {
       contacts: [{
-        name: "",
+        firstName: "",
+        lastName:"",
         email:"",
+        address:"",
         gcSubcriberDTOS: [
           {
             groupContactId: 0
@@ -31,6 +36,21 @@ class AddContactsFile extends Component {
       selectValue:"",
       selectId: 0
     };
+    this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
+  }
+  addNotification() {
+    this.notificationDOMRef.current.addNotification({
+      title: "Awesomeness",
+      message: "Add Contact Success!",
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
   }
 
   onToggleDropdown = () => {
@@ -55,8 +75,10 @@ class AddContactsFile extends Component {
 
   render() {
     const keys = [
-      "name",
-      "email"
+      "firstName",
+      "lastName",
+      "email",
+      "address",
     ]
     var lists = this.state.lists;
 
@@ -64,6 +86,13 @@ class AddContactsFile extends Component {
 
       <div className role="main">
         <div className="flash_notice">
+        <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
         </div>
         <div className="container" data-role="main-app-container">
           <div>
@@ -121,13 +150,7 @@ class AddContactsFile extends Component {
                        {/* Existing List */}
                       <span />
                     </div>
-                    <div className="input-radio-wrap radioInput-css__radio-container___3sajG" data-role style={{ position: 'relative' }}>
-                      <input type="radio" name="existing-or-new" id="radio-manual-add-to-new" defaultValue="new" />
-                      <label className="input-radio-label" htmlFor="radio-manual-add-to-new">
-                        Add contacts and include in a new list
-                      </label>
-                      <span />
-                    </div>
+                    
                     <section className="row">
                       <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                         <section />
@@ -141,23 +164,6 @@ class AddContactsFile extends Component {
           </article>
           </div>
              
-            {/* <FileUpload /> */}
-              {/* <Dropzone onDrop={this.onDrop}>
-                {({getRootProps, getInputProps}) => (
-                  <section>
-                    <div {...getRootProps()}>
-                    <div className="contact_file">
-                      <input {...getInputProps()} />
-                      <span>
-                        "Drag or drop your 
-                        file"
-                        or
-                      <a style = {{"fontWeight":"bold", "cursor":"pointer"}}> import your contact here</a> </span>
-                    </div>
-                    </div>
-                  </section>
-                )}
-              </Dropzone> */}
                   
               <CsvParse
       keys={keys}
@@ -177,7 +183,7 @@ class AddContactsFile extends Component {
       contacts: data
     })
     var contactList = this.state.contacts;
-    
+    console.log(contactList)
       let contacts = contactList.map((contact)=>{
         var contact= contact;
   return {
@@ -225,11 +231,30 @@ this.setState({
 
 }
 onSave= () => {
+  var contactList = this.state.contacts;
+  console.log(contactList)
+    let contacts = contactList.map((contact)=>{
+      var contact= contact;
+return {
+  ...contact,
+  gcSubcriberDTOS: [
+    {
+      groupContactId: this.state.selectValue
+    }
+  ]
+}
+});
+
+this.setState({
+contacts: contacts
+})
   console.log(`${Config.API_URL}subcriber/createListSubcriber`)
   console.log(this.state.contacts)
   axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts)
     .then((response) => {
-      console.log(response);
+      if(response != null){
+        this.addNotification()
+      } 
     })
     .catch((error) => {
       console.log(error);

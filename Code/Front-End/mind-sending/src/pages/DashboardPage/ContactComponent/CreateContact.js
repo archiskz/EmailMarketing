@@ -43,59 +43,97 @@ class CreateContact extends Component {
 
 
     componentDidMount(){
-    
-    console.log(this.props.history.location.state);
-
-    // console.log("props:" + this.props);
-    // console.log("props:" + this.props);
-    // console.log(`http://192.168.100.106:8080/api/groupContact=1/contacts`);
     const id = this.props.history.location.state;
     if(this.props.history.location.state != null){ 
-        axios.post(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`,)
-        .then(res => {
-            
-            // console.log(res.data);
-          const listAccounts = res.data;
-        //   console.log(listAccounts);
-          this.setState({listAccounts:listAccounts})
-          console.log(this.state.listAccounts)
-                    axios.get(`${Config.API_URL}groupContact/contactById?id=${id}`,)
-                    .then(response => {
-                       
-                        console.log(response.data)
-                        this.setState({
-                            listAccount: response.data,
-                        })
-                    
-                    })
+        this.getContactsByGroupId(id)
+    } else this.getAllContacts()
+    
+   }
+   componentWillReceiveProps(nextProps){
+       if(nextProps.history.location.state !== this.props.history.location.state){
+           console.log(nextProps.history.location.state)
+        this.getAllContacts()
+       }
+   }
 
-        })
+   
 
-        
-
-    } else {
-        axios.get(`${Config.API_URL}subcribersV2`,{
-        params: {
-            account_id: 1
-        }
-    })
+   getContactsByGroupId(id){
+    axios.post(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`,)
     .then(res => {
+        
+        // console.log(res.data);
       const listAccounts = res.data;
     //   console.log(listAccounts);
       this.setState({listAccounts:listAccounts})
-      console.log(this.state.listAccounts)
-      
+                axios.get(`${Config.API_URL}groupContact/contactById?id=${id}`,)
+                .then(response => {
+                    this.setState({
+                        listAccount: response.data,
+                    })
+                
+                })
+
     })
-    }
-    
+   }
+
+   getAllContacts(){
+            let config = {};
+            config = {headers: 
+                {Authorization : Config.TOKEN
+        }};
+            console.log(`${Config.API_URL}subcribersV2`)
+            axios.get(`${Config.API_URL}subcribersV2`)
+            .then(res => {
+        const listAccounts = res.data;
+        this.setState({listAccounts:listAccounts})
+        console.log(this.state.listAccounts)
+        
+        }).catch((error) => {
+            console.log(error);
+        });  
    }
 
    renderTitle(){
        if(this.props.history.location.state != null){
+          
            return this.state.listAccount.name
        } else {
            return "All Contact";
        }
+   }
+
+   renderContacts(){
+    if(this.props.history.location.state != null){
+        this.getContactsByGroupId(this.props.history.state)
+        var lists = this.state.listAccounts;
+        return lists.map(list=>(
+            <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            createdTime={list.createdTime}
+            type={list.type}
+        />
+        ))
+    } else {
+        this.getAllContacts()
+        var lists = this.state.listAccounts;
+        return lists.map(list=>(
+            <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            createdTime={list.createdTime}
+            type={list.type}
+        />
+        ))
+    }
+   
    }
   
 
@@ -207,17 +245,7 @@ class CreateContact extends Component {
                                 
                             </thead>
                             <tbody>
-                            {lists.map(list=>(
-                                        <ContactRow
-                                        id = {list.id}
-                                        firstName={list.firstName}
-                                        key={list.index}
-                                        email={list.email}
-                                        lastName={list.lastName}
-                                        createdTime={list.createdTime}
-                                        type={list.type}
-                                    />
-                                    ))}
+                            {this.renderContacts()}
                             </tbody>
                         </table>
                         </div>
