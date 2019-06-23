@@ -60,7 +60,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                .anyRequest().permitAll()
 //
 ////                .antMatchers(HttpMethod.POST).permitAll()
-////                .antMatchers(FOODCOURT, FOODCOURT_ALL, FOODCOURT_CREATE, FOODCOURT_UPDATE).hasAuthority(SYSTEM_ADMIN)
 //
 //
 //                .antMatchers(
