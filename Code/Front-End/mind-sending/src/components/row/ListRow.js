@@ -4,6 +4,9 @@ import { withRouter } from "react-router";
 import axios from 'axios';
 import * as Config from './../../constants/Config';
 import Modal from 'react-awesome-modal';
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+
 class ListRow extends Component {
     constructor(props) {
         super(props);
@@ -20,6 +23,21 @@ class ListRow extends Component {
         };
         this.handleChange3 = this.handleChange3.bind(this);
         this.handleChange2 = this.handleChange2.bind(this);
+        this.addNotification = this.addNotification.bind(this);
+     this.notificationDOMRef = React.createRef();
+      }
+      addNotification() {
+        this.notificationDOMRef.current.addNotification({
+          title: "Update List",
+          message: "Updated Success!",
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: { duration: 2000 },
+          dismissable: { click: true }
+        });
       }
 
       getCountById=(id)=>{
@@ -107,7 +125,13 @@ class ListRow extends Component {
 				</div>
 			</form>
                 </Modal>
-    
+                <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
 {/* END MODAAL */}
 </tr>
 
@@ -141,7 +165,9 @@ class ListRow extends Component {
           // this.getAllListContact();
 
           this.closeModal();
+          this.addNotification()
           this.props.update();
+          
         })
         .catch(function (error) {
           console.log(error);

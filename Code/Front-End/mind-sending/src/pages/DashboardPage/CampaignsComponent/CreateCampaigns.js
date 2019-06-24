@@ -8,7 +8,7 @@ import ChooseTemplateModal from './../../../components/modals/ChooseTemplateModa
 import axios from 'axios';
 import * as Config from './../../../constants/Config';
 import imm_bg from './../../../access/img/bgr-campaign.jpg'
-
+import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
 class CreateCampaign extends Component{
    constructor(props) {
      super(props);
@@ -26,6 +26,7 @@ class CreateCampaign extends Component{
         lists:[{"id":3,"name":"TesTV3","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:35:30.025","updatedTime":"string","account_id":"1","account":{"id":1,"username":"admin","fullname":"Tan123","email":"string","password":"admin","phone":"0907403553","gender":"string","address":"q7","authorityId":1,"createdTime":"2019-06-11T06:01:25.959","updatedTime":"string"},"subcribers":[]},{"id":4,"name":"Test25894","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:39:49.668","updatedTime":"string","account_id":"2","account":{"id":2,"username":"archis","fullname":"Archis","email":"string","password":"Ahihihi","phone":"0907403553","gender":"Male","address":"HCM","authorityId":1,"createdTime":"2019-06-12T06:38:29.065","updatedTime":"string"},"subcribers":[]}]
        
      };
+     this.fields = { text: 'name', value: 'id' };
      this.handleChange = this.handleChange.bind(this);
      this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -68,6 +69,9 @@ class CreateCampaign extends Component{
     this.setState({selectValue: event.target.value});
     console.log("now" + this.state.selectValue);
   }
+  onChangeListsSelect(args){
+    console.log(args.value)
+  }
 
 	
   render(){
@@ -90,13 +94,19 @@ class CreateCampaign extends Component{
         			<div className="user_profile7">
         				<div className="user_profile9_sub">
         					<div className="user_profile7_sub1">
-        						<label className="user_profile_w3_label" >Choose A List </label>
+        						<label className="user_profile_w3_label" >Choose Lists </label>
         						
         						{/* <input aria-invalid="false" className="user_profile_w3_input" disabled="" id="company-disabled" type="text"value="MindSending" /> */}
-                    <select className="inputContact mt15" style={{"width": "250px", "borderBottom":"1px solid #ccc !important"}} value={this.state.selectValue} onChange={this.handleChange} type="text" tabindex="-1" readonly="readonly" role="presentation">
+                    {/* <select className="inputContact mt15" style={{"width": "250px", "borderBottom":"1px solid #ccc !important"}} value={this.state.selectValue} onChange={this.handleChange} type="text" tabindex="-1" readonly="readonly" role="presentation">
                             {lists.map(list => <option value={list.name}  key={list.id}>{list.name}</option>)}
-                            </select>
-                  
+                            </select> */}
+                            <div className="control-styles">
+                              <MultiSelectComponent ref={(scope) => { this.mulObj = scope; }}  
+                              style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important"}} 
+                              id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
+                              change={this.onChangeListsSelect}
+                              placeholder="Lists"/>
+                            </div>
         					</div>
         				</div>
         				
@@ -106,9 +116,9 @@ class CreateCampaign extends Component{
         						
         						{/* <input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value="thangnguyen15297@gmail.com"/> */}
         					
-                    <select className="inputContact mt15" style={{"width": "250px", "borderBottom":"1px solid #ccc !important"}} value={this.state.selectValue} onChange={this.handleChange} type="text" tabindex="-1" readonly="readonly" role="presentation">
+                    {/* <select className="inputContact mt15" style={{"width": "250px", "borderBottom":"1px solid #ccc !important"}} value={this.state.selectValue} onChange={this.handleChange} type="text" tabindex="-1" readonly="readonly" role="presentation">
                             {lists.map(list => <option value={list.name}  key={list.id}>{list.name}</option>)}
-                            </select>
+                            </select> */}
         					</div>
         				</div>
         			</div>

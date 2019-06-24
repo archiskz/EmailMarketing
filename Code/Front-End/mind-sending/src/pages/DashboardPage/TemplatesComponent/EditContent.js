@@ -11,7 +11,7 @@ import axios from 'axios';
 import { withRouter } from "react-router";
 import * as Config from '../../../constants/Config'
 
-class EditTemplate extends Component {
+class EditContent extends Component {
   constructor(props) {
     super(props);
 
@@ -28,18 +28,11 @@ class EditTemplate extends Component {
           html: "",
       visible: false,
     };
-    this.onLoad = this.onLoad.bind(this);
-    // this.editor = this.editor.bind(this)
   }
 
-componentDidUpdate(){
-  window.onpopstate  = (e) => {
-    alert("BACK")
-    this.props.history.go(-1)
-    }
    
-}
    componentDidMount(){
+    console.log(this.props.history.location.state);
   //   const id = this.props.history.location.state;
   //   var self = this;
     
@@ -56,9 +49,7 @@ componentDidUpdate(){
   //  }).catch(function (error) {
   //   console.log(error);
   // });
-
    }	
-   
    
   render(){
     

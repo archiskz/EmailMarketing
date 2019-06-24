@@ -103,6 +103,7 @@ class Templates extends Component {
       <div className="thumbnail-view">
           {this.state.templates.map(list=>(
                <OneTemplate
+               content = {list.content}
                update = {this.getAllTemplates}
                    key={list.index}
                    id={list.id}

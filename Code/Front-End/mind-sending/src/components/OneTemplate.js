@@ -47,7 +47,7 @@ class OneTemplate extends Component {
                 </a>
                 <a
                   className={"btn btn-secondary btn-on-dark " +(this.props.preview ? " displayFalse" : "") }
-                  onClick = {()=> this.toTemplateEdit(this.props.id)}>
+                  onClick = {()=> this.toCampaignContentEdit(this.props.id)}>
                   Choose
                 </a>
               </div>
@@ -65,6 +65,10 @@ class OneTemplate extends Component {
                     <i className="sg-icon sg-icon-contacts-alt"></i>
                     <span>Duplicate</span>
                   </Link>
+                  <a onClick={()=> this.toEditTemplate(this.props.id)} data-role="dropdown-link" className="dropdown-link dropdown-link-with-icon" >
+                    <i className="sg-icon sg-icon-contacts-alt"></i>
+                    <span>Edit</span>
+                  </a>
                 </ul>
               </div>
               <a>
@@ -81,7 +85,7 @@ class OneTemplate extends Component {
   );
   }
   onDuplicate = (id)=>{
-    console.log(`${Config.API_URL}template/copy/${id}`);
+    // console.log(`${Config.API_URL}template/copy/${id}`);
     axios.post(`${Config.API_URL}template/copy/${id}`)
     .then(response => {
      this.props.update()
@@ -92,7 +96,18 @@ class OneTemplate extends Component {
     });
   }
 
-  toTemplateEdit = (id)=> {        
+  toEditTemplate =(id)=>{
+    // console.log(this.props.content)
+    this.props.history.push({
+      pathname:`/edit-template/:${id}`,
+      state : {
+        id: id,
+        content: this.props.content
+      }
+  });
+
+  }
+  toCampaignContentEdit = (id)=> {        
     this.props.history.push({
         pathname:`/edit-template/:${id}`,
         state : {

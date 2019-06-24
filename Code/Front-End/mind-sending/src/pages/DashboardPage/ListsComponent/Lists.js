@@ -32,8 +32,8 @@ class Lists extends Component {
 
    addNotification() {
     this.notificationDOMRef.current.addNotification({
-      title: "Awesomeness",
-      message: "Add List Success!",
+      title: "Create New Group",
+      message: "Add Group Success!",
       type: "success",
       insert: "top",
       container: "top-right",
@@ -158,7 +158,7 @@ class Lists extends Component {
                     </div>
                     <a onClick={()=>this.openModal()}  className="btn_create_contact " >
                                     <i className="sg-icon sg-icon-segment"></i>
-                                    Create List
+                                    Create Group
                                 </a>
                     </section>
 
