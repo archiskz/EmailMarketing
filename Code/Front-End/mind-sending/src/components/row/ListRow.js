@@ -91,8 +91,8 @@ class ListRow extends Component {
     
     <td class="md_tablet6_tbody_td">
     {this.props.contactActions}
-    <a class="fas fa-edit" onClick={()=>this.openModal()} title="Edit"> </a>
-    <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
+    
+    <input type="radio"  defaultChecked={this.state.checked}  name="group1"/>
     </td>
    {/* MODAL */}
    <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.updateListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
