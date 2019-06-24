@@ -205,6 +205,7 @@ class AddContactsFile extends Component {
   }
   handleData = (data) => {
     console.log(this.state.selectValue)
+    windows.log(this.state.selectValue)
     // this.setState({ data })
        this.setState({
       contacts: data
