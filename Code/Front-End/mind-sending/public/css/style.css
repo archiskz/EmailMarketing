@@ -991,12 +991,12 @@ input[type='radio']{
 }
 .lefts{
     margin-left: 30px;
-    margin-top: 30px;
+    margin-top: 10px;
     border-radius: 5px;
     /* padding: 15px; */
     /* background-image: url('./../images/bgr-campaign.jpg') !important; */
     width: 38% !important;
-    height: 110vh !important;
+    /* height: 110vh !important; */
     float: left;
     background-position: left;
     background-repeat: no-repeat;
@@ -1130,7 +1130,7 @@ padding: 20px;
     background-color: transparent;
     border-color: hsla(0,0%,100%,.6);
     position: relative;
-    top:50%;
+    /* top:50%; */
 
 z-index: 20;
 }
@@ -2812,3 +2812,153 @@ float: left;
       margin: 10px 5px;
     }
   }
+  /* TOOLBAR */
+  .editor-css__editor-page-container___1jx90 .editor-css__nav-bar___1burD {
+
+    order: 1;
+    flex: 1 100%;
+
+}
+.toolbar-css__header___WnN4N {
+
+    display: flex;
+    background-color: #2e3544;
+    height: 70px;
+    line-height: 73px;
+    min-width: 738px;
+
+}
+.toolbar-css__nav___27cII {
+
+    display: inline-flex;
+    height: 100%;
+
+}
+.toolbar-css__save-container___2x7qH {
+
+    margin-left: 30px;
+
+}
+.toolbar-css__send-container___AbB6n {
+
+    margin-left: auto;
+    margin-right: 20px;
+
+}
+.toolbar-css__back-arrow-container___2ZroR {
+
+    cursor: pointer;
+    width: 72px;
+    text-align: center;
+
+}
+.toolbar-css__nav-item___2KoOr {
+
+    border-right: 1px solid #262d38;
+
+}
+.toolbar-css__back-arrow-container___2ZroR i {
+
+    vertical-align: middle;
+
+}
+.backArrow-css__btn___2jEjV {
+
+    font-family: sgiconfont;
+    speak: none;
+    line-height: 1;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: .8;
+
+}
+.navToggleButton-css__btn___2zvVd.navToggleButton-css__active___2QGUn {
+
+    background-color: #374052;
+    color: #f3f9fd;
+
+}
+.navToggleButton-css__btn___2zvVd {
+
+    padding: 0 28px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 13px;
+    min-width: 140px;
+
+}
+.toolbar-css__nav-item___2KoOr {
+
+    border-right: 1px solid #262d38;
+
+}
+.navToggleButton-css__btn___2zvVd .navToggleButton-css__code___2bWGz, .navToggleButton-css__btn___2zvVd .navToggleButton-css__paintbrush___3I_La, .navToggleButton-css__btn___2zvVd .navToggleButton-css__test-data___39v4c {
+
+    font-size: 18px;
+    vertical-align: middle;
+
+}
+.navToggleButton-css__btn___2zvVd.navToggleButton-css__active___2QGUn svg g[fill] {
+
+    fill: #f3f9fd;
+
+}
+.btn-on-dark.btn-secondary {
+
+    color: #fff;
+    background-color: transparent;
+    border-color: hsla(0,0%,100%,.6);
+
+}
+.btn.btn-with-icon, .btn.has-badge, .btn.has-icon {
+
+    padding-right: 18px;
+    padding-left: 18px;
+
+}
+.btn .badge, .btn .sg-icon, .btn .sg-loader {
+
+    display: block;
+    float: left;
+    margin-right: 6px;
+
+}
+.toolbar-css__send-container___AbB6n {
+
+    margin-left: auto;
+    margin-right: 20px;
+
+}
+.btn.btn-with-icon, .btn.has-badge, .btn.has-icon {
+
+    padding-right: 18px;
+    padding-left: 18px;
+
+}
+.btn.btn-with-icon, .btn.has-badge, .btn.has-icon {
+
+    padding-right: 18px;
+    padding-left: 18px;
+
+}
+.btn-primary {
+
+    color: #fff;
+    background-color: #489be8;
+    border-color: #1a82e2;
+
+}
+.sg-icon {
+
+    font-family: 'styleguideicons';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    text-transform: none;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+}

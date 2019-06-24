@@ -41,6 +41,8 @@ class AddContactsFile extends Component {
     this.fields = { text: 'name', value: 'id' };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
+    this.handleData = this.handleData.bind(this)
+    this.onChangeListsSelect = this.onChangeListsSelect.bind(this)
   }
   addNotification() {
     this.notificationDOMRef.current.addNotification({
@@ -83,9 +85,7 @@ class AddContactsFile extends Component {
       }
     });
    
-    this.setState({
-      selectValue: selectValue
-    })
+    this.setState({selectValue}, () => { console.log('------------------', this.state)})
   }
 
 
@@ -204,8 +204,9 @@ class AddContactsFile extends Component {
     );
   }
   handleData = (data) => {
+    console.log("HEY")
     console.log(this.state.selectValue)
-    // this.setState({ data })
+    this.setState({ data })
        this.setState({
       contacts: data
     })
@@ -214,9 +215,9 @@ class AddContactsFile extends Component {
         var contact= contact;
   return {
     ...contact,
-    gcSubcriberDTOS: [
-      {groupContactId: this.state.selectValue}
-    ]
+    gcSubcriberDTOS: 
+      this.state.selectValue
+    
     
   }
 });
@@ -255,9 +256,9 @@ onSave= () => {
       var contact= contact;
 return {
   ...contact,
-  gcSubcriberDTOS: [
+  gcSubcriberDTOS: 
     this.state.selectValue
-  ]
+  
   
 }
 });

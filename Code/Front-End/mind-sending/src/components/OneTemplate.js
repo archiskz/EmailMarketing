@@ -40,12 +40,12 @@ class OneTemplate extends Component {
               }}
             >
               <div className="thumbnail-actions">
-                <a
+                <a style={{"top":"50%"}}
                   className={"btn btn-secondary btn-on-dark " +(this.props.preview ? " " : "displayFalse") }
                   onClick={this.showModal} >
                   Preview
                 </a>
-                <a
+                <a style={{"top":"50%"}}
                   className={"btn btn-secondary btn-on-dark " +(this.props.preview ? " displayFalse" : "") }
                   onClick = {()=> this.toCampaignContentEdit(this.props.id)}>
                   Choose

@@ -60,24 +60,27 @@ class NewTemplate extends Component {
      return (
       <div>
        <div className="fullscreen"></div>
-      <div className = "height150" >
-      <div className="" style={{"paddingTop":"18px", "paddingLeft": "5%"}}>
-        <span className="pageTitle-css__title-heading___3H2vL" style={{"height": "100%", "float": "left"}}>
-          Create New Template
-          <span>&nbsp;</span>
-                                                           
-          </span>
-          {/* <input style={{"width":"20%", "height":"100%", "float": "left", "marginLeft":"3%"}} type="text" className="inputContact" placeholder="Template Name"/>       */}
-      </div>
-            
-          <nav className="pull-right">
-             <div icon="segment" className="contact1-form-btn" onClick={()=>this.openModal()}>
-              <i className="sg-icon sg-icon-segment"></i>
-                Save Template
-              </div>
-          </nav>
-            
-      </div>
+     
+
+      <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
+        <nav class="toolbar-css__nav___27cII">
+            <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
+                <span class="navToggleButton-css__code___2bWGz">
+                </span>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">Create New Template</strong>
+            </span>
+        </nav>
+        <span class="toolbar-css__save-container___2x7qH">
+    </span>
+    <span class="toolbar-css__send-container___AbB6n">
+        <a onClick={()=>this.openModal()} icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+            <i class="sg-icon sg-icon-airplane-fill">
+
+            </i>Save Template
+        </a>
+    </span>
+</div>
+
             <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.visible} width="400" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                       <form class="contact1-form validate-form">
                   <span class="contact1-form-title">
