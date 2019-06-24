@@ -1965,7 +1965,7 @@ input.input1 + .shadow-input1 {
 margin-left: 30px;
     height: 50px;
     border-radius: 25px;
-    background: #57b846;
+    background: linear-gradient(60deg, #54a0ff, #8e24aa);
     font-family: Montserrat-Bold;
     font-size: 15px;
     line-height: 1.5;
@@ -1983,6 +1983,16 @@ margin-left: 30px;
     -moz-transition: all 0.4s;
     transition: all 0.4s;
 float: left;
+}
+.contact1-form-btn:hover{
+    box-shadow: 0 2px 2px 0 rgba(156, 39, 176, 0.14), 0 3px 1px -2px rgba(156, 39, 176, 0.2), 0 1px 5px 0 rgba(156, 39, 176, 0.12);
+    -moz-box-shadow:0px 0px 6px rgba(0, 0, 0, 10);
+    -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 10); 
+    text-decoration: none !important;
+    color: white !important;
+    /* background: rgba(156, 39, 176, 0.14) !important; */
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
 }
 .width50{
     width: 25%;
@@ -2455,7 +2465,7 @@ float: left;
     border: none;
     margin-right: 10px;
     cursor: pointer;
-        padding-top: 5px;
+        padding-top: 15px;
     position: relative;
     min-width: auto;
     font-size: 15px;
@@ -2486,6 +2496,15 @@ float: left;
     text-shadow: none;
     font: 400 13.3333px Arial;
     -webkit-appearance: none !important;
+}
+.user_profile_btn:hover{
+    box-shadow: 0 2px 2px 0 rgba(156, 39, 176, 0.14), 0 3px 1px -2px rgba(156, 39, 176, 0.2), 0 1px 5px 0 rgba(156, 39, 176, 0.12);
+    -moz-box-shadow:0px 0px 6px rgba(0, 0, 0, 10);
+    -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 10); 
+    text-decoration: none !important;
+    color: white !important;
+    /* background: rgba(156, 39, 176, 0.14) !important; */
+    -webkit-tap-highlight-color: transparent;
 }
 .user_profile12{
     padding: 0 15px !important;
@@ -2769,6 +2788,7 @@ float: left;
 }
 .md_tablet6_tbody_td a{
         color: #000;
+        cursor: pointer;
 }
 .input-container {
     margin: 3em auto;

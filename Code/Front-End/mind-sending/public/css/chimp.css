@@ -274,6 +274,18 @@
 .ul_create_contact i{
     margin-left: 10px;
 }
+.ul_create_contact2{
+    width:118px;
+
+}
+.ul_create_contact2 i{
+    margin-left: 10px;
+}
+.md_tablet6_th li:hover{
+    -moz-box-shadow:0px 0px 6px rgba(0, 0, 0, 10);
+    -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 10); 
+    -webkit-tap-highlight-color: transparent;
+}
 .ul_create_contact:before{
      content:"";
      position:absolute;
@@ -285,6 +297,11 @@
      top:18px;
 }
 .ul_create_contact:focus{
+     outline: 0 !important;
+     outline-offset: -2px !important;
+        
+}
+.ul_create_contact2:focus{
      outline: 0 !important;
      outline-offset: -2px !important;
         

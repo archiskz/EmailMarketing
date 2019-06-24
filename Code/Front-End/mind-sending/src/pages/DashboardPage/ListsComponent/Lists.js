@@ -28,7 +28,22 @@ class Lists extends Component {
      this.handleChange2 = this.handleChange2.bind(this);
      this.addNotification = this.addNotification.bind(this);
      this.notificationDOMRef = React.createRef();
+     this.showDropdownMenu = this.showDropdownMenu.bind(this);
+    this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
    }
+   showDropdownMenu(event) {
+    event.preventDefault();
+    this.setState({ displayMenu: true }, () => {
+    document.addEventListener('click', this.hideDropdownMenu);
+    });
+  }
+
+  hideDropdownMenu() {
+    this.setState({ displayMenu: false }, () => {
+      document.removeEventListener('click', this.hideDropdownMenu);
+    });
+
+  }
 
    addNotification() {
     this.notificationDOMRef.current.addNotification({
@@ -135,7 +150,28 @@ class Lists extends Component {
                                 <th className="md_tablet6_th" scope="col">Group's Name</th>
                                 <th className="md_tablet6_th" scope="col">Description</th>
                                 <th className="md_tablet6_th" scope="col">Contacts</th>
-                                <th className="md_tablet6_th" scope="col">Actions</th>
+                                <th  className="md_tablet6_th" role="presentation">
+                                
+                                <div className="ul_create_contact2" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
+                                    
+                                    Action
+                                    <i class="fa fa-caret-down"></i>
+                                    </div>
+                                   { this.state.displayMenu ? (
+                                    <ul className="">
+                                    <li><a href="# ">Import</a></li>
+                                     {this.props.contactActions}
+                                   <li><a onClick={()=>this.openModal()} title="Edit">Edit </a></li>
+                                   <li><a href="# ">Delete</a></li>
+
+                                    </ul>
+        ):
+        (
+          null
+        )
+        }
+                                
+                                </th>
                             </tr>
                                 
                             </thead>
@@ -174,16 +210,16 @@ class Lists extends Component {
                 <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                 <form class="contact1-form validate-form">
 				<span class="contact1-form-title">
-					New Group
+					Edit Group
 				</span>
 
 				<div className="wrap-input1 validate-input" >
-					<input  value={this.state.newList.name} onChange={this.handleChange1} className="name input1" type="text" name="name" placeholder="Group Name"/>
+					<input  value={this.state.newList.name} onChange={this.handleChange1} className="name input1" type="text" name="name" placeholder="New Name"/>
 					<span class="shadow-input1"></span>
 				</div>
 
 				<div class="wrap-input1 validate-input" >
-					<input value={this.state.newList.description} onChange={this.handleChange2}  className="description input1" type="text" name="email" placeholder="Description"/>
+					<input value={this.state.newList.description} onChange={this.handleChange2}  className="description input1" type="text" name="email" placeholder="New Description"/>
 					<span class="shadow-input1"></span>
 				</div>
 
