@@ -28,18 +28,18 @@ public class MailServiceImpl implements MailService {
     public JavaMailSender emailSender;
 
     @Override
-    public void sendSimpleMessage() {
+    public void sendSimpleMessage(String from, String fromMail,String[]to, String subject, String body) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message,
                     MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
-//            message.setFrom(new InternetAddress("test123@mindsending.cf", "Tấn Vô địch"));
+            message.setFrom(new InternetAddress(fromMail, from));
 //            message.setFrom("test123@mindsending.cf");
 //            helper.setTo("archis123456@mindsending.cf");
-            helper.setTo("dragontna4997@gmail.com");
-            helper.setSubject("Amazon SES test (SMTP interface accessed using Java)");
-            helper.setText("ĐỒ NG0K NGẾK");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body);
             emailSender.send(message);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -50,7 +50,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendSimpleMessageUsingTemplate(String to, String subject, SimpleMailMessage template, String... templateArgs) {
         String text = String.format(template.getText(), templateArgs);
-        sendSimpleMessage();
+//        sendSimpleMessage();
     }
 
     @Override

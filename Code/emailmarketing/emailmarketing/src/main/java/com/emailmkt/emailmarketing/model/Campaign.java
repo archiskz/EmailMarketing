@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
@@ -57,6 +58,17 @@ public class Campaign implements Serializable {
     @Basic
     @Column(name = "updated_time")
     private String updatedTime;
+
+    @OneToMany( mappedBy = "campaign", cascade = CascadeType.ALL)
+    private List<CampaignGroupContact> campaignGroupContacts;
+
+    @Basic
+    @Column(name = "account_id")
+    private int account_id;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private Account account;
 
 
 }

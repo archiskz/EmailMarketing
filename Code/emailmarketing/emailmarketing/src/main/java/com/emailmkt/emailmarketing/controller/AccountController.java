@@ -58,7 +58,7 @@ public class AccountController {
 
     @GetMapping("/accounts/testSendMail2")
     public void sendTestEmail2(){
-        mailService.sendSimpleMessage();
+//        mailService.sendSimpleMessage();
     }
 
     @PostMapping("sign-up")

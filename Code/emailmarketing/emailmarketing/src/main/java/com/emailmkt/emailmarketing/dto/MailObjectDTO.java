@@ -11,7 +11,6 @@ public class MailObjectDTO {
     @Email
     @NotNull
     @Size(min = 1, message = "Please, set an email address to send the message to it")
-    private String to;
     private String subject;
     private String body;
     private String from;
