@@ -2,6 +2,7 @@ package com.emailmkt.emailmarketing.controller;
 
 import com.emailmkt.emailmarketing.dto.CampaignDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.model.Campaign;
 import com.emailmkt.emailmarketing.repository.CampaignRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.CampaignService;
@@ -58,8 +59,19 @@ public class CampaignController {
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign với tên này đã tồn tại");
         }
-        return ResponseEntity.status(CREATED).body("Thêm thành công và đang thực hiện campaign");
+        Campaign temp = campaignRepository.findByName(mailAndCampaign.campaignDTO.getCampaignName());
+        return ResponseEntity.status(CREATED).body(temp.getId());
 
+    }
+
+    @ApiOperation(value = "Send Campaign Without Template")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful"),
+            @ApiResponse(code = 400, message = "Invalid  ID"),
+            @ApiResponse(code = 500, message = "Internal server error") })
+    @PostMapping(value="campaign/send", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void sendCampaign(@RequestParam(value = "id")int id) {
+        campaignService.sendCampaign(id);
     }
 
     }

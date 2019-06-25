@@ -30,7 +30,7 @@ public interface GroupContactRepository extends JpaRepository<GroupContact, Inte
     List<Subcriber> findSubcriberByGroupContactId(@Param("groupContactId")int groupContactId);
 
     @Query("SELECT su.email FROM GroupContactSubcriber gr JOIN Subcriber su ON gr.subcriber.id = su.id  WHERE gr.groupContact.id = :groupContactId")
-    List<String> findSubcriberMailByGroupContactId(@Param("groupContactId")int groupContactId);
+    String[]findSubcriberMailByGroupContactId(@Param("groupContactId")int groupContactId);
 
 
     @Query("SELECT COUNT(gr.subcriber.id) FROM GroupContactSubcriber gr WHERE gr.groupContact.id  = :groupContactId")

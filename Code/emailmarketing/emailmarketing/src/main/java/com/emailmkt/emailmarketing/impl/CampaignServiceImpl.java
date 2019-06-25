@@ -12,10 +12,14 @@ import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.service.CampaignService;
 import com.emailmkt.emailmarketing.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 @Service
 public class CampaignServiceImpl implements CampaignService {
@@ -38,7 +42,7 @@ public class CampaignServiceImpl implements CampaignService {
     @Override
     public boolean createCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO) {
 //        String[]to = new String[Integer.MAX_VALUE];
-        String[] to = new String[]{"archis123456@mindsending.cf","tan456@mindsending.cf"};
+//        String[] to = new String[]{"archis123456@mindsending.cf","tan456@mindsending.cf"};
         System.out.println(campaignDTO.getCampaignName());
         Campaign checkExistedCampain = campaignRepository.findByName(campaignDTO.getCampaignName());
         if (checkExistedCampain != null) {
@@ -59,11 +63,16 @@ public class CampaignServiceImpl implements CampaignService {
         //Add to Group Contacts
         Account account = accountRepository.findAccountById(1);
         campaign.setAccount_id(account.getId());
+        List<String>mailLists = new ArrayList<>();
         List<CampaignGroupContact> campaignGroupContacts = campaignDTO.getGcCampaignDTOS().stream().map(g->{
             CampaignGroupContact campaignGroupContact = new CampaignGroupContact();
             campaignGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
             campaignGroupContact.setCreatedTime(LocalDateTime.now().toString());
-            List<String> mailLists= groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
+            String[]mailList= groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
+            System.out.println(mailList);
+            for (int i = 0; i < mailList.length; i++) {
+                mailLists.add(mailList[i]);
+            }
             campaignGroupContact.setCampaign(campaign);
             return campaignGroupContact;
         }).collect(Collectors.toList());
@@ -71,8 +80,34 @@ public class CampaignServiceImpl implements CampaignService {
 
         campaignRepository.save(campaign);
 
-        mailService.sendSimpleMessage(campaign.getSender(),campaign.getFromMail(),to,campaign.getSubject(),campaign.getContent());
+//        mailService.sendSimpleMessage(campaign.getSender(),campaign.getFromMail(),mailLists.stream().toArray(String[]::new),campaign.getSubject(),campaign.getContent());
+
         return true;
+    }
+
+    @Override
+    public void sendCampaign(int id) {
+        Campaign campaign = campaignRepository.findById(id);
+        String sender = campaign.getSender();
+        String fromMail = campaign.getFromMail();
+        String subject = campaign.getSubject();
+        String content = campaign.getContent();
+        List<String>mailLists = new ArrayList<>();
+        List<CampaignGroupContact> campaignGroupContacts = campaign.getCampaignGroupContacts().stream().map(g->{
+            CampaignGroupContact campaignGroupContact = new CampaignGroupContact();
+            campaignGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContact().getId()));
+            String[]mailList= groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
+            for (int i = 0; i < mailList.length; i++) {
+                mailLists.add(mailList[i]);
+            }
+            return campaignGroupContact;
+        }).collect(Collectors.toList());
+        try{
+            mailService.sendSimpleMessage(sender,fromMail,mailLists.stream().toArray(String[]::new),subject,content);
+        }catch (MailException e){
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+
     }
 
     @Override
