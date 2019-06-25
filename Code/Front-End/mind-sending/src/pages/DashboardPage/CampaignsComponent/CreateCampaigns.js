@@ -39,9 +39,9 @@ class CreateCampaign extends Component{
               type: "z"
           },
           mailObjectDTO:{
-              body: "",
+              body: "Hello every body",
               from: "",
-              fromMail: "",
+              fromMail: "sonnlh123@mindsending.cf",
               subject: "",
               templates: ""
 
@@ -138,18 +138,18 @@ class CreateCampaign extends Component{
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
-        <button icon="save-draft" data-role="save-draft" class="btn btn-secondary btn-on-dark btn-with-icon btn-with-icon">
+        <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class="btn btn-secondary btn-on-dark btn-with-icon btn-with-icon">
             <i class="sg-icon sg-icon-save-draft">
 
             </i>Save Draft
-        </button>
+        </a>
     </span>
     <span class="toolbar-css__send-container___AbB6n">
-        <button icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+        <a icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
             <i class="sg-icon sg-icon-airplane-fill">
 
             </i>Send Campaign
-        </button>
+        </a>
     </span>
 </div>
       <div className="new-campaign-container lefts" style={{"height":`calc(${this.state.height}px)`}} >
@@ -267,6 +267,15 @@ class CreateCampaign extends Component{
       );
   }
 
+  saveDraft =()=>{
+    axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign)
+    .then(response => {
+      console.log(response.data)
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
   handleChange =(e)=> {
 		const { name, value } = e.target;
 		// let contact = state.contact;
@@ -281,6 +290,7 @@ class CreateCampaign extends Component{
 		} });
 		console.log(this.state.newCampaign)
 	 }
+
 
 
   openModal() {
