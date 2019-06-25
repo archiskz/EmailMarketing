@@ -57,18 +57,18 @@ public class SubcriberController {
     public ResponseEntity createSubcriber(@RequestBody SubcriberDTO dto) {
         boolean flag = subcriberService.createSubcrbier(dto);
         if (flag == false) {
-            return ResponseEntity.status(CONFLICT).body("Email đã tồn tại vui lòng thêm email khác");
+            return ResponseEntity.status(CONFLICT).body("Email Existed");
         }
-        return ResponseEntity.status(CREATED).body("Thêm thành công");
+        return ResponseEntity.status(CREATED).body("Successfully");
 
     }
     @PostMapping("subcriber/createV2")
     public ResponseEntity createSubcriberNormal(@RequestBody SubcriberDTO dto) {
         boolean flag = subcriberService.createSubcriberNormal(dto);
         if (flag == false) {
-            return ResponseEntity.status(CONFLICT).body("Email đã tồn tại vui lòng thêm email khác");
+            return ResponseEntity.status(CONFLICT).body("Email Existed");
         }
-        return ResponseEntity.status(CREATED).body("Thêm thành công");
+        return ResponseEntity.status(CREATED).body("Successfully");
 
     }
 
@@ -78,7 +78,7 @@ public class SubcriberController {
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Email đã tồn tại vui lòng thêm email khác");
         }
-        return ResponseEntity.status(CREATED).body("Thêm thành công");
+        return ResponseEntity.status(CREATED).body("Successfully");
 
     }
 
@@ -93,6 +93,9 @@ public class SubcriberController {
                     subcriber.setEmail(updatingSubcriber.getEmail());
                     subcriber.setFirstName(updatingSubcriber.getFirstName());
                     subcriber.setLastName(updatingSubcriber.getLastName());
+                    subcriber.setDob(updatingSubcriber.getDob());
+                    subcriber.setPhone(updatingSubcriber.getPhone());
+                    subcriber.setAddress(updatingSubcriber.getAddress());
                     subcriber.setUpdatedTime(LocalDateTime.now().toString());
 
 

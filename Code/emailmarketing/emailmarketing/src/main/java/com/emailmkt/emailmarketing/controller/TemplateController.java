@@ -7,10 +7,10 @@ import com.sun.org.apache.xpath.internal.operations.String;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -64,22 +64,32 @@ public class TemplateController {
 
     }
 
-    @PutMapping("/{id}")
-    Template update(@RequestBody Template updatingTemplate, @PathVariable int id) {
-        return templateRepository.findById(id)
-                .map(template -> {
-                    template.setNameTemplate(updatingTemplate.getNameTemplate());
-                    template.setContent(updatingTemplate.getContent());
-                    template.setUpdated_time(LocalDateTime.now().toString());
+//    @PutMapping("/{id}")
+//    @ResponseBody
+//    Template update(@RequestBody Template updatingTemplate, @PathVariable int id) {
+//        return templateRepository.findById(id)
+//                .map(template -> {
+//                    template.setNameTemplate(updatingTemplate.getNameTemplate());
+//                    template.setContent(updatingTemplate.getContent());
+//                    template.setUpdated_time(LocalDateTime.now().toString());
+//                    ResponseEntity.status(ACCEPTED).body("Updated Successfully");
+//                    return templateRepository.save(template);
+//                })
+//                .orElseGet(() -> {
+//                    updatingTemplate.setId(id);
+//
+//                    return templateRepository.save(updatingTemplate);
+//                });
+//
+//    }
 
 
-                    return templateRepository.save(template);
-                })
-                .orElseGet(() -> {
-                    updatingTemplate.setId(id);
-
-                    return templateRepository.save(updatingTemplate);
-                });
+    @PutMapping("/update")
+    @ResponseBody
+    public ResponseEntity<Template> update(@RequestBody Template updatingTemplate) {
+        Template result = templateService.editTemplate(updatingTemplate);
+        LOGGER.info("Updated Templates " + result.getNameTemplate());
+        return new ResponseEntity<Template>(result, HttpStatus.ACCEPTED);
 
     }
 

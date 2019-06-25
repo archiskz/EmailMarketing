@@ -26,12 +26,16 @@ public class Template implements Serializable {
     private String type;
 
     @Basic
-    @Column(name = "content")
-    private String content;
+    @Column(name = "content_html")
+    private String contentHtml;
+
+    @Basic
+    @Column(name = "content_json")
+    private String contentJson;
 
     @Basic
     @Column(name = "account_id")
-    private String account_id;
+    private int account_id;
 
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)

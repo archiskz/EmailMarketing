@@ -57,10 +57,10 @@ public class CampaignController {
     public ResponseEntity createCampaignWithoutTemplate(@RequestBody MailAndCampaign mailAndCampaign) {
         boolean flag = campaignService.createCampaign(mailAndCampaign.mailObjectDTO,mailAndCampaign.campaignDTO);
         if (flag == false) {
-            return ResponseEntity.status(CONFLICT).body("Campaign với tên này đã tồn tại");
+            return ResponseEntity.status(CONFLICT).body("Campaign Existed");
         }
         Campaign temp = campaignRepository.findByName(mailAndCampaign.campaignDTO.getCampaignName());
-        return ResponseEntity.status(CREATED).body(temp.getId());
+        return ResponseEntity.status(CREATED).body(temp.getId() );
 
     }
 

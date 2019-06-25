@@ -42,6 +42,9 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setCreatedTime(LocalDateTime.now().toString());
         subcriber.setEmail(dto.getEmail());
         subcriber.setTag(dto.getTag());
+        subcriber.setAddress(dto.getAddress());
+        subcriber.setPhone(dto.getPhone());
+
         subcriber.setType("New Subcriber");
         Account account = accountRepository.findAccountById(1);
         subcriber.setAccount_id(account.getId() + "");
@@ -70,6 +73,8 @@ public class SubcriberServiceImpl implements SubcriberService {
             subcriber.setFirstName(subcriberDTO.getFirstName());
             subcriber.setDob(subcriberDTO.getDob());
             subcriber.setEmail(subcriberDTO.getEmail());
+            subcriber.setAddress(subcriberDTO.getAddress());
+            subcriber.setPhone(subcriberDTO.getPhone());
             subcriber.setCreatedTime(LocalDateTime.now().toString());
             subcriber.setType(subcriberDTO.getType());
             subcriber.setTag(subcriberDTO.getTag());
@@ -147,6 +152,8 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setCreatedTime(LocalDateTime.now().toString());
         subcriber.setEmail(dto.getEmail());
         subcriber.setTag(dto.getTag());
+        subcriber.setAddress(dto.getAddress());
+        subcriber.setPhone(dto.getPhone());
         subcriber.setType("New Subcriber");
         Account account = accountRepository.findAccountById(1);
         subcriber.setAccount_id(account.getId() + "");
@@ -183,6 +190,8 @@ public class SubcriberServiceImpl implements SubcriberService {
             dto.setLastName(subcriber.getLastName());
             dto.setFirstName(subcriber.getFirstName());
             dto.setDob(subcriber.getDob());
+            dto.setPhone(subcriber.getPhone());
+            subcriber.setAddress(subcriber.getAddress());
             dto.setTag(subcriber.getTag());
             dto.setType(subcriber.getType());
             dtos.add(dto);

@@ -5,7 +5,9 @@ import com.emailmkt.emailmarketing.repository.TemplateRepository;
 import com.emailmkt.emailmarketing.service.TemplateService;
 import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -65,7 +67,16 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public Template editTemplate(Template template) {
-        return null;
+
+        Template templateEdit = templateRepository.findTemplateById(template.getId());
+        if (templateEdit == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "This template is not exist!");
+        }
+        templateEdit.setNameTemplate(template.getNameTemplate());
+        templateEdit.setType(template.getType());
+        templateEdit.setContent(template.getContent());
+        return templateRepository.save(template);
     }
 
 //    @Override

@@ -41,6 +41,10 @@ public class Subcriber implements Serializable {
     private String address;
 
     @Basic
+    @Column(name = "phone")
+    private String phone;
+
+    @Basic
     @Column(name = "type")
     private String type;
 

@@ -15,6 +15,10 @@ public class SubcriberDTO {
 
     private String dob;
 
+    private String address;
+
+    private String phone;
+
     private String email;
 
     private String type;

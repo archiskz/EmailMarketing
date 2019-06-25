@@ -53,9 +53,9 @@ public class GroupContactController {
     public ResponseEntity createGroupContact(@RequestBody GroupContactDTO groupContactDTO) {
         boolean flag = groupContactService.createGroupContact(groupContactDTO);
         if (flag == false) {
-            return ResponseEntity.status(CONFLICT).body("Group đã tồn tại tạo group mới");
+            return ResponseEntity.status(CONFLICT).body("Group Existed");
         }
-        return ResponseEntity.status(CREATED).body("Thêm thành công");
+        return ResponseEntity.status(CREATED).body("Successfully");
 
     }
 
