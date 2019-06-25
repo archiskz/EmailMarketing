@@ -102,7 +102,8 @@ class OneTemplate extends Component {
       pathname:`/edit-template/:${id}`,
       state : {
         id: id,
-        content: this.props.content
+        content: this.props.content,
+        nameTemplate: this.props.templateName
       }
   });
 

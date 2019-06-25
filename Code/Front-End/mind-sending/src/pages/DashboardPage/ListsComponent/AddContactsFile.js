@@ -217,8 +217,6 @@ class AddContactsFile extends Component {
     ...contact,
     gcSubcriberDTOS: 
       this.state.selectValue
-    
-    
   }
 });
 console.log(contacts)

@@ -64,6 +64,11 @@ public class CampaignController {
 
     }
 
+    @GetMapping("/campaigns")
+    Iterable<Campaign> getAll() {
+        return campaignRepository.findAll();
+    }
+
     @ApiOperation(value = "Send Campaign Without Template")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful"),

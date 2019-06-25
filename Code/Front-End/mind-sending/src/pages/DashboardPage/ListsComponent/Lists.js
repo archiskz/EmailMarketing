@@ -22,6 +22,7 @@ class Lists extends Component {
          groupContacts: [{}],
        visible: true,
        dropdown_visible: false,
+       existedGroup:""
        
      };
      this.handleChange1 = this.handleChange1.bind(this);
@@ -147,6 +148,7 @@ class Lists extends Component {
                         <table className="md_tablet6">
                             <thead className="md_tablet6_thead">
                             <tr className="md_tablet6_tr">
+                                <th className="md_tablet6_th" scope="col"></th>
                                 <th className="md_tablet6_th" scope="col">Group's Name</th>
                                 <th className="md_tablet6_th" scope="col">Description</th>
                                 <th className="md_tablet6_th" scope="col">Contacts</th>
@@ -161,7 +163,7 @@ class Lists extends Component {
                                     <ul className="">
                                     <li><a href="# ">Import</a></li>
                                      {this.props.contactActions}
-                                   <li><a onClick={()=>this.openModal()} title="Edit">Edit </a></li>
+                                   <li><a title="Edit">Edit </a></li>
                                    <li><a href="# ">Delete</a></li>
 
                                     </ul>
@@ -210,12 +212,12 @@ class Lists extends Component {
                 <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                 <form class="contact1-form validate-form">
 				<span class="contact1-form-title">
-					Edit Group
+					Create New Group
 				</span>
 
 				<div className="wrap-input1 validate-input" >
 					<input  value={this.state.newList.name} onChange={this.handleChange1} className="name input1" type="text" name="name" placeholder="New Name"/>
-					<span class="shadow-input1"></span>
+					<span class="">{this.state.existedGroup}</span>
 				</div>
 
 				<div class="wrap-input1 validate-input" >
@@ -257,7 +259,7 @@ class Lists extends Component {
       console.log(listContacts);
       this.setState({groupContacts:listContacts})
     }).catch(function (error) {
-        console.log(error);
+        console.log(error.response.data);
       });
   }
 
@@ -265,13 +267,17 @@ class Lists extends Component {
 
     axios.post(`${Config.API_URL}groupContact/create`, this.state.newList,{headers: {'Authorization' : Config.TOKEN}})
       .then(res => {
+        console.log(res.data)
         this.getAllListContact();
         this.closeModal();
         this.addNotification()
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .catch( (error)=> {
+        console.log(error.response.data);
+        this.setState({
+          existedGroup: error.response.data
+        })
+      })
   }
 
 

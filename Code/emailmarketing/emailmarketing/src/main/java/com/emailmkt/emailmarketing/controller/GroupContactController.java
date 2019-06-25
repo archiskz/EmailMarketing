@@ -7,6 +7,8 @@ import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.service.GroupContactService;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +51,21 @@ public class GroupContactController {
         return groupContactService.getAllSubcriber();
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful"),
+            @ApiResponse(code = 400, message = "Invalid  ID"),
+            @ApiResponse(code = 500, message = "Internal server error"),
+            @ApiResponse(code = 409, message = "Existed Group"),
+    })
     @PostMapping("/groupContact/create")
     public ResponseEntity createGroupContact(@RequestBody GroupContactDTO groupContactDTO) {
         boolean flag = groupContactService.createGroupContact(groupContactDTO);
         if (flag == false) {
+<<<<<<< HEAD
             return ResponseEntity.status(CONFLICT).body("Group Existed");
+=======
+            return ResponseEntity.status(CONFLICT).body("Existed Group");
+>>>>>>> 66ea751d48e151fa9d446c7f59bb25e3e238753e
         }
         return ResponseEntity.status(CREATED).body("Successfully");
 
