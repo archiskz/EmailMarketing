@@ -10,6 +10,7 @@ import Modal from 'react-awesome-modal';
 import axios from 'axios';
 import { withRouter } from "react-router";
 import * as Config from '../../../constants/Config'
+import { template } from '@babel/core';
 
 class EditTemplate extends Component {
   constructor(props) {
@@ -20,19 +21,22 @@ class EditTemplate extends Component {
     this.state = {
       // content: {} 
       id: this.props.history.location.state.id,
-      template:{
-            content: {}, 
-      },
-      nameTemplate:"",
+      template: {
+        nameTemplate: this.props.history.location.state.nameTemplate,
+        content: this.props.history.location.state.content
+      }
+      ,
       content: JSON.parse(this.props.history.location.state.content) ,
           html: "",
       visible: false,
     };
     this.onLoad = this.onLoad.bind(this);
-    // this.editor = this.editor.bind(this)
+    this.exportHtml = this.exportHtml.bind(this)
+    this.saveTemplate = this.saveTemplate.bind(this)
   }
 
    componentDidMount(){
+     console.log(this.state.template)
     this.isComponentMounted = true; 
     this.loadTemplate(); 
    }	
@@ -42,7 +46,7 @@ class EditTemplate extends Component {
    loadTemplate = () => { 
      if (!this.isEditorLoaded || !this.isComponentMounted) 
      return; 
-     this.editor.loadDesign(JSON.parse(this.props.history.location.state.content)) }
+     this.editor.loadDesign(JSON.parse(this.state.template.content)) }
    
    
   render(){
@@ -105,25 +109,25 @@ class EditTemplate extends Component {
     
     );
   }
-handleChange = (event)=>{
-  const target = event.target;
-  const value = target.value;
-  console.log(value);
-  const name = target.name;
-  this.setState({
-    template: {
-      ...this.state.template,
-      nameTemplate: value
-    }
-  })
+// handleChange = (event)=>{
+//   const target = event.target;
+//   const value = target.value;
+//   console.log(value);
+//   const name = target.name;
+//   this.setState({
+//     template: {
+//       ...this.state.template,
+//       nameTemplate: value
+//     }
+//   })
   
  
-}
+// }
 
-  saveTemplate = () =>{
+  saveTemplate(){
   this.exportHtml();
- 
-  axios.put(`${Config.API_URL}${this.state.id}`,this.state.content)
+  console.log(this.state.template)
+  axios.put(`${Config.API_URL}${this.state.id}`,this.state.template)
   .then(res => {
     console.log("contact ID: " + res.data)
     // this.setState({count: res.data})
@@ -133,25 +137,18 @@ handleChange = (event)=>{
   this.closeModal();
   }
 
-//   onLoad = () => {
-//     if(this.props.history.location.state != null){
-//       this.editor.loadDesign(JSON.parse(this.props.history.location.state.content))
-//     } else this.editor.loadDesign();
-// }
-
-
-exportHtml = () => {
+   exportHtml=()=>{
   this.editor.exportHtml(data => {
     const { design, html } = data
-    this.setState({
+     this.setState({
+      content: JSON.stringify(design),
       template:{
+        nameTemplate:"may ngu a",
         content: JSON.stringify(design)
       }
-      
     });
+    console.log(this.state.template)
   })
-
-console.log(this.state.template)
 }
 openModal() {
   this.setState({

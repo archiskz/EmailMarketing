@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import * as Config from '../../../constants/Config';
+import axios from 'axios';
 import {
   BrowserRouter as Router,
   Route,
@@ -7,6 +9,7 @@ import {
 } from "react-router-dom";
 import CreateCampaign from './CreateCampaigns';
 import CampaignPopUp from './../../../components//modals/CampaignPopUp.js';
+import CampaignRow from './../../../components/row/CampaignRow'
 
 class Campaigns extends Component {
    constructor(props) {
@@ -15,6 +18,7 @@ class Campaigns extends Component {
      this.state = {
        visible: true,
        dropdown_visible: false,
+       campaigns: [],
      };
    }
    onToggleDropdown = () => {
@@ -23,9 +27,23 @@ class Campaigns extends Component {
      })
    }
 
+   componentDidMount(){
+     this.getAllCampaign()
+   }
+   getAllCampaign=()=>{
+    axios.get(`${Config.API_URL}campaigns`,{
+    })
+    .then(res => {
+      console.log(res.data);
+      this.setState({campaigns: res.data});
+    }) 
+    console.log(this.state.campaigns)
+   }
+
 
 	
   render(){
+    var listCampaigns = this.state.campaigns
      return (
 	  <div className = "" >
    <div className="flash_notice">
@@ -131,18 +149,19 @@ class Campaigns extends Component {
                                 <th className="md_tablet6_th" scope="col">Clicks</th>
                                 <th className="md_tablet6_th" scope="col">Opens</th>
                                 <th className="md_tablet6_th" scope="col">Unsubcribe</th>
+                                <th className="md_tablet6_th" scope="col">Actions</th>
                             </tr>
                                 
                             </thead>
                             <tbody>
-                            {/* {lists.map(list=>(
-                                        <ListRow
+                            {listCampaigns.map(list=>(
+                                        <CampaignRow
+                                        id={list.id}
                                         key={list.index}
-                                        contactId={list.id}
-                                         contactEmail={list.name}
-                                    contactStatus={list.description}
-                                    contactDateAdded={list.totalContacts} />
-                                    ))} */}
+                                        status={list.status}
+                                         campaignName={list.name}
+                                     />
+                                    ))}
 
                             </tbody>
                         </table>

@@ -9,6 +9,8 @@ import * as actions from './../../../actions/index';
 import Modal from 'react-awesome-modal';
 import axios from 'axios';
 import * as Config from './../../../constants/Config'
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 
 class NewTemplate extends Component {
   constructor(props) {
@@ -31,12 +33,15 @@ class NewTemplate extends Component {
       template:{
             nameTemplate: "",
             content: "", 
+            type:""
       },
       nameTemplate:"",
       content: "",
       html: "",
       visible: false,
     };
+    this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
   }
 
   componentDidMount(){
@@ -54,14 +59,33 @@ class NewTemplate extends Component {
     //   console.log(this.state.content)
     // }) 
    }	
+   addNotification() {
+    this.notificationDOMRef.current.addNotification({
+      title: "Awesomeness",
+      message: "Add Contact Success!",
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
+  }
    
   render(){
     
      return (
       <div>
-       <div className="fullscreen"></div>
-     
-
+       <div className="fullscreen">
+       <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
+       </div>
       <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
         <nav class="toolbar-css__nav___27cII">
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
@@ -164,6 +188,10 @@ handleChange = (event)=>{
   axios.post(`${Config.API_URL}template/create`,this.state.template)
   .then(res => {
     console.log("contact ID: " + res.data)
+    if(res.data=='Okay'){
+      this.addNotification()
+      this.closeModal()
+    }
     // this.setState({count: res.data})
    }).catch(function (error) {
     console.log(error);
