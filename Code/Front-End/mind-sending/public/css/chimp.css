@@ -108,7 +108,7 @@
     text-align: center;
     height: 50px !important;
     width: 150px !important;
-    background: linear-gradient(60deg, #54a0ff, #8e24aa);
+    background: linear-gradient(60deg, #F65B5B, #EF0C0C);
     color: #FFF;
     border: none;
     margin-right: 10px;
@@ -170,7 +170,7 @@
     text-align: center;
     height: 50px !important;
     width: 150px !important;
-    background: linear-gradient(60deg, #54a0ff, #8e24aa);
+    background: linear-gradient(60deg, #7465E6, #240DB1);
     color: #FFF;
     border: none;
     margin-right: 10px;
@@ -211,11 +211,11 @@
     margin-left: 15px;
     margin-top: 25px;
     padding-bottom: 5px !important;
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid #8E8B8B;
     font-size: 15px !important;
     background-color: transparent !important;
     width: 100%;
-    /* border: 1px solid #007bff !important; */
+     /*border: 1px solid #8E8B8B !important; */
     border-right: none !important;
     border-top: none !important;
     border-left: none !important;
@@ -445,4 +445,8 @@
     color: white !important;
     /* background: rgba(156, 39, 176, 0.14) !important; */
     -webkit-tap-highlight-color: transparent;
+}
+.margin_td_fontawsome{
+    margin-right: 20px;
+    margin-left: 5px;
 }

@@ -148,6 +148,7 @@ class Lists extends Component {
                         <table className="md_tablet6">
                             <thead className="md_tablet6_thead">
                             <tr className="md_tablet6_tr">
+                                <th className="md_tablet6_th" scope="col"></th>
                                 <th className="md_tablet6_th" scope="col">Group's Name</th>
                                 <th className="md_tablet6_th" scope="col">Description</th>
                                 <th className="md_tablet6_th" scope="col">Contacts</th>

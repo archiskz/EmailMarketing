@@ -85,15 +85,18 @@ class ListRow extends Component {
       render(){
           return( 
 <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
+<td>
+<input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
+</td>
 <td class="md_tablet6_tbody_td"><a onClick = {()=> this.toListContact(this.props.contactId)} >{this.props.contactEmail}</a></td>
     <td class="md_tablet6_tbody_td">{this.props.contactStatus}</td>
     <td class="md_tablet6_tbody_td">{this.state.count}</td>
     
     <td class="md_tablet6_tbody_td">
     {this.props.contactActions}
-    <a class="fas fa-edit" onClick={()=>this.openModal()} title="Edit"> </a>
-    <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
-    {/* <input type="radio"  defaultChecked={this.state.checked}  name="group1"/> */}
+    <a class="fas fa-edit margin_td_fontawsome" onClick={()=>this.openModal()} title="Edit"> </a>
+    <a class="fas fa-trash-alt" title="Delete"> </a>
+    
     </td>
    {/* MODAL */}
    <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.updateListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>

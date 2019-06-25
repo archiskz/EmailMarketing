@@ -210,6 +210,7 @@ class CreateContact extends Component {
                         <table className="md_tablet6">
                             <thead className="md_tablet6_thead">
                             <tr className="md_tablet6_tr">
+                                <th className="md_tablet6_th" scope="col"></th>
                                 <th className="md_tablet6_th" scope="col">Email</th>
                                 <th className="md_tablet6_th" scope="col">First Name</th>
                                 <th className="md_tablet6_th" scope="col">Last Name</th>

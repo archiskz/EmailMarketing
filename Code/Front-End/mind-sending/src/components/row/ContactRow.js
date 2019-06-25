@@ -15,6 +15,9 @@ class ContactRow extends Component {
       render(){
           return( 
       <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
+          <td>
+          <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
+          </td>
           <td class="md_tablet6_tbody_td">
           <a onClick={()=> this.toContactDetail(this.props.id)}>{this.props.email}</a>
           </td>
@@ -24,7 +27,8 @@ class ContactRow extends Component {
           <td class="md_tablet6_tbody_td">{this.props.type}</td>
           <td class="md_tablet6_tbody_td">
           {this.props.contactActions}
-          <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
+          <a class="fas fa-edit margin_td_fontawsome" title="Edit"> </a>
+          <a class="fas fa-trash-alt" title="Delete"> </a>
           </td>
          
       </tr>
