@@ -61,11 +61,10 @@ public class GroupContactController {
     public ResponseEntity createGroupContact(@RequestBody GroupContactDTO groupContactDTO) {
         boolean flag = groupContactService.createGroupContact(groupContactDTO);
         if (flag == false) {
-<<<<<<< HEAD
+
             return ResponseEntity.status(CONFLICT).body("Group Existed");
-=======
-            return ResponseEntity.status(CONFLICT).body("Existed Group");
->>>>>>> 66ea751d48e151fa9d446c7f59bb25e3e238753e
+
+
         }
         return ResponseEntity.status(CREATED).body("Successfully");
 

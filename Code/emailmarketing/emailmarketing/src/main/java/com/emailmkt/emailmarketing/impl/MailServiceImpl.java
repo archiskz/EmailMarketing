@@ -4,11 +4,11 @@ import com.emailmkt.emailmarketing.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -27,6 +27,9 @@ public class MailServiceImpl implements MailService {
     @Autowired
     public JavaMailSender emailSender;
 
+    @Autowired
+    private SpringTemplateEngine templateEngine;
+
     @Override
     public void sendSimpleMessage(String from, String fromMail,String[]to, String subject, String body) {
         try {
@@ -39,7 +42,8 @@ public class MailServiceImpl implements MailService {
 //            helper.setTo("archis123456@mindsending.cf");
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(body);
+            message.setContent(body,"text/html");
+//            helper.setText(body);
             emailSender.send(message);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -48,9 +52,9 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendSimpleMessageUsingTemplate(String to, String subject, SimpleMailMessage template, String... templateArgs) {
-        String text = String.format(template.getText(), templateArgs);
-//        sendSimpleMessage();
+    public void sendSimpleMessageUsingTemplate(String from, String fromMail,String []to, String subject, String message) {
+
+        sendSimpleMessage(from,fromMail,to,subject,message);
     }
 
     @Override
