@@ -63,8 +63,13 @@ public class GroupContactController {
         if (flag == false) {
 
             return ResponseEntity.status(CONFLICT).body("Group Existed");
+<<<<<<< .mine
 
 
+=======
+
+
+>>>>>>> .theirs
         }
         return ResponseEntity.status(CREATED).body("Successfully");
 
