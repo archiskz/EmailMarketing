@@ -24,6 +24,8 @@ class AddContactsFile extends Component {
         lastName:"",
         email:"",
         address:"",
+        phone:"",
+        dob:"",
         gcSubcriberDTOS: [
           {
             groupContactId: 0

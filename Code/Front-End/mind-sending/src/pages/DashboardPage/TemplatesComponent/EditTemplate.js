@@ -22,16 +22,18 @@ class EditTemplate extends Component {
       // content: {} 
       id: this.props.history.location.state.id,
       template: {
+        id: this.props.history.location.state.id,
         nameTemplate: this.props.history.location.state.nameTemplate,
-        content: this.props.history.location.state.content
+        contentJson: this.props.history.location.state.contentJson,
+        contentHtml:""
       }
       ,
-      content: JSON.parse(this.props.history.location.state.content) ,
+      content: JSON.parse(this.props.history.location.state.contentJson) ,
           html: "",
       visible: false,
     };
     this.onLoad = this.onLoad.bind(this);
-    this.exportHtml = this.exportHtml.bind(this)
+    // this.exportHtml = this.exportHtml.bind(this)
     this.saveTemplate = this.saveTemplate.bind(this)
   }
 
@@ -46,7 +48,7 @@ class EditTemplate extends Component {
    loadTemplate = () => { 
      if (!this.isEditorLoaded || !this.isComponentMounted) 
      return; 
-     this.editor.loadDesign(JSON.parse(this.state.template.content)) }
+     this.editor.loadDesign(JSON.parse(this.state.template.contentJson)) }
    
    
   render(){
@@ -125,31 +127,35 @@ class EditTemplate extends Component {
 // }
 
   saveTemplate(){
-  this.exportHtml();
-  console.log(this.state.template)
-  axios.put(`${Config.API_URL}${this.state.id}`,this.state.template)
-  .then(res => {
-    console.log("contact ID: " + res.data)
-    // this.setState({count: res.data})
-   }).catch(function (error) {
-    console.log(error);
-  });
-  this.closeModal();
-  }
-
-   exportHtml=()=>{
+  // this.exportHtml();
   this.editor.exportHtml(data => {
     const { design, html } = data
-     this.setState({
+      this.setState({
       content: JSON.stringify(design),
       template:{
-        nameTemplate:"may ngu a",
-        content: JSON.stringify(design)
+        ...this.state.template,
+        contentJson: JSON.stringify(design),
+        contentHtml: html
       }
+    }, ()=> {
+      console.log(`${Config.API_URL}update`)
+      axios.put(`${Config.API_URL}update`,this.state.template)
+      .then(res => {
+        console.log(res.data)
+        // this.setState({count: res.data})
+       }).catch(function (error) {
+        console.log(error.response.data);
+      });
+      this.closeModal();
     });
-    console.log(this.state.template)
+    
   })
-}
+  
+  }
+
+  //  exportHtml=()=>{
+  // )
+
 openModal() {
   this.setState({
       visible : true
