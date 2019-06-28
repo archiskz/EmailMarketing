@@ -110,12 +110,11 @@ class Templates extends Component {
                    key={list.index}
                    id={list.id}
                     templateName={list.nameTemplate}   
-                    image={this.state.htmlImage}
+                    image={list.contentHtml}
                     preview={true}
                      />
           ))}     
-        <PreviewModal  isOpen={true}
-         />
+      
       </div>
     </div>
   </div>
