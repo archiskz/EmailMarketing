@@ -25,6 +25,7 @@ class ListRow extends Component {
         this.handleChange2 = this.handleChange2.bind(this);
         this.addNotification = this.addNotification.bind(this);
      this.notificationDOMRef = React.createRef();
+    //  this.sendCampaign = this.sendCampaign.bind(this);
       }
       addNotification() {
         this.notificationDOMRef.current.addNotification({
@@ -66,7 +67,8 @@ class ListRow extends Component {
     <td class="md_tablet6_tbody_td">
     </td>
     <td class="md_tablet6_tbody_td">
-    <i onClick={this.sendCampaign()} class="fas fa-paper-plane"></i>
+    <i onClick={() => this.sendCampaign()}  class="fas fa-paper-plane"></i>
+    
     </td>
    {/* MODAL */}
    <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.updateListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
@@ -112,14 +114,14 @@ class ListRow extends Component {
           );
       }
 
-      sendCampaign=()=>{
+      sendCampaign(){
         axios.post(`${Config.API_URL}campaign/send/?id=${this.props.id}`,{
         })
         .then(res => {
           console.log(res.data);
 
         }).catch(error=>{
-          console.log(error)
+          console.log(error.response.data)
         }) 
       }
 
