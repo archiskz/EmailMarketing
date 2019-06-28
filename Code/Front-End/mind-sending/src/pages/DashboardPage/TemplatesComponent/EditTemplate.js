@@ -11,6 +11,9 @@ import axios from 'axios';
 import { withRouter } from "react-router";
 import * as Config from '../../../constants/Config'
 import { template } from '@babel/core';
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+import { browserHistory } from 'react-router'
 
 class EditTemplate extends Component {
   constructor(props) {
@@ -35,8 +38,24 @@ class EditTemplate extends Component {
     this.onLoad = this.onLoad.bind(this);
     // this.exportHtml = this.exportHtml.bind(this)
     this.saveTemplate = this.saveTemplate.bind(this)
+    this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
   }
 
+  addNotification() {
+    this.notificationDOMRef.current.addNotification({
+      title: "Template",
+      message: "Edit Template Success!",
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
+    this.props.history.goBack()
+  }
    componentDidMount(){
      console.log(this.state.template)
     this.isComponentMounted = true; 
@@ -55,7 +74,15 @@ class EditTemplate extends Component {
     
      return (
       <div>
-       <div className="fullscreen"></div>
+       <div className="fullscreen">
+       <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
+       </div>
 
        <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
         <nav class="toolbar-css__nav___27cII">
@@ -76,6 +103,7 @@ class EditTemplate extends Component {
     </span>
     </div>
     <EmailEditor
+    displayMode= {'email'}
       projectId={1071}
       onLoad={this.onLoad}
       options={{
@@ -103,7 +131,7 @@ class EditTemplate extends Component {
             
           ],
         }}
-      minHeight="780px"
+      minHeight="850px"
         ref={editor => this.editor = editor}
       />
       
@@ -142,7 +170,8 @@ class EditTemplate extends Component {
       axios.put(`${Config.API_URL}update`,this.state.template)
       .then(res => {
         console.log(res.data)
-        // this.setState({count: res.data})
+        this.addNotification()
+        
        }).catch(function (error) {
         console.log(error.response.data);
       });

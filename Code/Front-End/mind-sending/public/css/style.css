@@ -1167,15 +1167,19 @@ z-index: 20;
     height: 100%;
 }
 .previewImg{
+    -moz-transform: scale(0.7);
     /* padding-left: 10%;
     padding-right: 10%; */
-    margin-left: 20%;
+    /* margin-left: 10%; */
     text-align: center;
-    margin-top: 100px;
-    width:60%;
-    height: 80%;
-    background-color: #00C6D7;
+    /* margin-top: 100px; */
+    width:100%;
+    height: 100%;
+    /* background-color: #00C6D7; */
     z-index: 20;
+}
+.previewImg * {
+    
 }
 .segment-filter{
     border-radius: 6px;

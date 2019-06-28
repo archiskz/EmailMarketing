@@ -38,8 +38,13 @@ public class Campaign implements Serializable {
     private String timeStart;
 
 
+
+
     @Column(name = "content")
     private String content;
+
+    @Column(name = "body_json")
+    private String bodyJson;
 
 
     @Column(name = "subject")
