@@ -91,7 +91,6 @@ public class TemplateServiceImpl implements TemplateService {
 
         return templateRepository.save(templateEdit);
 
-        return templateRepository.save(template);
 
     }
 
