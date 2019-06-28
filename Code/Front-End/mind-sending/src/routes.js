@@ -20,6 +20,7 @@ import CreateContact from './pages/DashboardPage/ContactComponent/CreateContact'
 import ViewUserProfile from './pages/DashboardPage/UserComponent/ViewUserProfile';
 import ContactInformation from './pages/DashboardPage/ContactComponent/ContactInformation';
 import CampaignInformation from './pages/DashboardPage/CampaignsComponent/CampaignInformation';
+import EmbededForm from './pages/DashboardPage/EmbededFormComponent/EmbededForm';
 const routes = [
 {
 	path:'/',
@@ -60,6 +61,11 @@ const routes = [
 	path: '/dashboard/lists',
 	exact: false,
 	main: () => <Lists/>
+},
+{
+	path: '/dashboard/embededform',
+	exact: false,
+	main: () => <EmbededForm/>
 },
 {
 	path: '/dashboard/automations',

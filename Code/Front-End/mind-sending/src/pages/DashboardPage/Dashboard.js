@@ -9,6 +9,7 @@ import AddContact from './ListsComponent/AddContacts';
 import CreateList from './ListsComponent/CreateList';
 import CreateContact from './ContactComponent/CreateContact';
 import ViewUserProfile from './UserComponent/ViewUserProfile';
+import EmbededForm from './EmbededFormComponent/EmbededForm';
 import {
   BrowserRouter as Router,
   Route,
@@ -41,6 +42,7 @@ class DashBoard extends Component {
              <Route path="/dashboard/add-contacts"  component={AddContact} />
              <Route path="/dashboard/add-contacts-file"  component={AddContactsFile} />
              <Route path="/dashboard/lists" component={Lists} />
+              <Route path="/dashboard/embededform" component={EmbededForm} />
              <Route path="/dashboard/reports" component={Reports} />
               <Route path="/dashboard/templates" component={Templates} />
              <Route path="/dashboard/automations" component={Automations} />
