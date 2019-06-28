@@ -57,7 +57,9 @@ class ListRow extends Component {
           return( 
 <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
 <td class="md_tablet6_tbody_td"><a>{this.props.status}</a></td>
-    <td class="md_tablet6_tbody_td">{this.props.campaignName}</td>
+    <td class="md_tablet6_tbody_td">
+    <a onClick={()=> this.toCampaignDetail(this.props.id)}> {this.props.campaignName} </a>
+    </td>
     <td class="md_tablet6_tbody_td"></td>
     
     <td class="md_tablet6_tbody_td">
@@ -139,6 +141,12 @@ class ListRow extends Component {
             isSelected: !this.state.isSelected
         })
     }
+    toCampaignDetail = (id)=> {        
+        this.props.history.push({
+            pathname:`/campaigns/detail/:${id}`,
+            state : id
+        });
+        }
 
     saveUpdatedList(){
      

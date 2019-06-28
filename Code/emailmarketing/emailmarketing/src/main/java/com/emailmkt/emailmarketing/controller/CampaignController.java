@@ -3,6 +3,7 @@ package com.emailmkt.emailmarketing.controller;
 import com.emailmkt.emailmarketing.dto.CampaignDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Campaign;
+import com.emailmkt.emailmarketing.model.ScheduleEmailResponse;
 import com.emailmkt.emailmarketing.repository.CampaignRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.CampaignService;
@@ -17,8 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.CREATED;
+import javax.validation.Valid;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
@@ -64,6 +66,20 @@ public class CampaignController {
 
     }
 
+    @PutMapping("campaign/edit")
+    public ResponseEntity updateProfile(@RequestBody Campaign campaign) {
+        Campaign accountEdited = campaignService.editCampaign(campaign);
+        if (accountEdited != null) {
+            return ResponseEntity.status(OK).body(accountEdited);
+        }
+        return ResponseEntity.status(NOT_FOUND).body("Campaign is not exist");
+    }
+    @PostMapping("/scheduleEmail")
+    public ResponseEntity<ScheduleEmailResponse> scheduleEmail(@Valid @RequestBody Campaign campaign) {
+        return null;
+    }
+
+
     @GetMapping("/campaigns")
     Iterable<Campaign> getAll() {
         return campaignRepository.findAll();
@@ -79,4 +95,9 @@ public class CampaignController {
         campaignService.sendCampaign(id);
     }
 
+
+
+
+
     }
+
