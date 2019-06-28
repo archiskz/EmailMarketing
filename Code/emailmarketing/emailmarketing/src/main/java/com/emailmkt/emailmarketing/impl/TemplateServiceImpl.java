@@ -41,9 +41,15 @@ public class TemplateServiceImpl implements TemplateService {
         Template templateGallery = templateRepository.findTemplateById(templateId);
         Template template = new Template();
         if(templateGallery != null) {
+
+            template.setAccount_id(1);
+            template.setContentHtml(templateGallery.getContentHtml());
+            template.setContentJson(templateGallery.getContentHtml());
+
             template.setAccount_id(1);
             template.setContentHtml(templateGallery.getContentHtml());
             template.setContentJson(templateGallery.getContentJson());
+
             template.setCreated_time(LocalDateTime.now().toString());
             template.setNameTemplate(templateGallery.getNameTemplate() + "Copy");
             template.setType(templateGallery.getType());
@@ -79,9 +85,14 @@ public class TemplateServiceImpl implements TemplateService {
         }
         templateEdit.setNameTemplate(template.getNameTemplate());
         templateEdit.setType(template.getType());
-        templateEdit.setContentJson(template.getContentJson());
+
         templateEdit.setContentHtml(template.getContentHtml());
+        templateEdit.setContentJson(template.getContentJson());
+
         return templateRepository.save(templateEdit);
+
+        return templateRepository.save(template);
+
     }
 
 //    @Override

@@ -51,6 +51,8 @@ class Templates extends Component {
     .then(res => {
       console.log(res.data);
       this.setState({templates: res.data});
+    }).catch(error =>{
+      console.log(error)
     }) 
    }
 
@@ -103,7 +105,7 @@ class Templates extends Component {
       <div className="thumbnail-view">
           {this.state.templates.map(list=>(
                <OneTemplate
-               content = {list.content}
+               content = {list.contentJson}
                update = {this.getAllTemplates}
                    key={list.index}
                    id={list.id}

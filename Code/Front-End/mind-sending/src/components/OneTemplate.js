@@ -102,7 +102,7 @@ class OneTemplate extends Component {
       pathname:`/edit-template/:${id}`,
       state : {
         id: id,
-        content: this.props.content,
+        contentJson: this.props.content,
         nameTemplate: this.props.templateName
       }
   });
@@ -113,7 +113,7 @@ class OneTemplate extends Component {
         pathname:`/edit-template/:${id}`,
         state : {
           id: id,
-          content: this.props.content
+          contentJson: this.props.content
         }
     });
     }
