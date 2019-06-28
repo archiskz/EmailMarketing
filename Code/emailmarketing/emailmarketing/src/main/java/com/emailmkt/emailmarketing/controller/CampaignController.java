@@ -20,8 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
@@ -65,6 +64,15 @@ public class CampaignController {
         Campaign temp = campaignRepository.findByName(mailAndCampaign.campaignDTO.getCampaignName());
         return ResponseEntity.status(CREATED).body(temp.getId() );
 
+    }
+
+    @PutMapping("campaign/edit")
+    public ResponseEntity updateProfile(@RequestBody Campaign campaign) {
+        Campaign accountEdited = campaignService.editCampaign(campaign);
+        if (accountEdited != null) {
+            return ResponseEntity.status(OK).body(accountEdited);
+        }
+        return ResponseEntity.status(NOT_FOUND).body("Campaign is not exist");
     }
     @PostMapping("/scheduleEmail")
     public ResponseEntity<ScheduleEmailResponse> scheduleEmail(@Valid @RequestBody Campaign campaign) {
