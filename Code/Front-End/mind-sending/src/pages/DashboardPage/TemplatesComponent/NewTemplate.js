@@ -24,7 +24,8 @@ class NewTemplate extends Component {
             id: 1,
             nameTemplate: "",
             type: "",
-            content: "", 
+            contentHtml: "", 
+            contentJson:"",
             created_time: null,
             updated_time: null
         }
@@ -32,7 +33,8 @@ class NewTemplate extends Component {
     ],
       template:{
             nameTemplate: "",
-            content: "", 
+            contentJson: "", 
+            contentHtml:"",
             type:""
       },
       nameTemplate:"",
@@ -209,7 +211,8 @@ exportHtml = () => {
       content: JSON.stringify(design),
       template:{
         ...this.state.template,
-        content: JSON.stringify(design)
+        contentJson: JSON.stringify(design),
+        contentHtml: html
       }
     });
   })
