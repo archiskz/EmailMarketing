@@ -158,11 +158,9 @@ class CreateCampaign extends Component{
         </a>
     </span>
 </div>
-      <div className="new-campaign-container lefts" style={{"height":`calc(${this.state.height}px)`}} >
-    <ChooseTemplateModal visible={this.state.modalIsOpen} />
-    <img src={imm_bg}></img>
-      </div>
-      <div className="user_profile3 right" ref="height">
+      <div className="user_profile">
+      <div className="user_profile2">
+      <div className="user_profile3 " ref="height">
         	<div className="user_profile4" >
         		<div className="user_profile5">
         		<h4 className="user_profile5_h4">Campaign Name:</h4>
@@ -262,6 +260,84 @@ class CreateCampaign extends Component{
             {/* END CONTENT */}
         	</div>
         	
+        </div>
+        
+        <div className="user_profile12">
+        <div className="user_profile5_1">
+            <h4 className="user_profile5_h4">Campaign detail</h4>
+            <p className="user_profile5_p">Check your campaign's summarize below here: </p>
+            </div>
+        <div className="user_profile13">
+             <div className="user_section user_line"> 
+              <div className="user_line"> 
+              <div className="contact_information_detail">
+                <h4 >
+                        0%
+                    </h4>
+                <p >Open rate</p>
+              </div>
+              <div className="contact_information_detail">
+                <h4 >
+                        0%
+                    </h4>
+                <p >Click rate</p>
+              </div>
+              </div>
+             </div>
+             <div className="user_section user_line"> 
+              <div className="user_line"> 
+              <div className="contact_information_detail">
+                <h4 >
+                        0%
+                    </h4>
+                <p >Reply rate</p>
+              </div>
+              <div className="contact_information_detail">
+                <h4 >
+                        0%
+                    </h4>
+                <p >Report rate</p>
+              </div>
+              </div>
+              </div>
+              <div className="user_section user_line"> 
+              <div className="user_line"> 
+              <div className="contact_information_detail">
+                <h4 >
+                        0%
+                    </h4>
+                <p >Bounce rate</p>
+              </div>
+              
+
+              <div className="contact_information_detail">
+                <h4 >
+                        0%
+                    </h4>
+                <p >Rendering Failure rate</p>
+              </div>
+              </div>
+              </div>
+              <div className="user_section user_line"> 
+              <div className="user_line"> 
+              <div className="contact_information_detail">
+                <h4 >
+                        0%
+                    </h4>
+                <p >Delivery rate</p>
+              </div>
+              <div className="contact_information_detail">
+                <h4 >
+                        0%
+                    </h4>
+                <p >Sent rate</p>
+              </div>
+              </div>
+              
+             </div>   
+            </div>
+            </div>
+        </div>
         </div>
         
       </div>
