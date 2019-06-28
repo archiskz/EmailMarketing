@@ -39,7 +39,8 @@ public class MailServiceImpl implements MailService {
 //            helper.setTo("archis123456@mindsending.cf");
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(body);
+            message.setContent(body,"text/html");
+//            helper.setText(body);
             emailSender.send(message);
         } catch (Exception e) {
             throw new RuntimeException(e);

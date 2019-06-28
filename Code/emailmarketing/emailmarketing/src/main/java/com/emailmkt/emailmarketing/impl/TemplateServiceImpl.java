@@ -81,7 +81,7 @@ public class TemplateServiceImpl implements TemplateService {
         templateEdit.setType(template.getType());
         templateEdit.setContentJson(template.getContentJson());
         templateEdit.setContentHtml(template.getContentHtml());
-        return templateRepository.save(template);
+        return templateRepository.save(templateEdit);
     }
 
 //    @Override

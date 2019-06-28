@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 //@RequestMapping(TemplateController.BASE_URK)
@@ -86,10 +85,10 @@ public class TemplateController {
 
     @PutMapping("/update")
     @ResponseBody
-    public ResponseEntity<Template> update(@RequestBody Template updatingTemplate) {
+    public ResponseEntity update(@RequestBody Template updatingTemplate) {
         Template result = templateService.editTemplate(updatingTemplate);
         LOGGER.info("Updated Templates " + result.getNameTemplate());
-        return new ResponseEntity<Template>(result, HttpStatus.ACCEPTED);
+        return  ResponseEntity.status(ACCEPTED).body("Update Successfully");
 
     }
 
