@@ -12,8 +12,10 @@ import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.service.CampaignService;
 import com.emailmkt.emailmarketing.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ public class CampaignServiceImpl implements CampaignService {
         Campaign campaign = new Campaign();
         //Mail Object
         campaign.setContent(mailObjectDTO.getBody());
+        campaign.setBodyJson(mailObjectDTO.getBodyJson());
         campaign.setFromMail(mailObjectDTO.getFromMail());
         campaign.setSender(mailObjectDTO.getFrom());
         campaign.setSubject(mailObjectDTO.getSubject());
@@ -118,5 +121,24 @@ public class CampaignServiceImpl implements CampaignService {
     @Override
     public boolean createAutoResponseCampaign(MailObjectDTO mailObjectDTO, int groupId, Template template) {
         return false;
+    }
+
+    @Override
+    public Campaign editCampaign(Campaign campaign) {
+        Campaign campaignEdit= campaignRepository.findById(campaign.getId());
+        if (campaignEdit == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "This campaign is not exist!");
+        }
+        campaignEdit.setName(campaign.getName());
+        campaignEdit.setBodyJson(campaign.getBodyJson());
+        campaignEdit.setContent(campaign.getContent());
+        campaignEdit.setCampaignGroupContacts(campaign.getCampaignGroupContacts());
+        campaignEdit.setSender(campaign.getSender());
+        campaignEdit.setFromMail(campaign.getFromMail());
+        campaign.setSubject(campaign.getFromMail());
+        campaign.setUpdatedTime(LocalDateTime.now().toString());
+        return campaignRepository.save(campaignEdit);
+
     }
 }

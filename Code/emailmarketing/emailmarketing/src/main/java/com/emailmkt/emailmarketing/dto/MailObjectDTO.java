@@ -13,6 +13,7 @@ public class MailObjectDTO {
     @Size(min = 1, message = "Please, set an email address to send the message to it")
     private String subject;
     private String body;
+    private String bodyJson;
     private String from;
     private String templates;
     private String fromMail;

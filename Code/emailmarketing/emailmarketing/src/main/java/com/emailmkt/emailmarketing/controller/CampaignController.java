@@ -3,6 +3,7 @@ package com.emailmkt.emailmarketing.controller;
 import com.emailmkt.emailmarketing.dto.CampaignDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Campaign;
+import com.emailmkt.emailmarketing.model.ScheduleEmailResponse;
 import com.emailmkt.emailmarketing.repository.CampaignRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.CampaignService;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -63,6 +66,11 @@ public class CampaignController {
         return ResponseEntity.status(CREATED).body(temp.getId() );
 
     }
+    @PostMapping("/scheduleEmail")
+    public ResponseEntity<ScheduleEmailResponse> scheduleEmail(@Valid @RequestBody Campaign campaign) {
+        return null;
+    }
+
 
     @GetMapping("/campaigns")
     Iterable<Campaign> getAll() {
@@ -79,4 +87,9 @@ public class CampaignController {
         campaignService.sendCampaign(id);
     }
 
+
+
+
+
     }
+
