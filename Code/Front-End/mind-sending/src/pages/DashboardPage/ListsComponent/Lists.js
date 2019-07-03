@@ -253,7 +253,7 @@ class Lists extends Component {
 }};
 
     console.log(config);
-    axios.get(`${Config.API_URL}groupContacts`,config)
+    axios.get(`${Config.API_URL}groupContacts`)
     .then(res => {
       const listContacts = res.data;
       console.log(listContacts);

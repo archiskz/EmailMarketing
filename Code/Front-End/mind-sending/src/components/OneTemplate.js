@@ -7,11 +7,13 @@ import * as actions from './../actions/index';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router";
 import Modal from 'react-awesome-modal';
+import Base64Image from './Base64Image';
 class OneTemplate extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      imgp:"",
       visible: true,
       dropdown_visible: false,
       modalIsOpen: false
@@ -26,6 +28,7 @@ class OneTemplate extends Component {
       dropdown_visible: !this.state.dropdown_visible
     })
   }
+
   openModal() {
     console.log("open now");
     this.setState({modalIsOpen: true});
@@ -52,14 +55,11 @@ class OneTemplate extends Component {
           <div className="preview" onClick={()=>console.log("hello guy")}>
             <div
               className="thumbnail-container"
-              style={{
-                backgroundImage:
-                  'url("https://html-thumbnails-production.s3.amazonaws.com/uploads/0/thumbnails/16281fff-9e91-45c3-b27f-654b115b3435.png")'
-              }}
             >
+             
               <div className="thumbnail-actions">
-                <a style={{"top":"50%"}}
-                  className={"btn btn-secondary btn-on-dark " +(this.props.preview ? " " : "displayFalse") }
+                <a
+                  className={"previewBtn btn btn-secondary btn-on-dark " +(this.props.preview ? " " : "displayFalse") }
                   onClick={this.openModal} >
                   Preview
                 </a>
@@ -69,7 +69,9 @@ class OneTemplate extends Component {
                   Choose
                 </a>
               </div>
+              <div  className="thumbnail-actions after"><Base64Image imageBase64String={this.props.imagePreview} /> </div>
             </div>
+            
           </div>
           <div className="thumbnail-details">
             <div className="template-name">
@@ -122,7 +124,6 @@ class OneTemplate extends Component {
  
                 </Modal>
  
-             <div className="clearfix" />
           </div>
                                     
         </div>

@@ -111,6 +111,7 @@ class Templates extends Component {
                    id={list.id}
                     templateName={list.nameTemplate}   
                     image={list.contentHtml}
+                    imagePreview={list.preview}
                     preview={true}
                      />
           ))}     

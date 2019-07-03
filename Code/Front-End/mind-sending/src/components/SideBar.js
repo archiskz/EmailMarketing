@@ -55,7 +55,8 @@ addActiveClass = (index) => {
      return (
     <div className="sidebar-menu">
         <header className="logo1">
-            <a href="#" className="sidebar-icon"> <span className="fa fa-bars" />MindSending </a> 
+        
+            <Link to ="/" className="sidebar-icon"> <span className="fa fa-bars" />MindSending </Link> 
         </header>
         <div style={{borderTop: '1px ridge rgba(255, 255, 255, 0.15)'}} />
         <div className="menuside">

@@ -150,7 +150,7 @@ class CreateCampaign extends Component{
     </span>
 </div>
       <div className="new-campaign-container lefts" style={{"height":`calc(${this.state.height}px)`}} >
-      <Modal visible={this.state.modalIsOpen} width="90%" height="96%" effect="fadeInUp" 
+      <Modal visible={this.state.modalIsOpen} width="80%" height="96%" effect="fadeInUp" 
       onClickAway={this.closePreviewModal}>
             
             
@@ -196,7 +196,7 @@ class CreateCampaign extends Component{
         <div className="col-md-6">
         </div>
       </header>
-      <div className="thumbnail-views">
+      <div className="thumbnail-views" style={{"width": "80%"}}>
       {this.state.templates.map(list=>(
                <OneTemplate
                     campaignId={this.props.campaignId}

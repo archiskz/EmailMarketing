@@ -139,7 +139,6 @@ class NewTemplate extends Component {
           customCSS: [
             `
               #u_body{
-                background-color: white !important;
               }
             `,
             `
@@ -150,7 +149,7 @@ class NewTemplate extends Component {
             `
             .tab-content {
               height: 100% !important;
-              background-color: white !important;
+             
             }
             `,
             `#u_row_11 {

@@ -110,7 +110,7 @@ class EditTemplate extends Component {
           customCSS: [
             `
               #u_body{
-                background-color: white !important;
+               
               }
             `,
             `
