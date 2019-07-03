@@ -49,5 +49,9 @@ public class Template implements Serializable {
     @Basic
     @Column(name = "updated_time")
     private String updated_time;
+
+    @Basic
+    @Column(name = "preview")
+    private String preview;
 }
 

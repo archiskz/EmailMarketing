@@ -40,12 +40,18 @@ addActiveClass = (index) => {
             this.setState({
                 activeClasses3: !this.state.activeClasses3
                 })
+                return;
             case 4:
             this.setState({
                 activeClasses4: !this.state.activeClasses4
                 })
-            return;
-        default: return;
+                return;
+            case 5:
+            this.setState({
+                activeClasses4: !this.state.activeClasses4
+                })
+                return;
+            default: return;
         
     }
 }
@@ -107,6 +113,16 @@ addActiveClass = (index) => {
                 </Link>
             </li>
             {/* END LIST */}
+            
+            {/* Embeded Form */}
+             <li id="menu-academico" className={this.state.activeClasses5 ? "opend" : "closed"} >
+                <Link to = "/dashboard/embededform" >
+                <i className="fa fa-wpforms" />
+                    <span style={{position: 'relative'}}>Embeded Form</span>
+                    <div className="clearfix" />
+                </Link>
+            </li>
+            {/* Embeded Form */}
 
             <li id="menu-academico" className={this.state.activeClasses3 ? "opend" : "closed"} >
                <a  onClick={() => this.addActiveClass(3)}>
@@ -153,6 +169,8 @@ addActiveClass = (index) => {
                 </Link>
             </li>
             {/* END TEMPLATE */}
+
+            
 
             {/* USERPROFILE */}
                 <li>
