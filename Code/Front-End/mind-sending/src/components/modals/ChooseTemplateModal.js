@@ -17,12 +17,14 @@ class ChooseTemplateModal extends Component {
     this.state = {
         visible : true,
         templates: [],
+        campaignId: this.props.campaignId
     }
 }
 closePreviewModal=() => {
   this.props.onCloseModal();
 }
 componentDidMount(){
+  console.log(this.state.campaignId)
   axios.get(`${Config.API_URL}template`,{
   })
   .then(res => {
@@ -30,6 +32,10 @@ componentDidMount(){
     this.setState({templates: res.data});
   }) 
  }	
+ 
+ componentWillReceiveProps(newProps) {
+  console.log(newProps.campaignId)
+}
 
   render(){
      return (
@@ -82,8 +88,9 @@ componentDidMount(){
       <div className="thumbnail-views">
       {this.state.templates.map(list=>(
                <OneTemplate
-               id={list.id}
-                   key={list.index}
+                    campaignId={this.props.campaignId}
+                    id={list.id}
+                    key={list.index}
                     templateName={list.nameTemplate}   
                     image={this.state.htmlImage}
                     preview={false}

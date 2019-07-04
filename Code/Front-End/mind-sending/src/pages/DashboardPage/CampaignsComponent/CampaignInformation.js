@@ -11,7 +11,8 @@ import imm_bg from './../../../access/img/bgr-campaign.jpg'
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
 import { select } from '@syncfusion/ej2-base';
 import CampaignPopUp from './../../../components//modals/CampaignPopUp.js';
-class CreateCampaign extends Component{
+import { withRouter } from "react-router";
+class CampaignInformation extends Component{
    constructor(props) {
      super(props);
 
@@ -28,26 +29,9 @@ class CreateCampaign extends Component{
        contentVisible: true,
         lists:[{"id":3,"name":"TesTV3","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:35:30.025","updatedTime":"string","account_id":"1","account":{"id":1,"username":"admin","fullname":"Tan123","email":"string","password":"admin","phone":"0907403553","gender":"string","address":"q7","authorityId":1,"createdTime":"2019-06-11T06:01:25.959","updatedTime":"string"},"subcribers":[]},{"id":4,"name":"Test25894","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:39:49.668","updatedTime":"string","account_id":"2","account":{"id":2,"username":"archis","fullname":"Archis","email":"string","password":"Ahihihi","phone":"0907403553","gender":"Male","address":"HCM","authorityId":1,"createdTime":"2019-06-12T06:38:29.065","updatedTime":"string"},"subcribers":[]}]
         ,
-        newCampaign:{
-          campaignDTO:{
-              campaignName: this.props.newCampaign,
-              gcCampaignDTOS: [
-                {
-                  groupContactId: 1
-                }
-              ],
-              status: "z",
-              type: "z"
-          },
-          mailObjectDTO:{
-              body: "Hello every body",
-              from: "",
-              fromMail: "sonnlh123@mindsending.cf",
-              subject: "",
-              templates: ""
-
-          }
-        }       
+        campaign:{
+        
+          }       
      };
      this.fields = { text: 'name', value: 'id' };
      this.handleChange = this.handleChange.bind(this);
@@ -60,11 +44,12 @@ class CreateCampaign extends Component{
    componentDidMount (){
      console.log(`${this.state.height}px !important`)
      this.setState({height: this.refs.height.clientHeight})
-     console.log(`${Config.API_URL}groupContacts`);
-    axios.get(`${Config.API_URL}groupContacts`)
+     var id = this.props.history.location.state.id
+    axios.get(`${Config.API_URL}campaign/${id}`)
     .then(response => {
+      console.log(response.data)
       this.setState({
-        lists: response.data
+        campaign: response.data
       });
     })
     .catch(error => {
@@ -83,23 +68,6 @@ class CreateCampaign extends Component{
     this.setState({selectValue}, () => { console.log('------------------', this.state)})
   }
 
-   clickToOpen= (id)=>{
-     switch(id){
-       case 1: 
-         this.setState({toVisible:true});
-          break;
-       case 2: 
-          this.setState({fromVisible:true});
-          break;
-        case 3: 
-        this.setState({subjectVisible:true});
-        break;
-      case 4: 
-        this.setState({contentVisible:true})
-        break;
-        default: return;
-     }
-   }
    handleChange(event) {
     this.setState({selectValue: event.target.value});
     console.log("now" + this.state.selectValue);
@@ -114,10 +82,10 @@ class CreateCampaign extends Component{
       }
     });
 
-    this.setState({ newCampaign: {
-      ...this.state.newCampaign,
-      campaignDTO:{
-        ...this.state.newCampaign.campaignDTO,
+    this.setState({ campaign: {
+      ...this.state.campaign,
+      campaignGroupContacts:{
+        ...this.state.campaign.campaignGroupContacts,
         gcCampaignDTOS: selectValue,
     },
     }
@@ -164,7 +132,7 @@ class CreateCampaign extends Component{
         	<div className="user_profile4" >
         		<div className="user_profile5">
         		<h4 className="user_profile5_h4">Campaign Name:</h4>
-        		<p className="user_profile5_p">{this.props.newCampaign} <a class="fas fa-edit margin_td_fontawsome" onClick={()=>this.openModal()} title="Edit"> </a></p>
+        		<p className="user_profile5_p">{this.state.campaign.name} <a class="fas fa-edit margin_td_fontawsome" onClick={()=>this.openModal()} title="Edit"> </a></p>
         		</div>
         		<div className="user_profile6">
             <h3>To<h5 style = {{"fontStyle":"italic"}}>Who are you sending this campaign to?</h5></h3>
@@ -176,6 +144,7 @@ class CreateCampaign extends Component{
                         <MultiSelectComponent ref={(scope) => { this.mulObj = scope; }}  
                           style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important"}} 
                           id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
+                          value = {this.state.campaign.campaignGroupContacts}
                           change={this.onChangeListsSelect}
                           placeholder="Lists"/>
                       </div>
@@ -206,7 +175,7 @@ class CreateCampaign extends Component{
         						{/* <label className="user_profile_w3_label" >Sender Name </label> */}
         						<div className="user_profile7_sub2">
         						<input placeholder="Sender Name" name="from" aria-invalid="false" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled="" id="company-disabled" type="text" value={this.state.newCampaign.mailObjectDTO.from} />
+                     disabled="" id="company-disabled" type="text" value={this.state.campaign.sender} />
         						</div>
         					</div>
         				</div>
@@ -216,7 +185,7 @@ class CreateCampaign extends Component{
         						{/* <label className="user_profile_w3_label" data-shrink="false" for="username">Email Address</label> */}
         						
         						<input aria-invalid="false" onChange={this.handleChange} name="fromMail" 
-                    className="user_profile_w3_input2" placeholder="Email Address" id="username" type="text" value={this.state.newCampaign.mailObjectDTO.fromMail} />
+                    className="user_profile_w3_input2" placeholder="Email Address" id="username" type="text" value={this.state.campaign.fromMail} />
         						
         					</div>
         				</div>
@@ -233,7 +202,7 @@ class CreateCampaign extends Component{
         						{/* <label className="user_profile_w3_label" >Subject </label> */}
         					
         						<input aria-invalid="false" placeholder="Subject" name="subject" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled="" id="company-disabled" type="text" value={this.state.newCampaign.mailObjectDTO.subject}  />
+                     disabled="" id="company-disabled" type="text" value={this.state.campaign.subject}  />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
                    
         					</div>
@@ -404,4 +373,4 @@ const mapStateToProps = (state) => {
       }
     };
   };
-export default connect(mapStateToProps, mapDispatchToProps) (CreateCampaign);
+export default connect(mapStateToProps, mapDispatchToProps) (withRouter(CampaignInformation));

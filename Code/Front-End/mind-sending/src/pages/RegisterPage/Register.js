@@ -2,14 +2,19 @@ import React, {Component} from 'react';
 import { BrowserRouter as Link } from 'react-router-dom';
 import {callApi} from './../../utils/apiCaller';
 import axios from 'axios';
-
+import * as Config from './../../constants/Config';
+import bcrypt from 'bcryptjs'
 class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {   
-        username: "son123",
-        password: "123121242",
-        email: "sonnlh57@gmail.com"
+      newUser: {
+        username: "",
+        password: "",
+        email: ""
+      },
+      confirmPass:""
+     
     };
 
   }
@@ -24,26 +29,26 @@ class Register extends Component {
                 <h2 className="title">Registration Info</h2>
                 <form method="POST">
                   <div className="input-group">
-                    <input className="input--style-3" type="text" placeholder="Username" name="name" onChange = { evt => this.updateUsernameInput(evt)} />
+                    <input className="input--style-3" type="text" placeholder="Username" name="username"
+                     value={this.state.newUser.username} onChange={this.handleChange} />
                   </div>
             
                   <div className="input-group">
-                    <input className="input--style-3" type="email" placeholder="Email" name="email" onChange = {
-								evt => this.updateEmailInput(evt)
-							} />
+                    <input className="input--style-3" type="email" placeholder="Email" name="email"  
+                    value={this.state.newUser.email} onChange={this.handleChange} />
                   </div>
                   <div className="input-group">
-                    <input className="input--style-3" type="password" placeholder="Password" name="password" onChange = {
-								evt => this.updatePasswordInput(evt)
-							} />
+                    <input className="input--style-3" type="password" placeholder="Password" name="password"
+                     value={this.state.newUser.password} onChange={this.handleChange} />
                   </div>
                   <div className="input-group">
-                    <input className="input--style-3" type="password" placeholder="Re-Confirm Password" name="confirm" />
+                    <input className="input--style-3" type="password" placeholder="Re-Confirm Password" name="confirm"
+                     value={this.state.confirmPass} onChange={this.handleChangeConfirm} />
                   </div>
                   
                 </form>
                 <div className="p-t-10 al-center ">
-                    <button onClick={this.onRegister} className="btn_create_register" type="">Register</button>
+                    <a onClick={this.onRegister} className="btn_create_register" type="">Register</a>
                   </div>
               </div>
             </div>
@@ -51,67 +56,58 @@ class Register extends Component {
         </div>
   );
   }
-  updateUsernameInput(evt) {
-    this.setState({
-      username: evt.target.value
+  handleChange=(evt)=> {
+    const name = evt.target.name;
+    const value = evt.target.value
+    var self = this;
+    self.setState({
+      newUser: {
+        ...this.state.newUser,
+        [name]: value
+      }
     });
     // alert(evt.target.value)
+    console.log(this.state.newUser)
   }
+  handleChangeConfirm=(evt)=>{
+    const value = evt.target.value
+    var self = this;
+    self.setState({
+        ...this.state,
+        confirmPass: value
 
-
-  updatePasswordInput(evt) {
-    this.setState({
-      password: evt.target.value
     });
+    // alert(evt.target.value)
+    console.log(this.state.confirmPass)
   }
 
-  updateEmailInput(evt) {
-    this.setState({
-      email: evt.target.value
-    });
-  }
-
-  getPosts() {
-    axios.post("http://25.36.135.233:8080/api/sign-up")
-      // Once we get a response and store data, let's change the loading state
-      .then(response => {
-        this.setState({
-          posts: response.data.posts,
-          isLoading: false
-        });
-        console.log(response);
-      })
-      // If we catch any errors connecting, let's update accordingly
-      .catch(error => this.setState({
-        error,
-        isLoading: false
-      }));
-  }
 
   
 
   onRegister= () => {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'JWT fefege...'
-    }
-    this.setState({
-        username: this.state.usernameInput,
-        password: this.state.passwordInput,
-        email: this.state.emailInput
+    var passUnCrypt = this.state.newUser.password
+    const self = this;
+   bcrypt.genSalt(10,function(err, salt){
+      bcrypt.hash(passUnCrypt, salt, function(err, hash) {
+        self.setState({
+          newUser:{
+            ...self.state.newUser,
+            password: hash
+          }
+        },()=>{
+          axios.post(`${Config.API_URL}sign-up`,self.state.newUser)
+          .then(response => {
+          console.log(response.data)
+          })
+          .catch(error => {
+            console.log(error);
+          
+          });
+        })
     });
-    var json = JSON.stringify(this.state);
-    alert(json);
-    axios.post('http://25.36.135.233:8080/api/sign-up', 
-        {json}, 
-        headers
-      )
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    })
+
+   
 }
   
  

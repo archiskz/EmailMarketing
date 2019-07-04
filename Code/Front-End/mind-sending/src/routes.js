@@ -16,10 +16,12 @@ import CreateList from './pages/DashboardPage/ListsComponent/CreateList';
 import AddContactsFile from './pages/DashboardPage/ListsComponent/AddContactsFile';
 import NewTemplate from './pages/DashboardPage/TemplatesComponent/NewTemplate';
 import EditTemplate from './pages/DashboardPage/TemplatesComponent/EditTemplate';
+import EditContent from './pages/DashboardPage/TemplatesComponent/EditContent';
 import CreateContact from './pages/DashboardPage/ContactComponent/CreateContact';
 import ViewUserProfile from './pages/DashboardPage/UserComponent/ViewUserProfile';
 import ContactInformation from './pages/DashboardPage/ContactComponent/ContactInformation';
 import CampaignInformation from './pages/DashboardPage/CampaignsComponent/CampaignInformation';
+import EmbededForm from './pages/DashboardPage/EmbededFormComponent/EmbededForm';
 const routes = [
 {
 	path:'/',
@@ -60,6 +62,11 @@ const routes = [
 	path: '/dashboard/lists',
 	exact: false,
 	main: () => <Lists/>
+},
+{
+	path: '/dashboard/embededform',
+	exact: false,
+	main: () => <EmbededForm/>
 },
 {
 	path: '/dashboard/automations',
@@ -122,6 +129,11 @@ const routes = [
 	path: '/edit-template/:id',
 	exact: false,
 	main: () => <EditTemplate />
+},
+{
+	path: '/edit-content/:id',
+	exact: false,
+	main: () => <EditContent />
 },
 {/* {
 	path: '/dashboard/contacts/:id',

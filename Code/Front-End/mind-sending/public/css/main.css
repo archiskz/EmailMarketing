@@ -1190,7 +1190,7 @@ input[type="date" i] {
   padding: 57px 65px;
   padding-bottom: 65px;
   display: table-cell;
-      background: -webkit-linear-gradient(top, #abdcd6,#DBDADA, #AFAAAA,#868686);
+      background: white;
 }
 
 @media (max-width: 767px) {
@@ -6314,6 +6314,7 @@ body.search-is-visible {
 .dashboard-component {
   float: right;
   width: 86%;
+  background: #f5f6fa;
   height: 100%;
 }
 .dashboard-main {

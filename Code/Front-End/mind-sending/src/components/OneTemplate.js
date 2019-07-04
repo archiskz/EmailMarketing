@@ -6,27 +6,48 @@ import * as Config from './../constants/Config';
 import * as actions from './../actions/index';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router";
+import Modal from 'react-awesome-modal';
+import Base64Image from './Base64Image';
 class OneTemplate extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      imgp:"",
       visible: true,
       dropdown_visible: false,
+      modalIsOpen: false
+      
     };
+    this.openModal = this.openModal.bind(this);
+    this.afterOpenModal = this.afterOpenModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
   onToggleDropdown = () => {
     this.setState({
       dropdown_visible: !this.state.dropdown_visible
     })
   }
-  showModal =()=>{
-    this.props.onOpenModal();
+
+  openModal() {
+    console.log("open now");
+    this.setState({modalIsOpen: true});
+    console.log(this.state.modalIsOpen)
+  }
+
+  afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    this.subtitle.style.color = '#f00';
+  }
+
+  closeModal() {
+    this.setState({modalIsOpen: false});
   }
   onSelectTemplate = ()=>{
       console.log("Hello true")
   }
   render(){
+    var image = this.props.image
      return (
          
         <div className={"list-item-container" + (this.props.preview ? " " : " ontemplate")} >
@@ -34,24 +55,23 @@ class OneTemplate extends Component {
           <div className="preview" onClick={()=>console.log("hello guy")}>
             <div
               className="thumbnail-container"
-              style={{
-                backgroundImage:
-                  'url("https://html-thumbnails-production.s3.amazonaws.com/uploads/0/thumbnails/16281fff-9e91-45c3-b27f-654b115b3435.png")'
-              }}
             >
+             
               <div className="thumbnail-actions">
-                <a style={{"top":"50%"}}
-                  className={"btn btn-secondary btn-on-dark " +(this.props.preview ? " " : "displayFalse") }
-                  onClick={this.showModal} >
+                <a
+                  className={"previewBtn btn btn-secondary btn-on-dark " +(this.props.preview ? " " : "displayFalse") }
+                  onClick={this.openModal} >
                   Preview
                 </a>
                 <a style={{"top":"50%"}}
                   className={"btn btn-secondary btn-on-dark " +(this.props.preview ? " displayFalse" : "") }
-                  onClick = {()=> this.toCampaignContentEdit(this.props.id)}>
+                  onClick = {()=> this.props.onChooseTemplate(this.props.id, this.props.content)}>
                   Choose
                 </a>
               </div>
+              <div  className="thumbnail-actions after"><Base64Image imageBase64String={this.props.imagePreview} /> </div>
             </div>
+            
           </div>
           <div className="thumbnail-details">
             <div className="template-name">
@@ -73,9 +93,37 @@ class OneTemplate extends Component {
               </div>
               <a>
                 {this.props.templateName}
+                
               </a>
-            </div>          
-             <div className="clearfix" />
+              
+            </div>         
+            <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.modalIsOpen} width="50%" height="96%" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+            <div className="modalPreview">
+          <div className="col-md-6">
+              <span>
+                <h1 className="">
+                  <span style={{"fontFamily": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">Preview
+                    <span>&nbsp;</span>
+                  </span>
+                </h1>
+              </span>
+          </div>
+          <div className="col-md-6">
+            <nav className="btn-list pull-right">
+                <a   icon="segment" className="btn-create-segment" >
+                  <i onClick={()=>this.closeModal()} className="sg-icon sg-icon-segment"></i>
+                    Cancel
+                </a>
+            </nav>
+          </div>
+          <div className="previewImg">            
+          <span dangerouslySetInnerHTML={{__html: image}} />
+         </div>
+          
+        </div>
+ 
+                </Modal>
+ 
           </div>
                                     
         </div>

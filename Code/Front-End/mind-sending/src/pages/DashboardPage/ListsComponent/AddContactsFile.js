@@ -1,9 +1,4 @@
 import React, { Component } from 'react';
-import ReactDropzone from 'react-dropzone';
-import { render } from "react-dom";
-import {useDropzone} from 'react-dropzone';
-import Dropzone from 'react-dropzone';
-import FileUpload from './../../../components/UploadFile';
 import axios from 'axios';
 import * as Config from './../../../constants/Config';
 import csv from 'csv';
@@ -221,12 +216,11 @@ class AddContactsFile extends Component {
       this.state.selectValue
   }
 });
-console.log(contacts)
+
 
 this.setState({
   contacts: contacts
-})   
-console.log(this.state.contacts)
+}) 
   }
 
    onDrop = (e) => {
