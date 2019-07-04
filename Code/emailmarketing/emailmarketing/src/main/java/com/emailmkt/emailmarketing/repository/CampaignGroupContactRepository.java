@@ -1,0 +1,26 @@
+package com.emailmkt.emailmarketing.repository;
+import com.emailmkt.emailmarketing.model.Campaign;
+import com.emailmkt.emailmarketing.model.CampaignGroupContact;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
+@Repository
+@Transactional
+public interface CampaignGroupContactRepository extends JpaRepository<CampaignGroupContact,Integer> {
+
+
+        @Query("SELECT com.campaign FROM CampaignGroupContact com WHERE com.campaign.id  = :campaignId")
+        List<Campaign> findByCampaignGroupCampaignId(@Param("campaignId") int campaignId);
+
+        @Transactional
+        @Modifying(clearAutomatically = true)
+        @Query("DELETE FROM CampaignGroupContact com WHERE com.campaign.id  = :campaignId")
+        void  deleteCampaignFromCampaginGroup(@Param("campaignId") int campaignId);
+
+}

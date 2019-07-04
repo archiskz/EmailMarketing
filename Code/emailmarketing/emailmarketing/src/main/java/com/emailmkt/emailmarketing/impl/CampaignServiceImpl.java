@@ -7,6 +7,7 @@ import com.emailmkt.emailmarketing.model.Campaign;
 import com.emailmkt.emailmarketing.model.CampaignGroupContact;
 import com.emailmkt.emailmarketing.model.Template;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
+import com.emailmkt.emailmarketing.repository.CampaignGroupContactRepository;
 import com.emailmkt.emailmarketing.repository.CampaignRepository;
 import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.service.CampaignService;
@@ -32,6 +33,9 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    CampaignGroupContactRepository campaignGroupContactRepository;
 
 
 
@@ -79,6 +83,7 @@ public class CampaignServiceImpl implements CampaignService {
             campaignGroupContact.setCampaign(campaign);
             return campaignGroupContact;
         }).collect(Collectors.toList());
+
         campaign.setCampaignGroupContacts(campaignGroupContacts);
 
         campaignRepository.save(campaign);
@@ -90,7 +95,7 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Override
     public void sendCampaign(int id) {
-        Campaign campaign = campaignRepository.findById(id);
+        Campaign campaign = campaignRepository.findCampaignById(id);
         String sender = campaign.getSender();
         String fromMail = campaign.getFromMail();
         String subject = campaign.getSubject();
@@ -124,21 +129,54 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public Campaign editCampaign(Campaign campaign) {
-        Campaign campaignEdit= campaignRepository.findById(campaign.getId());
+    public boolean editCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO,int id) {
+        Campaign campaignEdit= campaignRepository.findCampaignById(id);
+        if (campaignEdit.getStatus() == "Done") {
+            return false;
+        }
+        campaignGroupContactRepository.deleteCampaignFromCampaginGroup(id);
+        Account account = accountRepository.findAccountById(1);
+        campaignEdit.setAccount_id(account.getId());
+        campaignEdit.setName(campaignDTO.getCampaignName());
+        campaignEdit.setBodyJson(mailObjectDTO.getBodyJson());
+        campaignEdit.setContent(mailObjectDTO.getBody());
+        campaignEdit.setSender(mailObjectDTO.getFrom());
+        campaignEdit.setFromMail(mailObjectDTO.getFromMail());
+        campaignEdit.setSubject(mailObjectDTO.getSubject());
+        campaignEdit.setUpdatedTime(LocalDateTime.now().toString());
+        List<CampaignGroupContact> campaignGroupContacts = campaignDTO.getGcCampaignDTOS().stream().map(g->{
+            CampaignGroupContact campaignGroupContact = new CampaignGroupContact();
+            campaignGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
+            campaignGroupContact.setCreatedTime(LocalDateTime.now().toString());
+            campaignGroupContact.setCampaign(campaignEdit);
+
+            return campaignGroupContact;
+        }).collect(Collectors.toList());
+
+        campaignEdit.setCampaignGroupContacts(campaignGroupContacts);
+
+        campaignRepository.save(campaignEdit);
+        return true;
+    }
+
+    @Override
+    public Campaign addContentToCampaign(Campaign campaign) {
+        Campaign campaignEdit= campaignRepository.findCampaignById(campaign.getId());
         if (campaignEdit == null) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "This campaign is not exist!");
         }
-        campaignEdit.setName(campaign.getName());
+
         campaignEdit.setBodyJson(campaign.getBodyJson());
         campaignEdit.setContent(campaign.getContent());
-        campaignEdit.setCampaignGroupContacts(campaign.getCampaignGroupContacts());
-        campaignEdit.setSender(campaign.getSender());
-        campaignEdit.setFromMail(campaign.getFromMail());
-        campaign.setSubject(campaign.getFromMail());
-        campaign.setUpdatedTime(LocalDateTime.now().toString());
+
+        campaignEdit.setUpdatedTime(LocalDateTime.now().toString());
         return campaignRepository.save(campaignEdit);
 
+    }
+
+    @Override
+    public Campaign getCampaginById(int id) {
+       return campaignRepository.findCampaignById(id);
     }
 }

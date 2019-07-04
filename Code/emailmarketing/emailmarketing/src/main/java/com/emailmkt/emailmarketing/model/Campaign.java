@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Campaign implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,13 +66,13 @@ public class Campaign implements Serializable {
     @Column(name = "updated_time")
     private String updatedTime;
 
-    @OneToMany( mappedBy = "campaign", cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "campaign",cascade = CascadeType.ALL)
     private List<CampaignGroupContact> campaignGroupContacts;
 
-    @Basic
     @Column(name = "account_id")
-    private int account_id;
+    private Integer account_id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;
