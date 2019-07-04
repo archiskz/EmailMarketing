@@ -11,7 +11,10 @@ public interface CampaignService {
     boolean createCampaignWithTemplate(MailObjectDTO mailObjectDTO, int groupId, Template template);
     boolean createAutoResponseCampaign(MailObjectDTO mailObjectDTO, int groupId, Template template);
 
-    Campaign editCampaign(Campaign campaign);
+     boolean editCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO,int id);
+    Campaign addContentToCampaign(Campaign campaign);
+
+    Campaign getCampaginById(int id);
 
 
 
