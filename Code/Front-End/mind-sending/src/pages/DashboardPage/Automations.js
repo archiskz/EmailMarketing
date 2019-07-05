@@ -1,25 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import BpmnModelerComponent from './../../components/bpmn.modeler.component';
+import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
 
 class Automations extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      visible: true,
-    };
+  render() {
+    return (
+      <div>
+        <BpmnModelerComponent />
+      </div>
+    );
   }
-
-
-
-	
-  render(){
-     return (
-      
-	  <div className = "" >
-    Automation
-    </div>
-      );
-  }
-
 }
+
 export default Automations;
