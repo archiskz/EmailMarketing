@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.controller;
 
 import com.emailmkt.emailmarketing.dto.CampaignDTO;
+import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Campaign;
 import com.emailmkt.emailmarketing.repository.CampaignRepository;
@@ -63,10 +64,15 @@ public class CampaignController {
 
     }
 
-    @GetMapping(value="campaign/{id}")
-    Campaign read(@PathVariable int id) {
-        return campaignRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Not found"));
+//    @GetMapping(value="campaign/{id}")
+//    Campaign read(@PathVariable int id) {
+//        return campaignRepository.findById(id)
+//        .orElseThrow(() -> new RuntimeException("Not found"));
+//    }
+
+    @GetMapping("campaign/{id}")
+    public CampaignFullDTO getCampaignById(@PathVariable(value = "id") int id) {
+        return campaignService.getCampaginById(id);
     }
 
     @PutMapping("campaign/edit/{id}")

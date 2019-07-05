@@ -13,4 +13,6 @@ public interface CampaignRepository extends JpaRepository<Campaign,Integer> {
 
 
 
+
+
 }
