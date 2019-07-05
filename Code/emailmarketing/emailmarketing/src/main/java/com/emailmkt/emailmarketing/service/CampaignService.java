@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.service;
 
 import com.emailmkt.emailmarketing.dto.CampaignDTO;
+import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Campaign;
 import com.emailmkt.emailmarketing.model.Template;
@@ -14,7 +15,7 @@ public interface CampaignService {
      boolean editCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO,int id);
     Campaign addContentToCampaign(Campaign campaign);
 
-    Campaign getCampaginById(int id);
+    CampaignFullDTO getCampaginById(int id);
 
 
 

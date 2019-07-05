@@ -1,6 +1,8 @@
 package com.emailmkt.emailmarketing.impl;
 
 import com.emailmkt.emailmarketing.dto.CampaignDTO;
+import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
+import com.emailmkt.emailmarketing.dto.GCCampaignDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Campaign;
@@ -176,7 +178,31 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public Campaign getCampaginById(int id) {
-       return campaignRepository.findCampaignById(id);
+    public CampaignFullDTO getCampaginById(int id) {
+        Campaign campaign = campaignRepository.findCampaignById(id);
+
+        CampaignFullDTO campaignFullDTO = new CampaignFullDTO();
+
+        campaignFullDTO.setId(id);
+        campaignFullDTO.setStatus(campaign.getStatus());
+        campaignFullDTO.setBody(campaign.getContent());
+        campaignFullDTO.setFrom(campaign.getSender());
+        campaignFullDTO.setSubject(campaign.getSubject());
+        campaignFullDTO.setFrom(campaign.getSender());
+        campaignFullDTO.setCreatedTime(campaign.getCreatedTime());
+        campaignFullDTO.setUpdatedTime(LocalDateTime.now().toString());
+        campaignFullDTO.setFromMail(campaign.getFromMail());
+        campaignFullDTO.setBodyJson(campaign.getBodyJson());
+//        campaignFullDTO.setGroupContactName(campaignGroupContactRepository.findGroupByCampaignId(id));
+//        campaign.getCampaignGroupContacts().stream().map();
+        List<GCCampaignDTO> gcCampaignDTOs = campaign.getCampaignGroupContacts().stream().map(g->{
+            GCCampaignDTO gcCampaignDTO= new GCCampaignDTO();
+            gcCampaignDTO.setGroupContactId(g.getGroupContact().getId());
+
+            return gcCampaignDTO;
+        }).collect(Collectors.toList());
+        campaignFullDTO.setGcCampaignDTOS(gcCampaignDTOs);
+        return campaignFullDTO;
     }
+
 }
