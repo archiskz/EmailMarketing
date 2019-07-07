@@ -4,7 +4,6 @@ import com.emailmkt.emailmarketing.dto.GroupContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
-import com.emailmkt.emailmarketing.model.Subcriber;
 
 import java.util.List;
 
@@ -14,6 +13,8 @@ public interface GroupContactService {
     List<GroupContact> getAllGroupContacts();
 
     GroupContact editGroupContact(GroupContact GroupContact);
+
+
 
     GroupContact getGroupContactByName(String name);
     GroupContact getGroupById(int id);
@@ -29,6 +30,8 @@ public interface GroupContactService {
     Long countTotalContactsByGroupId(int groupContactId);
     List<GroupContactSubcriber> getAllSubcriber();
     List<SubcriberDTO> findSubcriberByGroupContactId(int groupContactId);
+
+    boolean deleteSubcriberOutGroup(int subcriberId);
 
 
 
