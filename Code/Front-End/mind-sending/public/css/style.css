@@ -1847,6 +1847,21 @@ text-align: center;
     text-align: left;
 
 }
+.activeText{
+    display: none;
+    visibility: hidden;
+}
+.txtArea{
+    width: 180%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
 .newsletter input, footer .newsletter input:focus {
 
     width: 100%;
@@ -1880,12 +1895,22 @@ text-align: left;
     width: 40px;
     height: 40px;
 }
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+.templateactive{
+    background-color: #12a123;
+    color:white !important
+}
 .btn_create_contact{
         margin-top: 15px;
             margin-left: 295px;
         text-align: center;
     height: 48px !important;
-    width: 180px !important;
+    width: 180px ;
     background: #45aaf2;
     color: #FFF;
     border: none;

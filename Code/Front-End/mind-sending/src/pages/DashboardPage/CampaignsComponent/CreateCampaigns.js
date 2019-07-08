@@ -18,10 +18,11 @@ class CreateCampaign extends Component{
      super(props);
 
      this.state = {
+       using:this.props.history.location.state.using,
        height: 755,
       modalIsOpen: false,
        selectValue: "",
-      campaignName:this.props.newCampaign,
+      campaignName:this.props.history.location.state.campaignName,
        visible: true,
        dropdown_visible: false,
        toVisible: true,
@@ -34,7 +35,7 @@ class CreateCampaign extends Component{
         ,
         newCampaign:{
           campaignDTO:{
-              campaignName: this.props.newCampaign,
+              campaignName: this.props.history.location.state.campaignName,
               gcCampaignDTOS: [
                 {
                   groupContactId: 1
@@ -46,7 +47,7 @@ class CreateCampaign extends Component{
           mailObjectDTO:{
               body: "",
                from: "",
-              fromMail: "sonnlh123@mindsending.cf",
+              fromMail: "",
               subject: "",
               templates: ""
 
@@ -62,9 +63,9 @@ class CreateCampaign extends Component{
   
    
    componentDidMount (){
-     console.log(`${this.state.height}px !important`)
+     
+     
      this.setState({height: this.refs.height.clientHeight})
-     console.log(`${Config.API_URL}groupContacts`);
     axios.get(`${Config.API_URL}groupContacts`)
     .then(response => {
       this.setState({
@@ -225,7 +226,7 @@ class CreateCampaign extends Component{
         	<div className="user_profile4" >
         		<div className="user_profile5">
         		<h4 className="user_profile5_h4">Campaign Name:</h4>
-        		<p className="user_profile5_p">{this.props.newCampaign} <button style={{"width":"15px"}} class="fas fa-edit fa-xs"></button></p>
+        		<p className="user_profile5_p">{this.state.campaignName} <button style={{"width":"15px"}} class="fas fa-edit fa-xs"></button></p>
         		</div>
         		<div className="user_profile6">
             <h3>To<h5 style = {{"fontStyle":"italic"}}>Who are you sending this campaign to?</h5></h3>
@@ -309,12 +310,10 @@ class CreateCampaign extends Component{
         			<div className="user_profile7">
         				<div className="user_profile9_sub">
         					<div className="user_profile7_sub1">
-                  <a onClick={this.showModal} className="user_profile_btn" tabindex="0" type="button">
-        					Design Email
-        				</a>
+                  <textarea name="body" onChange={this.handleChange} value={this.state.newCampaign.mailObjectDTO.body} className={`txtArea + ${this.state.using === 1 ? 'activeText' : null}`} ></textarea>
         					</div>
                   <div className="user_profile7_sub1">
-                  <a onClick={this.showModal} className="user_profile_btn" tabindex="0" type="button">
+                  <a className={`user_profile_btn + ${this.state.using === 2 ? 'activeText' : null}`} onClick={this.showModal}  tabindex="0" type="button">
         					Design Email
         				</a>
         					</div>
