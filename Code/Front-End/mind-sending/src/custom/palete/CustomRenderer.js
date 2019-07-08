@@ -40,36 +40,31 @@ export default class CustomRenderer extends BaseRenderer {
 
   drawShape(parentNode, element) {
     const shape = this.bpmnRenderer.drawShape(parentNode, element);
-    console.log(parentNode)
+    // console.log(parentNode)
 
     const suitabilityScore = this.getSuitabilityScore(element);
-    console.log(suitabilityScore)
+    // console.log(suitabilityScore)
     if (!isNil(suitabilityScore)) {
-      const color = this.getColor(suitabilityScore);
+      // const color = this.getColor(suitabilityScore);
 
-      const rect = drawRect(parentNode, 50, 20, TASK_BORDER_RADIUS, color);
+      // const rect = drawRect(parentNode, 50, 20, TASK_BORDER_RADIUS);
   
-      svgAttr(rect, {
-        transform: 'translate(-20, -10)'
-      });
+      // svgAttr(rect, {
+      //   transform: 'translate(-20, -10)'
+      // });
 
-      var text = svgCreate('text'); 
+      // var text = svgCreate('text'); 
 
-      svgAttr(text, {
-        fill: '#fff',
-        transform: 'translate(-15, 5)'
-      });
+      // svgAttr(text, {
+      //   fill: '#fff',
+      //   transform: 'translate(-15, 5)'
+      // });
 
-      svgClasses(text).add('djs-label'); 
-      var textString = "";
-      if (suitabilityScore > 75) {
-       textString = 'Campaign'
-      } else if (suitabilityScore > 25) {
-        textString = 'Form'
-      } else textString = 'Schedule'
-      svgAppend(text, document.createTextNode(textString)); 
+      // svgClasses(text).add('djs-label'); 
+      
+      // svgAppend(text, document.createTextNode('')); 
     
-      svgAppend(parentNode, text);
+      // svgAppend(parentNode, text);
     }
 
     return shape;
@@ -85,7 +80,7 @@ export default class CustomRenderer extends BaseRenderer {
 
   getSuitabilityScore(element) {
     const businessObject = getBusinessObject(element);
-  console.log(businessObject)
+  // console.log(businessObject)
     const { suitable } = businessObject;
 
     return Number.isFinite(suitable) ? suitable : null;

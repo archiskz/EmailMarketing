@@ -22,7 +22,6 @@ class EditTemplate extends Component {
     this.isComponentMounted = false;
     this.isEditorLoaded = false;
     this.state = {
-      // content: {} 
       id: this.props.history.location.state.id,
       template: {
         id: this.props.history.location.state.id,
@@ -54,7 +53,7 @@ class EditTemplate extends Component {
       dismiss: { duration: 2000 },
       dismissable: { click: true }
     });
-    this.props.history.goBack()
+    // this.props.history.goBack()
   }
    componentDidMount(){
      console.log(this.state.template)

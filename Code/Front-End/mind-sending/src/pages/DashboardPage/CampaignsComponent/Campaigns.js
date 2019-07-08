@@ -160,6 +160,7 @@ class Campaigns extends Component {
                                         key={list.index}
                                         status={list.status}
                                          campaignName={list.name}
+                                         bodyJson = {list.bodyJson}
                                      />
                                     ))}
 

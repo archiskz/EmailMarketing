@@ -145,7 +145,8 @@ class ListRow extends Component {
         this.props.history.push({
             pathname:`/campaigns/detail/:${id}`,
             state : {
-              id: id
+              id: id,
+              bodyJson: this.props.bodyJson
             }
         });
         }

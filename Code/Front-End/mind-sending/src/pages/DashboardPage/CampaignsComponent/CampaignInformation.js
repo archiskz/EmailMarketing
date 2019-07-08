@@ -11,12 +11,18 @@ import imm_bg from './../../../access/img/bgr-campaign.jpg'
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
 import { select } from '@syncfusion/ej2-base';
 import CampaignPopUp from './../../../components//modals/CampaignPopUp.js';
+import EmailEditor from 'react-email-editor';
+import Modal from 'react-awesome-modal';
+import ReactNotification from "react-notifications-component";
 import { withRouter } from "react-router";
 class CampaignInformation extends Component{
    constructor(props) {
      super(props);
-
+     this.editor = null; 
+     this.isComponentMounted = false;
+     this.isEditorLoaded = false;
      this.state = {
+      id: this.props.history.location.state.id,
        height: 755,
       modalIsOpen: false,
        selectValue: "",
@@ -27,34 +33,126 @@ class CampaignInformation extends Component{
        fromVisible: true,
        subjectVisible: true,
        contentVisible: true,
-        lists:[{"id":3,"name":"TesTV3","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:35:30.025","updatedTime":"string","account_id":"1","account":{"id":1,"username":"admin","fullname":"Tan123","email":"string","password":"admin","phone":"0907403553","gender":"string","address":"q7","authorityId":1,"createdTime":"2019-06-11T06:01:25.959","updatedTime":"string"},"subcribers":[]},{"id":4,"name":"Test25894","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:39:49.668","updatedTime":"string","account_id":"2","account":{"id":2,"username":"archis","fullname":"Archis","email":"string","password":"Ahihihi","phone":"0907403553","gender":"Male","address":"HCM","authorityId":1,"createdTime":"2019-06-12T06:38:29.065","updatedTime":"string"},"subcribers":[]}]
+        lists:[]
         ,
         campaign:{
-        
-          }       
+        },
+        selectedGrup :[],
+        updateCampaign:{
+            campaignDTO: {
+              campaignName: "string",
+              gcCampaignDTOS: [
+                {
+                  groupContactId: 0
+                }
+              ],
+              status: "string",
+              type: "string"
+            },
+            mailObjectDTO: {
+              body: "string",
+              bodyJson: "",
+              from: "string",
+              fromMail: "string",
+              subject: "string",
+            }
+          }
      };
      this.fields = { text: 'name', value: 'id' };
      this.handleChange = this.handleChange.bind(this);
      this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.onLoad = this.onLoad.bind(this);
+    this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
    }
   
    
    componentDidMount (){
-     console.log(`${this.state.height}px !important`)
-     this.setState({height: this.refs.height.clientHeight})
-     var id = this.props.history.location.state.id
-    axios.get(`${Config.API_URL}campaign/${id}`)
-    .then(response => {
-      console.log(response.data)
-      this.setState({
-        campaign: response.data
-      });
-    })
-    .catch(error => {
-      console.log(error);
+     this.getCampaign();
+    this.getAllGroups();
+    this.isComponentMounted = true; 
+    this.loadTemplate(); 
+   }
+
+   addNotification() {
+    this.notificationDOMRef.current.addNotification({
+      title: "Campaign",
+      message: "Save Draft Campaign Success!",
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
     });
+    // this.props.history.goBack()
+  }
+   onLoad = () => { 
+     this.isEditorLoaded = true; 
+     this.loadTemplate();
+     }
+
+   loadTemplate = () => { 
+     console.log(this.props.history.location.state.bodyJson)
+     if (!this.isEditorLoaded || !this.isComponentMounted) 
+     return; 
+     if(this.state.updateCampaign.mailObjectDTO.bodyJson != ""){
+      this.editor.loadDesign(JSON.parse(this.state.updateCampaign.mailObjectDTO.bodyJson))
+     } else this.editor.loadDesign(JSON.parse(this.props.history.location.state.bodyJson)) }
+
+   getCampaign(){
+          this.setState({height: this.refs.height.clientHeight})
+          var id = this.props.history.location.state.id
+        axios.get(`${Config.API_URL}campaign/${id}`)
+        .then(response => {
+          console.log(response.data)
+          var oldGroups = response.data.gcCampaignDTOS
+          let oldGroupsNumber = oldGroups.map((group, index, oldGroups)=>{
+            return group.groupContactId
+          })
+
+          this.setState({
+            campaign: response.data,
+            selectedGrup: oldGroupsNumber,
+            updateCampaign:{
+              campaignDTO: {
+                campaignName: response.data.campaignName,
+                gcCampaignDTOS: response.data.gcCampaignDTOS,
+                status: response.data.status,
+              },
+              mailObjectDTO: {
+                body: response.data.body,
+                bodyJson: response.data.bodyJson,
+                from: response.data.from,
+                fromMail: response.data.fromMail,
+                subject: response.data.subject,
+              }
+            }
+          },()=>{
+            
+          }
+          );
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+   getAllGroups(){
+    console.log(`${this.state.height}px !important`)
+    this.setState({height: this.refs.height.clientHeight})
+    console.log(`${Config.API_URL}groupContacts`);
+   axios.get(`${Config.API_URL}groupContacts`)
+   .then(response => {
+     this.setState({
+       lists: response.data
+     });
+   })
+   .catch(error => {
+     console.log(error);
+   });
    }
    onChangeListsSelect(args){
     var numbers = args.value;
@@ -73,7 +171,6 @@ class CampaignInformation extends Component{
     console.log("now" + this.state.selectValue);
   }
   onChangeListsSelect=(args)=>{
-    console.log(args.value)
     var numbers = args.value;
     let selectValue = numbers.map((select)=>{
       var select= select;
@@ -82,15 +179,22 @@ class CampaignInformation extends Component{
       }
     });
 
-    this.setState({ campaign: {
-      ...this.state.campaign,
-      campaignGroupContacts:{
-        ...this.state.campaign.campaignGroupContacts,
-        gcCampaignDTOS: selectValue,
-    },
+    this.setState({ updateCampaign: {
+      ...this.state.updateCampaign,
+      campaignDTO: {
+        ...this.state.updateCampaign.campaignDTO,
+          gcCampaignDTOS: selectValue
+      }
+      
+    ,
     }
 		
-		} );
+		},()=>{
+      console.log(this.state.updateCampaign)
+    } );
+  }
+  goBack =()=>{
+    this.props.history.goBack()
   }
 
 	
@@ -98,10 +202,21 @@ class CampaignInformation extends Component{
     var lists = this.state.lists;
      return (
        <div style={{"width":"100%","height":"100%"}}>
+       <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
       <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
+      <a onClick={this.goBack}
+      style={{"fontSize":"60px", "width":"120px","marginLeft":"10px","color":"white ", "cursor":"pointer","textDecoration":"none"}}>&#8249;</a>
         <nav class="toolbar-css__nav___27cII_detail">
+           
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
+               
                 </span>
                 <strong class="navToggleButton-css__toggle-name___3Y4ez">
                 <a href="/dashboard/campaigns">
@@ -132,7 +247,13 @@ class CampaignInformation extends Component{
         	<div className="user_profile4" >
         		<div className="user_profile5">
         		<h4 className="user_profile5_h4">Campaign Name:</h4>
-        		<p className="user_profile5_p">{this.state.campaign.name} <a class="fas fa-edit margin_td_fontawsome" onClick={()=>this.openModal()} title="Edit"> </a></p>
+        		<div className="user_profile5_p"> 
+            <a style={{"backgroundColor":"transparent","color":"white","float":"left","marginTop":"10px"}} class="fas fa-edit margin_td_fontawsome"  title="Edit"> </a>
+            <input style={{"backgroundColor":"transparent","color":"white","width":"auto","float":"left","border-bottom":"none"}} 
+            placeholder="Campaign Name" name="campaignName" aria-invalid="false" onChange={this.handleChange} 
+            className="user_profile_w3_input" disabled="" id="company-disabled" type="text" 
+            value={this.state.updateCampaign.campaignDTO.campaignName} />
+            </div>
         		</div>
         		<div className="user_profile6">
             <h3>To<h5 style = {{"fontStyle":"italic"}}>Who are you sending this campaign to?</h5></h3>
@@ -144,7 +265,7 @@ class CampaignInformation extends Component{
                         <MultiSelectComponent ref={(scope) => { this.mulObj = scope; }}  
                           style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important"}} 
                           id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
-                          value = {this.state.campaign.campaignGroupContacts}
+                          value={this.state.selectedGrup}
                           change={this.onChangeListsSelect}
                           placeholder="Lists"/>
                       </div>
@@ -175,7 +296,7 @@ class CampaignInformation extends Component{
         						{/* <label className="user_profile_w3_label" >Sender Name </label> */}
         						<div className="user_profile7_sub2">
         						<input placeholder="Sender Name" name="from" aria-invalid="false" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled="" id="company-disabled" type="text" value={this.state.campaign.sender} />
+                     disabled="" id="company-disabled" type="text" value={this.state.updateCampaign.mailObjectDTO.from} />
         						</div>
         					</div>
         				</div>
@@ -185,7 +306,7 @@ class CampaignInformation extends Component{
         						{/* <label className="user_profile_w3_label" data-shrink="false" for="username">Email Address</label> */}
         						
         						<input aria-invalid="false" onChange={this.handleChange} name="fromMail" 
-                    className="user_profile_w3_input2" placeholder="Email Address" id="username" type="text" value={this.state.campaign.fromMail} />
+                    className="user_profile_w3_input2" placeholder="Email Address" id="username" type="text" value={this.state.updateCampaign.mailObjectDTO.fromMail} />
         						
         					</div>
         				</div>
@@ -202,7 +323,7 @@ class CampaignInformation extends Component{
         						{/* <label className="user_profile_w3_label" >Subject </label> */}
         					
         						<input aria-invalid="false" placeholder="Subject" name="subject" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled="" id="company-disabled" type="text" value={this.state.campaign.subject}  />
+                     disabled="" id="company-disabled" type="text" value={this.state.updateCampaign.mailObjectDTO.subject}  />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
                    
         					</div>
@@ -216,8 +337,11 @@ class CampaignInformation extends Component{
             <h3>Content<h5 style = {{"fontStyle":"italic"}}>Design your email content?</h5></h3>
         			<div className="user_profile7">
         				<div className="user_profile9_sub">
+                <div className="user_profile7_sub1">
+                  <textarea name="body" onChange={this.handleChange} value={this.state.updateCampaign.mailObjectDTO.body} className={`txtArea + ${!this.state.updateCampaign.mailObjectDTO.bodyJson === null ? 'activeText' : null}`} ></textarea>
+        					</div>
         					<div className="user_profile7_sub1">
-                  <a onClick={this.showModal} className="user_profile_btn" tabindex="0" type="button">
+                  <a onClick={this.openModal} className={`user_profile_btn + ${this.state.updateCampaign.mailObjectDTO.bodyJson === null ? 'activeText' : null}`} tabindex="0" type="button">
         					Design Email
         				</a>
         					</div>
@@ -308,34 +432,117 @@ class CampaignInformation extends Component{
             </div>
         </div>
         </div>
-        
+        <Modal visible={this.state.modalIsOpen} width="100%" height="100%" effect="fadeInUp" 
+      onClickAway={this.closeModal}>
+
+<div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
+        <nav class="toolbar-css__nav___27cII">
+            <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
+                <span class="navToggleButton-css__code___2bWGz">
+                </span>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">Create Campaign</strong>
+            </span>
+        </nav>
+        <span class="toolbar-css__save-container___2x7qH">
+    </span>
+    <span class="toolbar-css__send-container___AbB6n">
+        <a onClick={()=>this.saveContent()} icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+            <i class="sg-icon sg-icon-airplane-fill">
+
+            </i>Save Content Mail
+        </a>
+        <a onClick={this.closeModal} icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+            <i class="sg-icon sg-icon-airplane-fill">
+
+            </i>Cancel
+        </a>
+    </span>
+    </div>
+    <EmailEditor
+    displayMode= {'email'}
+      projectId={1071}
+      onLoad={this.onLoad}
+      options={{
+          customCSS: [
+            `
+              #u_body{
+               
+              }
+            `,
+            `
+              .blockbuilder-branding {
+                display: none !important;
+              }
+            `,
+            `
+            .tab-content {
+              height: 100% !important;
+              background-color: white !important;
+            }
+            `,
+            `#u_row_11 {
+              display: none;
+              visibility: hidden
+            }`
+            
+          ],
+        }}
+      minHeight="700px"
+        ref={editor => this.editor = editor}
+      />
+
+      </Modal>
       </div>
 
       );
   }
 
+  saveContent = ()=>{
+    var self= this;
+    this.editor.exportHtml(data => {
+      const { design, html } = data
+      this.setState({
+        updateCampaign:{
+          ...this.state.updateCampaign,
+          mailObjectDTO:{
+            ...this.state.updateCampaign.mailObjectDTO,
+            bodyJson: JSON.stringify(design),
+            body: html
+          }
+        }
+      },()=>this.closeModal())
+    })
+  
+    
+  }
+
   saveDraft =()=>{
-    axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign)
+    console.log(`${Config.API_URL}campaign/edit/${this.state.id}`)
+    console.log(this.state.updateCampaign)
+    axios.put(`${Config.API_URL}campaign/edit/${this.state.id}`,this.state.updateCampaign)
     .then(response => {
-      console.log(response.data)
+      if(response.data == 'Successfully'){
+        this.addNotification()
+      }
     })
     .catch(error => {
       console.log(error);
     });
   }
+
   handleChange =(e)=> {
 		const { name, value } = e.target;
 		// let contact = state.contact;
 		// contact = {...contact, [name]: value};
-		this.setState({ newCampaign: {
-      ...this.state.newCampaign,
+		this.setState({ updateCampaign: {
+      ...this.state.updateCampaign,
       mailObjectDTO:{
-        ...this.state.newCampaign.mailObjectDTO,
+        ...this.state.updateCampaign.mailObjectDTO,
         [name]: value
     }
 		
 		} });
-		console.log(this.state.newCampaign)
+		console.log(this.state.updateCampaign)
 	 }
 
 

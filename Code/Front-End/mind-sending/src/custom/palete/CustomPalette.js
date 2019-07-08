@@ -22,16 +22,47 @@ export default class CustomPalette {
 
     function createTask(suitabilityScore) {
       return function(event) {
-        const businessObject = bpmnFactory.create('bpmn:Task');
-          console.log(businessObject)
-        businessObject.suitable = suitabilityScore;
-  
-        const shape = elementFactory.createShape({
-          type: 'bpmn:Task',
-          businessObject: businessObject
-        });
-  
-        create.start(event, shape); 
+        switch (suitabilityScore) {
+          case SUITABILITY_SCORE_HIGH: {
+            const businessObject = bpmnFactory.create('bpmn:SendTask');
+              console.log(businessObject)
+            businessObject.suitable = suitabilityScore;
+      
+            const shape = elementFactory.createShape({
+              type: 'bpmn:SendTask',
+              businessObject: businessObject
+            });
+      
+            create.start(event, shape);   
+            break;
+          }
+          case SUITABILITY_SCORE_AVERGE: {
+            const businessObject = bpmnFactory.create('bpmn:UserTask');
+              console.log(businessObject)
+            businessObject.suitable = suitabilityScore;
+      
+            const shape = elementFactory.createShape({
+              type: 'bpmn:UserTask',
+              businessObject: businessObject
+            });
+      
+            create.start(event, shape);   
+            break;
+          }
+          case SUITABILITY_SCORE_LOW: {
+            const businessObject = bpmnFactory.create('bpmn:BusinessRuleTask');
+              console.log(businessObject)
+            businessObject.suitable = suitabilityScore;
+      
+            const shape = elementFactory.createShape({
+              type: 'bpmn:BusinessRuleTask',
+              businessObject: businessObject
+            });
+      
+            create.start(event, shape);   
+            break;
+          }
+        }
       }
     }
 
@@ -39,7 +70,6 @@ export default class CustomPalette {
       'create.low-task': {
         group: 'activity',
         className: 'bpmn-icon-task red',
-        title: translate('Create Task with low suitability score'),
         action: {
           dragstart: createTask(SUITABILITY_SCORE_LOW),
           click: createTask(SUITABILITY_SCORE_LOW)
@@ -48,7 +78,7 @@ export default class CustomPalette {
       'create.average-task': {
         group: 'activity',
         className: 'bpmn-icon-task yellow',
-        title: translate('Create Task with average suitability score'),
+        
         action: {
           dragstart: createTask(SUITABILITY_SCORE_AVERGE),
           click: createTask(SUITABILITY_SCORE_AVERGE)
@@ -57,7 +87,7 @@ export default class CustomPalette {
       'create.high-task': {
         group: 'activity',
         className: 'bpmn-icon-task green',
-        title: translate('Create Task with high suitability score'),
+        
         action: {
           dragstart: createTask(SUITABILITY_SCORE_HIGH),
           click: createTask(SUITABILITY_SCORE_HIGH)
