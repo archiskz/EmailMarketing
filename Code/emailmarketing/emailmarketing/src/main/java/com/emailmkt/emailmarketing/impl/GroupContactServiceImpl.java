@@ -117,8 +117,10 @@ public class GroupContactServiceImpl implements GroupContactService {
 
     }
 
-
-
+    @Override
+    public boolean deleteSubcriberOutGroup(int subcriberId) {
+        return false;
+    }
 
 
     @Override

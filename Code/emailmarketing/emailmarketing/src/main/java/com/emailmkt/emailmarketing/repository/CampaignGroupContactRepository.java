@@ -23,4 +23,13 @@ public interface CampaignGroupContactRepository extends JpaRepository<CampaignGr
         @Query("DELETE FROM CampaignGroupContact com WHERE com.campaign.id  = :campaignId")
         void  deleteCampaignFromCampaginGroup(@Param("campaignId") int campaignId);
 
+
+//        @Query("SELECT gr.name " +
+//                "FROM CampaignGroupContact com JOIN GroupContact gr ON com.groupContact.id = gr.id " +
+//                "WHERE com.campaign.id  = :campaignId")
+//        String[] findGroupByCampaignId(@Param("campaignId") int campaignId);
+
+
+
+
 }
