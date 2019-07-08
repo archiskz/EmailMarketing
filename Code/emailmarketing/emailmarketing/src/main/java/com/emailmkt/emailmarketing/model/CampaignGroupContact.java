@@ -33,11 +33,12 @@ public class CampaignGroupContact {
     @Column(name = "updated_time")
     private String updatedTime;
 
+
     @ManyToOne
     @JoinColumn(name = "campaign_id")
     private Campaign campaign;
 
-
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "group_contact_id" )
     private GroupContact groupContact;

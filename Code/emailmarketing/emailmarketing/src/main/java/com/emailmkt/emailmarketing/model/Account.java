@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,6 +63,7 @@ public class Account implements Serializable {
     @Column(name = "created_time")
     private String createdTime;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

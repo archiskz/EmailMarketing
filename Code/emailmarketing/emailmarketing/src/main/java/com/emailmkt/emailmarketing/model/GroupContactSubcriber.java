@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +37,7 @@ public class GroupContactSubcriber {
 //    @Column(name = "subcriber_id")
 //    private int subcriberId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "subcriber_id")
     private Subcriber subcriber;
@@ -44,6 +46,7 @@ public class GroupContactSubcriber {
 //    @Column(name = "group_contact_id" )
 //    private int groupContactId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "group_contact_id" )
     private GroupContact groupContact;

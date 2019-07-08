@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -67,6 +68,7 @@ public class Subcriber implements Serializable {
     @Column(name = "account_id")
     private String account_id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;

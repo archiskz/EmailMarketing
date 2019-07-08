@@ -15,6 +15,8 @@ public interface SubcriberService {
 
     Subcriber editSubcriber(Subcriber subcriber);
 
+
+
     List<Subcriber> getSubcriberByTag(String tag);
 
     Subcriber getSubcriberById(int id);

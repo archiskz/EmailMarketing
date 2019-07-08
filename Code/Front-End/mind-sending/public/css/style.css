@@ -1090,9 +1090,13 @@ padding: 20px;
 .filter {
     display: inline-block;
     height: 50%;
+    box-shadow: 0 1px 2px 1px rgba(0,0,0,.2);
+
+background: white;
     width: 100%;
 }
 .thumbnail-view {
+    box-shadow: 0 1px 2px 1px rgba(0,0,0,.2);
     background: white;
     border-radius: 15px;
     width: 80%;
@@ -1141,7 +1145,7 @@ z-index: 20;
 .list-item-container {
     text-align: center;
     width: 200px;
-    margin: 0 30px 30px 0;
+    margin: 0 10px 30px 40px;
     min-height: 270px;
 
 }
@@ -1234,11 +1238,11 @@ z-index: 20;
 .segment-filter{
     border-radius: 6px;
     padding-left: 20px;
-    
+    box-shadow: 0 1px 2px 1px rgba(0,0,0,.2);
+
+background: white;
     width: 70%;
     margin-left: 30px;
-        background: #FFF;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
 }
 .btn-clear{
     padding-top: 10px !important;
@@ -1498,7 +1502,7 @@ textarea.inputContact{
     height: 65%;
     overflow-x: hidden; /* Hide horizontal scrollbar */
     overflow-y: scroll;
-    box-sizing: content-box;
+    box-sizing: content-box
 }
 .thumbnail-container{
     position: relative;
@@ -2092,8 +2096,9 @@ float: left;
     word-wrap: break-word;
     font-size: .875rem;
     margin-top: 30px;
-    background: #FFF;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    box-shadow: 0 1px 2px 1px rgba(0,0,0,.2);
+
+    background: white;
     margin-bottom: 30px;
     border-radius: 6px;
     flex-direction: column;
@@ -2585,8 +2590,9 @@ float: left;
     word-wrap: break-word;
     font-size: .875rem;
     margin-top: 30px;
-    background: #FFF;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    box-shadow: 0 1px 2px 1px rgba(0,0,0,.2);
+
+background: white;
     margin-bottom: 30px;
     border-radius: 6px;
     flex-direction: column;
@@ -3040,3 +3046,120 @@ float: left;
     -moz-osx-font-smoothing: grayscale;
 
 }
+
+
+
+/* CUSTOM BPMN */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    outline: none;
+    padding: 0;
+  }
+  
+  html, body, #container {
+    height: 100%;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .panel {
+    background-color: #fafafa;
+    border: solid 1px #ccc;
+    border-radius: 2px;
+    font-family: 'Arial', sans-serif;
+    padding: 10px;
+  }
+  
+  .djs-label {
+    font-family: 'Arial', sans-serif;
+  }
+  .djs-container {
+
+    padding-left: 50px;
+
+}
+  .bpmn-icon-task.red {
+      display: inline !important;
+      background:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVqbiFxjDe9plNw_o5oUnjYVdMzU4yQsHA8Ib6mybWwvQl3irl') !important;
+      background-size: 16px 12px !important;
+background-repeat: no-repeat !important;
+background-position: center !important;
+padding-bottom: 5px !important;
+    /* color: #cc0000 !important; */
+  }
+  .entry.bpmn-icon-intermediate-event-none {
+    display: none !important;
+}
+.entry.bpmn-icon-subprocess-expanded {
+    display: none !important;
+}
+.entry.bpmn-icon-data-object {
+    display: none !important;
+}
+.entry.bpmn-icon-data-store {
+    display: none !important;
+}
+.entry.bpmn-icon-task {
+display: none;
+}
+
+  .bpmn-icon-task.yellow {
+    display: inline !important;
+    background:url('https://cdn1.iconfinder.com/data/icons/rcons-user-action/512/user-512.png') !important;
+    background-size: 16px 12px !important;
+background-repeat: no-repeat !important;
+background-position: center !important;
+padding-bottom: 5px !important;
+
+  }
+  
+  .bpmn-icon-task.green {
+    display: inline !important;
+    
+    /* color: #52B415 !important; */
+    display: inline !important;
+    background:url('https://cdn3.iconfinder.com/data/icons/vector-icons-for-mobile-apps-2/512/Mail_black-512.png') !important;
+    background-size: 16px 12px !important;
+background-repeat: no-repeat !important;
+background-position: center !important;
+padding-bottom: 5px !important;
+  }
+  
+  #quality-assurance {
+    color: #111;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  #quality-assurance #form input {
+    border: solid 1px #ccc;
+    border-radius: 2px;
+    font-family: 'Arial', sans-serif;
+    padding: 10px;
+  }
+  
+  #quality-assurance #form input[type=text] {
+    width: 100%;
+  }
+  
+  #quality-assurance #form #warning {
+    background-color: rgba(255, 0, 0, 0.25);
+    border-radius: 2px;
+    padding: 10px;
+  }
+  
+  #quality-assurance #form input[type=submit] {
+    background-color: #FAFAFA;
+    color: #111;
+  }
+  
+  #hint {
+    bottom: 20px;
+    left: 20px;
+    position: absolute;
+  }

@@ -1,9 +1,9 @@
 package com.emailmkt.emailmarketing.controller;
 
 import com.emailmkt.emailmarketing.dto.CampaignDTO;
+import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Campaign;
-import com.emailmkt.emailmarketing.model.ScheduleEmailResponse;
 import com.emailmkt.emailmarketing.repository.CampaignRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.CampaignService;
@@ -17,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -66,18 +64,35 @@ public class CampaignController {
 
     }
 
-    @PutMapping("campaign/edit")
-    public ResponseEntity updateProfile(@RequestBody Campaign campaign) {
-        Campaign accountEdited = campaignService.editCampaign(campaign);
-        if (accountEdited != null) {
-            return ResponseEntity.status(OK).body(accountEdited);
+//    @GetMapping(value="campaign/{id}")
+//    Campaign read(@PathVariable int id) {
+//        return campaignRepository.findById(id)
+//        .orElseThrow(() -> new RuntimeException("Not found"));
+//    }
+
+    @GetMapping("campaign/{id}")
+    public CampaignFullDTO getCampaignById(@PathVariable(value = "id") int id) {
+        return campaignService.getCampaginById(id);
+    }
+
+    @PutMapping("campaign/edit/{id}")
+    public ResponseEntity updateCampaign(@RequestBody MailAndCampaign mailAndCampaign, @PathVariable int id) {
+        boolean flag = campaignService.editCampaign(mailAndCampaign.mailObjectDTO,mailAndCampaign.campaignDTO,id);
+        if (flag == false) {
+            return ResponseEntity.status(CONFLICT).body("Campaign can not edit");
         }
-        return ResponseEntity.status(NOT_FOUND).body("Campaign is not exist");
+        return ResponseEntity.status(ACCEPTED).body("Successfully");
     }
-    @PostMapping("/scheduleEmail")
-    public ResponseEntity<ScheduleEmailResponse> scheduleEmail(@Valid @RequestBody Campaign campaign) {
-        return null;
+
+    @PutMapping(value = "campaign/add", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity addContent(@RequestBody Campaign campaign) {
+        Campaign accountEdited = campaignService.addContentToCampaign(campaign);
+        if (accountEdited != null) {
+            return ResponseEntity.status(ACCEPTED).body(accountEdited);
+        }
+        return ResponseEntity.status(NOT_ACCEPTABLE).body("Updated Fail");
     }
+
 
 
     @GetMapping("/campaigns")

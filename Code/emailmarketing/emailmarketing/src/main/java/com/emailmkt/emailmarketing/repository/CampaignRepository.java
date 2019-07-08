@@ -7,5 +7,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CampaignRepository extends JpaRepository<Campaign,Integer> {
         Campaign findByName(String name);
-        Campaign findById(int id);
+//        Campaign findById(int id);
+        Campaign findCampaignById(int id);
+
+
+
+
+
+
 }
