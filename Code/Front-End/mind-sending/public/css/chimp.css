@@ -90,6 +90,7 @@
 }
 .user_section{
     margin-bottom: 24px;
+        margin-top: 20px;
 }
 .user_line::before{
         content: " ";
@@ -103,8 +104,8 @@
 }
 .btn_create_contact3{
     padding-bottom: 14px;
-    margin-top: 50px;
-    margin-left: 67px;
+   margin-top: 50px;
+    margin-left: 57px;
     text-align: center;
     height: 50px !important;
     width: 150px !important;

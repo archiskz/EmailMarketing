@@ -13,12 +13,12 @@ import propertiesProviderModule from '../custom/provider'
 import magicModdleDescriptor from '../custom/descriptors/magic.json';
 import BpmnModdle from 'bpmn-moddle';
 class BpmnModelerComponent extends Component {
-    
+
     modeler = null;
 
 // you may hook into any of the following events
 
-    
+
     componentDidMount = () => {
         this.modeler = new BpmnModeler({
             container: '#bpmnview',
@@ -61,29 +61,29 @@ onClickToExport = () =>{
         console.log(element.id);
         var moddle = new BpmnModdle();
         moddle.fromXML(xmlClone, function(err, definitions) {
-      
+
           // update id attribute
           definitions.set('id', 'NEW ID');
-        
+
           // add a root element
           var bpmnProcess = moddle.create('bpmn:Process', { id: 'MyProcess_1' });
           definitions.get('rootElements').push(bpmnProcess);
-        
+
           moddle.toXML(definitions, function(err, xmlStrUpdated) {
               console.log("Hello")
-        
+
             // xmlStrUpdated contains new id and the added process
-        
+
           });
-        
+
         });
-        
-      
+
+
         // the element was changed by the user
       });
     console.log(xmlClone);
     });
-    
+
 
     }
 

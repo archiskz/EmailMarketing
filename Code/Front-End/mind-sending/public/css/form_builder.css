@@ -7,7 +7,9 @@ body {
     padding-bottom: 1rem;
     border-bottom: .05rem solid #e5e5e5;
 }
-
+.bg-faded {
+    background-color: #fff;
+}
 .form_builder .nav-sidebar { 
     width: 100%;
     padding: 8px 0; 
@@ -114,4 +116,13 @@ body {
 
 .add_more_select, .add_more_radio, .add_more_checkbox, .remove_more_select, .remove_more_radio, .remove_more_checkbox {
     cursor: pointer;
+}
+.embed_h4 {
+    color: #FFFFFF !important;
+    margin-top: 0px;
+    min-height: auto;
+    font-weight: 300;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    margin-bottom: 3px;
+    text-decoration: none;
 }
