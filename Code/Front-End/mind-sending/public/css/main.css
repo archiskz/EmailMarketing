@@ -1190,7 +1190,7 @@ input[type="date" i] {
   padding: 57px 65px;
   padding-bottom: 65px;
   display: table-cell;
-      background: white;
+     background: -webkit-linear-gradient(top, #abdcd6,#DBDADA, #AFAAAA,#868686);
 }
 
 @media (max-width: 767px) {
