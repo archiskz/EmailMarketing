@@ -55,7 +55,7 @@ class CampaignPopUp extends Component {
         
         <div style={{"textAlign":"center"}}>
 
-        <button disabled={!this.state.campaignName} style={{"marginLeft":"0px","width":"150px", "float":"left", "color":"white"}}  className="btn_create_contact" 
+        <button disabled={!this.state.campaignName} style={{"marginLeft":"0px","width":"150px", "float":"left", "color":"white"}}  className="btn_begin_create_campaign" 
         onClick={this.toCreateCampaign}
         type="button"
         to={{
@@ -63,7 +63,7 @@ class CampaignPopUp extends Component {
           
           }}
           >Begin</button>
-        <a style={{"marginLeft":"0px","float":"right","color":"white","width":"150px"}} className="btn_create_contact" href="#">Cancel</a>
+        <a style={{"marginLeft":"0px","float":"right","color":"white","width":"150px"}} className="btn_cancel_create_campaign" href="#">Cancel</a>
         </div>
       
         

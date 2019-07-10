@@ -423,7 +423,8 @@ export default function setUp() {
         }
 
         $(document).on('click', '.export_html', function () {
-            getPreview('html');
+            var preview = $('#preview');
+            getPreview(preview.css('display') === 'none' ? 'html' : '');
         });
     });
 }

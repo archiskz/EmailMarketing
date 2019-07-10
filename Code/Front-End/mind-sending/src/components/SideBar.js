@@ -116,7 +116,7 @@ addActiveClass = (index) => {
             
             {/* Embeded Form */}
              <li id="menu-academico" className={this.state.activeClasses5 ? "opend" : "closed"} >
-                <Link to = "/dashboard/embededform" >
+                <Link to="/new-embeded-form" >
                 <i className="fa fa-wpforms" />
                     <span style={{position: 'relative'}}>Embeded Form</span>
                     <div className="clearfix" />
