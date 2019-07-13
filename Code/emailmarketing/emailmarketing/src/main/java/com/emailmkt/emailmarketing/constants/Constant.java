@@ -10,7 +10,7 @@ public class Constant {
     public static final String FAIL = "fail";
     public static final String RESET_PASSWORD_SUCCESS = "Reset password success! Password sent to your email.";
 
-    public static String MESSAGE_ID="";
+
 
     //Role
     public static final String SYSTEM_ADMIN = "SYSTEM_ADMIN";

@@ -1,7 +1,6 @@
 package com.emailmkt.emailmarketing.controller;
 
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
-import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
 import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.SubcriberService;
@@ -66,16 +65,6 @@ public class SubcriberController {
     @PostMapping("subcriber/createV2")
     public ResponseEntity createSubcriberNormal(@RequestBody SubcriberDTO dto) {
         boolean flag = subcriberService.createSubcriberNormal(dto);
-        if (flag == false) {
-            return ResponseEntity.status(CONFLICT).body("Email Existed");
-        }
-        return ResponseEntity.status(CREATED).body("Successfully");
-
-    }
-
-    @PostMapping("subcriber/createForm")
-    public ResponseEntity createSubcriberForm(@RequestBody SubcriberFormDTO dto) {
-        boolean flag = subcriberService.createSubcriberForm(dto);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Email Existed");
         }

@@ -26,9 +26,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
-import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_ID;
-
 @Service
 public class CampaignServiceImpl implements CampaignService {
     @Autowired
@@ -116,11 +113,7 @@ public class CampaignServiceImpl implements CampaignService {
             return campaignGroupContact;
         }).collect(Collectors.toList());
         try{
-//            mailService.sendSimpleMessage(sender,fromMail,mailLists.stream().toArray(String[]::new),subject,content);
-            mailService.sendSimpleMessageV2(sender,fromMail,mailLists.stream().toArray(String[]::new),subject,content);
-            campaign.setMessageId(MESSAGE_ID);
-            campaignRepository.save(campaign);
-            System.out.println(campaign.getMessageId());
+            mailService.sendSimpleMessage(sender,fromMail,mailLists.stream().toArray(String[]::new),subject,content);
         }catch (MailException e){
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }

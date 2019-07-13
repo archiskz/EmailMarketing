@@ -48,8 +48,6 @@ public class Campaign implements Serializable {
     @Column(name = "body_json")
     private String bodyJson;
 
-    @Column(name = "message_id")
-    private String messageId;
 
     @Column(name = "subject")
     private String subject;
