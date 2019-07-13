@@ -22,7 +22,6 @@ import ViewUserProfile from './pages/DashboardPage/UserComponent/ViewUserProfile
 import ContactInformation from './pages/DashboardPage/ContactComponent/ContactInformation';
 import CampaignInformation from './pages/DashboardPage/CampaignsComponent/CampaignInformation';
 import EmbededForm from './pages/DashboardPage/EmbededFormComponent/EmbededForm';
-import NewEmbededForm from './pages/DashboardPage/EmbededFormComponent/NewEmbededForm';
 const routes = [
 {
 	path:'/',
@@ -126,11 +125,7 @@ const routes = [
 	exact: false,
 	main: () => <NewTemplate />
 },
-{
-	path: '/new-embeded-form',
-	exact: false,
-	main: () => <NewEmbededForm />
-},
+
 {
 	path: '/edit-template/:id',
 	exact: false,
