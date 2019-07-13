@@ -1,12 +1,11 @@
 package com.emailmkt.emailmarketing.impl;
 
 import com.emailmkt.emailmarketing.service.MailService;
+import com.sun.mail.smtp.SMTPTransport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
@@ -22,6 +21,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_ID;
+
 @Service
 public class MailServiceImpl implements MailService {
     @Autowired
@@ -30,31 +31,89 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private SpringTemplateEngine templateEngine;
 
+    static final String CONFIGSET = "Engagement";
+    static final String HOST = "email-smtp.us-west-2.amazonaws.com";
+    static final int PORT = 587;
+
+    // Replace smtp_username with your Amazon SES SMTP user name.
+    static final String SMTP_USERNAME = "AKIAXTZGLCQ6ONUQV5HD";
+
+    // Replace smtp_password with your Amazon SES SMTP password.
+    static final String SMTP_PASSWORD = "BAm6pI2gKgOK2NtlxpZWaZ6pSXsTpQg1ZgPw6FXWmTq7";
+
+
+//    @Override
+//    public void sendSimpleMessage(String from, String fromMail,String[]to, String subject, String body) {
+//        try {
+//
+//
+//            MimeMessage message = emailSender.createMimeMessage();
+//
+//            Session session = Session.getInstance(properties, null);
+//            Transport transport = session.getTransport();
+//            transport.connect();
+//            MimeMessageHelper helper = new MimeMessageHelper(message,
+//                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+//                    StandardCharsets.UTF_8.name());
+//            message.setFrom(new InternetAddress(fromMail, from));
+//
+//            helper.setTo(to);
+//            helper.setSubject(subject);
+//            message.setContent(body,"text/html");
+//            message.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
+//
+//            emailSender.send(message);
+//
+//        } catch (Exception e) {
+//
+//            e.printStackTrace();
+//        }
+//
+//    }
+
     @Override
-    public void sendSimpleMessage(String from, String fromMail,String[]to, String subject, String body) {
+    public void sendSimpleMessageV2(String from, String fromMail, String[] to, String subject, String body) {
         try {
-            MimeMessage message = emailSender.createMimeMessage();
+
+            Properties properties = System.getProperties();
+            properties.put("mail.transport.protocol", "smtp");
+            properties.put("mail.smtp.port", PORT);
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.auth", "true");
+            properties.put("mail.debug", "true");
+            Session session = Session.getInstance(properties, null);
+            MimeMessage message = new MimeMessage(session);
             MimeMessageHelper helper = new MimeMessageHelper(message,
                     MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
             message.setFrom(new InternetAddress(fromMail, from));
-//            message.setFrom("test123@mindsending.cf");
-//            helper.setTo("archis123456@mindsending.cf");
+
             helper.setTo(to);
             helper.setSubject(subject);
             message.setContent(body,"text/html");
-//            helper.setText(body);
-            emailSender.send(message);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+            message.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
 
+            Transport transport = session.getTransport();
+            transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
+            transport.sendMessage(message, message.getAllRecipients());
+            if (transport instanceof SMTPTransport){
+
+                String response = ((SMTPTransport) transport).getLastServerResponse();
+                    System.out.println(response.split(" ")[2]);
+                    MESSAGE_ID = response.split(" ")[2];
+
+            }
+
+        }catch (Exception e) {
+
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void sendSimpleMessageUsingTemplate(String from, String fromMail,String []to, String subject, String message) {
 
-        sendSimpleMessage(from,fromMail,to,subject,message);
+        sendSimpleMessageV2(from,fromMail,to,subject,message);
     }
 
     @Override
@@ -74,21 +133,7 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    @Override
-    public void prepareAndSend(String recipient, String message) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("dragontna4997@gmail.com");
-            messageHelper.setTo(recipient);
-            messageHelper.setSubject("Sample mail subject");
-            messageHelper.setText(message);
-        };
-        try {
-            emailSender.send(messagePreparator);
-        } catch (MailException e) {
-            // runtime exception; compiler will not force you to handle it
-        }
-    }
+
 
     @Override
     public void sendMail(String smtpServerHost, String smtpServerPort, String smtpUserName, String smtpUserPassword, String fromUserEmail, String fromUserFullName, String toEmail, String subject, String body) {

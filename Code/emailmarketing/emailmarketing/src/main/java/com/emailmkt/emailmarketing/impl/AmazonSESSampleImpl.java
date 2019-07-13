@@ -24,7 +24,7 @@ public class AmazonSESSampleImpl implements AmazonSESSample {
     static final String TO ="archis123456@mindsending.cf";
 
     // Replace smtp_username with your Amazon SES SMTP user name.
-    static final String SMTP_USERNAME = "AKIAXTZGLCQ6F7AXMGGL";
+    static final String SMTP_USERNAME = "AKIAXTZGLCQ6ONUQV5HD";
 
     // Replace smtp_password with your Amazon SES SMTP password.
     static final String SMTP_PASSWORD = "BKy8tp5GllHPu1QnH+Vprgn2S72lMzw/P38rK4heBuZ5";
@@ -69,6 +69,7 @@ public class AmazonSESSampleImpl implements AmazonSESSample {
             msg.setContent(BODY, "text/html");
 
             Transport transport = session.getTransport();
+
             transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
             transport.sendMessage(msg, msg.getAllRecipients());
         } catch (Exception ex) {
