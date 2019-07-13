@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.impl;
 
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
+import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -56,6 +57,32 @@ public class SubcriberServiceImpl implements SubcriberService {
 
             return groupContactSubcriber;
         }).collect(Collectors.toList());
+        subcriber.setGroupContactSubcribers(groupContactSubcribers);
+        subcriberRepository.save(subcriber);
+        return true;
+    }
+
+    @Override
+    public boolean createSubcriberForm(SubcriberFormDTO dto) {
+        System.out.println(dto.getEmail());
+        Subcriber checkExistedSubcriber = subcriberRepository.findByEmail(dto.getEmail());
+        if (checkExistedSubcriber != null) {
+            return false;
+        }
+        Subcriber subcriber = new Subcriber();
+        subcriber.setLastName(dto.getLastName());
+        subcriber.setCreatedTime(LocalDateTime.now().toString());
+        subcriber.setEmail(dto.getEmail());
+        subcriber.setFirstName(dto.getFirstName());
+        subcriber.setType("New Subcriber");
+        Account account = accountRepository.findAccountById(1);
+        subcriber.setAccount_id(account.getId() + "");
+        List<GroupContactSubcriber> groupContactSubcribers = new ArrayList<>();
+
+        GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
+        groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(1));
+        groupContactSubcriber.setSubcriber(subcriber);
+        groupContactSubcribers.add(groupContactSubcriber);
         subcriber.setGroupContactSubcribers(groupContactSubcribers);
         subcriberRepository.save(subcriber);
         return true;
