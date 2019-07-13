@@ -257,7 +257,7 @@ a.sidebar-icon:hover {
     white-space: nowrap;
     z-index: 2;
     /* background-color: #1c2434; */
-    font-size: 0.9em;
+    font-size: 12.5px;
     font-family: 'Roboto', sans-serif;
     border: none;
     /* border-left: 4px solid #1c2434; */
@@ -1900,6 +1900,7 @@ button[disabled]{
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
+  padding-bottom: 20px;
 }
 .templateactive{
     background-color: #12a123;
@@ -1958,7 +1959,113 @@ button[disabled]{
     /* background: rgba(156, 39, 176, 0.14) !important; */
     -webkit-tap-highlight-color: transparent;
 }
-
+.btn_begin_create_campaign{
+    padding-bottom: 20px;
+        margin-top: 1px;
+            margin-left: 295px;
+        text-align: center;
+    height: 48px !important;
+    width: 180px ;
+    background: #45aaf2;
+    color: #FFF;
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
+        padding-top: 18px;
+    position: relative;
+    min-width: auto;
+    font-size: 15px;
+    min-height: auto;
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    font-weight: 400;
+    will-change: box-shadow, transform;
+    line-height: 24px;
+    white-space: nowrap;
+    touch-action: manipulation;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    vertical-align: middle;
+        box-sizing: border-box;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        display: inline-flex;
+    outline: none;
+        justify-content: center;
+        text-decoration: none;
+        -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+        -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    word-spacing: normal;
+    text-indent: 0px;
+    text-shadow: none;
+        font: 400 13.3333px Arial;
+        -webkit-appearance: none !important;
+         
+}
+.btn_begin_create_campaign:hover{
+    box-shadow: 0 2px 2px 0 rgba(156, 39, 176, 0.14), 0 3px 1px -2px rgba(156, 39, 176, 0.2), 0 1px 5px 0 rgba(156, 39, 176, 0.12);
+    -moz-box-shadow:0px 0px 6px rgba(0, 0, 0, 10);
+    -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 10); 
+    text-decoration: none !important;
+    color: white !important;
+    /* background: rgba(156, 39, 176, 0.14) !important; */
+    -webkit-tap-highlight-color: transparent;
+}
+.btn_cancel_create_campaign{
+        margin-top: 1px;
+            margin-left: 295px;
+        text-align: center;
+    height: 48px !important;
+    width: 180px ;
+    background: #45aaf2;
+    color: #FFF;
+    border: none;
+    margin-right: -15px;
+    cursor: pointer;
+        padding-top: 18px;
+    position: relative;
+    min-width: auto;
+    font-size: 15px;
+    min-height: auto;
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    font-weight: 400;
+    will-change: box-shadow, transform;
+    line-height: 24px;
+    white-space: nowrap;
+    touch-action: manipulation;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    vertical-align: middle;
+        box-sizing: border-box;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        display: inline-flex;
+    outline: none;
+        justify-content: center;
+        text-decoration: none;
+        -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+        -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    word-spacing: normal;
+    text-indent: 0px;
+    text-shadow: none;
+        font: 400 13.3333px Arial;
+        -webkit-appearance: none !important;
+         
+}
+.btn_cancel_create_campaign:hover{
+    box-shadow: 0 2px 2px 0 rgba(156, 39, 176, 0.14), 0 3px 1px -2px rgba(156, 39, 176, 0.2), 0 1px 5px 0 rgba(156, 39, 176, 0.12);
+    -moz-box-shadow:0px 0px 6px rgba(0, 0, 0, 10);
+    -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 10); 
+    text-decoration: none !important;
+    color: white !important;
+    /* background: rgba(156, 39, 176, 0.14) !important; */
+    -webkit-tap-highlight-color: transparent;
+}
 .btn_searching{
     margin-right: 20px;
     width: 100%;
@@ -2545,6 +2652,7 @@ float: left;
 .user_profile_btn{
     margin-top: 15px;
     margin-left: -2px;
+    padding-bottom: 10px;
     text-align: center !important;
     height: 48px !important;
     width: 180px !important;
