@@ -39,7 +39,7 @@ public interface SubcriberService {
 
     List<Subcriber> searchByNameorEmail( String searchValue);
 
-    List<SubcriberDTO>getAllSubcriberV2();
+    List<SubcriberDTO>getAllSubcriberV2(String username);
 
 
 //    List<Account> getAllAccountsByCustomer();

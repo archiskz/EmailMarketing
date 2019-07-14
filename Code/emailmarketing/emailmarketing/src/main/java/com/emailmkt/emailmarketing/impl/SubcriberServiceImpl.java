@@ -10,7 +10,9 @@ import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.SubcriberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -207,7 +209,13 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
     @Override
-    public List<SubcriberDTO> getAllSubcriberV2() {
+    public List<SubcriberDTO> getAllSubcriberV2(String username) {
+        Account account = accountRepository.findByUsername(username);
+        if(account == null || !account.getRole().getRoleName().equals("Admin")){
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Unauthoried!");
+        }
+
         List<Subcriber>subcribers = subcriberRepository.findAll();
         List<SubcriberDTO> dtos = new ArrayList<>();
         for(Subcriber subcriber : subcribers){
