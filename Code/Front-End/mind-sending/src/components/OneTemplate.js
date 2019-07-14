@@ -34,6 +34,9 @@ class OneTemplate extends Component {
     this.setState({modalIsOpen: true});
     console.log(this.state.modalIsOpen)
   }
+  componentDidMount(){
+    console.log(this.props.imagePreview)
+  }
 
   afterOpenModal() {
     // references are now sync'd and can be accessed.
@@ -63,13 +66,18 @@ class OneTemplate extends Component {
                   onClick={this.openModal} >
                   Preview
                 </a>
-                <a style={{"top":"50%"}}
-                  className={"btn btn-secondary btn-on-dark " +(this.props.preview ? " displayFalse" : "") }
+                <a 
+                  className={"previewBtn btn btn-secondary btn-on-dark " +(this.props.preview ? " displayFalse" : "") }
                   onClick = {()=> this.props.onChooseTemplate(this.props.id, this.props.content)}>
                   Choose
                 </a>
               </div>
-              <div  className="thumbnail-actions after"><Base64Image imageBase64String={this.props.imagePreview} /> </div>
+              <div  className="thumbnail-actions after" >
+              {/* <Base64Image />  */}
+              <img
+         src={require(`../assets/img/${this.props.id}.png`)}
+       />
+              </div>
             </div>
             
           </div>
@@ -102,9 +110,10 @@ class OneTemplate extends Component {
           <div className="col-md-6">
               <span>
                 <h1 className="">
-                  <span style={{"fontFamily": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">Preview
+               <span style={{"fontFamily": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">Preview
                     <span>&nbsp;</span>
-                  </span>
+                  </span> 
+                  
                 </h1>
               </span>
           </div>
@@ -117,7 +126,10 @@ class OneTemplate extends Component {
             </nav>
           </div>
           <div className="previewImg">            
-          <span dangerouslySetInnerHTML={{__html: image}} />
+          {/* <span dangerouslySetInnerHTML={{__html: image}} /> */}
+          <img
+         src={require(`../assets/img/${this.props.id}.png`)}
+       />
          </div>
           
         </div>

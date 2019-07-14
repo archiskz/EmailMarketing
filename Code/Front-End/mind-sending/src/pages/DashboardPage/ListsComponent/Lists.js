@@ -95,17 +95,11 @@ class Lists extends Component {
                         </div>
                         <div className="col-md-6">
                             
-
+{/* 
                                 <Link  className="btn_create_contact" to="/dashboard/create-list">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Create Segment
-                                </Link>
-                                
-                                {/* <a onClick={this.onToggleDropdown} className="btn_create_contact" > */}
-                                    {/* <i className="fa fa-users"></i> */}
-                                    {/* Add Contacts */}
-                                {/* </a> */}
-                                
+                                </Link> */}
                             <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
                                         <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
                                             <i className="sg-icon sg-icon-csv"></i>
@@ -140,8 +134,14 @@ class Lists extends Component {
                     <div className="md_tablet1">
                     <div className="md_tablet2">
                         <div className="md_tablet3">
-                        <h4 className="md_tablet_h4">Groups List</h4>
-                        <p className="md_tablet_p">Here is the list of your Groups </p>
+                        <div style={{"width":"60%", "float":"left"}}><h4 className="md_tablet_h4">Groups List</h4>
+                        <p className="md_tablet_p">Here is the list of your Groups</p></div>
+						<div style={{"width":"40%","float":"left"}}>
+						<a onClick={()=>this.openModal()}  className="btn_create_contact ml0" style={{"marginLeft":"0px !important"}}>
+                                    <i className="sg-icon sg-icon-segment"></i>
+                                    Create Group
+                                </a>
+						</div>
                         </div>
                     <div className="md_tablet4">
                         <div className="md_tablet5">
@@ -194,10 +194,7 @@ class Lists extends Component {
                     </div>
                     </div>
                     </div>
-                    <a onClick={()=>this.openModal()}  className="btn_create_contact " >
-                                    <i className="sg-icon sg-icon-segment"></i>
-                                    Create Group
-                                </a>
+                   
                     </section>
 
              

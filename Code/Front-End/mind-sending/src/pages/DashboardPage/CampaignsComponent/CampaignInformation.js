@@ -338,10 +338,10 @@ class CampaignInformation extends Component{
         			<div className="user_profile7">
         				<div className="user_profile9_sub">
                 <div className="user_profile7_sub1">
-                  <textarea name="body" onChange={this.handleChange} value={this.state.updateCampaign.mailObjectDTO.body} className={`txtArea + ${!this.state.updateCampaign.mailObjectDTO.bodyJson === null ? 'activeText' : null}`} ></textarea>
+                  <textarea name="body" onChange={this.handleChange} value={this.state.updateCampaign.mailObjectDTO.body} className={`txtArea  ${this.state.updateCampaign.mailObjectDTO.bodyJson == null ? " " : "activeText"}`} ></textarea>
         					</div>
         					<div className="user_profile7_sub1">
-                  <a onClick={this.openModal} className={`user_profile_btn + ${this.state.updateCampaign.mailObjectDTO.bodyJson === null ? 'activeText' : null}`} tabindex="0" type="button">
+                  <a onClick={this.openModal} className={`user_profile_btn  ${this.state.updateCampaign.mailObjectDTO.bodyJson == null ? 'activeText' : " "}`} tabindex="0" type="button">
         					Design Email
         				</a>
         					</div>

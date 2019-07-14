@@ -10,7 +10,38 @@
 .App {
   text-align: center;
 }
+.ml0 {
+  margin-left: 0px !important;
+  float: right;
+}
+/* .react-datepicker-popper{
+  width: 300px;
+  height: 300px;
+}
+.react-datepicker{
+  width: 100%;
+} */
+.react-datepicker__input-container input{
+  margin-top: 11px;
 
+padding: 8px;
+
+display: block;
+
+border: none;
+
+    border-bottom-color: currentcolor;
+    border-bottom-style: none;
+    border-bottom-width: medium;
+
+border-bottom: 1px solid #ccc;
+
+width: 100%;
+
+font-size: 15px;
+
+font-family: Poppins-Regular;
+}
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
