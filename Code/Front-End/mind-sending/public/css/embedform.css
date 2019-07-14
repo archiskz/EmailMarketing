@@ -1,0 +1,95 @@
+.indicates-required{
+	text-align: right;
+    font-size: 11px;
+    margin-right: 4%;
+}
+.embed_signup_form {
+    display: block;
+    position: relative;
+    text-align: left;
+    padding: 10px 0 10px 3%;
+}
+.embed_signup {
+    background: #fff;
+    clear: left;
+    font: 14px Helvetica,Arial,sans-serif;
+}
+.asterisk {
+    color: #e85c41;
+    font-size: 150%;
+    font-weight: normal;
+    position: relative;
+    top: 5px;
+}
+.mc-field-group {
+    clear: left;
+    position: relative;
+    width: 96%;
+    padding-bottom: 3%;
+    min-height: 50px;
+}
+.mc-field-group input {
+    display: block;
+    width: 100%;
+    padding: 8px 0;
+    text-indent: 2%;
+}
+.button_embed_form {
+    clear: both;
+    background-color: #3137A8;
+    border: 0 none;
+    border-radius: 4px;
+    transition: all 0.23s ease-in-out 0s;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: normal;
+    height: 32px;
+    line-height: 32px;
+    margin: 0 5px 10px 0;
+    padding: 0 22px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: top;
+    white-space: nowrap;
+    width: auto;
+}
+.button_embed_form:hover{
+    box-shadow: 0 2px 2px 0 rgba(156, 39, 176, 0.14), 0 3px 1px -2px rgba(156, 39, 176, 0.2), 0 1px 5px 0 rgba(156, 39, 176, 0.12);
+    -moz-box-shadow:0px 0px 6px rgba(0, 0, 0, 10);
+    -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 10); 
+    text-decoration: none !important;
+    color: white !important;
+    /* background: rgba(156, 39, 176, 0.14) !important; */
+    -webkit-tap-highlight-color: transparent;
+}
+.section_embed{
+	margin-bottom: 24px;
+}
+.relative_embed {
+    position: relative;
+}
+.full-width-embed{
+	width: 100% !important;
+    max-width: 100% !important;
+}
+.embed_display_form{
+	  display: block;
+    position: relative;
+    text-align: left;
+    padding: 10px 0 10px 3%;
+}
+.mce_inline_error {
+    display: inline-block;
+    margin: 2px 0 1em 0;
+    padding: 5px 10px;
+    background-color: rgba(255,255,255,0.85);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: normal;
+    z-index: 1;
+    color: #e85c41;
+}

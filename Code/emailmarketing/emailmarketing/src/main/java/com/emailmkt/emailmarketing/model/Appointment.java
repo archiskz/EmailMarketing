@@ -7,14 +7,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Campaign implements Serializable {
+public class Appointment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,21 +28,11 @@ public class Campaign implements Serializable {
     private String status;
 
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "time")
+    private String time;
 
-    @Column(name = "recurring")
-    private String recurring;
-
-
-    @Column(name = "timestart")
-    private String timeStart;
-
-
-
-
-    @Column(name = "content")
-    private String content;
+    @Column(name = "body")
+    private String body;
 
     @Column(name = "body_json")
     private String bodyJson;
@@ -68,8 +57,8 @@ public class Campaign implements Serializable {
     @Column(name = "updated_time")
     private String updatedTime;
 
-    @OneToMany( mappedBy = "campaign",cascade = CascadeType.ALL)
-    private List<CampaignGroupContact> campaignGroupContacts;
+//    @OneToMany( mappedBy = "campaign",cascade = CascadeType.ALL)
+//    private List<CampaignGroupContact> campaignGroupContacts;
 
     @Column(name = "account_id")
     private Integer account_id;

@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Campaign implements Serializable {
+public class Workflow implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -24,41 +24,11 @@ public class Campaign implements Serializable {
     @Column(name = "name")
     private String name;
 
-
-    @Column(name = "status")
-    private String status;
-
-
     @Column(name = "type")
     private String type;
 
-    @Column(name = "recurring")
-    private String recurring;
-
-
     @Column(name = "timestart")
     private String timeStart;
-
-
-
-
-    @Column(name = "content")
-    private String content;
-
-    @Column(name = "body_json")
-    private String bodyJson;
-
-    @Column(name = "message_id")
-    private String messageId;
-
-    @Column(name = "subject")
-    private String subject;
-
-    @Column(name = "from_mail")
-    private String fromMail;
-
-    @Column(name = "sender")
-    private String sender;
 
     @Basic
     @Column(name = "created_time")
@@ -68,8 +38,8 @@ public class Campaign implements Serializable {
     @Column(name = "updated_time")
     private String updatedTime;
 
-    @OneToMany( mappedBy = "campaign",cascade = CascadeType.ALL)
-    private List<CampaignGroupContact> campaignGroupContacts;
+    @OneToMany( mappedBy = "workflow",cascade = CascadeType.ALL)
+    private List<WorkflowTask> workflowTasks;
 
     @Column(name = "account_id")
     private Integer account_id;

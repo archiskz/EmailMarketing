@@ -126,6 +126,7 @@ const routes = [
 	exact: false,
 	main: () => <NewTemplate />
 },
+
 {
 	path: '/edit-template/:id',
 	exact: false,
