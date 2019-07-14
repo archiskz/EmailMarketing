@@ -1,7 +1,6 @@
 package com.emailmkt.emailmarketing.service;
 
 import com.emailmkt.emailmarketing.model.Template;
-import com.sun.org.apache.xpath.internal.operations.String;
 
 import java.util.List;
 
