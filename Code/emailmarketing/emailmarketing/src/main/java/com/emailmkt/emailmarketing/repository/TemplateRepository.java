@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface TemplateRepository extends JpaRepository<Template, Integer> {
 
-    Template findByType (String type);
+    List<Template> findByType (java.lang.String type);
 //    Template findById(int id);
 
     Template findTemplateById(int id);

@@ -43,7 +43,7 @@ public class TemplateController {
 //    }
 
     @GetMapping("getAllTemplatesByType")
-    public List<Template> getAllTemplatesByType(@RequestParam(value = "type") String type) {
+    public List<Template> getAllTemplatesByType(@RequestParam(value = "type") java.lang.String type) {
         return templateService.getAllTemplatesbyType(type);
     }
 

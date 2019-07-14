@@ -17,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -71,8 +72,15 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public List<Template> getAllTemplatesbyType(String type) {
-        return (List<Template>) templateRepository.findByType(type);
+    public List<Template> getAllTemplatesbyType(java.lang.String type) {
+        if(type.equalsIgnoreCase("mindsending")){
+            List<Template> tp1 = templateRepository.findByType("iv");
+            List<Template> tp2 = templateRepository.findByType("tp");
+            List<Template> custom = new ArrayList<>();
+            custom.addAll(tp1);
+            custom.addAll(tp2);
+        return custom;
+        } else return templateRepository.findByType(type);
     }
 
     @Override
