@@ -123,6 +123,15 @@ addActiveClass = (index) => {
                 </Link>
             </li>
             {/* Embeded Form */}
+            {/* Invite */}
+            <li id="menu-academico" className={this.state.activeClasses5 ? "opend" : "closed"} >
+                <Link to = "/dashboard/invite-mail" >
+                <i className="fa fa-wpforms" />
+                    <span style={{position: 'relative'}}>Invite Mail</span>
+                    <div className="clearfix" />
+                </Link>
+            </li>
+            {/* Invite */}
 
             <li id="menu-academico" className={this.state.activeClasses3 ? "opend" : "closed"} >
                <a  onClick={() => this.addActiveClass(3)}>

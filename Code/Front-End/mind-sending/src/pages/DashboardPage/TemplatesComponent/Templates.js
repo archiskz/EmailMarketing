@@ -26,6 +26,8 @@ class Templates extends Component {
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.getTemplateByType = this.getTemplateByType.bind(this);
+    this.getAllTemplates = this.getAllTemplates.bind(this);
   }
   openModal() {
     console.log("open now");
@@ -45,7 +47,8 @@ class Templates extends Component {
   componentDidMount(){
     this.getAllTemplates();
    }	
-   getAllTemplates = ()=>{
+   getAllTemplates=()=>{
+     console.log("hasdsadsad")
     axios.get(`${Config.API_URL}template`,{
     })
     .then(res => {
@@ -54,6 +57,28 @@ class Templates extends Component {
     }).catch(error =>{
       console.log(error)
     }) 
+   }
+
+   getTemplateByType(type){
+      if(type == "custom"){
+        axios.get(`${Config.API_URL}getAllTemplatesByType?type=ct`,{
+        })
+        .then(res => {
+          console.log(res.data);
+          this.setState({templates: res.data});
+        }).catch(error =>{
+          console.log(error)
+        }) 
+      } else if( type == "mindsending"){
+        axios.get(`${Config.API_URL}getAllTemplatesByType?type=mindsending`,{
+        })
+        .then(res => {
+          console.log(res.data);
+          this.setState({templates: res.data});
+        }).catch(error =>{
+          console.log(error)
+        }) 
+      }
    }
 
 	
@@ -93,9 +118,9 @@ class Templates extends Component {
           <div className="filter">
             <ul className="">
             <li><a className="">Filter By</a></li>
-              <li><a  href="#home" className="active">All</a></li>
-              <li><a href="#news">Custom Templates</a></li>
-              <li><a href="#contact">MindSending templates</a></li>
+              <li><button style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getAllTemplates()} >All</button></li>
+              <li><button style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getTemplateByType("custom")}>Custom Templates</button></li>
+              <li><button style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getTemplateByType("mindsending")}>MindSending templates</button></li>
             </ul>
           </div>
         </div>
@@ -129,6 +154,7 @@ class Templates extends Component {
   }
 
 }
+
 
 const mapStateToProps = (state) => {
 return {

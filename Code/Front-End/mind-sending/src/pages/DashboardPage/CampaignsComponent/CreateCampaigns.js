@@ -173,20 +173,20 @@ class CreateCampaign extends Component{
                         </div>
                         <div className="col-md-6" style={{"display": "block", "textAlign":"left", "paddingLeft":"13%"}}>
                             
-                            <Link icon="segment" style={{"float":"left","display": "inline-block"}} className="width50 btn_create_contact" to="/new-template">
+                            {/* <Link icon="segment" style={{"float":"left","display": "inline-block"}} className="width50 btn_create_contact" to="/new-template">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Continue
-                                </Link>
-                                <Link icon="segment" style={{"float":"left","display": "inline-block"}} className="width50 btn_create_contact" to="/new-template">
+                                </Link> */}
+                                <a icon="segment" style={{"float":"left","display": "inline-block"}} className="width50 btn_create_contact" onClick={this.closeModal}>
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Cancel
-                                </Link>
+                                </a>
                             
                         </div>
         <div className="col-md-12">
          
           <div className="filter">
-            <ul className="filter">
+            <ul className="">
             <li><a className="">Filter By</a></li>
               <li><a  href="#home" className="active">All</a></li>
               <li><a href="#news">Custom Templates</a></li>
@@ -197,7 +197,7 @@ class CreateCampaign extends Component{
         <div className="col-md-6">
         </div>
       </header>
-      <div className="thumbnail-views" style={{"width": "80%"}}>
+      <div className="thumbnail-views" style={{"width": "90%"}}>
       {this.state.templates.map(list=>(
                <OneTemplate
                     campaignId={this.props.campaignId}

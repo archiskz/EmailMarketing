@@ -93,9 +93,9 @@ tryLogin = () => {
 					</div>
 
 					<div className="container-login100-form-btn">
-						<button type="button" onClick={()=> {this.getPosts()}} className="btn_create_login">
+						<a type="button" onClick={()=> {this.getPosts()}} className="btn_create_login">
 							Login
-						</button>
+						</a>
 						{/*<Link to="/"  className="login100-form-btn">Login</Link>*/}
 					</div>
 

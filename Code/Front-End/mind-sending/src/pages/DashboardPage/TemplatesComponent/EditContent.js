@@ -95,7 +95,7 @@ class EditContent extends Component {
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
                 </span>
-                <strong class="navToggleButton-css__toggle-name___3Y4ez">Create Campaign</strong>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">Edit Content</strong>
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
@@ -120,6 +120,12 @@ class EditContent extends Component {
               }
             `,
             `
+              .blockbuilder-layer-control.blockbuilder-delete{
+                display: none !important;
+                invisibility: hidden !important;
+              }
+            `,
+            `
               .blockbuilder-branding {
                 display: none !important;
               }
@@ -137,7 +143,7 @@ class EditContent extends Component {
             
           ],
         }}
-      minHeight="850px"
+      minHeight="700px"
         ref={editor => this.editor = editor}
       />
       

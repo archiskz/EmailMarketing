@@ -37,7 +37,7 @@
     width: 14%;
 }
 .sidebar-menu2{
-    background-image: url("./../images/blur3.jpg"); 
+    /* background-image: url("./../images/blur3.jpg");  */
     top: 0;
     left: 0;
     width: 100%;
@@ -46,6 +46,7 @@
     display: block;
     position: absolute;
     background-size: cover;
+    background:#2e3544;
     background-position: center center;
 }
 .sidebar-menu2:after {
@@ -1499,10 +1500,12 @@ textarea.inputContact{
     color: white;
 }
 .thumbnail-views{
+    border-radius: 10px;
     height: 65%;
     overflow-x: hidden; /* Hide horizontal scrollbar */
     overflow-y: scroll;
-    box-sizing: content-box
+    box-sizing: content-box;
+    box-shadow: 0 1px 2px 1px rgba(0,0,0,.2);
 }
 .thumbnail-container{
     position: relative;
@@ -2190,11 +2193,11 @@ float: left;
 }
 .width50{
     width: 25%;
-    margin-left: 10px !important;
+    /* margin-left: 10px !important; */
     margin-right: 0px !important;
 }
 .displayFalse{
-    display:none;
+    display:none !important;
     visibility: hidden
 }
 .user_profile{
