@@ -16,6 +16,7 @@ class CreateContact extends Component {
          listAccount: {id: 1, name: "Group 2", description: "Test Group V2", createdTime: "2019-06-12T13:08:24.810", updatedTime: "string"},
        visible: true,
        dropdown_visible: false,
+       auth_token:""
      };
       this.showDropdownMenu = this.showDropdownMenu.bind(this);
       this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
@@ -43,47 +44,66 @@ class CreateContact extends Component {
 
 
     componentDidMount(){
+        
     const id = this.props.history.location.state;
-    if(this.props.history.location.state != null){ 
-        this.getContactsByGroupId(id)
-    } else this.getAllContacts()
+    
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> {
+        if(this.props.history.location.state != null){ 
+        console.log("halu")
+            this.getContactsByGroupId(id)
+        } else this.getAllContacts()
+    } )
+    
     
    }
    componentWillReceiveProps(nextProps){
        if(nextProps.history.location.state !== this.props.history.location.state){
            console.log(nextProps.history.location.state)
+           
+           const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> {
         this.getAllContacts()
+    } )
+
+
+        
        }
    }
 
    
 
    getContactsByGroupId(id){
-    axios.post(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`,)
+       console.log(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`)
+    axios.get(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
         
-        // console.log(res.data);
+        console.log(res.data);
       const listAccounts = res.data;
-    //   console.log(listAccounts);
       this.setState({listAccounts:listAccounts})
-                axios.get(`${Config.API_URL}groupContact/contactById?id=${id}`,)
+                axios.get(`${Config.API_URL}groupContact/contactById?id=${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
                 .then(response => {
                     this.setState({
                         listAccount: response.data,
                     })
                 
-                })
+                }).catch((error) => {
+                    console.log(error);
+                  });
 
-    })
+    }).catch((error) => {
+        console.log(error);
+      });
    }
 
    getAllContacts(){
-            let config = {};
-            config = {headers: 
-                {Authorization : Config.TOKEN
-        }};
+           
             console.log(`${Config.API_URL}subcribersV2`)
-            axios.get(`${Config.API_URL}subcribersV2`)
+            axios.get(`${Config.API_URL}subcribersV2`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(res => {
         const listAccounts = res.data;
         this.setState({listAccounts:listAccounts})

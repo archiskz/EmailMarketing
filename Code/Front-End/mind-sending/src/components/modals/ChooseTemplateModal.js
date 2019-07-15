@@ -17,7 +17,8 @@ class ChooseTemplateModal extends Component {
     this.state = {
         visible : true,
         templates: [],
-        campaignId: this.props.campaignId
+        campaignId: this.props.campaignId,
+        auth_token:""
     }
 }
 closePreviewModal=() => {
@@ -25,13 +26,20 @@ closePreviewModal=() => {
 }
 componentDidMount(){
   console.log(this.state.campaignId)
-  axios.get(`${Config.API_URL}template`,{
-  })
+  const appState = JSON.parse(localStorage.getItem('appState'));
+  this.setState({
+      auth_token: appState.user.auth_token
+  },()=> this.getAllTemplates() )
+
+   
+ }	
+ getAllTemplates=()=>{
+  axios.get(`${Config.API_URL}template`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
   .then(res => {
     console.log(res.data);
     this.setState({templates: res.data});
-  }) 
- }	
+  })
+ }
  
  componentWillReceiveProps(newProps) {
   console.log(newProps.campaignId)

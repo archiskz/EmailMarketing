@@ -21,7 +21,8 @@ class Templates extends Component {
       visible: true,
       visibleAll: true,
       visibleCustom: false,
-      visibleMs: false
+      visibleMs: false,
+      auth_token:""
     };
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -45,12 +46,15 @@ class Templates extends Component {
   }
 
   componentDidMount(){
-    this.getAllTemplates();
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> this.getAllTemplates() )
    }	
+
    getAllTemplates=()=>{
      console.log("hasdsadsad")
-    axios.get(`${Config.API_URL}template`,{
-    })
+    axios.get(`${Config.API_URL}template`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data);
       this.setState({templates: res.data});
@@ -61,8 +65,7 @@ class Templates extends Component {
 
    getTemplateByType(type){
       if(type == "custom"){
-        axios.get(`${Config.API_URL}getAllTemplatesByType?type=ct`,{
-        })
+        axios.get(`${Config.API_URL}getAllTemplatesByType?type=ct`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {
           console.log(res.data);
           this.setState({templates: res.data});
@@ -70,8 +73,7 @@ class Templates extends Component {
           console.log(error)
         }) 
       } else if( type == "mindsending"){
-        axios.get(`${Config.API_URL}getAllTemplatesByType?type=mindsending`,{
-        })
+        axios.get(`${Config.API_URL}getAllTemplatesByType?type=mindsending`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {
           console.log(res.data);
           this.setState({templates: res.data});

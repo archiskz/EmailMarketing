@@ -3,7 +3,6 @@ package com.emailmkt.emailmarketing.impl;
 import com.emailmkt.emailmarketing.model.Template;
 import com.emailmkt.emailmarketing.repository.TemplateRepository;
 import com.emailmkt.emailmarketing.service.TemplateService;
-import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

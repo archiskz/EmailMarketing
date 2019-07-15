@@ -20,6 +20,7 @@ class ListRow extends Component {
             description: ""
          },
          updateListVisible: false,
+         auth_token:""
         };
         this.handleChange3 = this.handleChange3.bind(this);
         this.handleChange2 = this.handleChange2.bind(this);
@@ -41,8 +42,7 @@ class ListRow extends Component {
       }
 
       getCountById=(id)=>{
-        console.log(`${Config.API_URL}groupContact/countContact/${id}`)
-        axios.post(`${Config.API_URL}groupContact/countContact/${id}`,)
+        axios.get(`${Config.API_URL}groupContact/countContact/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
         // const listAccounts = res.data;
       //   console.log(listAccounts);
@@ -67,14 +67,19 @@ class ListRow extends Component {
        }
      }
      componentDidMount(){
-       this.getCountById(this.props.contactId);
+      const appState = JSON.parse(localStorage.getItem('appState'));
+      this.setState({
+          auth_token: appState.user.auth_token
+      },()=>{
+        this.getCountById(this.props.contactId);
+      } )
+       
        this.setState({
         updateList:{
           name: this.props.contactEmail,
           description: this.props.contactStatus
        }
        })
-       console.log(this.state.updateList)
      }
 
 
@@ -163,7 +168,8 @@ class ListRow extends Component {
      
       console.log(`${Config.API_URL}groupcontact/edit/${this.props.contactId}`);
 
-      axios.put(`${Config.API_URL}groupcontact/edit/${this.props.contactId}`, this.state.updateList)
+      axios.put(`${Config.API_URL}groupcontact/edit/${this.props.contactId}`,
+       this.state.updateList,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {
           console.log(res)
           // this.getAllListContact();

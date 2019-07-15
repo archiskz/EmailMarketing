@@ -21,7 +21,8 @@ class Lists extends Component {
             groupContacts: [{}],
             visible: true,
             dropdown_visible: false,
-            existedGroup: ""
+            existedGroup: "",
+            auth_token: "",
 
         };
         this.handleChange1 = this.handleChange1.bind(this);
@@ -67,7 +68,11 @@ class Lists extends Component {
     }
 
     componentDidMount() {
-        this.getAllListContact();
+        const appState = JSON.parse(localStorage.getItem('appState'));
+        this.setState({
+            auth_token: appState.user.auth_token
+        },()=> this.getAllListContact() )
+       
     }
 
     render() {
@@ -271,7 +276,7 @@ class Lists extends Component {
         // };
 
         console.log(`${Config.API_URL}groupContacts`);
-        axios.get(`${Config.API_URL}groupContacts`)
+        axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(res => {
                 const listContacts = res.data;
                 console.log(listContacts);
@@ -283,7 +288,7 @@ class Lists extends Component {
 
     saveNewList() {
 
-        axios.post(`${Config.API_URL}groupContact/create`, this.state.newList, {headers: {'Authorization': Config.TOKEN}})
+        axios.post(`${Config.API_URL}groupContact/create`, this.state.newList, { 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(res => {
                 console.log(res.data)
                 this.getAllListContact();

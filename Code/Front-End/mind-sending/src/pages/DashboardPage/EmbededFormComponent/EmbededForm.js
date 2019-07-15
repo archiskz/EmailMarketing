@@ -117,6 +117,7 @@ class EmbededForm extends Component {
     };
 
     render() {
+        
         const getMessageTemplate = (validateObj) => {
             if (validateObj.isInputValid) {
                 return null
@@ -193,63 +194,36 @@ class EmbededForm extends Component {
                 </div>
                 <div className="section_embed">
                     <h3>Copy/paste onto your site</h3>
-                    <form className="relative_embed">
-                        <textarea name="content"
-                                  className="full-width-embed"
-                                  readOnly={true}
-                                  value={'<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"\n' +
-                                  '        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">\n' +
-                                  '    </head>\n' +
-                                  '\n' +
-                                  '    <h2>Subscribe</h2>\n' +
-                                  '    <div class="indicates-Required"><span class="asterisk">*</span> indicates Required</div>\n' +
-                                  '    <form class="need-validation" novalidate\n' +
-                                  '        action="http://103.79.141.134:8080/api/subcriber/createForm" method="POST">\n' +
-                                  '        <div class="form-group">\n' +
-                                  '            <label for="email">Email Address</label>\n' +
-                                  '            <input type="email" name="email" class="form-control" id="email" required>\n' +
-                                  '            <div class="invalid-feedback">\n' +
-                                  '                Invalid email\n' +
-                                  '            </div>\n' +
-                                  '        </div>\n' +
-                                  '        <div class="form-group">\n' +
-                                  '            <label for="firstName">First Name</label>\n' +
-                                  '            <input type="text" name="firstName" class="form-control" id="firstName" required>\n' +
-                                  '            <div class="invalid-feedback">\n' +
-                                  '                Required\n' +
-                                  '            </div>\n' +
-                                  '        </div>\n' +
-                                  '        <div class="form-group">\n' +
-                                  '            <label for="lastName">Last Name</label>\n' +
-                                  '            <input type="text" name="lastName" class="form-control" id="lastName" required>\n' +
-                                  '            <div class="invalid-feedback">\n' +
-                                  '                Required\n' +
-                                  '            </div>\n' +
-                                  '        </div>\n' +
-                                  '        <button type="submit" class="btn btn-primary">Subscribe</button>\n' +
-                                  '    </form>\n' +
-                                  '    <script>\n' +
-                                  '        (function () {\n' +
-                                  '            \'use strict\';\n' +
-                                  '            window.addEventListener(\'load\', function () {\n' +
-                                  '                // Fetch all the forms we want to apply custom Bootstrap validation styles to\n' +
-                                  '                var forms = document.getElementsByClassName(\'need-validation\');\n' +
-                                  '                // Loop over them and prevent submission\n' +
-                                  '                var validation = Array.prototype.filter.call(forms, function (form) {\n' +
-                                  '                    form.addEventListener(\'submit\', function (event) {\n' +
-                                  '                        if (form.checkValidity() === false) {\n' +
-                                  '                            event.preventDefault();\n' +
-                                  '                            event.stopPropagation();\n' +
-                                  '                        }\n' +
-                                  '                        form.classList.add(\'was-validated\');\n' +
-                                  '                    }, false);\n' +
-                                  '                });\n' +
-                                  '            }, false);\n' +
-                                  '        })();\n' +
-                                  '    </script>'}
-                                  id="embed-form-code">
-                        </textarea>
-                    </form>
+                
+                    <pre>
+                        {
+                            `<form id='test-form' enctype='application/json'>
+                            <h2>Subscribe</h2><div class="indicates-Required"><span class="asterisk">*</span> indicates Required</div><div class="mc-field-group"><label for="email">Email Address <span class="asterisk">*</span></label><input type="email" name="email" id="email"><div class="error" style="color: red; padding-top: 10px;"></div></div><div class="mc-field-group"><label for="firstName">First Name </label><input type="text" name="firstName" id="firstName"><div class="error" style="color: red; padding-top: 10px;"></div></div><div class="mc-field-group"><label for="lastName">Last Name </label><input type="text" name="lastName" id="lastName"><div class="error" style="color: red; padding-top: 10px;"></div></div><div class="clear"><input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button_embed_form" value="Subscribe"></div></div>
+</form>
+<script>
+  var testForm = document.getElementById('test-form');
+  testForm.onsubmit = function(event) {
+    event.preventDefault();
+	var email = document.getElementById("email").value
+var fn = document.getElementById("firstName").value
+var ln = document.getElementById("lastName").value
+    fetch('http://103.79.141.134:8080/api/subcriber/createForm', {
+  method: 'post',
+  headers: {
+    'Accept': 'application/json, text/plain, */*',
+    'Content-Type': 'application/json',
+    'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob25nc29uNTciLCJKV1RBdXRob3JpdGllc0tleSI6IkN1c3RvbWVyIiwiZXhwIjoxNTYzOTg5MDA5fQ.oBE_cSorANBkQdjqjQ15ToLEHqy44K-l95_Lv64W3zqEC5WojAb2WLA-DriymgRcQgysB9snpQrr0qld55EnfQ'
+  },
+  body: JSON.stringify({email: email, firstName: fn, lastName: ln})
+}).then(res=>res.json())
+  .then(res => console.log(res));
+
+    console.log(request.response);
+  }
+</script>`
+                        }
+                    </pre>
+                    
                 </div>
             </div>
         );

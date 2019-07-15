@@ -41,25 +41,17 @@ class NewTemplate extends Component {
       content: "",
       html: "",
       visible: false,
+      auth_token:""
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
   }
 
   componentDidMount(){
-    // axios.get("http://45.77.172.104:8080/api/template",{
-    // })
-    // .then(res => {
-    //   // console.log(res.data);
-    //   this.setState({templates: res.data});
-    //   // console.log("template day ne: " + this.state.templates);
-    //   var a = this.state.templates;
-    //   let obj = a.find(obj => obj.id == 2);
-    //   this.setState({
-    //     content: obj.content
-    //   })
-    //   console.log(this.state.content)
-    // }) 
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    })
    }	
    addNotification() {
     this.notificationDOMRef.current.addNotification({
@@ -186,7 +178,7 @@ handleChange = (event)=>{
   this.exportHtml();
   console.log(this.state.template)
  
-  axios.post(`${Config.API_URL}template/create`,this.state.template)
+  axios.post(`${Config.API_URL}template/create`,this.state.template,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
   .then(res => {
     console.log("contact ID: " + res.data)
     if(res.data=='Okay'){

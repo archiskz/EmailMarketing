@@ -31,7 +31,8 @@ class EditContent extends Component {
         bodyJson: "string",
         content: "string",
         id: this.props.history.location.state.campaignId,
-      } 
+      } ,
+      auth_token:""
     };
     this.onLoad = this.onLoad.bind(this);
     // this.exportHtml = this.exportHtml.bind(this)
@@ -56,7 +57,10 @@ class EditContent extends Component {
   }
    componentDidMount(){
     this.isComponentMounted = true; 
-    this.loadTemplate(); 
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> this.loadTemplate() )
    }	
 
    onLoad = () => { this.isEditorLoaded = true; this.loadTemplate(); }
@@ -66,7 +70,7 @@ class EditContent extends Component {
      return; 
      var id = this.props.history.location.state.id
      var self = this
-     axios.get(`${Config.API_URL}${id}`)
+     axios.get(`${Config.API_URL}${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
         self.editor.loadDesign(JSON.parse(res.data.contentJson))
         console.log(res.data)        
@@ -179,7 +183,7 @@ class EditContent extends Component {
     }, ()=> {
       console.log(`${Config.API_URL}campaign/edit`)
       console.log(this.state.newCampaign)
-      axios.put(`${Config.API_URL}campaign/edit`,this.state.newCampaign)
+      axios.put(`${Config.API_URL}campaign/edit`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
         console.log(res.data)
         this.addNotification()

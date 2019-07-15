@@ -52,7 +52,8 @@ class CreateCampaign extends Component{
               templates: ""
 
           }
-        }       
+        },
+        auth_token:""       
      };
      this.fields = { text: 'name', value: 'id' };
      this.handleChange = this.handleChange.bind(this);
@@ -63,10 +64,22 @@ class CreateCampaign extends Component{
   
    
    componentDidMount (){
-     
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> {
+      this.getAllGroupContacts();
+      this.getAllTemplates();
+    });
      
      this.setState({height: this.refs.height.clientHeight})
-    axios.get(`${Config.API_URL}groupContacts`)
+    
+    
+
+   }
+
+   getAllGroupContacts=()=>{
+    axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
       this.setState({
         lists: response.data
@@ -75,13 +88,14 @@ class CreateCampaign extends Component{
     .catch(error => {
       console.log(error);
     });
-    axios.get(`${Config.API_URL}template`,{
-    })
+   }
+
+   getAllTemplates=()=>{
+    axios.get(`${Config.API_URL}template`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data);
       this.setState({templates: res.data});
     }) 
-
    }
    onChangeListsSelect(args){
     var numbers = args.value;
@@ -391,7 +405,7 @@ class CreateCampaign extends Component{
   showModal =()=>{
     this.setState({modalIsOpen: true})
     var self = this;
-    axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign)
+    axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
       console.log(response.data)
       var id = response.data
