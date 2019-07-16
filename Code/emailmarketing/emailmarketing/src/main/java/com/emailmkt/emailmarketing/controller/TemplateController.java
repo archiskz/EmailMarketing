@@ -3,11 +3,9 @@ package com.emailmkt.emailmarketing.controller;
 import com.emailmkt.emailmarketing.model.Template;
 import com.emailmkt.emailmarketing.repository.TemplateRepository;
 import com.emailmkt.emailmarketing.service.TemplateService;
-import com.sun.org.apache.xpath.internal.operations.String;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -87,7 +85,7 @@ public class TemplateController {
     @ResponseBody
     public ResponseEntity update(@RequestBody Template updatingTemplate) {
         Template result = templateService.editTemplate(updatingTemplate);
-        LOGGER.info("Updated Templates " + result.getNameTemplate());
+//        LOGGER.info("Updated Templates " + result.getNameTemplate());
         return  ResponseEntity.status(ACCEPTED).body("Update Successfully");
 
     }

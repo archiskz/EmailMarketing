@@ -17,7 +17,8 @@ class ContactInformation extends Component {
 				firstName: "",
 				lastName:"",
 				address:"",
-				dob:""
+				dob:"",
+				auth_token:""
 			}
         };
         this.showDropdownMenu = this.showDropdownMenu.bind(this);
@@ -41,13 +42,17 @@ showDropdownMenu(event) {
 
   componentDidMount(){
 	  console.log(this.props.history.location.state)
-	this.getSubcriberById(this.props.history.location.state)
+	  const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> this.getSubcriberById(this.props.history.location.state) )
+	
 	console.log(this.state.contactEdit)
   }
 
   onUpdateProfile(){
 	console.log(this.state.contact)
-	axios.put(`${Config.API_URL}subcriber/edit/${this.props.history.location.state}`, this.state.contact)
+	axios.put(`${Config.API_URL}subcriber/edit/${this.props.history.location.state}`, this.state.contact,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
   .then((response) => {
 	console.log(response);
   })
@@ -57,7 +62,7 @@ showDropdownMenu(event) {
 }
 
   getSubcriberById(id){
-	axios.get(`${Config.API_URL}subcriber/${id}`,)
+	axios.get(`${Config.API_URL}subcriber/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
 	.then(res => {
 		
 		// console.log(res.data);

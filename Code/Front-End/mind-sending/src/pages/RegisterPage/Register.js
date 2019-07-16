@@ -11,7 +11,8 @@ class Register extends Component {
       newUser: {
         username: "",
         password: "",
-        email: ""
+        email: "",
+        
       },
       confirmPass:""
      
@@ -87,15 +88,7 @@ class Register extends Component {
   onRegister= () => {
     var passUnCrypt = this.state.newUser.password
     const self = this;
-   bcrypt.genSalt(10,function(err, salt){
-      bcrypt.hash(passUnCrypt, salt, function(err, hash) {
-        self.setState({
-          newUser:{
-            ...self.state.newUser,
-            password: hash
-          }
-        },()=>{
-          axios.post(`${Config.API_URL}sign-up`,self.state.newUser)
+    axios.post(`${Config.API_URL}sign-up`,self.state.newUser)
           .then(response => {
           console.log(response.data)
           })
@@ -103,9 +96,18 @@ class Register extends Component {
             console.log(error);
           
           });
-        })
-    });
-    })
+  //  bcrypt.genSalt(10,function(err, salt){
+  //     bcrypt.hash(passUnCrypt, salt, function(err, hash) {
+  //       self.setState({
+  //         newUser:{
+  //           ...self.state.newUser,
+  //           password: hash
+  //         }
+  //       },()=>{
+          
+  //       })
+  //   });
+  //   })
 
    
 }

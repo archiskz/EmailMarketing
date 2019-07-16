@@ -16,7 +16,8 @@ class OneTemplate extends Component {
       imgp:"",
       visible: true,
       dropdown_visible: false,
-      modalIsOpen: false
+      modalIsOpen: false,
+      auth_token:""
       
     };
     this.openModal = this.openModal.bind(this);
@@ -36,6 +37,10 @@ class OneTemplate extends Component {
   }
   componentDidMount(){
     console.log(this.props.imagePreview)
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    })
   }
 
   afterOpenModal() {
@@ -60,7 +65,7 @@ class OneTemplate extends Component {
               className="thumbnail-container"
             >
              
-              <div className="thumbnail-actions">
+              <div className="thumbnail-actions" >
                 <a
                   className={"previewBtn btn btn-secondary btn-on-dark " +(this.props.preview ? " " : "displayFalse") }
                   onClick={this.openModal} >
@@ -72,7 +77,7 @@ class OneTemplate extends Component {
                   Choose
                 </a>
               </div>
-              <div  className="thumbnail-actions after" >
+              <div  className="thumbnail-actions after" style={{"backgroundImage":`url(../assets/img/${this.props.id}.png)`}} >
               {/* <Base64Image />  */}
               <img
          src={require(`../assets/img/${this.props.id}.png`)}
@@ -146,7 +151,7 @@ class OneTemplate extends Component {
   }
   onDuplicate = (id)=>{
     // console.log(`${Config.API_URL}template/copy/${id}`);
-    axios.post(`${Config.API_URL}template/copy/${id}`)
+    axios.post(`${Config.API_URL}template/copy/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
      this.props.update()
     })

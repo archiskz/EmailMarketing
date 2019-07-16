@@ -56,7 +56,8 @@ class CampaignInformation extends Component{
               fromMail: "string",
               subject: "string",
             }
-          }
+          },
+          auth_token:""
      };
      this.fields = { text: 'name', value: 'id' };
      this.handleChange = this.handleChange.bind(this);
@@ -70,10 +71,14 @@ class CampaignInformation extends Component{
   
    
    componentDidMount (){
-     this.getCampaign();
-    this.getAllGroups();
-    this.isComponentMounted = true; 
-    this.loadTemplate(); 
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> { this.getCampaign();
+      this.getAllGroups();
+      this.isComponentMounted = true; 
+      this.loadTemplate()} )
+    
    }
 
    addNotification() {
@@ -106,7 +111,7 @@ class CampaignInformation extends Component{
    getCampaign(){
           this.setState({height: this.refs.height.clientHeight})
           var id = this.props.history.location.state.id
-        axios.get(`${Config.API_URL}campaign/${id}`)
+        axios.get(`${Config.API_URL}campaign/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(response => {
           console.log(response.data)
           var oldGroups = response.data.gcCampaignDTOS
@@ -144,7 +149,7 @@ class CampaignInformation extends Component{
     console.log(`${this.state.height}px !important`)
     this.setState({height: this.refs.height.clientHeight})
     console.log(`${Config.API_URL}groupContacts`);
-   axios.get(`${Config.API_URL}groupContacts`)
+   axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
    .then(response => {
      this.setState({
        lists: response.data
@@ -519,7 +524,7 @@ class CampaignInformation extends Component{
   saveDraft =()=>{
     console.log(`${Config.API_URL}campaign/edit/${this.state.id}`)
     console.log(this.state.updateCampaign)
-    axios.put(`${Config.API_URL}campaign/edit/${this.state.id}`,this.state.updateCampaign)
+    axios.put(`${Config.API_URL}campaign/edit/${this.state.id}`,this.state.updateCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
       if(response.data == 'Successfully'){
         this.addNotification()

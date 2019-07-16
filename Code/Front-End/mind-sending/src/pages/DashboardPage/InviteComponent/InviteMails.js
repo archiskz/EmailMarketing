@@ -23,8 +23,8 @@ class InviteMails extends Component {
          groupContacts: [{}],
        visible: true,
        dropdown_visible: false,
-       existedGroup:""
-       
+       existedGroup:"",
+       auth_token:""
      };
      
      this.addNotification = this.addNotification.bind(this);
@@ -65,7 +65,10 @@ class InviteMails extends Component {
      })
    }
    componentDidMount(){
-     this.getAllListContact();
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> this.getAllListContact() )
    }	
   render(){
     var lists = this.state.groupContacts;
@@ -207,7 +210,7 @@ class InviteMails extends Component {
 }};
 
     console.log(config);
-    axios.get(`${Config.API_URL}groupContacts`)
+    axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       const listContacts = res.data;
       console.log(listContacts);

@@ -33,6 +33,7 @@ class EditTemplate extends Component {
       content: JSON.parse(this.props.history.location.state.contentJson) ,
           html: "",
       visible: false,
+      auth_token:""
     };
     this.onLoad = this.onLoad.bind(this);
     // this.exportHtml = this.exportHtml.bind(this)
@@ -58,7 +59,11 @@ class EditTemplate extends Component {
    componentDidMount(){
      console.log(this.state.template)
     this.isComponentMounted = true; 
-    this.loadTemplate(); 
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> this.loadTemplate() )
+    
    }	
 
    onLoad = () => { this.isEditorLoaded = true; this.loadTemplate(); }
@@ -166,7 +171,7 @@ class EditTemplate extends Component {
       }
     }, ()=> {
       console.log(`${Config.API_URL}update`)
-      axios.put(`${Config.API_URL}update`,this.state.template)
+      axios.put(`${Config.API_URL}update`,this.state.template,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
         console.log(res.data)
         this.addNotification()
