@@ -16,7 +16,8 @@ class OneTemplate extends Component {
       imgp:"",
       visible: true,
       dropdown_visible: false,
-      modalIsOpen: false
+      modalIsOpen: false,
+      auth_token:""
       
     };
     this.openModal = this.openModal.bind(this);
@@ -33,6 +34,13 @@ class OneTemplate extends Component {
     console.log("open now");
     this.setState({modalIsOpen: true});
     console.log(this.state.modalIsOpen)
+  }
+  componentDidMount(){
+    console.log(this.props.imagePreview)
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    })
   }
 
   afterOpenModal() {
@@ -57,19 +65,24 @@ class OneTemplate extends Component {
               className="thumbnail-container"
             >
              
-              <div className="thumbnail-actions">
+              <div className="thumbnail-actions" >
                 <a
                   className={"previewBtn btn btn-secondary btn-on-dark " +(this.props.preview ? " " : "displayFalse") }
                   onClick={this.openModal} >
                   Preview
                 </a>
-                <a style={{"top":"50%"}}
-                  className={"btn btn-secondary btn-on-dark " +(this.props.preview ? " displayFalse" : "") }
+                <a 
+                  className={"previewBtn btn btn-secondary btn-on-dark " +(this.props.preview ? " displayFalse" : "") }
                   onClick = {()=> this.props.onChooseTemplate(this.props.id, this.props.content)}>
                   Choose
                 </a>
               </div>
-              <div  className="thumbnail-actions after"><Base64Image imageBase64String={this.props.imagePreview} /> </div>
+              <div  className="thumbnail-actions after" style={{"backgroundImage":`url(../assets/img/${this.props.id}.png)`}} >
+              {/* <Base64Image />  */}
+              <img
+         src={require(`../assets/img/${this.props.id}.png`)}
+       />
+              </div>
             </div>
             
           </div>
@@ -102,9 +115,10 @@ class OneTemplate extends Component {
           <div className="col-md-6">
               <span>
                 <h1 className="">
-                  <span style={{"fontFamily": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">Preview
+               <span style={{"fontFamily": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">Preview
                     <span>&nbsp;</span>
-                  </span>
+                  </span> 
+                  
                 </h1>
               </span>
           </div>
@@ -117,7 +131,10 @@ class OneTemplate extends Component {
             </nav>
           </div>
           <div className="previewImg">            
-          <span dangerouslySetInnerHTML={{__html: image}} />
+          {/* <span dangerouslySetInnerHTML={{__html: image}} /> */}
+          <img
+         src={require(`../assets/img/${this.props.id}.png`)}
+       />
          </div>
           
         </div>
@@ -134,7 +151,7 @@ class OneTemplate extends Component {
   }
   onDuplicate = (id)=>{
     // console.log(`${Config.API_URL}template/copy/${id}`);
-    axios.post(`${Config.API_URL}template/copy/${id}`)
+    axios.post(`${Config.API_URL}template/copy/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
      this.props.update()
     })

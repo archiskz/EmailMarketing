@@ -22,6 +22,7 @@ import ViewUserProfile from './pages/DashboardPage/UserComponent/ViewUserProfile
 import ContactInformation from './pages/DashboardPage/ContactComponent/ContactInformation';
 import CampaignInformation from './pages/DashboardPage/CampaignsComponent/CampaignInformation';
 import EmbededForm from './pages/DashboardPage/EmbededFormComponent/EmbededForm';
+import CreateInvite from './pages/DashboardPage/InviteComponent/CreateInvite';
 const routes = [
 {
 	path:'/',
@@ -135,6 +136,11 @@ const routes = [
 	path: '/edit-content/:id',
 	exact: false,
 	main: () => <EditContent />
+},
+{
+	path: '/create-invite',
+	exact: false,
+	main: () => <CreateInvite />
 },
 {/* {
 	path: '/dashboard/contacts/:id',

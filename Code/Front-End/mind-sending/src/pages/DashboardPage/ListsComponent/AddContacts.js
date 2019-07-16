@@ -25,7 +25,8 @@ class AddContact extends Component {
       }],
       lists:[{"id":3,"name":"TesTV3","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:35:30.025","updatedTime":"string","account_id":"1","account":{"id":1,"username":"admin","fullname":"Tan123","email":"string","password":"admin","phone":"0907403553","gender":"string","address":"q7","authorityId":1,"createdTime":"2019-06-11T06:01:25.959","updatedTime":"string"},"subcribers":[]},{"id":4,"name":"Test25894","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:39:49.668","updatedTime":"string","account_id":"2","account":{"id":2,"username":"archis","fullname":"Archis","email":"string","password":"Ahihihi","phone":"0907403553","gender":"Male","address":"HCM","authorityId":1,"createdTime":"2019-06-12T06:38:29.065","updatedTime":"string"},"subcribers":[]}],
       selectValue:"",
-      selectId: 0
+      selectId: 0,
+      auth_token:""
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
@@ -50,16 +51,23 @@ class AddContact extends Component {
     })
   }
   componentDidMount (){
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> this.getAllGroupContacts() )
+    
+  }
+  getAllGroupContacts=()=>{
     console.log(`${Config.API_URL}groupContacts`);
-   axios.get(`${Config.API_URL}groupContacts`)
-   .then(response => {
-     this.setState({
-       lists: response.data
-     });
-   })
-   .catch(error => {
-     console.log(error);
-   });
+    axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(response => {
+      this.setState({
+        lists: response.data
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
   onSave= () => {
@@ -78,7 +86,7 @@ class AddContact extends Component {
       this.setState({contacts: contacts})
       console.log(this.state.contacts)
     console.log(`${Config.API_URL}subcriber/createListSubcriber`)
-    axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts)
+    axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts,{'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then((response) => {
         if(response != null){
           this.addNotification()

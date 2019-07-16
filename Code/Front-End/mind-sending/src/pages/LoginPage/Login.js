@@ -20,6 +20,10 @@ constructor(props) {
 				username: '',
 				password: ''
 			},
+			login:{
+				isLoggedIn: false,   
+				user: {},
+			},
 			posts: [],
 				isLoading: true,
 				errors: null
@@ -34,14 +38,28 @@ tryLogin = () => {
 	// const header = Authorization: `Bearer-${Config.TOKEN}`
 	axios.post(`${Config.API_URL}groupContacts`)
 	.then(response => {
-	  this.setState({
-		lists: response.data
-	  });
+	  
+		console.log(response.headers.authorization)
+
 	})
 	.catch(error => {
 	  console.log(error);
 	});
 }
+
+
+handleChange =(e)=> {
+	const { name, value } = e.target;
+	// let contact = state.contact;
+	// contact = {...contact, [name]: value};
+	this.setState({ user: {
+  ...this.state.user,
+	[name]: value
+}
+	
+	} );
+	console.log(this.state.user)
+ }
 
 	render(){
 		const {
@@ -66,20 +84,16 @@ tryLogin = () => {
 						BE THE REASON SOMEONE SMILES
 					</span>
 
-					<div className="wrap-input100 validate-input" data-validate = "Enter username" value={this.state.username} 
-					onChange = { evt => this.updateUsernameInput(evt)} >
+					<div className="wrap-input100 validate-input" data-validate = "Enter username" >
 					
-						<input className="input100 myClass" type="text" name="username" placeholder="      Username"/>
+						<input value={this.state.user.username}  onChange={this.handleChange}  className="input100 myClass" type="text" name="username" placeholder="      Username"/>
 						<span className="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div className="wrap-input100 validate-input" data-validate="Enter password">
-						<input className="input100" type="password" name="pass" placeholder="      Password"
+						<input onChange={this.handleChange}  className="input100" type="password" name="password" placeholder="      Password"
 							value = {
-								this.state.username
-							}
-							onChange = {
-								evt => this.updatePasswordInput(evt)
+								this.state.user.password
 							}
 						/>
 						<span className="focus-input100" data-placeholder="&#xf191;"></span>
@@ -93,9 +107,9 @@ tryLogin = () => {
 					</div>
 
 					<div className="container-login100-form-btn">
-						<button type="button" onClick={()=> {this.getPosts()}} className="btn_create_login">
+						<a type="button" onClick={()=> {this.getPosts()}} className="btn_create_login">
 							Login
-						</button>
+						</a>
 						{/*<Link to="/"  className="login100-form-btn">Login</Link>*/}
 					</div>
 
@@ -134,20 +148,37 @@ tryLogin = () => {
 }
 
 getPosts() {
-	axios.get("http://25.36.135.233:8080/api/accounts")
-		// Once we get a response and store data, let's change the loading state
-		.then(response => {
-			this.setState({
-				posts: response.data.posts,
-				isLoading: false
-			});
-			console.log(response);
-		})
-		// If we catch any errors connecting, let's update accordingly
-		.catch(error => this.setState({
-			error,
-			isLoading: false
-		}));
+	console.log(this.state.user)
+	axios.post(`http://103.79.141.134:8080/api/login`,this.state.user,{
+		headers:{
+			Authorization: ""
+		}
+	})
+    .then(response => {
+	  console.log(response.status)
+      
+		  console.log(response.headers.authorization)
+		  if(response.status == 200){
+			  let userData = {
+				  auth_token: response.headers.authorization,
+				  username: this.state.user.username
+			  };
+			  let appState = {
+				isLoggedIn: true,
+				user: userData
+			  }
+			  localStorage["appState"] = JSON.stringify(appState);
+			  this.setState({
+				login:{
+					isLoggedIn: appState.isLoggedIn,
+					user: appState.user
+				}
+			  });
+		  } else alert("Login Failed!");
+    })
+    .catch(error => {
+      console.log(error);
+    });
 }
 
 updateUsernameInput(evt) {

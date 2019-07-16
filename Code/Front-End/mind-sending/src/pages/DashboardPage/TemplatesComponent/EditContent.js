@@ -31,7 +31,8 @@ class EditContent extends Component {
         bodyJson: "string",
         content: "string",
         id: this.props.history.location.state.campaignId,
-      } 
+      } ,
+      auth_token:""
     };
     this.onLoad = this.onLoad.bind(this);
     // this.exportHtml = this.exportHtml.bind(this)
@@ -56,7 +57,10 @@ class EditContent extends Component {
   }
    componentDidMount(){
     this.isComponentMounted = true; 
-    this.loadTemplate(); 
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> this.loadTemplate() )
    }	
 
    onLoad = () => { this.isEditorLoaded = true; this.loadTemplate(); }
@@ -66,7 +70,7 @@ class EditContent extends Component {
      return; 
      var id = this.props.history.location.state.id
      var self = this
-     axios.get(`${Config.API_URL}${id}`)
+     axios.get(`${Config.API_URL}${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
         self.editor.loadDesign(JSON.parse(res.data.contentJson))
         console.log(res.data)        
@@ -95,7 +99,7 @@ class EditContent extends Component {
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
                 </span>
-                <strong class="navToggleButton-css__toggle-name___3Y4ez">Create Campaign</strong>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">Edit Content</strong>
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
@@ -120,6 +124,12 @@ class EditContent extends Component {
               }
             `,
             `
+              .blockbuilder-layer-control.blockbuilder-delete{
+                display: none !important;
+                invisibility: hidden !important;
+              }
+            `,
+            `
               .blockbuilder-branding {
                 display: none !important;
               }
@@ -137,7 +147,7 @@ class EditContent extends Component {
             
           ],
         }}
-      minHeight="850px"
+      minHeight="700px"
         ref={editor => this.editor = editor}
       />
       
@@ -173,7 +183,7 @@ class EditContent extends Component {
     }, ()=> {
       console.log(`${Config.API_URL}campaign/edit`)
       console.log(this.state.newCampaign)
-      axios.put(`${Config.API_URL}campaign/edit`,this.state.newCampaign)
+      axios.put(`${Config.API_URL}campaign/edit`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
         console.log(res.data)
         this.addNotification()

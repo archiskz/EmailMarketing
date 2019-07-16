@@ -19,6 +19,7 @@ import Templates from './TemplatesComponent/Templates';
 import AddContactsFile from './ListsComponent/AddContactsFile';
 import CreateCampaign from './CampaignsComponent/CreateCampaigns';
 import Profile from './UserComponent/ViewUserProfile';
+import InviteMails from './InviteComponent/InviteMails';
 
 class DashBoard extends Component {
   constructor(props) {
@@ -50,6 +51,7 @@ class DashBoard extends Component {
              <Route path="/dashboard/contacts" render={()=> (<CreateContact title='All Contacts'/>)} />
              <Route path="/dashboard/contacts/:id" component={CreateContact} />
              <Route path="/dashboard/profile" component={Profile} />
+             <Route path="/dashboard/invite-mail" component={InviteMails} />
              {/* <Route path="/dashboard/lists/:id" render={()=> (</>)} /> */}
            </Switch>
            </div>

@@ -21,7 +21,8 @@ class Lists extends Component {
             groupContacts: [{}],
             visible: true,
             dropdown_visible: false,
-            existedGroup: ""
+            existedGroup: "",
+            auth_token: "",
 
         };
         this.handleChange1 = this.handleChange1.bind(this);
@@ -67,7 +68,11 @@ class Lists extends Component {
     }
 
     componentDidMount() {
-        this.getAllListContact();
+        const appState = JSON.parse(localStorage.getItem('appState'));
+        this.setState({
+            auth_token: appState.user.auth_token
+        },()=> this.getAllListContact() )
+       
     }
 
     render() {
@@ -85,34 +90,21 @@ class Lists extends Component {
                 </div>
                 <div className="container" data-role="main-app-container">
                     <div>
-                        <article>
+                        
                             <header className="row">
                                 <div className="col-md-6">
-                            <span>
-                                <h1 className="">
-                                    <span className="pageTitle-css__title-heading___3H2vL">Contact Lists
-                                        <span>&nbsp;</span>
+                                    <span>
+                                    <h1 className="">
+                                        <span className="pageTitle-css__title-heading___3H2vL">Contact Lists
+                                            <span>&nbsp;</span>
+                                        </span>
+                                    </h1>
                                     </span>
-                                </h1>
-                            </span>
                                 </div>
                                 <div className="col-md-6">
-
-
-                                    <Link className="btn_create_contact" to="/dashboard/create-list">
-                                        <i className="sg-icon sg-icon-segment"></i>
-                                        Create Segment
-                                    </Link>
-
-                                    {/* <a onClick={this.onToggleDropdown} className="btn_create_contact" > */}
-                                    {/* <i className="fa fa-users"></i> */}
-                                    {/* Add Contacts */}
-                                    {/* </a> */}
-
-                                    <ul className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")}
-                                        data-dropdown-menu="true" data-role="bulk-actions-menu">
-                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts-file"
-                                              className="dropdown-link dropdown-link-with-icon">
+                            
+                                    <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
+                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
                                             <i className="sg-icon sg-icon-csv"></i>
                                             <span>Upload CSV</span>
                                         </Link>
@@ -220,14 +212,22 @@ class Lists extends Component {
 
                                 </div>
                             </section>
-
-                        </article>
+                       
                     </div>
-                </div>
-                {/* MODAL */}
-                <Modal style={{"paddingLeft": "10px", "paddingRight": "10px"}} visible={this.state.createListVisible}
-                       width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                    <form class="contact1-form validate-form">
+     
+                    
+
+             
+                        
+                    </div>
+              
+                   
+            
+        
+    
+  {/* MODAL */}
+                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <form class="contact1-form validate-form">
 				<span class="contact1-form-title">
 					Create New Group
 				</span>
@@ -267,16 +267,16 @@ class Lists extends Component {
 
 
     getAllListContact = () => {
-        let config = {};
-        config = {
-            headers:
-                {
-                    Authorization: Config.TOKEN
-                }
-        };
+        // let config = {};
+        // config = {
+        //     headers:
+        //         {
+        //             Authorization: Config.TOKEN
+        //         }
+        // };
 
-        console.log(config);
-        axios.get(`${Config.API_URL}groupContacts`)
+        console.log(`${Config.API_URL}groupContacts`);
+        axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(res => {
                 const listContacts = res.data;
                 console.log(listContacts);
@@ -288,7 +288,7 @@ class Lists extends Component {
 
     saveNewList() {
 
-        axios.post(`${Config.API_URL}groupContact/create`, this.state.newList, {headers: {'Authorization': Config.TOKEN}})
+        axios.post(`${Config.API_URL}groupContact/create`, this.state.newList, { 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(res => {
                 console.log(res.data)
                 this.getAllListContact();

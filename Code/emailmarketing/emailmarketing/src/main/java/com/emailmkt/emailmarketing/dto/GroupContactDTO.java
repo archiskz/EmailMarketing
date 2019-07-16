@@ -2,8 +2,6 @@ package com.emailmkt.emailmarketing.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class GroupContactDTO {
 

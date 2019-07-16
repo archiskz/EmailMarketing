@@ -19,6 +19,7 @@ class Campaigns extends Component {
        visible: true,
        dropdown_visible: false,
        campaigns: [],
+       auth_token:""
      };
    }
    onToggleDropdown = () => {
@@ -28,11 +29,13 @@ class Campaigns extends Component {
    }
 
    componentDidMount(){
-     this.getAllCampaign()
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> this.getAllCampaign() )
    }
    getAllCampaign=()=>{
-    axios.get(`${Config.API_URL}campaigns`,{
-    })
+    axios.get(`${Config.API_URL}campaigns`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data);
       this.setState({campaigns: res.data});
