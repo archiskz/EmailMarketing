@@ -1,5 +1,10 @@
 package com.emailmkt.emailmarketing.service;
 
+import com.emailmkt.emailmarketing.dto.AppointmentDTO;
+import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.model.Appointment;
+import org.springframework.http.ResponseEntity;
+
 public interface AppointmentService {
 //    boolean createCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO);
 //    void sendCampaign(int campaignId);
@@ -10,7 +15,10 @@ public interface AppointmentService {
 //    Campaign addContentToCampaign(Campaign campaign);
 //
 //    CampaignFullDTO getCampaginById(int id);
+        Appointment findByName(String token);
+        Appointment findByToken(String token);
 
-
+    boolean createAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO campaignDTO);
+    public ResponseEntity<String> acceptAppointment(String token);
 
 }

@@ -20,6 +20,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Collections;
+import java.util.List;
 
 import static com.emailmkt.emailmarketing.constants.SecurityConstant.SIGN_UP_URL;
 
@@ -76,11 +82,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //        ;
-        http
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+                .and().csrf().disable()
 
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-
+                .antMatchers("/verify-email").permitAll()
                 .antMatchers(
                         HttpMethod.GET,
                         "/v2/api-docs",
@@ -97,7 +104,22 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 // it's indicate all request will be secure
         http.csrf().disable();
     }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource () {
 
+        UrlBasedCorsConfigurationSource source;
+        source = new UrlBasedCorsConfigurationSource();
+
+        CorsConfiguration configuration = new CorsConfiguration();
+        List<String> all = Collections.singletonList("*");
+        configuration.setAllowedOrigins(all);
+        configuration.setAllowedMethods(all);
+        configuration.setAllowedHeaders(all);
+
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+
+    }
 
     @Bean
     public BCryptPasswordEncoder encoder() {

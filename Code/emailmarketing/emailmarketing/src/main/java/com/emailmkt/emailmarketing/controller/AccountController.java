@@ -2,7 +2,6 @@ package com.emailmkt.emailmarketing.controller;
 
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.service.AccountService;
-import com.emailmkt.emailmarketing.service.AmazonSESSample;
 import com.emailmkt.emailmarketing.service.MailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +35,7 @@ public class AccountController {
 
     @Autowired
      AccountService accountService;
-    @Autowired
-    AmazonSESSample amazonSESSample;
+
 
     @Autowired
     MailService mailService;
@@ -51,15 +49,8 @@ public class AccountController {
         return accountService.getAllAccounts();
     }
 
-    @GetMapping("/accounts/testSendMail")
-    public void sendTestEmail(){
-        amazonSESSample.sendMail();
-    }
 
-    @GetMapping("/accounts/testSendMail2")
-    public void sendTestEmail2(){
-//        mailService.sendSimpleMessage();
-    }
+
 
     @PostMapping("sign-up")
     public ResponseEntity createAccount(@RequestBody Account account) {
@@ -70,11 +61,7 @@ public class AccountController {
         return ResponseEntity.status(CREATED).body("Đăng kí thành công");
 
     }
-//    @GetMapping("customer/accounts")
-//    public ResponseEntity<List<Account>> findAllAccountsByCustomer() {
-//        List<Account> vms = accountService.getAllAccountsByCustomer();
-//        return new ResponseEntity<List<Account>>(vms, HttpStatus.OK);
-//    }
+
 
     @PutMapping("account/edit")
     public ResponseEntity updateProfile(@RequestBody Account account) {
