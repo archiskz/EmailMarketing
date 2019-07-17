@@ -38,15 +38,12 @@ public class SubcriberController {
     }
 
 
-    //    public AccountController(AccountService accountService) {
-//        this.accountService = accountService;
-//    }
     @GetMapping("/subcribers")
     Iterable<Subcriber> getAll() {
         return subcriberRepository.findAll();
     }
 
-    
+
 
     @GetMapping("/subcribersV2")
     public ResponseEntity<List<SubcriberDTO>> getAllSubcriber(HttpServletRequest request) {

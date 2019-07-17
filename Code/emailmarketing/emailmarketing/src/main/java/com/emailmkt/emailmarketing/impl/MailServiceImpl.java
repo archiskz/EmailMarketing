@@ -9,7 +9,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -18,15 +17,18 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_ID;
 
 @Service
 public class MailServiceImpl implements MailService {
+
+
+
+
     @Autowired
     public JavaMailSender emailSender;
+
 
     @Autowired
     private SpringTemplateEngine templateEngine;
@@ -40,6 +42,8 @@ public class MailServiceImpl implements MailService {
 
     // Replace smtp_password with your Amazon SES SMTP password.
     static final String SMTP_PASSWORD = "BAm6pI2gKgOK2NtlxpZWaZ6pSXsTpQg1ZgPw6FXWmTq7";
+
+
 
 
 //    @Override
@@ -69,7 +73,7 @@ public class MailServiceImpl implements MailService {
 //            e.printStackTrace();
 //        }
 //
-//    }
+//    }Map
 
     @Override
     public void sendSimpleMessageV2(String from, String fromMail, String[] to, String subject, String body) {
@@ -110,6 +114,47 @@ public class MailServiceImpl implements MailService {
         }
     }
 
+
+    @Override
+    public void sendAppointment(String from, String fromMail, String to, String subject, String body) {
+        try {
+
+            Properties properties = System.getProperties();
+            properties.put("mail.transport.protocol", "smtp");
+            properties.put("mail.smtp.port", PORT);
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.auth", "true");
+            properties.put("mail.debug", "true");
+            Session session = Session.getInstance(properties, null);
+            MimeMessage message = new MimeMessage(session);
+            MimeMessageHelper helper = new MimeMessageHelper(message,
+                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name());
+            message.setFrom(new InternetAddress(fromMail, from));
+
+            helper.setTo(to);
+            helper.setSubject(subject);
+            message.setContent(body, "text/html");
+
+            message.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
+
+            Transport transport = session.getTransport();
+            transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
+            transport.sendMessage(message, message.getAllRecipients());
+            if (transport instanceof SMTPTransport){
+
+                String response = ((SMTPTransport) transport).getLastServerResponse();
+                System.out.println(response.split(" ")[2]);
+                MESSAGE_ID = response.split(" ")[2];
+
+            }
+
+        }catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void sendSimpleMessageUsingTemplate(String from, String fromMail,String []to, String subject, String message) {
 
@@ -135,28 +180,5 @@ public class MailServiceImpl implements MailService {
 
 
 
-    @Override
-    public void sendMail(String smtpServerHost, String smtpServerPort, String smtpUserName, String smtpUserPassword, String fromUserEmail, String fromUserFullName, String toEmail, String subject, String body) {
-        try {
-            Properties props = System.getProperties();
-            props.put("mail.transport.protocol", "smtp");
-            props.put("mail.smtp.port", smtpServerPort);
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.auth", "true");
 
-            Session session = Session.getDefaultInstance(props);
-
-            MimeMessage msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(fromUserEmail, fromUserFullName));
-            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-            msg.setSubject(subject);
-            msg.setContent(body, "text/html");
-
-            Transport transport = session.getTransport();
-            transport.connect(smtpServerHost, smtpUserName, smtpUserPassword);
-            transport.sendMessage(msg, msg.getAllRecipients());
-        } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, ex.getMessage(), ex);
-        }
-    }
 }

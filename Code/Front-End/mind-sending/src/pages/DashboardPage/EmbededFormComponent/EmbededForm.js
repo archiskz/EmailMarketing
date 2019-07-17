@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {isEmpty, chain, assignIn} from 'lodash';
 import $ from 'jquery';
 import service from '../../../utils/subcriberRepository';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+
 
 class EmbededForm extends Component {
     constructor(props) {
@@ -21,8 +23,10 @@ class EmbededForm extends Component {
                 value: '',
                 isInputValid: false,
                 errorMessage: ''
-            }
+            },
+            tabIndex: 0 
         }
+        
     }
 
     setErrorMessage = (error, text = '') => {
@@ -136,7 +140,7 @@ class EmbededForm extends Component {
                                 <div className="col-md-6">
                             <span>
                                 <h1 className="">
-                                    <span className="pageTitle-css__title-heading___3H2vL">EmbededForm
+                                    <span className="pageTitle-css__title-heading___3H2vL">Embeded Form
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
@@ -145,6 +149,38 @@ class EmbededForm extends Component {
 
                             </header>
                         </article>
+                        <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
+                      <TabList>
+                        <Tab>Form 1</Tab>
+                        <Tab>Form 2</Tab>
+                      </TabList>
+                      <TabPanel>
+                        <div className="embed_signup">
+                            <form onSubmit={this.save} className="embed_signup_form">
+                                <div id="mc_embed_signup_scroll">
+                                    <h2>Subscribe</h2>
+                                    <div className="indicates-Required">
+                                        <span className="asterisk">*</span> indicates Required
+                                    </div>
+                                    <div className="mc-field-group">
+                                        <label htmlFor="email">Email Address <span className="asterisk">*</span>
+                                        </label>
+                                        <input type="email"
+                                               onChange={this.handleInput}
+                                               onBlur={this.handleInputValidation}
+                                               name="email"
+                                               id="email"
+                                        />
+                                        {getMessageTemplate(this.state.email)}
+                                    </div>
+                                    <div className="clear"><input type="submit" value="Subscribe" name="subscribe"
+                                                                  id="mc-embedded-subscribe"
+                                                                  className="button_embed_form"/></div>
+                                </div>
+                            </form>
+                        </div>
+                      </TabPanel>
+                      <TabPanel>
                         <div className="embed_signup">
                             <form onSubmit={this.save} className="embed_signup_form">
                                 <div id="mc_embed_signup_scroll">
@@ -190,12 +226,64 @@ class EmbededForm extends Component {
                                 </div>
                             </form>
                         </div>
+                      </TabPanel>
+                      </Tabs>
+                        
                     </div>
                 </div>
                 <div className="section_embed">
                     <h3>Copy/paste onto your site</h3>
-                
-                    <pre>
+                     <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
+                      <TabList>
+                        <Tab>Form 1</Tab>
+                        <Tab>Form 2</Tab>
+                      </TabList>
+                      
+                      <TabPanel>
+                        <pre className="pre_embed_form">
+                        {
+                            `<form id='test-form' enctype='application/json'>
+<h2>Subscribe</h2>
+<div class="indicates-Required">
+<span class="asterisk">*</span> 
+indicates Required</div>
+<div class="mc-field-group">
+<label for="email">Email Address <span class="asterisk">*</span>
+</label>
+<input type="email" name="email" id="email">
+<div class="error" style="color: red; padding-top: 10px;">
+</div>
+</div>
+<div class="clear">
+<input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button_embed_form" value="Subscribe">
+</div>
+</div>
+</form>
+<script>
+  var testForm = document.getElementById('test-form');
+  testForm.onsubmit = function(event) {
+    event.preventDefault();
+  var email = document.getElementById("email").value
+    fetch('http://103.79.141.134:8080/api/subcriber/createForm', {
+  method: 'post',
+  headers: {
+    'Accept': 'application/json, text/plain, */*',
+    'Content-Type': 'application/json',
+    'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob25nc29uNTciLCJKV1RBdXRob3JpdGllc0tleSI6IkN1c3RvbWVyIiwiZXhwIjoxNTYzOTg5MDA5fQ.oBE_cSorANBkQdjqjQ15ToLEHqy44K-l95_Lv64W3zqEC5WojAb2WLA-DriymgRcQgysB9snpQrr0qld55EnfQ'
+  },
+  body: JSON.stringify({email: email})
+}).then(res=>res.json())
+  .then(res => console.log(res));
+
+    console.log(request.response);
+  }
+</script>`
+                        }
+                    </pre>
+
+                      </TabPanel>
+                      <TabPanel>
+                        <pre className="pre_embed_form">
                         {
                             `<form id='test-form' enctype='application/json'>
                                 <h2>Subscribe</h2>
@@ -231,6 +319,10 @@ class EmbededForm extends Component {
                             </script>`
                         }
                     </pre>
+
+                      </TabPanel>
+                    </Tabs>
+                    
                     
                 </div>
             </div>

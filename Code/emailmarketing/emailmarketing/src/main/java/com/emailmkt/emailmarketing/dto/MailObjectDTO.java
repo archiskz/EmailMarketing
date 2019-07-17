@@ -15,7 +15,6 @@ public class MailObjectDTO {
     private String body;
     private String bodyJson;
     private String from;
-    private String templates;
     private String fromMail;
 
 

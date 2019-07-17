@@ -57,6 +57,18 @@ public class Appointment implements Serializable {
     @Column(name = "updated_time")
     private String updatedTime;
 
+
+
+    @Column(name = "to_mail")
+    private String to;
+
+
+
+    @Column(name = "token")
+    private String token;
+    @Column(name = "confirmation")
+    private boolean confirm;
+
 //    @OneToMany( mappedBy = "campaign",cascade = CascadeType.ALL)
 //    private List<CampaignGroupContact> campaignGroupContacts;
 
@@ -67,6 +79,9 @@ public class Appointment implements Serializable {
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;
+
+
+
 
 
 }
