@@ -26,31 +26,7 @@ import java.util.List;
 public class EmailmarketingApplication {
 	@Bean
 	public Docket studentAPI() {
-//		return new Docket(DocumentationType.SWAGGER_2)
-//				.groupName("EmailMarketing")
-//				.apiInfo(new ApiInfoBuilder().title("EmailMarketing").description("Email Marketing").build())
-//				.select()
-//				.apis(RequestHandlerSelectors.basePackage("com.emailmkt.emailmarketing"))
-//				.paths(PathSelectors.regex("/api.*"))
-//				.build()
-//		     .securitySchemes(securitySchemes())
-//		Adding Header
-//		ParameterBuilder aParameterBuilder = new ParameterBuilder();
-//		aParameterBuilder.name("Authorization")                 // name of header
-//				.modelRef(new ModelRef("string"))
-//				.parameterType("header")               // type - header
-//				.defaultValue("Bearer")        // based64 of - zone:mypassword
-//				.required(true)                // for compulsory
-//				.build();
-//		java.util.List<Parameter> aParameters = new ArrayList<>();
-//		aParameters.add(aParameterBuilder.build());             // add parameter
-//		return new Docket(DocumentationType.SWAGGER_2).select()
-//				.apis(RequestHandlerSelectors
-//						.any())
-//				.paths(PathSelectors.any())
-//				.build().
-//						pathMapping("")
-//				.globalOperationParameters(aParameters);
+//
         List<SecurityScheme> schemeList = new ArrayList<>();
         schemeList.add(new ApiKey(HttpHeaders.AUTHORIZATION, "Authorization", "header"));
         return new Docket(DocumentationType.SWAGGER_2)

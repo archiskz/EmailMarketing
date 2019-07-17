@@ -82,8 +82,9 @@ public class AppointmentController {
         String to ="dragontna4997@gmail.com";
         Template t = templates.getTemplate("Test.ftl");
         Map<String, String> map = new HashMap<>();
-        map.put("VERIFICATION_URL","http://localhost:8080/api/verify-email?confirmationToken="+ mailAndAppointment.appointmentDTO.getToken());
+        map.put("VERIFICATION_URL","http://localhost:8080/api/accept-appointment?confirmationToken="+ mailAndAppointment.appointmentDTO.getToken());
         String bodyTemp = FreeMarkerTemplateUtils.processTemplateIntoString(t, map);
+        System.out.println("Bodytemp"+bodyTemp);
         Appointment temp = appointmentRepository.findByName(mailAndAppointment.appointmentDTO.getName());
         mailService.sendAppointment(mailAndAppointment.mailObjectDTO.getFrom(),
                                         mailAndAppointment.mailObjectDTO.getFromMail(),
@@ -92,9 +93,9 @@ public class AppointmentController {
         return ResponseEntity.status(CREATED).body(temp.getId() );
 
     }
-    @RequestMapping(value="/verify-email", method= {RequestMethod.GET})
+    @RequestMapping(value="/accept-appointment", method= {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public String confirmUserAccount(String confirmationToken)
+    public String confirmAppointment(String confirmationToken)
     {
         return appointmentService.acceptAppointment(confirmationToken).getBody();
     }
