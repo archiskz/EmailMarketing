@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import SideBar from './../../components/SideBar';
-import Automations from './Automations';
+import AutomationCampaigns from './AutomationCampaigns';
 import Lists from './ListsComponent/Lists';
 import Campaigns from './CampaignsComponent/Campaigns';
 import Reports from './Reports';
@@ -19,6 +19,7 @@ import Templates from './TemplatesComponent/Templates';
 import AddContactsFile from './ListsComponent/AddContactsFile';
 import CreateCampaign from './CampaignsComponent/CreateCampaigns';
 import Profile from './UserComponent/ViewUserProfile';
+import { withRouter } from "react-router";
 import InviteMails from './InviteComponent/InviteMails';
 
 class DashBoard extends Component {
@@ -46,7 +47,7 @@ class DashBoard extends Component {
               <Route path="/dashboard/embededform" component={EmbededForm} />
              <Route path="/dashboard/reports" component={Reports} />
               <Route path="/dashboard/templates" component={Templates} />
-             <Route path="/dashboard/automations" component={Automations} />
+             <Route path="/dashboard/automations" component={AutomationCampaigns} />
              <Route path="/dashboard/create-list" component={CreateList} />
              <Route path="/dashboard/contacts" render={()=> (<CreateContact title='All Contacts'/>)} />
              <Route path="/dashboard/contacts/:id" component={CreateContact} />
@@ -64,4 +65,4 @@ class DashBoard extends Component {
   }
 
 }
-export default DashBoard;
+export default withRouter(DashBoard);

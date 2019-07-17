@@ -9,8 +9,10 @@ import com.emailmkt.emailmarketing.repository.AppointmentRepository;
 import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -69,6 +71,36 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 
         return true;
+    }
+
+    @Override
+    public void sendAppointment(int appointmentId) {
+
+    }
+
+    @Override
+    public Appointment addContentToAppointment(Appointment appointment) {
+        Appointment appointmentEdit= appointmentRepository.findAppointmentById(appointment.getId());
+        if (appointmentEdit == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "This appointment is not exist!");
+        }
+
+        appointmentEdit.setBodyJson(appointment.getBodyJson());
+        appointmentEdit.setBody(appointment.getBody());
+
+        appointmentEdit.setUpdatedTime(LocalDateTime.now().toString());
+        return appointmentRepository.save(appointmentEdit);
+    }
+
+    @Override
+    public boolean editAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO appointmentDTO, int id) {
+        return false;
+    }
+
+    @Override
+    public AppointmentDTO getAppointmentById(int id) {
+        return null;
     }
 
     @Override

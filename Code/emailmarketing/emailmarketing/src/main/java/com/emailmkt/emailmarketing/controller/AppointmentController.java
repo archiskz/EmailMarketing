@@ -80,7 +80,7 @@ public class AppointmentController {
             return ResponseEntity.status(CONFLICT).body("Campaign Existed");
         }
         String to ="dragontna4997@gmail.com";
-        Template t = templates.getTemplate("email-verification.ftl");
+        Template t = templates.getTemplate("Test.ftl");
         Map<String, String> map = new HashMap<>();
         map.put("VERIFICATION_URL","http://localhost:8080/api/verify-email?confirmationToken="+ mailAndAppointment.appointmentDTO.getToken());
         String bodyTemp = FreeMarkerTemplateUtils.processTemplateIntoString(t, map);
@@ -98,16 +98,9 @@ public class AppointmentController {
     {
         return appointmentService.acceptAppointment(confirmationToken).getBody();
     }
-//
-//
-//
-//    @RequestMapping(value="appointment/create", method = RequestMethod.GET)
-//    public ModelAndView showRegistrationPage(ModelAndView modelAndView, Appointment appointment){
-//        modelAndView.addObject("appointment", appointment);
-//        modelAndView.setViewName("create");
-//        return modelAndView;
-//    }
-//
+
+
+
 
 
 

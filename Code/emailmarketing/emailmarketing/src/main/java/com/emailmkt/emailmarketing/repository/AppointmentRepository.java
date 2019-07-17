@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface AppointmentRepository extends JpaRepository<Appointment,Integer> {
         Appointment findByName(String name);
         Appointment findByToken(String token);
+        Appointment findAppointmentById(int id);
 
 
 

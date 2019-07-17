@@ -11,9 +11,29 @@ class ViewUserProfile extends Component {
         super(props);
 
         this.state = {
-            visible: true,
+			visible: true,
+			account:{
+
+			}
         };
-    }
+	}
+	componentDidMount(){
+		const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=>this.getAccount())
+   }
+
+   getAccount(){
+	axios.get(`${Config.API_URL}account/1`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+      console.log(res.data);
+      this.setState({account: res.data});
+    }).catch(error =>{
+      console.log(error)
+    }) 
+   }
+	
 
  render(){
  	return(
