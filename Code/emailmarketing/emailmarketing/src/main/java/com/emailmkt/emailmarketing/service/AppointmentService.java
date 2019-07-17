@@ -18,7 +18,11 @@ public interface AppointmentService {
         Appointment findByName(String token);
         Appointment findByToken(String token);
 
-    boolean createAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO campaignDTO);
+    boolean createAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO appointmentDTO);
+    void sendAppointment(int appointmentId);
+    Appointment addContentToAppointment(Appointment appointment);
+    boolean editAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO appointmentDTO, int id);
+    AppointmentDTO getAppointmentById(int id);
     public ResponseEntity<String> acceptAppointment(String token);
 
 }

@@ -24,6 +24,11 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+
+import static com.emailmkt.emailmarketing.constants.SecurityConstant.SIGN_UP_URL;
+
 /**
  * @author edu-boot
  */
@@ -80,7 +85,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //        ;
        
                         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
-//                .and().csrf().disable()
+                .and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .antMatchers("/verify-email").permitAll()
                 .antMatchers(
@@ -91,7 +96,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "favicon.ico"
                 ).permitAll()
-                .anyRequest().authenticated
+//                .anyRequest().authenticated
                 .and()
 
                 .addFilter(authenticationFilter)
@@ -103,8 +108,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource () {
 
-final CorsConfiguration configuration = new CorsConfiguration();configuration.setAllowedOrigins(ImmutableList.of("*"));
-configuration.setAllowedMethods(ImmutableList.of("HEAD",
+        final CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(ImmutableList.of("*"));
+        configuration.setAllowedMethods(ImmutableList.of("HEAD",
                 "GET", "POST", "PUT", "DELETE", "PATCH"));
         // setAllowCredentials(true) is important, otherwise:
         // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
@@ -112,14 +118,16 @@ configuration.setAllowedMethods(ImmutableList.of("HEAD",
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
 //        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
-        configuration.setAllowedHeaders(Arrays.asList("X-Requested-With","Origin","Content-Type","Accept","Authorization","Content-Type"));
+        configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization", "Content-Type"));
         configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Authorization, x-xsrf-token, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, " +
                 "Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"));
 
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-@Bean
+        return source;
+    }
+    @Bean
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }

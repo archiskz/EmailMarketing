@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
@@ -69,8 +70,8 @@ public class Appointment implements Serializable {
     @Column(name = "confirmation")
     private boolean confirm;
 
-//    @OneToMany( mappedBy = "campaign",cascade = CascadeType.ALL)
-//    private List<CampaignGroupContact> campaignGroupContacts;
+    @OneToMany( mappedBy = "appointment",cascade = CascadeType.ALL)
+    private List<AppointmentGroupContact> appointmentGroupContacts;
 
     @Column(name = "account_id")
     private Integer account_id;
