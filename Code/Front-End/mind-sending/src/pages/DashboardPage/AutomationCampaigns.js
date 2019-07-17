@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import * as Config from '../../../constants/Config';
+import * as Config from './../../constants/Config';
 import axios from 'axios';
 import {
   BrowserRouter as Router,
   Route,
   Switch
 } from "react-router-dom";
-import CreateCampaign from './CreateCampaigns';
-import CampaignPopUp from './../../../components//modals/CampaignPopUp.js';
-import CampaignRow from './../../../components/row/CampaignRow'
+import Automations from './Automations';
+import CampaignPopUp from './../../components//modals/CampaignPopUp.js';
+import CampaignRow from './../../components/row/CampaignRow'
 
-class Campaigns extends Component {
+class AutomationCampaigns extends Component {
    constructor(props) {
      super(props);
 
@@ -78,7 +78,7 @@ class Campaigns extends Component {
                             
                                 
                               <a class="btn_create_contact" href="#popup">Create campaign</a>
-                             <CampaignPopUp />
+                             <CampaignPopUp automation="automation"/>
                            
                         </div>
                     </header>
@@ -194,4 +194,4 @@ class Campaigns extends Component {
   }
 
 }
-export default Campaigns;
+export default AutomationCampaigns;

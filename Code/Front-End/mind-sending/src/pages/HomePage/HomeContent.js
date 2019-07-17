@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Menu from './../../components/Menu';
+import {Link} from 'react-router-dom';
 // import SideBar from './SideBar';
 class Home extends Component {
 
@@ -25,9 +26,9 @@ class Home extends Component {
 
                 <div className="home-content__button">
                    
-                    <a href="/login" className="smoothscroll btn btn--primary btn--large">
+                    <Link to="/login" className="smoothscroll btn btn--primary btn--large">
                         Get Started
-                    </a>
+                    </Link>
                 </div>
 
             </div> 
