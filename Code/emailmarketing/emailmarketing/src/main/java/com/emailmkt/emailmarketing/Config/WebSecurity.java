@@ -104,6 +104,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 // it's indicate all request will be secure
 
     }
+
     @Bean
     CorsConfigurationSource corsConfigurationSource () {
 
@@ -125,6 +126,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
     @Bean
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
