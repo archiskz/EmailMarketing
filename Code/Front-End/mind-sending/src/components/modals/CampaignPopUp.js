@@ -75,14 +75,25 @@ class CampaignPopUp extends Component {
       );
   }
 
-  toCreateCampaign = ()=> {        
-    this.props.history.push({
+  toCreateCampaign = ()=> {   
+    if(this.props.automation == "automation"){
+      this.props.history.push({
+        pathname:'/create-automation',
+        state : {
+          campaignName: this.state.campaignName,
+          using: this.state.isButtonActive
+        }
+    });
+    } else {
+      this.props.history.push({
         pathname:'/create-campaign',
         state : {
           campaignName: this.state.campaignName,
           using: this.state.isButtonActive
         }
     });
+    }
+    
     }
 
   buttonClick=(buttonNumber)=> {

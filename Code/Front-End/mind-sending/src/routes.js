@@ -70,7 +70,7 @@ const routes = [
 	main: () => <EmbededForm/>
 },
 {
-	path: '/dashboard/automations',
+	path: '/create-automation',
 	exact: false,
 	main: () => <Automations/>
 },

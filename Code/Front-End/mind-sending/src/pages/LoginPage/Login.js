@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import { BrowserRouter as Link } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import img from './../../access/img/logo.PNG';
 import {callApi} from './../../utils/apiCaller';
 import axios from 'axios';
 import {commonCallApi} from './../../utils/commonCallApi';
 import * as Config from './../../constants/Config';
+import {Link} from 'react-router-dom';
+import { withRouter } from "react-router";
 import {
 	connect
 } from 'react-redux';
@@ -13,6 +15,8 @@ class Login extends Component {
 
 constructor(props) {
 	super(props);
+	this.timeIncrementMs = 50;
+	this.showSpinnerIfReturnGreaterThanMs = 200;
 	this.state = {
 			usernameInput: '',
 			passwordInput: '',
@@ -25,28 +29,17 @@ constructor(props) {
 				user: {},
 			},
 			posts: [],
-				isLoading: true,
-				errors: null
+			isLoading: true,
+			msElapsed: 0,
+			errors: null
 	};
 
 }
 
 
-
-
-tryLogin = () => {
-	// const header = Authorization: `Bearer-${Config.TOKEN}`
-	axios.post(`${Config.API_URL}groupContacts`)
-	.then(response => {
-	  
-		console.log(response.headers.authorization)
-
-	})
-	.catch(error => {
-	  console.log(error);
-	});
+componentWillUnmount() {
+	clearInterval(this.incrementer);
 }
-
 
 handleChange =(e)=> {
 	const { name, value } = e.target;
@@ -68,6 +61,8 @@ handleChange =(e)=> {
 			error
 		} = this.state;
 		var string = "";
+		
+
 		 return (
     <div className="limiter">
     
@@ -77,7 +72,7 @@ handleChange =(e)=> {
 				<form className="login100-form validate-form">
 					<span className="login100-form-logo">
 						{/*<i className="zmdi zmdi-landscape"></i>*/}
-						<img className="zmdi zmdi-landscape logo" alt="" src='images/logo.png'/> 
+						<img className="zmdi zmdi-landscape logo" alt="" src='images/logo1.png'/> 
 					</span>
 
 					<span className="login100-form-title p-b-34 p-t-27">
@@ -100,65 +95,56 @@ handleChange =(e)=> {
 					</div>
 
 					<div className="contact100-form-checkbox">
-						<input className="input-checkbox100" id="ckb1" type="checkbox" name="remember-me"/>
-						<label className="label-checkbox100">
-							Remember me
-						</label>
+					<label><input type="checkbox" name="checkbox-02" class="blue" /><span>Remember me</span></label>
 					</div>
 
 					<div className="container-login100-form-btn">
-						<a type="button" onClick={()=> {this.getPosts()}} className="btn_create_login">
-							Login
+						<a onClick={()=> {this.getPosts()}} className="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+							Login	
 						</a>
 						{/*<Link to="/"  className="login100-form-btn">Login</Link>*/}
 					</div>
 
 					<div className="text-center p-t-20">
-						<a href="/register"  className="a-link">Forgot Password?</a>
+						<Link to="/register"  className="a-link">Forgot Password?</Link>
 					</div>
 					<div className="text-center p-t-20">
-						<a href="/register"  className="a-link">Not a member? SIGN UP</a>
+						<Link to="/register"  className="a-link">Not a member? SIGN UP</Link>
+						{this.renderLoading()}
 					</div>
 
 				</form>
 
-{/* START TEST */}
-				{/* <h2>Random Post</h2>
-        <div>
-          {!isLoading ? (
-            this.state.posts.map(post => {
-              const { _id, title, content } = post;
-              return (
-                <div key={_id}>
-                  <h2>{title}</h2>
-                  <p>{content}</p>
-                  <hr />
-                </div>
-              );
-            })
-          ) : (
-            <p>Loading...</p>
-          )}
-					</div> */}
-			 {/* STOP */}
 			</div>
 		</div>
 	</div>
   );
 }
 
+renderLoading(){
+	if (this.state.isLoading &&
+		this.state.msElapsed > this.showSpinnerIfReturnGreaterThanMs) {
+		return <h3>Loading...</h3>;
+	} else if (this.state.isLoading &&
+		this.state.msElapsed <= this.showSpinnerIfReturnGreaterThanMs) {
+		return (null);
+	}
+}
+
 getPosts() {
-	console.log(this.state.user)
+	this.incrementer = setInterval(() =>
+                this.setState({
+                    msElapsed: this.state.msElapsed + this.timeIncrementMs
+                })
+            , this.timeIncrementMs);
 	axios.post(`http://103.79.141.134:8080/api/login`,this.state.user,{
 		headers:{
 			Authorization: ""
 		}
 	})
     .then(response => {
-	  console.log(response.status)
-      
-		  console.log(response.headers.authorization)
 		  if(response.status == 200){
+			  console.log(response)
 			  let userData = {
 				  auth_token: response.headers.authorization,
 				  username: this.state.user.username
@@ -174,10 +160,18 @@ getPosts() {
 					user: appState.user
 				}
 			  });
+			  this.setState({
+				isLoading: false
+			});
+			this.props.history.push({
+				pathname:`/dashboard`,
+			});
 		  } else alert("Login Failed!");
     })
     .catch(error => {
-      console.log(error);
+		this.setState({
+			isLoading: false
+		});
     });
 }
 
@@ -201,4 +195,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, null)(Login);
+export default connect(mapStateToProps, null) (withRouter(Login));
