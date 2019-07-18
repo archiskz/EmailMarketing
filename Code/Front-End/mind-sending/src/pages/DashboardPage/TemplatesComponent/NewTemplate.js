@@ -56,7 +56,7 @@ class NewTemplate extends Component {
    addNotification() {
     this.notificationDOMRef.current.addNotification({
       title: "Awesomeness",
-      message: "Add Contact Success!",
+      message: "Create Template Success!",
       type: "success",
       insert: "top",
       container: "top-right",

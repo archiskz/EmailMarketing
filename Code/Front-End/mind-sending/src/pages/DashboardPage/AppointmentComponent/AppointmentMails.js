@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import ListRow from './../../../components/row/ListRow';
+import ListRow from '../../../components/row/ListRow';
 import Modal from 'react-awesome-modal';
-import * as Config from './../../../constants/Config';
+import * as Config from '../../../constants/Config';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { withRouter } from "react-router";
  
 
 
-class InviteMails extends Component {
+class AppointmentMails extends Component {
    constructor(props) {
      super(props);
 
@@ -222,4 +222,4 @@ class InviteMails extends Component {
 
 
 }
-export default withRouter(InviteMails);
+export default withRouter(AppointmentMails);

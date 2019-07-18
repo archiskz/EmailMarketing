@@ -65,9 +65,9 @@ class ViewUserProfile extends Component {
         			<div className="user_profile7">
         				<div className="user_profile9_sub">
         					<div className="user_profile7_sub1">
-        						<label className="user_profile_w3_label" >Company </label>
+        						<label className="user_profile_w3_label" >Username </label>
         						<div className="user_profile7_sub2">
-        						<input aria-invalid="false" className="user_profile_w3_input" disabled="" id="company-disabled" type="text"value="MindSending" />
+        						<input aria-invalid="false" className="user_profile_w3_input" disabled="" id="company-disabled" type="text" value={this.state.account.username} />
         						</div>
         					</div>
         				</div>
@@ -76,7 +76,7 @@ class ViewUserProfile extends Component {
         					<div className="user_profile8_sub1">
         						<label className="user_profile_w3_label" data-shrink="false" for="username">Email address</label>
         						
-        						<input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value="thangnguyen15297@gmail.com"/>
+        						<input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value={this.state.account.email}/>
         						
         					</div>
         				</div>

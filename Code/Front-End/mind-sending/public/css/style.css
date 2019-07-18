@@ -799,6 +799,27 @@ progress-striped .yellow {
     opacity: 1;
     visibility: visible;
 }
+input.input100.has-val {
+    border-bottom: 1px solid silver;
+    margin-left: 0;
+}
+.field-icon {
+    float: right;
+    margin-left: -25px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .validate-input {
+    display: flex;
+    position: relative;
+}
+.wrap-input100.validate-input.inactive {
+    display: inline;
+}
+.wrap-input100.validate-input.inactive {
+    display: none;
+}
 .dropdown-template-active {
     top:0;
     z-index: 1000;
@@ -3380,7 +3401,8 @@ input[type="checkbox"] + span::before
 }
 input[class="blue"] + span::before
 {
-    border: solid 1px blue;
+    /* border: solid 1px blue; */
+    display:none;
     background: #B2DBFF;
     background: -moz-radial-gradient(#B2DBFF, #dfdfdf);
     background: -webkit-radial-gradient(#B2DBFF, #dfdfdf);

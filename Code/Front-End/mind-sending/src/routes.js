@@ -22,7 +22,7 @@ import ViewUserProfile from './pages/DashboardPage/UserComponent/ViewUserProfile
 import ContactInformation from './pages/DashboardPage/ContactComponent/ContactInformation';
 import CampaignInformation from './pages/DashboardPage/CampaignsComponent/CampaignInformation';
 import EmbededForm from './pages/DashboardPage/EmbededFormComponent/EmbededForm';
-import CreateInvite from './pages/DashboardPage/InviteComponent/CreateInvite';
+import CreateAppointment from './pages/DashboardPage/AppointmentComponent/CreateAppointment';
 const routes = [
 {
 	path:'/',
@@ -140,7 +140,7 @@ const routes = [
 {
 	path: '/create-invite',
 	exact: false,
-	main: () => <CreateInvite />
+	main: () => <CreateAppointment />
 },
 {/* {
 	path: '/dashboard/contacts/:id',
