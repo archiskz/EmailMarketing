@@ -2,20 +2,20 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import Popup from "reactjs-popup";
 import {connect} from 'react-redux';
-import * as actions from './../../../actions/index';
-import apiCaller from './../../../utils/apiCaller';
-import ChooseTemplateModal from './../../../components/modals/ChooseTemplateModal';
+import * as actions from '../../../actions/index';
+import apiCaller from '../../../utils/apiCaller';
+import ChooseTemplateModal from '../../../components/modals/ChooseTemplateModal';
 import axios from 'axios';
-import * as Config from './../../../constants/Config';
+import * as Config from '../../../constants/Config';
 import imm_bg from './../../../access/img/invited.png';
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
 import { select } from '@syncfusion/ej2-base';
 import { withRouter } from "react-router";
 import Modal from 'react-awesome-modal';
-import OneTemplate from './../../../components/OneTemplate';
+import OneTemplate from '../../../components/OneTemplate';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-class CreateInvite extends Component{
+class CreateAppointment extends Component{
    constructor(props) {
      super(props);
 
@@ -35,25 +35,19 @@ class CreateInvite extends Component{
        templates:[],
         lists:[{"id":3,"name":"TesTV3","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:35:30.025","updatedTime":"string","account_id":"1","account":{"id":1,"username":"admin","fullname":"Tan123","email":"string","password":"admin","phone":"0907403553","gender":"string","address":"q7","authorityId":1,"createdTime":"2019-06-11T06:01:25.959","updatedTime":"string"},"subcribers":[]},{"id":4,"name":"Test25894","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:39:49.668","updatedTime":"string","account_id":"2","account":{"id":2,"username":"archis","fullname":"Archis","email":"string","password":"Ahihihi","phone":"0907403553","gender":"Male","address":"HCM","authorityId":1,"createdTime":"2019-06-12T06:38:29.065","updatedTime":"string"},"subcribers":[]}]
         ,
-        newCampaign:{
-          campaignDTO:{
-              campaignName: "",
-              gcCampaignDTOS: [
-                {
-                  groupContactId: 1
-                }
-              ],
-              timeStart:"",
-              status: "z",
-              type: "z"
+        newAppointment:{
+          appointmentDTO: {
+            name: "",
+            status: "string",
+            time: "",
+            token: "",
           },
-          mailObjectDTO:{
-              body: "",
-               from: "",
-              fromMail: "",
-              subject: "",
-              templates: ""
-
+          mailObjectDTO: {
+            body: "",
+            bodyJson: "",
+            from: "",
+            fromMail: "",
+            subject: ""
           }
         }       
      };
@@ -65,15 +59,15 @@ class CreateInvite extends Component{
     this.handleDate = this.handleDate.bind(this);
    }
    handleDate(date) {
-    this.setState({ newCampaign: {
-      ...this.state.newCampaign,
-      campaignDTO:{
-        ...this.state.newCampaign.campaignDTO,
-        timeStart: date,
-        auth_token:""
+    this.setState({ newAppointment: {
+      ...this.state.newAppointment,
+      appointmentDTO:{
+        ...this.state.newAppointment.appointmentDTO,
+        time: date,
     }
     
     } });
+    console.log(this.state.newAppointment)
   }
    
   componentDidMount (){
@@ -123,10 +117,10 @@ class CreateInvite extends Component{
   }
 
   
-   handleChange(event) {
-    this.setState({selectValue: event.target.value});
-    console.log("now" + this.state.selectValue);
-  }
+  //  handleChange(event) {
+  //   this.setState({selectValue: event.target.value});
+  //   console.log("now" + this.state.selectValue);
+  // }
   onChangeListsSelect=(args)=>{
     console.log(args.value)
     var numbers = args.value;
@@ -137,15 +131,15 @@ class CreateInvite extends Component{
       }
     });
 
-    this.setState({ newCampaign: {
-      ...this.state.newCampaign,
-      campaignDTO:{
-        ...this.state.newCampaign.campaignDTO,
-        gcCampaignDTOS: selectValue,
-    },
-    }
+    // this.setState({ newCampaign: {
+    //   ...this.state.newCampaign,
+    //   campaignDTO:{
+    //     ...this.state.newCampaign.campaignDTO,
+    //     gcCampaignDTOS: selectValue,
+    // },
+    // }
 		
-		} );
+		// } );
   }
 
 	
@@ -183,28 +177,28 @@ class CreateInvite extends Component{
       <div className="user_profile3 right" ref="height">
         	<div className="user_profile4" >
           <div className="user_profile5">
-        		<h4 className="user_profile5_h4">Invite Name:</h4>
+        		<h4 className="user_profile5_h4">Appointment Name:</h4>
         		<div className="user_profile5_p"> 
             <a style={{"backgroundColor":"transparent","color":"white","float":"left","marginTop":"10px"}} class="fas fa-edit margin_td_fontawsome"  title="Edit"> </a>
             <input style={{"backgroundColor":"transparent","color":"white","width":"auto","float":"left","border-bottom":"none"}} 
-            placeholder="Invitation Name" name="campaignName" aria-invalid="false" onChange={this.handleChange} 
-            className="user_profile_w3_input" disabled="" id="company-disabled" type="text"  />
+            placeholder="Invitation Name" value={this.state.newAppointment.appointmentDTO.name} name="name"  onChange={this.handleName} 
+            className="user_profile_w3_input" id="company-disabled" type="text"  />
             </div>
         		</div>
         		<div className="user_profile6">
             <h3>Basic Settings<h5 style = {{"fontStyle":"italic"}}>Edit the detail of your invite mail</h5></h3>
-            <div className="user_profile7">
+            {/* <div className="user_profile7">
         			
         					<div className="user_profile7_sub1" style={{"marginLeft":"15px", "marginRight":"15px"}}>
         						<label className="user_profile_w3_label" >Invite Mail Title </label>
         					
         						<input aria-invalid="false" placeholder="Enter your invite mail title" name="title" onChange={this.handleChange} className="user_profile_w3_input"
                      disabled="" id="company-disabled" type="text" value={this.state.newCampaign.campaignDTO.campaignName}  />
-        						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
+        						<input cols="1" rows="1" className="inputContact"  type="text" />
                    
         					</div>
         				
-        			</div>
+        			</div> */}
         			<div className="user_profile7">
         				<div className="user_profile9_sub">
         					<div className="user_profile7_sub1">
@@ -212,7 +206,7 @@ class CreateInvite extends Component{
                       <div className="control-styles">
                         
                         <DatePicker
-                            selected={this.state.newCampaign.campaignDTO.timeStart}
+                            selected={this.state.newAppointment.appointmentDTO.time}
                             onChange={this.handleDate}
                             showTimeSelect
                             timeFormat="HH:mm"
@@ -250,7 +244,7 @@ class CreateInvite extends Component{
         						<label className="user_profile_w3_label" >From </label>
         					
         						<input aria-invalid="false" placeholder="Sender Name" name="from" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled="" id="company-disabled" type="text" value={this.state.newCampaign.mailObjectDTO.from}  />
+                     id="company-disabled" type="text" value={this.state.newAppointment.mailObjectDTO.from}  />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
                    
         					</div>
@@ -259,7 +253,7 @@ class CreateInvite extends Component{
             <div className="user_profile7_sub1" style={{"marginLeft":"15px", "marginRight":"15px"}}>
               <label className="user_profile_w3_label" style={{"color":"white"}} >.</label>					
         						<input aria-invalid="false" placeholder="Email Address" name="fromMail" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled="" id="company-disabled" type="text" value={this.state.newCampaign.mailObjectDTO.fromMail}  />
+                      id="company-disabled" type="text" value={this.state.newAppointment.mailObjectDTO.fromMail}  />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
                    
         					</div>
@@ -274,7 +268,7 @@ class CreateInvite extends Component{
         						<label className="user_profile_w3_label" >Subject </label>
         					
         						<input aria-invalid="false" placeholder="Email subject" name="subject" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled="" id="company-disabled" type="text" value={this.state.newCampaign.mailObjectDTO.subject}  />
+                      id="company-disabled" type="text" value={this.state.newAppointment.mailObjectDTO.subject}  />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
                    
         					</div>
@@ -365,7 +359,9 @@ class CreateInvite extends Component{
       state : {
         id: id,
         campaignId: this.state.campaignId,
-        contentJson: content
+        contentJson: content,
+        appointment: true,
+        newAppointment: this.state.newAppointment
       }
   });
   }
@@ -379,30 +375,31 @@ class CreateInvite extends Component{
     // });
   }
   
+ 
   handleChange =(e)=> {
-    const { name, value } = e.target;
-    if(name === "campaignName"){
-      this.setState({ newCampaign: {
-        ...this.state.newCampaign,
-        campaignDTO:{
-          ...this.state.newCampaign.campaignDTO,
-          [name]: value
-      }
-      
-      } });
-    } else{
-      this.setState({ newCampaign: {
-        ...this.state.newCampaign,
-        mailObjectDTO:{
-          ...this.state.newCampaign.mailObjectDTO,
-          [name]: value
-      }
-      
-      } });
+		const { name, value } = e.target;
+		this.setState({ newAppointment: {
+      ...this.state.newAppointment,
+      mailObjectDTO:{
+        ...this.state.newAppointment.mailObjectDTO,
+        [name]: value
     }
 		
-		console.log(this.state.newCampaign)
+		} });
+		console.log(this.state.newAppointment)
 	 }
+   handleName =(e)=>{
+    const { name, value } = e.target;
+		this.setState({ newAppointment: {
+      ...this.state.newAppointment,
+      appointmentDTO:{
+        ...this.state.newAppointment.appointmentDTO,
+        [name]: value
+    }
+		
+		} });
+		console.log(this.state.newAppointment)
+   }
 
 
 
@@ -428,7 +425,7 @@ class CreateInvite extends Component{
   showModal =()=>{
     this.setState({modalIsOpen: true})
     var self = this;
-    axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    axios.post(`${Config.API_URL}campaign/create`,this.state.newAppointment,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
       console.log(response.data)
       var id = response.data
@@ -446,4 +443,4 @@ class CreateInvite extends Component{
   }
 }
 
-export default withRouter(CreateInvite);
+export default withRouter(CreateAppointment);

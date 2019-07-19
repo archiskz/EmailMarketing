@@ -275,7 +275,7 @@ class Lists extends Component {
         //         }
         // };
 
-        console.log(`${Config.API_URL}groupContacts`);
+        console.log(this.state.auth_token);
         axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(res => {
                 const listContacts = res.data;

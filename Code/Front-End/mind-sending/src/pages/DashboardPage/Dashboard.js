@@ -8,7 +8,6 @@ import SubDashboard from './SubDashboard';
 import AddContact from './ListsComponent/AddContacts';
 import CreateList from './ListsComponent/CreateList';
 import CreateContact from './ContactComponent/CreateContact';
-import ViewUserProfile from './UserComponent/ViewUserProfile';
 import EmbededForm from './EmbededFormComponent/EmbededForm';
 import {
   BrowserRouter as Router,
@@ -17,10 +16,9 @@ import {
 } from "react-router-dom";
 import Templates from './TemplatesComponent/Templates';
 import AddContactsFile from './ListsComponent/AddContactsFile';
-import CreateCampaign from './CampaignsComponent/CreateCampaigns';
 import Profile from './UserComponent/ViewUserProfile';
 import { withRouter } from "react-router";
-import InviteMails from './InviteComponent/InviteMails';
+import InviteMails from './AppointmentComponent/AppointmentMails';
 
 class DashBoard extends Component {
   constructor(props) {

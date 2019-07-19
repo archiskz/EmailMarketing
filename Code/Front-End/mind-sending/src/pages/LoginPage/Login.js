@@ -31,7 +31,8 @@ constructor(props) {
 			posts: [],
 			isLoading: true,
 			msElapsed: 0,
-			errors: null
+			errors: false,
+			hidden: true
 	};
 
 }
@@ -40,6 +41,11 @@ constructor(props) {
 componentWillUnmount() {
 	clearInterval(this.incrementer);
 }
+
+toggleShow=()=> {
+	console.log("halo")
+    this.setState({ hidden: !this.state.hidden });
+  }
 
 handleChange =(e)=> {
 	const { name, value } = e.target;
@@ -76,8 +82,9 @@ handleChange =(e)=> {
 					</span>
 
 					<span className="login100-form-title p-b-34 p-t-27">
-						BE THE REASON SOMEONE SMILES
+						Welcome Back
 					</span>
+					
 
 					<div className="wrap-input100 validate-input" data-validate = "Enter username" >
 					
@@ -86,16 +93,23 @@ handleChange =(e)=> {
 					</div>
 
 					<div className="wrap-input100 validate-input" data-validate="Enter password">
-						<input onChange={this.handleChange}  className="input100" type="password" name="password" placeholder="      Password"
+						<input onChange={this.handleChange}  className="input100" type={this.state.hidden ? "password" : "text"} name="password" placeholder="      Password"
 							value = {
 								this.state.user.password
 							}
 						/>
 						<span className="focus-input100" data-placeholder="&#xf191;"></span>
+						<span onClick={this.toggleShow} toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 					</div>
-
+					<div 
+					className={"wrap-input100 validate-input " + (this.state.errors ? "active" : "inactive")}
+					 style={{"textAlign":"center"}}>
+					<i style={{"color":"red","textAlign":"center"}} 
+					className="fas fa-exclamation-circle "
+					 > The email or password you entered are incorrect</i> 
+					</div>
 					<div className="contact100-form-checkbox">
-					<label><input type="checkbox" name="checkbox-02" class="blue" /><span>Remember me</span></label>
+					<label><input type="checkbox" name="checkbox-02" class="blue" /><span style={{"color":"gray"}}>Remember me</span></label>
 					</div>
 
 					<div className="container-login100-form-btn">
@@ -170,7 +184,8 @@ getPosts() {
     })
     .catch(error => {
 		this.setState({
-			isLoading: false
+			isLoading: false,
+			errors:true
 		});
     });
 }

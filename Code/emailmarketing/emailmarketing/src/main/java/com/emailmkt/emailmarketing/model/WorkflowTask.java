@@ -14,7 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "workflow_has_task",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"workflow_id", "task_id"})
+        @UniqueConstraint(columnNames = {"workflow_id", "shape_id"})
 }
 
 )
@@ -55,7 +55,7 @@ public class WorkflowTask {
 
 //    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "task_id" )
+    @JoinColumn(name = "shape_id" )
     private Task task;
 
 }
