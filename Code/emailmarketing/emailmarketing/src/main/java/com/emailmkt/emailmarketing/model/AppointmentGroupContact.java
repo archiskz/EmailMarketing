@@ -8,13 +8,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "appointment_has_group_contact",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"appointment_id", "group_contact_id","subcriber_id"})
+        @UniqueConstraint(columnNames = {"appointment_id", "group_contact_id"})
 }
 
 )
@@ -33,24 +35,21 @@ public class AppointmentGroupContact {
     @Column(name = "updated_time")
     private String updatedTime;
 
-
-
-    @Column(name = "token")
-    private String token;
-
-    @Column(name = "subcriber_id")
-    private int subcriberId;
-
-    @Column(name = "confirmation")
-    private boolean confirmation;
-
     @ManyToOne
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
+
 //    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "group_contact_id" )
+    @JoinColumn(name = "group_contact_id")
     private GroupContact groupContact;
+
+    @OneToMany( cascade = CascadeType.ALL)
+    @JoinColumn(name = "group_contact_id")
+    private List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
+
+
+
 
 }

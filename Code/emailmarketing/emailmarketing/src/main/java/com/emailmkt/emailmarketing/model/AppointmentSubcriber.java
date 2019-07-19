@@ -13,32 +13,16 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "workflow_has_task",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"workflow_id", "task_id"})
-}
+@Table(name = "appointment_has_subcriber"
+//        uniqueConstraints={@UniqueConstraint(columnNames = { "group_contact_id","subcriber_email"})}
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
-public class WorkflowTask {
+public class AppointmentSubcriber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-
-    @Basic
-    @Column(name = "pre_task")
-    private String preTask;
-
-    @Basic
-    @Column(name = "post_task")
-    private String postTask;
-
-    @Column(name = "condition")
-    private boolean condition;
-
-    @Basic
-    @Column(name = "status")
-    private String status;
 
     @Basic
     @Column(name = "created_time")
@@ -49,13 +33,27 @@ public class WorkflowTask {
     private String updatedTime;
 
 
-    @ManyToOne
-    @JoinColumn(name = "workflow_id")
-    private Workflow workflow;
+
+
+
+
+    @Column(name = "token")
+    private String token;
+
+    @Column(name = "subcriber_email")
+    private String subcriberEmail;
+
+    @Column(name = "confirmation")
+    private boolean confirmation;
+
+
 
 //    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "task_id" )
-    private Task task;
+    @JoinColumn(name = "group_contact_id")
+    private AppointmentGroupContact appointmentGroupContact;
+
+
+
 
 }
