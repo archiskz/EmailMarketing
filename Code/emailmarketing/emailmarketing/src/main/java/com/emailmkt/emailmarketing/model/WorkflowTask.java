@@ -55,7 +55,7 @@ public class WorkflowTask {
 
 //    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "shape_id" )
+    @JoinColumn(name = "shape_id",referencedColumnName = "shape_id")
     private Task task;
 
 }
