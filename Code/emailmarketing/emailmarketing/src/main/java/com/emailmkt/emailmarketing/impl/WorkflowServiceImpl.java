@@ -1,22 +1,17 @@
 package com.emailmkt.emailmarketing.impl;
 
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
-import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Task;
 import com.emailmkt.emailmarketing.model.Workflow;
 import com.emailmkt.emailmarketing.model.WorkflowTask;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.TaskRepository;
 import com.emailmkt.emailmarketing.repository.WorkflowRepository;
-import com.emailmkt.emailmarketing.service.AccountService;
 import com.emailmkt.emailmarketing.service.WorkflowService;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.instance.*;
 import org.camunda.bpm.model.bpmn.instance.Process;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -232,7 +227,6 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     @Override
     public List<Workflow> getAllWorkflows() {
-        System.out.println("toi day chưa hihihi");
         return workflowRepository.findAll();
     }
 

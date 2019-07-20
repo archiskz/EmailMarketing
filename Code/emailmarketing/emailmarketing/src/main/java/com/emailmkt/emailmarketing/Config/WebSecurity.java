@@ -61,33 +61,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         JWTAuthenticationFilter authenticationFilter = new JWTAuthenticationFilter(authenticationManager());
 
         authenticationFilter.setFilterProcessesUrl("/api/login");
-//
-//        http.cors().and().csrf().disable().authorizeRequests()
-//
-//                .anyRequest().permitAll()
-//
-////                .antMatchers(HttpMethod.POST).permitAll()
-//
-//
-//                .antMatchers(
-//                        HttpMethod.GET,
-//                        "/v2/api-docs",
-//                        "/swagger-resources/**",
-//                        "/swagger-ui.html**",
-//                        "/webjars/**",
-//                        "favicon.ico"
-//                ).permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .addFilter(authenticationFilter)
-//                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//        ;
+
 
         http.cors().and().csrf().disable().authorizeRequests()
 
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-                .antMatchers("/verify-email").permitAll()
+                .antMatchers("/accept-appointment").permitAll()
                 .antMatchers(
                         HttpMethod.GET,
                         "/v2/api-docs",
