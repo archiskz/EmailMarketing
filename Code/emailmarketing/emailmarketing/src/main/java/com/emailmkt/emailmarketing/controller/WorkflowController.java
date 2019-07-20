@@ -13,7 +13,8 @@ import com.emailmkt.emailmarketing.service.WorkflowService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
+import org.camunda.bpm.model.bpmn.instance.*;
+import org.camunda.bpm.model.bpmn.instance.Process;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import org.camunda.bpm.model.bpmn.Bpmn;
+import org.camunda.bpm.model.xml.instance.ModelElementInstance;
+import org.camunda.bpm.model.xml.type.ModelElementType;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
