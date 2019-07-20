@@ -41,12 +41,12 @@ class CampaignPopUp extends Component {
         <div className="popuptext">
         <div className="popup-header">
         {/* <img className="img-pop-up" src="https://img.icons8.com/cool-color/64/000000/upload-mail.png"/> */}
-        <h1>CAMPAIGN NAME</h1>
+        <h1>{` ${this.props.automation == "automation" ? 'AUTOMATION CAMPAIGN': 'CAMPAIGN NAME'}`}</h1>
         </div>
         <p>Keep your subscribers engaged by sharing your latest news, promoting a line of products, or announcing an event.</p>
         <input onChange={this.onChange.bind(this)} className="iput_pop_up" placeholder="Write down your campaign name" autocomplete="off"/> 
-        <p>Your Campaign will use</p>
-        <div style={{"marginBottom":"20px","marginTop":"5px","textAlign":"center"}}>
+        <p className={` ${this.props.automation == "automation" ? 'activeText': ''}`}>Your Campaign will use</p>
+        <div className={` ${this.props.automation == "automation" ? 'activeText': ''}`} style={{"marginBottom":"20px","marginTop":"5px","textAlign":"center"}}>
         <a style={{"float":"left","marginRight":"0px"}} onClick={()=>this.buttonClick(1)} className={`btn-create-segment-pop-up + ${this.state.isButtonActive === 1 ? 'templateactive' : null}`}  >Template</a>
         <div className="btn-create-segment-pop-up" style={{"border":"none","width":"40%","cursor":"default","color":"rgba(0, 0, 0, 0.4)","marginRight":"0px"}}
         > Or </div> 

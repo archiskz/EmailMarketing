@@ -8,18 +8,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "workflow_has_task",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"workflow_id", "shape_id"})
-}
+        @UniqueConstraint(columnNames = {"task_id", "shape_id","workflow_id"})
+})
 
-)
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
-public class WorkflowTask {
+
+
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
+public class WorkflowTask implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -33,8 +35,9 @@ public class WorkflowTask {
     @Column(name = "post_task")
     private String postTask;
 
-    @Column(name = "condition")
-    private String condition;
+    @Basic
+    @Column(name = "gateway")
+    private String gateway;
 
     @Basic
     @Column(name = "status")
@@ -52,10 +55,11 @@ public class WorkflowTask {
     @ManyToOne
     @JoinColumn(name = "workflow_id")
     private Workflow workflow;
-
-//    @JsonIgnore
+    //    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "shape_id" )
+    @JoinColumns({
+            @JoinColumn(name = "task_id",referencedColumnName = "id"),
+            @JoinColumn(name = "shape_id",referencedColumnName = "shape_id")
+    })
     private Task task;
-
 }

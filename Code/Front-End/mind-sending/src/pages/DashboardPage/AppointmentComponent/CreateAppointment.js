@@ -86,6 +86,7 @@ class CreateAppointment extends Component{
    }
 
    getAllGroupContacts=()=>{
+     console.log("haha")
     axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
       this.setState({

@@ -143,8 +143,16 @@ class Lists extends Component {
                                         <div className="md_tablet1">
                                             <div className="md_tablet2">
                                                 <div className="md_tablet3">
-                                                    <h4 className="md_tablet_h4">Groups List</h4>
-                                                    <p className="md_tablet_p">Here is the list of your Groups </p>
+                                                    <div style={{"width":"50%", "float":"left"}}>
+                                                        <h4 className="md_tablet_h4">Groups List</h4>
+                                                        <p className="md_tablet_p">Here is the list of your Groups </p>
+                                                    </div>
+                                                    <div style={{"width":"50%","float":"left"}}>
+                                                    <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="btn_create_contact ">
+                                                        <i className="sg-icon sg-icon-segment"></i>
+                                                        Create Group
+                                                    </a>
+                                                    </div>
                                                 </div>
                                                 <div className="md_tablet4">
                                                     <div className="md_tablet5">
@@ -203,10 +211,7 @@ class Lists extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <a onClick={() => this.openModal()} className="btn_create_contact ">
-                                            <i className="sg-icon sg-icon-segment"></i>
-                                            Create Group
-                                        </a>
+                                       
                                     </section>
 
 
@@ -282,7 +287,7 @@ class Lists extends Component {
                 console.log(listContacts);
                 this.setState({groupContacts: listContacts})
             }).catch(function (error) {
-            console.log(error.response.data);
+            console.log(error);
         });
     }
 
