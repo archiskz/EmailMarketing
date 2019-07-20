@@ -79,35 +79,12 @@ public class AppointmentController {
                 if (flag == false) {
                     return ResponseEntity.status(CONFLICT).body("Campaign Existed");
                 }
-                Appointment appointment = appointmentRepository.findByName(mailAndAppointment.appointmentDTO.getName());
-        String to ="dragontna4997@gmail.com";
-        String bodyTemp=appointment.getBody();
-        int index = bodyTemp.indexOf("<a href=\"\"") +8;
-        System.out.println(index);
 
-        String newString = new String();
-
-        for (int i = 0; i < bodyTemp.length(); i++) {
-
-            // Insert the original string character
-            // into the new string
-            newString += bodyTemp.charAt(i);
-
-            if (i == index) {
-
-                // Insert the string to be inserted
-                // into the new string
-                newString += "http://103.79.141.134:8080/api/accept-appointment?confirmationToken="+mailAndAppointment.appointmentDTO.getToken();
-            }
-        }
 //        map.put("VERIFICATION_URL","http://localhost:8080/api/accept-appointment?confirmationToken="+ mailAndAppointment.appointmentDTO.getToken());
 //        String bodyTemp = FreeMarkerTemplateUtils.processTemplateIntoString(t, map);
 //        System.out.println("Bodytemp"+bodyTemp);
         Appointment temp = appointmentRepository.findByName(mailAndAppointment.appointmentDTO.getName());
-        mailService.sendAppointment(mailAndAppointment.mailObjectDTO.getFrom(),
-                                        mailAndAppointment.mailObjectDTO.getFromMail(),
-                                        to,mailAndAppointment.mailObjectDTO.getSubject(),
-                newString);
+
         return ResponseEntity.status(CREATED).body(temp.getId() );
 
     }

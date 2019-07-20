@@ -1,23 +1,16 @@
 package com.emailmkt.emailmarketing.impl;
 
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
-import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Task;
 import com.emailmkt.emailmarketing.model.Workflow;
 import com.emailmkt.emailmarketing.model.WorkflowTask;
-import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.WorkflowRepository;
-import com.emailmkt.emailmarketing.service.AccountService;
 import com.emailmkt.emailmarketing.service.WorkflowService;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.instance.FlowElement;
 import org.camunda.bpm.model.bpmn.instance.FlowNode;
 import org.camunda.bpm.model.bpmn.instance.Process;
-import org.camunda.bpm.model.bpmn.instance.UserTask;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -39,7 +32,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     public boolean createWorkflow(WorkflowDTO workflowDTO) {
         Workflow newWorkflow = new Workflow();
         newWorkflow.setName(workflowDTO.getWorkflowName());
-List<WorkflowTask> workflowTaskList = new ArrayList<WorkflowTask>();
+        List<WorkflowTask> workflowTaskList = new ArrayList<WorkflowTask>();
 
         String bpmnString = workflowDTO.getWtWorkflowDTOS();
         InputStream inputStream = new ByteArrayInputStream(bpmnString.getBytes(Charset.forName("UTF-8"))) ;
@@ -146,7 +139,6 @@ List<WorkflowTask> workflowTaskList = new ArrayList<WorkflowTask>();
 
     @Override
     public List<Workflow> getAllWorkflows() {
-        System.out.println("toi day chưa hihihi");
         return workflowRepository.findAll();
     }
 

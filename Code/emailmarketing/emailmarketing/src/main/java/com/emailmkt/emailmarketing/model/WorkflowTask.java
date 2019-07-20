@@ -34,7 +34,7 @@ public class WorkflowTask {
     private String postTask;
 
     @Column(name = "condition")
-    private boolean condition;
+    private String condition;
 
     @Basic
     @Column(name = "status")
