@@ -195,6 +195,6 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointment.setConfirm(true);
             appointmentRepository.save(appointment);
         }
-        return ResponseEntity.ok("You have successfully verified your email address.");
+        return ResponseEntity.ok("Thanks for accepting my invite!");
     }
 }
