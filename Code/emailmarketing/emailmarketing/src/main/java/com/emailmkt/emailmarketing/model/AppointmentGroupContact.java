@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -21,7 +21,7 @@ import java.util.List;
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
-public class AppointmentGroupContact {
+public class AppointmentGroupContact implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -45,9 +45,10 @@ public class AppointmentGroupContact {
     @JoinColumn(name = "group_contact_id")
     private GroupContact groupContact;
 
-    @OneToMany( cascade = CascadeType.ALL)
-    @JoinColumn(name = "group_contact_id")
-    private List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
+//    @OneToMany( cascade = CascadeType.ALL)
+//    @JoinColumn(name = "appointmentGroupContact")
+    @OneToMany(mappedBy = "appointmentGroupContact", cascade = CascadeType.ALL)
+    private List<AppointmentSubcriber> appointmentSubcribers;
 
 
 

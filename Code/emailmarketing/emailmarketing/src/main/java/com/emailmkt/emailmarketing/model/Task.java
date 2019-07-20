@@ -31,8 +31,8 @@ public class Task implements Serializable {
     @Column(name = "shape_id")
     private String shape_id;
 
-    @OneToMany(  cascade = CascadeType.ALL)
-    @JoinColumn(name = "shape_id")
+    @OneToMany( mappedBy = "task",cascade = CascadeType.ALL)
+
     private List<WorkflowTask> workflowTasks;
 
 

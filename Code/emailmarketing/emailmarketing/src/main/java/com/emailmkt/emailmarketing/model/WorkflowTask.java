@@ -34,7 +34,7 @@ public class WorkflowTask {
     private String postTask;
 
     @Column(name = "condition")
-    private boolean condition;
+    private String condition;
 
     @Basic
     @Column(name = "status")
@@ -55,7 +55,7 @@ public class WorkflowTask {
 
 //    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "shape_id" )
+    @JoinColumn(name = "shape_id",referencedColumnName = "shape_id")
     private Task task;
 
 }

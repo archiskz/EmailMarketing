@@ -18,7 +18,7 @@ import javax.persistence.*;
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
-public class AppointmentSubcriber {
+public class AppointmentSubcriber{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -49,8 +49,8 @@ public class AppointmentSubcriber {
 
 
 //    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "group_contact_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_contact_id",referencedColumnName = "group_contact_id")
     private AppointmentGroupContact appointmentGroupContact;
 
 
