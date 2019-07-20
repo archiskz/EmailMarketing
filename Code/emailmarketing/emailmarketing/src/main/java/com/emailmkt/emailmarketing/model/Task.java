@@ -1,6 +1,8 @@
 package com.emailmkt.emailmarketing.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,7 +10,11 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "task")
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "task",uniqueConstraints={
+        @UniqueConstraint(columnNames = {"id", "shape_id"})
+        })
 public class Task implements Serializable {
 
     @Id
@@ -22,7 +28,11 @@ public class Task implements Serializable {
     @Column(name = "type")
     private String type;
 
-    @OneToMany( mappedBy = "task", cascade = CascadeType.ALL)
+    @Column(name = "shape_id")
+    private String shape_id;
+
+    @OneToMany(  cascade = CascadeType.ALL)
+    @JoinColumn(name = "shape_id")
     private List<WorkflowTask> workflowTasks;
 
 

@@ -167,13 +167,13 @@ class AddContact extends Component {
                        {/* Existing List */}
                       <span />
                     </div>
-                    <div className="input-radio-wrap radioInput-css__radio-container___3sajG"  style={{ position: 'relative' }}>
+                    {/* <div className="input-radio-wrap radioInput-css__radio-container___3sajG"  style={{ position: 'relative' }}>
                       <input type="radio" name="contacts" id="new"  />
                       <label className="input-radio-label" htmlFor="new">
                         Add contacts and include in a new list
                       </label>
                       <span />
-                    </div>
+                    </div> */}
                     <section className="row">
                       <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                         <section />

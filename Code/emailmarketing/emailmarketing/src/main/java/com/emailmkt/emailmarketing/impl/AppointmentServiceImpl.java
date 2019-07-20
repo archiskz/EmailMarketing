@@ -4,8 +4,9 @@ import com.emailmkt.emailmarketing.dto.AppointmentDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
-import com.emailmkt.emailmarketing.repository.AccountRepository;
-import com.emailmkt.emailmarketing.repository.AppointmentRepository;
+import com.emailmkt.emailmarketing.model.AppointmentGroupContact;
+import com.emailmkt.emailmarketing.model.AppointmentSubcriber;
+import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -24,6 +28,14 @@ public class AppointmentServiceImpl implements AppointmentService {
     AppointmentRepository appointmentRepository;
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    AppointmentGroupContactRepository appointmentGroupContactRepository;
+
+    @Autowired
+    GroupContactRepository groupContactRepository;
+
+    @Autowired
+    SubcriberRepository subcriberRepository;
     @Autowired
     MailService mailService;
 
@@ -61,13 +73,38 @@ public class AppointmentServiceImpl implements AppointmentService {
         //Add to Group Contacts
         Account account = accountRepository.findAccountById(3);
         appointment.setAccount_id(account.getId());
-        appointment.setTo("tannm@unicode.edu.vn");
-        String[] strArray = new String[] {appointment.getTo()};
+//        appointment.setTo("tannm@unicode.edu.vn");
+//        String[] strArray = new String[] {appointment.getTo()};
+        List<String> mailLists = new ArrayList<>();
+        List<AppointmentGroupContact> appointmentGroupContacts = appointmentDTO.getGcAppointmentDTOS().stream().map(g->{
+
+            AppointmentGroupContact appointmentGroupContact = new AppointmentGroupContact();
+            appointmentGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
+            appointmentGroupContact.setAppointment(appointment);
+            appointmentGroupContact.setCreatedTime(LocalDateTime.now().toString());
+//            String[]mailList= groupContactRepository.findSubcriberMailByGroupContactId(appointmentGroupContact.getGroupContact().getId());
+//            for (int i = 0; i < mailList.length; i++) {
+//                mailLists.add(mailList[i]);
+//            }
+            List<AppointmentSubcriber> appointmentSubcribers = g.getSubAppointmentDTOS().stream().map(r->{
+                AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
+                appointmentSubcriber.setConfirmation(false);
+                appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
+                appointmentSubcriber.setSubcriberEmail("null");
+                return appointmentSubcriber;
+            }).collect(Collectors.toList());
+            appointmentGroupContact.setAppointmentSubcribers(appointmentSubcribers);
+
+            return appointmentGroupContact;
+        }).collect(Collectors.toList());
+
+        appointment.setAppointmentGroupContacts(appointmentGroupContacts);
+
         appointment.setToken(UUID.randomUUID().toString());
         appointmentDTO.setToken(appointment.getToken());
         appointment.setConfirm(false);
-
-            appointmentRepository.save(appointment);
+         appointmentRepository.save(appointment);
 
 
         return true;

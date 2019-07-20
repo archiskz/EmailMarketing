@@ -350,7 +350,7 @@ z-index: 1;
   color: #000;
   line-height: 1.2;
   text-align: center;
-  text-transform: uppercase !important;
+  /* text-transform: uppercase !important; */
 
   display: block;
 }
@@ -2310,7 +2310,7 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-text-fill-color: #00a650;
+  -webkit-text-fill-color: #337ab7;
   transition: background-color 5000s ease-in-out 0s;
 }
 

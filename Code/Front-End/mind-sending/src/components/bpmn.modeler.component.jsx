@@ -13,11 +13,19 @@ import propertiesProviderModule from '../custom/provider'
 import magicModdleDescriptor from '../custom/descriptors/magic.json';
 import BpmnModdle from 'bpmn-moddle';
 import KeyboardModule from '../custom/keyboard';
+import axios from 'axios';
+import * as Config from '../constants/Config'
 class BpmnModelerComponent extends Component {
     constructor(props) {
         super(props);
         this.state={
-            keyboard: false
+            keyboard: false,
+            bpmn : {
+              type: "string",
+              workflowName: "FPT University student",
+              wtWorkflowDTOS: ""
+            },
+            auth_token:""
         };
         this.setWrapperRef = this.setWrapperRef.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
@@ -51,6 +59,10 @@ class BpmnModelerComponent extends Component {
     }
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClickOutside);
+        const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    });
       }
 
       setWrapperRef(node) {
@@ -121,6 +133,23 @@ onClickToExport = () =>{
         // the element was changed by the user
       });
     console.log(xmlClone);
+    this.setState({
+      bpmn: {
+        ...this.state.bpmn,
+        wtWorkflowDTOS: xmlClone
+      }
+    },()=>{
+      console.log(this.state.bpmn)
+      axios.post(`${Config.API_URL}workflow/create`,this.state.bpmn,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+      .then(res => {
+        console.log("contact ID: " + res.data)
+        // this.setState({count: res.data})
+       }).catch(function (error) {
+        console.log(error);
+      });
+
+
+    })
     });
 
 
@@ -142,6 +171,10 @@ onClickToExport = () =>{
         });
     }
 
+    saveBpmn(){
+
+    }
+
     render = () => {
         return(
             <div id="bpmncontainer">
@@ -156,7 +189,7 @@ onClickToExport = () =>{
         <span class="toolbar-css__save-container___2x7qH">
     </span>
     <span class="toolbar-css__send-container___AbB6n">
-        <a onClick={()=>this.openModal()} icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+        <a  icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
             <i class="sg-icon sg-icon-airplane-fill">
 
             </i>Save Design

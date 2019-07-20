@@ -8,20 +8,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "appointment_has_group_contact",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"appointment_id", "group_contact_id"})
-}
+@Table(name = "appointment_has_subcriber"
+//        uniqueConstraints={@UniqueConstraint(columnNames = { "group_contact_id","subcriber_email"})}
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
-public class AppointmentGroupContact {
+public class AppointmentSubcriber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -35,19 +32,26 @@ public class AppointmentGroupContact {
     @Column(name = "updated_time")
     private String updatedTime;
 
-    @ManyToOne
-    @JoinColumn(name = "appointment_id")
-    private Appointment appointment;
+
+
+
+
+
+    @Column(name = "token")
+    private String token;
+
+    @Column(name = "subcriber_email")
+    private String subcriberEmail;
+
+    @Column(name = "confirmation")
+    private boolean confirmation;
+
 
 
 //    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "group_contact_id")
-    private GroupContact groupContact;
-
-    @OneToMany( cascade = CascadeType.ALL)
-    @JoinColumn(name = "group_contact_id")
-    private List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
+    private AppointmentGroupContact appointmentGroupContact;
 
 
 

@@ -32,7 +32,8 @@ class EditContent extends Component {
         content: "string",
         id: this.props.history.location.state.campaignId,
       } ,
-      auth_token:""
+      auth_token:"",
+      newAppointment:this.props.history.location.state.newAppointment
     };
     this.onLoad = this.onLoad.bind(this);
     // this.exportHtml = this.exportHtml.bind(this)
@@ -56,6 +57,7 @@ class EditContent extends Component {
    
   }
    componentDidMount(){
+     console.log(this.props.history.location.state.newAppointment)
     this.isComponentMounted = true; 
     const appState = JSON.parse(localStorage.getItem('appState'));
     this.setState({
@@ -81,6 +83,21 @@ class EditContent extends Component {
    
    
   render(){
+    const appointment = this.state.newAppointment;
+    let button;
+    if(appointment == undefined || appointment == null){
+button = <a onClick={()=>this.saveCampaign()} icon="airplane-fill" style={{"fontSize":"16px"}} data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+<i class="sg-icon sg-icon-airplane-fill">
+
+</i>Save Campaign
+</a>
+    } else {
+      button = <a onClick={()=>this.saveAppointment()} icon="airplane-fill" style={{"fontSize":"16px"}} data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+      <i class="sg-icon sg-icon-airplane-fill">
+
+      </i>Save Appointment
+  </a>
+    }
     
      return (
       <div>
@@ -105,11 +122,18 @@ class EditContent extends Component {
         <span class="toolbar-css__save-container___2x7qH">
     </span>
     <span class="toolbar-css__send-container___AbB6n">
-        <a onClick={()=>this.saveCampaign()} icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+
+        {/* <a onClick={()=>this.saveCampaign()} icon="airplane-fill" style={{"fontSize":"16px"}} data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
             <i class="sg-icon sg-icon-airplane-fill">
 
             </i>Save Campaign
         </a>
+        <a onClick={()=>this.saveCampaign()} icon="airplane-fill" style={{"fontSize":"16px"}} data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+            <i class="sg-icon sg-icon-airplane-fill">
+
+            </i>Save Appointment
+        </a> */}
+        {button}
     </span>
     </div>
     <EmailEditor
@@ -169,6 +193,36 @@ class EditContent extends Component {
   
  
 // }
+saveAppointment(){
+  // this.exportHtml();
+  this.editor.exportHtml(data => {
+    const { design, html } = data
+      this.setState({
+      newAppointment:{
+        ...this.state.newAppointment,
+        mailObjectDTO: {
+          ...this.state.newAppointment.mailObjectDTO,
+          bodyJson: JSON.stringify(design),
+          body: html
+        }
+      }
+    }, ()=> {
+      console.log(this.state.newAppointment)
+      axios.post(`${Config.API_URL}appointment/create`,this.state.newAppointment,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+      .then(res => {
+        console.log(res.data)
+        this.addNotification()
+        
+       }).catch(function (error) {
+        console.log(error);
+      });
+      this.closeModal();
+    }
+    );
+    
+  })
+  
+  }
 
   saveCampaign(){
   // this.exportHtml();
@@ -189,7 +243,7 @@ class EditContent extends Component {
         this.addNotification()
         
        }).catch(function (error) {
-        console.log(error.response.data);
+        console.log(error);
       });
       this.closeModal();
     });
