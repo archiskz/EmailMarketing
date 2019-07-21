@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "task",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"id", "shape_id"})
+        @UniqueConstraint(columnNames = {"id"})
         })
 public class Task implements Serializable {
 
@@ -31,8 +31,7 @@ public class Task implements Serializable {
     @Column(name = "shape_id")
     private String shape_id;
 
-    @OneToMany( mappedBy = "task",cascade = CascadeType.ALL)
-
+    @OneToMany(mappedBy = "task" ,cascade = CascadeType.ALL)
     private List<WorkflowTask> workflowTasks;
 
 

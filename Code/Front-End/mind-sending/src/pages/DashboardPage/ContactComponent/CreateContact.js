@@ -16,10 +16,12 @@ class CreateContact extends Component {
          listAccount: {id: 1, name: "Group 2", description: "Test Group V2", createdTime: "2019-06-12T13:08:24.810", updatedTime: "string"},
        visible: true,
        dropdown_visible: false,
-       auth_token:""
+       auth_token:"",
+       listAllAccounts:[]
      };
       this.showDropdownMenu = this.showDropdownMenu.bind(this);
       this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+      
    }
    showDropdownMenu(event) {
     event.preventDefault();
@@ -44,21 +46,21 @@ class CreateContact extends Component {
 
 
     componentDidMount(){
-        
-    const id = this.props.history.location.state;
+
+            const id = this.props.history.location.state;
     
-    const appState = JSON.parse(localStorage.getItem('appState'));
-    this.setState({
-        auth_token: appState.user.auth_token
-    },()=> {
-        if(this.props.history.location.state != null){ 
-        console.log("halu")
-            this.getContactsByGroupId(id)
-        } else this.getAllContacts()
-    } )
+            const appState = JSON.parse(localStorage.getItem('appState'));
+            this.setState({
+                auth_token: appState.user.auth_token
+            },()=> {
+                    this.getContactsByGroupId();
+                    this.getAllContacts()
+            } )
+
+           
+        }   
     
-    
-   }
+   
    componentWillReceiveProps(nextProps){
        if(nextProps.history.location.state !== this.props.history.location.state){
            console.log(nextProps.history.location.state)
@@ -68,51 +70,38 @@ class CreateContact extends Component {
         auth_token: appState.user.auth_token
     },()=> {
         this.getAllContacts()
-    } )
-
-
-        
+    } ) 
        }
    }
 
    
 
-   getContactsByGroupId(id){
-       console.log(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`)
-    axios.get(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-    .then(res => {
-        
-        console.log(res.data);
-      const listAccounts = res.data;
-      this.setState({listAccounts:listAccounts})
-                axios.get(`${Config.API_URL}groupContact/contactById?id=${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-                .then(response => {
-                    this.setState({
-                        listAccount: response.data,
-                    })
-                
-                }).catch((error) => {
-                    console.log(error);
-                  });
+   getContactsByGroupId=()=>{
+    console.log("haha")
+   axios.get(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+   .then(response => {
+     this.setState({
+       listAccounts: response.data
+     });
+   })
+   .catch(error => {
+     console.log(error);
+   });
+  }
 
-    }).catch((error) => {
-        console.log(error);
-      });
-   }
+   getAllContacts=()=>{
+    console.log("haha")
+   axios.get(`${Config.API_URL}subcribersV2`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+   .then(response => {
+     this.setState({
+       listAllAccounts: response.data
+     });
+   })
+   .catch(error => {
+     console.log(error);
+   });
+  }
 
-   getAllContacts(){
-           
-            console.log(`${Config.API_URL}subcribersV2`)
-            axios.get(`${Config.API_URL}subcribersV2`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-            .then(res => {
-        const listAccounts = res.data;
-        this.setState({listAccounts:listAccounts})
-        console.log(this.state.listAccounts)
-        
-        }).catch((error) => {
-            console.log(error);
-        });  
-   }
 
    renderTitle(){
        if(this.props.history.location.state != null){
@@ -124,23 +113,13 @@ class CreateContact extends Component {
    }
 
    renderContacts(){
-    if(this.props.history.location.state != null){
-        this.getContactsByGroupId(this.props.history.state)
-        var lists = this.state.listAccounts;
-        return lists.map(list=>(
-            <ContactRow
-            id = {list.id}
-            firstName={list.firstName}
-            key={list.index}
-            email={list.email}
-            lastName={list.lastName}
-            createdTime={list.createdTime}
-            type={list.type}
-        />
-        ))
-    } else {
-        this.getAllContacts()
-        var lists = this.state.listAccounts;
+       var lists;
+        if(this.props.history.location.state== null || this.props.history.location.state == undefined){
+           lists = this.state.listAllAccounts
+        } else {
+            lists = this.state.listAccounts
+        }
+        // var lists = this.state.listAccounts;
         return lists.map(list=>(
             <ContactRow
             id = {list.id}
@@ -153,8 +132,7 @@ class CreateContact extends Component {
         />
         ))
     }
-   
-   }
+
   
 
 
