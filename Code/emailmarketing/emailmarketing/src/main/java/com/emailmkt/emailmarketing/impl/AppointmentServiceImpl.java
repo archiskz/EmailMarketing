@@ -101,7 +101,10 @@ public class AppointmentServiceImpl implements AppointmentService {
                 appointmentSubcribers.add(appointmentSubcriber);
             }
 
-            appointmentGroupContact.setAppointmentSubcribers(appointmentSubcribers);
+
+
+
+             appointmentGroupContact.setAppointmentSubcribers(appointmentSubcribers);
 
             return appointmentGroupContact;
         }).collect(Collectors.toList());
@@ -130,8 +133,9 @@ public class AppointmentServiceImpl implements AppointmentService {
                         public void run() {
                             for(String email:mailLists)
                             {
-                                newString[0] += "http://103.79.141.134:8080/api/accept-appointment?confirmationToken=" +appointment.getToken()+"?email="+email;
+//                                newString[0] += "http://103.79.141.134:8080/api/accept-appointment?confirmationToken=" +appointment.getToken()+"?email="+email;
 
+                                newString[0] += "http://localhost:8080/api/accept-appointment?confirmationToken=" +appointment.getToken()+"?email="+email;
                                 mailService.sendAppointment(appointment.getSender(),
                                         appointment.getFromMail(),
                                         email, appointment.getSubject(),
