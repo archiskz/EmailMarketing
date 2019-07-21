@@ -81,7 +81,7 @@ public class AppointmentController {
 
 
                     
-                }
+
 
         return ResponseEntity.status(CREATED).body(temp.getId() );
 
