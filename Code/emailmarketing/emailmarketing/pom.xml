@@ -84,24 +84,24 @@
 			<artifactId>springfox-swagger2</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.vaadin.external.google</groupId>
 			<artifactId>android-json</artifactId>
 			<version>0.0.20131108.vaadin1</version>
 			<scope>compile</scope>
 		</dependency>
-        <dependency>
-            <groupId>net.minidev</groupId>
-            <artifactId>json-smart</artifactId>
-            <version>2.3</version>
-            <scope>compile</scope>
-        </dependency>
+		<dependency>
+			<groupId>net.minidev</groupId>
+			<artifactId>json-smart</artifactId>
+			<version>2.3</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
@@ -147,13 +147,13 @@
 		</dependency>
 
 
-        <!-- Scheduler Email-->
-<!--		<dependency>-->
-<!--			<groupId>org.quartz-scheduler</groupId>-->
-<!--			<artifactId>quartz</artifactId>-->
-<!--			<version>2.3.0</version>-->
-<!--		</dependency>-->
-    </dependencies>
+		<!-- Scheduler Email-->
+		<!--		<dependency>-->
+		<!--			<groupId>org.quartz-scheduler</groupId>-->
+		<!--			<artifactId>quartz</artifactId>-->
+		<!--			<version>2.3.0</version>-->
+		<!--		</dependency>-->
+	</dependencies>
 
 	<build>
 		<plugins>

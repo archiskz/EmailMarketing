@@ -84,6 +84,7 @@ public class AppointmentController {
 //        System.out.println("Bodytemp"+bodyTemp);
         Appointment temp = appointmentRepository.findByName(mailAndAppointment.appointmentDTO.getName());
 
+
         return ResponseEntity.status(CREATED).body(temp.getId() );
 
     }

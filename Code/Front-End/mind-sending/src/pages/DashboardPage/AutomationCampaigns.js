@@ -68,7 +68,7 @@ class AutomationCampaigns extends Component {
                         <div className="col-md-6">
                             <span>
                                 <h1 className="">
-                                    <span className="pageTitle-css__title-heading___3H2vL">Campaigns
+                                    <span className="pageTitle-css__title-heading___3H2vL">Automation Campaigns
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
@@ -77,7 +77,7 @@ class AutomationCampaigns extends Component {
                         <div className="col-md-6">
                             
                                 
-                              <a class="btn_create_contact" href="#popup">Create campaign</a>
+                              <a class="btn_create_contact" href="#popup">Create Automation</a>
                              <CampaignPopUp automation="automation"/>
                            
                         </div>
