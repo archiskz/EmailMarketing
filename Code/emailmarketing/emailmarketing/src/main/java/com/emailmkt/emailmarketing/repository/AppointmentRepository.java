@@ -15,5 +15,4 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Integer
 
 
 
-
 }

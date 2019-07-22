@@ -4,48 +4,28 @@ import com.emailmkt.emailmarketing.dto.AppointmentDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
-import com.emailmkt.emailmarketing.model.AppointmentGroupContact;
-import com.emailmkt.emailmarketing.model.AppointmentSubcriber;
-import com.emailmkt.emailmarketing.repository.*;
+import com.emailmkt.emailmarketing.repository.AccountRepository;
+import com.emailmkt.emailmarketing.repository.AppointmentRepository;
 import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
-    public static final int NUM_OF_THREAD = 10;
 
     @Autowired
     AppointmentRepository appointmentRepository;
     @Autowired
     AccountRepository accountRepository;
     @Autowired
-    AppointmentGroupContactRepository appointmentGroupContactRepository;
-
-    @Autowired
-    GroupContactRepository groupContactRepository;
-
-    @Autowired
-    SubcriberRepository subcriberRepository;
-    @Autowired
     MailService mailService;
-
-
 
 
     @Override
@@ -169,7 +149,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment addContentToAppointment(Appointment appointment) {
-        Appointment appointmentEdit = appointmentRepository.findAppointmentById(appointment.getId());
+        Appointment appointmentEdit= appointmentRepository.findAppointmentById(appointment.getId());
         if (appointmentEdit == null) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "This appointment is not exist!");
@@ -195,12 +175,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public ResponseEntity<String> acceptAppointment(String token) {
         Appointment appointment = appointmentRepository.findByToken(token);
-        if (appointment == null) {
+        if(appointment == null){
             return ResponseEntity.badRequest().body("Invalid token.");
-        } else {
+        }
+        else{
             appointment.setConfirm(true);
             appointmentRepository.save(appointment);
         }
-        return ResponseEntity.ok("Thanks for accepting my invite!");
+        return ResponseEntity.ok("You have successfully verified your email address.");
     }
 }

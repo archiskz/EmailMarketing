@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.repository;
 import com.emailmkt.emailmarketing.model.Campaign;
 import com.emailmkt.emailmarketing.model.CampaignGroupContact;
+import com.emailmkt.emailmarketing.model.Workflow;
 import com.emailmkt.emailmarketing.model.WorkflowTask;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,21 +17,9 @@ import java.util.List;
 public interface WorkflowTaskRepository extends JpaRepository<WorkflowTask,Integer> {
 
 
-        @Query("SELECT com.workflow FROM WorkflowTask com WHERE com.workflow.id  = :workflowId")
-        List<Campaign> findByWorkflowTaskWorkflowId(@Param("workflowId") int workflowId);
+//        WorkflowTask findByName(String name);// Trong đây làm gì có name mà m findByName...??
+// rồi đó thằng ông nội mốt thêm thư viện gì dừung thêm file jar nữa nha cần gì ibx t
 
-        @Transactional
-        @Modifying(clearAutomatically = true)
-        @Query("DELETE FROM WorkflowTask com WHERE com.workflow.id  = :workflowId")
-        void  deleteCampaignFromCampaginGroup(@Param("workflowId") int workflowId);
-
-
-//        @Query("SELECT gr.name " +
-//                "FROM CampaignGroupContact com JOIN GroupContact gr ON com.groupContact.id = gr.id " +
-//                "WHERE com.campaign.id  = :campaignId")
-//        String[] findGroupByCampaignId(@Param("campaignId") int campaignId);
-
-
-
+        WorkflowTask findWorkflowById(Integer id);
 
 }

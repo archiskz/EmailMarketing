@@ -1,11 +1,14 @@
 package com.emailmkt.emailmarketing.impl;
 
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Task;
 import com.emailmkt.emailmarketing.model.Workflow;
 import com.emailmkt.emailmarketing.model.WorkflowTask;
 import com.emailmkt.emailmarketing.repository.TaskRepository;
 import com.emailmkt.emailmarketing.repository.WorkflowRepository;
+import com.emailmkt.emailmarketing.repository.WorkflowTaskRepository;
+import com.emailmkt.emailmarketing.service.AccountService;
 import com.emailmkt.emailmarketing.service.WorkflowService;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.instance.FlowElement;
@@ -13,6 +16,9 @@ import org.camunda.bpm.model.bpmn.instance.FlowNode;
 import org.camunda.bpm.model.bpmn.instance.Process;
 import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -32,7 +38,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     @Autowired
     TaskRepository taskRepository;
     @Autowired
-    TaskRepository workflowTaskRepository;
+    WorkflowTaskRepository workflowTaskRepository;
 
     @Override
     public boolean createWorkflow(WorkflowDTO workflowDTO) {
@@ -50,16 +56,16 @@ public class WorkflowServiceImpl implements WorkflowService {
         Collection<FlowElement> elements = process.getFlowElements();
         Iterator<FlowElement> eList = elements.iterator();
         int i = 0;
-        while(eList.hasNext()){
+        while(eList.hasNext()) {
             String shapeId = eList.next().getId();
-            if(shapeId.contains("Task")){
+            if (shapeId.contains("Task")) {
                 Task task = new Task();
                 String name = modelInstance.getModelElementById(shapeId).getAttributeValue("name");
                 task.setName(name);
                 task.setShape_id(shapeId);
-                if(shapeId.contains("UserTask")){
+                if (shapeId.contains("UserTask")) {
                     task.setType("form");
-                }else if (shapeId.contains("SendTask")){
+                } else if (shapeId.contains("SendTask")) {
                     task.setType("email");
                 } else {
                     task.setType("appointment");
@@ -69,164 +75,89 @@ public class WorkflowServiceImpl implements WorkflowService {
                 org.camunda.bpm.model.bpmn.instance.Task taskModel = (org.camunda.bpm.model.bpmn.instance.Task) modelInstance.getModelElementById(shapeId);
                 Collection<FlowNode> sequenceFlowsPrevious = taskModel.getPreviousNodes().list();
                 Iterator<FlowNode> sequenceFlowListsPrevious = sequenceFlowsPrevious.iterator();
-                while(sequenceFlowListsPrevious.hasNext()){
+                while (sequenceFlowListsPrevious.hasNext()) {
                     WorkflowTask newWorkflowTask = new WorkflowTask();
                     newWorkflowTask.setTask(task);
                     newWorkflowTask.setWorkflow(newWorkflow);
                     String previousNodeId = sequenceFlowListsPrevious.next().getId();
-                    if(previousNodeId.contains("Task")){
+                    if (previousNodeId.contains("Task")) {
                         newWorkflowTask.setPreTask(previousNodeId);
 
                         workflowTaskList.add(newWorkflowTask);
-                    } else if(previousNodeId.contains("ExclusiveGateway")){
+                    } else if (previousNodeId.contains("ExclusiveGateway")) {
                         org.camunda.bpm.model.bpmn.instance.ExclusiveGateway gateway = modelInstance.getModelElementById(previousNodeId);
                         List<FlowNode> prevNodesCollection = gateway.getPreviousNodes().list();
                         Iterator<SequenceFlow> prevFlowCollection = gateway.getOutgoing().iterator();
-                      for(int j = 0; j <= prevNodesCollection.size(); j ++){
-                          FlowNode conditionNode = prevNodesCollection.get(i);
-                          newWorkflowTask.setGateway(conditionNode.getName());
-                          newWorkflowTask.setPreTask(conditionNode.getId());
+                        for (int j = 0; j <= prevNodesCollection.size(); j++) {
+                            FlowNode conditionNode = prevNodesCollection.get(i);
+//                          newWorkflowTask.setGateway(conditionNode.getName());
+                            newWorkflowTask.setPreTask(conditionNode.getId());
 
-                          workflowTaskList.add(newWorkflowTask);
-                      }
+                            workflowTaskList.add(newWorkflowTask);
+                        }
+
 
                     }
-//                    S save = workflowTaskRepository.save(newWorkflowTask);
+                    workflowTaskRepository.save(newWorkflowTask);
+
                 }
                 Collection<FlowNode> sequenceFlowsNext = taskModel.getSucceedingNodes().list();
                 Iterator<FlowNode> sequenceFlowListsNext = sequenceFlowsNext.iterator();
-                while(sequenceFlowListsNext.hasNext()){
-                    WorkflowTask newWorkflowTask = new WorkflowTask();
-                    newWorkflowTask.setTask(task);
-                    newWorkflowTask.setWorkflow(newWorkflow);
+                while (sequenceFlowListsNext.hasNext()) {
+
                     String nextNodeId = sequenceFlowListsNext.next().getId();
-                    if(nextNodeId.contains("Task")){
+                    if (nextNodeId.contains("Task")) {
+                        WorkflowTask newWorkflowTask = new WorkflowTask();
+                        newWorkflowTask.setTask(task);
+                        newWorkflowTask.setWorkflow(newWorkflow);
                         newWorkflowTask.setPostTask(nextNodeId);
+//                        workflowTaskRepository.save(newWorkflowTask);
                         workflowTaskList.add(newWorkflowTask);
-                    } else if(nextNodeId.contains("ExclusiveGateway")){
+                        workflowTaskRepository.save(newWorkflowTask);
+                    } else if (nextNodeId.contains("ExclusiveGateway")) {
                         org.camunda.bpm.model.bpmn.instance.ExclusiveGateway gateway = modelInstance.getModelElementById(nextNodeId);
-                        List<FlowNode> nextNodesCollection = gateway.getSucceedingNodes().list();
+
+                        Collection<FlowNode> nextNodesCollection = gateway.getSucceedingNodes().list();
+                        Iterator<FlowNode> nextNodeLists = nextNodesCollection.iterator();
                         Iterator<SequenceFlow> nextFlowCollection = gateway.getIncoming().iterator();
-                        for(int j = 0; j <= nextNodesCollection.size(); j ++){
-                            FlowNode conditionNode = nextNodesCollection.get(i);
-                            newWorkflowTask.setGateway(conditionNode.getName());
+//                        for(int j = 0; j <= nextNodesCollection.size(); j ++){
+//                            FlowNode conditionNode = nextNodesCollection.get(i);
+//                            newWorkflowTask.setGateway(gateway.getName());
+//                            newWorkflowTask.setPostTask(conditionNode.getId());
+//                            System.out.println(conditionNode.getId());
+//                            workflowTaskList.add(newWorkflowTask);
+//                        }
+                        while (nextNodeLists.hasNext()) {
+                            WorkflowTask newWorkflowTask = new WorkflowTask();
+                            newWorkflowTask.setTask(task);
+                            newWorkflowTask.setWorkflow(newWorkflow);
+                            FlowNode conditionNode = nextNodeLists.next();
+                            System.out.println(conditionNode.getName() + "---" + conditionNode.getId());
+
+                            Collection<SequenceFlow> f1 = conditionNode.getIncoming();
+                            Collection<SequenceFlow> f2 = gateway.getOutgoing();
+                            f1.containsAll(f2);
+                            SequenceFlow conditionFlow = f1.iterator().next();
+                            newWorkflowTask.setGateway(gateway.getName() + " " + conditionFlow.getName());
                             newWorkflowTask.setPostTask(conditionNode.getId());
                             workflowTaskList.add(newWorkflowTask);
+                            workflowTaskRepository.save(newWorkflowTask);
                         }
 
                     }
 
+
                 }
-
-
-
-
             }
+
+
         }
-//        while(eList.hasNext()) {
-//            String value = eList.next().getId();
-//            if(value.contains("StartEvent")){
-////                System.out.println("Start now");
-//            }else if(value.contains("Task")){
-//
-//                Task newTask = new Task();
-//                org.camunda.bpm.model.bpmn.instance.Task task = (org.camunda.bpm.model.bpmn.instance.Task) modelInstance.getModelElementById(value);
-//
-////                newTask.setShape_id("1");
-//                newTask.setShape_id(value);
-//
-//                newTask.setName(task.getName());
-//                if(value.contains("SendTask")){
-//                    newTask.setType("campaign");
-//                }else if(value.contains("BusinessRule")){
-//                    newTask.setType("appointment");
-//                }else {
-//                    newTask.setType("form");
-//                }
-//                Collection<FlowNode> sequenceFlows = task.getSucceedingNodes().list();
-//                Collection<FlowNode> sequenceFlowsPre = task.getPreviousNodes().list();
-//                Iterator<FlowNode> sequenceLists = sequenceFlows.iterator();
-//                Iterator<FlowNode> sequenceListsPrev = sequenceFlowsPre.iterator();
-//
-//                while(sequenceLists.hasNext()){
-//                    FlowNode GatewayNode = sequenceLists.next();
-//
-////                    String nodeId = .getId();
-//                    System.out.println("next" + task.getId() +"--" + task.getName() +"----"+GatewayNode.getId());
-//                    System.out.println(newTask.getId());
-//                    if(GatewayNode.getId().contains("ExclusiveGateway")){
-//
-//                        org.camunda.bpm.model.bpmn.instance.ExclusiveGateway gateway = (org.camunda.bpm.model.bpmn.instance.ExclusiveGateway) modelInstance.getModelElementById(GatewayNode.getId());
-//                        Collection<FlowNode> nextNodes = gateway.getSucceedingNodes().list();
-//                        Iterator<FlowNode> nextNodeLists = nextNodes.iterator();
-//                        while(nextNodeLists.hasNext()){
-//                            FlowNode conditionNode = nextNodeLists.next();
-//                            WorkflowTask newWfTask = new WorkflowTask();
-//                            newWfTask.setTask(newTask);
-//                            newWfTask.setGateway(GatewayNode.getName());
-//                            newWfTask.setPostTask(conditionNode.getId());
-//                            workflowTaskList.add(newWfTask);
-//                        }
-//                    } else {
-////                        FlowNode conditionNode = nextNodeLists.next();
-//                        WorkflowTask newWfTask = new WorkflowTask();
-//                        newWfTask.setTask(newTask);
-////                        newWfTask.setCondition(GatewayNode.getName());
-//                        newWfTask.setPostTask(GatewayNode.getId());
-////                        workflowTaskList.add(newWfTask);
-//                    }
-//                }
-//                while(sequenceListsPrev.hasNext()){
-//                    FlowNode GatewayNode = sequenceListsPrev.next();
-//                    System.out.println("prev" + task.getId() +"--" + task.getName() +"----"+GatewayNode.getId());
-//                    if(GatewayNode.getId().contains("ExclusiveGateway")){
-//                        org.camunda.bpm.model.bpmn.instance.ExclusiveGateway gateway = (org.camunda.bpm.model.bpmn.instance.ExclusiveGateway) modelInstance.getModelElementById(GatewayNode.getId());
-//                        Collection<FlowNode> prevNodes = gateway.getPreviousNodes().list();
-//                        Iterator<FlowNode> prevNodeLists = prevNodes.iterator();
-//                        while(prevNodeLists.hasNext()){
-//                            FlowNode conditionNode = prevNodeLists.next();
-//                            WorkflowTask newWfTask = new WorkflowTask();
-//                            newWfTask.setTask(newTask);
-//                            newWfTask.setGateway(GatewayNode.getName());
-//                            newWfTask.setPreTask(conditionNode.getId());
-//                            workflowTaskList.add(newWfTask);
-//                        }
-//                    }
-//                    else {
-//                        WorkflowTask newWfTask = new WorkflowTask();
-//                        newWfTask.setTask(newTask);
-////                        newWfTask.setCondition(GatewayNode.getName());
-//                        newWfTask.setPreTask(GatewayNode.getId());
-//                        workflowTaskList.add(newWfTask);
-//                    }
-//                }
-//
-//            }
-//            System.out.println(value + "--" + i);
-//
-//            i++;
-//        }
-//
-
-
-//        newWorkflow.setWorkflowTasks(workflowTaskList);
-//
-//        Workflow checkExistedWorkflow = workflowRepository.findByName(newWorkflow.getName());
-//        if (checkExistedWorkflow != null) {
-//            return false;
-//        }
-//
-//        newWorkflow.setCreatedTime(LocalDateTime.now().toString());
-//        newWorkflow.setName(newWorkflow.getName());
-//
-//        workflowRepository.save(newWorkflow);
-
-
         return true;
     }
 
     @Override
     public List<Workflow> getAllWorkflows() {
+        System.out.println("toi day chưa hihihi");
         return workflowRepository.findAll();
     }
 

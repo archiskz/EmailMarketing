@@ -121,16 +121,17 @@ class ListRow extends Component {
 				</div>
 
 				<div class="container-contact1-form-btn">
-					<a onClick={()=>this.saveUpdatedList()}  class="contact1-form-btn">
+					<a onClick={()=>this.saveUpdatedList()} style={{"marginLeft":"30px","width":"150px", "float":"left", "color":"white"}} 
+           className={`btn_begin_create_campaign ${this.state.updateList.name ? "" : "disabled"}`}>
 						<span>
 							Update
 						</span>
 					</a>
-                    <a onClick={()=>this.closeModal()}  class="contact1-form-btn">
+          <a style={{"marginLeft":"30px","width":"150px", "float":"left", "color":"white"}} onClick={() => this.closeModal()} class="btn_begin_create_campaign">
 						<span>
                             Cancel
 						</span>
-					</a>
+                            </a>
 				</div>
 			</form>
                 </Modal>

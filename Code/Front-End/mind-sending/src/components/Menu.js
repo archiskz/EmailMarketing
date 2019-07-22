@@ -12,6 +12,7 @@ class Menu extends Component {
       }
     componentDidMount(){
         const appState = JSON.parse(localStorage.getItem('appState'));
+        // const isLogin = appState.user.auth_token
         if(appState == null || appState == undefined){
             this.setState({
                 isLogin: false

@@ -21,6 +21,7 @@ class CreateContact extends Component {
      };
       this.showDropdownMenu = this.showDropdownMenu.bind(this);
       this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
       
    }
    showDropdownMenu(event) {
@@ -112,6 +113,26 @@ class CreateContact extends Component {
        }
    }
 
+   handleSearch = (event) => {
+    var searchValue = event.target.value;
+    if(this.props.history.location.state == null || this.props.history.location.state == undefined){
+      var groupContactsList = this.state.groupContactsFilter
+          if(searchValue !== ""){
+              groupContactsList = groupContactsList.filter(item => item.name.includes(searchValue))
+              this.setState({
+                  groupContacts: groupContactsList
+              });
+          } else {
+              this.setState({
+                  groupContacts: this.state.groupContactsFilter
+              });
+          }
+    } else{
+
+    }
+   
+}
+
    renderContacts(){
        var lists;
         if(this.props.history.location.state== null || this.props.history.location.state == undefined){
@@ -183,7 +204,7 @@ class CreateContact extends Component {
                         <form class="subscribe-box" id="newsletter-form">
                         <div class="input-field input-field-medium sticky-button">
                         <label for="newsletter-email">
-                        <input id="newsletter-email" type="email" name="email" placeholder="Search by email"/>
+                        <input id="newsletter-email" type="text"  name="email" placeholder="Search by email"/>
                         </label>
                         <button class="button button-primary button-big" id="subscribe-button-footer" type="submit">
                         <i class="btn_searching fa fa-search"></i>
