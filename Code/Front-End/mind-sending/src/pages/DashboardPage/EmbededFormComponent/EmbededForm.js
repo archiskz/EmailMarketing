@@ -230,8 +230,9 @@ class EmbededForm extends Component {
                       </Tabs>
                         
                     </div>
-                </div>
-                <div className="section_embed">
+                
+                <div className="embed_signup">
+                <form className = "embed_signup_form">
                     <h3>Copy/paste onto your site</h3>
                      <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
                       <TabList>
@@ -243,41 +244,41 @@ class EmbededForm extends Component {
                         <pre className="pre_embed_form">
                         {
                             `<form id='test-form' enctype='application/json'>
-<h2>Subscribe</h2>
-<div class="indicates-Required">
-<span class="asterisk">*</span> 
-indicates Required</div>
-<div class="mc-field-group">
-<label for="email">Email Address <span class="asterisk">*</span>
-</label>
-<input type="email" name="email" id="email">
-<div class="error" style="color: red; padding-top: 10px;">
-</div>
-</div>
-<div class="clear">
-<input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button_embed_form" value="Subscribe">
-</div>
-</div>
-</form>
-<script>
-  var testForm = document.getElementById('test-form');
-  testForm.onsubmit = function(event) {
-    event.preventDefault();
-  var email = document.getElementById("email").value
-    fetch('http://103.79.141.134:8080/api/subcriber/createForm', {
-  method: 'post',
-  headers: {
-    'Accept': 'application/json, text/plain, */*',
-    'Content-Type': 'application/json',
-    'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob25nc29uNTciLCJKV1RBdXRob3JpdGllc0tleSI6IkN1c3RvbWVyIiwiZXhwIjoxNTYzOTg5MDA5fQ.oBE_cSorANBkQdjqjQ15ToLEHqy44K-l95_Lv64W3zqEC5WojAb2WLA-DriymgRcQgysB9snpQrr0qld55EnfQ'
-  },
-  body: JSON.stringify({email: email})
-}).then(res=>res.json())
-  .then(res => console.log(res));
+                 <h2>Subscribe</h2>
+                     <div class="indicates-Required">
+                    <span class="asterisk">*</span> 
+                        indicates Required</div>
+                   <div class="mc-field-group">
+                    <label for="email">Email Address <span class="asterisk">*</span>
+                       </label>
+                  <input type="email" name="email" id="email">
+                  <div class="error" style="color: red; padding-top: 10px;">
+                  </div>
+                </div>
+              <div class="clear">
+             <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button_embed_form" value="Subscribe">
+            </div>
+                </div>
+               </form>
+            <script>
+                 var testForm = document.getElementById('test-form');
+                  testForm.onsubmit = function(event) {
+                 event.preventDefault();
+                 var email = document.getElementById("email").value
+                fetch('http://103.79.141.134:8080/api/subcriber/createForm', {
+                method: 'post',
+               headers: {
+               'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json',
+               'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob25nc29uNTciLCJKV1RBdXRob3JpdGllc0tleSI6IkN1c3RvbWVyIiwiZXhwIjoxNTYzOTg5MDA5fQ.oBE_cSorANBkQdjqjQ15ToLEHqy44K-l95_Lv64W3zqEC5WojAb2WLA-DriymgRcQgysB9snpQrr0qld55EnfQ'
+                       },
+                 body: JSON.stringify({email: email})
+                 }).then(res=>res.json())
+            .then(res => console.log(res));
 
-    console.log(request.response);
-  }
-</script>`
+                console.log(request.response);
+                          }
+                </script>`
                         }
                     </pre>
 
@@ -286,45 +287,46 @@ indicates Required</div>
                         <pre className="pre_embed_form">
                         {
                             `<form id='test-form' enctype='application/json'>
-                                <h2>Subscribe</h2>
-                                <div class="indicates-Required">
-                                    <span class="asterisk">*</span> indicates Required
-                                </div>
-                                <div class="mc-field-group">    
-                                    <label for="email">Email Address <span class="asterisk">*</span>
-                                    </label>
-                                    <input type="email" name="email" id="email">
-                                    <div class="error" style="color: red; padding-top: 10px;"></div>
-                                </div><div class="mc-field-group">
-                                <label for="firstName">First Name </label><input type="text" name="firstName" id="firstName"><div class="error" style="color: red; padding-top: 10px;"></div></div><div class="mc-field-group"><label for="lastName">Last Name </label><input type="text" name="lastName" id="lastName"><div class="error" style="color: red; padding-top: 10px;"></div></div><div class="clear"><input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button_embed_form" value="Subscribe"></div></div>
-                            </form>
-                            <script>
-                            var testForm = document.getElementById('test-form');
-                            testForm.onsubmit = function(event) {
-                                event.preventDefault();
-                                var email = document.getElementById("email").value
-                            var fn = document.getElementById("firstName").value
-                            var ln = document.getElementById("lastName").value
-                                fetch('http://103.79.141.134:8080/api/subcriber/createForm', {
-                            method: 'post',
-                            headers: {
-                                'Accept': 'application/json, text/plain, */*',
-                                'Content-Type': 'application/json',
-                                'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob25nc29uNTciLCJKV1RBdXRob3JpdGllc0tleSI6IkN1c3RvbWVyIiwiZXhwIjoxNTYzOTg5MDA5fQ.oBE_cSorANBkQdjqjQ15ToLEHqy44K-l95_Lv64W3zqEC5WojAb2WLA-DriymgRcQgysB9snpQrr0qld55EnfQ'
-                            },
-                            body: JSON.stringify({email: email, firstName: fn, lastName: ln})
-                            }).then(res=> console.log(res))
-                            .then(res => console.log(res));
-                            }
-                            </script>`
+     <h2>Subscribe</h2>
+     <div class="indicates-Required">
+     <span class="asterisk">*</span> indicates Required
+      </div>
+       <div class="mc-field-group">    
+      <label for="email">Email Address <span class="asterisk">*</span>
+        </label>
+            <input type="email" name="email" id="email">
+            <div class="error" style="color: red; padding-top: 10px;"></div>
+            </div><div class="mc-field-group">
+                    <label for="firstName">First Name </label><input type="text" name="firstName" id="firstName"><div class="error" style="color: red; padding-top: 10px;"></div></div><div class="mc-field-group"><label for="lastName">Last Name </label><input type="text" name="lastName" id="lastName"><div class="error" style="color: red; padding-top: 10px;"></div></div><div class="clear"><input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button_embed_form" value="Subscribe"></div></div>
+             </form>
+              <script>
+            var testForm = document.getElementById('test-form');
+        testForm.onsubmit = function(event) {
+            event.preventDefault();
+             var email = document.getElementById("email").value
+              var fn = document.getElementById("firstName").value
+             var ln = document.getElementById("lastName").value
+               fetch('http://103.79.141.134:8080/api/subcriber/createForm', {
+                method: 'post',
+              headers: {
+                 'Accept': 'application/json, text/plain, */*',
+                 'Content-Type': 'application/json',
+                   'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob25nc29uNTciLCJKV1RBdXRob3JpdGllc0tleSI6IkN1c3RvbWVyIiwiZXhwIjoxNTYzOTg5MDA5fQ.oBE_cSorANBkQdjqjQ15ToLEHqy44K-l95_Lv64W3zqEC5WojAb2WLA-DriymgRcQgysB9snpQrr0qld55EnfQ'
+               },
+                  body: JSON.stringify({email: email, firstName: fn, lastName: ln})
+               }).then(res=> console.log(res))
+                  .then(res => console.log(res));
+                     }
+                  </script>`
                         }
                     </pre>
 
                       </TabPanel>
                     </Tabs>
                     
-                    
+                 </form>   
                 </div>
+            </div>
             </div>
         );
     }
