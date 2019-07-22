@@ -6,7 +6,9 @@ import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
 import com.emailmkt.emailmarketing.model.AppointmentGroupContact;
 import com.emailmkt.emailmarketing.model.AppointmentSubcriber;
-import com.emailmkt.emailmarketing.repository.*;
+import com.emailmkt.emailmarketing.repository.AccountRepository;
+import com.emailmkt.emailmarketing.repository.AppointmentRepository;
+import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +31,17 @@ import java.util.stream.Collectors;
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
     public static final int NUM_OF_THREAD = 10;
-
     @Autowired
     AppointmentRepository appointmentRepository;
     @Autowired
     AccountRepository accountRepository;
-    @Autowired
-    AppointmentGroupContactRepository appointmentGroupContactRepository;
 
     @Autowired
     GroupContactRepository groupContactRepository;
+    @Autowired
+    AppointmentGroupContactRepository appointmentGroupContactRepository;
+
+    
 
     @Autowired
     SubcriberRepository subcriberRepository;
