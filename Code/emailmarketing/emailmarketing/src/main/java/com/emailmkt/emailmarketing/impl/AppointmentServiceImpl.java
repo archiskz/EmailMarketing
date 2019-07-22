@@ -105,7 +105,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 
 
-             appointmentGroupContact.setAppointmentSubcribers(appointmentSubcribers);
+            appointmentGroupContact.setAppointmentSubcribers(appointmentSubcribers);
 
             return appointmentGroupContact;
         }).collect(Collectors.toList());
