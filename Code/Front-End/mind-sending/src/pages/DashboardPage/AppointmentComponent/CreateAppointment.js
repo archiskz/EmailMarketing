@@ -122,14 +122,23 @@ class CreateAppointment extends Component{
     if(dateSelect.value != "" && dateSelect.value != null){
       var tempDate = new Date();
      tempDate = dateSelect.value;
-    const date=(tempDate.getMonth()+1) + '/' + tempDate.getDate() +'/'+tempDate.getFullYear() + ' ' +  this.formatAMPM(tempDate);
-
-    console.log(date);
+     var month = tempDate.getMonth() + 1;
+     if(month < 10){
+       month = `0${month}`
+       console.log(month)
+     }
+     var date = tempDate.getDate();
+     if(date < 10){
+       date = `0${date}`
+     }
+    const Day=month + '/' + date +'/'+tempDate.getFullYear() + ' ' +  this.formatAMPM(tempDate);
+    
+    console.log(Day);
     this.setState({ newAppointment: {
       ...this.state.newAppointment,
       appointmentDTO:{
         ...this.state.newAppointment.appointmentDTO,
-        time: date,
+        time: Day,
     },
     }
 		
@@ -142,6 +151,7 @@ class CreateAppointment extends Component{
     var ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
+    hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0'+minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
@@ -161,7 +171,10 @@ class CreateAppointment extends Component{
 
     this.setState({ newAppointment: {
       ...this.state.newAppointment,
-        gcCampaignDTOS: selectValue,
+        appointmentDTO:{
+          ...this.state.newAppointment.appointmentDTO,
+          gcAppointmentDTOS: selectValue
+        }
     }
 		
 		},()=>console.log(this.state.newAppointment) );
@@ -383,7 +396,7 @@ class CreateAppointment extends Component{
         campaignId: this.state.campaignId,
         contentJson: content,
         appointment: true,
-        newAppointment: this.state.newAppointment
+        newAppointment: this.state.newAppointment,
       }
   });
   }

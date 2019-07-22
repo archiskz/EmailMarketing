@@ -21,6 +21,7 @@ class CreateCampaign extends Component{
      super(props);
 
      this.state = {
+       isChecked:false,
        using:this.props.history.location.state.using,
        height: 755,
       modalIsOpen: false,
@@ -118,15 +119,24 @@ class CreateCampaign extends Component{
     if(dateSelect.value != "" && dateSelect.value != null){
       var tempDate = new Date();
      tempDate = dateSelect.value;
-    const date=(tempDate.getMonth()+1) + '/' + tempDate.getDate() +'/'+tempDate.getFullYear() + ' ' +  this.formatAMPM(tempDate);
+     var month = tempDate.getMonth() + 1;
+     if(month < 10){
+       month = `0${month}`
+       console.log(month)
+     }
+     var date = tempDate.getDate();
+     if(date < 10){
+       date = `0${date}`
+     }
+    const Day=month + '/' + date +'/'+tempDate.getFullYear() + ' ' +  this.formatAMPM(tempDate);
 
-    console.log(date);
+    console.log(Day);
 
     this.setState({ newCampaign: {
       ...this.state.newCampaign,
       campaignDTO:{
         ...this.state.newCampaign.campaignDTO,
-        timeStart: date,
+        timeStart: Day,
     },
     }
 		
@@ -139,6 +149,7 @@ class CreateCampaign extends Component{
     var ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
+    hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0'+minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
@@ -193,7 +204,8 @@ class CreateCampaign extends Component{
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
-        <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class="btn btn-secondary btn-on-dark btn-with-icon btn-with-icon">
+        <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class={`btn btn-secondary btn-on-dark btn-with-icon btn-with-icon ${this.state.isChecked == true ? "activeText" : "" }` }
+        >
             <i class="sg-icon sg-icon-save-draft">
 
             </i>Save Draft
@@ -287,10 +299,20 @@ class CreateCampaign extends Component{
         		</div>
 
             <div className="user_profile6">
-            <h3>Schedule 
-            <input ref="switch" checked={ this.state.isChecked } onChange={ this._handleChange } className="switch" type="checkbox" />
-            <h5 style = {{"fontStyle":"italic"}}>Set time to send campaign</h5></h3>
-        			<div className="user_profile7">
+            
+            <h3 style={{"display":"flex"}}>Schedule 
+            <div className="switch-container">
+                <label>
+                    <input ref="switch" checked={ this.state.isChecked } onChange={ this._handleChange } className="switch" type="checkbox" />
+                    <div>
+              
+                        <div></div>
+                    </div>
+                </label>
+            </div>
+            </h3>
+            <h5 style = {{"fontStyle":"italic"}}>Set time to send campaign</h5>
+        			<div className={`user_profile7 ${this.state.isChecked == false ? "activeText" : "" }` }  >
         				<div className="user_profile9_sub">
         					<div className="user_profile7_sub1">
                       <div className="control-styles">
@@ -405,6 +427,12 @@ class CreateCampaign extends Component{
       );
   }
 
+  _handleChange=()=> {
+		this.setState( { isChecked: !this.state.isChecked }, ()=>console.log(this.state.isChecked));
+    }
+    
+
+
 
   onChooseTemplate = (id, content)=>{
     this.props.history.push({
@@ -412,7 +440,8 @@ class CreateCampaign extends Component{
       state : {
         id: id,
         campaignId: this.state.campaignId,
-        contentJson: content
+        contentJson: content,
+        isChecked: this.state.isChecked
       }
   });
   }
@@ -465,21 +494,37 @@ class CreateCampaign extends Component{
   showModal =()=>{
     this.setState({modalIsOpen: true})
     var self = this;
-    axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-    .then(response => {
-      console.log(response.data)
-      var id = response.data
-          self.setState({
-            campaignId: id
-          },
-          ()=> {
-            this.props.onOpenModal();})
-          console.log(this.state.campaignId)
-    })
-    .catch(error => {
-      console.log(error);
-    });
-    
+    if(this.state.isChecked == true){
+      axios.post(`${Config.API_URL}campaign/create/timer`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+      .then(response => {
+        console.log(response.data)
+        var id = response.data
+            self.setState({
+              campaignId: id,
+            },
+            ()=> {
+              this.props.onOpenModal();})
+            console.log(this.state.campaignId)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    } else {
+      axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+      .then(response => {
+        console.log(response.data)
+        var id = response.data
+            self.setState({
+              campaignId: id
+            },
+            ()=> {
+              this.props.onOpenModal();})
+            console.log(this.state.campaignId)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
   }
 }
 const mapStateToProps = (state) => {

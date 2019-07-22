@@ -1879,7 +1879,7 @@ a.disabled {
     color: #666666;
   }
 .activeText{
-    display: none;
+    display: none !important;
     visibility: hidden;
 }
 .txtArea{

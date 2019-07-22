@@ -33,7 +33,8 @@ class EditContent extends Component {
         id: this.props.history.location.state.campaignId,
       } ,
       auth_token:"",
-      newAppointment:this.props.history.location.state.newAppointment
+      newAppointment:this.props.history.location.state.newAppointment,
+      isChecked:this.props.history.location.state.isChecked 
     };
     this.onLoad = this.onLoad.bind(this);
     // this.exportHtml = this.exportHtml.bind(this)
@@ -58,6 +59,7 @@ class EditContent extends Component {
   }
    componentDidMount(){
      console.log(this.props.history.location.state.newAppointment)
+     console.log(this.props.history.location.state.isChecked)
     this.isComponentMounted = true; 
     const appState = JSON.parse(localStorage.getItem('appState'));
     this.setState({
