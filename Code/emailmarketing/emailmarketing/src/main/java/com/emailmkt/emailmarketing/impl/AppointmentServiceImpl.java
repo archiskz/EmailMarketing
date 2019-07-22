@@ -39,7 +39,16 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Autowired
     GroupContactRepository groupContactRepository;
     @Autowired
+    AppointmentGroupContactRepository appointmentGroupContactRepository;
+
+    
+
+    @Autowired
+    SubcriberRepository subcriberRepository;
+    @Autowired
     MailService mailService;
+
+
 
 
     @Override
@@ -103,14 +112,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
             return appointmentGroupContact;
         }).collect(Collectors.toList());
-
+        System.out.println("Tới đây 2");
         appointment.setAppointmentGroupContacts(appointmentGroupContacts);
 //
         appointment.setToken(UUID.randomUUID().toString());
         appointmentDTO.setToken(appointment.getToken());
         appointment.setConfirm(false);
         appointmentRepository.save(appointment);
-
+        System.out.println("Toi day 3");
         try {
             String bodyTemp = appointment.getBody();
             int index = bodyTemp.indexOf("<a href=\"\"") + 8;
@@ -163,7 +172,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment addContentToAppointment(Appointment appointment) {
-        Appointment appointmentEdit= appointmentRepository.findAppointmentById(appointment.getId());
+        Appointment appointmentEdit = appointmentRepository.findAppointmentById(appointment.getId());
         if (appointmentEdit == null) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "This appointment is not exist!");
@@ -189,13 +198,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public ResponseEntity<String> acceptAppointment(String token) {
         Appointment appointment = appointmentRepository.findByToken(token);
-        if(appointment == null){
+        if (appointment == null) {
             return ResponseEntity.badRequest().body("Invalid token.");
-        }
-        else{
+        } else {
             appointment.setConfirm(true);
             appointmentRepository.save(appointment);
         }
-        return ResponseEntity.ok("You have successfully verified your email address.");
+        return ResponseEntity.ok("Thanks for accepting my invite!");
     }
 }
