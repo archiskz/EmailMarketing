@@ -12,7 +12,10 @@ import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
 import { select } from '@syncfusion/ej2-base';
 import { withRouter } from "react-router";
 import Modal from 'react-awesome-modal';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import OneTemplate from './../../../components/OneTemplate';
+import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
 class CreateCampaign extends Component{
    constructor(props) {
      super(props);
@@ -42,7 +45,8 @@ class CreateCampaign extends Component{
                 }
               ],
               status: "z",
-              type: "z"
+              type: "z",
+              timeStart:""
           },
           mailObjectDTO:{
               body: "",
@@ -109,11 +113,41 @@ class CreateCampaign extends Component{
     this.setState({selectValue}, () => { console.log('------------------', this.state)})
   }
 
+  onChangeDate=(dateSelect)=>{
+    var tempDate = new Date();
+     tempDate = dateSelect.value;
+    const date=(tempDate.getMonth()+1) + '/' + tempDate.getDate() +'/'+tempDate.getFullYear() + ' ' +  this.formatAMPM(tempDate);
+
+    console.log(date);
+
+    this.setState({ newCampaign: {
+      ...this.state.newCampaign,
+      campaignDTO:{
+        ...this.state.newCampaign.campaignDTO,
+        timeStart: date,
+    },
+    }
+		
+		},()=>console.log(this.state.newCampaign));
+  }
+   formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  }
+  
+
   
    handleChange(event) {
     this.setState({selectValue: event.target.value});
     console.log("now" + this.state.selectValue);
   }
+
   onChangeListsSelect=(args)=>{
     console.log(args.value)
     var numbers = args.value;
@@ -132,13 +166,19 @@ class CreateCampaign extends Component{
     },
     }
 		
-		} );
+		},()=>console.log(this.state.newCampaign) );
   }
 
 	
   render(){
     var lists = this.state.lists;
-    var listTemplates = this.state.templates
+    var listTemplates = this.state.templates;
+    var tempDate = new Date();
+  var minDate = (tempDate.getMonth()+1) + '/' + tempDate.getDate() +'/'+tempDate.getFullYear() + ' ' +  tempDate.getHours()+':'+ tempDate.getMinutes();
+    var selectDateTmp = new Date(this.state.newCampaign.campaignDTO.timeStart);
+    var selectedDate = (selectDateTmp.getMonth()+1) + '/' + selectDateTmp.getDate() +'/'+selectDateTmp.getFullYear() + ' ' +  selectDateTmp.getHours()+':'+ selectDateTmp.getMinutes();
+  
+  // const currDate = "Current Date= "+date;
      return (
        <div style={{"width":"100%","height":"100%"}}>
       <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
@@ -242,6 +282,21 @@ class CreateCampaign extends Component{
         		<h4 className="user_profile5_h4">Campaign Name:</h4>
         		<p className="user_profile5_p">{this.state.campaignName} <button style={{"width":"15px"}} class="fas fa-edit fa-xs"></button></p>
         		</div>
+
+            <div className="user_profile6">
+            <h3>Schedule<h5 style = {{"fontStyle":"italic"}}>Set time to send campaign</h5></h3>
+        			<div className="user_profile7">
+        				<div className="user_profile9_sub">
+        					<div className="user_profile7_sub1">
+                      <div className="control-styles">
+                      <DateTimePickerComponent value={this.state.newCampaign.campaignDTO.timeStart}  change={this.onChangeDate} min={minDate} id="datetimepicker" placeholder="Select a date and time"/>
+                      </div>
+        					</div>
+        				</div>
+        			</div>
+        		
+        		</div>
+
         		<div className="user_profile6">
             <h3>To<h5 style = {{"fontStyle":"italic"}}>Who are you sending this campaign to?</h5></h3>
         			<div className="user_profile7">

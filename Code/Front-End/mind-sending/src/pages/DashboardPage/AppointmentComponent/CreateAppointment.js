@@ -15,6 +15,7 @@ import Modal from 'react-awesome-modal';
 import OneTemplate from '../../../components/OneTemplate';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
 class CreateAppointment extends Component{
    constructor(props) {
      super(props);
@@ -56,19 +57,19 @@ class CreateAppointment extends Component{
      this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.handleDate = this.handleDate.bind(this);
+    // this.handleDate = this.handleDate.bind(this);
    }
-   handleDate(date) {
-    this.setState({ newAppointment: {
-      ...this.state.newAppointment,
-      appointmentDTO:{
-        ...this.state.newAppointment.appointmentDTO,
-        time: date,
-    }
+  //  handleDate(date) {
+  //   this.setState({ newAppointment: {
+  //     ...this.state.newAppointment,
+  //     appointmentDTO:{
+  //       ...this.state.newAppointment.appointmentDTO,
+  //       time: date,
+  //   }
     
-    } });
-    console.log(this.state.newAppointment)
-  }
+  //   } });
+  //   console.log(this.state.newAppointment)
+  // }
    
   componentDidMount (){
     const appState = JSON.parse(localStorage.getItem('appState'));
@@ -117,11 +118,35 @@ class CreateAppointment extends Component{
     this.setState({selectValue}, () => { console.log('------------------', this.state)})
   }
 
+  onChangeDate=(dateSelect)=>{
+    var tempDate = new Date();
+     tempDate = dateSelect.value;
+    const date=(tempDate.getMonth()+1) + '/' + tempDate.getDate() +'/'+tempDate.getFullYear() + ' ' +  this.formatAMPM(tempDate);
+
+    console.log(date);
+    this.setState({ newAppointment: {
+      ...this.state.newAppointment,
+      appointmentDTO:{
+        ...this.state.newAppointment.appointmentDTO,
+        time: date,
+    },
+    }
+		
+		},()=>console.log(this.state.newAppointment));
+  }
+   formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  }
   
-  //  handleChange(event) {
-  //   this.setState({selectValue: event.target.value});
-  //   console.log("now" + this.state.selectValue);
-  // }
+  
+
   onChangeListsSelect=(args)=>{
     console.log(args.value)
     var numbers = args.value;
@@ -132,21 +157,22 @@ class CreateAppointment extends Component{
       }
     });
 
-    // this.setState({ newCampaign: {
-    //   ...this.state.newCampaign,
-    //   campaignDTO:{
-    //     ...this.state.newCampaign.campaignDTO,
-    //     gcCampaignDTOS: selectValue,
-    // },
-    // }
+    this.setState({ newAppointment: {
+      ...this.state.newAppointment,
+        gcCampaignDTOS: selectValue,
+    }
 		
-		// } );
+		},()=>console.log(this.state.newAppointment) );
   }
 
 	
   render(){
     var lists = this.state.lists;
-    var listTemplates = this.state.templates
+    var listTemplates = this.state.templates;
+    listTemplates=listTemplates.filter(item=> item.type=="iv");
+    var tempDate = new Date();
+    var minDate = (tempDate.getMonth()+1) + '/' + tempDate.getDate() +'/'+tempDate.getFullYear() + ' ' +  tempDate.getHours()+':'+ tempDate.getMinutes();
+   
      return (
        <div style={{"width":"100%","height":"100%"}}>
       <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
@@ -205,16 +231,9 @@ class CreateAppointment extends Component{
         					<div className="user_profile7_sub1">
         						<label className="user_profile_w3_label" >Date and Time </label>
                       <div className="control-styles">
-                        
-                        <DatePicker
-                            selected={this.state.newAppointment.appointmentDTO.time}
-                            onChange={this.handleDate}
-                            showTimeSelect
-                            timeFormat="HH:mm"
-                            timeIntervals={15}
-                            dateFormat="MMMM d, yyyy h:mm aa"
-                            timeCaption="time"
-                        />
+                      <DateTimePickerComponent value={this.state.newAppointment.appointmentDTO.time}  change={this.onChangeDate} min={minDate} id="datetimepicker" placeholder="Select a date and time"/>
+                 
+                       
                       </div>
         					</div>
         				</div>
@@ -322,7 +341,7 @@ class CreateAppointment extends Component{
         </div>
       </header>
       <div className="thumbnail-views" style={{"width": "90%","height":"75%"}}>
-      {this.state.templates.map(list=>(
+      {listTemplates.map(list=>(
                <OneTemplate
                     campaignId={this.props.campaignId}
                     id={list.id}

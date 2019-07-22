@@ -15,7 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "workflow_has_task",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"task_id", "shape_id","workflow_id"})
+        @UniqueConstraint(columnNames = {"task_id", "shape_id","workflow_id","id"})
 })
 
 

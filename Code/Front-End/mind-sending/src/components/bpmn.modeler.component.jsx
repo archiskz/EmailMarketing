@@ -22,7 +22,7 @@ class BpmnModelerComponent extends Component {
             keyboard: false,
             bpmn : {
               type: "string",
-              workflowName: "FPT University student",
+              workflowName: this.props.automationName,
               wtWorkflowDTOS: ""
             },
             auth_token:""
@@ -37,6 +37,7 @@ class BpmnModelerComponent extends Component {
 
 
     componentDidMount = () => {
+      console.log(this.props.automationName);
         document.addEventListener('mousedown', this.handleClickOutside);
         this.modeler = new BpmnModeler({
             container: '#bpmnview',

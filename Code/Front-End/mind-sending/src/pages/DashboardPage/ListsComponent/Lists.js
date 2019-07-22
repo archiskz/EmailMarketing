@@ -19,6 +19,7 @@ class Lists extends Component {
             },
             createListVisible: false,
             groupContacts: [{}],
+            groupContactsFilter: [{id:"",name:"",description:""}],
             visible: true,
             dropdown_visible: false,
             existedGroup: "",
@@ -26,6 +27,7 @@ class Lists extends Component {
 
         };
         this.handleChange1 = this.handleChange1.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
         this.handleChange2 = this.handleChange2.bind(this);
         this.addNotification = this.addNotification.bind(this);
         this.notificationDOMRef = React.createRef();
@@ -72,6 +74,21 @@ class Lists extends Component {
         this.setState({
             auth_token: appState.user.auth_token
         },()=> this.getAllListContact() )
+       
+    }
+    handleSearch = (event) => {
+        var searchValue = event.target.value;
+        var groupContactsList = this.state.groupContactsFilter
+        if(searchValue !== ""){
+             groupContactsList = groupContactsList.filter(item => item.name.includes(searchValue))
+             this.setState({
+                groupContacts: groupContactsList
+             });
+        } else {
+            this.setState({
+                groupContacts: this.state.groupContactsFilter
+             });
+        }
        
     }
 
@@ -123,7 +140,7 @@ class Lists extends Component {
                                             <form class="subscribe-box" id="newsletter-form">
                                                 <div class="input-field input-field-medium sticky-button">
                                                     <label for="newsletter-email">
-                                                        <input id="newsletter-email" type="email" name="email"
+                                                        <input id="newsletter-email" onChange={this.handleSearch} type="email" name="email"
                                                                placeholder="Search list"/>
                                                     </label>
                                                     <button class="button button-primary button-big"
@@ -240,9 +257,12 @@ class Lists extends Component {
                         <div className="wrap-input1 validate-input">
                             <input value={this.state.newList.name} onChange={this.handleChange1} className="name input1"
                                    type="text" name="name" placeholder="New Name"/>
-                            <span class="">{this.state.existedGroup}</span>
+                            
                         </div>
-
+                        <div style={{"width":"100%","textAlign":"center"}}>
+                        <p style={{"color":"red","textAlign":"center"}} class="">{this.state.existedGroup}</p>
+                        </div>
+                        
                         <div class="wrap-input1 validate-input">
                             <input value={this.state.newList.description} onChange={this.handleChange2}
                                    className="description input1" type="text" name="email"
@@ -251,12 +271,12 @@ class Lists extends Component {
                         </div>
 
                         <div class="container-contact1-form-btn">
-                            <a onClick={() => this.saveNewList()} class="contact1-form-btn">
+                            <a style={{"marginLeft":"30px","width":"150px", "float":"left", "color":"white"}} disabled={!this.state.newList.name} onClick={() => this.saveNewList()} className={`btn_begin_create_campaign ${this.state.newList.name ? "" : "disabled"}`}>
 						<span>
 							Create
 						</span>
                             </a>
-                            <a onClick={() => this.closeModal()} class="contact1-form-btn">
+                            <a style={{"marginLeft":"30px","width":"150px", "float":"left", "color":"white"}} onClick={() => this.closeModal()} class="btn_begin_create_campaign">
 						<span>
                             Cancel
 						</span>
@@ -285,7 +305,9 @@ class Lists extends Component {
             .then(res => {
                 const listContacts = res.data;
                 console.log(listContacts);
-                this.setState({groupContacts: listContacts})
+                this.setState({groupContacts: listContacts,
+                    groupContactsFilter: listContacts
+                })
             }).catch(function (error) {
             console.log(error);
         });

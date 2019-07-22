@@ -2310,7 +2310,7 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-text-fill-color: #337ab7;
+  -webkit-text-fill-color:black;
   transition: background-color 5000s ease-in-out 0s;
 }
 

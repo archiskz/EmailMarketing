@@ -1871,6 +1871,13 @@ text-align: center;
     text-align: left;
 
 }
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+  }
 .activeText{
     display: none;
     visibility: hidden;
