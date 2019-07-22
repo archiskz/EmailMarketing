@@ -91,16 +91,17 @@ addActiveClass = (index) => {
                     <span style={{position: 'relative'}}>Regular Campaign</span>
                     <div className="clearfix" />
                 </Link>
+                <Link to="/dashboard/schedule-campaigns">
+                    <i className="fa " /> 
+                    <span style={{position: 'relative'}}>Schedule Campaign</span>
+                    <div className="clearfix" />
+                </Link>
                 <Link to="/dashboard/automations">
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>Automation Campaigns</span>
                     <div className="clearfix" />
                 </Link>
-                <Link to="">
-                    <i className="fa " /> 
-                    <span style={{position: 'relative'}}>View</span>
-                    <div className="clearfix" />
-                </Link>
+               
             </li>
 
             {/* END CAMPAIGNS */}

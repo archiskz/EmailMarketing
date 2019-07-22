@@ -119,7 +119,8 @@ class CreateAppointment extends Component{
   }
 
   onChangeDate=(dateSelect)=>{
-    var tempDate = new Date();
+    if(dateSelect.value != "" && dateSelect.value != null){
+      var tempDate = new Date();
      tempDate = dateSelect.value;
     const date=(tempDate.getMonth()+1) + '/' + tempDate.getDate() +'/'+tempDate.getFullYear() + ' ' +  this.formatAMPM(tempDate);
 
@@ -133,6 +134,7 @@ class CreateAppointment extends Component{
     }
 		
 		},()=>console.log(this.state.newAppointment));
+    }
   }
    formatAMPM(date) {
     var hours = date.getHours();
