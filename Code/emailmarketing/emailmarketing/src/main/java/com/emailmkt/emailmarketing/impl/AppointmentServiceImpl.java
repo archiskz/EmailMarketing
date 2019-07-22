@@ -9,6 +9,7 @@ import com.emailmkt.emailmarketing.model.AppointmentSubcriber;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.AppointmentRepository;
 import com.emailmkt.emailmarketing.repository.GroupContactRepository;
+import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     GroupContactRepository groupContactRepository;
-    @Autowired
-    AppointmentGroupContactRepository appointmentGroupContactRepository;
+
 
     
 

@@ -114,7 +114,9 @@ class CreateCampaign extends Component{
   }
 
   onChangeDate=(dateSelect)=>{
-    var tempDate = new Date();
+    console.log(dateSelect)
+    if(dateSelect.value != "" && dateSelect.value != null){
+      var tempDate = new Date();
      tempDate = dateSelect.value;
     const date=(tempDate.getMonth()+1) + '/' + tempDate.getDate() +'/'+tempDate.getFullYear() + ' ' +  this.formatAMPM(tempDate);
 
@@ -129,6 +131,7 @@ class CreateCampaign extends Component{
     }
 		
 		},()=>console.log(this.state.newCampaign));
+    }
   }
    formatAMPM(date) {
     var hours = date.getHours();
@@ -284,7 +287,9 @@ class CreateCampaign extends Component{
         		</div>
 
             <div className="user_profile6">
-            <h3>Schedule<h5 style = {{"fontStyle":"italic"}}>Set time to send campaign</h5></h3>
+            <h3>Schedule 
+            <input ref="switch" checked={ this.state.isChecked } onChange={ this._handleChange } className="switch" type="checkbox" />
+            <h5 style = {{"fontStyle":"italic"}}>Set time to send campaign</h5></h3>
         			<div className="user_profile7">
         				<div className="user_profile9_sub">
         					<div className="user_profile7_sub1">
