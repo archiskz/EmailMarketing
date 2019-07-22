@@ -9,7 +9,7 @@ import com.emailmkt.emailmarketing.model.Template;
 public interface CampaignService {
     boolean createCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO);
     void sendCampaign(int campaignId);
-    boolean createCampaignWithTemplate(MailObjectDTO mailObjectDTO, int groupId, Template template);
+    boolean createCampaignWithTimer(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO);
     boolean createAutoResponseCampaign(MailObjectDTO mailObjectDTO, int groupId, Template template);
 
      boolean editCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO,int id);

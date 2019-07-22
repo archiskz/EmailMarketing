@@ -89,6 +89,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointmentGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
             appointmentGroupContact.setAppointment(appointment);
             appointmentGroupContact.setCreatedTime(LocalDateTime.now().toString());
+            System.out.println("Tới đây 1");
             String[] mailList = groupContactRepository.findSubcriberMailByGroupContactId(appointmentGroupContact.getGroupContact().getId());
             List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
             for (int i = 0; i < mailList.length; i++) {
@@ -108,13 +109,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
             return appointmentGroupContact;
         }).collect(Collectors.toList());
-
+        System.out.println("Tới đây 2");
         appointment.setAppointmentGroupContacts(appointmentGroupContacts);
 //
         appointment.setToken(UUID.randomUUID().toString());
         appointmentDTO.setToken(appointment.getToken());
         appointment.setConfirm(false);
         appointmentRepository.save(appointment);
+        System.out.println("Toi day 3");
         try {
             String bodyTemp = appointment.getBody();
             int index = bodyTemp.indexOf("<a href=\"\"") + 8;

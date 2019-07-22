@@ -18,6 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
@@ -48,7 +51,7 @@ public class CampaignController {
 //        this.accountService = accountService;
 //    }
 
-    @ApiOperation(value = "Create Campaign Without Template")
+    @ApiOperation(value = "Create Campaign Template")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful"),
             @ApiResponse(code = 400, message = "Invalid  ID"),
@@ -60,6 +63,30 @@ public class CampaignController {
             return ResponseEntity.status(CONFLICT).body("Campaign Existed");
         }
         Campaign temp = campaignRepository.findByName(mailAndCampaign.campaignDTO.getCampaignName());
+        return ResponseEntity.status(CREATED).body(temp.getId() );
+
+    }
+
+    @ApiOperation(value = "Create Campaign Template")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful"),
+            @ApiResponse(code = 400, message = "Invalid  ID"),
+            @ApiResponse(code = 500, message = "Internal server error") })
+    @PostMapping(value="campaign/create/timer", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createCampaignWithoutTimer(@RequestBody MailAndCampaign mailAndCampaign) {
+
+
+            LocalDate date = LocalDate.parse(mailAndCampaign.campaignDTO.getTimeStart(), DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a"));
+            if(date.isBefore(LocalDate.now())){
+                return ResponseEntity.status(NOT_ACCEPTABLE).body("This Time Start is before now");
+            }
+
+        boolean flag = campaignService.createCampaignWithTimer(mailAndCampaign.mailObjectDTO,mailAndCampaign.campaignDTO);
+        if (flag == false) {
+            return ResponseEntity.status(CONFLICT).body("Campaign Existed");
+        }
+        Campaign temp = campaignRepository.findByName(mailAndCampaign.campaignDTO.getCampaignName());
+
         return ResponseEntity.status(CREATED).body(temp.getId() );
 
     }
