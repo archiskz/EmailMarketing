@@ -216,7 +216,6 @@ class AppointmentMails extends Component {
       console.log(listContacts);
       this.setState({groupContacts:listContacts})
     }).catch(function (error) {
-        console.log(error.response.data);
       });
   }
 

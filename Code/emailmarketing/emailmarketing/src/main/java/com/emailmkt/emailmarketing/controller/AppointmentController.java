@@ -79,17 +79,12 @@ public class AppointmentController {
                 if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign Existed");
         }
-        String to ="dragontna4997@gmail.com";
-        Template t = templates.getTemplate("Test.ftl");
-        Map<String, String> map = new HashMap<>();
-        map.put("VERIFICATION_URL","http://localhost:8080/api/accept-appointment?confirmationToken="+ mailAndAppointment.appointmentDTO.getToken());
-        String bodyTemp = FreeMarkerTemplateUtils.processTemplateIntoString(t, map);
-        System.out.println("Bodytemp"+bodyTemp);
+
+
+
         Appointment temp = appointmentRepository.findByName(mailAndAppointment.appointmentDTO.getName());
-        mailService.sendAppointment(mailAndAppointment.mailObjectDTO.getFrom(),
-                                        mailAndAppointment.mailObjectDTO.getFromMail(),
-                                        to,mailAndAppointment.mailObjectDTO.getSubject(),
-                bodyTemp);
+
+
         return ResponseEntity.status(CREATED).body(temp.getId() );
 
     }

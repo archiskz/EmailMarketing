@@ -20,9 +20,11 @@ import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -71,7 +73,7 @@ public class CampaignServiceImpl implements CampaignService {
         campaign.setName(campaignDTO.getCampaignName());
         campaign.setStatus(campaignDTO.getStatus());
         campaign.setType("Regular");
-
+        campaign.setTimeStart(LocalDateTime.now().toString());
         //Add to Group Contacts
         Account account = accountRepository.findAccountById(1);
         campaign.setAccount_id(account.getId());
@@ -92,6 +94,7 @@ public class CampaignServiceImpl implements CampaignService {
         campaign.setCampaignGroupContacts(campaignGroupContacts);
 
         campaignRepository.save(campaign);
+
 
 //        mailService.sendSimpleMessage(campaign.getSender(),campaign.getFromMail(),mailLists.stream().toArray(String[]::new),campaign.getSubject(),campaign.getContent());
 
@@ -128,9 +131,71 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public boolean createCampaignWithTemplate(MailObjectDTO mailObjectDTO, int groupId, Template template) {
-        return false;
+    public boolean createCampaignWithTimer(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO) {
+        System.out.println(campaignDTO.getCampaignName());
+        Campaign checkExistedCampain = campaignRepository.findByName(campaignDTO.getCampaignName());
+        if (checkExistedCampain != null) {
+            return false;
+        }
+        Campaign campaign = new Campaign();
+        //Mail Object
+        campaign.setContent(mailObjectDTO.getBody());
+        campaign.setBodyJson(mailObjectDTO.getBodyJson());
+        campaign.setFromMail(mailObjectDTO.getFromMail());
+        campaign.setSender(mailObjectDTO.getFrom());
+        campaign.setSubject(mailObjectDTO.getSubject());
+        //Campaign Info
+        campaign.setCreatedTime(LocalDateTime.now().toString());
+        campaign.setName(campaignDTO.getCampaignName());
+        campaign.setStatus("Sending");
+        campaign.setType("Regular");
+        campaign.setTimeStart(campaignDTO.getTimeStart());
+
+        //Add to Group Contacts
+        Account account = accountRepository.findAccountById(1);
+        campaign.setAccount_id(account.getId());
+        List<String>mailLists = new ArrayList<>();
+        List<CampaignGroupContact> campaignGroupContacts = campaignDTO.getGcCampaignDTOS().stream().map(g->{
+            CampaignGroupContact campaignGroupContact = new CampaignGroupContact();
+            campaignGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
+            campaignGroupContact.setCreatedTime(LocalDateTime.now().toString());
+            String[]mailList= groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
+            System.out.println(mailList);
+            for (int i = 0; i < mailList.length; i++) {
+                mailLists.add(mailList[i]);
+            }
+            campaignGroupContact.setCampaign(campaign);
+            return campaignGroupContact;
+        }).collect(Collectors.toList());
+
+        campaign.setCampaignGroupContacts(campaignGroupContacts);
+
+        campaignRepository.save(campaign);
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                mailService.sendSimpleMessageV2(campaign.getSender(),campaign.getFromMail(),mailLists.stream().toArray(String[]::new),campaign.getSubject(),campaign.getContent());
+                campaign.setStatus("Done");
+            }
+        };
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        Date dt = null;
+        try {
+            //parse Datatime to Calendar
+            dt = df.parse(campaign.getTimeStart());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dt);
+        Timer timer = new Timer();
+        Date dateSchedule = calendar.getTime();
+        timer.schedule(task, dateSchedule);
+
+        return true;
     }
+
+
 
     @Override
     public boolean createAutoResponseCampaign(MailObjectDTO mailObjectDTO, int groupId, Template template) {

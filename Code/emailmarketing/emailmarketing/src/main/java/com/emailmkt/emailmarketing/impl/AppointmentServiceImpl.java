@@ -61,13 +61,82 @@ public class AppointmentServiceImpl implements AppointmentService {
         //Add to Group Contacts
         Account account = accountRepository.findAccountById(3);
         appointment.setAccount_id(account.getId());
-        appointment.setTo("tannm@unicode.edu.vn");
-        String[] strArray = new String[] {appointment.getTo()};
+//        appointment.setTo("tannm@unicode.edu.vn");
+//        String[] strArray = new String[] {appointment.getTo()};
+        List<String> mailLists = new ArrayList<>();
+        List<AppointmentGroupContact> appointmentGroupContacts = appointmentDTO.getGcAppointmentDTOS().stream().map(g -> {
+            AppointmentGroupContact appointmentGroupContact = new AppointmentGroupContact();
+            appointmentGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
+            appointmentGroupContact.setAppointment(appointment);
+            appointmentGroupContact.setCreatedTime(LocalDateTime.now().toString());
+            System.out.println("Tới đây 1");
+            String[] mailList = groupContactRepository.findSubcriberMailByGroupContactId(appointmentGroupContact.getGroupContact().getId());
+            List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
+            for (int i = 0; i < mailList.length; i++) {
+                mailLists.add(mailList[i]);
+                AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
+                appointmentSubcriber.setConfirmation(false);
+                appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
+                appointmentSubcriber.setSubcriberEmail(mailList[i]);
+                appointmentSubcribers.add(appointmentSubcriber);
+            }
+
+
+
+
+             appointmentGroupContact.setAppointmentSubcribers(appointmentSubcribers);
+
+            return appointmentGroupContact;
+        }).collect(Collectors.toList());
+        System.out.println("Tới đây 2");
+        appointment.setAppointmentGroupContacts(appointmentGroupContacts);
+//
         appointment.setToken(UUID.randomUUID().toString());
         appointmentDTO.setToken(appointment.getToken());
         appointment.setConfirm(false);
+        appointmentRepository.save(appointment);
+        System.out.println("Toi day 3");
+        try {
+            String bodyTemp = appointment.getBody();
+            int index = bodyTemp.indexOf("<a href=\"\"") + 8;
+            System.out.println(index);
 
-            appointmentRepository.save(appointment);
+            final String[] newString = {new String()};
+
+            for (int i = 0; i < bodyTemp.length(); i++) {
+
+                newString[0] += bodyTemp.charAt(i);
+
+                if (i == index) {
+                    ExecutorService exec = Executors.newFixedThreadPool(NUM_OF_THREAD);
+                    exec.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            for(String email:mailLists)
+                            {
+//                                newString[0] += "http://103.79.141.134:8080/api/accept-appointment?confirmationToken=" +appointment.getToken()+"?email="+email;
+
+                                newString[0] += "http://localhost:8080/api/accept-appointment?confirmationToken=" +appointment.getToken()+"?email="+email;
+                                mailService.sendAppointment(appointment.getSender(),
+                                        appointment.getFromMail(),
+                                        email, appointment.getSubject(),
+                                        newString[0]);
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                };
+                            }
+                        }
+                    });
+
+
+                }
+            }
+        } catch (MailException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
 
 
         return true;
