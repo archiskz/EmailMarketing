@@ -89,14 +89,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
             return appointmentGroupContact;
         }).collect(Collectors.toList());
-        System.out.println("Tới đây 2");
+
         appointment.setAppointmentGroupContacts(appointmentGroupContacts);
 //
         appointment.setToken(UUID.randomUUID().toString());
         appointmentDTO.setToken(appointment.getToken());
         appointment.setConfirm(false);
         appointmentRepository.save(appointment);
-        System.out.println("Toi day 3");
+
         try {
             String bodyTemp = appointment.getBody();
             int index = bodyTemp.indexOf("<a href=\"\"") + 8;

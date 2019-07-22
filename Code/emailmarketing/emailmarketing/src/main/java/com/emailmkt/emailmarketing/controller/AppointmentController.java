@@ -77,7 +77,6 @@ public class AppointmentController {
     public ResponseEntity createAppointment(@RequestBody MailAndAppointment mailAndAppointment) throws IOException, TemplateException {
            boolean flag = appointmentService.createAppointment(mailAndAppointment.mailObjectDTO,mailAndAppointment.appointmentDTO);
                 if (flag == false) {
-            return ResponseEntity.status(CONFLICT).body("Campaign Existed");
         }
 
 
