@@ -74,7 +74,7 @@ public class AppointmentController {
            boolean flag = appointmentService.createAppointment(mailAndAppointment.mailObjectDTO,mailAndAppointment.appointmentDTO);
                 if (flag == false) {
 
-            return ResponseEntity.status(CONFLICT).body("Appointments Existed");
+            return ResponseEntity.status(CONFLICT).body("Appointment Existed");
         }
 
 
