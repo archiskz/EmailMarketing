@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.security.core.Authentication;
-
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiKey;
@@ -23,6 +25,7 @@ import java.util.List;
 @SpringBootApplication
 @Configuration
 @EnableSwagger2
+@EnableScheduling
 public class EmailmarketingApplication {
 	@Bean
 	public Docket studentAPI() {
@@ -45,4 +48,11 @@ public class EmailmarketingApplication {
 		SpringApplication.run(EmailmarketingApplication.class, args);
 	}
 
+
+	@Bean
+	public TaskScheduler taskScheduler() {
+		final ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+		scheduler.setPoolSize(10);
+		return scheduler;
+	}
 }
