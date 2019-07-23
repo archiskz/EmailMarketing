@@ -177,9 +177,9 @@ appointmentDTO: {
 
     }    }
 	}
-		},()=>console.log(this.state.newAppointment) );
+		,()=>console.log(this.state.newAppointment) );
+  
   }
-
 	
   render(){
     var lists = this.state.lists;
