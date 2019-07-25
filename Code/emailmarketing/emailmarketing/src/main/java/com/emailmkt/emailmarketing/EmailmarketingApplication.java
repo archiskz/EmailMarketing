@@ -26,6 +26,7 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 @EnableScheduling
+
 public class EmailmarketingApplication {
 	@Bean
 	public Docket studentAPI() {

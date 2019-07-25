@@ -8,19 +8,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "appointment_has_group_contact",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"appointment_id", "group_contact_id","subcriber_id"})
+@Table(name = "appointment_has_group_contact",uniqueConstraints= {
+        @UniqueConstraint(columnNames = {"group_contact_id", "appointment_id"})
 }
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
-public class AppointmentGroupContact {
+public class AppointmentGroupContact  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -34,17 +35,6 @@ public class AppointmentGroupContact {
     @Column(name = "updated_time")
     private String updatedTime;
 
-
-
-    @Column(name = "token")
-    private String token;
-
-    @Column(name = "subcriber_id")
-    private int subcriberId;
-
-    @Column(name = "confirmation")
-    private boolean confirmation;
-
     @ManyToOne
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
@@ -53,6 +43,7 @@ public class AppointmentGroupContact {
     @ManyToOne
     @JoinColumn(name = "group_contact_id" )
     private GroupContact groupContact;
+
     @OneToMany(mappedBy = "appointmentGroupContact", cascade = CascadeType.ALL)
     private List<AppointmentSubcriber> appointmentSubcribers;
 

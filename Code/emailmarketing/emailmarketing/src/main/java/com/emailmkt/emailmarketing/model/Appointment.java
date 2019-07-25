@@ -60,8 +60,6 @@ public class Appointment implements Serializable {
 
 
 
-    @Column(name = "to_mail")
-    private String to;
 
 
 

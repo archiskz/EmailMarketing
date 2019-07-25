@@ -171,8 +171,8 @@ class CreateAppointment extends Component{
 
     this.setState({ newAppointment: {
       ...this.state.newAppointment,
-appointmentDTO: {
-        ...this.state.appointmentDTO,
+      appointmentDTO: {
+        ...this.state.newAppointment.appointmentDTO,
 		gcAppointmentDTOS: selectValue,
 
     }    }

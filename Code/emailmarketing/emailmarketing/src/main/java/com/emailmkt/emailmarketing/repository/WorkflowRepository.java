@@ -1,18 +1,19 @@
 package com.emailmkt.emailmarketing.repository;
 
 import com.emailmkt.emailmarketing.model.Workflow;
-import org.hibernate.jdbc.Work;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface WorkflowRepository extends JpaRepository<Workflow, Integer> {
     Workflow findByName(String name);
 
     Workflow findWorkflowById(Integer id);
+
+    @Query("SELECT wl FROM Workflow wl WHERE wl.status = 'Pending' or wl.status='Starting'")
+    List<Workflow> findWorkflowByStatus();
 
 }

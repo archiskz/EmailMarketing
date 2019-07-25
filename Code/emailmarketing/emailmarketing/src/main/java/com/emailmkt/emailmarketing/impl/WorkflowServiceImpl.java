@@ -1,14 +1,12 @@
 package com.emailmkt.emailmarketing.impl;
 
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
-import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Task;
 import com.emailmkt.emailmarketing.model.Workflow;
 import com.emailmkt.emailmarketing.model.WorkflowTask;
 import com.emailmkt.emailmarketing.repository.TaskRepository;
 import com.emailmkt.emailmarketing.repository.WorkflowRepository;
 import com.emailmkt.emailmarketing.repository.WorkflowTaskRepository;
-import com.emailmkt.emailmarketing.service.AccountService;
 import com.emailmkt.emailmarketing.service.WorkflowService;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.instance.FlowElement;
@@ -16,9 +14,7 @@ import org.camunda.bpm.model.bpmn.instance.FlowNode;
 import org.camunda.bpm.model.bpmn.instance.Process;
 import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -28,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 public class WorkflowServiceImpl implements WorkflowService {
@@ -39,7 +37,6 @@ public class WorkflowServiceImpl implements WorkflowService {
     TaskRepository taskRepository;
     @Autowired
     WorkflowTaskRepository workflowTaskRepository;
-
     @Override
     public boolean createWorkflow(WorkflowDTO workflowDTO) {
         Workflow newWorkflow = new Workflow();
@@ -162,32 +159,45 @@ public class WorkflowServiceImpl implements WorkflowService {
     }
 
 
-//    @Override
-//    public List<Account> getAllAccountsByStaff() {
-//        return accountRepository.findAllByauthorityIdGreaterThanEqual(3);
-//    }
-//
-//    @Override
-//    public List<Account> getAllAccountsByCustomer() {
-//        return accountRepository.findAllByauthorityIdGreaterThanEqual(2);
-//    }
 
     @Override
     public Workflow getWorkflowById(int id) {
         return workflowRepository.findWorkflowById(id);
     }
 
-//    @Override
-//    public List<Account> getAllAccountByauthorityId(int authorityId) {
-//        return accountRepository.findAllByauthorityIdOrderByCreatedTimeDesc(authorityId);
-//    }
+    @Scheduled(fixedRate = 10000)
+    @Override
+    public void runWorkflow() {
+        ExecutorService executor = Executors.newFixedThreadPool(30);
+        List<Workflow> workflows = workflowRepository.findWorkflowByStatus();
+        if(workflows != null){
+            for (final Workflow workflow : workflows){
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<WorkflowTask> workflowTasks = workflowTaskRepository.findAllWorkflowByStatus(workflow.getId());
+                        if(workflowTasks != null){
+                            for(WorkflowTask workflowTask :workflowTasks ){
+                                String preTask = "";
+                                String postTask="";
+                                String shapeId ="";
+                                if(workflowTask.getPreTask()==null){
 
+                                }
 
-//    @Override
-//    public int countTotalUserAccount(int authorityId) {
-//        return accountRepository.countAllByauthorityId(authorityId);
-//    }
+                            }
+                        }
+                    }
+                });
 
+            }
+        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

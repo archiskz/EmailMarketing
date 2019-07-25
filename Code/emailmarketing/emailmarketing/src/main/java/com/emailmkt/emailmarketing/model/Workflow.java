@@ -27,6 +27,9 @@ public class Workflow implements Serializable {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "status")
+    private String status;
+
     @Column(name = "timestart")
     private String timeStart;
 

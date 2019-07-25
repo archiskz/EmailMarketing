@@ -74,6 +74,9 @@ public class Campaign implements Serializable {
     @Column(name = "account_id")
     private Integer account_id;
 
+    @Column(name = "automation")
+    private Boolean automation;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
@@ -18,7 +19,7 @@ import javax.persistence.*;
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
-public class AppointmentSubcriber{
+public class AppointmentSubcriber implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -33,13 +34,6 @@ public class AppointmentSubcriber{
     private String updatedTime;
 
 
-
-
-
-
-    @Column(name = "token")
-    private String token;
-
     @Column(name = "subcriber_email")
     private String subcriberEmail;
 
@@ -50,7 +44,7 @@ public class AppointmentSubcriber{
 
     //    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_contact_id",referencedColumnName = "group_contact_id")
+    @JoinColumn(name = "appointment_id",referencedColumnName = "appointment_id")
     private AppointmentGroupContact appointmentGroupContact;
 
 

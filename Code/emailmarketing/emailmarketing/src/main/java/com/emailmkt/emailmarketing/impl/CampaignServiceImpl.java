@@ -73,6 +73,7 @@ public class CampaignServiceImpl implements CampaignService {
         campaign.setName(campaignDTO.getCampaignName());
         campaign.setStatus(campaignDTO.getStatus());
         campaign.setType("Regular");
+        campaign.setAutomation(false);
         campaign.setTimeStart(LocalDateTime.now().toString());
         //Add to Group Contacts
         Account account = accountRepository.findAccountById(1);
@@ -148,7 +149,8 @@ public class CampaignServiceImpl implements CampaignService {
         campaign.setCreatedTime(LocalDateTime.now().toString());
         campaign.setName(campaignDTO.getCampaignName());
         campaign.setStatus("Sending");
-        campaign.setType("Regular");
+        campaign.setType("Timer");
+        campaign.setAutomation(false);
         campaign.setTimeStart(campaignDTO.getTimeStart());
 
         //Add to Group Contacts
