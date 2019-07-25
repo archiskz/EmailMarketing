@@ -241,7 +241,7 @@ class EmbededForm extends Component {
                       </TabList>
                       
                       <TabPanel>
-                        <pre className="pre_embed_form">
+                        <pre className="pre_embed_form ">
                         {
                             `<form id='test-form' enctype='application/json'>
                  <h2>Subscribe</h2>
