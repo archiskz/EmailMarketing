@@ -23,6 +23,7 @@ import ContactInformation from './pages/DashboardPage/ContactComponent/ContactIn
 import CampaignInformation from './pages/DashboardPage/CampaignsComponent/CampaignInformation';
 import EmbededForm from './pages/DashboardPage/EmbededFormComponent/EmbededForm';
 import CreateAppointment from './pages/DashboardPage/AppointmentComponent/CreateAppointment';
+import TestForm from './pages/DashboardPage/EmbededFormComponent/TestForm';
 const routes = [
 {
 	path:'/',
@@ -85,6 +86,11 @@ const routes = [
 	main: ({match}) => <CreateCampaign/>
 },
 {
+	path: '/form-register',
+	exact: false,
+	main: () => <TestForm />
+},
+{
 	path: '/dashboard/reports',
 	exact: false,
 	main: () => <Reports/>
@@ -99,7 +105,6 @@ const routes = [
 	exact: false,
 	main: () => <Profile / >
 },
-
 {
 	path: '/dashboard/add-contacts-file',
 	exact: false,
@@ -142,6 +147,7 @@ const routes = [
 	exact: false,
 	main: () => <CreateAppointment />
 },
+
 {/* {
 	path: '/dashboard/contacts/:id',
 	exact: false,

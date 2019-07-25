@@ -54,7 +54,7 @@ class CreateCampaign extends Component{
                from: "",
               fromMail: "",
               subject: "",
-              templates: ""
+              bodyJson: ""
 
           }
         },
@@ -441,7 +441,8 @@ class CreateCampaign extends Component{
         id: id,
         campaignId: this.state.campaignId,
         contentJson: content,
-        isChecked: this.state.isChecked
+        isChecked: this.state.isChecked,
+        newCampaign: this.state.newCampaign,
       }
   });
   }
@@ -494,37 +495,7 @@ class CreateCampaign extends Component{
   showModal =()=>{
     this.setState({modalIsOpen: true})
     var self = this;
-    if(this.state.isChecked == true){
-      axios.post(`${Config.API_URL}campaign/create/timer`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-      .then(response => {
-        console.log(response.data)
-        var id = response.data
-            self.setState({
-              campaignId: id,
-            },
-            ()=> {
-              this.props.onOpenModal();})
-            console.log(this.state.campaignId)
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    } else {
-      axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-      .then(response => {
-        console.log(response.data)
-        var id = response.data
-            self.setState({
-              campaignId: id
-            },
-            ()=> {
-              this.props.onOpenModal();})
-            console.log(this.state.campaignId)
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    }
+   
   }
 }
 const mapStateToProps = (state) => {
