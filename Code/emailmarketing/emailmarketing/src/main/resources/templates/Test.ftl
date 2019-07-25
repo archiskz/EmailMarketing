@@ -115,43 +115,23 @@
         <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
             <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #e7e7e7;"><![endif]-->
 
-            <div class="email-row-container" style="padding: 0px;background-image: url('https://app.getresponse.com/images/common/templates/messages/1265/1/img/1265_01.png');background-repeat: no-repeat;background-position: center top;background-color: transparent">
+            <div class="email-row-container" style="padding: 0px;background-image: url('https://images.unsplash.com/photo-1489549132488-d00b7eee80f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1868&q=80');background-repeat: no-repeat;background-position: left top;background-color: transparent">
                 <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="email-row">
                     <div style="border-collapse: collapse;display: table;width: 100%;background-color: transparent;">
-                        <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-image: url('https://app.getresponse.com/images/common/templates/messages/1265/1/img/1265_01.png');background-repeat: no-repeat;background-position: center top;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
+                        <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-image: url('https://images.unsplash.com/photo-1489549132488-d00b7eee80f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1868&q=80');background-repeat: no-repeat;background-position: left top;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
 
-                        <!--[if (mso)|(IE)]><td align="center" width="500" style="width: 500px;padding: 0px 0px 250px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;" valign="top"><![endif]-->
+                        <!--[if (mso)|(IE)]><td align="center" width="500" style="width: 500px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;" valign="top"><![endif]-->
                         <div class="email-col email-col-100" style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
                             <div style="width: 100% !important;">
-                                <!--[if (!mso)&(!IE)]><!--><div style="padding: 0px 0px 250px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;"><!--<![endif]-->
+                                <!--[if (!mso)&(!IE)]><!--><div style="padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;"><!--<![endif]-->
 
-                                    <table id="u_content_image_1" class="u_content_image" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                    <table id="u_content_text_2" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
                                         <tbody>
                                         <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:30px 10px;font-family:arial,helvetica,sans-serif;" align="left">
-
-                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                                    <tr>
-                                                        <td style="padding-right: 0px;padding-left: 0px;" align="center">
-
-                                                            <img align="center" border="0" src="https://app.getresponse.com/images/common/templates/messages/1265/1/img/1265_02.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;width: 100%;max-width: 62px;" width="62"/>
-
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <table id="u_content_text_1" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                                        <tbody>
-                                        <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px;font-family:arial,helvetica,sans-serif;" align="left">
+                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:180px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
 
                                                 <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-family: Arial, serif; font-size: 16px; font-weight: 400; color: #ffffff; line-height: 22.4px;" draggable="false">Free Invitation</span></p>
+                                                    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="color: #ffffff; font-size: 14px; line-height: 19.6px; font-family: tahoma, arial, helvetica, sans-serif;"><strong><span style="font-size: 40px; line-height: 56px;">${APPOINTMENT_NAME}</span></strong></span></p>
                                                 </div>
 
                                             </td>
@@ -162,75 +142,24 @@
                                     <table id="u_content_text_3" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
                                         <tbody>
                                         <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:40px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
 
                                                 <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-family: Arial, serif; font-size: 26px; font-weight: bold; color: #ffffff; line-height: 36.4px;" draggable="false" data-webinar-item="name">Your Invite mail title</span><br /><span style="font-family: Arial, serif; font-size: 16px; font-weight: 400; color: #ffffff; line-height: 22.4px;" data-webinar-item="starts_at_date">2019-07-13</span> <span style="font-family: Arial, serif; font-size: 16px; font-weight: 400; color: #ffffff; line-height: 22.4px;" data-webinar-item="starts_at_time">00:05</span></p>
+                                                    <p style="line-height: 140%; text-align: center; font-size: 14px;"><span style="font-size: 24px; line-height: 33.6px;"><span style="color: #ffffff; font-family: tahoma, arial, helvetica, sans-serif; font-size: 24px; line-height: 33.6px;"><span style="line-height: 33.6px; font-size: 24px;">Our meeting will start soon, please remember to come on </span></span></span></p>
                                                 </div>
 
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
-
-                                    <table id="u_content_button_1" class="u_content_button" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                                        <tbody>
-                                        <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:30px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
-
-                                                <div align="center">
-                                                    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;font-family:arial,helvetica,sans-serif;"><tr><td style="font-family:arial,helvetica,sans-serif;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="" style="height:50px; v-text-anchor:middle; width:381px;" arcsize="0%" stroke="f" fillcolor="#2e5aff"><w:anchorlock/><center style="color:#FFFFFF;font-family:arial,helvetica,sans-serif;"><![endif]-->
-                                                    <a href="${VERIFICATION_URL}" target="_blank" style="display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #2e5aff; border-radius: 0px; -webkit-border-radius: 0px; -moz-border-radius: 0px; width: auto; padding: 10px 120px; mso-border-alt: none;border-top-width: 0px; border-top-style: solid; border-top-color: #CCC; border-left-width: 0px; border-left-style: solid; border-left-color: #CCC; border-right-width: 0px; border-right-style: solid; border-right-color: #CCC; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: #CCC;">
-                                                        <span style="line-height:190%;"><span style="font-size: 16px; line-height: 30.4px;"><strong><span style="line-height: 30.4px; font-size: 16px;">SAVE YOUR SPOT</span></strong></span></span>
-                                                    </a>
-                                                    <!--[if mso]></center></v:roundrect></td></tr></table><![endif]-->
-                                                </div>
-
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-                            </div>
-                        </div>
-                        <!--[if (mso)|(IE)]></td><![endif]-->
-                        <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
-                    </div>
-                </div>
-            </div>
-
-            <div class="email-row-container" style="padding: 0px;background-color: transparent">
-                <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="email-row">
-                    <div style="border-collapse: collapse;display: table;width: 100%;background-color: transparent;">
-                        <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
-
-                        <!--[if (mso)|(IE)]><td align="center" width="500" style="width: 500px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;" valign="top"><![endif]-->
-                        <div class="email-col email-col-100" style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
-                            <div style="width: 100% !important;">
-                                <!--[if (!mso)&(!IE)]><!--><div style="padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;"><!--<![endif]-->
 
                                     <table id="u_content_text_4" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
                                         <tbody>
                                         <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
 
                                                 <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="font-size: 14px; line-height: 140%;"><span style="font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; color: #000000; line-height: 25.2px;">How would you feel if you had more time? </span></p>
-                                                </div>
-
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <table id="u_content_text_5" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                                        <tbody>
-                                        <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
-
-                                                <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="font-size: 14px; line-height: 140%;"><span style="font-family: Arial, sans-serif; font-size: 16px; font-weight: 400; color: #000000; line-height: 22.4px;">Actually, you do. You just need to learn how to hack your productivity &ndash; and it&rsquo;s not that hard. </span></p>
+                                                    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-size: 30px; line-height: 42px; color: #ccffff;"><strong>${DATE}</strong></span></p>
                                                 </div>
 
                                             </td>
@@ -241,10 +170,10 @@
                                     <table id="u_content_text_6" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
                                         <tbody>
                                         <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
 
                                                 <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="font-size: 14px; line-height: 140%;"><span style="font-family: Arial, sans-serif; font-size: 16px; font-weight: 400; color: #000000; line-height: 22.4px;"> Join our upcoming webinar for 10 actionable tips on how to hack your productivity. </span></p>
+
                                                 </div>
 
                                             </td>
@@ -252,13 +181,13 @@
                                         </tbody>
                                     </table>
 
-                                    <table id="u_content_text_7" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                    <table id="u_content_text_5" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
                                         <tbody>
                                         <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:240px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
 
                                                 <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="font-size: 14px; line-height: 140%;"><span style="font-family: Arial, Helvetica, sans-serif; color: #000000; font-size: 18px; font-weight: bold; line-height: 25.2px;">In this invitation, you&rsquo;ll learn: <br /><br /><span style="font-size: 16px; font-weight: 400; line-height: 22.4px;"> <span style="color: #b8b7b7; font-size: 16px; line-height: 22.4px;">&bull;</span> &nbsp; How to avoid wasting your time and plan your tasks like a pro<br /><span style="color: #b8b7b7; font-size: 16px; line-height: 22.4px;">&bull;</span> &nbsp; Secrets of staying on top of your to-do list<br /><span style="color: #b8b7b7; font-size: 16px; line-height: 22.4px;">&bull;</span> &nbsp; 10 actionable tips to become more productive</span></span></p>
+
                                                 </div>
 
                                             </td>

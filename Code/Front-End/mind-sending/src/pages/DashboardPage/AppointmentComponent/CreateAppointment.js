@@ -174,15 +174,15 @@ class CreateAppointment extends Component{
 
     this.setState({ newAppointment: {
       ...this.state.newAppointment,
-        appointmentDTO:{
-          ...this.state.newAppointment.appointmentDTO,
-          gcAppointmentDTOS: selectValue
-        }
-    }
-		
-		},()=>console.log(this.state.newAppointment) );
-  }
+      appointmentDTO: {
+        ...this.state.newAppointment.appointmentDTO,
+		gcAppointmentDTOS: selectValue,
 
+    }    }
+	}
+		,()=>console.log(this.state.newAppointment) );
+  
+  }
 	
   render(){
     var lists = this.state.lists;
