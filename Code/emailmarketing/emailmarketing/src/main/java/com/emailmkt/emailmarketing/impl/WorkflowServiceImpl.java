@@ -155,7 +155,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     @Override
     public List<Workflow> getAllWorkflows() {
-        System.out.println("toi day chưa hihihi");
+        
         return workflowRepository.findAll();
     }
 

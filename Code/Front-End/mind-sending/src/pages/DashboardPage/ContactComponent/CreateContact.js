@@ -80,16 +80,18 @@ class CreateContact extends Component {
 
    getContactsByGroupId=()=>{
     console.log("haha")
-   axios.get(`${Config.API_URL}groupContact=${this.props.history.location.state.id}/contacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-   .then(response => {
-     this.setState({
-       listAccounts: response.data,
-       listFilter: response.data
-     });
-   })
-   .catch(error => {
-     console.log(error);
-   });
+  if(this.props.history.location.state != null){
+    axios.get(`${Config.API_URL}groupContact=${this.props.history.location.state.id}/contacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(response => {
+      this.setState({
+        listAccounts: response.data,
+        listFilter: response.data
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
   }
 
    getAllContacts=()=>{

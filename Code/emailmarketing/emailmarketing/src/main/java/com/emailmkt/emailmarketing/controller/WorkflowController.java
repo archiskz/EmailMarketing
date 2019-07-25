@@ -57,14 +57,8 @@ public class WorkflowController {
         this.workflowRepository = workflowRepository;
     }
 
-    static class MailAndCampaign {
-        public MailObjectDTO mailObjectDTO;
-        public CampaignDTO campaignDTO;
-    }
 
-    //    public AccountController(AccountService accountService) {
-//        this.accountService = accountService;
-//    }
+
 
     @ApiOperation(value = "Create Workflow")
     @ApiResponses(value = {
@@ -88,8 +82,8 @@ public class WorkflowController {
 
 
     @GetMapping("/workflows")
-    public List<Workflow> getAllWorkflows() {
-        return workflowService.getAllWorkflows();
+    Iterable<Workflow> getAll() {
+        return workflowRepository.findAll();
     }
 
 //    @PostMapping("/template/search/{searchValue}")
