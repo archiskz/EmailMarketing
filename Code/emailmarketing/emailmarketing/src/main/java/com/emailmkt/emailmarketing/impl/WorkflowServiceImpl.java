@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
+import com.emailmkt.emailmarketing.Config.NoDuplicates;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
 import com.emailmkt.emailmarketing.model.Task;
 import com.emailmkt.emailmarketing.model.Workflow;
@@ -20,10 +21,7 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -98,6 +96,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                     }
                     workflowTaskRepository.save(newWorkflowTask);
 
+
                 }
                 Collection<FlowNode> sequenceFlowsNext = taskModel.getSucceedingNodes().list();
                 Iterator<FlowNode> sequenceFlowListsNext = sequenceFlowsNext.iterator();
@@ -171,6 +170,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     public void runWorkflow() {
         ExecutorService executor = Executors.newFixedThreadPool(30);
         List<Workflow> workflows = workflowRepository.findWorkflowByStatus();
+        PriorityQueue<Task> workflowTaskQueue = new NoDuplicates<Task>();
         if(workflows != null){
             for (final Workflow workflow : workflows){
                 executor.execute(new Runnable() {
@@ -183,7 +183,13 @@ public class WorkflowServiceImpl implements WorkflowService {
                                 String postTask="";
                                 String shapeId ="";
                                 if(workflowTask.getPreTask()==null){
+                                    List<WorkflowTask>workflowTasks1 = workflowTaskRepository.findAllByTaskId(workflowTask.getTask().getId());
+                                    for (WorkflowTask workflowTask1 : workflowTasks1){
+                                        if(workflowTask1.getPreTask()==null){
+                                            workflowTaskQueue.add(workflowTask1.getTask());
 
+                                        }
+                                    }
                                 }
 
                             }

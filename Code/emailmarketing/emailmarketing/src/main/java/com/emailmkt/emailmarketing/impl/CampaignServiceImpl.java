@@ -4,10 +4,7 @@ import com.emailmkt.emailmarketing.dto.CampaignDTO;
 import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
 import com.emailmkt.emailmarketing.dto.GCCampaignDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
-import com.emailmkt.emailmarketing.model.Account;
-import com.emailmkt.emailmarketing.model.Campaign;
-import com.emailmkt.emailmarketing.model.CampaignGroupContact;
-import com.emailmkt.emailmarketing.model.Template;
+import com.emailmkt.emailmarketing.model.*;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.CampaignGroupContactRepository;
 import com.emailmkt.emailmarketing.repository.CampaignRepository;
@@ -84,9 +81,15 @@ public class CampaignServiceImpl implements CampaignService {
             campaignGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
             campaignGroupContact.setCreatedTime(LocalDateTime.now().toString());
             String[]mailList= groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
-            System.out.println(mailList);
+            List<CampaignSubcriber> campaignSubcribers = new ArrayList<>();
             for (int i = 0; i < mailList.length; i++) {
                 mailLists.add(mailList[i]);
+                CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
+                campaignSubcriber.setConfirmation(false);
+                campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
+                campaignSubcriber.setSubcriberEmail(mailList[i]);
+                campaignSubcribers.add(campaignSubcriber);
             }
             campaignGroupContact.setCampaign(campaign);
             return campaignGroupContact;
@@ -162,9 +165,15 @@ public class CampaignServiceImpl implements CampaignService {
             campaignGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
             campaignGroupContact.setCreatedTime(LocalDateTime.now().toString());
             String[]mailList= groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
-            System.out.println(mailList);
+            List<CampaignSubcriber> campaignSubcribers = new ArrayList<>();
             for (int i = 0; i < mailList.length; i++) {
                 mailLists.add(mailList[i]);
+                CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
+                campaignSubcriber.setConfirmation(false);
+                campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
+                campaignSubcriber.setSubcriberEmail(mailList[i]);
+                campaignSubcribers.add(campaignSubcriber);
             }
             campaignGroupContact.setCampaign(campaign);
             return campaignGroupContact;

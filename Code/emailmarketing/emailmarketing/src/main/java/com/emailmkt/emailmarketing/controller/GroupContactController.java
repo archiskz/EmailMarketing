@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -105,6 +106,16 @@ public class GroupContactController {
                     return groupContactRepository.save(updatingGroupContact);
                 });
 
+    }
+    @RequestMapping(value = "/groupcontact/{id}", method = RequestMethod.DELETE)
+    public String delete(@PathVariable("id") int id, HttpServletResponse response) {
+        boolean flag = groupContactService.deleteGroup(id);
+
+        if (flag == false) {
+            // will write to user which item couldn't be deleted
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        return "redirect:/groupcontacts";
     }
 
 

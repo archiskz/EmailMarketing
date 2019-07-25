@@ -32,6 +32,7 @@ public class CampaignController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CampaignController.class);
     @Autowired
     CampaignService campaignService;
+    @Autowired
     SubcriberService subcriberService;
 
     @Autowired

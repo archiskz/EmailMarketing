@@ -8,19 +8,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.io.Serializable;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "campaign_has_group_contact",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"campaign_id", "group_contact_id"})
-}
+@Table(name = "campaign_has_subcriber"
+//        uniqueConstraints={@UniqueConstraint(columnNames = { "group_contact_id","subcriber_email"})}
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
-public class CampaignGroupContact {
+public class CampaignSubcriber implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -34,17 +33,20 @@ public class CampaignGroupContact {
     @Column(name = "updated_time")
     private String updatedTime;
 
+    @Column(name = "subcriber_email")
+    private String subcriberEmail;
 
-    @ManyToOne
-    @JoinColumn(name = "campaign_id")
-    private Campaign campaign;
+    @Column(name = "confirmation")
+    private boolean confirmation;
 
-//    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "group_contact_id" )
-    private GroupContact groupContact;
 
-    @OneToMany(mappedBy = "campaignGroupContact", cascade = CascadeType.ALL)
-    private List<CampaignSubcriber> campaignSubcribers;
+
+    //    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "campaign_id",referencedColumnName = "campaign_id")
+    private CampaignGroupContact campaignGroupContact;
+
+
+
 
 }
