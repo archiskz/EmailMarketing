@@ -23,11 +23,16 @@ class TestForm extends Component {
         }     
         this.handleBtn = this.handleBtn.bind(this);
         };
+        componentDidMount(){
+            console.log(window.location.pathname); //yields: "/js" (where snippets run)
+console.log(window.location.href);     //yields: "https://stacksnippets.net/js"
+console.log(this.props.location.pathname)
+        }
         
     render(){
         /* Simply pass myCustoms to */
         return(
-            <div id="code_preview" style={{"width":"360px", "border":"1px solid black","padding":"10px", "borderRadius":"10px"}}>
+            <div id="code_preview" style={{"marginLeft":"0px !important","width":"360px", "border":"1px solid black","padding":"15px", "borderRadius":"10px"}}>
             JOIN US <br/><br/>
             <form>
                     <div class="form-group">

@@ -10,6 +10,7 @@ import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 import customModule from '../custom/palete';
 import qaExtension from './../resources/qa'
 import propertiesProviderModule from '../custom/provider'
+import customRulesModule from '../custom/custom-rules'
 import magicModdleDescriptor from '../custom/descriptors/magic.json';
 import BpmnModdle from 'bpmn-moddle';
 import KeyboardModule from '../custom/keyboard';
@@ -47,7 +48,8 @@ class BpmnModelerComponent extends Component {
             additionalModules: [
                 customModule,
                 propertiesPanelModule,
-                propertiesProviderModule
+                propertiesProviderModule,
+                customRulesModule
             ],
             moddleExtensions: {
                 qa: qaExtension,
@@ -139,18 +141,17 @@ onClickToExport = () =>{
         ...this.state.bpmn,
         wtWorkflowDTOS: xmlClone
       }
-    },()=>{
-      console.log(this.state.bpmn)
-      axios.post(`${Config.API_URL}workflow/create`,this.state.bpmn,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-      .then(res => {
-        console.log("contact ID: " + res.data)
-        // this.setState({count: res.data})
-       }).catch(function (error) {
-        console.log(error);
-      });
-
-
-    })
+    },
+    // ()=>{
+    //   console.log(this.state.bpmn)
+    //   axios.post(`${Config.API_URL}workflow/create`,this.state.bpmn,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    //   .then(res => {
+    //     console.log("contact ID: " + res.data)
+    //     // this.setState({count: res.data})
+    //    }).catch(function (error) {
+    //     console.log(error);
+    //   }); }
+      )
     });
 
 
@@ -184,13 +185,13 @@ onClickToExport = () =>{
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
                 </span>
-                <strong onClick={this.onClickToExport} class="navToggleButton-css__toggle-name___3Y4ez">Export</strong>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">Export</strong>
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
     </span>
     <span class="toolbar-css__send-container___AbB6n">
-        <a  icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+        <a onClick={this.onClickToExport}  icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
             <i class="sg-icon sg-icon-airplane-fill">
 
             </i>Save Design

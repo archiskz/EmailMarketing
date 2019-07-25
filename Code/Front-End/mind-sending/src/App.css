@@ -511,7 +511,7 @@ input[type="checkbox"].switch:checked + div > div {
   color: rgb(255, 255, 255);
   font-size: 15px;
   text-decoration: none;
-  padding: 0px 25px;
+  padding: 0px 15px;
   margin: 0px;
   outline: none;
   background: rgb(0, 186, 255);
@@ -522,11 +522,26 @@ input[type="checkbox"].switch:checked + div > div {
   border-radius: 300px;
 }
 .code-area .copy-button {
-  position: absolute;
-  bottom: -5px;
+  /* position: absolute; */
+  /* bottom: -5px; */
   right: 0;
   z-index: 1;
   border-radius: 0;
+  margin-bottom: 20px;
+}
+
+ .copycode{
+  position: absolute !important;
+  bottom: 0px !important;
+  right: -1px;
+  z-index: 1;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  /* border-radius: 0; */
+  /* margin-bottom: 20px; */
+
 }
 .jAIoYc .gr-checkbox__icon--border {
   stroke-width: 2px;
@@ -567,7 +582,7 @@ input[type="checkbox"].switch:checked + div > div {
 }
 #code_plain .plain-code__textarea {
   width: 100%;
-  height: 250px;
+  height: 100px;
   resize: vertical;
   border: none;
  
@@ -578,6 +593,25 @@ input[type="checkbox"].switch:checked + div > div {
   color: black;
   background: white;
   box-shadow: 0 1px 2px 1px rgba(0,0,0,.2);
+}
+#code_preview {
+  font-size: 16px;
+  color: #000;
+ 
+}
+.ml30p{
+  margin-left: 30%;
+}
+button.copy-button.ButtonContainer-cCzDqJ.dbshwx {
+  float: right;
+  margin-top: 30px;
+}
+.preview_code {
+  padding: 20px 20px 80px 20px;
+  background: white;
+  /* padding: 40px; */
+  box-shadow: 0 1px 2px 1px rgba(0,0,0,.2);
+  border-radius: 10px;
 }
 .side-tool-box .form_options {
   border: 0;

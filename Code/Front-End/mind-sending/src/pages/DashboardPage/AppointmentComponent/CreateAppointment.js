@@ -263,8 +263,8 @@ class CreateAppointment extends Component{
                           style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important"}} 
                           id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
                           change={this.onChangeListsSelect}
-                          onBlur={()=>this.Validate('group')}
-                          placeholder="Choose Lists"/>   
+                          // onBlur={()=>this.Validate('group')}
+                          placeholder="Choose Lists"/>    
                            <ValidateField isValidate={false} isError = {this.state.validates.groupValidate} />
               </div>
               </div>
@@ -400,6 +400,7 @@ class CreateAppointment extends Component{
         break;
       }
       case "group":{
+        console.log('group')
         if(!Array.isArray(this.state.newAppointment.appointmentDTO.gcAppointmentDTOS )   ){
           validate.groupValidate = "Choose List receiver";
           

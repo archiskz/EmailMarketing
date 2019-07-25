@@ -91,11 +91,6 @@ addActiveClass = (index) => {
                     <span style={{position: 'relative'}}>Regular Campaign</span>
                     <div className="clearfix" />
                 </Link>
-                <Link to="/dashboard/schedule-campaigns">
-                    <i className="fa " /> 
-                    <span style={{position: 'relative'}}>Schedule Campaign</span>
-                    <div className="clearfix" />
-                </Link>
                 <Link to="/dashboard/automations">
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>Automation Campaigns</span>
@@ -117,7 +112,7 @@ addActiveClass = (index) => {
             
             {/* Embeded Form */}
              <li id="menu-academico" className={this.state.activeClasses5 ? "opend" : "closed"} >
-                <Link to="/dashboard/embededform" >
+                <Link to="/dashboard/forms" >
                 <i className="fa fa-wpforms" />
                     <span style={{position: 'relative'}}>Embeded Form</span>
                     <div className="clearfix" />
@@ -128,22 +123,22 @@ addActiveClass = (index) => {
             <li id="menu-academico" className={this.state.activeClasses5 ? "opend" : "closed"} >
                 <Link to = "/dashboard/invite-mail" >
                 <i className="fa fa-wpforms" />
-                    <span style={{position: 'relative'}}>Invite Mail</span>
+                    <span style={{position: 'relative'}}>Appointment</span>
                     <div className="clearfix" />
                 </Link>
             </li>
             {/* Invite */}
 
             <li id="menu-academico" className={this.state.activeClasses3 ? "opend" : "closed"} >
-               <a  onClick={() => this.addActiveClass(3)}>
+               {/* <a  onClick={() => this.addActiveClass(3)}>
                     <i className="fa fa-users nav_icon" />
                     <span style={{position: 'relative'}}>Contact</span>
                     <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
                     <div className="clearfix" />
-                    </a>
+                    </a> */}
                 <Link to="/dashboard/contacts">
-                    <i className="fa " /> 
-                    <span style={{position: 'relative'}}>View Contacts</span>
+                    <i className="fa fa-users nav_icon" /> 
+                    <span style={{position: 'relative'}}>Contacts</span>
                     <div className="clearfix" />
                 </Link>
                 {/* <Link to="">
@@ -161,22 +156,22 @@ addActiveClass = (index) => {
 
             {/* TEMPLATE */}
             <li className={this.state.activeClasses1? "opend" : "closed"}>
-                <a onClick={() => this.addActiveClass(1)}>
+                {/* <a onClick={() => this.addActiveClass(1)}>
                     <i className="fa fa-image" aria-hidden="true" />
                     <span style={{position: 'relative'}}>Templates</span>
                     <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
                     <div className="clearfix" />
-                </a>
+                </a> */}
                 <Link to="/dashboard/templates">
-                    <i className="fa " /> 
+                    <i className="fa fa-image" /> 
                     <span style={{position: 'relative'}}>Gallery</span>
                     <div className="clearfix" />
                 </Link>
-                <Link to="">
+                {/* <Link to="">
                     <i className="fa " /> 
                     <span style={{position: 'relative'}}>Landing Page</span>
                     <div className="clearfix" />
-                </Link>
+                </Link> */}
             </li>
             {/* END TEMPLATE */}
 

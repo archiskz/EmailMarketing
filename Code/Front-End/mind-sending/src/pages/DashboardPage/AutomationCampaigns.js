@@ -38,7 +38,7 @@ class AutomationCampaigns extends Component {
    getAllCampaign=()=>{
     var selectOptions = [
     ];
-    axios.get(`${Config.API_URL}campaigns`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    axios.get(`${Config.API_URL}workflows`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data);
       this.setState({campaigns: res.data});
@@ -47,8 +47,13 @@ class AutomationCampaigns extends Component {
         selectOptions.push({value: element.name, name: element.name})
       });
       console.log(selectOptions)
-      localStorage["campaigns"] = JSON.stringify(selectOptions);
-    }) 
+      // localStorage["campaigns"] = JSON.stringify(selectOptions);
+    }).catch(function (error) {
+      console.log(error);
+      // if(error != null ){
+      //   errors = true
+      // }
+    }); 
     console.log(this.state.campaigns)
 
    }

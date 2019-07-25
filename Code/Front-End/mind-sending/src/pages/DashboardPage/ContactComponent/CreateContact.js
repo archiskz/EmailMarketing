@@ -17,6 +17,7 @@ class CreateContact extends Component {
        visible: true,
        dropdown_visible: false,
        auth_token:"",
+       listFilter:[{ id: "", name: "", email: "",address:"",createdTime:""}],
        listAllAccounts:[]
      };
       this.showDropdownMenu = this.showDropdownMenu.bind(this);
@@ -49,7 +50,7 @@ class CreateContact extends Component {
     componentDidMount(){
 
             const id = this.props.history.location.state;
-    
+        console.log(id)
             const appState = JSON.parse(localStorage.getItem('appState'));
             this.setState({
                 auth_token: appState.user.auth_token
@@ -79,10 +80,11 @@ class CreateContact extends Component {
 
    getContactsByGroupId=()=>{
     console.log("haha")
-   axios.get(`${Config.API_URL}groupContact=${this.props.history.location.state}/contacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+   axios.get(`${Config.API_URL}groupContact=${this.props.history.location.state.id}/contacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
    .then(response => {
      this.setState({
-       listAccounts: response.data
+       listAccounts: response.data,
+       listFilter: response.data
      });
    })
    .catch(error => {
@@ -95,7 +97,8 @@ class CreateContact extends Component {
    axios.get(`${Config.API_URL}subcribersV2`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
    .then(response => {
      this.setState({
-       listAllAccounts: response.data
+       listAllAccounts: response.data,
+       listFilter: response.data
      });
    })
    .catch(error => {
@@ -106,8 +109,8 @@ class CreateContact extends Component {
 
    renderTitle(){
        if(this.props.history.location.state != null){
-          
-           return this.state.listAccount.name
+           console.log(this.state.listAccount.name)
+           return this.props.history.location.state.name
        } else {
            return "All Contact";
        }
@@ -115,20 +118,32 @@ class CreateContact extends Component {
 
    handleSearch = (event) => {
     var searchValue = event.target.value;
+    console.log(searchValue)
     if(this.props.history.location.state == null || this.props.history.location.state == undefined){
-      var groupContactsList = this.state.groupContactsFilter
+        console.log(searchValue)
+      var list_account = this.state.listFilter
           if(searchValue !== ""){
-              groupContactsList = groupContactsList.filter(item => item.name.includes(searchValue))
+              list_account = list_account.filter(item => item.email.includes(searchValue))
               this.setState({
-                  groupContacts: groupContactsList
+                  listAllAccounts: list_account
               });
           } else {
               this.setState({
-                  groupContacts: this.state.groupContactsFilter
+                listAllAccounts: this.state.listFilter
               });
           }
     } else{
-
+        var list_account = this.state.listFilter
+        if(searchValue !== ""){
+            list_account = list_account.filter(item => item.email.includes(searchValue))
+            this.setState({
+                listAccounts: list_account
+            });
+        } else {
+            this.setState({
+                listAccounts: this.state.listFilter
+            });
+        }
     }
    
 }
@@ -204,7 +219,7 @@ class CreateContact extends Component {
                         <form class="subscribe-box" id="newsletter-form">
                         <div class="input-field input-field-medium sticky-button">
                         <label for="newsletter-email">
-                        <input id="newsletter-email" type="text"  name="email" placeholder="Search by email"/>
+                        <input id="newsletter-email" type="text" onChange={this.handleSearch}   name="email" placeholder="Search by email"/>
                         </label>
                         <button class="button button-primary button-big" id="subscribe-button-footer" type="submit">
                         <i class="btn_searching fa fa-search"></i>

@@ -41,6 +41,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     public boolean createWorkflow(WorkflowDTO workflowDTO) {
         Workflow newWorkflow = new Workflow();
         newWorkflow.setName(workflowDTO.getWorkflowName());
+        newWorkflow.setModel(workflowDTO.getWtWorkflowDTOS());
 //        newWorkflow.setWorkflowTasks(workflowTaskList);
         workflowRepository.save(newWorkflow);
         List<WorkflowTask> workflowTaskList = new ArrayList<>();
