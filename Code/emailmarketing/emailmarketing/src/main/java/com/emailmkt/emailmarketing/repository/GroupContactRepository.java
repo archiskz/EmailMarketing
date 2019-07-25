@@ -4,6 +4,7 @@ import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -36,6 +37,14 @@ public interface GroupContactRepository extends JpaRepository<GroupContact, Inte
     @Query("SELECT COUNT(gr.subcriber.id) FROM GroupContactSubcriber gr WHERE gr.groupContact.id  = :groupContactId")
     Long countTotalContactsByGroupId(@Param("groupContactId")int groupContactId);
 
+    @Query("SELECT COUNT(gr.groupContact.id) FROM CampaignGroupContact  gr WHERE gr.groupContact.id  = :groupContactId")
+    Long countTotalGroupInCampaign(@Param("groupContactId")int groupContactId);
+
+
+
+    @Modifying
+    @Query("delete from GroupContact gr where gr.id=:groupContactId")
+    void deleteGroupContactById(@Param("groupContactId") int groupContactId);
 
 
 

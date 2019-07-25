@@ -80,6 +80,15 @@ public class AppointmentController {
         return appointmentService.acceptAppointment(confirmationToken,subcriberEmail).getBody();
     }
 
+    @GetMapping("/appointments")
+    Iterable<Appointment> getAll() {
+        return appointmentRepository.findAll();
+    }
+    @GetMapping("appointment/{id}")
+    public AppointmentDTO getCampaignById(@PathVariable(value = "id") int id) {
+        return appointmentService.getAppointmentById(id);
+    }
+
 
 }
 

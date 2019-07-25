@@ -8,19 +8,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "campaign_has_group_contact",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"campaign_id", "group_contact_id"})
+@Table(name = "form_has_group_contact",uniqueConstraints={
+        @UniqueConstraint(columnNames = {"form_id", "group_contact_id"})
 }
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
-public class CampaignGroupContact {
+public class FormGroupContact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -36,15 +35,12 @@ public class CampaignGroupContact {
 
 
     @ManyToOne
-    @JoinColumn(name = "campaign_id")
-    private Campaign campaign;
+    @JoinColumn(name = "form_id")
+    private EmbeddedForm embeddedForm;
 
 //    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "group_contact_id" )
     private GroupContact groupContact;
-
-    @OneToMany(mappedBy = "campaignGroupContact", cascade = CascadeType.ALL)
-    private List<CampaignSubcriber> campaignSubcribers;
 
 }
