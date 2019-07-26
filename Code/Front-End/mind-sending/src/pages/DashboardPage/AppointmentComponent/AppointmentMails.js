@@ -97,24 +97,33 @@ class AppointmentMails extends Component {
                                 </h1>
                             </span>
                         </div>
+                         <div className="col-md-6">
                        
+                        <a onClick={this.toCreateInvite}  className="btn_create_contact ml0" style={{"marginLeft":"0px !important"}}>
+                                    <i className="sg-icon sg-icon-segment"></i>
+                                    Create Invite Mail
+                                </a>
+            
+            </div>
                     </header>
-                    {/* <section className="row">
-                        <div className="col-md-3">
-                            <section>
-                                <div className="wrap">
-                                <form class="subscribe-box" id="newsletter-form">
-                                    <div class="input-field input-field-medium sticky-button">
-                                        <label for="newsletter-email">
-                                            <input id="newsletter-email" type="email" name="email" placeholder="Search list"/>
-                                        </label>
-                                        <button class="button button-primary button-big" id="subscribe-button-footer" type="submit"><i class="btn_searching fa fa-search"></i></button>
-                                    </div>
-                                    <div class="error-label"></div></form>
+                    <section className="row">
+                                <div className="col-md-3">
+                                    <section>
+                                        <div className="wrap">
+                                            <form class="subscribe-box" id="newsletter-form">
+                                              
+                                                <div class="form-group has-search">
+                                                    <span class="fa fa-search form-control-feedback"></span>
+                                                    <input onChange={this.handleSearch} type="text" class="form-control" placeholder="Search appointment"/>
+                                                </div>
+                                                <div class="error-label"></div>
+                                                
+                                            </form>
+                                        </div>
+
+                                    </section>
                                 </div>
                             </section>
-                        </div>
-                    </section> */}
                     <section>
                         <div className="infinitelyScrollable-css__container___pDiPC" data-infinitely-scrollable="true">
                         <section>
@@ -123,12 +132,7 @@ class AppointmentMails extends Component {
                         <div className="md_tablet3">
                         <div style={{"width":"60%", "float":"left"}}><h4 className="md_tablet_h4">Invite Mails</h4>
                         <p className="md_tablet_p">Here is the list of your invites mail </p></div>
-						<div style={{"width":"40%","float":"left"}}>
-						<a onClick={this.toCreateInvite}  className="btn_create_contact ml0" style={{"marginLeft":"0px !important"}}>
-                                    <i className="sg-icon sg-icon-segment"></i>
-                                    Create Invite Mail
-                                </a>
-						</div>
+						
                         </div>
                     <div className="md_tablet4">
                         <div className="md_tablet5">

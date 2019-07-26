@@ -120,17 +120,12 @@ class Lists extends Component {
                                 </div>
                                 <div className="col-md-6">
                             
-                                    <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
-                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
-                                            <i className="sg-icon sg-icon-csv"></i>
-                                            <span>Upload CSV</span>
-                                        </Link>
-                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts"
-                                              className="dropdown-link dropdown-link-with-icon">
-                                            <i className="sg-icon sg-icon-contacts-alt"></i>
-                                            <span>Manual Add</span>
-                                        </Link>
-                                    </ul>
+                                   <div style={{"float":"left"}}>
+                                                    <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="btn_create_contact ">
+                                                        <i className="sg-icon sg-icon-segment"></i>
+                                                        Create Group
+                                                    </a>
+                                                    </div>
                                 </div>
                             </header>
                             <section className="row">
@@ -152,12 +147,7 @@ class Lists extends Component {
                                                     <input onChange={this.handleSearch} type="text" class="form-control" placeholder="Search Group"/>
                                                 </div>
                                                 <div class="error-label"></div>
-                                                <div style={{"float":"left"}}>
-                                                    <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="btn_create_contact ">
-                                                        <i className="sg-icon sg-icon-segment"></i>
-                                                        Create Group
-                                                    </a>
-                                                    </div>
+                                                
                                             </form>
                                         </div>
 
