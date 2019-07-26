@@ -32,6 +32,7 @@ public class CampaignController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CampaignController.class);
     @Autowired
     CampaignService campaignService;
+    @Autowired
     SubcriberService subcriberService;
 
     @Autowired
@@ -67,7 +68,7 @@ public class CampaignController {
 
     }
 
-    @ApiOperation(value = "Create Campaign Template")
+    @ApiOperation(value = "Create Campaign With Timer")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful"),
             @ApiResponse(code = 400, message = "Invalid  ID"),
@@ -124,7 +125,7 @@ public class CampaignController {
 
     @GetMapping("/campaigns")
     Iterable<Campaign> getAll() {
-        return campaignRepository.findAll();
+        return campaignRepository.findAllByAutomationIsFalse();
     }
 
     @ApiOperation(value = "Send Campaign Without Template")

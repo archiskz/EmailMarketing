@@ -19,6 +19,7 @@ import AddContactsFile from './ListsComponent/AddContactsFile';
 import Profile from './UserComponent/ViewUserProfile';
 import { withRouter } from "react-router";
 import InviteMails from './AppointmentComponent/AppointmentMails';
+import EmbeddedForms from './EmbededFormComponent/EmbeddedForms';
 
 class DashBoard extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class DashBoard extends Component {
              <Route path="/dashboard/add-contacts"  component={AddContact} />
              <Route path="/dashboard/add-contacts-file"  component={AddContactsFile} />
              <Route path="/dashboard/lists" component={Lists} />
-              <Route path="/dashboard/embededform" component={EmbededForm} />
+              <Route path="/dashboard/create-form" component={EmbededForm} />
              <Route path="/dashboard/reports" component={Reports} />
               <Route path="/dashboard/templates" component={Templates} />
              <Route path="/dashboard/automations" component={AutomationCampaigns} />
@@ -51,6 +52,7 @@ class DashBoard extends Component {
              <Route path="/dashboard/contacts/:id" component={CreateContact} />
              <Route path="/dashboard/profile" component={Profile} />
              <Route path="/dashboard/invite-mail" component={InviteMails} />
+             <Route path="/dashboard/forms" component={EmbeddedForms} />
              {/* <Route path="/dashboard/lists/:id" render={()=> (</>)} /> */}
            </Switch>
            </div>

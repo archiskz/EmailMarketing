@@ -55,7 +55,7 @@ public class TemplateController {
     public ResponseEntity createTemplate(@RequestBody Template template) {
         boolean flag = templateService.createTemplate(template);
         if (flag == false) {
-            return ResponseEntity.status(CONFLICT).body("Template này đã tồn tại ");
+            return ResponseEntity.status(CONFLICT).body("Template Existed ");
         }
         return ResponseEntity.status(CREATED).body("Okay");
 

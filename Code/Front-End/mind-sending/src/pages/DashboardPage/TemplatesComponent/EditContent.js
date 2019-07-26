@@ -34,6 +34,7 @@ class EditContent extends Component {
       } ,
       auth_token:"",
       newAppointment:this.props.history.location.state.newAppointment,
+      newCampaign:this.props.history.location.state.newCampaign,
       isChecked:this.props.history.location.state.isChecked 
     };
     this.onLoad = this.onLoad.bind(this);
@@ -43,7 +44,8 @@ class EditContent extends Component {
     this.notificationDOMRef = React.createRef();
   }
 
-  addNotification() {
+  addNotification=()=> {
+    console.log("asdasdsada")
     this.notificationDOMRef.current.addNotification({
       title: "Template",
       message: "Edit Template Success!",
@@ -59,6 +61,7 @@ class EditContent extends Component {
   }
    componentDidMount(){
      console.log(this.props.history.location.state.newAppointment)
+     console.log(this.props.history.location.state.newCampaign)
      console.log(this.props.history.location.state.isChecked)
     this.isComponentMounted = true; 
     const appState = JSON.parse(localStorage.getItem('appState'));
@@ -196,6 +199,7 @@ button = <a onClick={()=>this.saveCampaign()} icon="airplane-fill" style={{"font
  
 // }
 saveAppointment(){
+  var errors = false
   // this.exportHtml();
   this.editor.exportHtml(data => {
     const { design, html } = data
@@ -209,15 +213,25 @@ saveAppointment(){
         }
       }
     }, ()=> {
+      
       console.log(this.state.newAppointment)
       axios.post(`${Config.API_URL}appointment/create`,this.state.newAppointment,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
-        console.log(res.data)
+        console.log(res)
         this.addNotification()
         
        }).catch(function (error) {
         console.log(error);
+        if(error != null ){
+          errors = true
+        }
       });
+      if(errors == false){
+        this.props.history.push({
+          pathname:'/dashboard/invite-mail',
+      });
+        this.addNotification()
+      }
       this.closeModal();
     }
     );
@@ -228,30 +242,57 @@ saveAppointment(){
 
   saveCampaign(){
   // this.exportHtml();
+  var self = this;
   this.editor.exportHtml(data => {
     const { design, html } = data
       this.setState({
       newCampaign:{
         ...this.state.newCampaign,
-        bodyJson: JSON.stringify(design),
-        content: html
+        mailObjectDTO: {
+          ...this.state.newCampaign.mailObjectDTO,
+          bodyJson: JSON.stringify(design),
+          body: html
+        }
+        
       }
     }, ()=> {
-      console.log(`${Config.API_URL}campaign/edit`)
       console.log(this.state.newCampaign)
-      axios.put(`${Config.API_URL}campaign/edit`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-      .then(res => {
-        console.log(res.data)
-        this.addNotification()
-        
-       }).catch(function (error) {
-        console.log(error);
-      });
-      this.closeModal();
-    });
-    
-  })
-  
+      if(this.state.isChecked == true){
+        axios.post(`${Config.API_URL}campaign/create/timer`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+        .then(response => {
+          console.log(response.data)
+          var id = response.data
+              self.setState({
+                campaignId: id,
+              },
+              ()=> {
+                this.closeModal();})
+              console.log(this.state.campaignId)
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      } else {
+        axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+        .then(response => {
+          console.log(response.data)
+          var id = response.data
+              self.setState({
+                campaignId: id
+              },
+              ()=> {
+                this.closeModal();})
+              console.log(this.state.campaignId)
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      }
+      
+      }
+     
+    );
+  });
   }
 
   //  exportHtml=()=>{

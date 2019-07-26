@@ -27,12 +27,19 @@ public class Workflow implements Serializable {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "status")
+    private String status;
+
     @Column(name = "timestart")
     private String timeStart;
 
     @Basic
     @Column(name = "created_time")
     private String createdTime;
+
+    @Basic
+    @Column(name = "model")
+    private String model;
 
     @Basic
     @Column(name = "updated_time")

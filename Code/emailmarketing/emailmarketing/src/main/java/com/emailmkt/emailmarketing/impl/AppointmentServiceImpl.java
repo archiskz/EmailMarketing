@@ -12,19 +12,18 @@ import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -32,6 +31,10 @@ import java.util.stream.Collectors;
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
     public static final int NUM_OF_THREAD = 10;
+
+    private final Configuration templates;
+
+
     @Autowired
     AppointmentRepository appointmentRepository;
     @Autowired
@@ -41,15 +44,14 @@ public class AppointmentServiceImpl implements AppointmentService {
     GroupContactRepository groupContactRepository;
 
 
-
-    
-
     @Autowired
     SubcriberRepository subcriberRepository;
     @Autowired
     MailService mailService;
 
-
+    public AppointmentServiceImpl(Configuration templates) {
+        this.templates = templates;
+    }
 
 
     @Override
@@ -107,57 +109,45 @@ public class AppointmentServiceImpl implements AppointmentService {
             }
 
 
-
-
             appointmentGroupContact.setAppointmentSubcribers(appointmentSubcribers);
 
             return appointmentGroupContact;
         }).collect(Collectors.toList());
-        System.out.println("Tới đây 2");
+
         appointment.setAppointmentGroupContacts(appointmentGroupContacts);
 //
         appointment.setToken(UUID.randomUUID().toString());
         appointmentDTO.setToken(appointment.getToken());
         appointment.setConfirm(false);
         appointmentRepository.save(appointment);
-        System.out.println("Toi day 3");
+
         try {
-            String bodyTemp = appointment.getBody();
-            int index = bodyTemp.indexOf("<a href=\"\"") + 8;
-            System.out.println(index);
 
-            final String[] newString = {new String()};
+//            String bodyTemp = appointment.getBody();
+//            int index = bodyTemp.indexOf("<a href=\"\"") + 8;
+//            System.out.println(index);
 
-            for (int i = 0; i < bodyTemp.length(); i++) {
+            for (int counter = 0; counter < mailLists.size(); counter++) {
+                String bodyTemp = appointment.getBody();
+                int index = bodyTemp.indexOf("<a href=\"\"") + 8;
+                String newString = new String();
+                for (int i = 0; i < bodyTemp.length(); i++) {
 
-                newString[0] += bodyTemp.charAt(i);
-
-                if (i == index) {
-                    ExecutorService exec = Executors.newFixedThreadPool(NUM_OF_THREAD);
-                    exec.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            for(String email:mailLists)
-                            {
-//                                newString[0] += "http://103.79.141.134:8080/api/accept-appointment?confirmationToken=" +appointment.getToken()+"?email="+email;
-
-                                newString[0] += "http://localhost:8080/api/accept-appointment?confirmationToken=" +appointment.getToken()+"?email="+email;
-                                mailService.sendAppointment(appointment.getSender(),
-                                        appointment.getFromMail(),
-                                        email, appointment.getSubject(),
-                                        newString[0]);
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                };
-                            }
-                        }
-                    });
-
-
+                    newString += bodyTemp.charAt(i);
+                    if (i == index) {
+                        newString += "http://localhost:8080/api/accept-appointment?confirmationToken=" + appointment.getToken() + "&subcriberEmail=" + mailLists.get(counter);
+                    }
                 }
+
+                mailService.sendAppointment(appointment.getSender(),
+                        appointment.getFromMail(),
+                        mailLists.get(counter), appointment.getSubject(),
+                        newString);
+
+
             }
+
+
         } catch (MailException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
@@ -197,14 +187,30 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public ResponseEntity<String> acceptAppointment(String token) {
+    public ResponseEntity<String> acceptAppointment(String token, String email) {
         Appointment appointment = appointmentRepository.findByToken(token);
-        if (appointment == null) {
+        AppointmentSubcriber appointmentSubcriber = appointmentRepository.findMailByAppointmentId(appointment.getId(), email);
+
+        if (appointmentSubcriber == null) {
             return ResponseEntity.badRequest().body("Invalid token.");
         } else {
-            appointment.setConfirm(true);
+            appointmentSubcriber.setConfirmation(true);
             appointmentRepository.save(appointment);
+            String body="";
+            try{
+
+                Template t = templates.getTemplate("test.ftl");
+                Map<String, String> map = new HashMap<>();
+                map.put("DATE", appointment.getTime());
+                map.put("APPOINTMENT_NAME",appointment.getName());
+                body = FreeMarkerTemplateUtils.processTemplateIntoString(t, map);
+
+            }catch(Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            }
+            mailService.sendAppointment(appointment.getFromMail(),appointment.getFromMail(),appointmentSubcriber.getSubcriberEmail(),"Confirm Invite Email",body);
         }
+
         return ResponseEntity.ok("Thanks for accepting my invite!");
     }
 }

@@ -8,7 +8,10 @@ import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.service.GroupContactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -120,6 +123,34 @@ public class GroupContactServiceImpl implements GroupContactService {
     @Override
     public boolean deleteSubcriberOutGroup(int subcriberId) {
         return false;
+    }
+
+    @Override
+    public boolean deleteGroup(int groupId) {
+        GroupContact groupContact = groupContactRepository.findGroupById(groupId);
+        if(groupContact!= null){
+            return false;
+        }
+        else{
+            Long numberOfSubcribers = groupContactRepository.countTotalContactsByGroupId(groupId);
+
+            if(numberOfSubcribers !=0){
+                throw new ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR, "This group contact can not delete!");
+            }
+        }
+        try{
+            groupContactRepository.deleteGroupContactById(groupId);
+
+        }catch( DataAccessException ex){
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
+
+
+
     }
 
 

@@ -151,7 +151,10 @@ class ListRow extends Component {
       toListContact = (id)=> {        
         this.props.history.push({
             pathname:`/dashboard/contacts/:${id}`,
-            state : id
+            state : {
+              id: id,
+              name:this.props.contactEmail
+            },
         });
         }
 

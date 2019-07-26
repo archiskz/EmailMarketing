@@ -8,18 +8,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "appointment_has_subcriber"
-//        uniqueConstraints={@UniqueConstraint(columnNames = { "group_contact_id","subcriber_email"})}
+@Table(name = "form_has_group_contact",uniqueConstraints={
+        @UniqueConstraint(columnNames = {"form_id", "group_contact_id"})
+}
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
-public class AppointmentSubcriber implements Serializable {
+public class FormGroupContact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -34,20 +34,13 @@ public class AppointmentSubcriber implements Serializable {
     private String updatedTime;
 
 
-    @Column(name = "subcriber_email")
-    private String subcriberEmail;
+    @ManyToOne
+    @JoinColumn(name = "form_id")
+    private EmbeddedForm embeddedForm;
 
-    @Column(name = "confirmation")
-    private boolean confirmation;
-
-
-
-    //    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "appointment_id",referencedColumnName = "appointment_id")
-    private AppointmentGroupContact appointmentGroupContact;
-
-
-
+//    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "group_contact_id" )
+    private GroupContact groupContact;
 
 }

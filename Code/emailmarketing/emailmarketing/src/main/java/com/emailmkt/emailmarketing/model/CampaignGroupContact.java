@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -42,5 +43,8 @@ public class CampaignGroupContact {
     @ManyToOne
     @JoinColumn(name = "group_contact_id" )
     private GroupContact groupContact;
+
+    @OneToMany(mappedBy = "campaignGroupContact", cascade = CascadeType.ALL)
+    private List<CampaignSubcriber> campaignSubcribers;
 
 }

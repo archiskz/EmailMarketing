@@ -14,12 +14,12 @@ import java.io.Serializable;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "appointment_has_subcriber"
+@Table(name = "campaign_has_subcriber"
 //        uniqueConstraints={@UniqueConstraint(columnNames = { "group_contact_id","subcriber_email"})}
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
-public class AppointmentSubcriber implements Serializable {
+public class CampaignSubcriber implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -33,7 +33,6 @@ public class AppointmentSubcriber implements Serializable {
     @Column(name = "updated_time")
     private String updatedTime;
 
-
     @Column(name = "subcriber_email")
     private String subcriberEmail;
 
@@ -44,8 +43,8 @@ public class AppointmentSubcriber implements Serializable {
 
     //    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "appointment_id",referencedColumnName = "appointment_id")
-    private AppointmentGroupContact appointmentGroupContact;
+    @JoinColumn(name = "campaign_id",referencedColumnName = "campaign_id")
+    private CampaignGroupContact campaignGroupContact;
 
 
 

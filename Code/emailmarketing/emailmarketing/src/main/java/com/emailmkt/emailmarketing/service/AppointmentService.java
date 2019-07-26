@@ -23,6 +23,6 @@ public interface AppointmentService {
     Appointment addContentToAppointment(Appointment appointment);
     boolean editAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO appointmentDTO, int id);
     AppointmentDTO getAppointmentById(int id);
-    public ResponseEntity<String> acceptAppointment(String token);
+    public ResponseEntity<String> acceptAppointment(String token,String email);
 
 }

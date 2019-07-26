@@ -13,6 +13,7 @@ import { select } from '@syncfusion/ej2-base';
 import { withRouter } from "react-router";
 import Modal from 'react-awesome-modal';
 import OneTemplate from '../../../components/OneTemplate';
+import ValidateField from '../../../components/inputValidate/ValidateField';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
@@ -21,6 +22,8 @@ class CreateAppointment extends Component{
      super(props);
 
      this.state = {
+       validates:{},
+       canPass: false,
        startDate: new Date(),
        height: 755,
       modalIsOpen: false,
@@ -34,7 +37,7 @@ class CreateAppointment extends Component{
        contentVisible: true,
        campaignId: 0,
        templates:[],
-        lists:[{"id":3,"name":"TesTV3","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:35:30.025","updatedTime":"string","account_id":"1","account":{"id":1,"username":"admin","fullname":"Tan123","email":"string","password":"admin","phone":"0907403553","gender":"string","address":"q7","authorityId":1,"createdTime":"2019-06-11T06:01:25.959","updatedTime":"string"},"subcribers":[]},{"id":4,"name":"Test25894","description":"Son oi Test duoc roi ne","createdTime":"2019-06-12T06:39:49.668","updatedTime":"string","account_id":"2","account":{"id":2,"username":"archis","fullname":"Archis","email":"string","password":"Ahihihi","phone":"0907403553","gender":"Male","address":"HCM","authorityId":1,"createdTime":"2019-06-12T06:38:29.065","updatedTime":"string"},"subcribers":[]}]
+        lists:[]
         ,
         newAppointment:{
           appointmentDTO: {
@@ -171,8 +174,8 @@ class CreateAppointment extends Component{
 
     this.setState({ newAppointment: {
       ...this.state.newAppointment,
-appointmentDTO: {
-        ...this.state.appointmentDTO,
+      appointmentDTO: {
+        ...this.state.newAppointment.appointmentDTO,
 		gcAppointmentDTOS: selectValue,
 
     }    }
@@ -222,34 +225,26 @@ appointmentDTO: {
         		<h4 className="user_profile5_h4">Appointment Name:</h4>
         		<div className="user_profile5_p"> 
             <a style={{"backgroundColor":"transparent","color":"white","float":"left","marginTop":"10px"}} class="fas fa-edit margin_td_fontawsome"  title="Edit"> </a>
-            <input style={{"backgroundColor":"transparent","color":"white","width":"auto","float":"left","border-bottom":"none"}} 
+            <input onBlur={()=>this.Validate('name')}  style={{"backgroundColor":"transparent","color":"white","width":"auto","float":"left","border-bottom":"none"}} 
             placeholder="Invitation Name" value={this.state.newAppointment.appointmentDTO.name} name="name"  onChange={this.handleName} 
             className="user_profile_w3_input" id="company-disabled" type="text"  />
+            <ValidateField isValidate={false} isError = {this.state.validates.nameValidate} />
             </div>
+            
         		</div>
+            
         		<div className="user_profile6">
             <h3>Basic Settings<h5 style = {{"fontStyle":"italic"}}>Edit the detail of your invite mail</h5></h3>
-            {/* <div className="user_profile7">
-        			
-        					<div className="user_profile7_sub1" style={{"marginLeft":"15px", "marginRight":"15px"}}>
-        						<label className="user_profile_w3_label" >Invite Mail Title </label>
-        					
-        						<input aria-invalid="false" placeholder="Enter your invite mail title" name="title" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled="" id="company-disabled" type="text" value={this.state.newCampaign.campaignDTO.campaignName}  />
-        						<input cols="1" rows="1" className="inputContact"  type="text" />
-                   
-        					</div>
-        				
-        			</div> */}
         			<div className="user_profile7">
-        				<div className="user_profile9_sub">
+        				<div style={{"marginLeft":"15px"}} className="user_profile9_sub">
         					<div className="user_profile7_sub1">
         						<label className="user_profile_w3_label" >Date and Time </label>
                       <div className="control-styles">
-                      <DateTimePickerComponent value={this.state.newAppointment.appointmentDTO.time}  change={this.onChangeDate} min={minDate} id="datetimepicker" placeholder="Select a date and time"/>
+                      <DateTimePickerComponent onBlur={()=>this.Validate('datetime')}  value={this.state.newAppointment.appointmentDTO.time}  change={this.onChangeDate} min={minDate} id="datetimepicker" placeholder="Select a date and time"/>
                  
                        
                       </div>
+                      <ValidateField isValidate={false} isError = {this.state.validates.datetimeValidate} />
         					</div>
         				</div>
         				
@@ -259,7 +254,7 @@ appointmentDTO: {
         		</div>	
             
             <div className="user_profile6">
-            <h3>Mail Settings<h5 style = {{"fontStyle":"italic"}}>What's the subject line for this campaign?</h5></h3>
+            <h3>Mail Settings<h5 style = {{"fontStyle":"italic"}}>Subject and from to fields</h5></h3>
             <div className="user_profile7">
             <div className="user_profile9_sub">
               <div className="user_profile7_sub1" style={{"marginLeft":"15px", "marginRight":"15px"}}>
@@ -268,7 +263,9 @@ appointmentDTO: {
                           style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important"}} 
                           id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
                           change={this.onChangeListsSelect}
-                          placeholder="Choose Lists"/>   
+                          // onBlur={()=>this.Validate('group')}
+                          placeholder="Choose Lists"/>    
+                           <ValidateField isValidate={false} isError = {this.state.validates.groupValidate} />
               </div>
               </div>
             
@@ -278,19 +275,19 @@ appointmentDTO: {
             <div className="user_profile7_sub1" style={{"marginLeft":"15px", "marginRight":"15px"}}>
         						<label className="user_profile_w3_label" >From </label>
         					
-        						<input aria-invalid="false" placeholder="Sender Name" name="from" onChange={this.handleChange} className="user_profile_w3_input"
+        						<input onBlur={()=>this.Validate('from')}  aria-invalid="false" placeholder="Sender Name" name="from" onChange={this.handleChange} className="user_profile_w3_input"
                      id="company-disabled" type="text" value={this.state.newAppointment.mailObjectDTO.from}  />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
-                   
+                    <ValidateField isValidate={false} isError = {this.state.validates.fromValidate} />
         					</div>
             </div>
             <div className="user_profile9_sub">
             <div className="user_profile7_sub1" style={{"marginLeft":"15px", "marginRight":"15px"}}>
               <label className="user_profile_w3_label" style={{"color":"white"}} >.</label>					
-        						<input aria-invalid="false" placeholder="Email Address" name="fromMail" onChange={this.handleChange} className="user_profile_w3_input"
-                      id="company-disabled" type="text" value={this.state.newAppointment.mailObjectDTO.fromMail}  />
+        						<input onBlur={()=>this.Validate('fromMail')} aria-invalid="false" placeholder="Email Address" name="fromMail" onChange={this.handleChange} className="user_profile_w3_input"
+                      id="company-disabled" type="email" value={this.state.newAppointment.mailObjectDTO.fromMail}  />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
-                   
+                    <ValidateField isValidate={false} isError = {this.state.validates.mailValidate} />
         					</div>
             </div>
         					
@@ -302,10 +299,10 @@ appointmentDTO: {
         					<div className="user_profile7_sub1" style={{"marginLeft":"30px", "marginRight":"15px"}}>
         						<label className="user_profile_w3_label" >Subject </label>
         					
-        						<input aria-invalid="false" placeholder="Email subject" name="subject" onChange={this.handleChange} className="user_profile_w3_input"
+        						<input onBlur={()=>this.Validate('subject')} aria-invalid="false" placeholder="Email subject" name="subject" onChange={this.handleChange} className="user_profile_w3_input"
                       id="company-disabled" type="text" value={this.state.newAppointment.mailObjectDTO.subject}  />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
-                   
+                    <ValidateField isValidate={false} isError = {this.state.validates.subjectValidate} />
         					</div>
         				
         			</div>
@@ -387,6 +384,109 @@ appointmentDTO: {
       );
   }
 
+  Validate = (name)=>{
+    var validate = {};
+    switch(name){
+      case "name":{
+        if(this.state.newAppointment.appointmentDTO.name.length < 3){
+          validate.nameValidate = "You need to enter a name that's at least 3 characters long";
+        }
+        break;
+      }
+      case "datetime":{
+        if(this.state.newAppointment.appointmentDTO.time == ""){
+          validate.datetimeValidate = "Enter datetime of your appointment";
+        } 
+        break;
+      }
+      case "group":{
+        console.log('group')
+        if(!Array.isArray(this.state.newAppointment.appointmentDTO.gcAppointmentDTOS )   ){
+          validate.groupValidate = "Choose List receiver";
+          
+          
+        }else {
+          var array = new Array();
+          array = this.state.newAppointment.appointmentDTO.gcAppointmentDTOS 
+          if(array.length<=0){
+            validate.groupValidate = "Choose List receiver";
+          }
+        }
+      }
+      case "from":{
+        if(this.state.newAppointment.mailObjectDTO.from == ""){
+          validate.fromValidate = "Enter Sender name";
+        }
+      }
+      case"fromMail":{
+        if(this.state.newAppointment.mailObjectDTO.fromMail == ""){
+          validate.mailValidate = "Enter an Email";
+        } else if(this.state.newAppointment.mailObjectDTO.fromMail != ""){
+         var  emailValid = this.state.newAppointment.mailObjectDTO.fromMail.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+          validate.mailValidate = emailValid ? "" : "Enter an Email";
+        }
+      }
+      case "subject":{
+        if(this.state.newAppointment.mailObjectDTO.subject.length <=2 || this.state.newAppointment.mailObjectDTO.subject.length >= 512){
+          validate.subjectValidate = "This field can not be empty. It must contain between 2 and 512 characters"
+         } 
+      }
+      case "all":{
+        if(this.state.newAppointment.appointmentDTO.name.length < 3){
+          validate.nameValidate = "You need to enter a name that's at least 3 characters long";
+        }
+        if(this.state.newAppointment.appointmentDTO.time == ""){
+          validate.datetimeValidate = "Enter datetime of your appointment";
+        } 
+        if(!Array.isArray(this.state.newAppointment.appointmentDTO.gcAppointmentDTOS )   ){
+          validate.groupValidate = "Choose List receiver";
+          
+          
+        }else {
+          var array = new Array();
+          array = this.state.newAppointment.appointmentDTO.gcAppointmentDTOS 
+          if(array.length<=0){
+            validate.groupValidate = "Choose List receiver";
+          }
+        }
+        
+        if(this.state.newAppointment.mailObjectDTO.from == ""){
+          validate.fromValidate = "Enter Sender name";
+        }
+        if(this.state.newAppointment.mailObjectDTO.fromMail == ""){
+          validate.mailValidate = "Enter an Email";
+        } else if(this.state.newAppointment.mailObjectDTO.fromMail != ""){
+         var  emailValid = this.state.newAppointment.mailObjectDTO.fromMail.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+          validate.mailValidate = emailValid ? "" : "Enter an Email";
+        }
+        if(this.state.newAppointment.mailObjectDTO.subject.length <=2 || this.state.newAppointment.mailObjectDTO.subject.length >= 512){
+          validate.subjectValidate = "This field can not be empty. It must contain between 2 and 512 characters"
+         } 
+         var wrong = 0;
+         Object.keys(validate).forEach(function(key){
+           console.log("key" + validate[key])
+           if(validate[key] != ""){
+             wrong ++;
+           }
+         })
+         console.log(wrong)   
+         if(wrong > 0){
+           this.setState({canPass: false})
+         } else {
+          this.setState({canPass: true})
+         }
+        this.setState({
+          validates: validate
+        })
+        console.log(validate);
+        break;
+      }
+    }
+    
+    this.setState({
+      validates: validate
+    })
+  }
 
   onChooseTemplate = (id, content)=>{
     this.props.history.push({
@@ -439,8 +539,11 @@ appointmentDTO: {
 
 
   openModal() {
-    console.log("open now");
-    this.setState({modalIsOpen: true});
+    this.Validate('all')
+    if(this.state.canPass){
+      this.setState({modalIsOpen: true});
+    }
+    
 
     console.log("modal is open:" + this.state.modalIsOpen)
   }

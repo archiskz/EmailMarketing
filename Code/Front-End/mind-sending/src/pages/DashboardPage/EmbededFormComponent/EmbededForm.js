@@ -3,333 +3,226 @@ import {isEmpty, chain, assignIn} from 'lodash';
 import $ from 'jquery';
 import service from '../../../utils/subcriberRepository';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
+import { select } from '@syncfusion/ej2-base';
+import {Link} from 'react-router-dom';
+import { withRouter } from "react-router";
+import axios from 'axios';
+import * as Config from './../../../constants/Config';
+import imgLoad from './../../../assets/img/ajax-loader.gif'
 
 
-class EmbededForm extends Component {
+class EmbededForm extends React.Component {
     constructor(props) {
         super(props);
+   
         this.state = {
-            email: {
-                value: '',
-                isInputValid: false,
-                errorMessage: ''
-            },
-            lastName: {
-                value: '',
-                isInputValid: false,
-                errorMessage: ''
-            },
-            firstName: {
-                value: '',
-                isInputValid: false,
-                errorMessage: ''
-            },
-            tabIndex: 0 
-        }
-        
-    }
-
-    setErrorMessage = (error, text = '') => {
-        return {
-            isInputValid: error,
-            errorMessage: text
-        }
-    };
-
-    validateInput = (type, checkingText) => {
-        switch (type) {
-            case 'email':
-                if (isEmpty(checkingText)) {
-                    return this.setErrorMessage(false, 'Required')
-                }
-                if(!checkingText.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/)) {
-                    return this.setErrorMessage(false, 'Invalid Email')
-                }
-                return this.setErrorMessage(true);
-            case 'firstName':
-                if (isEmpty(checkingText)) {
-                    return this.setErrorMessage(false, 'Required')
-                }
-                return this.setErrorMessage(true);
-            case 'lastName':
-                if (isEmpty(checkingText)) {
-                    return this.setErrorMessage(false, 'Required')
-                }
-                return this.setErrorMessage(true);
-            default:
-                console.error('Invalid Type');
-                break;
-        }
-    };
-
-    handleInput = (event) => {
-        const { name, value } = event.target;
-        const newState = {...this.state[name]};
-        newState.value = value;
-        this.setState({[name]: newState});
-    };
-
-    handleInputValidation = (event) => {
-        const { name } = event.target;
-        console.log(this.state[name].value);
-        const validateObj = this.validateInput(name, this.state[name].value);
-        const newState = {...this.state[name]};
-        newState.isInputValid = validateObj.isInputValid;
-        newState.errorMessage = validateObj.errorMessage;
-        this.setState({[name]: newState})
-    };
-
-    isFormValid = () => {
-        let valid = true;
-        Object.keys(this.state).forEach(name => {
-            if(!this.state[name].isInputValid) {
-                valid = false;
-                return void(0);
-            }
-        });
-        return valid;
-    };
-
-    save = (event) => {
-      event.preventDefault();
-      if(this.isFormValid()) {
-          const value = chain($(event.target).serializeArray()).keyBy('name')
-              .mapValues('value')
-              .value();
-          const defaultObject = {
-              "address": "string",
-              "dob": "string",
-              "email": "abc@gmail.com",
-              "firstName": "abc",
-              "gcSubcriberDTOS": [
-                  {
-                      "groupContactId": 0
-                  }
-              ],
-              "id": 0,
-              "lastName": "abc",
-              "phone": "string",
-              "tag": "string",
-              "type": "string"
-          };
-          service.createSubcriber(assignIn(defaultObject, value)).then(s => {
-              alert('Success');
-          }, er => {
-              alert('Error');
-          })
-      }
-    };
-
-    render() {
-        
-        const getMessageTemplate = (validateObj) => {
-            if (validateObj.isInputValid) {
-                return null
-            }
-            return <div style={{color: 'red', paddingTop: '10px'}} className="error">{validateObj.errorMessage}</div>
+            email: true,
+            firstName: false,
+            lastName: false,
+            phone: false,
+            address: false,
+            birth:false,
+            submit: "Subcribe",
+            auth_token:"",
+            lists:[],
+            groupId:0,
+            isLoading:false
+        }     
+        this.fields = { text: 'name', value: 'id' };
+        this.handleBtn = this.handleBtn.bind(this);
         };
 
-        return (
-            <div className="">
-                <div className="flash_notice">
-                </div>
-                <div className="container" data-role="main-app-container">
-                    <div>
-                        <article>
-                            <header className="row">
-                                <div className="col-md-6">
-                            <span>
-                                <h1 className="">
-                                    <span className="pageTitle-css__title-heading___3H2vL">Embeded Form
-                                        <span>&nbsp;</span>
-                                    </span>
-                                </h1>
-                            </span>
-                                </div>
+        componentDidMount(){
+            const appState = JSON.parse(localStorage.getItem('appState'));
+            this.setState({
+                auth_token: appState.user.auth_token
+            },()=> {
+              this.getAllGroupContacts();
+            });
+        }
+        getAllGroupContacts=()=>{
+            axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+            .then(response => {
+              this.setState({
+                lists: response.data
+              });
+            })
+            .catch(error => {
+              console.log(error);
+            });
+           }
 
-                            </header>
-                        </article>
-                        <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
-                      <TabList>
-                        <Tab>Form 1</Tab>
-                        <Tab>Form 2</Tab>
-                      </TabList>
-                      <TabPanel>
-                        <div className="embed_signup">
-                            <form onSubmit={this.save} className="embed_signup_form">
-                                <div id="mc_embed_signup_scroll">
-                                    <h2>Subscribe</h2>
-                                    <div className="indicates-Required">
-                                        <span className="asterisk">*</span> indicates Required
-                                    </div>
-                                    <div className="mc-field-group">
-                                        <label htmlFor="email">Email Address <span className="asterisk">*</span>
-                                        </label>
-                                        <input type="email"
-                                               onChange={this.handleInput}
-                                               onBlur={this.handleInputValidation}
-                                               name="email"
-                                               id="email"
-                                        />
-                                        {getMessageTemplate(this.state.email)}
-                                    </div>
-                                    <div className="clear"><input type="submit" value="Subscribe" name="subscribe"
-                                                                  id="mc-embedded-subscribe"
-                                                                  className="button_embed_form"/></div>
-                                </div>
-                            </form>
-                        </div>
-                      </TabPanel>
-                      <TabPanel>
-                        <div className="embed_signup">
-                            <form onSubmit={this.save} className="embed_signup_form">
-                                <div id="mc_embed_signup_scroll">
-                                    <h2>Subscribe</h2>
-                                    <div className="indicates-Required">
-                                        <span className="asterisk">*</span> indicates Required
-                                    </div>
-                                    <div className="mc-field-group">
-                                        <label htmlFor="email">Email Address <span className="asterisk">*</span>
-                                        </label>
-                                        <input type="email"
-                                               onChange={this.handleInput}
-                                               onBlur={this.handleInputValidation}
-                                               name="email"
-                                               id="email"
-                                        />
-                                        {getMessageTemplate(this.state.email)}
-                                    </div>
-                                    <div className="mc-field-group">
-                                        <label htmlFor="firstName">First Name </label>
-                                        <input type="text"
-                                               onChange={this.handleInput}
-                                               onBlur={this.handleInputValidation}
-                                               name="firstName"
-                                               id="firstName"
-                                        />
-                                        {getMessageTemplate(this.state.firstName)}
-                                    </div>
-                                    <div className="mc-field-group">
-                                        <label htmlFor="lastName">Last Name </label>
-                                        <input type="text"
-                                               onChange={this.handleInput}
-                                               onBlur={this.handleInputValidation}
-                                               name="lastName"
-                                               id="lastName"
-                                        />
-                                        {getMessageTemplate(this.state.lastName)}
-                                    </div>
-
-                                    <div className="clear"><input type="submit" value="Subscribe" name="subscribe"
-                                                                  id="mc-embedded-subscribe"
-                                                                  className="button_embed_form"/></div>
-                                </div>
-                            </form>
-                        </div>
-                      </TabPanel>
-                      </Tabs>
-                        
+           onChangeListsSelect(args){
+            var numbers = args.value;
+            console.log(numbers)
+            this.setState({groupId:numbers}, () => { console.log('------------------', this.state.groupId)})
+          }
+        
+    render(){
+        var lists = this.state.lists;
+        /* Simply pass myCustoms to */
+        return(
+            <div class="plain-html-editor-v2">
+                <div class="editor">
+                    <div class="heading-text heading-text-level-3 HeadingContainer-kEsQfH fWsXGo" role="heading">
+                        <h3 class="StyledHeading-dhDQR dsbhyt">
+                            <span>Create Embedded Form</span>
+                        </h3>
                     </div>
+                <div class="preview_code">
+                <div class="heading-text heading-text-level-3 HeadingContainer-kEsQfH fWsXGo" role="heading">
+                    <h3 class="StyledHeading-dhDQR dsbhyt">
+                        <span>Preview</span>
+                    </h3>
+                </div>
                 
-                <div className="embed_signup">
-                <form className = "embed_signup_form">
-                    <h3>Copy/paste onto your site</h3>
-                     <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
-                      <TabList>
-                        <Tab>Form 1</Tab>
-                        <Tab>Form 2</Tab>
-                      </TabList>
-                      
-                      <TabPanel>
-                        <pre className="pre_embed_form ">
-                        {
-                            `<form id='test-form' enctype='application/json'>
-                 <h2>Subscribe</h2>
-                     <div class="indicates-Required">
-                    <span class="asterisk">*</span> 
-                        indicates Required</div>
-                   <div class="mc-field-group">
-                    <label for="email">Email Address <span class="asterisk">*</span>
-                       </label>
-                  <input type="email" name="email" id="email">
-                  <div class="error" style="color: red; padding-top: 10px;">
-                  </div>
-                </div>
-              <div class="clear">
-             <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button_embed_form" value="Subscribe">
-            </div>
-                </div>
-               </form>
-            <script>
-                 var testForm = document.getElementById('test-form');
-                  testForm.onsubmit = function(event) {
-                 event.preventDefault();
-                 var email = document.getElementById("email").value
-                fetch('http://103.79.141.134:8080/api/subcriber/createForm', {
-                method: 'post',
-               headers: {
-               'Accept': 'application/json, text/plain, */*',
-              'Content-Type': 'application/json',
-               'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob25nc29uNTciLCJKV1RBdXRob3JpdGllc0tleSI6IkN1c3RvbWVyIiwiZXhwIjoxNTYzOTg5MDA5fQ.oBE_cSorANBkQdjqjQ15ToLEHqy44K-l95_Lv64W3zqEC5WojAb2WLA-DriymgRcQgysB9snpQrr0qld55EnfQ'
-                       },
-                 body: JSON.stringify({email: email})
-                 }).then(res=>res.json())
-            .then(res => console.log(res));
-
-                console.log(request.response);
-                          }
-                </script>`
-                        }
-                    </pre>
-
-                      </TabPanel>
-                      <TabPanel>
-                        <pre className="pre_embed_form">
-                        {
-                            `<form id='test-form' enctype='application/json'>
-     <h2>Subscribe</h2>
-     <div class="indicates-Required">
-     <span class="asterisk">*</span> indicates Required
-      </div>
-       <div class="mc-field-group">    
-      <label for="email">Email Address <span class="asterisk">*</span>
-        </label>
-            <input type="email" name="email" id="email">
-            <div class="error" style="color: red; padding-top: 10px;"></div>
-            </div><div class="mc-field-group">
-                    <label for="firstName">First Name </label><input type="text" name="firstName" id="firstName"><div class="error" style="color: red; padding-top: 10px;"></div></div><div class="mc-field-group"><label for="lastName">Last Name </label><input type="text" name="lastName" id="lastName"><div class="error" style="color: red; padding-top: 10px;"></div></div><div class="clear"><input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button_embed_form" value="Subscribe"></div></div>
-             </form>
-              <script>
-            var testForm = document.getElementById('test-form');
-        testForm.onsubmit = function(event) {
-            event.preventDefault();
-             var email = document.getElementById("email").value
-              var fn = document.getElementById("firstName").value
-             var ln = document.getElementById("lastName").value
-               fetch('http://103.79.141.134:8080/api/subcriber/createForm', {
-                method: 'post',
-              headers: {
-                 'Accept': 'application/json, text/plain, */*',
-                 'Content-Type': 'application/json',
-                   'Authorization':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJob25nc29uNTciLCJKV1RBdXRob3JpdGllc0tleSI6IkN1c3RvbWVyIiwiZXhwIjoxNTYzOTg5MDA5fQ.oBE_cSorANBkQdjqjQ15ToLEHqy44K-l95_Lv64W3zqEC5WojAb2WLA-DriymgRcQgysB9snpQrr0qld55EnfQ'
-               },
-                  body: JSON.stringify({email: email, firstName: fn, lastName: ln})
-               }).then(res=> console.log(res))
-                  .then(res => console.log(res));
-                     }
-                  </script>`
-                        }
-                    </pre>
-
-                      </TabPanel>
-                    </Tabs>
+                <div id="code_preview" className="ml30p" style={{"marginLeft":"0px !important","width":"360px", "border":"1px solid black","padding":"15px", "borderRadius":"10px"}}>
+            JOIN US <br/><br/>
+            <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email"/>
+                    </div>
+                    <div class={'form-group' +  (this.state.firstName ? " " : " activeText" )}>
+                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="First Name"/>
+                    </div>
+                    <div class={'form-group' +  (this.state.lastName ? " " : " activeText" )}>
+                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Last Name"/>
+                    </div>
+                    <div class={'form-group' +  (this.state.phone ? " " : " activeText" )}>
+                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Phone"/>
+                    </div>
+                    <div class={'form-group' +  (this.state.address ? " " : " activeText" )}>
+                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Address"/>
+                    </div>
+                    <div class={'form-group' +  (this.state.birth ? " " : " activeText" )}>
+                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Birth Date"/>
+                    </div>
+                    <button type="submit" onClick={this.onSubcribe} class="btn btn-primary">Subcribe</button>
+                </form>
                     
-                 </form>   
+            </div>
+            <button onClick={this.generateCode} class="copy-button ButtonContainer-cCzDqJ dbshwx" type="button" color="primary">
+                    <div class="ButtonContent-dNFcBm ijrtmX">
+                        <span class="ButtonText-cgEyiP kPJhKT">GENERATE CODE <img className={`${this.state.isLoading ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." /></span>
+                    </div>
+                </button>
+        </div>
+        <div class="plain-code">
+            <div class="code-area">
+                
+                {/* <a onClick={this.toFormRegister}>To form</a> */}
+                <br/>
+                    <div class="heading-text heading-text-level-3 HeadingContainer-kEsQfH fWsXGo" role="heading">
+                        <h3 class="StyledHeading-dhDQR dsbhyt">
+                            <span>Copy and paste onto your site:</span>
+                        </h3>
+                    </div>
+                <div>
+                <p class="info-text">
+                    <span>Please note that Web Forms created with the Plain HTML Editor won't be saved. Copy the generated code right away.</span>
+                </p>
+                
+            </div>
+            
+            <div class="" id="code_plain">
+            <button class=" ButtonContainer-cCzDqJ dbshwx copycode" type="button" color="primary">
+                    <div class="ButtonContent-dNFcBm ijrtmX">
+                        <span class="ButtonText-cgEyiP kPJhKT">COPY CODE</span>
+                    </div>
+                </button>
+                <div class="">
+                
+                    <div class="plain-code__textarea StyledTextarea-giTpQe hUwqAX" readonly="" name="plain_code" rows="8">
+                    {`<iframe style="border:none;z-index:1000;backgroun:none;position: fixed;bottom:0;right:0;width:360px; height: 415px" src="http://localhost:3000/form-register?${this.state.auth_token}">
+  <p>Your browser does not support iframes.</p>
+</iframe>`}
+                    </div>
                 </div>
             </div>
-            </div>
-        );
+        </div>
+    </div>
+</div>
+                <div class="side-tool-box">
+                    <form id="plain_text_form">
+                    <fieldset class="form_options">
+                        <div class="HeadingContainer-kEsQfH fWsXGo" role="heading">
+                            <h3 class="StyledHeading-dhDQR jlfIGw">
+                                <span>Form settings:</span>
+                            </h3>
+                        </div>
+                        <div class="FormFieldContainer-cVnFXD gVnSPE">
+                            <div class="FormFieldLabel-jJcHUJ foZsFZ">
+                                <span>Group</span>
+                                <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
+                            </div>
+                            <DropDownListComponent ref={(scope) => { this.mulObj = scope; }}  
+                          style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important"}} 
+                          id="defaultelement"  mode="Default"  
+                          dataSource={lists} mode="Default" fields={this.fields}  
+                          change={this.onChangeListsSelect}
+                          placeholder="Choose Group"/>  
+                               </div>
+                         
+                        <div class="FormFieldContainer-cVnFXD gVnSPE">
+                            <div class="FormFieldLabel-jJcHUJ foZsFZ">
+                                <span>Submit button value</span>
+                                <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
+                            </div>
+                            <input onChange={this.handleBtn} value={this.state.submit} class="user_profile_w3_input" name="button" type="text" autocomplete="off" maxlength="64"/>
+                        </div>
+                        <div class="section-content">
+                        <div class="FormFieldLabel-jJcHUJ foZsFZ">
+                                <span>Add custom fields</span>
+                                <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
+                            </div>
+                            <br/>
+                        <label className="container-cb">First Name<input onChange={this.handleCheck} type="checkbox" name="firstName" class="blue" /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Last Name<input onChange={this.handleCheck} type="checkbox" name="lastName" class="blue" /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Phone<input onChange={this.handleCheck} type="checkbox" name="phone" class="blue" /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Address<input onChange={this.handleCheck} type="checkbox" name="address" class="blue" /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Birth Date<input onChange={this.handleCheck} type="checkbox" name="birth" class="blue" /><span class="checkmark-cb"></span></label><br/>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>    
+        </div>
+                     );
+    }
+    generateCode=()=>{
+        this.setState({isLoading:true})
+    }
+    save(form){
+        // you will receive form
+        console.log(form);
+    }
+
+    toFormRegister=()=>{
+        
+        this.props.history.push({
+            pathname:'/form-register',
+        });
+    }
+
+    handleBtn=(event)=>{
+        console.log(event.target.value)
+        const value = event.target.value
+        this.setState({
+            submit: value
+        })
+    }
+    handleCheck=(event)=>{
+        console.log(event.target.name)
+        const name = event.target.name
+        this.setState({
+            [name]: event.target.checked
+        })
+    }
+    
+    updateForm(callback){
+        // // fetch form and set it to callback
+        // let form = axios.......
+        // callback(form)
     }
 }
-
-export default EmbededForm;
+export default withRouter(EmbededForm);
