@@ -40,7 +40,8 @@ public class EmbeddedFormServiceImpl implements EmbeddedFormService {
         EmbeddedForm embeddedForm = new EmbeddedForm();
         Account account = accountRepository.findAccountById(1);
         embeddedForm.setAccount_id(account.getId());
-        embeddedForm.setForm(embeddedForm.getForm());
+        embeddedForm.setForm(embeddedFormDTO.getForm());
+        embeddedForm.setName(embeddedFormDTO.getName());
         List<FormGroupContact> formGroupContacts = embeddedFormDTO.getGcFormDTOS().stream().map(g->{
             FormGroupContact formGroupContact = new FormGroupContact();
             formGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));

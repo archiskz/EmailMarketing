@@ -27,7 +27,17 @@ class EmbededForm extends React.Component {
             auth_token:"",
             lists:[],
             groupId:0,
-            isLoading:false
+            isLoading:false,
+            newForm:{
+                form: "",
+                gcFormDTOS: [
+                    {
+                    groupContactId: 0
+                    }
+                ],
+                name: ""
+            },
+            formId:0
         }     
         this.fields = { text: 'name', value: 'id' };
         this.handleBtn = this.handleBtn.bind(this);
@@ -53,10 +63,17 @@ class EmbededForm extends React.Component {
             });
            }
 
-           onChangeListsSelect(args){
+           onChangeListsSelect=(args)=>{
             var numbers = args.value;
             console.log(numbers)
-            this.setState({groupId:numbers}, () => { console.log('------------------', this.state.groupId)})
+            this.setState({
+                newForm:{
+                    ...this.state.newForm,
+                    gcFormDTOS:[
+                        {groupContactId: numbers}
+                    ]
+                }
+            }, () => { console.log('------------------', this.state.newForm)})
           }
         
     render(){
@@ -134,7 +151,7 @@ class EmbededForm extends React.Component {
                 <div class="">
                 
                     <div class="plain-code__textarea StyledTextarea-giTpQe hUwqAX" readonly="" name="plain_code" rows="8">
-                    {`<iframe style="border:none;z-index:1000;backgroun:none;position: fixed;bottom:0;right:0;width:360px; height: 415px" src="http://localhost:3000/form-register?${this.state.auth_token}">
+                    {`<iframe style="border:none;z-index:1000;backgroun:none;position: fixed;bottom:0;right:0;width:360px; height: 415px" src="http://localhost:3000/form-register/${this.state.formId}?${this.state.auth_token}">
   <p>Your browser does not support iframes.</p>
 </iframe>`}
                     </div>
@@ -150,6 +167,13 @@ class EmbededForm extends React.Component {
                             <h3 class="StyledHeading-dhDQR jlfIGw">
                                 <span>Form settings:</span>
                             </h3>
+                        </div>
+                        <div class="FormFieldContainer-cVnFXD gVnSPE">
+                            <div class="FormFieldLabel-jJcHUJ foZsFZ">
+                                <span>Form Name</span>
+                                <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
+                            </div>
+                            <input onChange={this.handleChange} value={this.state.newForm.name} class="user_profile_w3_input" name="button" type="text" autocomplete="off" maxlength="64"/>
                         </div>
                         <div class="FormFieldContainer-cVnFXD gVnSPE">
                             <div class="FormFieldLabel-jJcHUJ foZsFZ">
@@ -189,8 +213,28 @@ class EmbededForm extends React.Component {
         </div>
                      );
     }
+
+    handleChange=(event)=>{
+        const value = event.target.value
+        this.setState({
+            newForm: {
+                ...this.state.newForm,
+                name: value
+            }
+        })
+    }
     generateCode=()=>{
         this.setState({isLoading:true})
+        console.log(this.state.newForm)
+        axios.post(`${Config.API_URL}form/create`,this.state.newForm,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+            .then(response => {
+                console.log(response)
+                this.setState({isLoading: false,
+                formId: response.data})
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
     save(form){
         // you will receive form
@@ -216,6 +260,29 @@ class EmbededForm extends React.Component {
         const name = event.target.name
         this.setState({
             [name]: event.target.checked
+        },()=>{
+            var s = new String();
+        if(this.state.firstName){
+            s += 'firstName '
+        }
+        if(this.state.lastName){
+            s += 'lastName '
+        }
+        if(this.state.phone){
+            s += 'phone '
+        }
+        if(this.state.address){
+            s += 'address '
+        }
+        if(this.state.birth){
+            s += 'birth '
+        }
+        this.setState({
+            newForm:{
+                ...this.state.newForm,
+                form: s
+            }
+        })
         })
     }
     

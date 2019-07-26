@@ -51,7 +51,7 @@ public class EmbeddedFormController {
             return ResponseEntity.status(CONFLICT).body("Form Existed");
         }
         EmbeddedForm temp = embeddedFormRepository.findEmbeddedFormByName(embeddedFormDTO.getName());
-        return ResponseEntity.status(CREATED).body("Successfully");
+        return ResponseEntity.status(CREATED).body(temp.getId());
 
     }
 

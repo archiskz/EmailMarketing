@@ -98,6 +98,7 @@ class CreateContact extends Component {
     console.log("haha")
    axios.get(`${Config.API_URL}subcribersV2`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
    .then(response => {
+       console.log(response.data)
      this.setState({
        listAllAccounts: response.data,
        listFilter: response.data
@@ -149,6 +150,10 @@ class CreateContact extends Component {
     }
    
 }
+updatePage=()=>{
+this.getAllContacts();
+this.getContactsByGroupId()
+}
 
    renderContacts(){
        var lists;
@@ -165,8 +170,12 @@ class CreateContact extends Component {
             key={list.index}
             email={list.email}
             lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
             createdTime={list.createdTime}
             type={list.type}
+            update = {this.updatePage}
         />
         ))
     }
@@ -219,14 +228,10 @@ class CreateContact extends Component {
                         <section>
                         <div class="wrap">
                         <form class="subscribe-box" id="newsletter-form">
-                        <div class="input-field input-field-medium sticky-button">
-                        <label for="newsletter-email">
-                        <input id="newsletter-email" type="text" onChange={this.handleSearch}   name="email" placeholder="Search by email"/>
-                        </label>
-                        <button class="button button-primary button-big" id="subscribe-button-footer" type="submit">
-                        <i class="btn_searching fa fa-search"></i>
-                        </button>
-                        </div>
+                        <div class="form-group has-search">
+                            <span class="fa fa-search form-control-feedback"></span>
+                            <input onChange={this.handleSearch} type="text" class="form-control" placeholder="Search Group"/>
+                            </div>
                         <div class="error-label">
                         </div>
                         </form>

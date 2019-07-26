@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 
 
-import CampaignRow from './../../../components/row/CampaignRow'
+import FormRow from './../../../components/row/FormRow'
 
 class EmbeddedForms extends Component {
    constructor(props) {
@@ -19,7 +19,8 @@ class EmbeddedForms extends Component {
        visible: true,
        dropdown_visible: false,
        campaigns: [],
-       auth_token:""
+       auth_token:"",
+       forms:[]
      };
    }
    onToggleDropdown = () => {
@@ -33,30 +34,21 @@ class EmbeddedForms extends Component {
     const appState = JSON.parse(localStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
-    },()=> this.getAllCampaign() )
+    },()=> this.getAllForms() )
    }
-   getAllCampaign=()=>{
-    var selectOptions = [
-    ];
-    axios.get(`${Config.API_URL}campaigns`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+   getAllForms=()=>{
+    axios.get(`${Config.API_URL}forms`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data);
-      this.setState({campaigns: res.data});
-      res.data.forEach(element => {
-        console.log(element.name)
-        selectOptions.push({value: element.name, name: element.name})
-      });
-      console.log(selectOptions)
-      localStorage["campaigns"] = JSON.stringify(selectOptions);
+      this.setState({forms: res.data});
     }) 
-    console.log(this.state.campaigns)
 
    }
 
 
 	
   render(){
-    var listCampaigns = this.state.campaigns
+    var listForms = this.state.forms
      return (
 	  <div className = "" >
    <div className="flash_notice">
@@ -104,13 +96,13 @@ class EmbeddedForms extends Component {
                                 
                             </thead>
                             <tbody>
-                            {listCampaigns.map(list=>(
-                                        <CampaignRow
+                            {listForms.map(list=>(
+                                        <FormRow
                                         id={list.id}
                                         key={list.index}
-                                        status={list.status}
-                                         campaignName={list.name}
-                                         bodyJson = {list.bodyJson}
+                                        formName={list.name}
+                                         createTime={list.createdTime}
+                                         group = {list.formGroupContacts}
                                      />
                                     ))}
 

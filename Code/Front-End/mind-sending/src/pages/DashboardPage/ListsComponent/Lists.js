@@ -138,7 +138,7 @@ class Lists extends Component {
                                     <section>
                                         <div className="wrap">
                                             <form class="subscribe-box" id="newsletter-form">
-                                                <div class="input-field input-field-medium sticky-button">
+                                                {/* <div class="input-field input-field-medium sticky-button">
                                                     <label for="newsletter-email">
                                                         <input id="newsletter-email" onChange={this.handleSearch} type="email" name="email"
                                                                placeholder="Search list"/>
@@ -146,6 +146,10 @@ class Lists extends Component {
                                                     <button class="button button-primary button-big"
                                                             id="subscribe-button-footer" type="submit"><i
                                                         class="btn_searching fa fa-search"></i></button>
+                                                </div> */}
+                                                <div class="form-group has-search">
+                                                    <span class="fa fa-search form-control-feedback"></span>
+                                                    <input onChange={this.handleSearch} type="text" class="form-control" placeholder="Search Group"/>
                                                 </div>
                                                 <div class="error-label"></div>
                                             </form>

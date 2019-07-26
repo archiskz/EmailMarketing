@@ -57,7 +57,7 @@ public class WorkflowTask implements Serializable {
     @ManyToOne
     @JoinColumn(name = "workflow_id")
     private Workflow workflow;
-    
+
     @JsonIgnore
     @ManyToOne
     @JoinColumns({
