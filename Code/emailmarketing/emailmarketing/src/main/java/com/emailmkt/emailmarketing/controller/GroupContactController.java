@@ -37,6 +37,8 @@ public class GroupContactController {
 
 
 
+
+
     @GetMapping("/groupContacts")
     public List<GroupContact> getAllGroups() {
         return groupContactService.getAllGroupContacts();
