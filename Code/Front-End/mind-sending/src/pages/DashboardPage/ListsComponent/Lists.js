@@ -148,8 +148,15 @@ class Lists extends Component {
                                                         class="btn_searching fa fa-search"></i></button>
                                                 </div>
                                                 <div class="error-label"></div>
+                                                <div style={{"float":"left"}}>
+                                                    <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="btn_create_contact ">
+                                                        <i className="sg-icon sg-icon-segment"></i>
+                                                        Create Group
+                                                    </a>
+                                                    </div>
                                             </form>
                                         </div>
+
                                     </section>
                                 </div>
                             </section>
@@ -164,12 +171,7 @@ class Lists extends Component {
                                                         <h4 className="md_tablet_h4">Groups List</h4>
                                                         <p className="md_tablet_p">Here is the list of your Groups </p>
                                                     </div>
-                                                    <div style={{"width":"50%","float":"left"}}>
-                                                    <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="btn_create_contact ">
-                                                        <i className="sg-icon sg-icon-segment"></i>
-                                                        Create Group
-                                                    </a>
-                                                    </div>
+                                                   
                                                 </div>
                                                 <div className="md_tablet4">
                                                     <div className="md_tablet5">
