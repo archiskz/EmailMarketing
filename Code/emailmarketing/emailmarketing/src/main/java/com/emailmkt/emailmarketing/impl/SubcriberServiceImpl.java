@@ -3,6 +3,7 @@ package com.emailmkt.emailmarketing.impl;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
 import com.emailmkt.emailmarketing.model.Account;
+import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
@@ -37,9 +38,15 @@ public class SubcriberServiceImpl implements SubcriberService {
         System.out.println(dto.getEmail());
         Subcriber checkExistedSubcriber = subcriberRepository.findByEmail(dto.getEmail());
         if (checkExistedSubcriber != null) {
+            if(checkExistedSubcriber.isActive()==false){
+                checkExistedSubcriber.setActive(true);
+                subcriberRepository.save(checkExistedSubcriber);
+                return true;
+            }
             return false;
         }
         Subcriber subcriber = new Subcriber();
+        subcriber.setActive(true);
         subcriber.setCreatedTime(LocalDateTime.now().toString());
         subcriber.setEmail(dto.getEmail());
         subcriber.setTag(dto.getTag());
@@ -176,6 +183,11 @@ public class SubcriberServiceImpl implements SubcriberService {
         System.out.println(dto.getEmail());
         Subcriber checkExistedSubcriber = subcriberRepository.findByEmail(dto.getEmail());
         if (checkExistedSubcriber != null) {
+            if(checkExistedSubcriber.isActive()==false){
+                checkExistedSubcriber.setActive(true);
+                subcriberRepository.save(checkExistedSubcriber);
+                return true;
+            }
             return false;
         }
         Subcriber subcriber = new Subcriber();
@@ -217,7 +229,7 @@ public class SubcriberServiceImpl implements SubcriberService {
 //                    HttpStatus.INTERNAL_SERVER_ERROR, "Unauthoried!");
 //        }
 
-        List<Subcriber>subcribers = subcriberRepository.findAll();
+        List<Subcriber>subcribers = subcriberRepository.findAllByActiveIsTrue();
         List<SubcriberDTO> dtos = new ArrayList<>();
         for(Subcriber subcriber : subcribers){
             SubcriberDTO dto = new SubcriberDTO();
@@ -233,6 +245,27 @@ public class SubcriberServiceImpl implements SubcriberService {
             dtos.add(dto);
         }
         return dtos;
+    }
+
+    @Override
+    public String deleteSubcriber(int id) {
+        Subcriber subcriber = subcriberRepository.findSubcriberById(id);
+        if(subcriber == null || subcriber.getGroupContactSubcribers()==null){
+            return "This employee is not exist!";
+        }
+
+        List<GroupContactSubcriber> groupContactSubcribers = new ArrayList<>();
+        for(GroupContactSubcriber groupContactSubcriber : groupContactSubcribers){
+            GroupContact groupContact = new GroupContact();
+            groupContact.setId(1);
+            groupContactSubcriber.setGroupContact(groupContact);
+            groupContactSubcribers.add(groupContactSubcriber);
+        }
+        subcriber.setActive(false);
+        subcriber.setGroupContactSubcribers(groupContactSubcribers);
+        subcriberRepository.save(subcriber);
+        return "sucess";
+
     }
 
 

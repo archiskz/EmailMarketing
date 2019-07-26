@@ -20,7 +20,7 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     @Query("SELECT su.email FROM Subcriber su")
     List<String>listEmailSubcriber();
 
-    //    List<Account> findAllByauthorityIdGreaterThanEqual(int authority_id);
+    List<Subcriber> findAllByActiveIsTrue();
 //
 //
     @Query("SELECT su FROM Subcriber su WHERE " +
@@ -47,6 +47,7 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 //
 //    List<Account> findAllByauthorityIdOrderByCreatedTimeDesc(int authorityId);
     int countAllById(int subcriberId);
+
 
 
 }

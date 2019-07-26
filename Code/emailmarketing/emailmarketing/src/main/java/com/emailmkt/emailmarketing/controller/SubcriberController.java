@@ -109,9 +109,7 @@ public class SubcriberController {
                     subcriber.setPhone(updatingSubcriber.getPhone());
                     subcriber.setAddress(updatingSubcriber.getAddress());
                     subcriber.setUpdatedTime(LocalDateTime.now().toString());
-
-
-                    return subcriberRepository.save(subcriber);
+                   return subcriberRepository.save(subcriber);
                 })
                 .orElseGet(() -> {
                     updatingSubcriber.setId(id);
@@ -120,19 +118,7 @@ public class SubcriberController {
                 });
 
     }
-//
-//    @PutMapping("account/edit")
-//    public ResponseEntity updateProfile(@RequestBody Account account) {
-//        Account accountEdited = accountService.editProfile(account);
-//        if (accountEdited != null) {
-//            return ResponseEntity.status(OK).body(accountEdited);
-//        }
-//        return ResponseEntity.status(NOT_FOUND).body("Tài khoản này không tồn tại");
-//    }
-//    @GetMapping("update/{id}")
-//    public Account getAccount(@PathVariable(value = "id") int id) {
-//        return accountService.getAccountById(id);
-//    }
+
 //
     @GetMapping("/subcriber/getAllSubcriberByAccountId")
     public List<Subcriber> getAllSubcriberByAccountId(@RequestParam(value = "account_id") int accountId) {
@@ -144,18 +130,13 @@ public class SubcriberController {
         return subcriberService.searchByNameorEmail(searchValue);
     }
 
+    @DeleteMapping("/delete-subcriber")
+    public ResponseEntity<String> deleteSubcriber(@RequestParam int id) {
+        String message = subcriberService.deleteSubcriber(id);
+        LOGGER.info("delete emp: " + id);
+        return new ResponseEntity<String>(message, HttpStatus.OK);
+    }
 
-//
-//    @PostMapping("updateAccount")
-//    public boolean updateAccount(@RequestBody Account account) {
-//        Account accountUpdated = accountService.updateAccount(account);
-//        if (accountUpdated == null) {
-//            return false;
-//        } else {
-//            return true;
-//        }
-//    }
-////
 
 
     }

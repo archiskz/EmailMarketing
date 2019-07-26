@@ -41,6 +41,8 @@ public interface SubcriberService {
 
     List<SubcriberDTO>getAllSubcriberV2();
 
+    String deleteSubcriber(int id);
+
 
 //    List<Account> getAllAccountsByCustomer();
 //    Account loginForCustomer(String username, String password);

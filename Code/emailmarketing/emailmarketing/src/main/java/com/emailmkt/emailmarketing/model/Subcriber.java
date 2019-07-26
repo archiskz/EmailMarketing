@@ -57,6 +57,10 @@ public class Subcriber implements Serializable {
     private String tag;
 
     @Basic
+    @Column(name = "active")
+    private boolean active;
+
+    @Basic
     @Column(name = "created_time")
     private String createdTime;
 
