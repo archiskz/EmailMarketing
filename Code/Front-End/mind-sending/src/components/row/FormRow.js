@@ -7,6 +7,7 @@ import Modal from 'react-awesome-modal';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 
+
 class FormRow extends Component {
     constructor(props) {
         super(props);
@@ -29,10 +30,10 @@ class FormRow extends Component {
      this.notificationDOMRef = React.createRef();
     //  this.sendCampaign = this.sendCampaign.bind(this);
       }
-      addNotification() {
+      addNotification(message) {
         this.notificationDOMRef.current.addNotification({
-          title: "Update List",
-          message: "Updated Success!",
+          title: message,
+          message: `${message} Success!`,
           type: "success",
           insert: "top",
           container: "top-right",
@@ -65,12 +66,27 @@ class FormRow extends Component {
       this.setState({groupName: res.data.name});
     }) 
      }
+     copyCode = (e) => {
+      var textField = document.createElement('textarea')
+      textField.innerText = `<iframe style="border:none;z-index:1000;background:none;position: fixed;bottom:0;right:0;width:360px; height: 415px" src="http://localhost:3000/form-register/${this.props.id}?${this.state.auth_token}">
+      <p>Your browser does not support iframes.</p>
+    </iframe>`
+      document.body.appendChild(textField)
+      textField.select()
+      document.execCommand('copy')
+      textField.remove()
+      this.addNotification("Copy Code");
+    };
+  
 
       render(){
           return( 
 <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
     <td class="md_tablet6_tbody_td">
-    <a onClick={()=> this.toCampaignDetail(this.props.id)}> {this.props.formName} </a>
+    <span 
+    // onClick={()=> this.toCampaignDetail(this.props.id)}
+    > {this.props.formName} </span><br/>
+    <a target="_blank" href={`http://localhost:3000/form-register/${this.props.id}`}>http://localhost:3000/form-register/{this.props.id}</a>
     </td>
     <td class="md_tablet6_tbody_td">
               {this.props.createTime}
@@ -78,7 +94,8 @@ class FormRow extends Component {
     <td class="md_tablet6_tbody_td">{this.state.groupName}</td>
     <td class="md_tablet6_tbody_td">
     <a class="fas fa-edit margin_td_fontawsome" title="Edit"> </a>
-    <a class="fas fa-trash-alt" title="Delete" onClick={()=>this.openModal()}  > </a>
+    <a class="fas fa-trash-alt margin_td_fontawsome" title="Delete" onClick={()=>this.openModal()}  > </a>
+    <a class="fas fa-copy" title="Copy Embeded Code" onClick={()=>this.copyCode()} > </a>
     </td>
    {/* MODAL */}
    <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.updateListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>

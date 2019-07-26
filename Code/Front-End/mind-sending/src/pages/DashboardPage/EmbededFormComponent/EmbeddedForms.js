@@ -107,7 +107,7 @@ class EmbeddedForms extends Component {
                                 <th className="md_tablet6_th" scope="col">Form name</th>
                                 <th className="md_tablet6_th" scope="col">Create On</th>
                                 <th className="md_tablet6_th" scope="col">Group Contact</th>
-                                <th className="md_tablet6_th" scope="col">Status</th>
+                                <th className="md_tablet6_th" scope="col"></th>
                                 {/* <th className="md_tablet6_th" scope="col">Unsubcribe</th>
                                 <th className="md_tablet6_th" scope="col">Actions</th> */}
                             </tr>
