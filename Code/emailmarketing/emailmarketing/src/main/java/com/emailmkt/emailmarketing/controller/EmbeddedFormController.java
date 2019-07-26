@@ -13,7 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
+
+import javax.transaction.Transactional;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -30,6 +33,8 @@ public class EmbeddedFormController {
 
     @Autowired
     SubcriberRepository subcriberRepository;
+
+
 
     @Autowired
     public EmbeddedFormController(EmbeddedFormRepository embeddedFormRepository) {
@@ -51,9 +56,11 @@ public class EmbeddedFormController {
             return ResponseEntity.status(CONFLICT).body("Form Existed");
         }
         EmbeddedForm temp = embeddedFormRepository.findEmbeddedFormByName(embeddedFormDTO.getName());
-        return ResponseEntity.status(CREATED).body("Successfully");
+        return ResponseEntity.status(CREATED).body(temp.getId());
 
     }
+
+
 
 
 
@@ -79,7 +86,20 @@ public class EmbeddedFormController {
         return embeddedFormRepository.findAll();
     }
 
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @Transactional
+    public ResponseEntity<String>  delete(@PathVariable("id") int id) {
+        try {
 
+            embeddedFormRepository.deleteFormById(id);
+            return ResponseEntity.status(ACCEPTED).body("Deleted Successfully");
+        }
+        catch(Exception e){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return ResponseEntity.status(CONFLICT).body("This form can't delete");
+        }
+
+    }
 
 
 

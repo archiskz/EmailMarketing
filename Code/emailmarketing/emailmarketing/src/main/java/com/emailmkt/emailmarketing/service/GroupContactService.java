@@ -33,7 +33,7 @@ public interface GroupContactService {
 
     boolean deleteSubcriberOutGroup(int subcriberId);
 
-    boolean deleteGroup(int groupId);
+
 
 
 

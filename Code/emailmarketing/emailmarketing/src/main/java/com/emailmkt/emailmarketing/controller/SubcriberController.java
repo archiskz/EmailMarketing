@@ -1,6 +1,5 @@
 package com.emailmkt.emailmarketing.controller;
 
-import com.emailmkt.emailmarketing.Utils.Ultilities;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -13,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -46,9 +44,8 @@ public class SubcriberController {
 
 
     @GetMapping("/subcribersV2")
-    public ResponseEntity<List<SubcriberDTO>> getAllSubcriber(HttpServletRequest request) {
-        String username = Ultilities.getUsername(request);
-        List<SubcriberDTO> vms = subcriberService.getAllSubcriberV2(username);
+    public ResponseEntity<List<SubcriberDTO>> getAllSubcriber() {
+        List<SubcriberDTO> vms = subcriberService.getAllSubcriberV2();
         return new ResponseEntity<List<SubcriberDTO>>(vms, HttpStatus.OK);
     }
 

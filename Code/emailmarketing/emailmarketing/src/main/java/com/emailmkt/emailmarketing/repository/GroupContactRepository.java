@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -43,7 +44,8 @@ public interface GroupContactRepository extends JpaRepository<GroupContact, Inte
 
 
     @Modifying
-    @Query("delete from GroupContact gr where gr.id=:groupContactId")
+    @Transactional
+    @Query("DELETE from GroupContact gr where gr.id=:groupContactId")
     void deleteGroupContactById(@Param("groupContactId") int groupContactId);
 
 

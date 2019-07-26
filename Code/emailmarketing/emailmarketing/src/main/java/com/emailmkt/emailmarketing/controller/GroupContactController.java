@@ -13,14 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
@@ -107,17 +107,22 @@ public class GroupContactController {
                 });
 
     }
-    @RequestMapping(value = "/groupcontact/{id}", method = RequestMethod.DELETE)
-    public String delete(@PathVariable("id") int id, HttpServletResponse response) {
-        boolean flag = groupContactService.deleteGroup(id);
 
-        if (flag == false) {
-            // will write to user which item couldn't be deleted
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @Transactional
+    public ResponseEntity<String>  delete(@PathVariable("id") int id) {
+        try {
+
+            groupContactRepository.deleteGroupContactById(id);
+            return ResponseEntity.status(ACCEPTED).body("Deleted Successfully");
         }
-        return "redirect:/groupcontacts";
-    }
+        catch(Exception e){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return ResponseEntity.status(CONFLICT).body("This Group can't delete");
+        }
 
+    }
 
 
 

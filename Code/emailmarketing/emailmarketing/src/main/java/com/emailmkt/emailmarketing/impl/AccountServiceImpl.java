@@ -43,7 +43,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<Account> getAllAccounts() {
-        System.out.println("toi day chưa hihihi");
+
         return accountRepository.findAll();
     }
 
