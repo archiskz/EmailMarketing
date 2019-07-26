@@ -3,7 +3,6 @@ package com.emailmkt.emailmarketing.impl;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
 import com.emailmkt.emailmarketing.model.Account;
-import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
@@ -78,7 +77,9 @@ public class SubcriberServiceImpl implements SubcriberService {
             return false;
         }
         Subcriber subcriber = new Subcriber();
+
         subcriber.setLastName(dto.getLastName());
+        subcriber.setActive(true);
         subcriber.setCreatedTime(LocalDateTime.now().toString());
         subcriber.setEmail(dto.getEmail());
         subcriber.setFirstName(dto.getFirstName());
@@ -197,6 +198,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setAddress(dto.getAddress());
         subcriber.setPhone(dto.getPhone());
         subcriber.setType("New Subcriber");
+        subcriber.setActive(true);
         Account account = accountRepository.findAccountById(1);
         subcriber.setAccount_id(account.getId() + "");
         List<GroupContactSubcriber> groupContactSubcribers = dto.getGcSubcriberDTOS().stream().map(g->{
@@ -256,9 +258,8 @@ public class SubcriberServiceImpl implements SubcriberService {
 
         List<GroupContactSubcriber> groupContactSubcribers = new ArrayList<>();
         for(GroupContactSubcriber groupContactSubcriber : groupContactSubcribers){
-            GroupContact groupContact = new GroupContact();
-            groupContact.setId(1);
-            groupContactSubcriber.setGroupContact(groupContact);
+
+            groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(1));
             groupContactSubcribers.add(groupContactSubcriber);
         }
         subcriber.setActive(false);
