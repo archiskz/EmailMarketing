@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import ListRow from '../../../components/row/ListRow';
+import AppointmentRow from '../../../components/row/AppointmentRow';
 import Modal from 'react-awesome-modal';
 import * as Config from '../../../constants/Config';
 import ReactNotification from "react-notifications-component";
@@ -21,6 +21,7 @@ class AppointmentMails extends Component {
          },
         createListVisible: false,
          groupContacts: [{}],
+         listAppointments:[],
        visible: true,
        dropdown_visible: false,
        existedGroup:"",
@@ -68,10 +69,10 @@ class AppointmentMails extends Component {
     const appState = JSON.parse(localStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
-    },()=> this.getAllListContact() )
+    },()=> this.getAllAppointment() )
    }	
   render(){
-    var lists = this.state.groupContacts;
+    var lists = this.state.listAppointments;
      return (
 	  <div className = "" >
    <div className="flash_notice">
@@ -90,30 +91,39 @@ class AppointmentMails extends Component {
                         <div className="col-md-6">
                             <span>
                                 <h1 className="">
-                                    <span className="pageTitle-css__title-heading___3H2vL">Invite Lists
+                                    <span className="pageTitle-css__title-heading___3H2vL">Appointment Lists
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
                             </span>
                         </div>
+                         <div className="col-md-6">
                        
+                        <a onClick={this.toCreateInvite}  className="btn_create_contact ml0" style={{"marginLeft":"0px !important"}}>
+                                    <i className="sg-icon sg-icon-segment"></i>
+                                    Create Invite Mail
+                                </a>
+            
+            </div>
                     </header>
-                    {/* <section className="row">
-                        <div className="col-md-3">
-                            <section>
-                                <div className="wrap">
-                                <form class="subscribe-box" id="newsletter-form">
-                                    <div class="input-field input-field-medium sticky-button">
-                                        <label for="newsletter-email">
-                                            <input id="newsletter-email" type="email" name="email" placeholder="Search list"/>
-                                        </label>
-                                        <button class="button button-primary button-big" id="subscribe-button-footer" type="submit"><i class="btn_searching fa fa-search"></i></button>
-                                    </div>
-                                    <div class="error-label"></div></form>
+                    <section className="row">
+                                <div className="col-md-3">
+                                    <section>
+                                        <div className="wrap">
+                                            <form class="subscribe-box" id="newsletter-form">
+                                              
+                                                <div class="form-group has-search">
+                                                    <span class="fa fa-search form-control-feedback"></span>
+                                                    <input onChange={this.handleSearch} type="text" class="form-control" placeholder="Search appointment"/>
+                                                </div>
+                                                <div class="error-label"></div>
+                                                
+                                            </form>
+                                        </div>
+
+                                    </section>
                                 </div>
                             </section>
-                        </div>
-                    </section> */}
                     <section>
                         <div className="infinitelyScrollable-css__container___pDiPC" data-infinitely-scrollable="true">
                         <section>
@@ -122,12 +132,7 @@ class AppointmentMails extends Component {
                         <div className="md_tablet3">
                         <div style={{"width":"60%", "float":"left"}}><h4 className="md_tablet_h4">Invite Mails</h4>
                         <p className="md_tablet_p">Here is the list of your invites mail </p></div>
-						<div style={{"width":"40%","float":"left"}}>
-						<a onClick={this.toCreateInvite}  className="btn_create_contact ml0" style={{"marginLeft":"0px !important"}}>
-                                    <i className="sg-icon sg-icon-segment"></i>
-                                    Create Invite Mail
-                                </a>
-						</div>
+						
                         </div>
                     <div className="md_tablet4">
                         <div className="md_tablet5">
@@ -137,8 +142,8 @@ class AppointmentMails extends Component {
                                 <th className="md_tablet6_th" scope="col"></th>
                                 <th className="md_tablet6_th" scope="col">Name</th>
                                 <th className="md_tablet6_th" scope="col">Start On</th>
+                                {/* <th className="md_tablet6_th" scope="col">Groups</th> */}
                                 <th className="md_tablet6_th" scope="col">Invitations sent</th>
-								<th className="md_tablet6_th" scope="col">Visitors</th>
 								<th className="md_tablet6_th" scope="col">Registrants</th>
                                 <th  className="md_tablet6_th" role="presentation">
                                 
@@ -166,15 +171,18 @@ class AppointmentMails extends Component {
                                 
                             </thead>
                             <tbody>
-                            {/* {lists.map(list=>(
-                                        <ListRow
+                            {lists.map(list=>(
+                                        <AppointmentRow
                                         update={this.getAllListContact}
                                         key={list.index}
                                         contactId={list.id}
-                                         contactEmail={list.name}
-                                    contactStatus={list.description}
+                                         name={list.name}
+                                    time={list.time}
+                                    group={list.appointmentGroupContacts.id}
+                                    // invited=
+                                    // registed=
                                     contactDateAdded={list.totalContacts} />
-                                    ))} */}
+                                    ))}
 
                             </tbody>
                         </table>
@@ -203,18 +211,11 @@ class AppointmentMails extends Component {
     });
     }
 
-  getAllListContact=()=>{
-    let config = {};
-    config = {headers: 
-        {Authorization : Config.TOKEN
-}};
-
-    console.log(config);
-    axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    getAllAppointment=()=>{
+    axios.get(`${Config.API_URL}appointments`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
-      const listContacts = res.data;
-      console.log(listContacts);
-      this.setState({groupContacts:listContacts})
+      console.log(res.data)
+      this.setState({listAppointments:res.data})
     }).catch(function (error) {
       });
   }

@@ -120,17 +120,12 @@ class Lists extends Component {
                                 </div>
                                 <div className="col-md-6">
                             
-                                    <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
-                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
-                                            <i className="sg-icon sg-icon-csv"></i>
-                                            <span>Upload CSV</span>
-                                        </Link>
-                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts"
-                                              className="dropdown-link dropdown-link-with-icon">
-                                            <i className="sg-icon sg-icon-contacts-alt"></i>
-                                            <span>Manual Add</span>
-                                        </Link>
-                                    </ul>
+                                   <div style={{"float":"left"}}>
+                                                    <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="btn_create_contact ">
+                                                        <i className="sg-icon sg-icon-segment"></i>
+                                                        Create Group
+                                                    </a>
+                                                    </div>
                                 </div>
                             </header>
                             <section className="row">
@@ -138,7 +133,7 @@ class Lists extends Component {
                                     <section>
                                         <div className="wrap">
                                             <form class="subscribe-box" id="newsletter-form">
-                                                <div class="input-field input-field-medium sticky-button">
+                                                {/* <div class="input-field input-field-medium sticky-button">
                                                     <label for="newsletter-email">
                                                         <input id="newsletter-email" onChange={this.handleSearch} type="email" name="email"
                                                                placeholder="Search list"/>
@@ -146,10 +141,16 @@ class Lists extends Component {
                                                     <button class="button button-primary button-big"
                                                             id="subscribe-button-footer" type="submit"><i
                                                         class="btn_searching fa fa-search"></i></button>
+                                                </div> */}
+                                                <div class="form-group has-search">
+                                                    <span class="fa fa-search form-control-feedback"></span>
+                                                    <input onChange={this.handleSearch} type="text" class="form-control" placeholder="Search Group"/>
                                                 </div>
                                                 <div class="error-label"></div>
+                                                
                                             </form>
                                         </div>
+
                                     </section>
                                 </div>
                             </section>
@@ -164,12 +165,7 @@ class Lists extends Component {
                                                         <h4 className="md_tablet_h4">Groups List</h4>
                                                         <p className="md_tablet_p">Here is the list of your Groups </p>
                                                     </div>
-                                                    <div style={{"width":"50%","float":"left"}}>
-                                                    <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="btn_create_contact ">
-                                                        <i className="sg-icon sg-icon-segment"></i>
-                                                        Create Group
-                                                    </a>
-                                                    </div>
+                                                   
                                                 </div>
                                                 <div className="md_tablet4">
                                                     <div className="md_tablet5">

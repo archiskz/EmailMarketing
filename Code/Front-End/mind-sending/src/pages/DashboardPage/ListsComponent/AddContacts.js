@@ -129,17 +129,21 @@ class AddContact extends Component {
                             </span>
                         </div>
                         <div className="col-md-6">
-                            <nav className="btn-list pull-right">
-                                
-                            </nav>
+                            
+                                <a onClick={this.onSave} icon="segment" className="btn_create_contact">
+                                    <i className="sg-icon sg-icon-segment"></i>
+                                    Save Contact
+                                </a>
+                            
                         </div>
                     </header>
 
-            <div className="row">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <p style={{"color": "black"}}>
+            <div className="md_tablet1">
+            <p className="fix_size_add_h2" style={{"color": "black" }}>
                   Please note that the contact will not receive a confirmation email.
                 </p>
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fix_size_add md_tablet2">
+                
                 <form>
                   <div className="listFormPresenter-css__list-form-presenter___1RHBp">
                     <div className="input-radio-wrap radioInput-css__radio-container___3sajG"  style={{ position: 'relative' }}>
@@ -174,11 +178,7 @@ class AddContact extends Component {
                       </label>
                       <span />
                     </div> */}
-                    <section className="row">
-                      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <section />
-                      </div>
-                    </section>
+                   
                   </div>
                   
                 </form>
@@ -187,16 +187,13 @@ class AddContact extends Component {
                  <div className="md_tablet1">
                   <div className="md_tablet2">
                     <div className="md_tablet3">
-                    <h4 class="md_tablet_h4">Groups List</h4>
-                    <p class="md_tablet_p">Here is the list of your Groups </p>
+                    <h4 class="md_tablet_h4">Add Contacts List</h4>
+                    <p class="md_tablet_p">Here is the list of your contacts you will add </p>
                     </div>
                       <div className="md_tablet4">
                   {this.createUI()}        
-                    <a type='button' className="btn_create_contact4" value='add more' onClick={this.addClick.bind(this)}>Add More</a>
-                    <a onClick={this.onSave} icon="segment" className="btn_create_contact4">
-                      <i className="sg-icon sg-icon-segment"></i>
-                        Save Contact
-                  </a>
+                    
+                    
                   </div>
                  
                 </div>
@@ -216,26 +213,20 @@ class AddContact extends Component {
   
   createUI(){
      return this.state.contacts.map((el, i) => (
-        <div className="row" key={i}>
-        <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <div key={i}>
+        <div className="md_tablet6_tbody_td_add">
             <input className="user_contact_inputContact" placeholder="Email" name="email" value={el.email ||''} onChange={this.handleChange.bind(this, i)} />       
        </div>
-          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <div className="md_tablet6_tbody_td_add">
     	      <input className="user_contact_inputContact" placeholder="First Name" name="firstName" value={el.firstName ||''} onChange={this.handleChange.bind(this, i)} />
           </div>
-          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <div className="md_tablet6_tbody_td_add">
             <input className="user_contact_inputContact" placeholder="Last Name" name="lastName" value={el.lastName ||''} onChange={this.handleChange.bind(this, i)} />
           </div>
-        <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <input className="user_contact_inputContact" placeholder="Phone number" name="phone" value={el.email ||''}  />       
+          <div className="md_tablet6_tbody_td_add font_awsome_size">
+       <a className="fas fa-plus-square icon_sz_add margin_td_fontawsome font_awsome_size" title="Add more" onClick={this.addClick.bind(this)}/>
+       <a className="fas fa-trash-alt icon_sz_add " title="Delete" onClick={this.removeClick.bind(this, i)}/>
        </div>
-          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <input className="user_contact_inputContact" placeholder="Address" name="address" value={el.address ||''} onChange={this.handleChange.bind(this, i)} />
-          </div>
-          <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <input className="user_contact_inputContact" placeholder="Date of birth" name="dob" value={el.dob ||''} onChange={this.handleChange.bind(this, i)} />
-          </div>
-       <input type='button' className="btn_create_contact3" value='remove' onClick={this.removeClick.bind(this, i)}/>
        </div>    
       
       

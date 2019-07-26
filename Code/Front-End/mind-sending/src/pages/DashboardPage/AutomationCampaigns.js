@@ -38,17 +38,17 @@ class AutomationCampaigns extends Component {
    getAllCampaign=()=>{
     var selectOptions = [
     ];
-    axios.get(`${Config.API_URL}campaigns`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    axios.get(`${Config.API_URL}workflows`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data);
       this.setState({campaigns: res.data});
-      res.data.forEach(element => {
-        console.log(element.name)
-        selectOptions.push({value: element.name, name: element.name})
-      });
-      console.log(selectOptions)
-      localStorage["campaigns"] = JSON.stringify(selectOptions);
-    }) 
+      // localStorage["campaigns"] = JSON.stringify(selectOptions);
+    }).catch(function (error) {
+      console.log(error);
+      // if(error != null ){
+      //   errors = true
+      // }
+    }); 
     console.log(this.state.campaigns)
 
    }
@@ -83,67 +83,7 @@ class AutomationCampaigns extends Component {
                         </div>
                     </header>
                     {/* fiLTER */}
-                    <section className="row">
-                      <div className="segment-filter">
-                      <span className="filter-header">
-                        Filter Campaigns
-                      </span>
-                        <div>
-                          <div className="row">
-                            <div className="col-md-4">
-                              <div className="input-select-wrap is-required">
-                                <label
-                                  className="input-select-label"
-                                  htmlFor="select2-field-06"
-                                >
-                                  Campaign Name<div className="input-info-tooltip select2-css__select-2-tooltip___3jy71" />
-                                </label>
-                                
-                                  <input type="text" className="inputContact" placeholder=""/>                                       
-                               
-                                <div />
-                              </div>
-                            </div>
-                            <div className="col-md-4">
-                              <div className="input-select-wrap is-required">
-                                <label
-                                  className="input-select-label"
-                                  htmlFor="select2-operator-07"
-                                >
-                                  Status<div className="input-info-tooltip select2-css__select-2-tooltip___3jy71" />
-                                </label>
-                                <select
-                                className="inputContact"
-                                  id="select2-operator-07"
-                                  name="operator-0"
-                                  data-index={0}
-                                  tabIndex={-1}
-                                  aria-hidden="true"
-                                >
-                                  <option value="eq">All</option>
-                                  <option value="ne">Sent</option>
-                                  <option value="contains">
-                                    Draft
-                                  </option>
-                                  <option value="empty">In Progress</option>
-                                  <option value="not_empty">
-                                    Canceled
-                                  </option>
-                                  <option value="not_empty">
-                                    Scheduled
-                                  </option>
-                                </select>
-                                  <div />
-                              </div>
-                            </div>
-                            <div data-role="add" className="btn-create-segment btn-clear">
-                          Clear  
-                        </div>
-                          </div>
-                        </div>
-                        
-                      </div> 
-                     </section>
+                    
                     <section>
                     {/* end filter */}
                     <div className="md_tablet1">

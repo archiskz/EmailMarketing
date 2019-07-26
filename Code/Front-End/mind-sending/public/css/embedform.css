@@ -101,3 +101,28 @@
     width:96%;
             height:300px;
 }
+.md_tablet6_tbody_td_add {
+        padding-right: 70px;
+   padding-left: 20px;
+   
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    line-height: 1.42857143;
+    vertical-align: middle;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 15px;
+    display: table-cell;
+    text-align: left;
+    border: none;
+}
+.font_awsome_size a{
+    font-size: 20px !important;
+    padding-top: 30px!important;
+    color: black;
+}
+.fix_size_add{
+        margin-bottom: 50px !important;
+}
+.fix_size_add_h2{
+    font-size: 20px!important;
+}

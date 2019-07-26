@@ -20,7 +20,8 @@ class ListRow extends Component {
             description: ""
          },
          updateListVisible: false,
-         auth_token:""
+         auth_token:"",
+         deleteListVisible:false
         };
         this.handleChange3 = this.handleChange3.bind(this);
         this.handleChange2 = this.handleChange2.bind(this);
@@ -100,16 +101,18 @@ class ListRow extends Component {
     <td class="md_tablet6_tbody_td">
     {this.props.contactActions}
     <a class="fas fa-edit margin_td_fontawsome" onClick={()=>this.openModal()} title="Edit"> </a>
-    <a class="fas fa-trash-alt" title="Delete"> </a>
+    <a class="fas fa-trash-alt" onClick={()=>this.openModalDelete()} title="Delete"> </a>
     
     </td>
    {/* MODAL */}
-   <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.updateListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+   <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.updateListVisible} width="440" height="380" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                 <form class="contact1-form validate-form">
-				<span class="contact1-form-title">
+				<div className="modal-body">
+        <span class="contact1-form-title">
 					{this.props.contactEmail}
 				</span>
-
+        </div>
+        <div class="modal-body" style={{"textAlign":"center"}}>
 				<div className="wrap-input1 validate-input" >
 					<input  value={this.state.updateList.name} onChange={this.handleChange3} className="updatename input1" type="text"  placeholder="New Group Name"/>
 					<span class="shadow-input1"></span>
@@ -119,39 +122,50 @@ class ListRow extends Component {
 					<input value={this.state.updateList.description} onChange={this.handleChange2}  className="updatedescription input1" type="text" name="email" placeholder="Description"/>
 					<span class="shadow-input1"></span>
 				</div>
-
-				<div class="container-contact1-form-btn">
-					<a onClick={()=>this.saveUpdatedList()} style={{"marginLeft":"30px","width":"150px", "float":"left", "color":"white"}} 
-           className={`btn_begin_create_campaign ${this.state.updateList.name ? "" : "disabled"}`}>
-						<span>
-							Update
-						</span>
-					</a>
-          <a style={{"marginLeft":"30px","width":"150px", "float":"left", "color":"white"}} onClick={() => this.closeModal()} class="btn_begin_create_campaign">
-						<span>
-                            Cancel
-						</span>
-                            </a>
-				</div>
+        </div>
+        <div class="modal-footer">
+                    <button type="button" onClick={()=>this.closeModal()} class="btn btn-info">Cancel</button>
+                    <button type="button" onClick={()=>this.saveUpdatedList()}  className={`btn btn-danger ${this.state.updateList.name ? "" : "disabled"}`} >Update</button>
+                    
+                  </div>
 			</form>
-                </Modal>
-                <ReactNotification
-          types={[{
+    </Modal>
+    {/* modal deLETE */}
+    <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.deleteListVisible} width="440" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+      <div class="modal-header">
+        <h4 class="modal-title">Are you sure?</h4>	
+           <button type="button" onClick={()=>this.closeModalDelete()} class="close" data-dismiss="modal" aria-hidden="true">×</button>
+             </div>
+                       <div class="modal-body">
+                         <p>Do you really want to delete this GROUP? This process cannot be undone.</p>
+                       </div>
+                       <div class="modal-footer">
+                         <button type="button" onClick={()=>this.closeModalDelete()} class="btn btn-info" >Cancel</button>
+                         <button type="button" onClick={()=>this.deleteGroup()} class="btn btn-danger">Delete</button>
+                       </div>
+    </Modal>
+        <ReactNotification types={[{
             htmlClasses: ["notification-awesome"],
             name: "awesome"
-          }]}
-          ref={this.notificationDOMRef}
-        />
+          }]} ref={this.notificationDOMRef} />
 {/* END MODAAL */}
 </tr>
 
           );
       }
-
+      openModalDelete(){
+        this.setState({deleteListVisible: true})
+      }
+      closeModalDelete(){
+        this.setState({deleteListVisible: false})
+      }
       toListContact = (id)=> {        
         this.props.history.push({
             pathname:`/dashboard/contacts/:${id}`,
-            state : id
+            state : {
+              id: id,
+              name:this.props.contactEmail
+            },
         });
         }
 
@@ -165,6 +179,24 @@ class ListRow extends Component {
         })
     }
 
+    deleteGroup(){
+     
+      console.log(`${Config.API_URL}groupcontact/edit/${this.props.contactId}`);
+
+      axios.delete(`${Config.API_URL}groupcontact/${this.props.contactId}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+        .then(res => {
+          console.log(res)
+          // this.getAllListContact();
+
+          this.closeModal();
+          this.addNotification()
+          this.props.update();
+          
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
     saveUpdatedList(){
      
       console.log(`${Config.API_URL}groupcontact/edit/${this.props.contactId}`);

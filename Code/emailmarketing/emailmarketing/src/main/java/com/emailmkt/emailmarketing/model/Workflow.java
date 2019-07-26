@@ -38,6 +38,10 @@ public class Workflow implements Serializable {
     private String createdTime;
 
     @Basic
+    @Column(name = "model")
+    private String model;
+
+    @Basic
     @Column(name = "updated_time")
     private String updatedTime;
 

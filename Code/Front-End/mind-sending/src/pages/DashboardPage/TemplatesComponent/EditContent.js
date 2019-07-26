@@ -44,7 +44,8 @@ class EditContent extends Component {
     this.notificationDOMRef = React.createRef();
   }
 
-  addNotification() {
+  addNotification=()=> {
+    console.log("asdasdsada")
     this.notificationDOMRef.current.addNotification({
       title: "Template",
       message: "Edit Template Success!",
@@ -198,6 +199,7 @@ button = <a onClick={()=>this.saveCampaign()} icon="airplane-fill" style={{"font
  
 // }
 saveAppointment(){
+  var errors = false
   // this.exportHtml();
   this.editor.exportHtml(data => {
     const { design, html } = data
@@ -211,15 +213,25 @@ saveAppointment(){
         }
       }
     }, ()=> {
+      
       console.log(this.state.newAppointment)
       axios.post(`${Config.API_URL}appointment/create`,this.state.newAppointment,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
-        console.log(res.data)
+        console.log(res)
         this.addNotification()
         
        }).catch(function (error) {
         console.log(error);
+        if(error != null ){
+          errors = true
+        }
       });
+      if(errors == false){
+        this.props.history.push({
+          pathname:'/dashboard/invite-mail',
+      });
+        this.addNotification()
+      }
       this.closeModal();
     }
     );

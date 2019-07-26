@@ -22,7 +22,8 @@ class Templates extends Component {
       visibleAll: true,
       visibleCustom: false,
       visibleMs: false,
-      auth_token:""
+      auth_token:"",
+      templateType:0
     };
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -53,6 +54,7 @@ class Templates extends Component {
    }	
 
    getAllTemplates=()=>{
+     this.setState({templateType:0})
      console.log("hasdsadsad")
     axios.get(`${Config.API_URL}template`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
@@ -65,6 +67,7 @@ class Templates extends Component {
 
    getTemplateByType(type){
       if(type == "custom"){
+        this.setState({templateType:1})
         axios.get(`${Config.API_URL}getAllTemplatesByType?type=ct`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {
           console.log(res.data);
@@ -73,6 +76,7 @@ class Templates extends Component {
           console.log(error)
         }) 
       } else if( type == "mindsending"){
+        this.setState({templateType:2})
         axios.get(`${Config.API_URL}getAllTemplatesByType?type=mindsending`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {
           console.log(res.data);
@@ -119,10 +123,10 @@ class Templates extends Component {
          
           <div className="filter">
             <ul className="">
-            <li><a className="">Filter By</a></li>
-              <li><button style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getAllTemplates()} >All</button></li>
-              <li><button style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getTemplateByType("custom")}>Custom Templates</button></li>
-              <li><button style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getTemplateByType("mindsending")}>MindSending templates</button></li>
+            <li><a  className="text-muted">Filter By</a></li>
+              <li><button className={`${this.state.templateType == 0 ? 'activeTemplate' : 'inactiveTemplate'}`} style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getAllTemplates()} >All</button></li>
+              <li><button className={`${this.state.templateType == 2 ? 'activeTemplate' : 'inactiveTemplate'}`} style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getTemplateByType("mindsending")}>MindSending templates</button></li>
+              <li><button className={`${this.state.templateType == 1 ? 'activeTemplate' : 'inactiveTemplate'}`} style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getTemplateByType("custom")}>Custom Templates</button></li>
             </ul>
           </div>
         </div>

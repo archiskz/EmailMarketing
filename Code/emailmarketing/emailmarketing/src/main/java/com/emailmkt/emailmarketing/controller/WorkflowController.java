@@ -5,6 +5,7 @@ import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
 import com.emailmkt.emailmarketing.model.Campaign;
+import com.emailmkt.emailmarketing.model.Template;
 import com.emailmkt.emailmarketing.model.Workflow;
 import com.emailmkt.emailmarketing.repository.CampaignRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
@@ -30,6 +31,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -55,14 +57,8 @@ public class WorkflowController {
         this.workflowRepository = workflowRepository;
     }
 
-    static class MailAndCampaign {
-        public MailObjectDTO mailObjectDTO;
-        public CampaignDTO campaignDTO;
-    }
 
-    //    public AccountController(AccountService accountService) {
-//        this.accountService = accountService;
-//    }
+
 
     @ApiOperation(value = "Create Workflow")
     @ApiResponses(value = {
@@ -83,6 +79,17 @@ public class WorkflowController {
         return ResponseEntity.status(CREATED).body("aaa");
 
     }
+
+
+    @GetMapping("/workflows")
+    Iterable<Workflow> getAll() {
+        return workflowRepository.findAll();
+    }
+
+//    @PostMapping("/template/search/{searchValue}")
+//    public List<Template> searchByNameOrType(@PathVariable(value = "searchValue") String searchValue) {
+//        return templateService.searchByNameorType(searchValue);
+//    }
 
 //    @GetMapping(value="campaign/{id}")
 //    Campaign read(@PathVariable int id) {
