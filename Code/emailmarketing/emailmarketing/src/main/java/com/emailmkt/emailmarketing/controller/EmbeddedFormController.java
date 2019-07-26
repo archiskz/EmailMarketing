@@ -3,6 +3,7 @@ package com.emailmkt.emailmarketing.controller;
 import com.emailmkt.emailmarketing.dto.EmbeddedFormDTO;
 import com.emailmkt.emailmarketing.model.EmbeddedForm;
 import com.emailmkt.emailmarketing.repository.EmbeddedFormRepository;
+import com.emailmkt.emailmarketing.repository.EmbeddedGroupContactRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.EmbeddedFormService;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +34,9 @@ public class EmbeddedFormController {
 
     @Autowired
     SubcriberRepository subcriberRepository;
+
+    @Autowired
+    EmbeddedGroupContactRepository embeddedGroupContactRepository;
 
 
 
@@ -86,11 +90,11 @@ public class EmbeddedFormController {
         return embeddedFormRepository.findAll();
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "form/delete/{id}", method = RequestMethod.POST)
     @Transactional
     public ResponseEntity<String>  delete(@PathVariable("id") int id) {
         try {
-
+            embeddedGroupContactRepository.deleteEmbeddedFormFromFormGroup(id);
             embeddedFormRepository.deleteFormById(id);
             return ResponseEntity.status(ACCEPTED).body("Deleted Successfully");
         }
