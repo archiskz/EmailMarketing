@@ -10,6 +10,7 @@ public class EmbeddedFormDTO implements Serializable {
     private String name;
     private String form;
     private String createdTime;
+    private String code;
 
 
 

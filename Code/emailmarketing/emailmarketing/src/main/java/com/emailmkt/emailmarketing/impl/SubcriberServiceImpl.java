@@ -10,9 +10,7 @@ import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.SubcriberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -47,7 +45,8 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setTag(dto.getTag());
         subcriber.setAddress(dto.getAddress());
         subcriber.setPhone(dto.getPhone());
-
+        subcriber.setFirstName(dto.getFirstName());
+        subcriber.setLastName(dto.getLastName());
         subcriber.setType("New Subcriber");
         Account account = accountRepository.findAccountById(1);
         subcriber.setAccount_id(account.getId() + "");
@@ -104,6 +103,8 @@ public class SubcriberServiceImpl implements SubcriberService {
             subcriber.setEmail(subcriberDTO.getEmail());
             subcriber.setAddress(subcriberDTO.getAddress());
             subcriber.setPhone(subcriberDTO.getPhone());
+            subcriber.setLastName(subcriberDTO.getLastName());
+            subcriber.setFirstName(subcriberDTO.getFirstName());
             subcriber.setCreatedTime(LocalDateTime.now().toString());
             subcriber.setType(subcriberDTO.getType());
             subcriber.setTag(subcriberDTO.getTag());
@@ -209,12 +210,12 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
     @Override
-    public List<SubcriberDTO> getAllSubcriberV2(String username) {
-        Account account = accountRepository.findByUsername(username);
-        if(account == null || !account.getRole().getRoleName().equals("Admin")){
-            throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "Unauthoried!");
-        }
+    public List<SubcriberDTO> getAllSubcriberV2() {
+//        Account account = accountRepository.findByUsername(username);
+//        if(account == null || !account.getRole().getRoleName().equals("Admin")){
+//            throw new ResponseStatusException(
+//                    HttpStatus.INTERNAL_SERVER_ERROR, "Unauthoried!");
+//        }
 
         List<Subcriber>subcribers = subcriberRepository.findAll();
         List<SubcriberDTO> dtos = new ArrayList<>();
@@ -226,7 +227,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             dto.setFirstName(subcriber.getFirstName());
             dto.setDob(subcriber.getDob());
             dto.setPhone(subcriber.getPhone());
-            subcriber.setAddress(subcriber.getAddress());
+            dto.setAddress(subcriber.getAddress());
             dto.setTag(subcriber.getTag());
             dto.setType(subcriber.getType());
             dtos.add(dto);

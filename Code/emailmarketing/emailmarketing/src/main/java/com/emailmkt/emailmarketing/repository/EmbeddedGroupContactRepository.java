@@ -20,6 +20,11 @@ public interface EmbeddedGroupContactRepository extends JpaRepository<FormGroupC
         @Query("DELETE FROM FormGroupContact fr WHERE fr.embeddedForm.id  = :formId")
         void  deleteEmbeddedFormFromFormGroup(@Param("formId") int formId);
 
+        @Modifying
+        @Transactional
+        @Query("DELETE from GroupContact gr where gr.id=:groupContactId")
+        void deleteGroupContactById(@Param("groupContactId") int groupContactId);
+
 
 //        @Query("SELECT gr.name " +
 //                "FROM CampaignGroupContact com JOIN GroupContact gr ON com.groupContact.id = gr.id " +

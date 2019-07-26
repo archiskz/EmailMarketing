@@ -27,6 +27,9 @@ public class EmbeddedForm implements Serializable {
     @Column(name = "form")
     private String form;
 
+    @Column(name = "code")
+    private String code;
+
 
     @Basic
     @Column(name = "created_time")

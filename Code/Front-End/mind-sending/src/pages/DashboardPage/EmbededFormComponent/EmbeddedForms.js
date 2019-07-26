@@ -73,6 +73,24 @@ class EmbeddedForms extends Component {
                            
                         </div>
                     </header>
+                    <section className="row">
+                                <div className="col-md-3">
+                                    <section>
+                                        <div className="wrap">
+                                            <form class="subscribe-box" id="newsletter-form">
+                                              
+                                                <div class="form-group has-search">
+                                                    <span class="fa fa-search form-control-feedback"></span>
+                                                    <input onChange={this.handleSearch} type="text" class="form-control" placeholder="Search Form"/>
+                                                </div>
+                                                <div class="error-label"></div>
+                                                
+                                            </form>
+                                        </div>
+
+                                    </section>
+                                </div>
+                            </section>
                     <section>
                     {/* end filter */}
                     <div className="md_tablet1">

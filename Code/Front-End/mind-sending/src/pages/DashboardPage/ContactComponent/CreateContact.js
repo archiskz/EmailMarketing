@@ -230,7 +230,7 @@ this.getContactsByGroupId()
                         <form class="subscribe-box" id="newsletter-form">
                         <div class="form-group has-search">
                             <span class="fa fa-search form-control-feedback"></span>
-                            <input onChange={this.handleSearch} type="text" class="form-control" placeholder="Search Group"/>
+                            <input onChange={this.handleSearch} type="text" class="form-control" placeholder="Search Contact"/>
                             </div>
                         <div class="error-label">
                         </div>
