@@ -118,15 +118,26 @@ class Lists extends Component {
                                     </h1>
                                     </span>
                                 </div>
-                                <div className="col-md-6">
-                            
-                                   <div style={{"float":"left"}}>
+                                <div style={{"float":"left"}}>
                                                     <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="btn_create_contact ">
                                                         <i className="sg-icon sg-icon-segment"></i>
                                                         Create Group
                                                     </a>
                                                     </div>
-                                </div>
+                                {/* <div className="col-md-6">
+                            
+                                    <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
+                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
+                                            <i className="sg-icon sg-icon-csv"></i>
+                                            <span>Upload CSV</span>
+                                        </Link>
+                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts"
+                                              className="dropdown-link dropdown-link-with-icon">
+                                            <i className="sg-icon sg-icon-contacts-alt"></i>
+                                            <span>Manual Add</span>
+                                        </Link>
+                                    </ul>
+                                </div> */}
                             </header>
                             <section className="row">
                                 <div className="col-md-3">
@@ -266,7 +277,7 @@ class Lists extends Component {
                             <span class="shadow-input1"></span>
                         </div>
 
-                        <div class="container-contact1-form-btn">
+                        {/* <div class="container-contact1-form-btn">
                             <a style={{"marginLeft":"30px","width":"150px", "float":"left", "color":"white"}} disabled={!this.state.newList.name} onClick={() => this.saveNewList()} className={`btn_begin_create_campaign ${this.state.newList.name ? "" : "disabled"}`}>
 						<span>
 							Create
@@ -277,7 +288,12 @@ class Lists extends Component {
                             Cancel
 						</span>
                             </a>
-                        </div>
+                        </div> */}
+                        <div class="modal-footer">
+                    <button type="button" onClick={()=>this.closeModal()} class="btn btn-info">Cancel</button>
+                    <button type="button" onClick={() => this.saveNewList()}  className={`btn btn-danger ${this.state.newList.name ? "" : "disabled"}`} >Create</button>
+                    
+                  </div>
                     </form>
                 </Modal>
 
