@@ -48,8 +48,8 @@ class OneTemplate extends Component {
     this.subtitle.style.color = '#f00';
   }
 
-  closeModal() {
-    this.setState({modalIsOpen: false});
+  closeModal=()=> {
+    this.setState({modalIsOpen: false},()=>console.log(this.state.modalIsOpen));
   }
   onSelectTemplate = ()=>{
       console.log("Hello true")
@@ -124,8 +124,8 @@ class OneTemplate extends Component {
           </div>
           <div className="col-md-6">
             <nav className="btn-list pull-right">
-                <a   icon="segment" className="btn btn-info" style={{"float":"right"}}>
-                  <i onClick={()=>this.closeModal()} className="sg-icon sg-icon-segment"></i>
+                <a onClick={()=>this.closeModal()}   icon="segment" className="btn btn-info" style={{"float":"right"}}>
+                 
                     Cancel
                 </a>
             </nav>
