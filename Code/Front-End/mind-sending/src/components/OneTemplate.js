@@ -124,7 +124,7 @@ class OneTemplate extends Component {
           </div>
           <div className="col-md-6">
             <nav className="btn-list pull-right">
-                <a   icon="segment" className="btn-create-segment" >
+                <a   icon="segment" className="btn btn-info" style={{"float":"right"}}>
                   <i onClick={()=>this.closeModal()} className="sg-icon sg-icon-segment"></i>
                     Cancel
                 </a>

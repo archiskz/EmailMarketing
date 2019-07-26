@@ -10,6 +10,7 @@ import Modal from 'react-awesome-modal';
 import axios from 'axios';
 import * as Config from './../../../constants/Config'
 import ReactNotification from "react-notifications-component";
+import { withRouter } from "react-router";
 import "react-notifications-component/dist/theme.css";
 
 class NewTemplate extends Component {
@@ -66,7 +67,10 @@ class NewTemplate extends Component {
       dismissable: { click: true }
     });
   }
-   
+    goBack =()=>{
+      this.props.history.goBack()
+    }
+    
   render(){
     
      return (
@@ -81,6 +85,8 @@ class NewTemplate extends Component {
         />
        </div>
       <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
+      <a onClick={this.goBack}
+      style={{"fontSize":"60px", "width":"40px","marginLeft":"20px","color":"white ", "cursor":"pointer","textDecoration":"none"}}>&#8249;</a>
         <nav class="toolbar-css__nav___27cII">
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
@@ -239,4 +245,4 @@ const mapStateToProps = (state) => {
         }
     };
   };
-export default connect(mapStateToProps, mapDispatchToProps) (NewTemplate);
+export default connect(mapStateToProps, mapDispatchToProps) (withRouter(NewTemplate));

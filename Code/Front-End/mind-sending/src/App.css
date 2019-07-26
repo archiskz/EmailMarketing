@@ -839,7 +839,12 @@ button.close {
 .inactiveTemplate{
   color: #337ab7 !important;
 }
-
+.listFormPresenter-css__list-form-presenter___1RHBp div input {
+  margin: 4px 0 0;
+  line-height: normal;
+  width: 150px !important;
+  margin-right: 2px;
+}
 .activeTemplate{
 /* color: green !important; */
 color: #337ab7 !important;

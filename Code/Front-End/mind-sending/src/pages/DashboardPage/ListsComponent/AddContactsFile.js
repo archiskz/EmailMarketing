@@ -34,7 +34,8 @@ class AddContactsFile extends Component {
       selectValue:[{groupContactId:1}],
       selectValue2:[{groupContactId:1}],
       selectId: 0,
-      auth_token:""
+      auth_token:"",
+      choose:0
     };
     this.fields = { text: 'name', value: 'id' };
     this.addNotification = this.addNotification.bind(this);
@@ -124,7 +125,7 @@ class AddContactsFile extends Component {
                         <div className="col-md-6">
                             <span>
                                 <h1 className="">
-                                    <span style={{"font-family": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">Upload Excel
+                                    <span style={{"font-family": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">Upload CSV
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
@@ -146,67 +147,60 @@ class AddContactsFile extends Component {
                 </p>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fix_size_add md_tablet2">
                 
-                <form>
-                  <div className="listFormPresenter-css__list-form-presenter___1RHBp">
-                    <div className="input-radio-wrap radioInput-css__radio-container___3sajG" data-role style={{ position: 'relative' }}>
-                      <input type="radio" name="existing-or-new" id="radio-manual-add-to-all-contacts" defaultValue="all_contacts" />
-                      <label className="input-radio-label" htmlFor="radio-manual-add-to-all-contacts">
-                        <span>
-                          <span data-tooltip="Recipients will be added to All Contacts by default.  You can manage your contacts using Lists and Segments." data-tooltip-pos="up" data-tooltip-length="large" className="has-underline">
-                            Add contacts
-                          </span>
-                        </span>
-                      </label>
-                      <span />
+                  <div className="pd20" >
+                    <div class="col-sm-6" >
+                      <label className="container-cb">
+                        Add Contacts
+                          <input onChange={this.handleCheck}  value="0" type="radio" name="list" class="blue" />
+                          <span class="checkmark-cb"></span></label><br/>  
+                          <CsvParse
+                            keys={keys}
+                            onDataUploaded={this.handleData}
+                            onError={this.handleError}
+                            render={onChange => <input type="file" className={`form-control-file ${this.state.choose==0? '' : 'activeText'}`} onChange={onChange} />}
+                          />                 
                     </div>
-                    <div className="input-radio-wrap radioInput-css__radio-container___3sajG" data-role style={{ position: 'relative' }}>
-                      <input type="radio" name="existing-or-new" id="radio-manual-add-to-existing" defaultValue="existing" />
-                      <label className="input-radio-label" htmlFor="radio-manual-add-to-existing">
-                        Add contacts and include in an existing list
-                      </label>
-                      {/* Existing List */}
-                      <h5>Choose Lists</h5>
-                      <div className="control-styles">
-                              <MultiSelectComponent 
-                              style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important"}} 
+                    <div class="col-sm-6" >
+                    <label className="container-cb">Add contacts and include in an existing list
+                    <input onChange={this.handleCheck} value="1" type="radio" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
+                        
+                        <div className={`col-sm-8 ${this.state.choose==1? '' : 'activeText'}`}>
+                        <h5>Choose Lists</h5>
+                        <MultiSelectComponent 
+                              style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important","marginBottom":"15px"}} 
                               id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
                               ref={(scope) => { this.mulObj = scope; }}  
                               change={this.onChangeListsSelect}
                               placeholder="Favorite Sports"/>
-                            </div>
-                      {/* <select className="inputContact mt15" style={{"width": "250px", "borderBottom":"1px solid #ccc !important"}}  onChange={this.handleChange} type="text" tabindex="-1" readonly="readonly" role="presentation">
-                       {lists.map(list => <option value={list.id}  key={list.id}>{list.name}</option>)}
-                            </select> */}
-                  
-                       {/* Existing List */}
-                      <span />
+                              <CsvParse
+                            keys={keys}
+                            onDataUploaded={this.handleData}
+                            onError={this.handleError}
+                            render={onChange => <input type="file" className={`form-control-file mt30 ${this.state.choose==1? '' : 'activeText'}`} onChange={onChange} />}
+                          /> 
+                        </div>
+                        <br/>
+                        
                     </div>
+                            </div>
                     
-                    <section className="row">
-                      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <section />
-                      </div>
-                    </section>
-                  </div>
-                  
-                </form>
               </div>
             </div>
           </article>
           </div>
              
                   
-              <CsvParse
-      keys={keys}
-      onDataUploaded={this.handleData}
-      onError={this.handleError}
-      render={onChange => <input type="file" onChange={onChange} />}
-    />
+              
         </div>
       </div>
       
      
     );
+  }
+
+  handleCheck=(event)=>{
+console.log(event.target.value)
+this.setState({choose: event.target.value},()=>console.log(this.state.choose))
   }
   handleData = (data) => {
     console.log("HEY")
@@ -254,31 +248,40 @@ this.setState({
 
 onSave= () => {
   var contactList = this.state.contacts;
+  
     let contacts = contactList.map((contact)=>{
       var contact= contact;
-return {
-  ...contact,
-  gcSubcriberDTOS: 
-    this.state.selectValue
-  
-  
-}
+      if(this.state.choose == 0){
+        return {
+          ...contact,
+          gcSubcriberDTOS: 
+            [{
+              groupContactId: 1
+            }]
+        }
+      }else {
+        return {
+          ...contact,
+          gcSubcriberDTOS: 
+            this.state.selectValue
+        }
+      }
 });
 
 this.setState({
 contacts: contacts
-})
+},()=> console.log(this.state.contacts))
   console.log(`${Config.API_URL}subcriber/createListSubcriber`)
-  console.log(this.state.contacts)
-  axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-    .then((response) => {
-      if(response != null){
-        this.addNotification()
-      } 
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+ 
+  // axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+  //   .then((response) => {
+  //     if(response != null){
+  //       this.addNotification()
+  //     } 
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
 }
 
 }

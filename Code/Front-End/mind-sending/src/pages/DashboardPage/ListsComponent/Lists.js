@@ -118,7 +118,13 @@ class Lists extends Component {
                                     </h1>
                                     </span>
                                 </div>
-                                <div className="col-md-6">
+                                <div style={{"float":"left"}}>
+                                                    <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="btn_create_contact ">
+                                                        <i className="sg-icon sg-icon-segment"></i>
+                                                        Create Group
+                                                    </a>
+                                                    </div>
+                                {/* <div className="col-md-6">
                             
                                     <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
                                         <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
@@ -131,7 +137,7 @@ class Lists extends Component {
                                             <span>Manual Add</span>
                                         </Link>
                                     </ul>
-                                </div>
+                                </div> */}
                             </header>
                             <section className="row">
                                 <div className="col-md-3">
@@ -152,12 +158,7 @@ class Lists extends Component {
                                                     <input onChange={this.handleSearch} type="text" class="form-control" placeholder="Search Group"/>
                                                 </div>
                                                 <div class="error-label"></div>
-                                                <div style={{"float":"left"}}>
-                                                    <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="btn_create_contact ">
-                                                        <i className="sg-icon sg-icon-segment"></i>
-                                                        Create Group
-                                                    </a>
-                                                    </div>
+                                                
                                             </form>
                                         </div>
 
@@ -276,7 +277,7 @@ class Lists extends Component {
                             <span class="shadow-input1"></span>
                         </div>
 
-                        <div class="container-contact1-form-btn">
+                        {/* <div class="container-contact1-form-btn">
                             <a style={{"marginLeft":"30px","width":"150px", "float":"left", "color":"white"}} disabled={!this.state.newList.name} onClick={() => this.saveNewList()} className={`btn_begin_create_campaign ${this.state.newList.name ? "" : "disabled"}`}>
 						<span>
 							Create
@@ -287,7 +288,12 @@ class Lists extends Component {
                             Cancel
 						</span>
                             </a>
-                        </div>
+                        </div> */}
+                        <div class="modal-footer">
+                    <button type="button" onClick={()=>this.closeModal()} class="btn btn-info">Cancel</button>
+                    <button type="button" onClick={() => this.saveNewList()}  className={`btn btn-danger ${this.state.newList.name ? "" : "disabled"}`} >Create</button>
+                    
+                  </div>
                     </form>
                 </Modal>
 

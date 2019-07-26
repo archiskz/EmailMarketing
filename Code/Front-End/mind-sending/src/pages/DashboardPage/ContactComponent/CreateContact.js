@@ -220,7 +220,7 @@ this.getContactsByGroupId()
                                         </Link>
                                     </ul>
                                 </div>
-                            
+                                
                         </div>
                     </header>
                     <section className="row">

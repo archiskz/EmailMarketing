@@ -6323,9 +6323,26 @@ body.search-is-visible {
   height: 100%;
 }
 
-
+.mt15{
+  margin-top:15px
+}
+.mt30{
+  margin-top:30px
+}
+.table1 thead tr th {
+  font-size: 16px;
+}
+.table1 tbody tr td {
+  font-size: 16px;
+}
+.ml10{
+  margin-left: 10px
+}
+.pd5{
+  padding: 5px
+}
 input[type="file" i] {
-  font-size: 20px;
+  font-size: 16px;
     -webkit-appearance: initial;
     background-color: initial;
     cursor: default;
