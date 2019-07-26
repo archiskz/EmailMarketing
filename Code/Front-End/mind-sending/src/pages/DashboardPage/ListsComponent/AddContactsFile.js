@@ -140,11 +140,12 @@ class AddContactsFile extends Component {
                         </div>
                     </header>
 
-            <div className="row">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <p style={{"color": "black"}}>
+            <div className="md_tablet1">
+            <p className="fix_size_add_h2" style={{"color": "black"}}>
                   Please note that the contact will not receive a confirmation email.
                 </p>
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fix_size_add md_tablet2">
+                
                 <form>
                   <div className="listFormPresenter-css__list-form-presenter___1RHBp">
                     <div className="input-radio-wrap radioInput-css__radio-container___3sajG" data-role style={{ position: 'relative' }}>
