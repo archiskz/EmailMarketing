@@ -113,10 +113,10 @@ public class SubcriberServiceImpl implements SubcriberService {
                             groupContactSubcriber2.setActive(true);
                             groupContactSubcriberRepository.save(groupContactSubcriber2);
                             return true;
-                        }else{
+                        } else {
                             return false;
                         }
-                    }else{
+                    } else {
                         Subcriber subcriber = new Subcriber();
                         subcriber.setLastName(subcriberDTO.getLastName());
                         subcriber.setFirstName(subcriberDTO.getFirstName());
@@ -131,14 +131,14 @@ public class SubcriberServiceImpl implements SubcriberService {
                         subcriber.setTag(subcriberDTO.getTag());
                         Account account = accountRepository.findAccountById(1);
                         subcriber.setAccount_id(account.getId() + "");
-                        List<GroupContactSubcriber> groupContactSubcribers = subcriberDTO.getGcSubcriberDTOS().stream().map(g -> {
-                            GroupContactSubcriber groupContactSubcriber = groupContactSubcriber2;
+                        List<GroupContactSubcriber> groupContactSubcribers = new ArrayList<>();
+                        for (GroupContactSubcriber groupContactSubcriber : groupContactSubcribers) {
+                            groupContactSubcriber = groupContactSubcriber2;
                             groupContactSubcriber.setActive(true);
-                            groupContactSubcriber.setGroupContact(groupContactSubcriber.getGroupContact());
-                            groupContactSubcriber.setCreatedTime(LocalDateTime.now().toString());
                             groupContactSubcriber.setSubcriber(subcriber);
-                            return groupContactSubcriber;
-                        }).collect(Collectors.toList());
+                            groupContactSubcribers.add(groupContactSubcriber);
+                        }
+
                         subcriber.setGroupContactSubcribers(groupContactSubcribers);
                         subcriberRepository.save(subcriber);
                     }
