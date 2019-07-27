@@ -102,7 +102,7 @@ class AppointmentRow extends Component {
     {this.props.contactActions}
     <a class="fas fa-chart-bar margin_td_fontawsome" onClick = {()=> this.toListContact(this.props.contactId)} title="View"> </a>
     {/* <i class="fal fa-poll-h"></i> */}
-    <a class="fas fa-trash-alt" title="Delete"> </a>
+    {/* <a class="fas fa-trash-alt" title="Delete"> </a> */}
     
     </td>
    {/* MODAL */}

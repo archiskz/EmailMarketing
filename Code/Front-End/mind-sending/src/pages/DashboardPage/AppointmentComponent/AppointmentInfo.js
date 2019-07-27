@@ -101,9 +101,10 @@ class AppointmentInfo extends Component{
     .then(response => {
       console.log(response)
       var oldGroups = response.data.appointmentGroupContacts
+      console.log(oldGroups)
           let oldGroupsNumber = oldGroups.map((group, index, oldGroups)=>{
-            return group.groupContactId
-          })
+            return group.id
+          },()=>console.log(oldGroupsNumber))
       this.setState({
         appointmentInfo: response.data,
         selectedGrup: oldGroupsNumber,
@@ -298,6 +299,7 @@ class AppointmentInfo extends Component{
                           id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
                           change={this.onChangeListsSelect}
                           value={this.state.selectedGrup}
+                          enabled={false}
                           // onBlur={()=>this.Validate('group')}
                           placeholder="Choose Lists"/>    
                            <ValidateField isValidate={false} isError = {this.state.validates.groupValidate} />

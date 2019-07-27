@@ -150,7 +150,7 @@ class AppointmentMails extends Component {
                                 <div className="ul_create_contact2" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
                                     
                                     Action
-                                    <i class="fa fa-caret-down"></i>
+                                    {/* <i class="fa fa-caret-down"></i> */}
                                     </div>
                                    { this.state.displayMenu ? (
                                     <ul className="">
