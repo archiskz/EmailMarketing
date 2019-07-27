@@ -42,7 +42,7 @@ class TestForm extends Component {
         componentDidMount(){
             console.log(window.location.pathname); //yields: "/js" (where snippets run)
             var id = window.location.pathname;
-            id = id.slice(15,16)
+            id = id.slice(15,17)
 
             console.log("id"+ id)
             this.getFormById(id)

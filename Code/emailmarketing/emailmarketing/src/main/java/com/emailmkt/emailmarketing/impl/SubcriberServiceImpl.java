@@ -220,7 +220,9 @@ public class SubcriberServiceImpl implements SubcriberService {
 
     @Override
     public List<SubcriberDTO> getAllSubcriberV2() {
+
         List<Subcriber> subcribers = groupContactSubcriberRepository.findAllSubcriberIsActive();
+
         List<SubcriberDTO> dtos = new ArrayList<>();
         for (Subcriber subcriber : subcribers) {
             SubcriberDTO dto = new SubcriberDTO();

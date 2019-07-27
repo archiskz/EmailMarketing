@@ -183,7 +183,7 @@ class ListRow extends Component {
      
       console.log(`${Config.API_URL}groupcontact/edit/${this.props.contactId}`);
 
-      axios.delete(`${Config.API_URL}groupcontact/${this.props.contactId}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+      axios.post(`${Config.API_URL}delete/${this.props.contactId}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {
           console.log(res)
           // this.getAllListContact();

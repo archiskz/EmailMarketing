@@ -64,7 +64,7 @@ class ListRow extends Component {
     <td class="md_tablet6_tbody_td">
     </td>
     <td class="md_tablet6_tbody_td">
-    <i onClick={() => this.sendCampaign()}  class="fas fa-paper-plane"></i>
+    <i  onClick={() => this.sendCampaign()}  class={`fas fa-paper-plane ${this.props.status == "Sending" ? "activeText" : ''}`}></i>
     
     </td>
    {/* MODAL */}

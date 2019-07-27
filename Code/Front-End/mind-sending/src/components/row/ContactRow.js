@@ -131,6 +131,25 @@ class ContactRow extends Component {
       </tr>
           );
       }
+
+      deleteGroup(){
+     
+        console.log(`${Config.API_URL}groupcontact/edit/${this.props.contactId}`);
+  
+        // axios.post(`${Config.API_URL}delete/${this.props.contactId}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+        //   .then(res => {
+        //     console.log(res)
+        //     // this.getAllListContact();
+  
+        //     this.closeModal();
+        //     this.addNotification()
+        //     this.props.update();
+            
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+        //   });
+      }
       saveUpdatedContact=()=>{
         axios.put(`${Config.API_URL}subcriber/edit/${this.state.id}`,this.state.updateContact,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {

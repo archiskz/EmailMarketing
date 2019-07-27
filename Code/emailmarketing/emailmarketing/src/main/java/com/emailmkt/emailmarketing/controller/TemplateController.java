@@ -16,7 +16,7 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 //@RequestMapping(TemplateController.BASE_URK)
 @RequestMapping("/api")
-@CrossOrigin(origins = {"http://localhost:3000", "http://45.77.172.104:3000"})
+@CrossOrigin(origins = {"*"})
 public class TemplateController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TemplateController.class);

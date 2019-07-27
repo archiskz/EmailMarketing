@@ -273,15 +273,15 @@ contacts: contacts
 },()=> console.log(this.state.contacts))
   console.log(`${Config.API_URL}subcriber/createListSubcriber`)
  
-  // axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-  //   .then((response) => {
-  //     if(response != null){
-  //       this.addNotification()
-  //     } 
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
+  axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then((response) => {
+      if(response != null){
+        this.addNotification()
+      } 
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 }
