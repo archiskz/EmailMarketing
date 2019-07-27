@@ -36,6 +36,7 @@ class EmbeddedForms extends Component {
         auth_token: appState.user.auth_token
     },()=> this.getAllForms() )
    }
+   
    getAllForms=()=>{
     axios.get(`${Config.API_URL}forms`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
@@ -121,6 +122,7 @@ class EmbeddedForms extends Component {
                                         formName={list.name}
                                          createTime={list.createdTime}
                                          group = {list.formGroupContacts}
+                                         update = {this.getAllForms}
                                      />
                                     ))}
 

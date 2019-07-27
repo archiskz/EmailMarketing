@@ -100,7 +100,8 @@ class AppointmentRow extends Component {
     <td class="md_tablet6_tbody_td">{this.props.registed}</td>
     <td class="md_tablet6_tbody_td">
     {this.props.contactActions}
-    <a class="fas fa-edit margin_td_fontawsome" onClick={()=>this.openModal()} title="Edit"> </a>
+    <a class="fas fa-chart-bar margin_td_fontawsome" onClick = {()=> this.toListContact(this.props.contactId)} title="View"> </a>
+    {/* <i class="fal fa-poll-h"></i> */}
     <a class="fas fa-trash-alt" title="Delete"> </a>
     
     </td>
@@ -151,7 +152,7 @@ class AppointmentRow extends Component {
 
       toListContact = (id)=> {        
         this.props.history.push({
-            pathname:`/dashboard/contacts/:${id}`,
+            pathname:`/appointment/:${id}`,
             state : {
               id: id,
               name:this.props.contactEmail

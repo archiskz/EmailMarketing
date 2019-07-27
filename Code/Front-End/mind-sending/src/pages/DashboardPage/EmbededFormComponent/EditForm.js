@@ -8,11 +8,11 @@ import { select } from '@syncfusion/ej2-base';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router";
 import axios from 'axios';
-import * as Config from './../../../constants/Config';
+import * as Config from '../../../constants/Config';
 import imgLoad from './../../../assets/img/ajax-loader.gif'
 
 
-class EmbededForm extends React.Component {
+class EditForm extends React.Component {
     constructor(props) {
         super(props);
    
@@ -37,7 +37,7 @@ class EmbededForm extends React.Component {
                 ],
                 name: ""
             },
-            formId:0
+            formId:this.props.history.location.state.id
         }     
         this.fields = { text: 'name', value: 'id' };
         this.handleBtn = this.handleBtn.bind(this);
@@ -50,6 +50,60 @@ class EmbededForm extends React.Component {
             },()=> {
               this.getAllGroupContacts();
             });
+            this.getFormById(this.props.history.location.state.id);
+            
+        }
+        goBack =()=>{
+            this.props.history.goBack()
+          }
+        getFormById=(id)=>{
+            axios.get(`${Config.API_URL}form/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+                .then(res => {
+                console.log(res.data);
+                var groupDTO = res.data.formGroupContacts
+                var groups = []
+                groups = groupDTO
+                var group = groups[0]
+                var Groupid = group.groupContact.id
+                console.log("GROUP" + id)
+                this.setState({newForm: {
+                    form: res.data.form,
+                    name: res.data.name,
+                    gcFormDTOS: [
+                        {
+                        groupContactId: Groupid
+                        }
+                    ],
+                }})
+                var formDisplay = new String();
+                formDisplay = res.data.form
+                if(formDisplay.includes('firstName')){
+                    this.setState({firstName: true})
+                }
+                if(formDisplay.includes('lastName')){
+                    this.setState({lastName: true})
+                }
+                if(formDisplay.includes('phone')){
+                    this.setState({phone: true})
+                }
+                if(formDisplay.includes('address')){
+                    this.setState({address: true})
+                }
+                if(formDisplay.includes('birth')){
+                    this.setState({birth: true})
+                }
+                
+            
+                this.setState({
+                    groupId:Groupid,
+            },()=> console.log(this.state));
+                // localStorage["campaigns"] = JSON.stringify(selectOptions);
+                }).catch(function (error) {
+                console.log(error);
+                // if(error != null ){
+                //   errors = true
+                // }
+                }); 
         }
         getAllGroupContacts=()=>{
             axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
@@ -78,15 +132,47 @@ class EmbededForm extends React.Component {
         
     render(){
         var lists = this.state.lists;
+       
+        
+        
         /* Simply pass myCustoms to */
         return(
+            <div>
+             <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
+       <a onClick={this.goBack}
+      style={{"fontSize":"60px", "width":"40px","marginLeft":"20px","color":"white ", "cursor":"pointer","textDecoration":"none"}}>&#8249;</a>
+        <nav class="toolbar-css__nav___27cII">
+            <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
+                <span class="navToggleButton-css__code___2bWGz">
+                </span>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">Edit Embedded Form</strong>
+            </span>
+        </nav>
+        <span class="toolbar-css__save-container___2x7qH">
+    </span>
+    <span class="toolbar-css__send-container___AbB6n">
+
+        {/* <a onClick={()=>this.saveCampaign()} icon="airplane-fill" style={{"fontSize":"16px"}} data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+            <i class="sg-icon sg-icon-airplane-fill">
+
+            </i>Save Campaign
+        </a>
+        <a onClick={()=>this.saveCampaign()} icon="airplane-fill" style={{"fontSize":"16px"}} data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+            <i class="sg-icon sg-icon-airplane-fill">
+
+            </i>Save Appointment
+        </a> */}
+        
+    </span>
+    </div>
             <div class="plain-html-editor-v2">
+           
                 <div class="editor">
-                    <div class="heading-text heading-text-level-3 HeadingContainer-kEsQfH fWsXGo" role="heading">
+                    {/* <div class="heading-text heading-text-level-3 HeadingContainer-kEsQfH fWsXGo" role="heading">
                         <h3 class="StyledHeading-dhDQR dsbhyt">
-                            <span>Create Embedded Form</span>
+                            <span>Edit Embedded Form</span>
                         </h3>
-                    </div>
+                    </div> */}
                 <div class="preview_code">
                 <div class="heading-text heading-text-level-3 HeadingContainer-kEsQfH fWsXGo" role="heading">
                     <h3 class="StyledHeading-dhDQR dsbhyt">
@@ -121,7 +207,7 @@ class EmbededForm extends React.Component {
             </div>
             <button onClick={this.generateCode} class="copy-button ButtonContainer-cCzDqJ dbshwx" type="button" color="primary">
                     <div class="ButtonContent-dNFcBm ijrtmX">
-                        <span class="ButtonText-cgEyiP kPJhKT">GENERATE CODE <img className={`${this.state.isLoading ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." /></span>
+                        <span class="ButtonText-cgEyiP kPJhKT">UPDATE CODE <img className={`${this.state.isLoading ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." /></span>
                     </div>
                 </button>
         </div>
@@ -185,6 +271,7 @@ class EmbededForm extends React.Component {
                           id="defaultelement"  mode="Default"  
                           dataSource={lists} mode="Default" fields={this.fields}  
                           change={this.onChangeListsSelect}
+                          value={this.state.groupId}
                           placeholder="Choose Group"/>  
                                </div>
                          
@@ -201,16 +288,17 @@ class EmbededForm extends React.Component {
                                 <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
                             </div>
                             <br/>
-                        <label className="container-cb">First Name<input onChange={this.handleCheck} type="checkbox" name="firstName" class="blue" /><span class="checkmark-cb"></span></label><br/>
-                        <label className="container-cb">Last Name<input onChange={this.handleCheck} type="checkbox" name="lastName" class="blue" /><span class="checkmark-cb"></span></label><br/>
-                        <label className="container-cb">Phone<input onChange={this.handleCheck} type="checkbox" name="phone" class="blue" /><span class="checkmark-cb"></span></label><br/>
-                        <label className="container-cb">Address<input onChange={this.handleCheck} type="checkbox" name="address" class="blue" /><span class="checkmark-cb"></span></label><br/>
-                        <label className="container-cb">Birth Date<input onChange={this.handleCheck} type="checkbox" name="birth" class="blue" /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">First Name<input onChange={this.handleCheck} type="checkbox" name="firstName" class="blue" checked={this.state.firstName} /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Last Name<input onChange={this.handleCheck} type="checkbox" name="lastName" class="blue" checked={this.state.lastName} /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Phone<input onChange={this.handleCheck} type="checkbox" name="phone" class="blue" checked={this.state.phone} /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Address<input onChange={this.handleCheck} type="checkbox" name="address" class="blue" checked={this.state.address} /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Birth Date<input onChange={this.handleCheck} type="checkbox" name="birth" class="blue" checked={this.state.birth} /><span class="checkmark-cb"></span></label><br/>
                         </div>
                     </fieldset>
                 </form>
             </div>    
         </div>
+                 </div>
                      );
     }
 
@@ -226,11 +314,11 @@ class EmbededForm extends React.Component {
     generateCode=()=>{
         this.setState({isLoading:true})
         console.log(this.state.newForm)
-        axios.post(`${Config.API_URL}form/create`,this.state.newForm,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+        axios.put(`${Config.API_URL}form/edit/${this.state.formId}`,this.state.newForm,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(response => {
                 console.log(response)
                 this.setState({isLoading: false,
-                formId: response.data})
+                })
             })
             .catch(error => {
                 console.log(error);
@@ -292,4 +380,4 @@ class EmbededForm extends React.Component {
         // callback(form)
     }
 }
-export default withRouter(EmbededForm);
+export default withRouter(EditForm);

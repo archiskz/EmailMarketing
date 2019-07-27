@@ -23,7 +23,9 @@ import ContactInformation from './pages/DashboardPage/ContactComponent/ContactIn
 import CampaignInformation from './pages/DashboardPage/CampaignsComponent/CampaignInformation';
 import EmbededForm from './pages/DashboardPage/EmbededFormComponent/EmbededForm';
 import CreateAppointment from './pages/DashboardPage/AppointmentComponent/CreateAppointment';
+import AppointmentInfo from './pages/DashboardPage/AppointmentComponent/AppointmentInfo';
 import TestForm from './pages/DashboardPage/EmbededFormComponent/TestForm';
+import EditForm from './pages/DashboardPage/EmbededFormComponent/EditForm';
 const routes = [
 {
 	path:'/',
@@ -96,6 +98,11 @@ const routes = [
 	main: () => <Reports/>
 },
 {
+	path: '/edit-form',
+	exact: false,
+	main: () => <EditForm/>
+},
+{
 	path: '/dashboard/templates',
 	exact: false,
 	main: () => <Templates/>
@@ -147,7 +154,11 @@ const routes = [
 	exact: false,
 	main: () => <CreateAppointment />
 },
-
+{
+	path: '/appointment/:id',
+	exact: false,
+	main: () => <AppointmentInfo />
+},
 {/* {
 	path: '/dashboard/contacts/:id',
 	exact: false,

@@ -93,7 +93,7 @@ class FormRow extends Component {
     </td>
     <td class="md_tablet6_tbody_td">{this.state.groupName}</td>
     <td class="md_tablet6_tbody_td">
-    <a class="fas fa-edit margin_td_fontawsome" title="Edit"> </a>
+    <a class="fas fa-edit margin_td_fontawsome" onClick = {()=> this.toFormEdit(this.props.id)} title="Edit"> </a>
     <a class="fas fa-trash-alt margin_td_fontawsome" title="Delete" onClick={()=>this.openModal()}  > </a>
     <a class="fas fa-copy" title="Copy Embeded Code" onClick={()=>this.copyCode()} > </a>
     </td>
@@ -154,11 +154,25 @@ class FormRow extends Component {
           console.log(error.response.data)
         }) 
       }
+      deleteForm=()=>{
+        axios.post(`${Config.API_URL}form/delete/${this.props.id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+        .then(res => {
+          console.log(res.data);
+          this.closeModal()
+          
+          this.props.update()
+          this.addNotification("Delete Form")
+        }).catch(error=>{
+          console.log(error.response.data)
+        }) 
+      }
 
-      toListContact = (id)=> {        
+      toFormEdit = (id)=> {        
         this.props.history.push({
-            pathname:`/dashboard/contacts/:${id}`,
-            state : id
+            pathname:`/edit-form/${id}`,
+            state : {
+              id: id
+            }
         });
         }
 
@@ -195,9 +209,9 @@ class FormRow extends Component {
           // this.getAllListContact();
 
           this.closeModal();
-          this.addNotification()
+         
           this.props.update();
-          
+          this.addNotification()
         })
         .catch(function (error) {
           console.log(error);

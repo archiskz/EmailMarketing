@@ -112,7 +112,7 @@ class Lists extends Component {
                                 <div className="col-md-6">
                                     <span>
                                     <h1 className="">
-                                        <span className="pageTitle-css__title-heading___3H2vL">Contact Lists
+                                        <span className="pageTitle-css__title-heading___3H2vL">Group Lists
                                             <span>&nbsp;</span>
                                         </span>
                                     </h1>
