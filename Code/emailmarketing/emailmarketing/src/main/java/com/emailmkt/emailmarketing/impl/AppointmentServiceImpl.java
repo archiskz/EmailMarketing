@@ -182,8 +182,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public AppointmentDTO getAppointmentById(int id) {
-        return null;
+    public Appointment getAppointmentById(int id) {
+        return appointmentRepository.findAppointmentById(id);
     }
 
     @Override

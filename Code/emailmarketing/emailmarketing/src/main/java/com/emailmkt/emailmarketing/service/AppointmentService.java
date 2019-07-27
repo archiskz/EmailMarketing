@@ -22,7 +22,7 @@ public interface AppointmentService {
     void sendAppointment(int appointmentId);
     Appointment addContentToAppointment(Appointment appointment);
     boolean editAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO appointmentDTO, int id);
-    AppointmentDTO getAppointmentById(int id);
+    Appointment getAppointmentById(int id);
     public ResponseEntity<String> acceptAppointment(String token,String email);
 
 }

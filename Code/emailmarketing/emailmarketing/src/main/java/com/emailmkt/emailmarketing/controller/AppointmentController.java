@@ -85,7 +85,7 @@ public class AppointmentController {
         return appointmentRepository.findAll();
     }
     @GetMapping("appointment/{id}")
-    public AppointmentDTO getCampaignById(@PathVariable(value = "id") int id) {
+    public Appointment getAppointmentById(@PathVariable(value = "id") int id) {
         return appointmentService.getAppointmentById(id);
     }
 

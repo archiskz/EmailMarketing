@@ -2,6 +2,7 @@ package com.emailmkt.emailmarketing.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,11 +36,12 @@ public class AppointmentGroupContact  implements Serializable {
     @Column(name = "updated_time")
     private String updatedTime;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "group_contact_id" )
     private GroupContact groupContact;
