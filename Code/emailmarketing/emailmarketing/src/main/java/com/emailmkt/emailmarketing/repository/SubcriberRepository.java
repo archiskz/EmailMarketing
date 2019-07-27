@@ -20,7 +20,7 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     @Query("SELECT su.email FROM Subcriber su")
     List<String>listEmailSubcriber();
 
-    List<Subcriber> findAllByActiveIsTrue();
+    List<Subcriber> findAllByActiveIsFalse();
 //
 //
     @Query("SELECT su FROM Subcriber su WHERE " +

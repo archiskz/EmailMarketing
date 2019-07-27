@@ -231,7 +231,7 @@ public class SubcriberServiceImpl implements SubcriberService {
 //                    HttpStatus.INTERNAL_SERVER_ERROR, "Unauthoried!");
 //        }
 
-        List<Subcriber>subcribers = subcriberRepository.findAllByActiveIsTrue();
+        List<Subcriber>subcribers = subcriberRepository.findAllByActiveIsFalse();
         List<SubcriberDTO> dtos = new ArrayList<>();
         for(Subcriber subcriber : subcribers){
             SubcriberDTO dto = new SubcriberDTO();

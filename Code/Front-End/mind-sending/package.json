@@ -10,7 +10,7 @@
     "bcryptjs": "^2.4.3",
     "bpmn-font": "^0.9.3",
     "bpmn-js": "^4.0.0",
-    "bpmn-js-properties-panel": "^0.28.2",
+    "bpmn-js-properties-panel": "^0.31.0",
     "camunda-bpmn-moddle": "^3.2.0",
     "csv": "^5.1.1",
     "diagram-js": "^4.0.0",
