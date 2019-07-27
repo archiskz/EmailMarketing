@@ -24,7 +24,6 @@ public class SubcriberDTO {
     private String type;
 
     private String tag;
-    boolean active;
 
     private List<GCSubcriberDTO> gcSubcriberDTOS;
 }

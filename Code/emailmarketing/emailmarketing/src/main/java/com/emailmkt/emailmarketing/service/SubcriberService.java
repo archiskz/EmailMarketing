@@ -14,7 +14,6 @@ public interface SubcriberService {
 
     boolean createListSubcrbier(List<SubcriberDTO> subcriberDTO);
 
-    List<Subcriber> getAllSubcribers();
 
     Subcriber editSubcriber(Subcriber subcriber);
 
@@ -31,9 +30,8 @@ public interface SubcriberService {
 
     int countTotalSubcriber(int accountId);
 
-    Subcriber createNewSubcriber(Subcriber subcriber);
 
-    boolean createSubcriberNormal(SubcriberDTO dto);
+
 
     Subcriber getSubcriberByEmail(String email);
 
@@ -41,7 +39,7 @@ public interface SubcriberService {
 
     List<SubcriberDTO>getAllSubcriberV2();
 
-    String deleteSubcriber(int id);
+    String deleteSubcriber(int id,int groupId);
 
 
 //    List<Account> getAllAccountsByCustomer();

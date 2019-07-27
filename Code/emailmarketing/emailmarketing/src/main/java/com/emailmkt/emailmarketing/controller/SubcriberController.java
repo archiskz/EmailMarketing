@@ -64,15 +64,7 @@ public class SubcriberController {
         return ResponseEntity.status(CREATED).body("Successfully");
 
     }
-    @PostMapping("subcriber/createV2")
-    public ResponseEntity createSubcriberNormal(@RequestBody SubcriberDTO dto) {
-        boolean flag = subcriberService.createSubcriberNormal(dto);
-        if (flag == false) {
-            return ResponseEntity.status(CONFLICT).body("Email Existed");
-        }
-        return ResponseEntity.status(CREATED).body("Successfully");
 
-    }
 
     @PostMapping("subcriber/createForm")
     public ResponseEntity createSubcriberForm(@RequestBody SubcriberFormDTO dto) {
@@ -131,9 +123,9 @@ public class SubcriberController {
     }
 
     @DeleteMapping("/delete-subcriber")
-    public ResponseEntity<String> deleteSubcriber(@RequestParam int id) {
-        String message = subcriberService.deleteSubcriber(id);
-        LOGGER.info("delete emp: " + id);
+    public ResponseEntity<String> deleteSubcriber(@RequestParam int id,@RequestParam int groupId) {
+        String message = subcriberService.deleteSubcriber(id,groupId);
+        LOGGER.info("delete contact: " + id);
         return new ResponseEntity<String>(message, HttpStatus.OK);
     }
 
