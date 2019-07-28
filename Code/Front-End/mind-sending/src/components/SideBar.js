@@ -4,6 +4,7 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import logo from './../assets/img/logo.png'
 class Sidebar extends Component {
 constructor(props) {
 
@@ -60,9 +61,9 @@ addActiveClass = (index) => {
   render(){
      return (
     <div className="sidebar-menu">
-        <header className="logo1">
+        <header className="logo1" style={{"textAlign":"center"}}>
         
-            <Link to ="/" className="sidebar-icon"> <span className="fa fa-bars" />MindSending </Link> 
+            <Link to ="/" className="sidebar-icon"> <img src={logo} style={{"width":"100px", "height":"100px"}} /> </Link> 
         </header>
         <div style={{borderTop: '1px ridge rgba(255, 255, 255, 0.15)'}} />
         <div className="menuside">

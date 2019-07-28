@@ -1,38 +1,38 @@
-package com.emailmkt.emailmarketing.model;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
-
-@Data
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "task",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"id"})
-        })
-public class Task implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "type")
-    private String type;
-
-    @Column(name = "shape_id")
-    private String shape_id;
-
-    @OneToMany(mappedBy = "task" ,cascade = CascadeType.ALL)
-    private List<WorkflowTask> workflowTasks;
-
-
-}
+//package com.emailmkt.emailmarketing.model;
+//
+//import lombok.AllArgsConstructor;
+//import lombok.Data;
+//import lombok.NoArgsConstructor;
+//
+//import javax.persistence.*;
+//import java.io.Serializable;
+//import java.util.List;
+//
+//@Data
+//@Entity
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Table(name = "task",uniqueConstraints={
+//        @UniqueConstraint(columnNames = {"id"})
+//        })
+//public class Task implements Serializable {
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id")
+//    private int id;
+//
+//    @Column(name = "name")
+//    private String name;
+//
+//    @Column(name = "type")
+//    private String type;
+//
+//    @Column(name = "shape_id")
+//    private String shape_id;
+//
+//    @OneToMany(mappedBy = "task" ,cascade = CascadeType.ALL)
+//    private List<WorkflowTask> workflowTasks;
+//
+//
+//}

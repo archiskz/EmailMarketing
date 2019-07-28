@@ -52,9 +52,9 @@ class ContactRow extends Component {
       render(){
           return( 
       <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
-          <td>
+          {/* <td>
           <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
-          </td>
+          </td> */}
           <td class="md_tablet6_tbody_td">
           <a onClick={()=> this.toContactDetail(this.props.id)}>{this.props.email}</a>
           </td>

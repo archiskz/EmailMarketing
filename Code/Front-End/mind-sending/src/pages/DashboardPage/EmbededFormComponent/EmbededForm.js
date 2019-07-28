@@ -17,6 +17,7 @@ class EmbededForm extends React.Component {
         super(props);
    
         this.state = {
+            generated:false,
             email: true,
             firstName: false,
             lastName: false,
@@ -121,7 +122,7 @@ class EmbededForm extends React.Component {
             </div>
             <button onClick={this.generateCode} class="copy-button ButtonContainer-cCzDqJ dbshwx" type="button" color="primary">
                     <div class="ButtonContent-dNFcBm ijrtmX">
-                        <span class="ButtonText-cgEyiP kPJhKT">GENERATE CODE <img className={`${this.state.isLoading ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." /></span>
+                        <span class="ButtonText-cgEyiP kPJhKT">GENERATE CODE <img className={`${this.state.isLoading && !this.state.generated ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." /></span>
                     </div>
                 </button>
         </div>
@@ -230,6 +231,7 @@ class EmbededForm extends React.Component {
             .then(response => {
                 console.log(response)
                 this.setState({isLoading: false,
+                    generated: true,
                 formId: response.data})
             })
             .catch(error => {

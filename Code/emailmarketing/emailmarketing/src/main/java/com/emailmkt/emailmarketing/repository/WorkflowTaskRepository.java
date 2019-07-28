@@ -19,6 +19,6 @@ public interface WorkflowTaskRepository extends JpaRepository<WorkflowTask,Integ
         @Query("SELECT wl FROM WorkflowTask wl WHERE wl.workflow.id =: workflowId")
         List<WorkflowTask> findAllWorkflowByStatus(@Param("workflowId")int workflowId);
         WorkflowTask findWorkflowById(Integer id);
-        List<WorkflowTask> findAllByTaskId(int id);
+//        List<WorkflowTask> findAllByTaskId(int id);
 
 }
