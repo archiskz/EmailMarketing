@@ -6,6 +6,7 @@ import CsvParse from '@vtex/react-csv-parse'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
+import { withRouter } from "react-router";
  
 
 
@@ -35,7 +36,8 @@ class AddContactsFile extends Component {
       selectValue2:[{groupContactId:1}],
       selectId: 0,
       auth_token:"",
-      choose:0
+      choose:0,
+      group:[]
     };
     this.fields = { text: 'name', value: 'id' };
     this.addNotification = this.addNotification.bind(this);
@@ -63,6 +65,14 @@ class AddContactsFile extends Component {
     })
   }
   componentDidMount (){
+    console.log(this.props.history.location.state)
+    if(this.props.history.location.state != null){
+      this.setState({
+        group: [
+          this.props.history.location.state.id
+        ]
+      })
+    }
     const appState = JSON.parse(localStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
@@ -161,17 +171,18 @@ class AddContactsFile extends Component {
                           />                 
                     </div>
                     <div class="col-sm-6" >
-                    <label className="container-cb">Add contacts and include in an existing list
+                    <label className="container-cb">Add contacts and include in an existing group
                     <input onChange={this.handleCheck} value="1" type="radio" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
                         
                         <div className={`col-sm-8 ${this.state.choose==1? '' : 'activeText'}`}>
-                        <h5>Choose Lists</h5>
+                        <h5>Choose Group</h5>
                         <MultiSelectComponent 
                               style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important","marginBottom":"15px"}} 
                               id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
+                              value={this.state.group}
                               ref={(scope) => { this.mulObj = scope; }}  
                               change={this.onChangeListsSelect}
-                              placeholder="Favorite Sports"/>
+                              placeholder="Choose Group"/>
                               <CsvParse
                             keys={keys}
                             onDataUploaded={this.handleData}
@@ -286,4 +297,4 @@ contacts: contacts
 
 }
 
-export default AddContactsFile;
+export default withRouter(AddContactsFile);

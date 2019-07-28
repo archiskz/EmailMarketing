@@ -179,7 +179,38 @@ this.getContactsByGroupId()
         />
         ))
     }
-
+toAddContactFile=()=>{
+    
+    if(this.props.history.location.state != null){
+        this.props.history.push({
+            pathname:`/dashboard/add-contacts-file`,
+            state : {
+              id: this.props.history.location.state.id,
+    
+            },
+        });
+    } else{
+        this.props.history.push({
+            pathname:`/dashboard/add-contacts-file`
+        });
+    }
+    
+}
+toAddContactManual=()=>{
+    if(this.props.history.location.state != null){
+        this.props.history.push({
+            pathname:`/dashboard/add-contacts`,
+            state : {
+              id: this.props.history.location.state.id
+            },
+        });
+    } else {
+        this.props.history.push({
+            pathname:`/dashboard/add-contacts`,
+        });
+    }
+    
+}
   
 
 
@@ -210,14 +241,14 @@ this.getContactsByGroupId()
                                     <i className="fa fa-users"></i>
                                     Add Contacts
                                     <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
-                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
+                                        <a onClick={this.toAddContactFile} data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
                                             <i className="sg-icon sg-icon-csv"></i>
                                             <span>Upload CSV</span>
-                                        </Link>
-                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts" className="dropdown-link dropdown-link-with-icon" >
+                                        </a>
+                                        <a onClick={this.toAddContactManual} data-role="dropdown-link" to="/dashboard/add-contacts" className="dropdown-link dropdown-link-with-icon" >
                                             <i className="sg-icon sg-icon-contacts-alt"></i>
                                             <span>Manual Add</span>
-                                        </Link>
+                                        </a>
                                     </ul>
                                 </div>
                                 

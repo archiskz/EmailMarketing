@@ -134,21 +134,21 @@ class ContactRow extends Component {
 
       deleteGroup(){
      
-        console.log(`${Config.API_URL}groupcontact/edit/${this.props.contactId}`);
+        console.log(`${Config.API_URL}groupcontact/edit/${this.props.id}`);
   
-        // axios.post(`${Config.API_URL}delete/${this.props.contactId}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-        //   .then(res => {
-        //     console.log(res)
-        //     // this.getAllListContact();
+        axios.delete(`${Config.API_URL}delete-subcriber?id=${this.props.id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+          .then(res => {
+            console.log(res)
+            // this.getAllListContact();
   
-        //     this.closeModal();
-        //     this.addNotification()
-        //     this.props.update();
+            this.closeModalDelete();
+            this.addNotification()
+            this.props.update();
             
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //   });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
       saveUpdatedContact=()=>{
         axios.put(`${Config.API_URL}subcriber/edit/${this.state.id}`,this.state.updateContact,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })

@@ -142,15 +142,15 @@ onClickToExport = () =>{
         wtWorkflowDTOS: xmlClone
       }
     },
-    // ()=>{
-    //   console.log(this.state.bpmn)
-    //   axios.post(`${Config.API_URL}workflow/create`,this.state.bpmn,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-    //   .then(res => {
-    //     console.log("contact ID: " + res.data)
-    //     // this.setState({count: res.data})
-    //    }).catch(function (error) {
-    //     console.log(error);
-    //   }); }
+    ()=>{
+      console.log(this.state.bpmn)
+      axios.post(`${Config.API_URL}workflow/create`,this.state.bpmn,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+      .then(res => {
+        console.log("contact ID: " + res.data)
+        // this.setState({count: res.data})
+       }).catch(function (error) {
+        console.log(error);
+      }); }
       )
     });
 
