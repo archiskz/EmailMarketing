@@ -209,7 +209,7 @@ handleCheck=(event)=>{
                     <div class="col-sm-6" >
                       <label className="container-cb">
                         Add Contacts
-                          <input onChange={this.handleCheck}  value="0" type="radio" name="list" class="blue" />
+                          <input onChange={this.handleCheck}  value="0" type="radio" name="list" class="blue" checked/>
                           <span class="checkmark-cb"></span></label><br/>  
                                          
                     </div>
