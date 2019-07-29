@@ -24,8 +24,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
-@RequestMapping("/api")
-@CrossOrigin(origins = {"*"})
+@RequestMapping("/api")@CrossOrigin(origins = "*")
 public class GroupContactController {
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupContactController.class);
 

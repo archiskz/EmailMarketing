@@ -27,7 +27,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
 @RequestMapping("/api")
-@CrossOrigin(origins = {"*"})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AppointmentController {
     private final AppointmentRepository appointmentRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(AppointmentController.class);

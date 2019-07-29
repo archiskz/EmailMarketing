@@ -38,7 +38,7 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
 @RequestMapping("/api")
-@CrossOrigin(origins = {"*"})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class WorkflowController {
 
 
