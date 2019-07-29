@@ -33,14 +33,16 @@ public class GroupContactSubcriber {
     @Column(name = "updated_time")
     private String updatedTime;
 
-//    @Basic
-//    @Column(name = "subcriber_id")
-//    private int subcriberId;
+    @Basic
+    @Column(name = "active")
+    private boolean active;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "subcriber_id")
     private Subcriber subcriber;
+
+
 
 //    @Basic
 //    @Column(name = "group_contact_id" )

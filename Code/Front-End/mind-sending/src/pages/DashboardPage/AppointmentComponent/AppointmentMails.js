@@ -136,18 +136,18 @@ class AppointmentMails extends Component {
                         </div>
                     <div className="md_tablet4">
                         <div className="md_tablet5">
-                        <table className="md_tablet6">
-                            <thead className="md_tablet6_thead">
-                            <tr className="md_tablet6_tr">
-                                <th className="md_tablet6_th" scope="col"></th>
-                                <th className="md_tablet6_th" scope="col">Name</th>
-                                <th className="md_tablet6_th" scope="col">Start On</th>
+                        <table className="table1 table-striped table-hover">
+                            <thead className=" ">
+                            <tr className=" ">
+                                <th className=" " scope="col"></th>
+                                <th className=" " scope="col">Name</th>
+                                <th className=" " scope="col">Start On</th>
                                 {/* <th className="md_tablet6_th" scope="col">Groups</th> */}
-                                <th className="md_tablet6_th" scope="col">Invitations sent</th>
-								<th className="md_tablet6_th" scope="col">Registrants</th>
-                                <th  className="md_tablet6_th" role="presentation">
+                                <th className=" " scope="col">Invitations sent</th>
+								<th className=" " scope="col">Registrants</th>
+                                <th  className=" " role="presentation">
                                 
-                                <div className="ul_create_contact2" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
+                                <div className=" " onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
                                     
                                     Action
                                     {/* <i class="fa fa-caret-down"></i> */}

@@ -102,13 +102,13 @@ class EmbeddedForms extends Component {
                         </div>
                     <div className="md_tablet4">
                         <div className="md_tablet5">
-                        <table className="md_tablet6">
-                            <thead className="md_tablet6_thead">
-                            <tr className="md_tablet6_tr">
-                                <th className="md_tablet6_th" scope="col">Form name</th>
-                                <th className="md_tablet6_th" scope="col">Create On</th>
-                                <th className="md_tablet6_th" scope="col">Group Contact</th>
-                                <th className="md_tablet6_th" scope="col"></th>
+                        <table className="table1 table-striped table-hover">
+                            <thead className=" ">
+                            <tr className=" ">
+                                <th className=" " scope="col">Form name</th>
+                                <th className=" " scope="col">Create On</th>
+                                <th className=" " scope="col">Group Contact</th>
+                                <th className=" " scope="col"></th>
                                 {/* <th className="md_tablet6_th" scope="col">Unsubcribe</th>
                                 <th className="md_tablet6_th" scope="col">Actions</th> */}
                             </tr>

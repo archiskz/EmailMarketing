@@ -16,7 +16,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "workflow_has_task",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"task_id", "shape_id","workflow_id","id"})
+        @UniqueConstraint(columnNames = {"workflow_id","id"})
 })
 
 
@@ -32,13 +32,17 @@ public class WorkflowTask implements Serializable {
     @Column(name = "pre_task")
     private String preTask;
 
-    @Basic
-    @Column(name = "post_task")
-    private String postTask;
+//    @Basic
+//    @Column(name = "post_task")
+//    private String postTask;
 
     @Basic
     @Column(name = "gateway")
     private String gateway;
+
+    @Basic
+    @Column(name = "shape_id")
+    private String shape_id;
 
     @Basic
     @Column(name = "status")
@@ -52,17 +56,20 @@ public class WorkflowTask implements Serializable {
     @Column(name = "updated_time")
     private String updatedTime;
 
+    @Basic
+    @Column(name = "type")
+    private String type;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "workflow_id")
     private Workflow workflow;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "task_id",referencedColumnName = "id"),
-            @JoinColumn(name = "shape_id",referencedColumnName = "shape_id")
-    })
-    private Task task;
+//    @JsonIgnore
+//    @ManyToOne
+//    @JoinColumns({
+//            @JoinColumn(name = "task_id",referencedColumnName = "id"),
+//            @JoinColumn(name = "shape_id",referencedColumnName = "shape_id")
+//    })
+//    private Task task;
 }
