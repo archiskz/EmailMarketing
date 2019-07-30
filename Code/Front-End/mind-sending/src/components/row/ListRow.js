@@ -188,11 +188,10 @@ class ListRow extends Component {
         .then(res => {
           console.log(res)
           // this.getAllListContact();
-
-          this.closeModal();
-          this.addNotification()
           this.props.update();
-          
+          this.closeModalDelete();
+          this.addNotification()
+          window.location.reload();
         })
         .catch(function (error) {
           console.log(error);

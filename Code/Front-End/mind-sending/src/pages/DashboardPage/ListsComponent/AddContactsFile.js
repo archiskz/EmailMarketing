@@ -307,6 +307,7 @@ contacts: contacts
     .then((response) => {
       if(response != null){
         this.addNotification()
+        this.props.history.goBack()
       } 
     })
     .catch((error) => {
