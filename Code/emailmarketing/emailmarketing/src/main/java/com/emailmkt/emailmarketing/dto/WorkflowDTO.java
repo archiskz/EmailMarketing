@@ -10,7 +10,7 @@ public class WorkflowDTO implements Serializable {
     private String workflowName;
     private String status;
     private String createdTime;
-
+    private List<GCWorkflowDTO> gcWorkflowDTOS;
     private String type;
 
     private String wtWorkflowDTOS;

@@ -365,12 +365,13 @@ class EditForm extends React.Component {
         if(this.state.birth){
             s += 'birth '
         }
+
         this.setState({
             newForm:{
                 ...this.state.newForm,
                 form: s
             }
-        })
+        },()=>console.log(this.state.newForm.form))
         })
     }
     

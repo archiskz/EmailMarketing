@@ -46,7 +46,11 @@ public class Workflow implements Serializable {
     private String updatedTime;
 
     @OneToMany( mappedBy = "workflow",cascade = CascadeType.ALL)
-    private List<WorkflowTask> workflowTasks;
+    private List<Task> tasks;
+
+
+    @OneToMany( mappedBy = "workflow",cascade = CascadeType.ALL)
+    private List<WorkflowGroupContact> workflowGroupContacts;
 
     @Column(name = "account_id")
     private Integer account_id;

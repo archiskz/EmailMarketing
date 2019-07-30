@@ -30,7 +30,9 @@ class AddContact extends Component {
       selectId: 0,
       auth_token:"",
       choose:0,
-      group:[]
+      group:[],
+      list: false,
+      noneList: true
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
@@ -75,7 +77,9 @@ class AddContact extends Component {
       this.setState({
         group: [
           this.props.history.location.state.id
-        ]
+        ],
+        list: true,
+        noneList:false,choose:true
       })
     }
     const appState = JSON.parse(localStorage.getItem('appState'));
@@ -149,8 +153,22 @@ class AddContact extends Component {
     
 }
 handleCheck=(event)=>{
-  console.log(event.target.value)
-  this.setState({choose: event.target.value},()=>console.log(this.state.choose))
+  console.log(event.target.value);
+  if(event.target.value == '0'){
+    this.setState({
+      noneList: true,
+      list: false,
+      choose: event.target.value
+    })
+  } else{
+    this.setState({
+      noneList: false,
+      list: true,
+      choose: event.target.value
+    })
+  }
+  // this.setState({choose: event.target.value},()=>console.log(this.state.choose))
+  
     }
 
 
@@ -209,13 +227,13 @@ handleCheck=(event)=>{
                     <div class="col-sm-6" >
                       <label className="container-cb">
                         Add Contacts
-                          <input onChange={this.handleCheck}  value="0" type="radio" name="list" class="blue" />
+                          <input onChange={this.handleCheck} checked={this.state.noneList}  value="0" type="radio" name="list" class="blue" />
                           <span class="checkmark-cb"></span></label><br/>  
                                          
                     </div>
                     <div class="col-sm-6" >
                     <label className="container-cb">Add contacts and include in an existing list
-                    <input onChange={this.handleCheck} value="1" type="radio" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
+                    <input onChange={this.handleCheck} checked={this.state.list} value="1" type="radio" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
                         
                         <div className={`col-sm-8 ${this.state.choose==1? '' : 'activeText'}`}>
                         <h5>Choose Lists</h5>

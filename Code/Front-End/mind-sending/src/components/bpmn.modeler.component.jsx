@@ -24,7 +24,8 @@ class BpmnModelerComponent extends Component {
             bpmn : {
               type: "string",
               workflowName: this.props.automationName,
-              wtWorkflowDTOS: ""
+              wtWorkflowDTOS: "",
+              gcWorkflowDTOS: this.props.group
             },
             auth_token:""
         };
@@ -39,6 +40,7 @@ class BpmnModelerComponent extends Component {
 
     componentDidMount = () => {
       console.log(this.props.automationName);
+      console.log(this.state.bpmn)
         document.addEventListener('mousedown', this.handleClickOutside);
         this.modeler = new BpmnModeler({
             container: '#bpmnview',
@@ -150,7 +152,8 @@ onClickToExport = () =>{
         // this.setState({count: res.data})
        }).catch(function (error) {
         console.log(error);
-      }); }
+      });
+     }
       )
     });
 

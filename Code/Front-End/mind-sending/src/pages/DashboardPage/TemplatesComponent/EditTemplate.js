@@ -89,11 +89,13 @@ class EditTemplate extends Component {
        </div>
 
        <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
+       <a onClick={this.goBack}
+      style={{"fontSize":"60px", "width":"40px","marginLeft":"10px","color":"white ", "cursor":"pointer","textDecoration":"none"}}>&#8249;</a>
         <nav class="toolbar-css__nav___27cII">
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
                 </span>
-                <strong class="navToggleButton-css__toggle-name___3Y4ez">Create Campaign</strong>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">Edit Template</strong>
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
@@ -174,7 +176,9 @@ class EditTemplate extends Component {
       axios.put(`${Config.API_URL}update`,this.state.template,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
         console.log(res.data)
-        this.addNotification()
+        this.goBack()
+        this.addNotification();
+        
         
        }).catch(function (error) {
         console.log(error.response.data);
@@ -184,6 +188,9 @@ class EditTemplate extends Component {
     
   })
   
+  }
+  goBack=()=>{
+    this.props.history.goBack()
   }
 
   //  exportHtml=()=>{

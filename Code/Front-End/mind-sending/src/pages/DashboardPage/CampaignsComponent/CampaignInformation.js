@@ -216,30 +216,31 @@ class CampaignInformation extends Component{
         />
       <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
       <a onClick={this.goBack}
-      style={{"fontSize":"60px", "width":"120px","marginLeft":"10px","color":"white ", "cursor":"pointer","textDecoration":"none"}}>&#8249;</a>
+      style={{"fontSize":"60px", "width":"40px","marginLeft":"10px","color":"white ", "cursor":"pointer","textDecoration":"none"}}>&#8249;</a>
         <nav class="toolbar-css__nav___27cII_detail">
            
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
                
                 </span>
-                <strong class="navToggleButton-css__toggle-name___3Y4ez">
-                <a href="/dashboard/campaigns">
+                <strong class={`navToggleButton-css__toggle-name___3Y4ez ${this.state.updateCampaign.campaignDTO.status === "Sending" ? "" : "activeText"}`}>
+                Campaign Information
+                {/* <a href="/dashboard/campaigns">
                 Finish Later
-                </a>
+                </a> */}
                 <CampaignPopUp />
                 </strong>
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
-        <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+        <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class={`btn btn-primary btn-on-dark  btn-with-icon btn-with-icon ${this.state.updateCampaign.campaignDTO.status == "Sending" ? 'activeText' : ''}`}>
             <i class="sg-icon sg-icon-save-draft">
 
             </i>Save Draft
         </a>
     </span>
     <span class="toolbar-css__send-container___AbB6n">
-        <a icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+        <a icon="airplane-fill" data-role="send-or-schedule-btn" class={`btn btn-primary btn-on-dark  btn-with-icon btn-with-icon ${this.state.updateCampaign.campaignDTO.status == "Sending" ? 'activeText' : ''}`}>
             <i class="sg-icon sg-icon-airplane-fill">
 
             </i>Send Campaign
@@ -256,7 +257,9 @@ class CampaignInformation extends Component{
             <a style={{"backgroundColor":"transparent","color":"white","float":"left","marginTop":"10px"}} class="fas fa-edit margin_td_fontawsome"  title="Edit"> </a>
             <input style={{"backgroundColor":"transparent","color":"white","width":"auto","float":"left","border-bottom":"none"}} 
             placeholder="Campaign Name" name="campaignName" aria-invalid="false" onChange={this.handleChange} 
-            className="user_profile_w3_input" disabled="" id="company-disabled" type="text" 
+            className="user_profile_w3_input" 
+            disabled={this.state.updateCampaign.campaignDTO.status == "Sending" ? true : false}
+             id="company-disabled" type="text" 
             value={this.state.updateCampaign.campaignDTO.campaignName} />
             </div>
         		</div>
@@ -270,6 +273,7 @@ class CampaignInformation extends Component{
                         <MultiSelectComponent ref={(scope) => { this.mulObj = scope; }}  
                           style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important"}} 
                           id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
+                          enabled={this.state.updateCampaign.campaignDTO.status == "Sending" ? false : true}
                           value={this.state.selectedGrup}
                           change={this.onChangeListsSelect}
                           placeholder="Lists"/>
@@ -301,7 +305,7 @@ class CampaignInformation extends Component{
         						{/* <label className="user_profile_w3_label" >Sender Name </label> */}
         						<div className="user_profile7_sub2">
         						<input placeholder="Sender Name" name="from" aria-invalid="false" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled="" id="company-disabled" type="text" value={this.state.updateCampaign.mailObjectDTO.from} />
+                     disabled={this.state.updateCampaign.campaignDTO.status == "Sending" ? true : false} id="company-disabled" type="text" value={this.state.updateCampaign.mailObjectDTO.from} />
         						</div>
         					</div>
         				</div>
@@ -310,7 +314,7 @@ class CampaignInformation extends Component{
         					<div className="user_profile8_sub1">
         						{/* <label className="user_profile_w3_label" data-shrink="false" for="username">Email Address</label> */}
         						
-        						<input aria-invalid="false" onChange={this.handleChange} name="fromMail" 
+        						<input aria-invalid="false" disabled={this.state.updateCampaign.campaignDTO.status == "Sending" ? true : false} onChange={this.handleChange} name="fromMail" 
                     className="user_profile_w3_input2" placeholder="Email Address" id="username" type="text" value={this.state.updateCampaign.mailObjectDTO.fromMail} />
         						
         					</div>
@@ -328,7 +332,7 @@ class CampaignInformation extends Component{
         						{/* <label className="user_profile_w3_label" >Subject </label> */}
         					
         						<input aria-invalid="false" placeholder="Subject" name="subject" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled="" id="company-disabled" type="text" value={this.state.updateCampaign.mailObjectDTO.subject}  />
+                     disabled={this.state.updateCampaign.campaignDTO.status == "Sending" ? true : false} id="company-disabled" type="text" value={this.state.updateCampaign.mailObjectDTO.subject}  />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
                    
         					</div>
@@ -510,7 +514,7 @@ class CampaignInformation extends Component{
         updateCampaign:{
           ...this.state.updateCampaign,
           mailObjectDTO:{
-            ...this.state.updateCampaign.mailObjectDTO,
+            ...this.state.updateCampaign.mailObjectDTO, 
             bodyJson: JSON.stringify(design),
             body: html
           }
