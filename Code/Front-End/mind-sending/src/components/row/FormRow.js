@@ -63,7 +63,8 @@ class FormRow extends Component {
       axios.get(`${Config.API_URL}groupContact/contactById?id=${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data);
-      this.setState({groupName: res.data.name});
+      this.setState({groupName: res.data.name,
+        contactId: res.data.id});
     }) 
      }
      copyCode = (e) => {
@@ -91,7 +92,9 @@ class FormRow extends Component {
     <td class="md_tablet6_tbody_td">
               {this.props.createTime}
     </td>
-    <td class="md_tablet6_tbody_td">{this.state.groupName}</td>
+    <td class="md_tablet6_tbody_td">
+    <a onClick = {()=> this.toListContact(this.props.contactId)} >{this.state.groupName} </a>
+    </td>
     <td class="md_tablet6_tbody_td">
     <a class="fas fa-edit margin_td_fontawsome" onClick = {()=> this.toFormEdit(this.props.id)} title="Edit"> </a>
     <a class="fas fa-trash-alt margin_td_fontawsome" title="Delete" onClick={()=>this.openModal()}  > </a>
@@ -154,6 +157,16 @@ class FormRow extends Component {
           console.log(error.response.data)
         }) 
       }
+    
+
+    toListContact=(id)=>{        
+        this.props.history.push({
+            pathname:`/dashboard/contacts-group/:${this.state.contactId}`,
+            state : {
+              id: this.state.contactId,
+              name:this.state.groupName
+            }})
+        }
       deleteForm=()=>{
         axios.post(`${Config.API_URL}form/delete/${this.props.id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {
@@ -164,7 +177,7 @@ class FormRow extends Component {
           this.addNotification("Delete Form")
         }).catch(error=>{
           console.log(error.response.data)
-        }) 
+        }); 
       }
 
       toFormEdit = (id)=> {        

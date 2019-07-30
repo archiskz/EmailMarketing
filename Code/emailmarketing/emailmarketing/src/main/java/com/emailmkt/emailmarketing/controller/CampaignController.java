@@ -26,7 +26,7 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
 @RequestMapping("/api")
-@CrossOrigin(origins = {"http://localhost:3000", "http://45.77.172.104:3000"})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CampaignController {
     private final CampaignRepository campaignRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(CampaignController.class);

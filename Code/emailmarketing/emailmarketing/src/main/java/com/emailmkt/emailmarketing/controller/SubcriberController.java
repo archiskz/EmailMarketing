@@ -22,7 +22,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 //@RequestMapping(AccountController.BASE_URK)
 @RequestMapping("/api")
 
-@CrossOrigin(origins = {"*"})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 
 public class SubcriberController {
     private final SubcriberRepository subcriberRepository;

@@ -24,7 +24,7 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
 @RequestMapping("/api")
-@CrossOrigin(origins = {"*"})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EmbeddedFormController {
     private final EmbeddedFormRepository embeddedFormRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(EmbeddedFormController.class);
