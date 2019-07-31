@@ -61,8 +61,8 @@ embeddedForm.setForm(embeddedFormDTO.getForm());embeddedForm.setName(embeddedFor
         embeddedForm.setAccount_id(account.getId());
         embeddedForm.setName(embeddedFormDTO.getName());
         embeddedForm.setUpdatedTime(LocalDateTime.now().toString());
-        embeddedForm.setForm(embeddedForm.getForm());
-        embeddedForm.setCode(embeddedForm.getCode());
+        embeddedForm.setForm(embeddedFormDTO.getForm());
+        embeddedForm.setCode(embeddedFormDTO.getCode());
         embeddedForm.setUpdatedTime(LocalDateTime.now().toString());
         List<FormGroupContact> formGroupContacts = embeddedFormDTO.getGcFormDTOS().stream().map(g->{
             FormGroupContact formGroupContact = new FormGroupContact();

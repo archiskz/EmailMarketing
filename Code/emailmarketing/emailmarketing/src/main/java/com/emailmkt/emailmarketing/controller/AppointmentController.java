@@ -27,7 +27,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
 @RequestMapping("/api")
-@CrossOrigin(origins = {"*"})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AppointmentController {
     private final AppointmentRepository appointmentRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(AppointmentController.class);
@@ -71,6 +71,22 @@ public class AppointmentController {
 
 
         return ResponseEntity.status(CREATED).body(temp.getId());
+
+    }
+
+
+    @PostMapping(value = "message/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createNotification(@RequestParam int id) throws IOException, TemplateException {
+        boolean flag = appointmentService.testMappingMessage(id);
+        if (flag == false) {
+            return ResponseEntity.status(CONFLICT).body("Appointment Existed");
+        }
+
+
+
+
+
+        return ResponseEntity.status(CREATED).body(id);
 
     }
 

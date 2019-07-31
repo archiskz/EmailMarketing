@@ -33,14 +33,17 @@ public class TemplateServiceImpl implements TemplateService {
             if (checkExistedTemplate != null) {
                 return false;
             }
-            java.lang.String previewImage = convertHtmlToString(template.getContentHtml());
-            template.setPreview(previewImage);
+
+
             template.setAccount_id(1);
             template.setNameTemplate(template.getNameTemplate());
-            template.setType(template.getType());
+            template.setType("ct");
             template.setCreated_time(LocalDateTime.now().toString());
             template.setContentHtml(template.getContentHtml());
             template.setContentJson(template.getContentJson());
+        templateRepository.save(template);
+        java.lang.String previewImage = convertHtmlToString(template.getContentHtml(),  template.getId());
+        template.setPreview(previewImage);
         templateRepository.save(template);
             return true;
     }
@@ -52,12 +55,15 @@ public class TemplateServiceImpl implements TemplateService {
         if(templateGallery != null) {
             template.setAccount_id(1);
             template.setContentHtml(templateGallery.getContentHtml());
-            template.setContentJson(templateGallery.getContentHtml());
+            template.setContentJson(templateGallery.getContentJson());
 
 
             template.setCreated_time(LocalDateTime.now().toString());
             template.setNameTemplate(templateGallery.getNameTemplate() + "Copy");
-            template.setType(templateGallery.getType());
+            template.setType("ct");
+            templateRepository.save(template);
+            java.lang.String previewImage = convertHtmlToString(template.getContentHtml(), template.getId());
+            template.setPreview(previewImage);
             templateRepository.save(template);
             return true;
         }
@@ -99,7 +105,7 @@ public class TemplateServiceImpl implements TemplateService {
         templateEdit.setNameTemplate(template.getNameTemplate());
         templateEdit.setType(template.getType());
         templateEdit.setContentHtml(template.getContentHtml());
-        java.lang.String previewImage = convertHtmlToString(template.getContentHtml());
+        java.lang.String previewImage = convertHtmlToString(template.getContentHtml(), template.getId());
         template.setPreview(previewImage);
         templateEdit.setContentJson(template.getContentJson());
 
@@ -124,7 +130,7 @@ public class TemplateServiceImpl implements TemplateService {
 //        return templateRepository.searchByNameorType(searchValue);
 //    }
 
-    private static java.lang.String convertHtmlToString(java.lang.String html){
+    private static java.lang.String convertHtmlToString(java.lang.String html, int id){
         int index = html.indexOf("<body");
         int index1 = html.indexOf("</html>");
         System.out.println(index + " --" + index1);
@@ -151,8 +157,9 @@ public class TemplateServiceImpl implements TemplateService {
         // get the byte array of the image (as jpeg)
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try{
-            ImageIO.write(image, "png", new File("aaaa.png"));
-             imgstr = encodeToString(image, "png");
+//            ImageIO.write(image, "png", new File("aaaa.png"));
+            ImageIO.write(image, "png",new File("E:\\EmailMarketing\\Code\\Front-End\\mind-sending\\src\\assets\\img\\"+id+".png"));
+             imgstr = Integer.toString(id);
             return imgstr;
         }catch(Exception e){
 
