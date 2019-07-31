@@ -26,7 +26,7 @@ public interface AppointmentSubcriberRepository extends JpaRepository<Appointmen
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE AppointmentSubcriber ap SET ap.send=true WHERE ap.appointmentGroupContact.appointment.id  = :appointmentId and ap.subcriberEmail =:subcriberEmail")
+    @Query("UPDATE AppointmentSubcriber ap SET ap.send = true WHERE ap.appointmentGroupContact.appointment.id  = :appointmentId and ap.subcriberEmail =:subcriberEmail")
     void  changeConfirmSend(@Param("appointmentId") int appointmentId, @Param("subcriberEmail") String subcriberEmail);
 
     @Query("SELECT ap.send FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId AND ap.subcriberEmail= :subcriberEmail")

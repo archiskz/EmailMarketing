@@ -223,21 +223,23 @@ saveAppointment(){
       console.log(this.state.newAppointment)
       axios.post(`${Config.API_URL}appointment/create`,this.state.newAppointment,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
-        console.log(res)
+        console.log(res.data)
         this.addNotification()
-        
+      //   this.props.history.push({
+      //     pathname:'/dashboard/invite-mail',
+      // });
        }).catch(function (error) {
         console.log(error);
         if(error != null ){
           errors = true
         }
       });
-      if(errors == false){
-        this.props.history.push({
-          pathname:'/dashboard/invite-mail',
-      });
-        this.addNotification()
-      }
+      // if(errors == false){
+      //   this.props.history.push({
+      //     pathname:'/dashboard/invite-mail',
+      // });
+        // this.addNotification()
+      // }
       this.closeModal();
     }
     );
@@ -266,14 +268,15 @@ saveAppointment(){
       if(this.state.isChecked == true){
         axios.post(`${Config.API_URL}campaign/create/timer`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(response => {
-          console.log(response.data)
-          var id = response.data
-              self.setState({
-                campaignId: id,
-              },
-              ()=> {
-                this.closeModal();})
-              console.log(this.state.campaignId)
+          self.props.history.goBack()
+          // console.log(response.data)
+          // var id = response.data
+          //     self.setState({
+          //       campaignId: id,
+          //     },
+          //     ()=> {
+          //       this.closeModal();})
+          //     console.log(this.state.campaignId)
         })
         .catch(error => {
           console.log(error);
@@ -281,14 +284,15 @@ saveAppointment(){
       } else {
         axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(response => {
-          console.log(response.data)
-          var id = response.data
-              self.setState({
-                campaignId: id
-              },
-              ()=> {
-                this.closeModal();})
-              console.log(this.state.campaignId)
+          // console.log(response.data)
+          // var id = response.data
+          //     self.setState({
+          //       campaignId: id
+          //     },
+          //     ()=> {
+          //       this.closeModal();})
+          //     console.log(this.state.campaignId)
+          self.props.history.goBack()
         })
         .catch(error => {
           console.log(error);
