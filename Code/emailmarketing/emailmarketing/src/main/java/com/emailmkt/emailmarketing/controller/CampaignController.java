@@ -139,7 +139,15 @@ public class CampaignController {
     }
 
 
+    @PostMapping("campaign/copy/{id}")
+    public ResponseEntity copyCampaign(@PathVariable int id) {
+        boolean flag = campaignService.copyCampaign(id);
+        if (flag == true) {
+            return ResponseEntity.status(CONFLICT).body("Đã copy thành công ");
+        }
+        return ResponseEntity.status(CREATED).body("Fail");
 
+    }
 
 
     }

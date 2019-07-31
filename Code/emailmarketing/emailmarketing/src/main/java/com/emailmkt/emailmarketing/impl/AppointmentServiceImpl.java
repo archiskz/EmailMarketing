@@ -150,7 +150,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                         appointment.getFromMail(),
                         mailLists.get(counter), appointment.getSubject(),
                         newString);
-                AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(appointment.getId(),mailLists.get(counter));
+                AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(appointment.getId(), mailLists.get(counter));
                 appointmentSubcriber.setSend(1);
                 appointmentSubcriberRepository.save(appointmentSubcriber);
 
@@ -224,6 +224,32 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public boolean copyAppointment(int appointmentId) {
+
+        Appointment temp = appointmentRepository.findAppointmentById(appointmentId);
+        if(temp==null){
+            return false;
+        }
+        Appointment appointment= new Appointment();
+            appointment.setAccount_id(1);
+
+            appointment.setAppointmentGroupContacts(temp.getAppointmentGroupContacts());
+            appointment.setBody(temp.getBody());
+            appointment.setToken(UUID.randomUUID().toString());
+            appointment.setTime(temp.getTime());
+            appointment.setBodyJson(temp.getBodyJson());
+            appointment.setCreatedTime(LocalDateTime.now().toString());
+            appointment.setName(temp.getName()+UUID.randomUUID().toString());
+            appointment.setSubject(temp.getSubject());
+            appointment.setStatus("Sending");
+            appointment.setMessageId(temp.getMessageId());
+            appointment.setFromMail(temp.getFromMail());
+            appointment.setSender(temp.getSender());
+            appointmentRepository.save(appointment);
+            return true;
+    }
+
+    @Override
     public boolean testMappingMessage(int id) {
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -232,8 +258,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             String jsonInString = myMessageRepository.findContentByMessageId(id);
             JSONObject jsonObject = new JSONObject(jsonInString);
             JSONObject mail = jsonObject.getJSONObject("mail");
-            System.out.println((String) mail.get("messageId")+"Tan123");
-
+            System.out.println((String) mail.get("messageId") + "Tan123");
 
 
         } catch (JSONException e) {

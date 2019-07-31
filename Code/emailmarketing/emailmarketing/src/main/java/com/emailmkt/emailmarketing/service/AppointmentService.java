@@ -26,5 +26,7 @@ public interface AppointmentService {
     Appointment getAppointmentById(int id);
     public ResponseEntity<String> acceptAppointment(String token,String email);
 
+    boolean copyAppointment(int appointmentId);
+
     boolean testMappingMessage(int id);
 }
