@@ -3,7 +3,6 @@ package com.emailmkt.emailmarketing.controller;
 
 import com.emailmkt.emailmarketing.model.MyMessage;
 import com.emailmkt.emailmarketing.repository.MyMessageRepository;
-import com.emailmkt.emailmarketing.service.MyMessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import javax.validation.Valid;
 public class MyMessageController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyMessageController.class);
 
-    @Autowired
-    MyMessageService myMessageService;
 
     @Autowired
     MyMessageRepository myMessageRepository;

@@ -6,14 +6,14 @@ import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
 import com.emailmkt.emailmarketing.model.AppointmentGroupContact;
 import com.emailmkt.emailmarketing.model.AppointmentSubcriber;
-import com.emailmkt.emailmarketing.repository.AccountRepository;
-import com.emailmkt.emailmarketing.repository.AppointmentRepository;
-import com.emailmkt.emailmarketing.repository.GroupContactRepository;
-import com.emailmkt.emailmarketing.repository.SubcriberRepository;
+import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +34,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private final Configuration templates;
 
+    @Autowired
+    MyMessageRepository myMessageRepository;
 
     @Autowired
     AppointmentRepository appointmentRepository;
@@ -196,21 +198,40 @@ public class AppointmentServiceImpl implements AppointmentService {
         } else {
             appointmentSubcriber.setConfirmation(true);
             appointmentRepository.save(appointment);
-            String body="";
-            try{
+            String body = "";
+            try {
 
                 Template t = templates.getTemplate("test.ftl");
                 Map<String, String> map = new HashMap<>();
                 map.put("DATE", appointment.getTime());
-                map.put("APPOINTMENT_NAME",appointment.getName());
+                map.put("APPOINTMENT_NAME", appointment.getName());
                 body = FreeMarkerTemplateUtils.processTemplateIntoString(t, map);
 
-            }catch(Exception ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
-            mailService.sendAppointment(appointment.getFromMail(),appointment.getFromMail(),appointmentSubcriber.getSubcriberEmail(),"Confirm Invite Email",body);
+            mailService.sendAppointment(appointment.getFromMail(), appointment.getFromMail(), appointmentSubcriber.getSubcriberEmail(), "Confirm Invite Email", body);
         }
 
         return ResponseEntity.ok("Thanks for accepting my invite!");
+    }
+
+    @Override
+    public boolean testMappingMessage(int id) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+
+
+            String jsonInString = myMessageRepository.findContentByMessageId(id);
+            JSONObject jsonObject = new JSONObject(jsonInString);
+            JSONObject mail = jsonObject.getJSONObject("mail");
+            System.out.println((String) mail.get("messageId")+"Tan123");
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }
