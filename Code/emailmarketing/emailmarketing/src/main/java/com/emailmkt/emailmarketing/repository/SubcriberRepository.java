@@ -34,7 +34,7 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE GroupContactSubcriber gr SET gr.active =false WHERE gr.subcriber.id  = :subcriberId ")
+    @Query("UPDATE GroupContactSubcriber gr SET gr.active = false WHERE gr.subcriber.id  = :subcriberId ")
     void  deleteSubcriberFromGroup(@Param("subcriberId") int subcriberId);
 
 

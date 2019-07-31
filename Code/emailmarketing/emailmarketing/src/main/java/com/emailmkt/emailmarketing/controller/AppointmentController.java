@@ -65,11 +65,7 @@ public class AppointmentController {
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Appointment Existed");
         }
-
-
         Appointment temp = appointmentRepository.findByName(mailAndAppointment.appointmentDTO.getName());
-
-
         return ResponseEntity.status(CREATED).body(temp.getId());
 
     }
