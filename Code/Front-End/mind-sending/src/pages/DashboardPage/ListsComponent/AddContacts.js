@@ -5,7 +5,6 @@ import AddContactRow from './../../../components/row/AddContactRow';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
-import { withRouter } from "react-router";
  
 class AddContact extends Component {
   constructor(props) {
@@ -29,10 +28,7 @@ class AddContact extends Component {
       selectValue:"",
       selectId: 0,
       auth_token:"",
-      choose:0,
-      group:[],
-      list: false,
-      noneList: true
+      choose:0
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
@@ -72,16 +68,6 @@ class AddContact extends Component {
     })
   }
   componentDidMount (){
-    console.log(this.props.history.location.state)
-    if(this.props.history.location.state != null){
-      this.setState({
-        group: [
-          this.props.history.location.state.id
-        ],
-        list: true,
-        noneList:false,choose:true
-      })
-    }
     const appState = JSON.parse(localStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
@@ -114,19 +100,7 @@ class AddContact extends Component {
             
         }
         });
-        this.setState({contacts: contacts},()=> {
-          console.log(`${Config.API_URL}subcriber/createListSubcriber`)
-    axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts,{'headers': { 'Authorization': `${this.state.auth_token}` } })
-      .then((response) => {
-        if(response != null){
-          this.addNotification()
-          this.props.history.goBack()
-        } 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-        })
+        this.setState({contacts: contacts},()=> console.log(this.state.contacts))
     } else {
       let contacts = contactList.map((contact)=>{
         var contact= contact;
@@ -136,8 +110,11 @@ class AddContact extends Component {
             
         }
         });
-        this.setState({contacts: contacts},()=> {
-          console.log(`${Config.API_URL}subcriber/createListSubcriber`)
+        this.setState({contacts: contacts},()=> console.log(this.state.contacts))
+    }
+    
+     
+    console.log(`${Config.API_URL}subcriber/createListSubcriber`)
     axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts,{'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then((response) => {
         if(response != null){
@@ -147,29 +124,10 @@ class AddContact extends Component {
       .catch((error) => {
         console.log(error);
       });
-        })
-    }
-    
-     
-    
 }
 handleCheck=(event)=>{
-  console.log(event.target.value);
-  if(event.target.value == '0'){
-    this.setState({
-      noneList: true,
-      list: false,
-      choose: event.target.value
-    })
-  } else{
-    this.setState({
-      noneList: false,
-      list: true,
-      choose: event.target.value
-    })
-  }
-  // this.setState({choose: event.target.value},()=>console.log(this.state.choose))
-  
+  console.log(event.target.value)
+  this.setState({choose: event.target.value},()=>console.log(this.state.choose))
     }
 
 
@@ -228,21 +186,20 @@ handleCheck=(event)=>{
                     <div class="col-sm-6" >
                       <label className="container-cb">
                         Add Contacts
-                          <input onChange={this.handleCheck} checked={this.state.noneList}  value="0" type="radio" name="list" class="blue" />
+                          <input onChange={this.handleCheck}  value="0" type="radio" name="list" class="blue" />
                           <span class="checkmark-cb"></span></label><br/>  
                                          
                     </div>
                     <div class="col-sm-6" >
                     <label className="container-cb">Add contacts and include in an existing list
-                    <input onChange={this.handleCheck} checked={this.state.list} value="1" type="radio" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
+                    <input onChange={this.handleCheck} value="1" type="radio" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
                         
                         <div className={`col-sm-8 ${this.state.choose==1? '' : 'activeText'}`}>
                         <h5>Choose Lists</h5>
                         <MultiSelectComponent 
                               style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important","marginBottom":"15px"}} 
                               id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
-                              ref={(scope) => { this.mulObj = scope; }}
-                              value={this.state.group}  
+                              ref={(scope) => { this.mulObj = scope; }}  
                               change={this.onChangeListsSelect}
                               placeholder="Favorite Sports"/>
                               
@@ -312,7 +269,7 @@ handleCheck=(event)=>{
        <td>
         <div className="md_tablet6_tbody_td_add font_awsome_size">
           <a className="fas fa-plus-square icon_sz_add margin_td_fontawsome font_awsome_size" title="Add more" onClick={this.addClick.bind(this)}/>
-          <a className={`fas fa-trash-alt icon_sz_add ${i == 0 ? 'activeText' : ''}`} title="Delete" onClick={this.removeClick.bind(this, i)} />
+          <a className="fas fa-trash-alt icon_sz_add " title="Delete" onClick={this.removeClick.bind(this, i)} />
           </div>
         </td>
      </tr>  
@@ -350,4 +307,4 @@ this.setState({contacts: [...this.state.contacts,{name:"", email: ""}]})
 // console.log(this.state.contacts)
   }
 }
-export default withRouter(AddContact);
+export default AddContact;

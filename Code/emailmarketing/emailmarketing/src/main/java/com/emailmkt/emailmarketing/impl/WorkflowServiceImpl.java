@@ -1,10 +1,7 @@
 package com.emailmkt.emailmarketing.impl;
 
-import com.emailmkt.emailmarketing.Config.NoDuplicates;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
-//import com.emailmkt.emailmarketing.model.Task;
 import com.emailmkt.emailmarketing.model.*;
-//import com.emailmkt.emailmarketing.repository.TaskRepository;
 import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.MailService;
 import com.emailmkt.emailmarketing.service.WorkflowService;
@@ -21,10 +18,15 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+
+//import com.emailmkt.emailmarketing.model.Task;
+//import com.emailmkt.emailmarketing.repository.TaskRepository;
 
 @Service
 public class WorkflowServiceImpl implements WorkflowService {
@@ -119,6 +121,36 @@ public class WorkflowServiceImpl implements WorkflowService {
 
                         newWorkflowTask.setPreTask(previousNode.getPreviousNodes().singleResult().getId());
                         newWorkflowTask.setWorkflow(newWorkflow);
+
+//                        newWorkflowTask.setPostTask(nextNodeId);
+////                        workflowTaskRepository.save(newWorkflowTask);
+//                        workflowTaskList.add(newWorkflowTask);
+//                        workflowTaskRepository.save(newWorkflowTask);
+                    } else if (name.contains("ExclusiveGateway")) {
+                        org.camunda.bpm.model.bpmn.instance.ExclusiveGateway gateway = modelInstance.getModelElementById(name);
+
+                        Collection<FlowNode> nextNodesCollection = gateway.getSucceedingNodes().list();
+                        Iterator<FlowNode> nextNodeLists = nextNodesCollection.iterator();
+                        Iterator<SequenceFlow> nextFlowCollection = gateway.getIncoming().iterator();
+
+//                        }
+                        while (nextNodeLists.hasNext()) {
+//                            WorkflowTask newWorkflowTask = new WorkflowTask();
+//                            newWorkflowTask.setTask(task);
+//                            newWorkflowTask.setWorkflow(newWorkflow);
+                            FlowNode conditionNode = nextNodeLists.next();
+                            System.out.println(conditionNode.getName() + "---" + conditionNode.getId());
+
+                            Collection<SequenceFlow> f1 = conditionNode.getIncoming();
+                            Collection<SequenceFlow> f2 = gateway.getOutgoing();
+                            f1.containsAll(f2);
+                            SequenceFlow conditionFlow = f1.iterator().next();
+//                            newWorkflowTask.setGateway(gateway.getName() + " " + conditionFlow.getName());
+//                            newWorkflowTask.setPostTask(conditionNode.getId());
+//                            workflowTaskList.add(newWorkflowTask);
+//                            workflowTaskRepository.save(newWorkflowTask);
+                        }
+
 
                     }
                     taskRepository.save(newWorkflowTask);

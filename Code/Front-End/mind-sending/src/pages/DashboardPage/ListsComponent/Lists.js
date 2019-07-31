@@ -2,12 +2,10 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import ListRow from './../../../components/row/ListRow';
-import Pagination from './../../../components/row/Pagination';
 import Modal from 'react-awesome-modal';
 import * as Config from './../../../constants/Config';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import { timeout } from 'q';
 
 
 class Lists extends Component {
@@ -26,10 +24,6 @@ class Lists extends Component {
             dropdown_visible: false,
             existedGroup: "",
             auth_token: "",
-            allCountries: [],
-            currentCountries: [],
-            currentPage: null,
-            totalPages: null
 
         };
         this.handleChange1 = this.handleChange1.bind(this);
@@ -86,47 +80,21 @@ class Lists extends Component {
         var searchValue = event.target.value;
         var groupContactsList = this.state.groupContactsFilter
         if(searchValue !== ""){
-             groupContactsList = groupContactsList.filter(item => item.name.toLowerCase().includes(searchValue));
-             if(groupContactsList.length > 0){
-                this.setState({
-                    allCountries: groupContactsList,
-                    currentCountries: groupContactsList.slice(0, 8)
-                 });
-             }else {
-                this.setState({
-                    allCountries: [{id:"",name:"",description:""}],
-                    currentCountries: this.state.groupContactsFilter.slice(0,0)
-                 }); 
-             }
-             
+             groupContactsList = groupContactsList.filter(item => item.name.includes(searchValue))
+             this.setState({
+                groupContacts: groupContactsList
+             });
         } else {
             this.setState({
-                allCountries: this.state.groupContactsFilter,
-                currentCountries: this.state.groupContactsFilter.slice(0,8)
+                groupContacts: this.state.groupContactsFilter
              });
         }
        
     }
 
     render() {
-        var lists = this.state.groupContacts; 
-        var {
-            allCountries,
-            currentCountries,
-            currentPage,
-            totalPages
-          } = this.state;
-          var totalCountries = allCountries.length;
-         
-      
-          const headerClass = [
-            "text-dark py-2 pr-4 m-0",
-            currentPage ? "border-gray border-right" : ""
-          ]
-            .join(" ")
-            .trim();
-            if (totalCountries === 0) {return null}
-         else return (
+        var lists = this.state.groupContacts;
+        return (
             <div className="">
                 <div className="flash_notice">
                     <ReactNotification
@@ -206,31 +174,24 @@ class Lists extends Component {
                                                 <div className="md_tablet3">
                                                     <div style={{"width":"50%", "float":"left"}}>
                                                         <h4 className="md_tablet_h4">Groups List</h4>
-                                                        <p className="md_tablet_p">Here is the list of your Groups: {totalCountries} Groups </p>
+                                                        <p className="md_tablet_p">Here is the list of your Groups </p>
                                                     </div>
                                                    
                                                 </div>
                                                 <div className="md_tablet4">
                                                     <div className="md_tablet5">
-                                                        <table className="table1 table-striped table-hover">
-                                                        {/* {currentPage && (
-                <span className="current-page d-inline-block h-100 pl-4 text-secondary">
-                  Page <span className="font-weight-bold">{currentPage}</span> /{" "}
-                  <span className="font-weight-bold">{totalPages}</span>
-                </span>
-              )} */}
-                                                            <thead className=" ">
-                                                           
-                                                            <tr className=" ">
-                                                                {/* <th className="md_tablet6_th" scope="col"></th> */}
-                                                                <th className=" " scope="col">Group's Name
+                                                        <table className="md_tablet6">
+                                                            <thead className="md_tablet6_thead">
+                                                            <tr className="md_tablet6_tr">
+                                                                <th className="md_tablet6_th" scope="col"></th>
+                                                                <th className="md_tablet6_th" scope="col">Group's Name
                                                                 </th>
-                                                                <th className=" " scope="col">Description
+                                                                <th className="md_tablet6_th" scope="col">Description
                                                                 </th>
-                                                                <th className=" " scope="col">Contacts</th>
-                                                                <th className=" " role="presentation">
+                                                                <th className="md_tablet6_th" scope="col">Contacts</th>
+                                                                <th className="md_tablet6_th" role="presentation">
 
-                                                                    <div className=" "
+                                                                    <div className="ul_create_contact2"
                                                                          onClick={this.showDropdownMenu} tabindex="0"
                                                                          type="text('Action')"
                                                                          data-dropdown-toggle="true"
@@ -258,7 +219,7 @@ class Lists extends Component {
 
                                                             </thead>
                                                             <tbody>
-                                                            {/* {lists.map(list => (
+                                                            {lists.map(list => (
                                                                 <ListRow
                                                                     update={this.getAllListContact}
                                                                     key={list.index}
@@ -266,19 +227,9 @@ class Lists extends Component {
                                                                     contactEmail={list.name}
                                                                     contactStatus={list.description}
                                                                     contactDateAdded={list.totalContacts}/>
-                                                            ))} */}
-                                                            {
-                                                                this.renderGroupList(currentCountries) 
-                                                                
-                                                            }
+                                                            ))}
 
                                                             </tbody>
-                                                            <Pagination
-                totalRecords={totalCountries}
-                pageLimit={8}
-                pageNeighbours={1}
-                onPageChanged={this.onPageChanged}
-              />
                                                         </table>
                                                     </div>
                                                 </div>
@@ -350,34 +301,7 @@ class Lists extends Component {
             </div>
         );
     }
-renderGroupList(currentCountries){
-    if(this.state.currentCountries.length ==0){
-        return (
-            <div style={{"width":"100%","textAlign":"center","fontSize":"17px","position":"absolute","color":"red"}}>No Records Found</div>
-        )
-    } else return (
-        currentCountries.map((list,index) => (
-            <ListRow
-                update={this.getAllListContact}
-                key={index}
-                contactId={list.id}
-                contactEmail={list.name}
-                contactStatus={list.description}
-                contactDateAdded={list.totalContacts}/>
-        ))
-    )
-}
-    
-    onPageChanged = data => {
-        const { allCountries } = this.state;
-        const { currentPage, totalPages, pageLimit } = data;
-        console.log("current page" + totalPages)
-        const offset = (currentPage - 1) * pageLimit;
-        const currentCountries = allCountries.slice(offset, offset + pageLimit);
-    
-        this.setState({ currentPage, currentCountries, totalPages });
-      };
-    
+
 
     getAllListContact = () => {
         // let config = {};
@@ -393,7 +317,7 @@ renderGroupList(currentCountries){
             .then(res => {
                 const listContacts = res.data;
                 console.log(listContacts);
-                this.setState({allCountries : listContacts,
+                this.setState({groupContacts: listContacts,
                     groupContactsFilter: listContacts
                 })
             }).catch(function (error) {

@@ -4,7 +4,6 @@ import { withRouter } from "react-router";
 import axios from 'axios';
 import ContactRow from './../../../components/row/ContactRow';
 import * as Config from './../../../constants/Config';
-import Pagination from './../../../components/row/Pagination';
 
       
 class CreateContact extends Component {
@@ -13,15 +12,13 @@ class CreateContact extends Component {
 
      this.state = {
         //  title: match.params.id,
+         listAccounts:[{ id: "", name: "", email: "",address:"",createdTime:""}],
+         listAccount: {id: 1, name: "Group 2", description: "Test Group V2", createdTime: "2019-06-12T13:08:24.810", updatedTime: "string"},
        visible: true,
        dropdown_visible: false,
        auth_token:"",
        listFilter:[{ id: "", name: "", email: "",address:"",createdTime:""}],
-       listAllAccounts:[],
-       allCountries: [],
-            currentCountries: [],
-            currentPage: null,
-            totalPages: null
+       listAllAccounts:[]
      };
       this.showDropdownMenu = this.showDropdownMenu.bind(this);
       this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
@@ -58,6 +55,7 @@ class CreateContact extends Component {
             this.setState({
                 auth_token: appState.user.auth_token
             },()=> {
+                    this.getContactsByGroupId();
                     this.getAllContacts()
             } )
 
@@ -65,7 +63,36 @@ class CreateContact extends Component {
         }   
     
    
+   componentWillReceiveProps(nextProps){
+       if(nextProps.history.location.state !== this.props.history.location.state){
+           console.log(nextProps.history.location.state)
+           
+           const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> {
+        this.getAllContacts()
+    } ) 
+       }
+   }
 
+   
+
+   getContactsByGroupId=()=>{
+    console.log("haha")
+  if(this.props.history.location.state != null){
+    axios.get(`${Config.API_URL}groupContact=${this.props.history.location.state.id}/contacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(response => {
+      this.setState({
+        listAccounts: response.data,
+        listFilter: response.data
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+  }
 
    getAllContacts=()=>{
     console.log("haha")
@@ -73,7 +100,7 @@ class CreateContact extends Component {
    .then(response => {
        console.log(response.data)
      this.setState({
-        allCountries: response.data,
+       listAllAccounts: response.data,
        listFilter: response.data
      });
    })
@@ -82,52 +109,62 @@ class CreateContact extends Component {
    });
   }
 
+
+   renderTitle(){
+       if(this.props.history.location.state != null){
+           console.log(this.state.listAccount.name)
+           return this.props.history.location.state.name
+       } else {
+           return "All Contact";
+       }
+   }
+
    handleSearch = (event) => {
     var searchValue = event.target.value;
-    var groupContactsList = this.state.listFilter
-    if(searchValue !== ""){
-         groupContactsList = groupContactsList.filter(item => item.email.toLowerCase().includes(searchValue));
-         if(groupContactsList.length > 0){
+    console.log(searchValue)
+    if(this.props.history.location.state == null || this.props.history.location.state == undefined){
+        console.log(searchValue)
+      var list_account = this.state.listFilter
+          if(searchValue !== ""){
+              list_account = list_account.filter(item => item.email.includes(searchValue))
+              this.setState({
+                  listAllAccounts: list_account
+              });
+          } else {
+              this.setState({
+                listAllAccounts: this.state.listFilter
+              });
+          }
+    } else{
+        var list_account = this.state.listFilter
+        if(searchValue !== ""){
+            list_account = list_account.filter(item => item.email.includes(searchValue))
             this.setState({
-                allCountries: groupContactsList,
-                currentCountries: groupContactsList.slice(0, 8)
-             });
-         }else {
+                listAccounts: list_account
+            });
+        } else {
             this.setState({
-                allCountries: [{id:"",name:"",description:""}],
-                currentCountries: this.state.listFilter.slice(0,0)
-             }); 
-         }
-         
-    } else {
-        this.setState({
-            allCountries: this.state.listFilter,
-            currentCountries: this.state.listFilter.slice(0,10)
-         });
+                listAccounts: this.state.listFilter
+            });
+        }
     }
    
 }
 updatePage=()=>{
 this.getAllContacts();
+this.getContactsByGroupId()
 }
-onPageChanged = data => {
-    const { allCountries } = this.state;
-    const { currentPage, totalPages, pageLimit } = data;
-    console.log("current page" + totalPages)
-    const offset = (currentPage - 1) * pageLimit;
-    const currentCountries = allCountries.slice(offset, offset + pageLimit);
 
-    this.setState({ currentPage, currentCountries, totalPages });
-  };
-
-   renderContacts(currentCountries){
-        if(this.state.currentCountries.length ==0){
-            return (
-                <div style={{"width":"100%","textAlign":"center","fontSize":"17px","position":"absolute","color":"red"}}>No Records Found</div>
-            )
-        } else return (
-            currentCountries.map((list,index) => (
-                <ContactRow
+   renderContacts(){
+       var lists;
+        if(this.props.history.location.state== null || this.props.history.location.state == undefined){
+           lists = this.state.listAllAccounts
+        } else {
+            lists = this.state.listAccounts
+        }
+        // var lists = this.state.listAccounts;
+        return lists.map(list=>(
+            <ContactRow
             id = {list.id}
             firstName={list.firstName}
             key={list.index}
@@ -140,41 +177,16 @@ onPageChanged = data => {
             type={list.type}
             update = {this.updatePage}
         />
-            ))
-        )
+        ))
     }
-toAddContactFile=()=>{
-        this.props.history.push({
-            pathname:`/dashboard/add-contacts-file`
-        });
-}
-toAddContactManual=()=>{
-    this.props.history.push({
-        pathname:`/dashboard/add-contacts`,
-    });    
-}
+
   
 
 
 	
   render(){
-    var {
-        allCountries,
-        currentCountries,
-        currentPage,
-        totalPages
-      } = this.state;
-      var totalCountries = allCountries.length;
-     
-  
-      const headerClass = [
-        "text-dark py-2 pr-4 m-0",
-        currentPage ? "border-gray border-right" : ""
-      ]
-        .join(" ")
-        .trim();
-        if (totalCountries === 0) {return null}
-     else return (
+    var lists = this.state.listAccounts;
+     return (
 	  <div className = "" >
    <div className="flash_notice">
         </div>
@@ -187,7 +199,7 @@ toAddContactManual=()=>{
                                 <h1 className="">
                                     <span className="pageTitle-css__title-heading___3H2vL">
                                     {/* {this.state.listAccount.name} */}
-                                   All Contacts
+                                   {this.renderTitle()}
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
@@ -198,14 +210,14 @@ toAddContactManual=()=>{
                                     <i className="fa fa-users"></i>
                                     Add Contacts
                                     <ul  className={"dropdown-menus " + (this.state.dropdown_visible ? "dropdown-active" : "")} data-dropdown-menu="true" data-role="bulk-actions-menu">
-                                        <a onClick={this.toAddContactFile} data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
+                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts-file" className="dropdown-link dropdown-link-with-icon">
                                             <i className="sg-icon sg-icon-csv"></i>
                                             <span>Upload CSV</span>
-                                        </a>
-                                        <a onClick={this.toAddContactManual} data-role="dropdown-link" to="/dashboard/add-contacts" className="dropdown-link dropdown-link-with-icon" >
+                                        </Link>
+                                        <Link data-role="dropdown-link" to="/dashboard/add-contacts" className="dropdown-link dropdown-link-with-icon" >
                                             <i className="sg-icon sg-icon-contacts-alt"></i>
                                             <span>Manual Add</span>
-                                        </a>
+                                        </Link>
                                     </ul>
                                 </div>
                                 
@@ -236,19 +248,19 @@ toAddContactManual=()=>{
                         </div>
                     <div className="md_tablet4">
                         <div className="md_tablet5">
-                        <table className="table1 table-striped table-hover">
-                            <thead className=" ">
-                            <tr className=" ">
-                                {/* <th className="md_tablet6_th" scope="col"></th> */}
-                                <th className=" " scope="col">Email</th>
-                                <th className=" " scope="col">First Name</th>
-                                <th className=" " scope="col">Last Name</th>
+                        <table className="md_tablet6">
+                            <thead className="md_tablet6_thead">
+                            <tr className="md_tablet6_tr">
+                                <th className="md_tablet6_th" scope="col"></th>
+                                <th className="md_tablet6_th" scope="col">Email</th>
+                                <th className="md_tablet6_th" scope="col">First Name</th>
+                                <th className="md_tablet6_th" scope="col">Last Name</th>
                                 
-                                <th className=" " scope="col">Status</th>
+                                <th className="md_tablet6_th" scope="col">Status</th>
                                 
-                                <th  className="" role="presentation">
+                                <th  className="md_tablet6_th" role="presentation">
                                 
-                                <div className="" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
+                                <div className="ul_create_contact" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
                                     
                                     Action
                                     <i class="fa fa-caret-down"></i>
@@ -263,11 +275,11 @@ toAddContactManual=()=>{
                                    <li><a href="# ">Resubcribe</a></li>                                  
                                    <li><a href="# ">Delete</a></li>
                                     </ul>
-                                    ):
-                                    (
-                                      null
-                                    )
-                                    }
+        ):
+        (
+          null
+        )
+        }
                                 
                                 </th>
                                 
@@ -275,14 +287,8 @@ toAddContactManual=()=>{
                                 
                             </thead>
                             <tbody>
-                            {this.renderContacts(currentCountries)}
+                            {this.renderContacts()}
                             </tbody>
-                            <Pagination
-                totalRecords={totalCountries}
-                pageLimit={10}
-                pageNeighbours={1}
-                onPageChanged={this.onPageChanged}
-              />
                         </table>
                         </div>
                     </div>

@@ -6,7 +6,6 @@ import CsvParse from '@vtex/react-csv-parse'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
-import { withRouter } from "react-router";
  
 
 
@@ -36,10 +35,7 @@ class AddContactsFile extends Component {
       selectValue2:[{groupContactId:1}],
       selectId: 0,
       auth_token:"",
-      choose:0,
-      group:[],
-      list: false,
-      noneList: true
+      choose:0
     };
     this.fields = { text: 'name', value: 'id' };
     this.addNotification = this.addNotification.bind(this);
@@ -67,21 +63,10 @@ class AddContactsFile extends Component {
     })
   }
   componentDidMount (){
-    console.log(this.props.history.location.state)
-    if(this.props.history.location.state != null){
-      this.setState({
-        group: [
-          this.props.history.location.state.id
-        ],
-        list: true,
-        noneList:false,
-        choose:true
-      })
-    }
-        const appState = JSON.parse(localStorage.getItem('appState'));
-        this.setState({
-            auth_token: appState.user.auth_token
-        },()=> this.getAllGroupContacts() )
+    const appState = JSON.parse(localStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> this.getAllGroupContacts() )
   }
   getAllGroupContacts=()=>{
     console.log(`${Config.API_URL}groupContacts`);
@@ -166,7 +151,7 @@ class AddContactsFile extends Component {
                     <div class="col-sm-6" >
                       <label className="container-cb">
                         Add Contacts
-                          <input onChange={this.handleCheck} checked={this.state.noneList}   value="0" type="radio" name="list" class="blue" />
+                          <input onChange={this.handleCheck}  value="0" type="radio" name="list" class="blue" />
                           <span class="checkmark-cb"></span></label><br/>  
                           <CsvParse
                             keys={keys}
@@ -176,18 +161,17 @@ class AddContactsFile extends Component {
                           />                 
                     </div>
                     <div class="col-sm-6" >
-                    <label className="container-cb">Add contacts and include in an existing group
-                    <input onChange={this.handleCheck} checked={this.state.list} value="1" type="radio" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
+                    <label className="container-cb">Add contacts and include in an existing list
+                    <input onChange={this.handleCheck} value="1" type="radio" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
                         
                         <div className={`col-sm-8 ${this.state.choose==1? '' : 'activeText'}`}>
-                        <h5>Choose Group</h5>
+                        <h5>Choose Lists</h5>
                         <MultiSelectComponent 
                               style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important","marginBottom":"15px"}} 
                               id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
-                              value={this.state.group}
                               ref={(scope) => { this.mulObj = scope; }}  
                               change={this.onChangeListsSelect}
-                              placeholder="Choose Group"/>
+                              placeholder="Favorite Sports"/>
                               <CsvParse
                             keys={keys}
                             onDataUploaded={this.handleData}
@@ -215,23 +199,9 @@ class AddContactsFile extends Component {
   }
 
   handleCheck=(event)=>{
-    console.log(event.target.value);
-    if(event.target.value == '0'){
-      this.setState({
-        noneList: true,
-        list: false,
-        choose: event.target.value
-      })
-    } else{
-      this.setState({
-        noneList: false,
-        list: true,
-        choose: event.target.value
-      })
-    }
-    // this.setState({choose: event.target.value},()=>console.log(this.state.choose))
-    
-      }
+console.log(event.target.value)
+this.setState({choose: event.target.value},()=>console.log(this.state.choose))
+  }
   handleData = (data) => {
     console.log("HEY")
     console.log(this.state.selectValue)
@@ -307,7 +277,6 @@ contacts: contacts
     .then((response) => {
       if(response != null){
         this.addNotification()
-        this.props.history.goBack()
       } 
     })
     .catch((error) => {
@@ -317,4 +286,4 @@ contacts: contacts
 
 }
 
-export default withRouter(AddContactsFile);
+export default AddContactsFile;

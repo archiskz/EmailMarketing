@@ -74,6 +74,22 @@ public class AppointmentController {
 
     }
 
+
+    @PostMapping(value = "message/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createNotification(@RequestParam int id) throws IOException, TemplateException {
+        boolean flag = appointmentService.testMappingMessage(id);
+        if (flag == false) {
+            return ResponseEntity.status(CONFLICT).body("Appointment Existed");
+        }
+
+
+
+
+
+        return ResponseEntity.status(CREATED).body(id);
+
+    }
+
     @RequestMapping(value = "/accept-appointment", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public String confirmAppointment(String confirmationToken, String subcriberEmail) {
@@ -88,6 +104,11 @@ public class AppointmentController {
     public Appointment getAppointmentById(@PathVariable(value = "id") int id) {
         return appointmentService.getAppointmentById(id);
     }
+
+
+    ///Test POST
+
+
 
 
 }

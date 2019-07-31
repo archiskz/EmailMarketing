@@ -126,20 +126,3 @@
 .fix_size_add_h2{
     font-size: 20px!important;
 }
-.fix_size_embed_form{
-        position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
-.fix_size_btn_embed{
-        margin-top: 20px!important;
-}
-.fix_size_embed_form2{
-        position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-        margin-left: 900px;
-            margin-top: -5px;
-}

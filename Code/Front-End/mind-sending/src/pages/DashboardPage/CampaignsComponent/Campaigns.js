@@ -154,15 +154,15 @@ class Campaigns extends Component {
                         </div>
                     <div className="md_tablet4">
                         <div className="md_tablet5">
-                        <table className="table1 table-striped table-hover">
-                            <thead className=" ">
-                            <tr className=" ">
-                                <th className=" " scope="col">Status</th>
-                                <th className=" " scope="col">Campaign Name</th>
-                                <th className=" " scope="col">Clicks</th>
-                                <th className=" " scope="col">Opens</th>
-                                <th className=" " scope="col">Unsubcribe</th>
-                                <th className=" " scope="col">Actions</th>
+                        <table className="md_tablet6">
+                            <thead className="md_tablet6_thead">
+                            <tr className="md_tablet6_tr">
+                                <th className="md_tablet6_th" scope="col">Status</th>
+                                <th className="md_tablet6_th" scope="col">Campaign Name</th>
+                                <th className="md_tablet6_th" scope="col">Clicks</th>
+                                <th className="md_tablet6_th" scope="col">Opens</th>
+                                <th className="md_tablet6_th" scope="col">Unsubcribe</th>
+                                <th className="md_tablet6_th" scope="col">Actions</th>
                             </tr>
                                 
                             </thead>

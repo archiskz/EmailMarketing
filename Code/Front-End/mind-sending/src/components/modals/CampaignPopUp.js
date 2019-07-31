@@ -3,26 +3,21 @@ import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 import CreateCampaign from './../../pages/DashboardPage/CampaignsComponent/CreateCampaigns';
 import {connect} from 'react-redux';
 import { withRouter } from "react-router";
-import axios from 'axios';
-import * as Config from './../../constants/Config';
 import * as actions from './../../actions/index';
-import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
 
 class CampaignPopUp extends Component {
   
    constructor(props) {
      super(props);
 
-     this.state = {lists:[],
+     this.state = {
        campaignName:"",
        visible: true,
        dropdown_visible: false,
        completed:"",
-       isButtonActive:1,
-       selectValue:[{}]
+       isButtonActive:1
      };
      this.buttonClick = this.buttonClick.bind(this);
-     this.fields = { text: 'name', value: 'id' };
    }
    onChange = (event) => {
     this.setState({campaignName: event.target.value});
@@ -31,41 +26,9 @@ class CampaignPopUp extends Component {
   onCreateName=()=>{
     this.props.onCreateCampaign(this.state.campaignName);
   }
-  componentDidMount(){
-    const appState = JSON.parse(localStorage.getItem('appState'));
-    this.setState({
-        auth_token: appState.user.auth_token
-    },()=> this.getAllGroupContacts() )
-  }
-
-  getAllGroupContacts=()=>{
-    console.log(`${Config.API_URL}groupContacts`);
-   axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-   .then(response => {
-     this.setState({
-       lists: response.data
-     });
-   })
-   .catch(error => {
-     console.log(error);
-   });
-  }
-  onChangeListsSelect=(args)=>{
-    var numbers = args.value;
-    let selectValue = numbers.map((select)=>{
-      var select= select;
-      return {
-            groupContactId: select
-      }
-    });
-   
-    this.setState({selectValue: selectValue}, () => { console.log(this.state.selectValue)})
-  }
-
   
   render(){
     var campaign = this.state.campaignName
-    var lists = this.state.lists;
      return (
        
          <div className="popup" id="popup">
@@ -88,18 +51,6 @@ class CampaignPopUp extends Component {
         <div className="btn-create-segment-pop-up" style={{"border":"none","width":"40%","cursor":"default","color":"rgba(0, 0, 0, 0.4)","marginRight":"0px"}}
         > Or </div> 
         <a  onClick={()=>this.buttonClick(2)} style={{"float":"right","marginRight":"0px"}} className={`btn-create-segment-pop-up + ${this.state.isButtonActive === 2 ? 'templateactive' : null}`}>Simple Text</a>
-        </div>
-        <div style={{"marginBottom":"20px"}}>
-        <h5>Choose Group</h5> 
-        <MultiSelectComponent 
-                              style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important","marginBottom":"15px"}} 
-                              id="defaultelement" 
-                              dataSource={lists} 
-                              mode="Default" fields={this.fields}  
-                              // value={this.state.group}
-                              ref={(scope) => { this.mulObj = scope; }}  
-                              change={this.onChangeListsSelect}
-                              placeholder="Choose Group"/>
         </div>
         
         <div style={{"textAlign":"center"}}>
@@ -125,15 +76,12 @@ class CampaignPopUp extends Component {
   }
 
   toCreateCampaign = ()=> {   
-    var self = this
     if(this.props.automation == "automation"){
-      console.log(self.state)
       this.props.history.push({
         pathname:'/create-automation',
         state : {
           campaignName: this.state.campaignName,
-          using: this.state.isButtonActive,
-          gcWorkflowDTOS:this.state.selectValue
+          using: this.state.isButtonActive
         }
     });
     } else {

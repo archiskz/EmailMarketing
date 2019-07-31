@@ -8,7 +8,6 @@ import SubDashboard from './SubDashboard';
 import AddContact from './ListsComponent/AddContacts';
 import CreateList from './ListsComponent/CreateList';
 import CreateContact from './ContactComponent/CreateContact';
-import ContactByGroup from './ContactComponent/ContactByGroup';
 import EmbededForm from './EmbededFormComponent/EmbededForm';
 import {
   BrowserRouter as Router,
@@ -54,7 +53,6 @@ class DashBoard extends Component {
              <Route path="/dashboard/profile" component={Profile} />
              <Route path="/dashboard/invite-mail" component={InviteMails} />
              <Route path="/dashboard/forms" component={EmbeddedForms} />
-             <Route path="/dashboard/contacts-group/:id" component={ContactByGroup} />
              {/* <Route path="/dashboard/lists/:id" render={()=> (</>)} /> */}
            </Switch>
            </div>

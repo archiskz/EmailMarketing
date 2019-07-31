@@ -24,8 +24,7 @@ class BpmnModelerComponent extends Component {
             bpmn : {
               type: "string",
               workflowName: this.props.automationName,
-              wtWorkflowDTOS: "",
-              gcWorkflowDTOS: this.props.group
+              wtWorkflowDTOS: ""
             },
             auth_token:""
         };
@@ -40,7 +39,6 @@ class BpmnModelerComponent extends Component {
 
     componentDidMount = () => {
       console.log(this.props.automationName);
-      console.log(this.state.bpmn)
         document.addEventListener('mousedown', this.handleClickOutside);
         this.modeler = new BpmnModeler({
             container: '#bpmnview',
@@ -144,16 +142,15 @@ onClickToExport = () =>{
         wtWorkflowDTOS: xmlClone
       }
     },
-    ()=>{
-      console.log(this.state.bpmn)
-      axios.post(`${Config.API_URL}workflow/create`,this.state.bpmn,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-      .then(res => {
-        console.log("contact ID: " + res.data)
-        // this.setState({count: res.data})
-       }).catch(function (error) {
-        console.log(error);
-      });
-     }
+    // ()=>{
+    //   console.log(this.state.bpmn)
+    //   axios.post(`${Config.API_URL}workflow/create`,this.state.bpmn,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    //   .then(res => {
+    //     console.log("contact ID: " + res.data)
+    //     // this.setState({count: res.data})
+    //    }).catch(function (error) {
+    //     console.log(error);
+    //   }); }
       )
     });
 

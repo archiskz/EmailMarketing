@@ -17,7 +17,6 @@ class EmbededForm extends React.Component {
         super(props);
    
         this.state = {
-            generated:false,
             email: true,
             firstName: false,
             lastName: false,
@@ -76,7 +75,6 @@ class EmbededForm extends React.Component {
                 }
             }, () => { console.log('------------------', this.state.newForm)})
           }
-
         
     render(){
         var lists = this.state.lists;
@@ -84,33 +82,11 @@ class EmbededForm extends React.Component {
         return(
             <div class="plain-html-editor-v2">
                 <div class="editor">
-                <header className="contact_row">
-                        <div className="col-md-6">
-                            <span>
-                                <h1 className="">
-                                    <span className="pageTitle-css__title-heading___3H2vL">
-                                    {/* {this.state.listAccount.name} */}
-                                   Create Embedded Form
-                                        <span>&nbsp;</span>
-                                    </span>
-                                </h1>
-                            </span>
-                        </div>
-                        <div className="fix_size_embed_form">
-                                <button onClick={this.generateCode} class="fix_size_btn_embed copy-button ButtonContainer-cCzDqJ dbshwx" type="button" color="primary">
-                    <div class="ButtonContent-dNFcBm ijrtmX">
-                        <span class="ButtonText-cgEyiP kPJhKT" >SAVE THIS FORM 
-                        
-                        <img className={`${this.state.isLoading && !this.state.generated ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." />
-
-                        </span>
-                        
+                    <div class="heading-text heading-text-level-3 HeadingContainer-kEsQfH fWsXGo" role="heading">
+                        <h3 class="StyledHeading-dhDQR dsbhyt">
+                            <span>Create Embedded Form</span>
+                        </h3>
                     </div>
-                </button>
-                                
-                        </div>
-                    </header>
-                    
                 <div class="preview_code">
                 <div class="heading-text heading-text-level-3 HeadingContainer-kEsQfH fWsXGo" role="heading">
                     <h3 class="StyledHeading-dhDQR dsbhyt">
@@ -143,7 +119,11 @@ class EmbededForm extends React.Component {
                 </form>
                     
             </div>
-            
+            <button onClick={this.generateCode} class="copy-button ButtonContainer-cCzDqJ dbshwx" type="button" color="primary">
+                    <div class="ButtonContent-dNFcBm ijrtmX">
+                        <span class="ButtonText-cgEyiP kPJhKT">GENERATE CODE <img className={`${this.state.isLoading ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." /></span>
+                    </div>
+                </button>
         </div>
         <div class={`plain-code ${this.state.formId != 0 ? '' : 'activeText'}`}>
             <div class="code-area">
@@ -250,11 +230,7 @@ class EmbededForm extends React.Component {
             .then(response => {
                 console.log(response)
                 this.setState({isLoading: false,
-                    generated: true,
                 formId: response.data})
-                this.props.history.push({
-        pathname:`/dashboard/forms`,
-            })
             })
             .catch(error => {
                 console.log(error);

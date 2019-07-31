@@ -4,13 +4,13 @@ import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
 import { withRouter } from "react-router";
 class Automations extends Component {
 componentDidMount(){
-  console.log(this.props.history.location.state.gcWorkflowDTOS)
+
 }
   render() {
     return (
       <div>
-        <BpmnModelerComponent group={this.props.history.location.state.gcWorkflowDTOS} automationName={this.props.history.location.state.campaignName} />
-      </div>  
+        <BpmnModelerComponent automationName={this.props.history.location.state.campaignName} />
+      </div>
     );
   }
 }

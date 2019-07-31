@@ -20,8 +20,7 @@ class ListRow extends Component {
             description: ""
          },
          sendCampaignVisible: false,
-         auth_token:"",
-         isModalVisible:false
+         auth_token:""
         };
         this.handleChange3 = this.handleChange3.bind(this);
         this.handleChange2 = this.handleChange2.bind(this);
@@ -65,26 +64,40 @@ class ListRow extends Component {
     <td class="md_tablet6_tbody_td">
     </td>
     <td class="md_tablet6_tbody_td">
-    <i 
-    //  onClick={() => this.sendCampaign()} 
-       onClick={()=>this.openModal()}
-      class={`fas fa-paper-plane ${this.props.status == "Sending" ? "activeText" : ''}`}></i>
+    <i  onClick={() => this.sendCampaign()}  class={`fas fa-paper-plane ${this.props.status == "Sending" ? "activeText" : ''}`}></i>
     
     </td>
    {/* MODAL */}
-   <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.isModalVisible} width="440" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-      <div class="modal-header">
-        <h4 class="modal-title">Are you sure?</h4>	
-           <button type="button" onClick={()=>this.closeModal()} class="close" data-dismiss="modal" aria-hidden="true">×</button>
-             </div>
-                       <div class="modal-body">
-                         <p>Do you want to start your campaign</p>
-                       </div>
-                       <div class="modal-footer">
-                         <button type="button" onClick={()=>this.closeModal()} class="btn btn-info" >Cancel</button>
-                         <button type="button" onClick={()=>this.sendCampaign()} class="btn btn-danger">Start</button>
-                       </div>
-    </Modal>
+   <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.updateListVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <form class="contact1-form validate-form">
+				<span class="contact1-form-title">
+					{this.props.contactEmail}
+				</span>
+
+				<div className="wrap-input1 validate-input" >
+					<input  value={this.state.updateList.name} onChange={this.handleChange3} className="updatename input1" type="text"  placeholder="New Group Name"/>
+					<span class="shadow-input1"></span>
+				</div>
+
+				<div class="wrap-input1 validate-input" >
+					<input value={this.state.updateList.description} onChange={this.handleChange2}  className="updatedescription input1" type="text" name="email" placeholder="Description"/>
+					<span class="shadow-input1"></span>
+				</div>
+
+				{/* <div class="container-contact1-form-btn">
+					<a onClick={()=>this.saveUpdatedList()}  class="contact1-form-btn">
+						<span>
+							Update
+						</span>
+					</a>
+                    <a onClick={()=>this.closeModal()}  class="contact1-form-btn">
+						<span>
+                            Cancel
+						</span>
+					</a>
+				</div> */}
+			</form>
+                </Modal>
     <ReactNotification
           types={[{
             htmlClasses: ["notification-awesome"],
@@ -179,14 +192,14 @@ class ListRow extends Component {
   
     openModal() {
       this.setState({
-        isModalVisible : true,
+        sendCampaignVisible : true,
          
       });
     }
     
     closeModal() {
       this.setState({
-        isModalVisible : false
+        sendCampaignVisible : false
       });
     }
 }
