@@ -156,6 +156,10 @@ class NewTemplate extends Component {
             }`
             
           ],
+          customJS: [
+            window.location.protocol + '//' + window.location.host + '/custom.js',
+            window.location.protocol + '//' + window.location.host + '/custom1.js',
+          ]
         }}
       minHeight="780px"
         ref={editor => this.editor = editor}

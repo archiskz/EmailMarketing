@@ -41,9 +41,11 @@ public class AppointmentSubcriber implements Serializable {
     @Column(name = "confirmation")
     private boolean confirmation;
 
+    @Column(name = "send")
+    private boolean send;
 
 
-        @JsonIgnore
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appointment_id",referencedColumnName = "appointment_id")
     private AppointmentGroupContact appointmentGroupContact;

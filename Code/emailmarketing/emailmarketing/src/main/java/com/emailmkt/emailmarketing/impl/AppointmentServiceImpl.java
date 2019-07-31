@@ -6,10 +6,7 @@ import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
 import com.emailmkt.emailmarketing.model.AppointmentGroupContact;
 import com.emailmkt.emailmarketing.model.AppointmentSubcriber;
-import com.emailmkt.emailmarketing.repository.AccountRepository;
-import com.emailmkt.emailmarketing.repository.AppointmentRepository;
-import com.emailmkt.emailmarketing.repository.GroupContactRepository;
-import com.emailmkt.emailmarketing.repository.SubcriberRepository;
+import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
 import freemarker.template.Configuration;
@@ -39,6 +36,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     AppointmentRepository appointmentRepository;
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    AppointmentSubcriberRepository appointmentSubcriberRepository;
 
     @Autowired
     GroupContactRepository groupContactRepository;
@@ -84,6 +84,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setStatus(appointmentDTO.getStatus());
         appointment.setTime(appointmentDTO.getTime());
 
+
         //Add to Group Contacts
         Account account = accountRepository.findAccountById(3);
         appointment.setAccount_id(account.getId());
@@ -104,6 +105,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 appointmentSubcriber.setConfirmation(false);
                 appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
                 appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
+                appointmentSubcriber.setSend(true);
                 appointmentSubcriber.setSubcriberEmail(mailList[i]);
                 appointmentSubcribers.add(appointmentSubcriber);
             }
@@ -143,6 +145,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                         appointment.getFromMail(),
                         mailLists.get(counter), appointment.getSubject(),
                         newString);
+                appointmentSubcriberRepository.changeConfirmSend(appointment.getId(), mailLists.get(counter));
+
 
 
             }
