@@ -22,8 +22,10 @@ public interface TaskRepository extends JpaRepository<Task,Integer> {
 
         Task findWorkflowById(Integer id);
 
-        Task findTaskByPreTaskAndWorkflow(String pre, Workflow workflow);
-        Task findTaskByPostTaskAndWorkflow(String post, Workflow workflow);
+        Task findTaskByPreTaskAndWorkflow_Id(String pre, int workflow);
+        Task findTaskByPostTaskAndWorkflow_Id(String post, int workflow);
+
+        Task findTaskByShapeIdAndWorkflow_Id(String shape_id, int workflow);
 //        List<WorkflowTask> findAllByTaskId(int id);
 
         List<Task>findTaskByPreTask(String pretask);

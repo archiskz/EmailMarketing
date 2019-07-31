@@ -107,7 +107,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             for (int i = 0; i < mailList.length; i++) {
                 mailLists.add(mailList[i]);
                 AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
-                appointmentSubcriber.setConfirmation(false);
+                appointmentSubcriber.setConfirmation(0);
                 appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
                 appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
                 appointmentSubcriber.setSend(0);
@@ -203,7 +203,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (appointmentSubcriber == null) {
             return ResponseEntity.badRequest().body("Invalid token.");
         } else {
-            appointmentSubcriber.setConfirmation(true);
+            appointmentSubcriber.setConfirmation(1);
             appointmentRepository.save(appointment);
             String body = "";
             try {

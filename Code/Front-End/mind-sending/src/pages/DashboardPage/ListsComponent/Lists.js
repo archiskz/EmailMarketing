@@ -26,7 +26,7 @@ class Lists extends Component {
             dropdown_visible: false,
             existedGroup: "",
             auth_token: "",
-            allCountries: [],
+            allCountries: [{}],
             currentCountries: [],
             currentPage: null,
             totalPages: null
@@ -94,7 +94,7 @@ class Lists extends Component {
                  });
              }else {
                 this.setState({
-                    allCountries: [{id:"",name:"",description:""}],
+                    allCountries: [{}],
                     currentCountries: this.state.groupContactsFilter.slice(0,0)
                  }); 
              }
@@ -387,11 +387,12 @@ renderGroupList(currentCountries){
         //             Authorization: Config.TOKEN
         //         }
         // };
-
+        
         console.log(this.state.auth_token);
         axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(res => {
-                const listContacts = res.data;
+                const listContacts = [{}];
+                listContacts = res.data;
                 console.log(listContacts);
                 this.setState({allCountries : listContacts,
                     groupContactsFilter: listContacts
