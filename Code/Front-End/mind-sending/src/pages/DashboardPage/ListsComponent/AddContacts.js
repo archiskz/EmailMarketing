@@ -233,18 +233,18 @@ handleCheck=(event)=>{
                                          
                     </div>
                     <div class="col-sm-6" >
-                    <label className="container-cb">Add contacts and include in an existing list
+                    <label className="container-cb">Add contacts and include in an existing group
                     <input onChange={this.handleCheck} checked={this.state.list} value="1" type="radio" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
                         
                         <div className={`col-sm-8 ${this.state.choose==1? '' : 'activeText'}`}>
-                        <h5>Choose Lists</h5>
+                        <h5>Choose Groups</h5>
                         <MultiSelectComponent 
                               style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important","marginBottom":"15px"}} 
                               id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
                               ref={(scope) => { this.mulObj = scope; }}
                               value={this.state.group}  
                               change={this.onChangeListsSelect}
-                              placeholder="Favorite Sports"/>
+                              placeholder="Group"/>
                               
                         </div>
                         <br/>

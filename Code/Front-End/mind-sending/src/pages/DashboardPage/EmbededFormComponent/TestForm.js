@@ -35,7 +35,8 @@ class TestForm extends Component {
             address: "",
             dob:"",
             },
-            isShow:true
+            isShow:true,
+            isEmpty: false
         }     
         this.handleBtn = this.handleBtn.bind(this);
         };
@@ -51,9 +52,15 @@ class TestForm extends Component {
         }
 
         getFormById=(id)=>{
+            var self = this;
             axios.get(`${Config.API_URL}form/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
                 .then(res => {
                 console.log(res.data);
+                if(res.data == null || res.data == undefined || res.data == ""){
+                    self.setState({
+                        isShow: false
+                    })
+                }
                 var formDisplay = new String();
                 formDisplay = res.data.form
                 if(formDisplay.includes('firstName')){
