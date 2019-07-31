@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.repository;
 
 import com.emailmkt.emailmarketing.model.Task;
+import com.emailmkt.emailmarketing.model.Workflow;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,6 +21,9 @@ public interface TaskRepository extends JpaRepository<Task,Integer> {
         List<Task> findAllWorkflowByStatus(@Param("workflowId")int workflowId);
 
         Task findWorkflowById(Integer id);
+
+        Task findTaskByPreTaskAndWorkflow(String pre, Workflow workflow);
+        Task findTaskByPostTaskAndWorkflow(String post, Workflow workflow);
 //        List<WorkflowTask> findAllByTaskId(int id);
 
         List<Task>findTaskByPreTask(String pretask);

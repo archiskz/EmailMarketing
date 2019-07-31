@@ -30,9 +30,9 @@ public class Task implements Serializable {
     @Column(name = "pre_task")
     private String preTask;
 
-//    @Basic
-//    @Column(name = "post_task")
-//    private String postTask;
+    @Basic
+    @Column(name = "post_task")
+    private String postTask;
 
     @Basic
     @Column(name = "gateway")
@@ -67,6 +67,8 @@ public class Task implements Serializable {
     @ManyToOne
     @JoinColumn(name = "workflow_id")
     private Workflow workflow;
+
+//    public String postTask;
 
 //    @JsonIgnore
 //    @ManyToOne

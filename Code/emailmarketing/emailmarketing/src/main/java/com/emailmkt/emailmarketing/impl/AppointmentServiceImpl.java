@@ -43,6 +43,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     AccountRepository accountRepository;
 
     @Autowired
+    AppointmentSubcriberRepository appointmentSubcriberRepository;
+
+    @Autowired
     GroupContactRepository groupContactRepository;
 
 
@@ -86,6 +89,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setStatus(appointmentDTO.getStatus());
         appointment.setTime(appointmentDTO.getTime());
 
+
         //Add to Group Contacts
         Account account = accountRepository.findAccountById(3);
         appointment.setAccount_id(account.getId());
@@ -106,6 +110,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 appointmentSubcriber.setConfirmation(false);
                 appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
                 appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
+                appointmentSubcriber.setSend(true);
                 appointmentSubcriber.setSubcriberEmail(mailList[i]);
                 appointmentSubcribers.add(appointmentSubcriber);
             }
@@ -145,6 +150,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                         appointment.getFromMail(),
                         mailLists.get(counter), appointment.getSubject(),
                         newString);
+                appointmentSubcriberRepository.changeConfirmSend(appointment.getId(), mailLists.get(counter));
+
 
 
             }

@@ -3,6 +3,7 @@ package com.emailmkt.emailmarketing.impl;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
 import com.emailmkt.emailmarketing.model.*;
 import com.emailmkt.emailmarketing.repository.*;
+import com.emailmkt.emailmarketing.service.MailService;
 import com.emailmkt.emailmarketing.service.WorkflowService;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.instance.FlowElement;
@@ -32,6 +33,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     @Autowired
     WorkflowRepository workflowRepository;
+
+    @Autowired
+    MailService mailService;
+
 
     @Autowired
     AppointmentRepository appointmentRepository;
@@ -78,16 +83,20 @@ public class WorkflowServiceImpl implements WorkflowService {
                 org.camunda.bpm.model.bpmn.instance.Task taskModel = (org.camunda.bpm.model.bpmn.instance.Task) modelInstance.getModelElementById(shapeId);
                 Collection<FlowNode> sequenceFlowsPrevious = taskModel.getPreviousNodes().list();
                 Iterator<FlowNode> sequenceFlowListsPrevious = sequenceFlowsPrevious.iterator();
+                Collection<FlowNode> sequenceFlowsNext = taskModel.getSucceedingNodes().list();
+                Iterator<FlowNode> sequenceFlowListsNext = sequenceFlowsNext.iterator();
                 Task newWorkflowTask = new Task();
                 newWorkflowTask.setWorkflow(newWorkflow);
                 newWorkflowTask.setName(name);
                 newWorkflowTask.setShape_id(shapeId);
+                //set task Type
                 if (shapeId.contains("SendTask")) {
                     newWorkflowTask.setType("campaign");
                 } else if (shapeId.contains("BusinessRule")) {
                     newWorkflowTask.setType("appointment");
                 }
 
+                //Find previous node
                 while (sequenceFlowListsPrevious.hasNext()) {
                     FlowNode previousNode = sequenceFlowListsPrevious.next();
                     String previousNodeId = previousNode.getId();
@@ -148,7 +157,29 @@ public class WorkflowServiceImpl implements WorkflowService {
 
 
                 }
+                //next node
+                while (sequenceFlowListsNext.hasNext()) {
+                    FlowNode nextNode = sequenceFlowListsNext.next();
+                    String nextNodeId = nextNode.getId();
+                    if (nextNodeId.contains("Task")) {
+                        newWorkflowTask.setPostTask(nextNodeId);
 
+                    } else if (nextNodeId.contains("ExclusiveGateway")) {
+                        org.camunda.bpm.model.bpmn.instance.ExclusiveGateway gateway = modelInstance.getModelElementById(nextNodeId);
+                        List<FlowNode> nextNodesCollection = gateway.getSucceedingNodes().list();
+//                        Iterator<SequenceFlow> prevFlowCollection = gateway.getOutgoing().iterator();
+                        String postTask = "";
+                        for(FlowNode node: nextNodesCollection){
+                            postTask += node.getId();
+                            postTask += "-";
+                            System.out.println("POST taskkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk" + postTask);
+                        }
+                        newWorkflowTask.setPostTask(postTask);
+                    }
+                    taskRepository.save(newWorkflowTask);
+
+
+                }
             }
 
 
@@ -182,38 +213,28 @@ public class WorkflowServiceImpl implements WorkflowService {
                         //get all subcriber
                         for (WorkflowGroupContact workflowGroupContact : workflow.getWorkflowGroupContacts()) {
 
-                            List<Subcriber> subcribers = groupContactRepository.findSubcriberByGroupContactId(workflowGroupContact.getGroupContact().getId());
+                            List<Subcriber> subcribers = groupContactRepository
+                                    .findSubcriberByGroupContactId(workflowGroupContact.getGroupContact().getId());
                             for (Subcriber subcriber : subcribers) {
-                                for (Task task : workflow.getTasks()) {
-
-                                    //find 1st task
-                                    if (task.getPreTask() == "") {
-                                        if (task.getType() == "appointment") {
-
-                                            Appointment appointment = appointmentRepository.findAppointmentByName(task.getName());
-
-                                            if (appointmentSubcriberRepository.checkConfirmAppointment(appointment.getId(), subcriber.getEmail()) ==0) {
-                                                for (Task task2 : taskRepository.findTaskByPreTask(task.getShape_id())) {
-                                                    if (task2.getGateway().equalsIgnoreCase("Clicked ?yes")) {
-                                                        if (task2.getType() == "appointment") {
-
-                                                        }
-                                                    }
-                                                }
-                                            } else {
-
-                                            }
-
-                                        }
+//                                List<Task> tasks = workflow.getTasks();
+                                Task firstTask = taskRepository.findTaskByPreTaskAndWorkflow("", workflow);
+                                if (firstTask.getType() == "appointment") {
+                                    Appointment firstApp = appointmentRepository.findAppointmentByName(firstTask.getName());
+                                    if (appointmentSubcriberRepository.checkSend(firstApp.getId(), subcriber.getEmail()) == true) {
+//                                        List<String> postsCode = Arrays.asList(firstTask.getPostTask().split("-"));
+//                                        for (String code : postsCode) {
+//                                            runTask();
+//                                        }//array of post code
+                                      runTask(firstTask,workflow,subcriber);
+                                    } else {
+                                        mailService.sendAppointment(firstApp.getSender(),firstApp.getFromMail(),subcriber.getEmail(),firstApp.getSubject(), firstApp.getBody());
                                     }
-
-
                                 }
+
                             }
                         }
                     }
                 });
-
             }
         }
         try {
@@ -223,6 +244,45 @@ public class WorkflowServiceImpl implements WorkflowService {
         }
     }
 
+    public void runTask(Task firstTask,Workflow workflow, Subcriber subcriber){
+         //clicked yes : 1
+//        clicked no : 0
+//                opened yes : 2
+//                opened no : 3
 
+        int clicked = 0;
+        Appointment firstAppointment ;
+        if(firstTask.getType()== "appointment"){
+            firstAppointment = appointmentRepository.findAppointmentByName(firstTask.getName());
+            if(appointmentSubcriberRepository.checkConfirmAppointment(firstAppointment.getId(), subcriber.getEmail()) == 1){
+                clicked = 1;
+            } else {
+                clicked = 0;
+            }
+            if(appointmentSubcriberRepository.checkSend(firstAppointment.getId(), subcriber.getEmail())){
+                List<String> postsCode = Arrays.asList(firstTask.getPostTask().split("-"));
+                if (postsCode == null || postsCode.isEmpty())
+                {
+                    return;
+                }
+                for(String code : postsCode)
+                {
+                    Task tmp = taskRepository.findTaskByPostTaskAndWorkflow(code, workflow);
+                    if(tmp.getGateway() == "Clicked ?yes" && clicked == 1){
+                        runTask(tmp,workflow,subcriber);
 
+                    } else if(tmp.getGateway() == "Clicked ?no" && clicked == 0){
+                        runTask(tmp,workflow,subcriber);
+                    } else {
+                        return;
+                    }
+
+                }//array of post code
+
+            } else{
+                firstAppointment = appointmentRepository.findAppointmentByName(firstTask.getName());
+                mailService.sendAppointment(firstAppointment.getSender(),firstAppointment.getFromMail(),subcriber.getEmail(),firstAppointment.getSubject(),firstAppointment.getBody());
+            }
+        }
+        }
 }
