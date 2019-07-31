@@ -90,10 +90,11 @@ class ListRow extends Component {
 
       render(){
           return( 
-<tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
-<td>
-<input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
-</td>
+<tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") + (this.props.contactEmail == "" ? 'activeText':'' ) } onClick={this.onSelectedRow}>
+{/* <td> */}
+{/* <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/> */}
+{/* {this.props.key }
+</td> */}
 <td class="md_tablet6_tbody_td"><a onClick = {()=> this.toListContact(this.props.contactId)} >{this.props.contactEmail}</a></td>
     <td class="md_tablet6_tbody_td">{this.props.contactStatus}</td>
     <td class="md_tablet6_tbody_td">{this.state.count}</td>
@@ -161,7 +162,7 @@ class ListRow extends Component {
       }
       toListContact = (id)=> {        
         this.props.history.push({
-            pathname:`/dashboard/contacts/:${id}`,
+            pathname:`/dashboard/contacts-group/:${id}`,
             state : {
               id: id,
               name:this.props.contactEmail
@@ -187,11 +188,10 @@ class ListRow extends Component {
         .then(res => {
           console.log(res)
           // this.getAllListContact();
-
-          this.closeModal();
-          this.addNotification()
           this.props.update();
-          
+          this.closeModalDelete();
+          this.addNotification()
+          window.location.reload();
         })
         .catch(function (error) {
           console.log(error);

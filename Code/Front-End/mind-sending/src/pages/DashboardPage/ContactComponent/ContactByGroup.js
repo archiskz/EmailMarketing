@@ -7,21 +7,22 @@ import * as Config from './../../../constants/Config';
 import Pagination from './../../../components/row/Pagination';
 
       
-class CreateContact extends Component {
+class ContactByGroup extends Component {
    constructor(props) {
      super(props);
 
      this.state = {
         //  title: match.params.id,
+         listAccounts:[{ id: "", name: "", email: "",address:"",createdTime:""}],
+         listAccount: {id: 1, name: "Group 2", description: "Test Group V2", createdTime: "2019-06-12T13:08:24.810", updatedTime: "string"},
        visible: true,
        dropdown_visible: false,
        auth_token:"",
        listFilter:[{ id: "", name: "", email: "",address:"",createdTime:""}],
-       listAllAccounts:[],
        allCountries: [],
-            currentCountries: [],
-            currentPage: null,
-            totalPages: null
+       currentCountries: [],
+       currentPage: null,
+       totalPages: null
      };
       this.showDropdownMenu = this.showDropdownMenu.bind(this);
       this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
@@ -41,7 +42,29 @@ class CreateContact extends Component {
     });
 
   }
-
+  handleSearch = (event) => {
+    var searchValue = event.target.value;
+    var groupContactsList = this.state.listFilter
+    if(searchValue !== ""){
+         groupContactsList = groupContactsList.filter(item => item.email.toLowerCase().includes(searchValue));
+         if(groupContactsList.length > 0){
+            this.setState({
+                allCountries: groupContactsList,
+                currentCountries: groupContactsList.slice(0, 8)
+             });
+         }else {
+            this.setState({
+                allCountries: [{id:"",name:"",description:""}],
+                currentCountries: this.state.listFilter.slice(0,0)
+             }); 
+         }
+         
+    } else {
+        this.setState({
+            allCountries: this.state.listFilter,
+            currentCountries: this.state.listFilter.slice(0,10)
+         });
+    }}   
 
    onToggleDropdown = () => {
      this.setState({
@@ -58,31 +81,32 @@ class CreateContact extends Component {
             this.setState({
                 auth_token: appState.user.auth_token
             },()=> {
-                    this.getAllContacts()
+                    this.getContactsByGroupId();
             } )
 
            
         }   
     
    
+   
 
-
-   getAllContacts=()=>{
+   getContactsByGroupId=()=>{
     console.log("haha")
-   axios.get(`${Config.API_URL}subcribersV2`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-   .then(response => {
-       console.log(response.data)
-     this.setState({
+  if(this.props.history.location.state != null){
+    axios.get(`${Config.API_URL}groupContact=${this.props.history.location.state.id}/contacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(response => {
+      this.setState({
         allCountries: response.data,
        listFilter: response.data
-     });
-   })
-   .catch(error => {
-     console.log(error);
-   });
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
   }
 
-   handleSearch = (event) => {
+  handleSearch = (event) => {
     var searchValue = event.target.value;
     var groupContactsList = this.state.listFilter
     if(searchValue !== ""){
@@ -108,8 +132,9 @@ class CreateContact extends Component {
    
 }
 updatePage=()=>{
-this.getAllContacts();
+this.getContactsByGroupId()
 }
+
 onPageChanged = data => {
     const { allCountries } = this.state;
     const { currentPage, totalPages, pageLimit } = data;
@@ -144,14 +169,23 @@ onPageChanged = data => {
         )
     }
 toAddContactFile=()=>{
+    
         this.props.history.push({
-            pathname:`/dashboard/add-contacts-file`
+            pathname:`/dashboard/add-contacts-file`,
+            state : {
+              id: this.props.history.location.state.id,
+    
+            },
         });
+    
 }
 toAddContactManual=()=>{
-    this.props.history.push({
-        pathname:`/dashboard/add-contacts`,
-    });    
+        this.props.history.push({
+            pathname:`/dashboard/add-contacts`,
+            state : {
+              id: this.props.history.location.state.id
+            },
+        });
 }
   
 
@@ -187,7 +221,7 @@ toAddContactManual=()=>{
                                 <h1 className="">
                                     <span className="pageTitle-css__title-heading___3H2vL">
                                     {/* {this.state.listAccount.name} */}
-                                   All Contacts
+                                   {this.props.history.location.state.name}
                                         <span>&nbsp;</span>
                                     </span>
                                 </h1>
@@ -237,14 +271,14 @@ toAddContactManual=()=>{
                     <div className="md_tablet4">
                         <div className="md_tablet5">
                         <table className="table1 table-striped table-hover">
-                            <thead className=" ">
-                            <tr className=" ">
+                            <thead className="">
+                            <tr className="">
                                 {/* <th className="md_tablet6_th" scope="col"></th> */}
-                                <th className=" " scope="col">Email</th>
-                                <th className=" " scope="col">First Name</th>
-                                <th className=" " scope="col">Last Name</th>
+                                <th className="" scope="col">Email</th>
+                                <th className="" scope="col">First Name</th>
+                                <th className="" scope="col">Last Name</th>
                                 
-                                <th className=" " scope="col">Status</th>
+                                <th className="" scope="col">Status</th>
                                 
                                 <th  className="" role="presentation">
                                 
@@ -263,11 +297,11 @@ toAddContactManual=()=>{
                                    <li><a href="# ">Resubcribe</a></li>                                  
                                    <li><a href="# ">Delete</a></li>
                                     </ul>
-                                    ):
-                                    (
-                                      null
-                                    )
-                                    }
+        ):
+        (
+          null
+        )
+        }
                                 
                                 </th>
                                 
@@ -298,4 +332,4 @@ toAddContactManual=()=>{
   }
 
 }
-export default withRouter(CreateContact);
+export default withRouter(ContactByGroup);

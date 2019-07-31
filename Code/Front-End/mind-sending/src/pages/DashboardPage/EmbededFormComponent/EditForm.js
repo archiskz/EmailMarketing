@@ -149,6 +149,18 @@ class EditForm extends React.Component {
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
+         <div className="fix_size_embed_form2">
+        <button onClick={this.generateCode} class="fix_size_btn_embed copy-button ButtonContainer-cCzDqJ dbshwx" type="button" color="primary">
+                    <div class="ButtonContent-dNFcBm ijrtmX">
+                        <span class="ButtonText-cgEyiP kPJhKT" >UPDATE THIS FORM 
+                        
+                        <img className={`${this.state.isLoading && !this.state.generated ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." />
+
+                        </span>
+                        
+                    </div>
+                </button>
+                </div>
     </span>
     <span class="toolbar-css__send-container___AbB6n">
 
@@ -205,11 +217,6 @@ class EditForm extends React.Component {
                 </form>
                     
             </div>
-            <button onClick={this.generateCode} class="copy-button ButtonContainer-cCzDqJ dbshwx" type="button" color="primary">
-                    <div class="ButtonContent-dNFcBm ijrtmX">
-                        <span class="ButtonText-cgEyiP kPJhKT">UPDATE CODE <img className={`${this.state.isLoading ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." /></span>
-                    </div>
-                </button>
         </div>
         <div class={`plain-code ${this.state.formId != 0 ? '' : 'activeText'}`}>
             <div class="code-area">
@@ -319,6 +326,9 @@ class EditForm extends React.Component {
                 console.log(response)
                 this.setState({isLoading: false,
                 })
+                this.props.history.push({
+            pathname:`/dashboard/forms`,
+            })
             })
             .catch(error => {
                 console.log(error);
@@ -365,12 +375,13 @@ class EditForm extends React.Component {
         if(this.state.birth){
             s += 'birth '
         }
+
         this.setState({
             newForm:{
                 ...this.state.newForm,
                 form: s
             }
-        })
+        },()=>console.log(this.state.newForm.form))
         })
     }
     
