@@ -42,7 +42,7 @@ public class AppointmentSubcriber implements Serializable {
     private boolean confirmation;
 
     @Column(name = "send")
-    private boolean send;
+    private int send;
 
 
     @JsonIgnore

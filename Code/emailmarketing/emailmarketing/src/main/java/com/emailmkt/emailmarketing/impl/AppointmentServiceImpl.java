@@ -110,7 +110,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 appointmentSubcriber.setConfirmation(false);
                 appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
                 appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
-                appointmentSubcriber.setSend(true);
+                appointmentSubcriber.setSend(0);
                 appointmentSubcriber.setSubcriberEmail(mailList[i]);
                 appointmentSubcribers.add(appointmentSubcriber);
             }
@@ -150,9 +150,9 @@ public class AppointmentServiceImpl implements AppointmentService {
                         appointment.getFromMail(),
                         mailLists.get(counter), appointment.getSubject(),
                         newString);
-                appointmentSubcriberRepository.changeConfirmSend(appointment.getId(), mailLists.get(counter));
-
-
+                AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(appointment.getId(),mailLists.get(counter));
+                appointmentSubcriber.setSend(1);
+                appointmentSubcriberRepository.save(appointmentSubcriber);
 
             }
 
