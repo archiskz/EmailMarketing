@@ -289,4 +289,30 @@ public class CampaignServiceImpl implements CampaignService {
         return campaignFullDTO;
     }
 
+    @Override
+    public boolean copyCampaign(int campaignId) {
+
+        Campaign temp = campaignRepository.findCampaignById(campaignId);
+        if(temp==null){
+            return false;
+        }
+        Campaign campaign= new Campaign();
+        campaign.setAccount_id(1);
+        campaign.setCampaignGroupContacts(temp.getCampaignGroupContacts());
+        campaign.setAutomation(true);
+        campaign.setTimeStart(temp.getTimeStart());
+        campaign.setStatus("Sending");
+        campaign.setMessageId(temp.getMessageId());
+        campaign.setBodyJson(temp.getBodyJson());
+        campaign.setFromMail(temp.getFromMail());
+        campaign.setSubject(temp.getSubject());
+        campaign.setSender(temp.getSender());
+        campaign.setContent(temp.getContent());
+        campaign.setType(temp.getType());
+        campaign.setName(temp.getName()+UUID.randomUUID().toString());
+        campaignRepository.save(campaign);
+        return true;
+
+    }
+
 }

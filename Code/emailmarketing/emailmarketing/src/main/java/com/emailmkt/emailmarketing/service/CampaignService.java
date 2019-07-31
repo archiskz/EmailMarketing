@@ -17,6 +17,8 @@ public interface CampaignService {
 
     CampaignFullDTO getCampaginById(int id);
 
+    boolean copyCampaign(int campaignId);
+
 
 
 }
