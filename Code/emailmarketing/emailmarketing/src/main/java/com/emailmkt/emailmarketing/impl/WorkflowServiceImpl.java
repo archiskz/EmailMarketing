@@ -117,12 +117,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                         Collection<FlowNode> nextNodesCollection = gateway.getSucceedingNodes().list();
                         Iterator<FlowNode> nextNodeLists = nextNodesCollection.iterator();
                         Iterator<SequenceFlow> nextFlowCollection = gateway.getIncoming().iterator();
-//                        for(int j = 0; j <= nextNodesCollection.size(); j ++){
-//                            FlowNode conditionNode = nextNodesCollection.get(i);
-//                            newWorkflowTask.setGateway(gateway.getName());
-//                            newWorkflowTask.setPostTask(conditionNode.getId());
-//                            System.out.println(conditionNode.getId());
-//                            workflowTaskList.add(newWorkflowTask);
+
 //                        }
                         while (nextNodeLists.hasNext()) {
                             WorkflowTask newWorkflowTask = new WorkflowTask();
