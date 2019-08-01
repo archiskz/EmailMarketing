@@ -106,8 +106,8 @@ public class AppointmentController {
     ///Test POST
     @PostMapping("appointment/copy/")
     public ResponseEntity copyAppointment(@RequestParam int id,@RequestParam int workflowId) {
-        boolean flag = appointmentService.copyAppointment(id,workflowId);
-        if (flag == true) {
+        int number = appointmentService.copyAppointment(id,workflowId);
+        if (number != 1) {
             return ResponseEntity.status(CONFLICT).body("Đã copy thành công ");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body("Fail");

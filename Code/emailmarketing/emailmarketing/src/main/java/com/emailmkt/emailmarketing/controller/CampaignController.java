@@ -139,10 +139,10 @@ public class CampaignController {
     }
 
 
-    @PostMapping("campaign/copy/{id}")
-    public ResponseEntity copyCampaign(@PathVariable int id) {
-        boolean flag = campaignService.copyCampaign(id);
-        if (flag == true) {
+    @PostMapping("campaign/copy/")
+    public ResponseEntity copyCampaign(@RequestParam int id,@RequestParam int workflowId) {
+        int number = campaignService.copyCampaign(id,workflowId);
+        if (number != 1) {
             return ResponseEntity.status(CONFLICT).body("Đã copy thành công ");
         }
         return ResponseEntity.status(CREATED).body("Fail");

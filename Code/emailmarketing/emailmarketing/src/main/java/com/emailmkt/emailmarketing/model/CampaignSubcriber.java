@@ -47,6 +47,9 @@ public class CampaignSubcriber implements Serializable {
     @Column(name = "opened")
     private boolean opened;
 
+    @Column(name = "send")
+    private int send;
+
 
 
     @JsonIgnore

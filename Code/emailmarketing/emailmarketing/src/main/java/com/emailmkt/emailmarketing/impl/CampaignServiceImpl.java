@@ -5,10 +5,7 @@ import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
 import com.emailmkt.emailmarketing.dto.GCCampaignDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.*;
-import com.emailmkt.emailmarketing.repository.AccountRepository;
-import com.emailmkt.emailmarketing.repository.CampaignGroupContactRepository;
-import com.emailmkt.emailmarketing.repository.CampaignRepository;
-import com.emailmkt.emailmarketing.repository.GroupContactRepository;
+import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.CampaignService;
 import com.emailmkt.emailmarketing.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +37,9 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Autowired
     CampaignGroupContactRepository campaignGroupContactRepository;
+
+    @Autowired
+    WorkflowRepository workflowRepository;
 
 
 
@@ -291,13 +291,37 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public boolean copyCampaign(int campaignId) {
+    public int copyCampaign(int campaignId, int workflowId) {
 
         Campaign temp = campaignRepository.findCampaignById(campaignId);
-        if(temp==null){
-            return false;
+        Workflow workflow = workflowRepository.findWorkflowById(workflowId);
+        if(temp==null||workflow== null){
+            return 1;
         }
+
         Campaign campaign= new Campaign();
+        List<CampaignGroupContact> campaignGroupContacts = workflow.getWorkflowGroupContacts().stream().map(g->{
+            CampaignGroupContact campaignGroupContact = new CampaignGroupContact();
+            campaignGroupContact.setGroupContact(g.getGroupContact());
+            campaignGroupContact.setCampaign(campaign);
+            campaignGroupContact.setCreatedTime(LocalDateTime.now().toString());
+            String[] mailList = groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
+            //Add Subcriber To Appointments
+            List<CampaignSubcriber> campaignSubcribers= new ArrayList<>();
+            for (int i = 0; i < mailList.length; i++) {
+                CampaignSubcriber campaignSubcriber= new CampaignSubcriber();
+                campaignSubcriber.setConfirmation(false);
+                campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
+                campaignSubcriber.setOpened(false);
+                campaignSubcriber.setSend(1);
+                campaignSubcriber.setSubcriberEmail(mailList[i]);
+                campaignSubcribers.add(campaignSubcriber);
+            }
+            campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
+
+            return campaignGroupContact;
+        }).collect(Collectors.toList());
         campaign.setAccount_id(1);
         campaign.setCampaignGroupContacts(temp.getCampaignGroupContacts());
         campaign.setAutomation(true);
@@ -312,8 +336,7 @@ public class CampaignServiceImpl implements CampaignService {
         campaign.setType(temp.getType());
         campaign.setName(temp.getName()+UUID.randomUUID().toString());
         campaignRepository.save(campaign);
-        return true;
-
+        return campaign.getId();
     }
 
 }

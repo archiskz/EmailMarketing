@@ -113,7 +113,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
                 appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
                 appointmentSubcriber.setSend(0);
-                appointmentSubcriber.setConfirmation(0);
+                appointmentSubcriber.setConfirmation(1);
                 appointmentSubcriber.setOpened(false);
 
                 appointmentSubcriber.setSubcriberEmail(mailList[i]);
@@ -229,12 +229,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public boolean copyAppointment(int appointmentId, int workflowId) {
+    public int copyAppointment(int appointmentId, int workflowId) {
 
         Appointment temp = appointmentRepository.findAppointmentById(appointmentId);
         Workflow workflow = workflowRepository.findWorkflowById(workflowId);
         if(temp==null || workflow==null){
-            return false;
+            return 1;
         }
         Appointment appointment= new Appointment();
             appointment.setAccount_id(1);
@@ -248,11 +248,10 @@ public class AppointmentServiceImpl implements AppointmentService {
                 List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
                 for (int i = 0; i < mailList.length; i++) {
                     AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
-                    appointmentSubcriber.setConfirmation(0);
+                    appointmentSubcriber.setConfirmation(1);
                     appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
                     appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
                     appointmentSubcriber.setSend(0);
-                    appointmentSubcriber.setConfirmation(0);
                     appointmentSubcriber.setOpened(false);
 
                     appointmentSubcriber.setSubcriberEmail(mailList[i]);
@@ -276,7 +275,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointment.setFromMail(temp.getFromMail());
             appointment.setSender(temp.getSender());
             appointmentRepository.save(appointment);
-            return true;
+            return appointment.getId();
     }
 
     @Override
