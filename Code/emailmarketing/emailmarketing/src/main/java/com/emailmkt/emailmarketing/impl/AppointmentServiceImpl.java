@@ -113,7 +113,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
                 appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
                 appointmentSubcriber.setSend(0);
-                appointmentSubcriber.setConfirmation(false);
+                appointmentSubcriber.setConfirmation(0);
                 appointmentSubcriber.setOpened(false);
 
                 appointmentSubcriber.setSubcriberEmail(mailList[i]);
@@ -248,11 +248,11 @@ public class AppointmentServiceImpl implements AppointmentService {
                 List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
                 for (int i = 0; i < mailList.length; i++) {
                     AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
-                    appointmentSubcriber.setConfirmation(false);
+                    appointmentSubcriber.setConfirmation(0);
                     appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
                     appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
                     appointmentSubcriber.setSend(0);
-                    appointmentSubcriber.setConfirmation(false);
+                    appointmentSubcriber.setConfirmation(0);
                     appointmentSubcriber.setOpened(false);
 
                     appointmentSubcriber.setSubcriberEmail(mailList[i]);

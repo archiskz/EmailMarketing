@@ -3,6 +3,7 @@ package com.emailmkt.emailmarketing.impl;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
 import com.emailmkt.emailmarketing.model.*;
 import com.emailmkt.emailmarketing.repository.*;
+import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
 import com.emailmkt.emailmarketing.service.WorkflowService;
 import org.camunda.bpm.model.bpmn.Bpmn;
@@ -36,6 +37,8 @@ public class WorkflowServiceImpl implements WorkflowService {
     @Autowired
     MailService mailService;
 
+    @Autowired
+    AppointmentService appointmentService;
 
     @Autowired
     AppointmentRepository appointmentRepository;
@@ -91,8 +94,11 @@ public class WorkflowServiceImpl implements WorkflowService {
                 //set task Type
                 if (shapeId.contains("SendTask")) {
                     newWorkflowTask.setType("campaign");
+
                 } else if (shapeId.contains("BusinessRule")) {
                     newWorkflowTask.setType("appointment");
+                    Appointment appointmentTask = appointmentRepository.findAppointmentByName(name);
+                    appointmentService.copyAppointment(appointmentTask.getId(), newWorkflow.getId());
                 }
 
                 //Find previous node
