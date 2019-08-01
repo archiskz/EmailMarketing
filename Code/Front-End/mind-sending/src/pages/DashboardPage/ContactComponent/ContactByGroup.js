@@ -19,8 +19,8 @@ class ContactByGroup extends Component {
        dropdown_visible: false,
        auth_token:"",
        listFilter:[{ id: "", name: "", email: "",address:"",createdTime:""}],
-       allCountries: [],
-       currentCountries: [],
+       allCountries: [{}],
+       currentCountries: [{}],
        currentPage: null,
        totalPages: null
      };
@@ -97,7 +97,8 @@ class ContactByGroup extends Component {
     .then(response => {
       this.setState({
         allCountries: response.data,
-       listFilter: response.data
+       listFilter: response.data,
+       currentCountries: response.data.slice(0,8)
       });
     })
     .catch(error => {
@@ -207,8 +208,8 @@ toAddContactManual=()=>{
       ]
         .join(" ")
         .trim();
-        if (totalCountries === 0) {return null}
-     else return (
+        // if (totalCountries === 0) {return null}
+      return (
 	  <div className = "" >
    <div className="flash_notice">
         </div>

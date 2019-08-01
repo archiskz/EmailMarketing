@@ -29,7 +29,10 @@ class Pagination extends Component {
        ? Math.max(0, Math.min(pageNeighbours, 2))
        : 0;
 
-   this.totalPages = Math.ceil(this.totalRecords / this.pageLimit) + 1;
+   this.totalPages = Math.ceil(this.totalRecords / this.pageLimit);
+   if (this.totalPages == 1){
+     this.totalPages = 2
+   }
    console.log(this.totalPages)
 
    this.state = { currentPage: 1 };
