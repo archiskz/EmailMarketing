@@ -17,7 +17,7 @@ public interface CampaignService {
 
     CampaignFullDTO getCampaginById(int id);
 
-    boolean copyCampaign(int campaignId);
+    int copyCampaign(int campaignId, int workflowId);
 
 
 
