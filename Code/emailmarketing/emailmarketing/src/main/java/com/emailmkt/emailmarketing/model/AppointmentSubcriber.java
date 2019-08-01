@@ -41,6 +41,11 @@ public class AppointmentSubcriber implements Serializable {
     @Column(name = "confirmation")
     private int confirmation;
 
+
+
+    @Column(name = "opened")
+    private boolean opened;
+
     @Column(name = "send")
     private int send;
 

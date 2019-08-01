@@ -2,10 +2,7 @@ package com.emailmkt.emailmarketing.impl;
 
 import com.emailmkt.emailmarketing.dto.AppointmentDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
-import com.emailmkt.emailmarketing.model.Account;
-import com.emailmkt.emailmarketing.model.Appointment;
-import com.emailmkt.emailmarketing.model.AppointmentGroupContact;
-import com.emailmkt.emailmarketing.model.AppointmentSubcriber;
+import com.emailmkt.emailmarketing.model.*;
 import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
@@ -48,6 +45,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Autowired
     GroupContactRepository groupContactRepository;
 
+    @Autowired
+    WorkflowRepository workflowRepository;
 
     @Autowired
     SubcriberRepository subcriberRepository;
@@ -88,6 +87,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setName(appointmentDTO.getName());
         appointment.setStatus(appointmentDTO.getStatus());
         appointment.setTime(appointmentDTO.getTime());
+        appointment.setAutomation(false);
+
 
 
         //Add to Group Contacts
@@ -103,6 +104,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointmentGroupContact.setCreatedTime(LocalDateTime.now().toString());
             System.out.println("Tới đây 1");
             String[] mailList = groupContactRepository.findSubcriberMailByGroupContactId(appointmentGroupContact.getGroupContact().getId());
+            //Add Subcriber To Appointments
             List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
             for (int i = 0; i < mailList.length; i++) {
                 mailLists.add(mailList[i]);
@@ -111,6 +113,9 @@ public class AppointmentServiceImpl implements AppointmentService {
                 appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
                 appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
                 appointmentSubcriber.setSend(0);
+                appointmentSubcriber.setConfirmation(false);
+                appointmentSubcriber.setOpened(false);
+
                 appointmentSubcriber.setSubcriberEmail(mailList[i]);
                 appointmentSubcribers.add(appointmentSubcriber);
             }
@@ -125,7 +130,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 //
         appointment.setToken(UUID.randomUUID().toString());
         appointmentDTO.setToken(appointment.getToken());
-        appointment.setConfirm(false);
         appointmentRepository.save(appointment);
 
         try {
@@ -199,6 +203,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public ResponseEntity<String> acceptAppointment(String token, String email) {
         Appointment appointment = appointmentRepository.findByToken(token);
         AppointmentSubcriber appointmentSubcriber = appointmentRepository.findMailByAppointmentId(appointment.getId(), email);
+        List<AppointmentGroupContact> appointmentGroupContacts = new ArrayList<>();
 
         if (appointmentSubcriber == null) {
             return ResponseEntity.badRequest().body("Invalid token.");
@@ -224,16 +229,40 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public boolean copyAppointment(int appointmentId) {
+    public boolean copyAppointment(int appointmentId, int workflowId) {
 
         Appointment temp = appointmentRepository.findAppointmentById(appointmentId);
-        if(temp==null){
+        Workflow workflow = workflowRepository.findWorkflowById(workflowId);
+        if(temp==null || workflow==null){
             return false;
         }
         Appointment appointment= new Appointment();
             appointment.setAccount_id(1);
+            List<AppointmentGroupContact> appointmentGroupContacts = workflow.getWorkflowGroupContacts().stream().map(g->{
+                AppointmentGroupContact appointmentGroupContact = new AppointmentGroupContact();
+                appointmentGroupContact.setGroupContact(g.getGroupContact());
+                appointmentGroupContact.setAppointment(appointment);
+                appointmentGroupContact.setCreatedTime(LocalDateTime.now().toString());
+                String[] mailList = groupContactRepository.findSubcriberMailByGroupContactId(appointmentGroupContact.getGroupContact().getId());
+                //Add Subcriber To Appointments
+                List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
+                for (int i = 0; i < mailList.length; i++) {
+                    AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
+                    appointmentSubcriber.setConfirmation(false);
+                    appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                    appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
+                    appointmentSubcriber.setSend(0);
+                    appointmentSubcriber.setConfirmation(false);
+                    appointmentSubcriber.setOpened(false);
 
-            appointment.setAppointmentGroupContacts(temp.getAppointmentGroupContacts());
+                    appointmentSubcriber.setSubcriberEmail(mailList[i]);
+                    appointmentSubcribers.add(appointmentSubcriber);
+                }
+                appointmentGroupContact.setAppointmentSubcribers(appointmentSubcribers);
+
+                return appointmentGroupContact;
+            }).collect(Collectors.toList());
+             appointment.setAppointmentGroupContacts(appointmentGroupContacts);
             appointment.setBody(temp.getBody());
             appointment.setToken(UUID.randomUUID().toString());
             appointment.setTime(temp.getTime());
@@ -242,6 +271,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointment.setName(temp.getName()+UUID.randomUUID().toString());
             appointment.setSubject(temp.getSubject());
             appointment.setStatus("Sending");
+            appointment.setAutomation(true);
             appointment.setMessageId(temp.getMessageId());
             appointment.setFromMail(temp.getFromMail());
             appointment.setSender(temp.getSender());
