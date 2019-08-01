@@ -55,7 +55,7 @@ public class GroupContact implements Serializable {
 //            inverseJoinColumns = { @JoinColumn(name = "subcriber_id") })
 //    private Set<Subcriber> subcribers = new HashSet<>();
 
-    @OneToMany( mappedBy = "groupContact", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "groupContact", cascade = CascadeType.ALL)
     private List<GroupContactSubcriber> groupContactSubcribers;
 
 

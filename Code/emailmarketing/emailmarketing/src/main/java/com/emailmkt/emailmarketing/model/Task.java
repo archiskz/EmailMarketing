@@ -40,7 +40,7 @@ public class Task implements Serializable {
 
     @Basic
     @Column(name = "shape_id")
-    private String shape_id;
+    private String shapeId;
 
     @Basic
     @Column(name = "status")

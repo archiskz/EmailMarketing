@@ -69,6 +69,7 @@ class CreateContact extends Component {
 
    getAllContacts=()=>{
     console.log("haha")
+    const allCountries = [{}];
    axios.get(`${Config.API_URL}subcribersV2`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
    .then(response => {
        console.log(response.data)
@@ -90,7 +91,7 @@ class CreateContact extends Component {
          if(groupContactsList.length > 0){
             this.setState({
                 allCountries: groupContactsList,
-                currentCountries: groupContactsList.slice(0, 8)
+                currentCountries: groupContactsList.slice(0, 10)
              });
          }else {
             this.setState({
@@ -116,7 +117,7 @@ onPageChanged = data => {
     console.log("current page" + totalPages)
     const offset = (currentPage - 1) * pageLimit;
     const currentCountries = allCountries.slice(offset, offset + pageLimit);
-
+    console.log(currentCountries)
     this.setState({ currentPage, currentCountries, totalPages });
   };
 
@@ -165,16 +166,8 @@ toAddContactManual=()=>{
         totalPages
       } = this.state;
       var totalCountries = allCountries.length;
-     
-  
-      const headerClass = [
-        "text-dark py-2 pr-4 m-0",
-        currentPage ? "border-gray border-right" : ""
-      ]
-        .join(" ")
-        .trim();
-        if (totalCountries === 0) {return null}
-     else return (
+        if (totalCountries === 0) return null
+      else return (
 	  <div className = "" >
    <div className="flash_notice">
         </div>

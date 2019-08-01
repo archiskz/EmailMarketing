@@ -41,7 +41,7 @@ public class WorkflowGroupContact implements Serializable {
     private Workflow workflow;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_contact_id" )
     private GroupContact groupContact;
 

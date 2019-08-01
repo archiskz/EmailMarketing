@@ -26,7 +26,7 @@ class Lists extends Component {
             dropdown_visible: false,
             existedGroup: "",
             auth_token: "",
-            allCountries: [],
+            allCountries: [{}],
             currentCountries: [],
             currentPage: null,
             totalPages: null
@@ -94,7 +94,7 @@ class Lists extends Component {
                  });
              }else {
                 this.setState({
-                    allCountries: [{id:"",name:"",description:""}],
+                    allCountries: [{}],
                     currentCountries: this.state.groupContactsFilter.slice(0,0)
                  }); 
              }
@@ -117,16 +117,8 @@ class Lists extends Component {
             totalPages
           } = this.state;
           var totalCountries = allCountries.length;
-         
-      
-          const headerClass = [
-            "text-dark py-2 pr-4 m-0",
-            currentPage ? "border-gray border-right" : ""
-          ]
-            .join(" ")
-            .trim();
-            if (totalCountries === 0) {return null}
-         else return (
+            if (totalCountries === 0) return null
+          else return (
             <div className="">
                 <div className="flash_notice">
                     <ReactNotification
@@ -352,11 +344,12 @@ class Lists extends Component {
     }
 renderGroupList(currentCountries){
     if(this.state.currentCountries.length ==0){
-        return (
-            <div style={{"width":"100%","textAlign":"center","fontSize":"17px","position":"absolute","color":"red"}}>No Records Found</div>
-        )
-    } else return (
-        currentCountries.map((list,index) => (
+        return <div style={{"width":"100%","textAlign":"center","fontSize":"17px","position":"absolute","color":"red"}}>No Records Found</div>
+        
+    }
+    console.log(this.state.currentCountries)
+     return (
+        this.state.currentCountries.map((list,index) => (
             <ListRow
                 update={this.getAllListContact}
                 key={index}
@@ -380,21 +373,16 @@ renderGroupList(currentCountries){
     
 
     getAllListContact = () => {
-        // let config = {};
-        // config = {
-        //     headers:
-        //         {
-        //             Authorization: Config.TOKEN
-        //         }
-        // };
-
         console.log(this.state.auth_token);
         axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(res => {
-                const listContacts = res.data;
-                console.log(listContacts);
-                this.setState({allCountries : listContacts,
-                    groupContactsFilter: listContacts
+                // console.log(res.data)
+                // const listContacts = [{}];
+                // const listContacts = res.data;
+                // console.log(listContacts);
+                this.setState({allCountries : res.data,
+                    groupContactsFilter: res.data,
+                    currentCountries: res.data.slice(0,8)
                 })
             }).catch(function (error) {
             console.log(error);
