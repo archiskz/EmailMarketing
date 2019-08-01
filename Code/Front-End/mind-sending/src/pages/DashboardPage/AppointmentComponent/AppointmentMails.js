@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 import AppointmentRow from '../../../components/row/AppointmentRow';
 import Modal from 'react-awesome-modal';
+import axios from 'axios';
 import * as Config from '../../../constants/Config';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";

@@ -7,6 +7,7 @@ import {
 
 export default function(group, element) {
   var selectOptions = JSON.parse(localStorage.getItem('campaigns'));
+  var selectOptionsApp = JSON.parse(localStorage.getItem('appointments'));
   var selectSequenceFlow = [
     { value: 'yes', name: 'Yes' },
     { value: 'no', name: 'No' }
@@ -35,6 +36,15 @@ export default function(group, element) {
     group.entries.push(entryFactory.selectBox({
       id : 'campaign',
       selectOptions: selectOptions,
+      label : 'Choose Campaign',
+      modelProperty : 'name'
+    }));
+  
+  }
+  if (is(element, 'bpmn:BusinessRuleTask')) {
+    group.entries.push(entryFactory.selectBox({
+      id : 'campaign',
+      selectOptions: selectOptionsApp,
       label : 'Choose Campaign',
       modelProperty : 'name'
     }));
