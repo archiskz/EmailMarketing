@@ -34,6 +34,7 @@ public class AccountServiceImpl implements AccountService {
             return false;
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         account.setCreatedTime(LocalDateTime.now().toString());
 //        account.setPassword(encoder.encode(account.getPassword()));
         account.setPassword(encoder.encode(account.getPassword()));

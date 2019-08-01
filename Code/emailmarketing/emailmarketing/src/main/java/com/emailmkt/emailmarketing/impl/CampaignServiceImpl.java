@@ -90,6 +90,7 @@ public class CampaignServiceImpl implements CampaignService {
                 campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
                 campaignSubcriber.setSubcriberEmail(mailList[i]);
                 campaignSubcribers.add(campaignSubcriber);
+                campaignSubcriber.setOpened(false);
             }
             campaignGroupContact.setCampaign(campaign);
             return campaignGroupContact;

@@ -22,10 +22,9 @@ public interface AppointmentSubcriberRepository extends JpaRepository<Appointmen
     @Query("SELECT ap.confirmation FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId AND ap.subcriberEmail= :subcriberEmail")
     int checkConfirmAppointment(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);
 
-    @Transactional
-    @Modifying(clearAutomatically = true)
-    @Query("UPDATE AppointmentSubcriber ap SET ap.send = true WHERE ap.appointmentGroupContact.appointment.id  = :appointmentId and ap.subcriberEmail =:subcriberEmail")
-    void  changeConfirmSend(@Param("appointmentId") int appointmentId, @Param("subcriberEmail") String subcriberEmail);
+
+    @Query("Select ap from AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id  = :appointmentId and ap.subcriberEmail =:subcriberEmail")
+    AppointmentSubcriber  changeConfirmSend(@Param("appointmentId") int appointmentId, @Param("subcriberEmail") String subcriberEmail);
 
     // @Query("select ap from AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId AND ap.subcriberEmail= :subcriberEmail ")
     // AppointmentSubcriber  changeConfirmSend(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);

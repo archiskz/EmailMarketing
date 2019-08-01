@@ -57,16 +57,14 @@ public class Appointment implements Serializable {
     @Basic
     @Column(name = "updated_time")
     private String updatedTime;
-
-
-
-
-
-
     @Column(name = "token")
     private String token;
-    @Column(name = "confirmation")
-    private boolean confirm;
+
+
+    @Column(name = "automation")
+    private boolean automation;
+
+
 
     @OneToMany( mappedBy = "appointment",cascade = CascadeType.ALL)
     private List<AppointmentGroupContact> appointmentGroupContacts;

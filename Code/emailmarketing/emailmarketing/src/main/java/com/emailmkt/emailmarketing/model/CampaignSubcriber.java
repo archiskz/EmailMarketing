@@ -2,6 +2,7 @@ package com.emailmkt.emailmarketing.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "campaign_has_subcriber"
-//        uniqueConstraints={@UniqueConstraint(columnNames = { "group_contact_id","subcriber_email"})}
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
@@ -33,18 +33,27 @@ public class CampaignSubcriber implements Serializable {
     @Column(name = "updated_time")
     private String updatedTime;
 
+
     @Column(name = "subcriber_email")
     private String subcriberEmail;
+
+
 
     @Column(name = "confirmation")
     private boolean confirmation;
 
 
 
-    //    @JsonIgnore
+    @Column(name = "opened")
+    private boolean opened;
+
+
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campaign_id",referencedColumnName = "campaign_id")
     private CampaignGroupContact campaignGroupContact;
+
 
 
 
