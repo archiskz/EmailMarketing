@@ -91,7 +91,7 @@ class CreateContact extends Component {
          if(groupContactsList.length > 0){
             this.setState({
                 allCountries: groupContactsList,
-                currentCountries: groupContactsList.slice(0, 8)
+                currentCountries: groupContactsList.slice(0, 10)
              });
          }else {
             this.setState({
@@ -117,7 +117,7 @@ onPageChanged = data => {
     console.log("current page" + totalPages)
     const offset = (currentPage - 1) * pageLimit;
     const currentCountries = allCountries.slice(offset, offset + pageLimit);
-
+    console.log(currentCountries)
     this.setState({ currentPage, currentCountries, totalPages });
   };
 
