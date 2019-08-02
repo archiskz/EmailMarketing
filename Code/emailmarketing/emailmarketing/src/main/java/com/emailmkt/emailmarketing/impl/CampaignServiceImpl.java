@@ -314,7 +314,7 @@ public class CampaignServiceImpl implements CampaignService {
                 campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
                 campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
                 campaignSubcriber.setOpened(false);
-                campaignSubcriber.setSend(1);
+                campaignSubcriber.setSend(false);
                 campaignSubcriber.setSubcriberEmail(mailList[i]);
                 campaignSubcribers.add(campaignSubcriber);
             }
@@ -323,7 +323,7 @@ public class CampaignServiceImpl implements CampaignService {
             return campaignGroupContact;
         }).collect(Collectors.toList());
         campaign.setAccount_id(1);
-        campaign.setCampaignGroupContacts(temp.getCampaignGroupContacts());
+        campaign.setCampaignGroupContacts(campaignGroupContacts);
         campaign.setAutomation(true);
         campaign.setTimeStart(temp.getTimeStart());
         campaign.setStatus("Sending");

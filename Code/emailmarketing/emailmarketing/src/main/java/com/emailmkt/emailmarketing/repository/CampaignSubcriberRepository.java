@@ -1,6 +1,5 @@
 package com.emailmkt.emailmarketing.repository;
 
-import com.emailmkt.emailmarketing.model.AppointmentSubcriber;
 import com.emailmkt.emailmarketing.model.CampaignSubcriber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,13 +20,13 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
     List<String> findSubcriberMailByCampaignId(@Param("campaignId") int campaignId);
 //
     @Query("SELECT cp.confirmation FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail")
-    int checkConfirmCampaign(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
+    public Boolean checkConfirmCampaign(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
 
      @Query("select cp from CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail ")
      CampaignSubcriber  changeConfirmSend(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
 
      @Query("SELECT cp.send FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail")
-    int checkSend(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
+    public Boolean checkSend(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
 
 
 

@@ -39,7 +39,7 @@ public class AppointmentSubcriber implements Serializable {
     private String subcriberEmail;
 
     @Column(name = "confirmation")
-    private int confirmation;
+    private boolean confirmation;
 
 
 
@@ -47,7 +47,7 @@ public class AppointmentSubcriber implements Serializable {
     private boolean opened;
 
     @Column(name = "send")
-    private int send;
+    private boolean send;
 
 
     @JsonIgnore

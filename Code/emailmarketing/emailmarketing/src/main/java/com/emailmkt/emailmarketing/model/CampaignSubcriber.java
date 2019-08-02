@@ -48,7 +48,7 @@ public class CampaignSubcriber implements Serializable {
     private boolean opened;
 
     @Column(name = "send")
-    private int send;
+    private boolean send;
 
 
 

@@ -109,11 +109,10 @@ public class AppointmentServiceImpl implements AppointmentService {
             for (int i = 0; i < mailList.length; i++) {
                 mailLists.add(mailList[i]);
                 AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
-                appointmentSubcriber.setConfirmation(0);
+                appointmentSubcriber.setConfirmation(false);
                 appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
                 appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
-                appointmentSubcriber.setSend(0);
-                appointmentSubcriber.setConfirmation(1);
+                appointmentSubcriber.setSend(false);
                 appointmentSubcriber.setOpened(false);
 
                 appointmentSubcriber.setSubcriberEmail(mailList[i]);
@@ -155,7 +154,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                         mailLists.get(counter), appointment.getSubject(),
                         newString);
                 AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(appointment.getId(), mailLists.get(counter));
-                appointmentSubcriber.setSend(1);
+                appointmentSubcriber.setSend(true);
                 appointmentSubcriberRepository.save(appointmentSubcriber);
 
             }
@@ -208,7 +207,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (appointmentSubcriber == null) {
             return ResponseEntity.badRequest().body("Invalid token.");
         } else {
-            appointmentSubcriber.setConfirmation(1);
+            appointmentSubcriber.setConfirmation(true);
             appointmentRepository.save(appointment);
             String body = "";
             try {
@@ -248,10 +247,10 @@ public class AppointmentServiceImpl implements AppointmentService {
                 List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
                 for (int i = 0; i < mailList.length; i++) {
                     AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
-                    appointmentSubcriber.setConfirmation(1);
+                    appointmentSubcriber.setConfirmation(false);
                     appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
                     appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
-                    appointmentSubcriber.setSend(0);
+                    appointmentSubcriber.setSend(false);
                     appointmentSubcriber.setOpened(false);
 
                     appointmentSubcriber.setSubcriberEmail(mailList[i]);

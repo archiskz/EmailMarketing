@@ -2,6 +2,7 @@ package com.emailmkt.emailmarketing.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +16,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "campaign_has_group_contact",uniqueConstraints={
-        @UniqueConstraint(columnNames = {"campaign_id", "group_contact_id"})
-}
+@Table(name = "campaign_has_group_contact"
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
@@ -40,7 +39,7 @@ public class CampaignGroupContact implements Serializable {
     @JoinColumn(name = "campaign_id")
     private Campaign campaign;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "group_contact_id" )
     private GroupContact groupContact;

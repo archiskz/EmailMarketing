@@ -20,7 +20,7 @@ public interface AppointmentSubcriberRepository extends JpaRepository<Appointmen
     List<String> findSubcriberMailByAppointmentId(@Param("appointmentId")int appointmentId);
 
     @Query("SELECT ap.confirmation FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId AND ap.subcriberEmail= :subcriberEmail")
-    int checkConfirmAppointment(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);
+    public Boolean checkConfirmAppointment(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);
 
 //    @Query("select ap from AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId AND ap.subcriberEmail= :subcriberEmail ")
 //     AppointmentSubcriber  changeConfirmSend(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);
@@ -40,7 +40,7 @@ public interface AppointmentSubcriberRepository extends JpaRepository<Appointmen
      AppointmentSubcriber  changeConfirmSend(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);
 
      @Query("SELECT ap.send FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId AND ap.subcriberEmail= :subcriberEmail")
-    int checkSend(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);
+    public Boolean checkSend(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);
 
 
 
