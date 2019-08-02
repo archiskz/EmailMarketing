@@ -33,43 +33,48 @@ class AutomationCampaigns extends Component {
     const appState = JSON.parse(localStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
-    },()=> {this.getAllCampaign()
+    },()=> {
+      this.getAllAutoCampaign()
+      this.getAllCampaign()
       this.getAllAppointment()
     })
+   }
+
+   getAllAutoCampaign=()=>{
+    axios.get(`${Config.API_URL}workflows`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+      console.log(res.data);
+      this.setState({campaigns: res.data})
+    }).catch(error => {
+      console.log(error)
+    }) 
+   
+  
    }
    getAllCampaign=()=>{
     var selectOptions = [
     ];
     axios.get(`${Config.API_URL}campaigns`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
-      console.log(res.data);
-      this.setState({campaigns: res.data});
+      // this.setState({campaigns: res.data});
       res.data.forEach(element => {
-        console.log(element.name)
         selectOptions.push({value: element.name, name: element.name})
       });
-      console.log(selectOptions)
       localStorage["campaigns"] = JSON.stringify(selectOptions);
     }) 
-    console.log(this.state.campaigns)
   
    }
    getAllAppointment=()=>{
-     console.log("APPOINTMENT")
     var selectOptions = [
     ];
     axios.get(`${Config.API_URL}appointments`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
-      console.log(res.data);
       this.setState({appointments: res.data});
       res.data.forEach(element => {
-        console.log(element.name)
         selectOptions.push({value: element.name, name: element.name})
       });
-      console.log(selectOptions)
       localStorage["appointments"] = JSON.stringify(selectOptions);
     }) 
-    console.log(this.state.campaigns)
   
    }
 

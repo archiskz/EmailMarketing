@@ -55,6 +55,10 @@ public class Task implements Serializable {
     private String updatedTime;
 
     @Basic
+    @Column(name = "campaign_apointment")
+    private int campaignAppointment;
+
+    @Basic
     @Column(name = "type")
     private String type;
 

@@ -45,7 +45,7 @@ export default function(group, element) {
     group.entries.push(entryFactory.selectBox({
       id : 'campaign',
       selectOptions: selectOptionsApp,
-      label : 'Choose Campaign',
+      label : 'Choose Appointment',
       modelProperty : 'name'
     }));
   
