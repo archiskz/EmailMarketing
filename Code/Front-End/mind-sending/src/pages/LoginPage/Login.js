@@ -151,7 +151,7 @@ getPosts() {
                     msElapsed: this.state.msElapsed + this.timeIncrementMs
                 })
             , this.timeIncrementMs);
-	axios.post(`http://localhost:8080/api/login`,this.state.user,{
+	axios.post(`http://103.79.141.134:8080/api/`,this.state.user,{
 		headers:{
 			Authorization: ""
 		}
