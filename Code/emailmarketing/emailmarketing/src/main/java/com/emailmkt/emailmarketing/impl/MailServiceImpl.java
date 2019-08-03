@@ -20,6 +20,8 @@ import java.util.Properties;
 
 import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_ID;
 
+import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_APPOINTMENT_ID;
+
 @Service
 public class MailServiceImpl implements MailService {
 
@@ -76,7 +78,7 @@ public class MailServiceImpl implements MailService {
 //    }Map
 
     @Override
-    public void sendSimpleMessageV2(String from, String fromMail, String[] to, String subject, String body) {
+    public void sendSimpleMessageV2(String from, String fromMail, String to, String subject, String body) {
         try {
 
             Properties properties = System.getProperties();
@@ -107,6 +109,7 @@ public class MailServiceImpl implements MailService {
                     MESSAGE_ID = response.split(" ")[2];
 
             }
+
 
         }catch (Exception e) {
 
@@ -145,7 +148,7 @@ public class MailServiceImpl implements MailService {
 
                 String response = ((SMTPTransport) transport).getLastServerResponse();
                 System.out.println(response.split(" ")[2]);
-                MESSAGE_ID = response.split(" ")[2];
+                MESSAGE_APPOINTMENT_ID = response.split(" ")[2];
 
             }
 
@@ -155,11 +158,7 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    @Override
-    public void sendSimpleMessageUsingTemplate(String from, String fromMail,String []to, String subject, String message) {
 
-        sendSimpleMessageV2(from,fromMail,to,subject,message);
-    }
 
     @Override
     public void sendMessageWithAttachment(String to, String subject, String text, String pathToAttachment) {

@@ -7,6 +7,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.TermVector;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +18,7 @@ import java.io.Serializable;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Indexed
 @Table(name = "appointment_has_subcriber"
 //        uniqueConstraints={@UniqueConstraint(columnNames = { "group_contact_id","subcriber_email"})}
 
@@ -49,6 +53,9 @@ public class AppointmentSubcriber implements Serializable {
     @Column(name = "send")
     private boolean send;
 
+    @Column(name = "message_id")
+    @Field(termVector = TermVector.YES)
+    private String messageId;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

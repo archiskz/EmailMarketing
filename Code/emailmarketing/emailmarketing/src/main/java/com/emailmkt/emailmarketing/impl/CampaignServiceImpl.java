@@ -41,6 +41,9 @@ public class CampaignServiceImpl implements CampaignService {
     @Autowired
     WorkflowRepository workflowRepository;
 
+    @Autowired
+    CampaignSubcriberRepository campaignSubcriberRepository;
+
 
 
     @Autowired
@@ -92,6 +95,7 @@ public class CampaignServiceImpl implements CampaignService {
                 campaignSubcribers.add(campaignSubcriber);
                 campaignSubcriber.setOpened(false);
             }
+            campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
             campaignGroupContact.setCampaign(campaign);
             return campaignGroupContact;
         }).collect(Collectors.toList());
@@ -118,16 +122,32 @@ public class CampaignServiceImpl implements CampaignService {
             CampaignGroupContact campaignGroupContact = new CampaignGroupContact();
             campaignGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContact().getId()));
             String[]mailList= groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
+            List<CampaignSubcriber> campaignSubcribers= new ArrayList<>();
             for (int i = 0; i < mailList.length; i++) {
                 mailLists.add(mailList[i]);
+                CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
+                campaignSubcriber.setConfirmation(false);
+                campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
+                campaignSubcriber.setSend(true);
+                campaignSubcriber.setOpened(false);
+
+                campaignSubcriber.setSubcriberEmail(mailList[i]);
+                campaignSubcribers.add(campaignSubcriber);
             }
+            campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
             return campaignGroupContact;
+
         }).collect(Collectors.toList());
         try{
-//            mailService.sendSimpleMessage(sender,fromMail,mailLists.stream().toArray(String[]::new),subject,content);
-            mailService.sendSimpleMessageV2(sender,fromMail,mailLists.stream().toArray(String[]::new),subject,content);
-            campaign.setMessageId(MESSAGE_ID);
-            campaignRepository.save(campaign);
+            for (int counter = 0; counter < mailLists.size(); counter++) {
+                mailService.sendSimpleMessageV2(sender,fromMail,mailLists.get(counter),subject,content);
+                CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(id, mailLists.get(counter));
+                campaignSubcriber.setSend(true);
+                campaignSubcriber.setMessageId(MESSAGE_ID);
+                campaignRepository.save(campaign);
+            }
+
             System.out.println(campaign.getMessageId());
         }catch (MailException e){
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
@@ -176,6 +196,7 @@ public class CampaignServiceImpl implements CampaignService {
                 campaignSubcriber.setSubcriberEmail(mailList[i]);
                 campaignSubcribers.add(campaignSubcriber);
             }
+            campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
             campaignGroupContact.setCampaign(campaign);
             return campaignGroupContact;
         }).collect(Collectors.toList());
@@ -186,8 +207,15 @@ public class CampaignServiceImpl implements CampaignService {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                mailService.sendSimpleMessageV2(campaign.getSender(),campaign.getFromMail(),mailLists.stream().toArray(String[]::new),campaign.getSubject(),campaign.getContent());
-                campaign.setStatus("Done");
+                for (int counter = 0; counter < mailLists.size(); counter++) {
+                    mailService.sendSimpleMessageV2(campaign.getSender(),campaign.getFromMail(),mailLists.get(counter),campaign.getSubject(),campaign.getContent());
+                    CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(campaign.getId(), mailLists.get(counter));
+                    campaignSubcriber.setSend(true);
+                    campaignSubcriber.setMessageId(MESSAGE_ID);
+                    campaign.setStatus("Done");
+                    campaignRepository.save(campaign);
+                }
+
             }
         };
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
