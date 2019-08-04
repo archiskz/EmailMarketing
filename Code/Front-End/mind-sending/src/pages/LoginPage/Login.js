@@ -7,6 +7,7 @@ import {commonCallApi} from './../../utils/commonCallApi';
 import * as Config from './../../constants/Config';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router";
+// import * as Config from '../../../constants/Config'
 import {
 	connect
 } from 'react-redux';
@@ -164,7 +165,7 @@ getPosts() {
                     msElapsed: this.state.msElapsed + this.timeIncrementMs
                 })
             , this.timeIncrementMs);
-	axios.post(`http://103.79.141.134:8080/api/`,this.state.user,{
+	axios.post(`${Config.API_URL}login`,this.state.user,{
 		headers:{
 			Authorization: ""
 		}
