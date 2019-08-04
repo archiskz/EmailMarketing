@@ -157,7 +157,10 @@ public class AppointmentServiceImpl implements AppointmentService {
                         newString);
                 AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(appointment.getId(), mailLists.get(counter));
                 appointmentSubcriber.setSend(true);
-                appointmentSubcriber.setMessageId(MESSAGE_APPOINTMENT_ID);
+                appointmentSubcriber.setConfirmation(false);
+                appointmentSubcriber.setDelivery(false);
+                appointmentSubcriber.setOpened(false);
+                appointmentSubcriber.setMessageId(MESSAGE_APPOINTMENT_ID.trim());
                 appointmentSubcriberRepository.save(appointmentSubcriber);
 
             }

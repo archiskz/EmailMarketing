@@ -1,9 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
-import com.emailmkt.emailmarketing.dto.CampaignDTO;
-import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
-import com.emailmkt.emailmarketing.dto.GCCampaignDTO;
-import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.dto.*;
 import com.emailmkt.emailmarketing.model.*;
 import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.CampaignService;
@@ -144,11 +141,10 @@ public class CampaignServiceImpl implements CampaignService {
                 mailService.sendSimpleMessageV2(sender,fromMail,mailLists.get(counter),subject,content);
                 CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(id, mailLists.get(counter));
                 campaignSubcriber.setSend(true);
-                campaignSubcriber.setMessageId(MESSAGE_ID);
+                campaignSubcriber.setMessageId(MESSAGE_ID.trim());
                 campaignRepository.save(campaign);
             }
 
-            System.out.println(campaign.getMessageId());
         }catch (MailException e){
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
@@ -292,6 +288,15 @@ public class CampaignServiceImpl implements CampaignService {
     @Override
     public CampaignFullDTO getCampaginById(int id) {
         Campaign campaign = campaignRepository.findCampaignById(id);
+        // Get Statistic of Campaign
+        double request = campaignSubcriberRepository.countRequest(id);
+        double bounce = campaignSubcriberRepository.countBounce(id);
+        double delivery = campaignSubcriberRepository.countDelivery(id);
+        double open = campaignSubcriberRepository.countOpen(id);
+        double click = campaignSubcriberRepository.countClick(id);
+        double spam = campaignSubcriberRepository.countSpam(id);
+
+
 
         CampaignFullDTO campaignFullDTO = new CampaignFullDTO();
 
@@ -306,8 +311,7 @@ public class CampaignServiceImpl implements CampaignService {
         campaignFullDTO.setUpdatedTime(LocalDateTime.now().toString());
         campaignFullDTO.setFromMail(campaign.getFromMail());
         campaignFullDTO.setBodyJson(campaign.getBodyJson());
-//        campaignFullDTO.setGroupContactName(campaignGroupContactRepository.findGroupByCampaignId(id));
-//        campaign.getCampaignGroupContacts().stream().map();
+
         List<GCCampaignDTO> gcCampaignDTOs = campaign.getCampaignGroupContacts().stream().map(g->{
             GCCampaignDTO gcCampaignDTO= new GCCampaignDTO();
             gcCampaignDTO.setGroupContactId(g.getGroupContact().getId());
@@ -315,6 +319,14 @@ public class CampaignServiceImpl implements CampaignService {
             return gcCampaignDTO;
         }).collect(Collectors.toList());
         campaignFullDTO.setGcCampaignDTOS(gcCampaignDTOs);
+        //Statistic
+        campaignFullDTO.setRequest(String.valueOf(request));
+        campaignFullDTO.setOpen(Math.round((open/request)*100) +"%");
+        campaignFullDTO.setBounce(Math.round((bounce/request)*100)+"%");
+        campaignFullDTO.setDelivery(Math.round((delivery/request)*100)+"%");
+        campaignFullDTO.setClick(Math.round((click/request)*100) +"%");
+        campaignFullDTO.setSpam(Math.round((spam/request)*100) +"%");
+
         return campaignFullDTO;
     }
 
@@ -355,7 +367,6 @@ public class CampaignServiceImpl implements CampaignService {
         campaign.setAutomation(true);
         campaign.setTimeStart(temp.getTimeStart());
         campaign.setStatus("Sending");
-        campaign.setMessageId(temp.getMessageId());
         campaign.setBodyJson(temp.getBodyJson());
         campaign.setFromMail(temp.getFromMail());
         campaign.setSubject(temp.getSubject());
@@ -366,5 +377,8 @@ public class CampaignServiceImpl implements CampaignService {
         campaignRepository.save(campaign);
         return campaign.getId();
     }
+
+
+
 
 }

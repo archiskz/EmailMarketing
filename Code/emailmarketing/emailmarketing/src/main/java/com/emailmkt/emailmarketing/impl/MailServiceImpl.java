@@ -40,10 +40,10 @@ public class MailServiceImpl implements MailService {
     static final int PORT = 587;
 
     // Replace smtp_username with your Amazon SES SMTP user name.
-    static final String SMTP_USERNAME = "AKIAXTZGLCQ6ONUQV5HD";
+    static final String SMTP_USERNAME = "AKIAXTZGLCQ6D5TDU5KZ";
 
     // Replace smtp_password with your Amazon SES SMTP password.
-    static final String SMTP_PASSWORD = "BAm6pI2gKgOK2NtlxpZWaZ6pSXsTpQg1ZgPw6FXWmTq7";
+    static final String SMTP_PASSWORD = "BOTVwUto/Dcqr+iURWA7NUSrSN8o3zisLqHl849z0ZVi";
 
 
 

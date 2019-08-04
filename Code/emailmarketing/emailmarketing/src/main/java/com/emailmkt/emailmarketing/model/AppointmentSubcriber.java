@@ -24,6 +24,7 @@ import java.io.Serializable;
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
+
 public class AppointmentSubcriber implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,10 +53,13 @@ public class AppointmentSubcriber implements Serializable {
 
     @Column(name = "send")
     private boolean send;
+    @Column(name = "delivery")
+    private boolean delivery;
 
     @Column(name = "message_id")
     @Field(termVector = TermVector.YES)
     private String messageId;
+
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

@@ -54,6 +54,19 @@ public class CampaignSubcriber implements Serializable {
     @Column(name = "send")
     private boolean send;
 
+    @Column(name = "delivery")
+    private boolean delivery;
+
+    @Column(name = "click")
+    private boolean click;
+
+    @Column(name = "bounce")
+    private boolean bounce;
+
+    @Column(name = "spam")
+    private boolean spam;
+
+
     @Column(name = "message_id")
     @Field(termVector = TermVector.YES)
     private String messageId;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class HibernateSearchService {
@@ -24,7 +25,8 @@ public class HibernateSearchService {
     }
 
     @Transactional
-    public AppointmentSubcriber searchMessageAppointment(String searchTerm){
+    public List<AppointmentSubcriber> searchMessageAppointment(String searchTerm){
+
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
         QueryBuilder appointmentQueryBuilder = fullTextEntityManager.getSearchFactory()
                 .buildQueryBuilder()
@@ -39,12 +41,13 @@ public class HibernateSearchService {
 
         org.hibernate.search.jpa.FullTextQuery jpaQuery
                 = fullTextEntityManager.createFullTextQuery(AppointmentQuery, AppointmentSubcriber.class);
-        AppointmentSubcriber result = (AppointmentSubcriber)jpaQuery.getSingleResult();
+        List<AppointmentSubcriber> result = jpaQuery.getResultList();
+
         return result;
     }
 
     @Transactional
-    public CampaignSubcriber searchMessageCampaign(String searchTerm){
+    public List<CampaignSubcriber> searchMessageCampaign(String searchTerm){
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
         QueryBuilder campaignQueryBuilder = fullTextEntityManager.getSearchFactory()
                 .buildQueryBuilder()
@@ -59,7 +62,7 @@ public class HibernateSearchService {
 
         org.hibernate.search.jpa.FullTextQuery jpaQuery
                 = fullTextEntityManager.createFullTextQuery(CampaignQuery, AppointmentSubcriber.class);
-        CampaignSubcriber result = (CampaignSubcriber)jpaQuery.getSingleResult();
+        List<CampaignSubcriber> result = jpaQuery.getResultList();
         return result;
     }
 

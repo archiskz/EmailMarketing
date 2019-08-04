@@ -21,6 +21,15 @@ public class CampaignFullDTO {
 
     private String updatedTime;
 
+    //Statistic of Campaign
+    private String request;
+    private String delivery;
+    private String click;
+    private String open;
+
+    private String spam;
+    private String bounce;
+
 
 //    private String[] groupContactName;
 private List<GCCampaignDTO> gcCampaignDTOS;
