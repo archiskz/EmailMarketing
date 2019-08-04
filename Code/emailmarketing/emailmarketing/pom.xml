@@ -98,6 +98,13 @@
 			<version>2.9.4</version>
 
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-search-orm -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-orm</artifactId>
+			<version>5.11.1.Final</version>
+		</dependency>
+
 
 
 

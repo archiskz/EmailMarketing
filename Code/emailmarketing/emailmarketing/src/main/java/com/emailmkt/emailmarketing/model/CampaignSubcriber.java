@@ -7,6 +7,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.TermVector;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,6 +21,7 @@ import java.io.Serializable;
 @Table(name = "campaign_has_subcriber"
 
 )
+@Indexed
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
 public class CampaignSubcriber implements Serializable {
     @Id
@@ -49,6 +53,23 @@ public class CampaignSubcriber implements Serializable {
 
     @Column(name = "send")
     private boolean send;
+
+    @Column(name = "delivery")
+    private boolean delivery;
+
+    @Column(name = "click")
+    private boolean click;
+
+    @Column(name = "bounce")
+    private boolean bounce;
+
+    @Column(name = "spam")
+    private boolean spam;
+
+
+    @Column(name = "message_id")
+    @Field(termVector = TermVector.YES)
+    private String messageId;
 
 
 

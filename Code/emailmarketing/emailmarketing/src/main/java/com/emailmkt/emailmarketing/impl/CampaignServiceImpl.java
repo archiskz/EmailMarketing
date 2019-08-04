@@ -1,9 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
-import com.emailmkt.emailmarketing.dto.CampaignDTO;
-import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
-import com.emailmkt.emailmarketing.dto.GCCampaignDTO;
-import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.dto.*;
 import com.emailmkt.emailmarketing.model.*;
 import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.CampaignService;
@@ -40,6 +37,9 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Autowired
     WorkflowRepository workflowRepository;
+
+    @Autowired
+    CampaignSubcriberRepository campaignSubcriberRepository;
 
 
 
@@ -92,6 +92,7 @@ public class CampaignServiceImpl implements CampaignService {
                 campaignSubcribers.add(campaignSubcriber);
                 campaignSubcriber.setOpened(false);
             }
+            campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
             campaignGroupContact.setCampaign(campaign);
             return campaignGroupContact;
         }).collect(Collectors.toList());
@@ -118,17 +119,32 @@ public class CampaignServiceImpl implements CampaignService {
             CampaignGroupContact campaignGroupContact = new CampaignGroupContact();
             campaignGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContact().getId()));
             String[]mailList= groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
+            List<CampaignSubcriber> campaignSubcribers= new ArrayList<>();
             for (int i = 0; i < mailList.length; i++) {
                 mailLists.add(mailList[i]);
+                CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
+                campaignSubcriber.setConfirmation(false);
+                campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
+                campaignSubcriber.setSend(true);
+                campaignSubcriber.setOpened(false);
+
+                campaignSubcriber.setSubcriberEmail(mailList[i]);
+                campaignSubcribers.add(campaignSubcriber);
             }
+            campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
             return campaignGroupContact;
+
         }).collect(Collectors.toList());
         try{
-//            mailService.sendSimpleMessage(sender,fromMail,mailLists.stream().toArray(String[]::new),subject,content);
-            mailService.sendSimpleMessageV2(sender,fromMail,mailLists.stream().toArray(String[]::new),subject,content);
-            campaign.setMessageId(MESSAGE_ID);
-            campaignRepository.save(campaign);
-            System.out.println(campaign.getMessageId());
+            for (int counter = 0; counter < mailLists.size(); counter++) {
+                mailService.sendSimpleMessageV2(sender,fromMail,mailLists.get(counter),subject,content);
+                CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(id, mailLists.get(counter));
+                campaignSubcriber.setSend(true);
+                campaignSubcriber.setMessageId(MESSAGE_ID.trim());
+                campaignRepository.save(campaign);
+            }
+
         }catch (MailException e){
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
@@ -176,6 +192,7 @@ public class CampaignServiceImpl implements CampaignService {
                 campaignSubcriber.setSubcriberEmail(mailList[i]);
                 campaignSubcribers.add(campaignSubcriber);
             }
+            campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
             campaignGroupContact.setCampaign(campaign);
             return campaignGroupContact;
         }).collect(Collectors.toList());
@@ -186,8 +203,15 @@ public class CampaignServiceImpl implements CampaignService {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                mailService.sendSimpleMessageV2(campaign.getSender(),campaign.getFromMail(),mailLists.stream().toArray(String[]::new),campaign.getSubject(),campaign.getContent());
-                campaign.setStatus("Done");
+                for (int counter = 0; counter < mailLists.size(); counter++) {
+                    mailService.sendSimpleMessageV2(campaign.getSender(),campaign.getFromMail(),mailLists.get(counter),campaign.getSubject(),campaign.getContent());
+                    CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(campaign.getId(), mailLists.get(counter));
+                    campaignSubcriber.setSend(true);
+                    campaignSubcriber.setMessageId(MESSAGE_ID);
+                    campaign.setStatus("Done");
+                    campaignRepository.save(campaign);
+                }
+
             }
         };
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
@@ -264,6 +288,15 @@ public class CampaignServiceImpl implements CampaignService {
     @Override
     public CampaignFullDTO getCampaginById(int id) {
         Campaign campaign = campaignRepository.findCampaignById(id);
+        // Get Statistic of Campaign
+        double request = campaignSubcriberRepository.countRequest(id);
+        double bounce = campaignSubcriberRepository.countBounce(id);
+        double delivery = campaignSubcriberRepository.countDelivery(id);
+        double open = campaignSubcriberRepository.countOpen(id);
+        double click = campaignSubcriberRepository.countClick(id);
+        double spam = campaignSubcriberRepository.countSpam(id);
+
+
 
         CampaignFullDTO campaignFullDTO = new CampaignFullDTO();
 
@@ -278,8 +311,7 @@ public class CampaignServiceImpl implements CampaignService {
         campaignFullDTO.setUpdatedTime(LocalDateTime.now().toString());
         campaignFullDTO.setFromMail(campaign.getFromMail());
         campaignFullDTO.setBodyJson(campaign.getBodyJson());
-//        campaignFullDTO.setGroupContactName(campaignGroupContactRepository.findGroupByCampaignId(id));
-//        campaign.getCampaignGroupContacts().stream().map();
+
         List<GCCampaignDTO> gcCampaignDTOs = campaign.getCampaignGroupContacts().stream().map(g->{
             GCCampaignDTO gcCampaignDTO= new GCCampaignDTO();
             gcCampaignDTO.setGroupContactId(g.getGroupContact().getId());
@@ -287,6 +319,14 @@ public class CampaignServiceImpl implements CampaignService {
             return gcCampaignDTO;
         }).collect(Collectors.toList());
         campaignFullDTO.setGcCampaignDTOS(gcCampaignDTOs);
+        //Statistic
+        campaignFullDTO.setRequest(String.valueOf(request));
+        campaignFullDTO.setOpen(Math.round((open/request)*100) +"%");
+        campaignFullDTO.setBounce(Math.round((bounce/request)*100)+"%");
+        campaignFullDTO.setDelivery(Math.round((delivery/request)*100)+"%");
+        campaignFullDTO.setClick(Math.round((click/request)*100) +"%");
+        campaignFullDTO.setSpam(Math.round((spam/request)*100) +"%");
+
         return campaignFullDTO;
     }
 
@@ -327,7 +367,6 @@ public class CampaignServiceImpl implements CampaignService {
         campaign.setAutomation(true);
         campaign.setTimeStart(temp.getTimeStart());
         campaign.setStatus("Sending");
-        campaign.setMessageId(temp.getMessageId());
         campaign.setBodyJson(temp.getBodyJson());
         campaign.setFromMail(temp.getFromMail());
         campaign.setSubject(temp.getSubject());
@@ -338,5 +377,8 @@ public class CampaignServiceImpl implements CampaignService {
         campaignRepository.save(campaign);
         return campaign.getId();
     }
+
+
+
 
 }
