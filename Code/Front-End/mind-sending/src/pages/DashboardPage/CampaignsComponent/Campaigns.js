@@ -11,6 +11,9 @@ import CreateCampaign from './CreateCampaigns';
 import CampaignPopUp from './../../../components//modals/CampaignPopUp.js';
 import CampaignRow from './../../../components/row/CampaignRow'
 
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+
 class Campaigns extends Component {
    constructor(props) {
      super(props);
@@ -21,6 +24,8 @@ class Campaigns extends Component {
        campaigns: [],
        auth_token:""
      };
+     this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
    }
    onToggleDropdown = () => {
      this.setState({
@@ -29,7 +34,12 @@ class Campaigns extends Component {
    }
 
    componentDidMount(){
-    
+    if(this.props.history.location.state != null && this.props.history.location.state != undefined){
+      if(this.props.history.location.state.success != null && this.props.history.location.state.success != undefined){
+        this.addNotification(this.props.history.location.state.success)
+        this.props.history.replace({});
+      }
+    }
     const appState = JSON.parse(localStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
@@ -53,12 +63,31 @@ class Campaigns extends Component {
 
    }
 
-
+   addNotification=(title)=> {
+    this.notificationDOMRef.current.addNotification({
+      title: `${title}`,
+      message: `${title} Success!`,
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
+  }
 	
   render(){
     var listCampaigns = this.state.campaigns
      return (
 	  <div className = "" >
+    <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
    <div className="flash_notice">
         </div>
         <div className="container" data-role="main-app-container">

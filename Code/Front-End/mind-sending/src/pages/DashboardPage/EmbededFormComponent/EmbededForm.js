@@ -10,6 +10,7 @@ import { withRouter } from "react-router";
 import axios from 'axios';
 import * as Config from './../../../constants/Config';
 import imgLoad from './../../../assets/img/ajax-loader.gif'
+import ValidateField from '../../../components/inputValidate/ValidateField';
 
 
 class EmbededForm extends React.Component {
@@ -38,7 +39,8 @@ class EmbededForm extends React.Component {
                 ],
                 name: ""
             },
-            formId:0
+            formId:0,
+            validates:{}
         }     
         this.fields = { text: 'name', value: 'id' };
         this.handleBtn = this.handleBtn.bind(this);
@@ -76,6 +78,27 @@ class EmbededForm extends React.Component {
                 }
             }, () => { console.log('------------------', this.state.newForm)})
           }
+          Validate = ()=>{
+            var validate = {};
+      
+                if(this.state.newForm.name.length < 3){
+                  validate.nameValidate = "You need to enter form name"; 
+                  this.setState({isLoading:false})
+                  
+                } else validate.nameValidate=""
+
+                this.setState({
+                  validates: validate
+                })
+                console.log(validate);
+                this.setState({
+                    validates: validate
+                  })
+              }
+            
+            
+          
+          
 
         
     render(){
@@ -193,7 +216,8 @@ class EmbededForm extends React.Component {
                                 <span>Form Name</span>
                                 <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
                             </div>
-                            <input onChange={this.handleChange} value={this.state.newForm.name} class="user_profile_w3_input" name="button" type="text" autocomplete="off" maxlength="64"/>
+                            <input onBlur={this.Validate} onChange={this.handleChange} value={this.state.newForm.name} class="user_profile_w3_input" name="button" type="text" autocomplete="off" maxlength="64"/>
+                            <ValidateField isValidate={false} isError = {this.state.validates.nameValidate} />
                         </div>
                         <div class="FormFieldContainer-cVnFXD gVnSPE">
                             <div class="FormFieldLabel-jJcHUJ foZsFZ">
@@ -204,17 +228,18 @@ class EmbededForm extends React.Component {
                           style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important"}} 
                           id="defaultelement"  mode="Default"  
                           dataSource={lists} mode="Default" fields={this.fields}  
+                          value={1}
                           change={this.onChangeListsSelect}
                           placeholder="Choose Group"/>  
                                </div>
-                         
+{/*                          
                         <div class="FormFieldContainer-cVnFXD gVnSPE">
                             <div class="FormFieldLabel-jJcHUJ foZsFZ">
                                 <span>Submit button value</span>
                                 <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
                             </div>
                             <input onChange={this.handleBtn} value={this.state.submit} class="user_profile_w3_input" name="button" type="text" autocomplete="off" maxlength="64"/>
-                        </div>
+                        </div> */}
                         <div class="section-content">
                         <div class="FormFieldLabel-jJcHUJ foZsFZ">
                                 <span>Add custom fields</span>
@@ -245,20 +270,26 @@ class EmbededForm extends React.Component {
     }
     generateCode=()=>{
         this.setState({isLoading:true})
+        var self = this
         console.log(this.state.newForm)
+        this.Validate()
+        if(this.state.validates.nameValidate == "" ){
+            console.log("Validate right")
         axios.post(`${Config.API_URL}form/create`,this.state.newForm,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(response => {
                 console.log(response)
-                this.setState({isLoading: false,
+                self.setState({isLoading: false,
                     generated: true,
                 formId: response.data})
-                this.props.history.push({
+                self.props.history.push({
         pathname:`/dashboard/forms`,
             })
             })
             .catch(error => {
                 console.log(error);
             });
+        }
+        
     }
     save(form){
         // you will receive form

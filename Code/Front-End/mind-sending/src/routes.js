@@ -26,6 +26,7 @@ import CreateAppointment from './pages/DashboardPage/AppointmentComponent/Create
 import AppointmentInfo from './pages/DashboardPage/AppointmentComponent/AppointmentInfo';
 import TestForm from './pages/DashboardPage/EmbededFormComponent/TestForm';
 import EditForm from './pages/DashboardPage/EmbededFormComponent/EditForm';
+import AutomationDetail from './pages/DashboardPage/CampaignsComponent/AutomationDetail'
 const routes = [
 {
 	path:'/',
@@ -159,6 +160,12 @@ const routes = [
 	exact: false,
 	main: () => <AppointmentInfo />
 },
+{
+	path: '/automations/detail/:id',
+	exact: false,
+	main: () => <AutomationDetail />
+},
+
 {/* {
 	path: '/dashboard/contacts/:id',
 	exact: false,

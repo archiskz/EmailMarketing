@@ -76,31 +76,42 @@ handleChange =(e)=> {
 		<div className="container-loginafter" ></div>
 			<div className="wrap-login100">
 				<form className="login100-form validate-form">
-					<span className="login100-form-logo">
+					{/* <span className="login100-form-logo"> */}
 						{/*<i className="zmdi zmdi-landscape"></i>*/}
-						<img className="zmdi zmdi-landscape logo" alt="" src='images/logo1.png'/> 
-					</span>
+					{/* </span> */}
+						{/* <img className="zmdi zmdi-landscape logo" alt="" src='images/logo1.png'/>  */}
 
-					<span className="login100-form-title p-b-34 p-t-27">
-						Welcome Back
-					</span>
+					<h5 className="card-title text-center">
+						Sign In
+					</h5>
 					
 
-					<div className="wrap-input100 validate-input" data-validate = "Enter username" >
+					{/* <div className="wrap-input100 validate-input" data-validate = "Enter username" >
 					
 						<input value={this.state.user.username}  onChange={this.handleChange}  className="input100 myClass" type="text" name="username" placeholder="      Username"/>
 						<span className="focus-input100" data-placeholder="&#xf207;"></span>
-					</div>
+					</div> */}
+					<div class="form-label-group">
+					<label for="inputEmail">Username</label>
+                <input type="email" id="inputEmail" name="username"  value={this.state.user.username}  onChange={this.handleChange} class="form-control1" placeholder="Username" required="" autofocus=""/>
+                
+              </div>
+			  <div class="form-label-group">
+			  <label for="inputEmail">Password</label>
+                <input type="password" id="inputEmail" name="password"  onChange={this.handleChange} value = {this.state.user.password}
+				 class="form-control1" placeholder="Password" required="" autofocus=""/>
+                
+              </div>
 
-					<div className="wrap-input100 validate-input" data-validate="Enter password">
-						<input onChange={this.handleChange}  className="input100" type={this.state.hidden ? "password" : "text"} name="password" placeholder="      Password"
-							value = {
+					{/* <div className="wrap-input100 validate-input" data-validate="Enter password">
+						<input onChange={this.handleChange} value = {
 								this.state.user.password
-							}
+							}  className="input100" type={this.state.hidden ? "password" : "text"} name="password" placeholder="      Password"
+							
 						/>
 						<span className="focus-input100" data-placeholder="&#xf191;"></span>
 						<span onClick={this.toggleShow} toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-					</div>
+					</div> */}
 					<div 
 					className={"wrap-input100 validate-input " + (this.state.errors ? "active" : "inactive")}
 					 style={{"textAlign":"center"}}>
@@ -112,8 +123,9 @@ handleChange =(e)=> {
 					<label><input type="checkbox" name="checkbox-02" class="blue" /><span style={{"color":"gray"}}>Remember me</span></label>
 					</div>
 
-					<div className="container-login100-form-btn">
-						<a onClick={()=> {this.getPosts()}} className="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+					<div className="">
+						<a style={{"color": "#fff", "backgroundColor": "#007bff", "borderColor": "#007bff", "borderRadius":"50px"}} 
+						onClick={()=> {this.getPosts()}} className="btn btn-lg btn-primary btn-block text-uppercase">
 							Login	
 						</a>
 						{/*<Link to="/"  className="login100-form-btn">Login</Link>*/}
@@ -132,6 +144,7 @@ handleChange =(e)=> {
 			</div>
 		</div>
 	</div>
+	
   );
 }
 

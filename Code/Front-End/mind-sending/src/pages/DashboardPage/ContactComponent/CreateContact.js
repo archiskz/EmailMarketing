@@ -5,6 +5,8 @@ import axios from 'axios';
 import ContactRow from './../../../components/row/ContactRow';
 import * as Config from './../../../constants/Config';
 import Pagination from './../../../components/row/Pagination';
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 
       
 class CreateContact extends Component {
@@ -26,6 +28,8 @@ class CreateContact extends Component {
       this.showDropdownMenu = this.showDropdownMenu.bind(this);
       this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
+      this.addNotification = this.addNotification.bind(this);
+      this.notificationDOMRef = React.createRef();
       
    }
    showDropdownMenu(event) {
@@ -42,7 +46,19 @@ class CreateContact extends Component {
 
   }
 
-
+  addNotification=(title)=> {
+    this.notificationDOMRef.current.addNotification({
+      title: `${title}`,
+      message: `${title} Success!`,
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
+  }
    onToggleDropdown = () => {
      this.setState({
        dropdown_visible: !this.state.dropdown_visible
@@ -51,9 +67,12 @@ class CreateContact extends Component {
 
 
     componentDidMount(){
-
-            const id = this.props.history.location.state;
-        console.log(id)
+        if(this.props.history.location.state != null && this.props.history.location.state != undefined){
+            if(this.props.history.location.state.success != null && this.props.history.location.state.success != undefined){
+            //   this.addNotification(this.props.history.location.state.success)
+              this.props.history.replace({});
+            }
+          }
             const appState = JSON.parse(localStorage.getItem('appState'));
             this.setState({
                 auth_token: appState.user.auth_token
@@ -72,7 +91,6 @@ class CreateContact extends Component {
     const allCountries = [{}];
    axios.get(`${Config.API_URL}subcribersV2`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
    .then(response => {
-       console.log(response.data)
      this.setState({
         allCountries: response.data,
        listFilter: response.data
@@ -169,6 +187,13 @@ toAddContactManual=()=>{
         if (totalCountries === 0) return null
       else return (
 	  <div className = "" >
+      <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
    <div className="flash_notice">
         </div>
         <div className="container" data-role="main-app-container">
