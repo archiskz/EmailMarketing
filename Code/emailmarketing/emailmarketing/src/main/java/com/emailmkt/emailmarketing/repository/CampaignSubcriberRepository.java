@@ -28,6 +28,26 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
      @Query("SELECT cp.send FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail")
     public Boolean checkSend(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
 
+    @Query("select ap from CampaignSubcriber ap WHERE ap.messageId = :messageId ")
+    List<CampaignSubcriber>  findMessageId(@Param("messageId")String messageId);
+
+    @Query("SELECT COUNT(u) FROM CampaignSubcriber u WHERE u.campaignGroupContact.campaign.id =:campaignId")
+    Double countRequest(@Param("campaignId") int campaignId);
+
+    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.delivery = true")
+    Double countDelivery(@Param("campaignId") int campaignId);
+
+    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.opened = true")
+    Double countOpen(@Param("campaignId") int campaignId);
+
+    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.click = true")
+    Double  countClick(@Param("campaignId") int campaignId);
+
+    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.spam = true")
+    Double countSpam(@Param("campaignId") int campaignId);
+
+    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.bounce = true")
+    Double countBounce(@Param("campaignId") int campaignId);
 
 
 }

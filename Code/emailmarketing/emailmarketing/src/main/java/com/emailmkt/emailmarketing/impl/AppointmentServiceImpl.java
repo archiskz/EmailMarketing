@@ -25,6 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_APPOINTMENT_ID;
+
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
     public static final int NUM_OF_THREAD = 10;
@@ -119,7 +121,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 appointmentSubcribers.add(appointmentSubcriber);
             }
 
-
+            appointmentGroupContact.setAppointment(appointment);
             appointmentGroupContact.setAppointmentSubcribers(appointmentSubcribers);
 
             return appointmentGroupContact;
@@ -155,6 +157,10 @@ public class AppointmentServiceImpl implements AppointmentService {
                         newString);
                 AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(appointment.getId(), mailLists.get(counter));
                 appointmentSubcriber.setSend(true);
+                appointmentSubcriber.setConfirmation(false);
+                appointmentSubcriber.setDelivery(false);
+                appointmentSubcriber.setOpened(false);
+                appointmentSubcriber.setMessageId(MESSAGE_APPOINTMENT_ID.trim());
                 appointmentSubcriberRepository.save(appointmentSubcriber);
 
             }
@@ -222,6 +228,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
             mailService.sendAppointment(appointment.getFromMail(), appointment.getFromMail(), appointmentSubcriber.getSubcriberEmail(), "Confirm Invite Email", body);
+
         }
 
         return ResponseEntity.ok("Thanks for accepting my invite!");

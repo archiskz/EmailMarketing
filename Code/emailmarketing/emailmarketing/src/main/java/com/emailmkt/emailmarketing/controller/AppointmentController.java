@@ -5,8 +5,10 @@ import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Appointment;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.AppointmentRepository;
+import com.emailmkt.emailmarketing.repository.CampaignSubcriberRepository;
 import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
+import com.emailmkt.emailmarketing.service.SQSService;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import io.swagger.annotations.ApiOperation;
@@ -39,8 +41,14 @@ public class AppointmentController {
     AppointmentService appointmentService;
     @Autowired
     MailService mailService;
+
+    @Autowired
+    CampaignSubcriberRepository campaignSubcriberRepository;
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    SQSService sqsService;
 
 
     @Autowired
@@ -73,18 +81,8 @@ public class AppointmentController {
 
 
     @PostMapping(value = "message/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createNotification(@RequestParam int id) throws IOException, TemplateException {
-        boolean flag = appointmentService.testMappingMessage(id);
-        if (flag == false) {
-            return ResponseEntity.status(CONFLICT).body("Appointment Existed");
-        }
-
-
-
-
-
-        return ResponseEntity.status(CREATED).body(id);
-
+    public void createNotification() {
+         sqsService.getMessage();
     }
 
     @RequestMapping(value = "/accept-appointment", method = {RequestMethod.GET, RequestMethod.POST})

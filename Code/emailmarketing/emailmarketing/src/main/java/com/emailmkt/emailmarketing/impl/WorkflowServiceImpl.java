@@ -12,8 +12,8 @@ import org.camunda.bpm.model.bpmn.instance.FlowElement;
 import org.camunda.bpm.model.bpmn.instance.FlowNode;
 import org.camunda.bpm.model.bpmn.instance.Process;
 import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +21,13 @@ import javax.transaction.Transactional;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 //import com.emailmkt.emailmarketing.model.Task;
@@ -131,6 +133,9 @@ public class WorkflowServiceImpl implements WorkflowService {
                         Iterator<SequenceFlow> prevFlowCollection = gateway.getOutgoing().iterator();
                         FlowNode conditionNode = prevNodesCollection.get(0);
                         String gatewayNode = previousNode.getName();
+                        System.out.println("HU HUHUHUHUHUHUHUHUHUHUHUHUHUHUH" + gateway.getName()  + gateway.getAttributeValueNs("magic:targetRef", "http://magic")
+                        + gateway.getAttributeValueNs("targetRef","http://magic") + gateway.getAttributeValue("targetRef")
+                        );
                         while (prevFlowCollection.hasNext()) {
                             SequenceFlow sequenceFlow = prevFlowCollection.next();
                             if (sequenceFlow.getTarget().getId().equals(shapeId)) {
@@ -221,7 +226,7 @@ public class WorkflowServiceImpl implements WorkflowService {
         return workflowRepository.findWorkflowById(id);
     }
 
-    @Scheduled(fixedRate = 10000)
+//    @Scheduled(fixedRate = 10000)
     @Override
     public void runWorkflow() {
         System.out.println("RUN WORK FLOW");
@@ -258,7 +263,8 @@ public class WorkflowServiceImpl implements WorkflowService {
                                         AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(firstApp.getId(), subcriber.getEmail());
                                         appointmentSubcriber.setSend(true);
                                         appointmentSubcriberRepository.save(appointmentSubcriber);
-                                        mailService.sendAppointment(firstApp.getSender(), firstApp.getFromMail(), subcriber.getEmail(), firstApp.getSubject(), firstApp.getBody());
+                                        addContentApppointment(firstApp,subcriber);
+//                                        mailService.sendAppointment(firstApp.getSender(), firstApp.getFromMail(), subcriber.getEmail(), firstApp.getSubject(), firstApp.getBody());
 
                                     }
                                 } else if (firstTask.getType().equalsIgnoreCase(("campaign"))) {
@@ -332,7 +338,8 @@ public class WorkflowServiceImpl implements WorkflowService {
                             if (appointmentSubcriber.isSend() == false) {
                                 appointmentSubcriber.setSend(true);
                                 appointmentSubcriberRepository.save(appointmentSubcriber);
-                                mailService.sendAppointment(tmpAppointment.getSender(), tmpAppointment.getFromMail(), subcriber.getEmail(), tmpAppointment.getSubject(), tmpAppointment.getBody());
+//                                mailService.sendAppointment(tmpAppointment.getSender(), tmpAppointment.getFromMail(), subcriber.getEmail(), tmpAppointment.getSubject(), tmpAppointment.getBody());
+                                addContentApppointment(tmpAppointment,subcriber);
                             }
                             runTask(tmp, workflow, subcriber);
                         } else {
@@ -352,7 +359,8 @@ public class WorkflowServiceImpl implements WorkflowService {
                 if (appointmentSubcriber1.isSend() == false) {
                     appointmentSubcriber1.setSend(true);
                     appointmentSubcriberRepository.save(appointmentSubcriber1);
-                    mailService.sendAppointment(firstAppointment.getSender(), firstAppointment.getFromMail(), subcriber.getEmail(), firstAppointment.getSubject(), firstAppointment.getBody());
+//                    mailService.sendAppointment(firstAppointment.getSender(), firstAppointment.getFromMail(), subcriber.getEmail(), firstAppointment.getSubject(), firstAppointment.getBody());
+                    addContentApppointment(firstAppointment, subcriber);
                 }
 //                mailService.sendAppointment(firstAppointment.getSender(),firstAppointment.getFromMail(),subcriber.getEmail(),firstAppointment.getSubject(),firstAppointment.getBody());
             }
@@ -391,7 +399,8 @@ public class WorkflowServiceImpl implements WorkflowService {
                                 if (appointmentSubcriber.isSend() == false) {
                                     appointmentSubcriber.setSend(true);
                                     appointmentSubcriberRepository.save(appointmentSubcriber);
-                                    mailService.sendAppointment(tmpAppointment.getSender(), tmpAppointment.getFromMail(), subcriber.getEmail(), tmpAppointment.getSubject(), tmpAppointment.getBody());
+//                                    mailService.sendAppointment(tmpAppointment.getSender(), tmpAppointment.getFromMail(), subcriber.getEmail(), tmpAppointment.getSubject(), tmpAppointment.getBody());
+                                    addContentApppointment(tmpAppointment, subcriber);
                                 }
                                 runTask(tmp, workflow, subcriber);
                             } else {
@@ -402,6 +411,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                                     campaignSubcriber.setSend(true);
                                     campaignSubcriberRepository.save(campaignSubcriber);
                                     mailService.sendAppointment(tmpCampaign.getSender(), tmpCampaign.getFromMail(), subcriber.getEmail(), tmpCampaign.getSubject(), tmpCampaign.getContent());
+
                                 }
                                 runTask(tmp, workflow, subcriber);
                             }
@@ -428,6 +438,38 @@ public class WorkflowServiceImpl implements WorkflowService {
             }
         }
     }
+
+
+    public void addContentApppointment(Appointment appointment, Subcriber subcriber){
+        try {
+
+                String bodyTemp = appointment.getBody();
+                int index = bodyTemp.indexOf("<a href=\"\"") + 8;
+                String newString = new String();
+                for (int i = 0; i < bodyTemp.length(); i++) {
+
+                    newString += bodyTemp.charAt(i);
+                    if (i == index) {
+                        newString += "http://localhost:8080/api/accept-appointment?confirmationToken=" + appointment.getToken() + "&subcriberEmail=" + subcriber.getEmail();
+                    }
+                }
+
+                mailService.sendAppointment(appointment.getSender(),
+                        appointment.getFromMail(),
+                        subcriber.getEmail()
+                        , appointment.getSubject(),
+                        newString);
+        } catch (MailException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+    }
     
+    public String concompareTwoTimes(LocalDateTime timeSend, LocalDateTime interval) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime conditionTime = timeSend.plusHours(interval.getHour());
+         String formatConditionTime = conditionTime.format(formatter);
+        return formatConditionTime;
+    }
 
 }

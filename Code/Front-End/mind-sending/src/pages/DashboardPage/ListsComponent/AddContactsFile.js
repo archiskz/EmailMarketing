@@ -278,7 +278,7 @@ this.setState({
 
 onSave= () => {
   var contactList = this.state.contacts;
-  
+  var self = this
     let contacts = contactList.map((contact)=>{
       var contact= contact;
       if(this.state.choose == 0){
@@ -306,8 +306,12 @@ contacts: contacts
   axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then((response) => {
       if(response != null){
-        this.addNotification()
-        this.props.history.goBack()
+        self.props.history.push({
+          pathname:'/dashboard/contacts',
+          state: {
+            success: "New Contacts"
+          }
+      });
       } 
     })
     .catch((error) => {

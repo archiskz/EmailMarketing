@@ -20,7 +20,7 @@ class EmbeddedForms extends Component {
        dropdown_visible: false,
        campaigns: [],
        auth_token:"",
-       forms:[]
+       forms:[],filter:[]
      };
    }
    onToggleDropdown = () => {
@@ -45,6 +45,28 @@ class EmbeddedForms extends Component {
     }) 
 
    }
+   handleSearch = (event) => {
+    var searchValue = event.target.value;
+    var groupContactsList = this.state.filter
+    if(searchValue !== ""){
+         groupContactsList = groupContactsList.filter(item => item.name.toLowerCase().includes(searchValue));
+         if(groupContactsList.length > 0){
+            this.setState({
+                forms: groupContactsList,
+             });
+         }else {
+            this.setState({
+                forms:  [],
+             }); 
+         }
+         
+    } else {
+        this.setState({
+            forms: this.state.filter,
+         });
+    }
+   
+}
 
 
 	

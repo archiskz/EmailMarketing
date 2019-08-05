@@ -103,6 +103,7 @@ class AddContact extends Component {
 
   onSave= () => {
     var contactList = this.state.contacts;
+    var self = this;
     if(this.state.choose == 0 ){
       let contacts = contactList.map((contact)=>{
         var contact= contact;
@@ -119,8 +120,13 @@ class AddContact extends Component {
     axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts,{'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then((response) => {
         if(response != null){
-          this.addNotification()
-          this.props.history.goBack()
+          // this.addNotification()
+          self.props.history.push({
+            pathname:'/dashboard/contacts',
+            state: {
+              success: "New Contacts"
+            }
+        });
         } 
       })
       .catch((error) => {
@@ -140,9 +146,12 @@ class AddContact extends Component {
           console.log(`${Config.API_URL}subcriber/createListSubcriber`)
     axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts,{'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then((response) => {
-        if(response != null){
-          this.addNotification()
-        } 
+        self.props.history.push({
+          pathname:'/dashboard/contacts',
+          state: {
+            success: "New Contacts"
+          }
+      });
       })
       .catch((error) => {
         console.log(error);

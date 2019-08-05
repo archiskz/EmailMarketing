@@ -32,24 +32,14 @@ public class Campaign implements Serializable {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "recurring")
-    private String recurring;
-
-
     @Column(name = "timestart")
     private String timeStart;
-
-
-
 
     @Column(name = "content")
     private String content;
 
     @Column(name = "body_json")
     private String bodyJson;
-
-    @Column(name = "message_id")
-    private String messageId;
 
     @Column(name = "subject")
     private String subject;
@@ -81,6 +71,25 @@ public class Campaign implements Serializable {
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;
+
+    //statistic of Campaign
+    @Column(name = "request")
+    private String request;
+
+    @Column(name = "click")
+    private String clickRate;
+
+    @Column(name = "open")
+    private String openRate;
+
+    @Column(name = "spam")
+    private String spamRate;
+
+    @Column(name = "delivery")
+    private String delivery;
+
+    @Column(name = "bounce")
+    private String bounce;
 
 
 }

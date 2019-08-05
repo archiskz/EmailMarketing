@@ -12,6 +12,9 @@ public class Constant {
 
     public static String MESSAGE_ID="";
 
+    public static String MESSAGE_APPOINTMENT_ID = "";
+
+
     //Role
     public static final String SYSTEM_ADMIN = "SYSTEM_ADMIN";
     public static final String CUSTOMER = "CUSTOMER";

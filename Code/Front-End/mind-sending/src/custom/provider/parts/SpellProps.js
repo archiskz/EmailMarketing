@@ -75,4 +75,11 @@ export default function(group, element) {
       modelProperty : 'name'
     }));
   }
+  if (is(element, 'bpmn:Gateway')) {
+    group.entries.push(entryFactory.textField({
+      id: 'class-task',
+      label: 'After',
+      modelProperty: 'targetRef',
+  }));
+  }
 }

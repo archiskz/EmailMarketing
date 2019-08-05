@@ -10,9 +10,9 @@ import Modal from 'react-awesome-modal';
 import axios from 'axios';
 import { withRouter } from "react-router";
 import * as Config from '../../../constants/Config'
-import { template } from '@babel/core';
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
+  import { template } from '@babel/core';
+  import ReactNotification from "react-notifications-component";
+  import "react-notifications-component/dist/theme.css";
 import { browserHistory } from 'react-router'
 
 class EditContent extends Component {
@@ -206,6 +206,7 @@ button = <a onClick={()=>this.saveCampaign()} icon="airplane-fill" style={{"font
 // }
 saveAppointment(){
   var errors = false
+  var self = this;
   // this.exportHtml();
   this.editor.exportHtml(data => {
     const { design, html } = data
@@ -223,23 +224,26 @@ saveAppointment(){
       console.log(this.state.newAppointment)
       axios.post(`${Config.API_URL}appointment/create`,this.state.newAppointment,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
-        console.log(res.data)
-        this.addNotification()
-      //   this.props.history.push({
-      //     pathname:'/dashboard/invite-mail',
-      // });
+        self.props.history.push({
+          pathname:'/dashboard/invite-mail',
+          state: {
+            success: "Create Appointment"
+          }
+      });
        }).catch(function (error) {
         console.log(error);
         if(error != null ){
           errors = true
         }
       });
-      // if(errors == false){
-      //   this.props.history.push({
-      //     pathname:'/dashboard/invite-mail',
-      // });
-        // this.addNotification()
-      // }
+      if(errors == false){
+        self.props.history.push({
+          pathname:'/dashboard/invite-mail',
+          state: {
+            success: "Create Appointment"
+          }
+      });
+      }
       this.closeModal();
     }
     );
@@ -268,15 +272,12 @@ saveAppointment(){
       if(this.state.isChecked == true){
         axios.post(`${Config.API_URL}campaign/create/timer`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(response => {
-          self.props.history.goBack()
-          // console.log(response.data)
-          // var id = response.data
-          //     self.setState({
-          //       campaignId: id,
-          //     },
-          //     ()=> {
-          //       this.closeModal();})
-          //     console.log(this.state.campaignId)
+          self.props.history.push({
+            pathname:'/dashboard/campaigns',
+            state: {
+              success: "Create Campaign"
+            }
+        });
         })
         .catch(error => {
           console.log(error);
@@ -284,15 +285,13 @@ saveAppointment(){
       } else {
         axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(response => {
-          // console.log(response.data)
-          // var id = response.data
-          //     self.setState({
-          //       campaignId: id
-          //     },
-          //     ()=> {
-          //       this.closeModal();})
-          //     console.log(this.state.campaignId)
-          self.props.history.goBack()
+          self.props.history.push({
+            pathname:'/dashboard/campaigns',
+            state: {
+              success: "Create Campaign"
+            }
+        });
+          // self.props.history.goBack()
         })
         .catch(error => {
           console.log(error);

@@ -56,6 +56,14 @@ public class Subcriber implements Serializable {
     @Column(name = "tag")
     private String tag;
 
+    @Basic
+    @Column(name = "open_rate")
+    private String openRate;
+
+    @Basic
+    @Column(name = "click_rate")
+    private String clickRate;
+
 
 
     @Basic

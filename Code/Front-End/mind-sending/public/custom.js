@@ -38,7 +38,7 @@ unlayer.registerPropertyEditor({
     {
     type: 'whatever',
     category: 'contents',
-    label: 'user_name',
+    label: 'name',
     icon: 'fa-user',
     values: {
     },
@@ -62,7 +62,7 @@ unlayer.registerPropertyEditor({
       Viewer: unlayer.createViewer({
         render(values) {
           return `
-            <div style="color: ${values.color};">{user_name}</div>
+            <div style="color: ${values.color};">{subcriber_name}</div>
           `
         }
       }),

@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import PreviewModal from '../../../components/modals/PreviewModal';
 import OneTemplate from '../../../components/OneTemplate';
 import * as Config from '../../../constants/Config';
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 import axios from 'axios';
 import {
   BrowserRouter as Router,
@@ -26,10 +28,11 @@ class Templates extends Component {
       templateType:0
     };
     this.openModal = this.openModal.bind(this);
-    this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.getTemplateByType = this.getTemplateByType.bind(this);
     this.getAllTemplates = this.getAllTemplates.bind(this);
+    this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
   }
   openModal() {
     console.log("open now");
@@ -37,25 +40,39 @@ class Templates extends Component {
     console.log(this.state.modalIsOpen)
   }
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    this.subtitle.style.color = '#f00';
-  }
-
   closeModal() {
     this.setState({modalIsOpen: false});
   }
 
   componentDidMount(){
+    if(this.props.history.location.state != null && this.props.history.location.state != undefined){
+      if(this.props.history.location.state.success != null && this.props.history.location.state.success != undefined){
+        this.addNotification(this.props.history.location.state.success)
+        this.props.history.replace({});
+      }
+    }
     const appState = JSON.parse(localStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> this.getAllTemplates() )
    }	
 
+   addNotification=(title)=>{
+    this.notificationDOMRef.current.addNotification({
+      title: `${title}`,
+      message: `${title} Success!`,
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
+  }
+	
    getAllTemplates=()=>{
      this.setState({templateType:0})
-     console.log("hasdsadsad")
     axios.get(`${Config.API_URL}template`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data);
@@ -89,13 +106,18 @@ class Templates extends Component {
 
 	
   render(){
-    var { isDisplayModal } = this.props;
-    
      return (
       
 	  <div className = "" >
         <div className >
           <div className="flash_notice">
+          <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
           </div>
         <div className="container" data-role="main-app-container">
         <div>
