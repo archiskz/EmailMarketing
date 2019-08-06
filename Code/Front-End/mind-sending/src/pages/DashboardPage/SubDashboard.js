@@ -25,14 +25,7 @@ class SubDashboard extends Component {
                 Hello Thắng Nguyễn!
             Here's your recent email activity.
             </h1>
-            <div className="sub_dashboard_btn_group sub_dashboard_time-range">
-            <div className="sub_dashboard_btn sub_dashboard_btn_group_item sub_dashboard_is_active" role="week">
-              Wk
-            </div>
-            <div className="sub_dashboard_btn sub_dashboard_btn_group_item" role="month">
-              Mo
-              </div>
-          </div>
+            
 
             </div>    
           </div>    
@@ -64,144 +57,152 @@ class SubDashboard extends Component {
                   <div className="secondary">0</div>
                   </li>
                   <li className="sub_dashboard_Unsubcribes unsubcribes" role="unsubcribes">
-                  <h2>unsubcribes</h2>
+                  <h2>Bounces</h2>
                   <div className="primary">N/A</div>
                   <div className="secondary">0</div>
                   </li>
                   </ul>
-                 
-        <div role="emailStatsGraph" className="sub_dashboard_graph_container">
-        <div className="sub_dashboard_graph">
-        <div role="graph">
-        <svg viewBox="0 0 1085 390" preserveAspectRatio="xMidYMid meet">
-        <g transform="translate(50, 10)">
-        <g transform="translate(1015, 0)" className="y-axis">
-        <path className="domain" d="M-1015,0H0V340H-1015">
-        </path>
-        </g>
-        <g transform="translate(0, 340)" className="x-axis">
-        <g className="tick" transform="translate(0,0)" styles="opacity: 1;">
-        <line y2="5" x2="0">
-        </line>
-        <text dy=".71em" y="8" x="0" styles="text-anchor: middle;">Mon</text>
-        </g>
-        <g className="tick" transform="translate(169.16666666666666,0)" styles="opacity: 1;">
-        <line y2="5" x2="0">
-        </line>
-        <text dy=".71em" y="8" x="0" styles="text-anchor: middle;">Tue</text>
-        </g>
-        <g className="tick" transform="translate(338.3333333333333,0)" styles="opacity: 1;">
-        <line y2="5" x2="0">
-        </line>
-        <text dy=".71em" y="8" x="0" styles="text-anchor: middle;">Wed</text>
-        </g>
-        <g className="tick" transform="translate(507.5,0)" styles="opacity: 1;">
-        <line y2="5" x2="0">
-        </line>
-        <text dy=".71em" y="8" x="0" styles="text-anchor: middle;">Thu</text>
-        </g>
-        <g className="tick" transform="translate(676.6666666666666,0)" styles="opacity: 1;">
-        <line y2="5" x2="0">
-        </line>
-        <text dy=".71em" y="8" x="0" styles="text-anchor: middle;">Fri</text>
-        </g>
-        <g className="tick" transform="translate(845.8333333333334,0)" styles="opacity: 1;">
-        <line y2="5" x2="0">
-        </line>
-        <text dy=".71em" y="8" x="0" styles="text-anchor: middle;">Sat</text>
-        </g>
-        <g className="tick" transform="translate(1015,0)" styles="opacity: 1;">
-        <line y2="5" x2="0">
-        </line>
-        <text dy=".71em" y="8" x="0" styles="text-anchor: middle;">Sun</text>
-        </g>
-        <path className="domain" d="M0,5V0H1015V5">
-        </path>
-        </g>
-        <g transform="translate(0,350)" className="x-axis-2">
-        <path className="domain" d="M0,6V0H1015V6">
-        </path>
-        </g>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_blocks">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_bounce_drops">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_bounces">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_clicks">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340"
-         className="sd_graph_delivered">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_invalid_emails">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_opens">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_requests">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_spam_report_drops">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_spam_reports">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_unique_clicks">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_unique_opens">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_unsubscribe_drops">
-        </path>
-        <path d="M0,340L169.16666666666666,340L338.3333333333333,340L507.5,340L676.6666666666666,340L845.8333333333334,340L1015,340" 
-        className="sd_graph_unsubscribes">
-        </path>
-        <rect className="sd_graph_overlay" width="1015" height="340">
-        </rect>
-        </g>
-        </svg>
+
+        <div className="dashboard_row">
+        <div className="col-12 col-md-12 col-lg-5 col-xl-4">
+        <div className="dashboard_panel dashboard_card">
+        <div className="dashboard_card_body dashboard_panel__body">
+          <div className="dashboard_panel__title">
+            <h5 className="dashboard_bold-text">List contact by type<span className="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
+            </span>
+            </h5>
+            <h5 className="dashboard_subhead">Sort by all current contacts of user</h5>
+            </div>
+            <div className="collapse show">
+            <div className="panel_content">
+            <div className= "dashboard_table_responsive">
+              <table className="dashboard_table">
+              <thead>
+              <tr>
+              <th>Contact type</th>
+             
+              <th>Number of contact</th>
+                </tr>
+                  </thead>
+              <tbody>
+              <tr>
+              <td>
+              <p className="dashboard_bold_text dashboard__btc">Beginner Contacts</p>
+              </td>
+              
+              <td>$134,23</td>
+              </tr>
+              <tr>
+              <td>
+              <p className="dashboard_bold_text dashboard__btc2">Intermediate Contacts</p>
+              </td>
+             
+              <td>$134,23</td>
+              </tr>
+              <tr>
+              <td>
+              <p className="dashboard_bold_text dashboard__btc3">Advanced Contacts</p>
+              </td>
+              
+              <td>$134,23</td>
+              </tr>
+              </tbody>    
+              </table>
+            </div>
+            </div>
+            </div>
         </div>
-<div role="focus" className="sub_dashboard_graph_focus" styles="opacity: 0; height: 379px; overflow: hidden; left: 392.333px; border-right-color: rgb(238, 238, 238); border-left-color: rgb(47, 47, 47);"> 
-<h3>06-14-2019</h3>
-
-<dl>
-    <dt>Requests</dt>
-    <dd class="sd_graph_requests">0</dd>
-    <dt>Delivered</dt>
-    <dd class="sd_graph_delivered">0</dd>
-    <dt>Opened</dt>
-    <dd class="sd_graph_opens">0</dd>
-    <dt>Clicks</dt>
-    <dd class="sd_graph_clicks">0</dd>
-    <dt>Unsubscribes</dt>
-    <dd class="sd_graph_unsubscribes">0</dd>
-    <dt>Spam Reports</dt>
-    <dd class="sd_graph_spam_reports">0</dd>
-</dl>
-</div>
-<div role="rangeLabel" class="sd_graph_rangeLabel">
-    </div>
-  </div>
-</div>
-
-
-
-        <div role="infoPanels">
-        <ul class="sd_graph_big_panels">
-
-        <li role="left">      
-        <div class="sd_graph_panel sd_graph_admin">
-        <h2>Admin User Details</h2>
+        </div>
+        </div>
+        
+       <div className="col-12 col-md-12 col-lg-7 col-xl-8">
+        <div className="dashboard_panel dashboard_card">
+        <div className="dashboard_card_body dashboard_panel__body">
+          <div className="dashboard_panel__title">
+            <h5 className="dashboard_bold-text">Chỗ này để vẽ đồ thị<span class="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
+            </span>
+            </h5>
+            <h5 className="dashboard_subhead">Top selling campaign statistic by last month</h5>
+          </div>
+          
+          </div>
+          </div>
+        </div>
+        <div className="col-lg-12 dashboar_top5">
+        <div className="dashboard_panel dashboard_card">
+        <div className="dashboard_card_body dashboard_panel__body">
+          <div className="dashboard_panel__title">
+            <h5 className="dashboard_bold-text2">Top 5 contacts have been added<span class="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
+            </span>
+            </h5>
+              <div className="collapse show">
+            <div className="panel_content">
+            <div className= "dashboard_table_responsive">
+              <table className="dashboard_table2">
+              <thead>
+              <tr>
+              <th>#</th>
+              <th>Email</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+                </tr>
+                  </thead>
+              <tbody>
+              <tr>
+              <td>
+              1
+              </td>
+              <td>thangnguyen15297@gmail.com</td>
+               <td>Thắng</td>
+                <td>Nguyễn</td>
+              </tr>
+              <tr>
+              <td>
+              2
+              </td>           
+              <td>sonnguyen050797@gmail.com</td>
+               <td>Sơn</td>
+                <td>Nguyễn</td>
+              </tr>
+              <tr>
+              <td>
+              3
+              </td>
+              <td>tanminh111197@gmail.com</td>
+               <td>Tấn</td>
+                <td>Minh</td>
+              </tr>
+              <tr>
+              <td>
+              4
+              </td>
+              <td>archist@gmail.com</td>
+               <td>Archist</td>
+                <td>Nguyễn</td>
+              </tr>
+              <tr>
+              <td>
+              5
+              </td>
+              <td>Angelababy@gmail.com</td>
+               <td>Angela</td>
+                <td>Baby</td>
+              </tr>
+              </tbody>    
+              </table>
+            </div>
+            </div>
+            </div>
+          </div>
+          
+          </div>
+          </div>
+        </div>
+        <div className="col-12 col-md-12 col-lg-5 col-xl-4 dashboar_top5">
+        <div className="dashboard_panel dashboard_card">
+        <h2 className="dashboard_admin">Admin User Details</h2>
   <hr/>
-  <dl>
+  <dl className="dashboard_admin">
     <dt>Username</dt>
     <dd>Thắng Nguyễn</dd>
     <dt>Email Address</dt>
@@ -212,57 +213,30 @@ class SubDashboard extends Component {
     </dd>
   </dl>
 </div>
-</li>
+</div>
 
 
-<li role="center">
 
-<div class="sd_graph_panel sd_graph_asm">
-  <h2>Unsubscribe Groups</h2>
+
+
+<div className="col-12 col-md-12 col-lg-7 col-xl-8 dashboar_top5">
+<div className="dashboard_panel dashboard_card">
+  <h2 className="dashboard_admin">Groups</h2>
   <hr/>
     <div role="noGroups">
-      <p>Use unsubcribe groups to give your recipients control over the types of emails they want to receive.
+      <p className="dashboard_admin">Use groups to give your recipients control over the types of emails they want to receive.
       </p>
-      <p>
+      <p className="dashboard_admin">
         Allowing recipients to select from groups of emails they want to receive and opt out from others helps to increase recipient engagement, decrease spam reports, and improve sender reputation.
       </p>
-      <p>
-        <Link class="sd_graph_admin_btn sd_graph_admin_btn_small primary "to="/dashboard/create-list">Create Your Groups</Link>
+      <p className="dashboard_admin"> 
+        <Link class="sd_graph_admin_btn sd_graph_admin_btn_small primary "to="/dashboard/lists">Create Your Groups</Link>
       </p>
     </div>
 </div>
-</li>
-
-
-<li role="right">
-<div class="sd_graph_panel sd_graph_help">
-  <h2>Help Links</h2>
-  <hr/>
-  <table>
-    <tbody>
-    <tr>
-      <td class="sd_graph_help_setup_guide">
-        <a class="sd_graph_panel_link" target="_blank" href="#guide">
-          <img src="/images/setup.png"/>
-          <span>Setup Guide</span>
-        </a>
-      </td>
-      <td class="sd_graph_help_support">
-        <a class="panel-link" target="_blank" href="http://support.sendgrid.com/hc/en-us">
-          <img src="/images/help.png"/>
-          
-          <span>Support</span>
-        </a>
-      </td>
-    </tr>
-  </tbody>
-  </table>
 </div>
-</li>
-</ul>
-
-        
-       </div>
+        </div>         
+       
        </div>
        
        </div>

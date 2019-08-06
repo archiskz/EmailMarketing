@@ -32,6 +32,10 @@
 .contact_information_detail h4{
         margin-bottom: 0 !important;
 }
+.contact_information_detail_h4{
+        margin-bottom: 0 !important;
+        font-size: 15px;
+}
 .contact_information_detail p{
     opacity: .8;
 }

@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 import axios from 'axios';
 import ContactRow from './../../../components/row/ContactRow';
 import * as Config from './../../../constants/Config';
-import imgAvatar from './../../../access/img/me1.jpg'
+import imgAvatar from './../../../access/img/client3.jpg'
 
 class ViewUserProfile extends Component {
     constructor(props) {
