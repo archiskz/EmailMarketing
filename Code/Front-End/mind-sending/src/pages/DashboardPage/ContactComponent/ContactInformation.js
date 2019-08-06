@@ -258,16 +258,16 @@ showDropdownMenu(event) {
         		 <div className="user_section user_line">	
         		  <div className="user_line">	
         			<div className="contact_information_detail">
-        				<h4 >
-                    		0%
+        				<h4 className="contact_information_detail_h4">
+                    		Belong to: 50 groups
                			</h4>
-        				<p >Reply rate</p>
+        				
         			</div>
         			<div className="contact_information_detail">
-        				<h4 >
-                    		0%
+        				<h4 className="contact_information_detail_h4" >
+                    		Belong to: 40 campaigns
                			</h4>
-        				<p >Report rate</p>
+        				
         			</div>
         			</div>
         		 </div>		

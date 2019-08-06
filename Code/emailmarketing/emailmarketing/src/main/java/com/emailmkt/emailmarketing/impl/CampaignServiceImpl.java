@@ -202,6 +202,28 @@ public class CampaignServiceImpl implements CampaignService {
         }).collect(Collectors.toList());
 
         campaign.setCampaignGroupContacts(campaignGroupContacts);
+<<<<<<< HEAD
+=======
+
+        campaignRepository.save(campaign);
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                for (int counter = 0; counter < mailLists.size(); counter++) {
+                    mailService.sendSimpleMessageV2(campaign.getSender(),campaign.getFromMail(),mailLists.get(counter),campaign.getSubject(),campaign.getContent());
+                    CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(campaign.getId(), mailLists.get(counter));
+                    campaignSubcriber.setSend(true);
+                    campaignSubcriber.setMessageId(MESSAGE_ID.trim());
+                    campaign.setStatus("Done");
+                    campaignSubcriberRepository.save(campaignSubcriber);
+                    campaignRepository.save(campaign);
+
+                }
+
+
+            }
+        };
+>>>>>>> 258b95143b8c825047f84aebe0b45319a12c8da2
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         Date dt = null;
         try {
