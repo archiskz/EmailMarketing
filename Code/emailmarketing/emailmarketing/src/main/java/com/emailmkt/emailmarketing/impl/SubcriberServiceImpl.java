@@ -5,23 +5,25 @@ import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
-import com.emailmkt.emailmarketing.repository.AccountRepository;
-import com.emailmkt.emailmarketing.repository.GroupContactRepository;
-import com.emailmkt.emailmarketing.repository.GroupContactSubcriberRepository;
-import com.emailmkt.emailmarketing.repository.SubcriberRepository;
+import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.SubcriberService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Service
 public class SubcriberServiceImpl implements SubcriberService {
 
-
+    private static final Logger log = LoggerFactory.getLogger(SubcriberServiceImpl.class);
     @Autowired
     SubcriberRepository subcriberRepository;
 
@@ -30,6 +32,12 @@ public class SubcriberServiceImpl implements SubcriberService {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    AppointmentSubcriberRepository appointmentSubcriberRepository;
+
+    @Autowired
+    CampaignSubcriberRepository campaignSubcriberRepository;
 
     @Autowired
     GroupContactSubcriberRepository groupContactSubcriberRepository;
@@ -52,7 +60,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setPhone(dto.getPhone());
         subcriber.setFirstName(dto.getFirstName());
         subcriber.setLastName(dto.getLastName());
-        subcriber.setType("New Subcriber");
+        subcriber.setType("Beginner Contacts");
         Account account = accountRepository.findAccountById(1);
         subcriber.setAccount_id(account.getId() + "");
         List<GroupContactSubcriber> groupContactSubcribers = dto.getGcSubcriberDTOS().stream().map(g -> {
@@ -83,7 +91,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setCreatedTime(LocalDateTime.now().toString());
         subcriber.setEmail(dto.getEmail());
         subcriber.setFirstName(dto.getFirstName());
-        subcriber.setType("New Subcriber");
+        subcriber.setType("Beginner Contacts");
         Account account = accountRepository.findAccountById(1);
         subcriber.setAccount_id(account.getId() + "");
         List<GroupContactSubcriber> groupContactSubcribers = new ArrayList<>();
@@ -168,6 +176,42 @@ public class SubcriberServiceImpl implements SubcriberService {
         return null;
     }
 
+    @Scheduled(fixedRate = 60000)
+    @Override
+    public void getStatisticSubcriber() {
+        ExecutorService executor = Executors.newFixedThreadPool(30);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                log.info("Get Statistic By Subcriber .\n");
+                for(Subcriber subcriber : subcriberRepository.findAll()){
+
+                    double requestCampaign = campaignSubcriberRepository.countCampaignSubcriberBySubcriberEmail(subcriber.getEmail());
+                    double requestAppointment = appointmentSubcriberRepository.countAppointmentSubcriberBySubcriberEmail(subcriber.getEmail());
+                    double total = requestAppointment + requestCampaign;
+                    double totalOpen = campaignSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(),true)
+                            + appointmentSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(),true);
+                    double totalClick = campaignSubcriberRepository.countBySubcriberEmailAndClick(subcriber.getEmail(),true)+appointmentSubcriberRepository.countBySubcriberEmailAndConfirmation(subcriber.getEmail(),true);
+                    subcriber.setOpenRate(Math.round(totalOpen/total)*100+ "%");
+                    subcriber.setClickRate(Math.round(totalClick/total)*100+ "%");
+                    if((Math.round(totalClick/total)*100)> 80 && Math.round(totalOpen/total)*100> 80 || total > 7  ){
+                        subcriber.setType("Advanced Contacts");
+                    }else if((Math.round(totalClick/total)*100)> 50 && Math.round(totalOpen/total)*100> 50 && total > 5){
+                        subcriber.setType("Intermediate Contacts");
+                    }else{
+                        subcriber.setType("Beginner Contacts");
+                    }
+                    subcriberRepository.save(subcriber);
+                }
+            }
+        });
+    }
+
+    @Override
+    public List<Subcriber> getContactLatest() {
+        return subcriberRepository.findTop5ByOrderByCreatedTimeDesc();
+    }
+
     @Override
     public List<Subcriber> getSubcriberByTag(String tag) {
         return subcriberRepository.findSubcriberByTag(tag);
@@ -175,8 +219,11 @@ public class SubcriberServiceImpl implements SubcriberService {
 
     @Override
     public Subcriber getSubcriberById(int id) {
+
         return subcriberRepository.findSubcriberById(id);
     }
+
+
 
     @Override
     public List<Subcriber> getSubcriberByAccountId(int accountId) {

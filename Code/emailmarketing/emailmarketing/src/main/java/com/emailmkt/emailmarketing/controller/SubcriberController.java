@@ -51,8 +51,9 @@ public class SubcriberController {
 
     @GetMapping(value="subcriber/{id}")
     Subcriber read(@PathVariable int id) {
-        return subcriberRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+        return subcriberRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+//        return subcriberService.getSubcriberById(id);
+
     }
 
     @PostMapping("subcriber/create")
@@ -128,6 +129,12 @@ public class SubcriberController {
         LOGGER.info("delete contact: " + id);
         return new ResponseEntity<String>(message, HttpStatus.OK);
     }
+
+    @GetMapping("/subcriber/latest")
+    public List<Subcriber> getSubcriberLatest() {
+        return subcriberService.getContactLatest();
+    }
+
 
 
 

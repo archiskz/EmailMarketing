@@ -22,9 +22,6 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     @Query("SELECT su.email FROM Subcriber su")
     List<String>listEmailSubcriber();
 
-
-//
-//
     @Query("SELECT su FROM Subcriber su WHERE " +
             "(LOWER(su.lastName) like %:searchValue% or su.email like %:searchValue%) ")
     List<Subcriber> searchByEmailAndName(@Param("searchValue") String searchValue);
@@ -37,22 +34,6 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     @Query("UPDATE GroupContactSubcriber gr SET gr.active = false WHERE gr.subcriber.id  = :subcriberId ")
     void  deleteSubcriberFromGroup(@Param("subcriberId") int subcriberId);
 //
-//    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.")
-//    Double countRequestSubcriberFromCampaign(@Param("campaignId") int campaignId);
-//
-//    @Query("SELECT COUNT(cam) FROM AppointmentSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.opened = true")
-//    Double countRequestSubcriberFromAppointment(@Param("campaignId") int campaignId);
-//
-//    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.opened = true")
-//    Double countOpen(@Param("campaignId") int campaignId);
-//
-//    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.click = true")
-//    Double  countClick(@Param("campaignId") int campaignId);
-
-
-
-//
-
 
 
     Subcriber findSubcriberById(Integer id);
@@ -63,11 +44,9 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 
     Subcriber findSubcriberByEmail(String Email);
 
-    //
-//    Account findAccountByUsernameAndPassword(String username, String password);
-//
-//    List<Account> findAllByauthorityIdOrderByCreatedTimeDesc(int authorityId);
     int countAllById(int subcriberId);
+
+    List<Subcriber> findTop5ByOrderByCreatedTimeDesc();
 
 
 

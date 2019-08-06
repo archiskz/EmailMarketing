@@ -50,6 +50,11 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
     @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.bounce = true")
     Double countBounce(@Param("campaignId") int campaignId);
 
+    Double countCampaignSubcriberBySubcriberEmail(String email);
+
+    Double countBySubcriberEmailAndClick(String email, boolean click);
+    Double countBySubcriberEmailAndOpened(String email, boolean open);
+
 
 }
 
