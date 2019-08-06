@@ -483,12 +483,12 @@ public class WorkflowServiceImpl implements WorkflowService {
         }
     }
 
-    public String concompareTwoTimes(LocalDateTime timeSend, LocalDateTime interval) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-        LocalDateTime conditionTime = timeSend.plusHours(interval.getHour());
-        
-        return formatConditionTime;
-    }
+//    public String concompareTwoTimes(LocalDateTime timeSend, LocalDateTime interval) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//
+//        LocalDateTime conditionTime = timeSend.plusHours(interval.getHour());
+//
+//        return formatConditionTime;
+//    }
 
 }
