@@ -77,7 +77,7 @@ class ContactByGroup extends Component {
 
             const id = this.props.history.location.state;
         console.log(id)
-            const appState = JSON.parse(localStorage.getItem('appState'));
+            const appState = JSON.parse(sessionStorage.getItem('appState'));
             this.setState({
                 auth_token: appState.user.auth_token
             },()=> {

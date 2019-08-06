@@ -30,16 +30,28 @@ class AutomationCampaigns extends Component {
 
    componentDidMount(){
     
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> {
       this.getAllAutoCampaign()
       this.getAllCampaign()
+      this.getAllForms()
       this.getAllAppointment()
     })
    }
+   getAllForms=()=>{
+    var selectOptions = [
+    ];
+    axios.get(`${Config.API_URL}forms`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+      res.data.forEach(element => {
+        selectOptions.push({value: element.name, name: element.name})
+      });
+      sessionStorage["forms"] = JSON.stringify(selectOptions);
+    }) 
 
+   }
    getAllAutoCampaign=()=>{
     axios.get(`${Config.API_URL}workflows`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
@@ -60,7 +72,7 @@ class AutomationCampaigns extends Component {
       res.data.forEach(element => {
         selectOptions.push({value: element.name, name: element.name})
       });
-      localStorage["campaigns"] = JSON.stringify(selectOptions);
+      sessionStorage["campaigns"] = JSON.stringify(selectOptions);
     }) 
   
    }
@@ -73,7 +85,7 @@ class AutomationCampaigns extends Component {
       res.data.forEach(element => {
         selectOptions.push({value: element.name, name: element.name})
       });
-      localStorage["appointments"] = JSON.stringify(selectOptions);
+      sessionStorage["appointments"] = JSON.stringify(selectOptions);
     }) 
   
    }

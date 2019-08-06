@@ -8,7 +8,17 @@ class AccountDropdown extends Component {
 
 		this.state = {
 			dropdowns: false,
+			username:""
 		};
+	}
+
+	componentDidMount(){
+		const appState = JSON.parse(localStorage.getItem('appState'));
+		if(appState != null){
+			var username = appState.user.username
+			this.setState({username: username})
+		}
+		
 	}
 componentWillMount(){
 	document.addEventListener('mousedown', this.handleClick, false);
@@ -26,23 +36,27 @@ componentWillUnmount(){
     <div>
         
 		<div ref={btn => this.btn = btn} className="dropdown-div">
-			<img src = "images/avatars/user-01.jpg"  className="avatar-small" />
+			<img src = "images/admin.png"  className="avatar-small" />
         <span className="username">
-		Son NLH
+		{this.state.username}
 		</span>
 		</div>
 		
 		<div ref={node => this.node = node} id="myDropdown" className= {"dropdown-content " + (this.state.dropdowns ? "show" : "")}>
     <a href="/profile">Profile</a>
     <a href="/dashboard">Account</a>
-    <a href="/dashboard">Log Out</a>
+    <a style={{"cursor":"pointer"}} onClick={this.onLogOut}>Log Out</a>
   </div>
     
     </div>
   );
   }
 
-
+  onLogOut=()=>{
+	  console.log("Log out")
+	localStorage.clear();
+	window.location.reload();
+  }
 
 handleClick = (e) => {
 	if (this.state.dropdowns == true && this.btn.contains(e.target)) {

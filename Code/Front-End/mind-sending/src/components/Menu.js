@@ -11,7 +11,7 @@ class Menu extends Component {
         
       }
     componentDidMount(){
-        const appState = JSON.parse(localStorage.getItem('appState'));
+        const appState = JSON.parse(sessionStorage.getItem('appState'));
         // const isLogin = appState.user.auth_token
         if(appState == null || appState == undefined){
             this.setState({
@@ -41,8 +41,16 @@ class Menu extends Component {
                 <li><a id="featurespart" className="smoothscroll" href="#features" title="features">Features</a></li>
                 <li><Link to="/dashboard" title="Email Marketing" className={" " + (!this.state.isLogin ? " displayFalse" : "") }>Email Marketing</Link></li>	
             </ul>
-
-            <AccountDropdown/>
+            <div className={`${this.state.isLogin ? '' : 'activeText'}`}>
+                <AccountDropdown />
+            </div>
+            <div className={`${this.state.isLogin ? 'activeText' : ''}`}>
+                <Link to="/login" className="btnright smoothscroll btn btn--primary ">
+                       Login
+                   </Link>
+            </div> 
+                   
+                   
             
             
 

@@ -70,7 +70,7 @@ addActiveClass = (index) => {
             <ul id="menuside">
             
             {/* DASHBOARD */}
-                <li>
+                <li id="menu-academico">
                     <a href="/dashboard">
                         <i className="fa fa-chart-line" /> 
                         <span style={{position: 'relative'}}>Dashboard</span>
@@ -102,6 +102,24 @@ addActiveClass = (index) => {
             </li>
 
             {/* END CAMPAIGNS */}
+            {/* Invite */}
+            <li  className={this.state.activeClasses5 ? "opend" : "closed"} >
+                <Link to = "/dashboard/invite-mail" >
+                <i className="fa fa-wpforms" />
+                    <span style={{position: 'relative'}}>Appointment</span>
+                    <div className="clearfix" />
+                </Link>
+            </li>
+            {/* Invite */}
+            {/* Embeded Form */}
+            <li  className={this.state.activeClasses5 ? "opend" : "closed"} >
+                <Link to="/dashboard/forms" >
+                <i className="fa fa-wpforms" />
+                    <span style={{position: 'relative'}}>Embeded Form</span>
+                    <div className="clearfix" />
+                </Link>
+            </li>
+            {/* Embeded Form */}
              {/* LIST */}
              <li id="menu-academico" className={this.state.activeClasses0 ? "opend" : "closed"} >
                 <Link to = "/dashboard/lists" >
@@ -112,24 +130,8 @@ addActiveClass = (index) => {
             </li>
             {/* END LIST */}
             
-            {/* Embeded Form */}
-             <li id="menu-academico" className={this.state.activeClasses5 ? "opend" : "closed"} >
-                <Link to="/dashboard/forms" >
-                <i className="fa fa-wpforms" />
-                    <span style={{position: 'relative'}}>Embeded Form</span>
-                    <div className="clearfix" />
-                </Link>
-            </li>
-            {/* Embeded Form */}
-            {/* Invite */}
-            <li id="menu-academico" className={this.state.activeClasses5 ? "opend" : "closed"} >
-                <Link to = "/dashboard/invite-mail" >
-                <i className="fa fa-wpforms" />
-                    <span style={{position: 'relative'}}>Appointment</span>
-                    <div className="clearfix" />
-                </Link>
-            </li>
-            {/* Invite */}
+            
+            
 
             <li id="menu-academico" className={this.state.activeClasses3 ? "opend" : "closed"} >
               

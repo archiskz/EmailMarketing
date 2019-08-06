@@ -100,6 +100,7 @@ public class SubcriberServiceImpl implements SubcriberService {
 
     @Override
     public boolean createListSubcrbier(List<SubcriberDTO> subcriberDTOS) {
+        boolean check = false;
         for (SubcriberDTO subcriberDTO : subcriberDTOS) {
 
             Subcriber result = subcriberRepository.findByEmail(subcriberDTO.getEmail());
@@ -107,45 +108,29 @@ public class SubcriberServiceImpl implements SubcriberService {
             if (result != null) {
                 List<GroupContactSubcriber> groupContactSubcribers2 = result.getGroupContactSubcribers();
                 for (GroupContactSubcriber groupContactSubcriber2 : groupContactSubcribers2) {
-                    if (subcriberDTO.getGcSubcriberDTOS().stream().map(x -> x.getGroupContactId())
-                            .collect(Collectors.toList()).contains(groupContactSubcriber2.getGroupContact().getId())) {
-                        if (!groupContactSubcriber2.isActive()) {
-                            groupContactSubcriber2.setActive(true);
-                            groupContactSubcriberRepository.save(groupContactSubcriber2);
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    } else {
-                        Subcriber subcriber = new Subcriber();
-                        subcriber.setLastName(subcriberDTO.getLastName());
-                        subcriber.setFirstName(subcriberDTO.getFirstName());
-                        subcriber.setDob(subcriberDTO.getDob());
-                        subcriber.setEmail(subcriberDTO.getEmail());
-                        subcriber.setAddress(subcriberDTO.getAddress());
-                        subcriber.setPhone(subcriberDTO.getPhone());
-                        subcriber.setLastName(subcriberDTO.getLastName());
-                        subcriber.setFirstName(subcriberDTO.getFirstName());
-                        subcriber.setCreatedTime(LocalDateTime.now().toString());
-                        subcriber.setType(subcriberDTO.getType());
-                        subcriber.setTag(subcriberDTO.getTag());
-                        Account account = accountRepository.findAccountById(1);
-                        subcriber.setAccount_id(account.getId() + "");
-                        List<GroupContactSubcriber> groupContactSubcribers = new ArrayList<>();
-                        for (GroupContactSubcriber groupContactSubcriber : groupContactSubcribers) {
-                            groupContactSubcriber = groupContactSubcriber2;
-                            groupContactSubcriber.setActive(true);
-                            groupContactSubcriber.setSubcriber(subcriber);
-                            groupContactSubcribers.add(groupContactSubcriber);
-                        }
+                    subcriberDTO.getGcSubcriberDTOS().stream().forEach(x -> {
+                        if (groupContactSubcriber2.getGroupContact().getId() == x.getGroupContactId()) {
+                            if (!groupContactSubcriber2.isActive()) {
+                                groupContactSubcriber2.setActive(true);
+                                groupContactSubcriberRepository.save(groupContactSubcriber2);
+                            }
 
-                        subcriber.setGroupContactSubcribers(groupContactSubcribers);
-                        subcriberRepository.save(subcriber);
-                    }
+
+                        }
+                        GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
+                        groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(x.getGroupContactId()));
+                        groupContactSubcriber.setSubcriber(result);
+                        groupContactSubcribers2.add(groupContactSubcriber);
+                        result.setGroupContactSubcribers(groupContactSubcribers2);
+                        subcriberRepository.save(result);
+
+
+                    });
 
                 }
                 return false;
             }
+
 
             Subcriber subcriber = new Subcriber();
             subcriber.setLastName(subcriberDTO.getLastName());
@@ -173,6 +158,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             subcriberRepository.save(subcriber);
 
         }
+
         return true;
     }
 

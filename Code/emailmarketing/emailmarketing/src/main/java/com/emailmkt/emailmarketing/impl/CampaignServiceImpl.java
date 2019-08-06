@@ -68,7 +68,7 @@ public class CampaignServiceImpl implements CampaignService {
         //Campaign Info
         campaign.setCreatedTime(LocalDateTime.now().toString());
         campaign.setName(campaignDTO.getCampaignName());
-        campaign.setStatus(campaignDTO.getStatus());
+        campaign.setStatus("Draft");
         campaign.setType("Regular");
         campaign.setAutomation(false);
         campaign.setTimeStart(LocalDateTime.now().toString());
@@ -91,6 +91,7 @@ public class CampaignServiceImpl implements CampaignService {
                 campaignSubcriber.setSubcriberEmail(mailList[i]);
                 campaignSubcribers.add(campaignSubcriber);
                 campaignSubcriber.setOpened(false);
+                campaignSubcriber.setSend(false);
             }
             campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
             campaignGroupContact.setCampaign(campaign);
@@ -110,6 +111,7 @@ public class CampaignServiceImpl implements CampaignService {
     @Override
     public void sendCampaign(int id) {
         Campaign campaign = campaignRepository.findCampaignById(id);
+        campaign.setStatus("Sending");
         String sender = campaign.getSender();
         String fromMail = campaign.getFromMail();
         String subject = campaign.getSubject();
@@ -131,6 +133,7 @@ public class CampaignServiceImpl implements CampaignService {
 
                 campaignSubcriber.setSubcriberEmail(mailList[i]);
                 campaignSubcribers.add(campaignSubcriber);
+
             }
             campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
             return campaignGroupContact;
@@ -142,6 +145,7 @@ public class CampaignServiceImpl implements CampaignService {
                 CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(id, mailLists.get(counter));
                 campaignSubcriber.setSend(true);
                 campaignSubcriber.setMessageId(MESSAGE_ID.trim());
+                campaign.setStatus("Done");
                 campaignRepository.save(campaign);
             }
 
@@ -207,10 +211,13 @@ public class CampaignServiceImpl implements CampaignService {
                     mailService.sendSimpleMessageV2(campaign.getSender(),campaign.getFromMail(),mailLists.get(counter),campaign.getSubject(),campaign.getContent());
                     CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(campaign.getId(), mailLists.get(counter));
                     campaignSubcriber.setSend(true);
-                    campaignSubcriber.setMessageId(MESSAGE_ID);
+                    campaignSubcriber.setMessageId(MESSAGE_ID.trim());
                     campaign.setStatus("Done");
+                    campaignSubcriberRepository.save(campaignSubcriber);
                     campaignRepository.save(campaign);
+
                 }
+
 
             }
         };
@@ -295,6 +302,13 @@ public class CampaignServiceImpl implements CampaignService {
         double open = campaignSubcriberRepository.countOpen(id);
         double click = campaignSubcriberRepository.countClick(id);
         double spam = campaignSubcriberRepository.countSpam(id);
+
+        campaign.setBounce(Math.round((bounce/request)*100)+"%");
+        campaign.setDelivery(Math.round((delivery/request)*100)+"%");
+        campaign.setClickRate(Math.round((click/request)*100) +"%");
+        campaign.setSpamRate(Math.round((spam/request)*100) +"%");
+
+        campaignRepository.save(campaign);
 
 
 

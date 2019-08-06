@@ -14,7 +14,6 @@ import org.camunda.bpm.model.bpmn.instance.Process;
 import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,7 +21,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -48,6 +46,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     @Autowired
     CampaignService campaignService;
 
+
     @Autowired
     AppointmentRepository appointmentRepository;
     @Autowired
@@ -66,25 +65,17 @@ public class WorkflowServiceImpl implements WorkflowService {
     @Autowired
     TaskRepository taskRepository;
 
+    @Autowired
+    EmbeddedFormRepository embeddedFormRepository;
+
     @Override
     public boolean createWorkflow(WorkflowDTO workflowDTO) {
         Workflow newWorkflow = new Workflow();
         newWorkflow.setName(workflowDTO.getWorkflowName());
         newWorkflow.setModel(workflowDTO.getWtWorkflowDTOS());
         newWorkflow.setStatus("Starting");
-        List<WorkflowGroupContact> workflowGroupContactsGroupContacts = workflowDTO.getGcWorkflowDTOS().stream().map(g -> {
-            WorkflowGroupContact workflowGroupContact = new WorkflowGroupContact();
-            workflowGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
-            workflowGroupContact.setWorkflow(newWorkflow);
-            workflowGroupContact.setCreatedTime(LocalDateTime.now().toString());
 
-
-            return workflowGroupContact;
-        }).collect(Collectors.toList());
-
-        newWorkflow.setWorkflowGroupContacts(workflowGroupContactsGroupContacts);
 //        newWorkflow.setWorkflowTasks(workflowTaskList);
-        workflowRepository.save(newWorkflow);
 
         String bpmnString = workflowDTO.getWtWorkflowDTOS();
         InputStream inputStream = new ByteArrayInputStream(bpmnString.getBytes(Charset.forName("UTF-8")));
@@ -93,10 +84,32 @@ public class WorkflowServiceImpl implements WorkflowService {
 //            System.out.println(format(process.getFlowElements()));
         Collection<FlowElement> elements = process.getFlowElements();
         Iterator<FlowElement> eList = elements.iterator();
-        int i = 0;
+        while(eList.hasNext()){
+            String shapeId = eList.next().getId();
+            if (shapeId.contains("UserTask")) {
+                String name = modelInstance.getModelElementById(shapeId).getAttributeValue("name");
+                //find form by name
+                EmbeddedForm embeddedForm = embeddedFormRepository.findEmbeddedFormByName(name);
+                if (embeddedForm != null) {
+                    List<WorkflowGroupContact> workflowGroupContactsGroupContacts = embeddedForm.getFormGroupContacts().stream().map(g -> {
+                        WorkflowGroupContact workflowGroupContact = new WorkflowGroupContact();
+                        workflowGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContact().getId()));
+                        workflowGroupContact.setWorkflow(newWorkflow);
+                        workflowGroupContact.setCreatedTime(LocalDateTime.now().toString());
+                        return workflowGroupContact;
+                    }).collect(Collectors.toList());
+
+                    newWorkflow.setWorkflowGroupContacts(workflowGroupContactsGroupContacts);
+                }// rồi đó m
+
+                workflowRepository.save(newWorkflow);
+                break;
+            }
+        }
+        eList = elements.iterator();
         while (eList.hasNext()) {
             String shapeId = eList.next().getId();
-            if (shapeId.contains("Task")) {
+             if (shapeId.contains("Task") && !shapeId.contains("UserTask")) {
                 String name = modelInstance.getModelElementById(shapeId).getAttributeValue("name");
                 org.camunda.bpm.model.bpmn.instance.Task taskModel = (org.camunda.bpm.model.bpmn.instance.Task) modelInstance.getModelElementById(shapeId);
                 Collection<FlowNode> sequenceFlowsPrevious = taskModel.getPreviousNodes().list();
@@ -133,8 +146,8 @@ public class WorkflowServiceImpl implements WorkflowService {
                         Iterator<SequenceFlow> prevFlowCollection = gateway.getOutgoing().iterator();
                         FlowNode conditionNode = prevNodesCollection.get(0);
                         String gatewayNode = previousNode.getName();
-                        System.out.println("HU HUHUHUHUHUHUHUHUHUHUHUHUHUHUH" + gateway.getName()  + gateway.getAttributeValueNs("magic:targetRef", "http://magic")
-                        + gateway.getAttributeValueNs("targetRef","http://magic") + gateway.getAttributeValue("targetRef")
+                        System.out.println("HU HUHUHUHUHUHUHUHUHUHUHUHUHUHUH" + gateway.getName() + gateway.getAttributeValueNs("magic:targetRef", "http://magic")
+                                + gateway.getAttributeValueNs("targetRef", "http://magic") + gateway.getAttributeValue("targetRef")
                         );
                         while (prevFlowCollection.hasNext()) {
                             SequenceFlow sequenceFlow = prevFlowCollection.next();
@@ -226,13 +239,28 @@ public class WorkflowServiceImpl implements WorkflowService {
         return workflowRepository.findWorkflowById(id);
     }
 
-//    @Scheduled(fixedRate = 10000)
+    @Override
+    public List<String> findSubcriberInTask(int workflowId, String shapeId) {
+        List<String> subcribers = new ArrayList<>();
+        Task task = taskRepository.findTaskByShapeIdAndWorkflow_Id(shapeId,workflowId);
+        String type = task.getType();
+        if(type.contains("campaign")){
+            Campaign campaign = campaignRepository.findCampaignById(task.getCampaignAppointment());
+            subcribers = campaignSubcriberRepository.findSubcriberMailByCampaignId(campaign.getId());
+        }else{
+            Appointment appointment = appointmentRepository.findAppointmentById(task.getCampaignAppointment());
+            subcribers = appointmentSubcriberRepository.findSubcriberMailByAppointmentId(appointment.getId());
+        }
+        return subcribers;
+    }
+
+    //    @Scheduled(fixedRate = 10000)
     @Override
     public void runWorkflow() {
         System.out.println("RUN WORK FLOW");
         ExecutorService executor = Executors.newFixedThreadPool(30);
-        List<Workflow> workflows = workflowRepository.findWorkflowByStatus();
-        if (workflows != null) {
+        List<Workflow> workflows = workflowRepository.findWorkflowByStatus("Starting");
+        if (workflows != null ) {
             for (Workflow workflow : workflows) {
                 System.out.println("-----------------------------------------------------WORK FLOW:");
                 System.out.println("-----------------------------------------------------WORK FLOW:" + workflow.getName());
@@ -244,8 +272,12 @@ public class WorkflowServiceImpl implements WorkflowService {
                             System.out.println("------------------------------------------WOrkflow group contact----------------------");
                             List<Subcriber> subcribers = groupContactRepository
                                     .findSubcriberByGroupContactId(workflowGroupContact.getGroupContact().getId());
-                            for (Subcriber subcriber : subcribers) {
+                            Set<Subcriber> checkDuplicates = new HashSet<Subcriber>();
 
+                            for (Subcriber subcriber : subcribers) {
+                                if(!checkDuplicates.add(subcriber)){
+                                    System.out.println("Duplicate in that list " + subcriber);
+                                }
                                 System.out.println("-----------------------------------------------------SUBCRIBER:" + subcriber.getEmail());
 //                                List<Task> tasks = workflow.getTasks();
                                 Task firstTask = taskRepository.findTaskByPreTaskAndWorkflow_Id(null, workflow.getId());
@@ -263,8 +295,8 @@ public class WorkflowServiceImpl implements WorkflowService {
                                         AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(firstApp.getId(), subcriber.getEmail());
                                         appointmentSubcriber.setSend(true);
                                         appointmentSubcriberRepository.save(appointmentSubcriber);
-                                        addContentApppointment(firstApp,subcriber);
-//                                        mailService.sendAppointment(firstApp.getSender(), firstApp.getFromMail(), subcriber.getEmail(), firstApp.getSubject(), firstApp.getBody());
+                                        addContentApppointment(firstApp, subcriber);
+//                                        
 
                                     }
                                 } else if (firstTask.getType().equalsIgnoreCase(("campaign"))) {
@@ -338,8 +370,8 @@ public class WorkflowServiceImpl implements WorkflowService {
                             if (appointmentSubcriber.isSend() == false) {
                                 appointmentSubcriber.setSend(true);
                                 appointmentSubcriberRepository.save(appointmentSubcriber);
-//                                mailService.sendAppointment(tmpAppointment.getSender(), tmpAppointment.getFromMail(), subcriber.getEmail(), tmpAppointment.getSubject(), tmpAppointment.getBody());
-                                addContentApppointment(tmpAppointment,subcriber);
+//                                
+                                addContentApppointment(tmpAppointment, subcriber);
                             }
                             runTask(tmp, workflow, subcriber);
                         } else {
@@ -440,36 +472,36 @@ public class WorkflowServiceImpl implements WorkflowService {
     }
 
 
-    public void addContentApppointment(Appointment appointment, Subcriber subcriber){
+    public void addContentApppointment(Appointment appointment, Subcriber subcriber) {
         try {
 
-                String bodyTemp = appointment.getBody();
-                int index = bodyTemp.indexOf("<a href=\"\"") + 8;
-                String newString = new String();
-                for (int i = 0; i < bodyTemp.length(); i++) {
+            String bodyTemp = appointment.getBody();
+            int index = bodyTemp.indexOf("<a href=\"\"") + 8;
+            String newString = new String();
+            for (int i = 0; i < bodyTemp.length(); i++) {
 
-                    newString += bodyTemp.charAt(i);
-                    if (i == index) {
-                        newString += "http://localhost:8080/api/accept-appointment?confirmationToken=" + appointment.getToken() + "&subcriberEmail=" + subcriber.getEmail();
-                    }
+                newString += bodyTemp.charAt(i);
+                if (i == index) {
+                    newString += "http://localhost:8080/api/accept-appointment?confirmationToken=" + appointment.getToken() + "&subcriberEmail=" + subcriber.getEmail();
                 }
+            }
 
-                mailService.sendAppointment(appointment.getSender(),
-                        appointment.getFromMail(),
-                        subcriber.getEmail()
-                        , appointment.getSubject(),
-                        newString);
+            mailService.sendAppointment(appointment.getSender(),
+                    appointment.getFromMail(),
+                    subcriber.getEmail()
+                    , appointment.getSubject(),
+                    newString);
         } catch (MailException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
     }
-    
-    public String concompareTwoTimes(LocalDateTime timeSend, LocalDateTime interval) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        LocalDateTime conditionTime = timeSend.plusHours(interval.getHour());
-         String formatConditionTime = conditionTime.format(formatter);
-        return formatConditionTime;
-    }
+//    public String concompareTwoTimes(LocalDateTime timeSend, LocalDateTime interval) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//
+//        LocalDateTime conditionTime = timeSend.plusHours(interval.getHour());
+//
+//        return formatConditionTime;
+//    }
 
 }

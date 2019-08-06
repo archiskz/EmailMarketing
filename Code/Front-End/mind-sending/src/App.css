@@ -879,4 +879,24 @@ text-decoration: underline
 .modal-confirm .btn-danger {
   background: #f15e5e;
 }
-
+.btnright{
+  position: fixed;
+  right: 20px;
+  top: 10px;
+  width:120px;
+  height: 5.6rem !important;
+  line-height: 5.4rem !important;
+  text-transform: uppercase;
+}
+#UserTask_0tycd7r.djs-overlay.djs-context-pad.group.bpmn-icon-trash{
+  display: none !important;
+  visibility:hidden !important;
+}
+[data-container-id*="UserTask" i] .djs-context-pad{
+  display: none !important;
+  visibility: hidden !important;
+}
+/* [data-container-id*="UserTask" i].group .bpmn-icon-trash:before{
+  display: none !important;
+  visibility: hidden !important;
+} */

@@ -42,7 +42,7 @@ showDropdownMenu(event) {
 
   componentDidMount(){
 	  console.log(this.props.history.location.state)
-	  const appState = JSON.parse(localStorage.getItem('appState'));
+	  const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> this.getSubcriberById(this.props.history.location.state) )
@@ -215,7 +215,7 @@ showDropdownMenu(event) {
         				
         				<h4>Thắng Nguyễn</h4>
         				<p>Added via MindSending on {this.state.contact.createdTime}</p>
-        				 <div className="btn_create_contact2" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
+        				 {/* <div className="btn_create_contact2" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
                                     
                                     Action
                                     <i className="fa fa-caret-down i_contact_information"></i>
@@ -234,7 +234,7 @@ showDropdownMenu(event) {
         (
           null
         )
-        }
+        } */}
         			</div>
 
         		</div>

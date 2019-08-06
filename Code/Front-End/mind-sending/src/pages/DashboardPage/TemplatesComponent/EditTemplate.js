@@ -59,7 +59,7 @@ class EditTemplate extends Component {
    componentDidMount(){
      console.log(this.state.template)
     this.isComponentMounted = true; 
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> this.loadTemplate() )

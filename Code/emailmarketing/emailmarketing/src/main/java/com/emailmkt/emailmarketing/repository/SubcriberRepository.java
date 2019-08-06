@@ -36,6 +36,19 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     @Modifying(clearAutomatically = true)
     @Query("UPDATE GroupContactSubcriber gr SET gr.active = false WHERE gr.subcriber.id  = :subcriberId ")
     void  deleteSubcriberFromGroup(@Param("subcriberId") int subcriberId);
+//
+//    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.")
+//    Double countRequestSubcriberFromCampaign(@Param("campaignId") int campaignId);
+//
+//    @Query("SELECT COUNT(cam) FROM AppointmentSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.opened = true")
+//    Double countRequestSubcriberFromAppointment(@Param("campaignId") int campaignId);
+//
+//    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.opened = true")
+//    Double countOpen(@Param("campaignId") int campaignId);
+//
+//    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.click = true")
+//    Double  countClick(@Param("campaignId") int campaignId);
+
 
 
 //

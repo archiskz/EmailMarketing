@@ -51,7 +51,7 @@ class Templates extends Component {
         this.props.history.replace({});
       }
     }
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> this.getAllTemplates() )
@@ -166,6 +166,7 @@ class Templates extends Component {
                     image={list.contentHtml}
                     imagePreview={list.preview}
                     preview={true}
+                    type={list.type}
                      />
           ))}     
       

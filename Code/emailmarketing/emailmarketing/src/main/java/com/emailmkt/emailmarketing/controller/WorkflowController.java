@@ -1,21 +1,13 @@
 package com.emailmkt.emailmarketing.controller;
 
-import com.emailmkt.emailmarketing.dto.CampaignDTO;
-import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
-import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
-import com.emailmkt.emailmarketing.model.Campaign;
-import com.emailmkt.emailmarketing.model.Template;
 import com.emailmkt.emailmarketing.model.Workflow;
-import com.emailmkt.emailmarketing.repository.CampaignRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.repository.WorkflowRepository;
 import com.emailmkt.emailmarketing.service.WorkflowService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.camunda.bpm.model.bpmn.instance.*;
-import org.camunda.bpm.model.bpmn.instance.Process;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.camunda.bpm.model.bpmn.Bpmn;
-import org.camunda.bpm.model.xml.instance.ModelElementInstance;
-import org.camunda.bpm.model.xml.type.ModelElementType;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 //@RequestMapping(AccountController.BASE_URK)
@@ -97,10 +81,11 @@ public class WorkflowController {
 //        .orElseThrow(() -> new RuntimeException("Not found"));
 //    }
 
-//    @GetMapping("campaign/{id}")
-//    public CampaignFullDTO getCampaignById(@PathVariable(value = "id") int id) {
-//        return campaignService.getCampaginById(id);
-//    }
+    @GetMapping("workflow/task")
+    public List<String> findSubcriberInTask(@RequestParam(value = "workflowId")int workflowId,@RequestParam(value = "shapeId")String shapeId) {
+        List<String> sucribers = workflowService.findSubcriberInTask(workflowId,shapeId);
+        return sucribers;
+    }
 //
 //    @PutMapping("campaign/edit/{id}")
 //    public ResponseEntity updateCampaign(@RequestBody MailAndCampaign mailAndCampaign, @PathVariable int id) {
