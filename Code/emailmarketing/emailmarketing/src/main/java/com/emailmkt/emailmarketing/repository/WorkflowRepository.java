@@ -14,6 +14,8 @@ public interface WorkflowRepository extends JpaRepository<Workflow, Integer> {
     Workflow findWorkflowById(Integer id);
 
     @Query("SELECT wl FROM Workflow wl WHERE wl.status = 'Pending' or wl.status='Starting'")
-    List<Workflow> findWorkflowByStatus();
+    List<Workflow> findWorkflowByStatus(String status);
+
+
 
 }

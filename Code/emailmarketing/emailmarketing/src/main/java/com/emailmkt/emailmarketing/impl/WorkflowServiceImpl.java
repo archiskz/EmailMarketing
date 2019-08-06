@@ -225,7 +225,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     public void runWorkflow() {
         System.out.println("RUN WORK FLOW");
         ExecutorService executor = Executors.newFixedThreadPool(30);
-        List<Workflow> workflows = workflowRepository.findWorkflowByStatus();
+        List<Workflow> workflows = workflowRepository.findWorkflowByStatus("Starting");
         if (workflows != null) {
             for (Workflow workflow : workflows) {
                 System.out.println("-----------------------------------------------------WORK FLOW:");
@@ -238,8 +238,12 @@ public class WorkflowServiceImpl implements WorkflowService {
                             System.out.println("------------------------------------------WOrkflow group contact----------------------");
                             List<Subcriber> subcribers = groupContactRepository
                                     .findSubcriberByGroupContactId(workflowGroupContact.getGroupContact().getId());
-                            for (Subcriber subcriber : subcribers) {
+                            Set<Subcriber> checkDuplicates = new HashSet<Subcriber>();
 
+                            for (Subcriber subcriber : subcribers) {
+                                if(!checkDuplicates.add(subcriber)){
+                                    System.out.println("Duplicate in that list " + subcriber);
+                                }
                                 System.out.println("-----------------------------------------------------SUBCRIBER:" + subcriber.getEmail());
 //                                List<Task> tasks = workflow.getTasks();
                                 Task firstTask = taskRepository.findTaskByPreTaskAndWorkflow_Id(null, workflow.getId());

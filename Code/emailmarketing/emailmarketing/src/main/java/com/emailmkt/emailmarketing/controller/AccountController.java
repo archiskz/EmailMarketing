@@ -67,7 +67,7 @@ public class AccountController {
     public ResponseEntity updateProfile(@RequestBody Account account) {
         Account accountEdited = accountService.editProfile(account);
         if (accountEdited != null) {
-            return ResponseEntity.status(OK).body(accountEdited);
+            return ResponseEntity.status(OK).body("Successfully");
         }
         return ResponseEntity.status(NOT_FOUND).body("Tài khoản này không tồn tại");
     }

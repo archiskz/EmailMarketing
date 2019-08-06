@@ -68,7 +68,7 @@ public class CampaignServiceImpl implements CampaignService {
         //Campaign Info
         campaign.setCreatedTime(LocalDateTime.now().toString());
         campaign.setName(campaignDTO.getCampaignName());
-        campaign.setStatus(campaignDTO.getStatus());
+        campaign.setStatus("Draft");
         campaign.setType("Regular");
         campaign.setAutomation(false);
         campaign.setTimeStart(LocalDateTime.now().toString());
@@ -91,6 +91,7 @@ public class CampaignServiceImpl implements CampaignService {
                 campaignSubcriber.setSubcriberEmail(mailList[i]);
                 campaignSubcribers.add(campaignSubcriber);
                 campaignSubcriber.setOpened(false);
+                campaignSubcriber.setSend(false);
             }
             campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
             campaignGroupContact.setCampaign(campaign);
@@ -110,6 +111,7 @@ public class CampaignServiceImpl implements CampaignService {
     @Override
     public void sendCampaign(int id) {
         Campaign campaign = campaignRepository.findCampaignById(id);
+        campaign.setStatus("Sending");
         String sender = campaign.getSender();
         String fromMail = campaign.getFromMail();
         String subject = campaign.getSubject();
@@ -131,6 +133,7 @@ public class CampaignServiceImpl implements CampaignService {
 
                 campaignSubcriber.setSubcriberEmail(mailList[i]);
                 campaignSubcribers.add(campaignSubcriber);
+
             }
             campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
             return campaignGroupContact;
@@ -142,6 +145,7 @@ public class CampaignServiceImpl implements CampaignService {
                 CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(id, mailLists.get(counter));
                 campaignSubcriber.setSend(true);
                 campaignSubcriber.setMessageId(MESSAGE_ID.trim());
+                campaign.setStatus("Done");
                 campaignRepository.save(campaign);
             }
 
