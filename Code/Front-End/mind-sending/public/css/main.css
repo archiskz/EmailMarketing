@@ -6764,19 +6764,19 @@ display: flex;
   padding-top: 20px;
 }
 .sub_dashboard_panels {
-    display: inline-block;
+        display: inline-block;
     list-style: none;
     font-size: 0;
     text-align: center;
     margin-top: 38px;
-    margin-left: 15px;
+    margin-left: 10px;
 }
 .sub_dashboard_panels li{
-      display: inline-block;
+    display: inline-block;
     list-style: none;
     font-size: 0;
     border-radius: 5px;
-    box-shadow: 0 2px 0 0 rgba(0,0,0,.03);
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,.25);
     background: #fff;
     border: 1px solid rgba(0,0,0,.09);
     height: 97px;
@@ -6785,7 +6785,7 @@ display: flex;
     position: relative;
     vertical-align: top;
     z-index: 5;
-    margin: 1px;
+    margin: 5px;
 }
 .sub_dashboard_panels  h2 {
       font-weight: 600;
