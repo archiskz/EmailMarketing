@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "workflow_has_task",uniqueConstraints={
+@Table(name = "task",uniqueConstraints={
         @UniqueConstraint(columnNames = {"workflow_id","id"})
 })
 
