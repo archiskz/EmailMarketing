@@ -78,7 +78,7 @@ class AddContactsFile extends Component {
         choose:true
       })
     }
-        const appState = JSON.parse(localStorage.getItem('appState'));
+        const appState = JSON.parse(sessionStorage.getItem('appState'));
         this.setState({
             auth_token: appState.user.auth_token
         },()=> this.getAllGroupContacts() )
@@ -163,7 +163,7 @@ class AddContactsFile extends Component {
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fix_size_add md_tablet2">
                 
                   <div className="pd20" >
-                    <div class="col-sm-6" >
+                    {/* <div class="col-sm-6" >
                       <label className="container-cb">
                         Add Contacts
                           <input onChange={this.handleCheck} checked={this.state.noneList}   value="0" type="radio" name="list" class="blue" />
@@ -174,12 +174,14 @@ class AddContactsFile extends Component {
                             onError={this.handleError}
                             render={onChange => <input type="file" className={`form-control-file ${this.state.choose==0? '' : 'activeText'}`} onChange={onChange} />}
                           />                 
-                    </div>
+                    </div> */}
                     <div class="col-sm-6" >
                     <label className="container-cb">Add contacts and include in an existing group
-                    <input onChange={this.handleCheck} checked={this.state.list} value="1" type="radio" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
+                    <input onChange={this.handleCheck} checked={this.state.list} value="1" type="checkbox" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
                         
-                        <div className={`col-sm-8 ${this.state.choose==1? '' : 'activeText'}`}>
+                        <div className={`col-sm-8`}>
+                        
+                        <div className={`${this.state.list==true? '' : 'activeText'}`}>
                         <h5>Choose Group</h5>
                         <MultiSelectComponent 
                               style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important","marginBottom":"15px"}} 
@@ -188,11 +190,13 @@ class AddContactsFile extends Component {
                               ref={(scope) => { this.mulObj = scope; }}  
                               change={this.onChangeListsSelect}
                               placeholder="Choose Group"/>
+                        </div>
+                        
                               <CsvParse
                             keys={keys}
                             onDataUploaded={this.handleData}
                             onError={this.handleError}
-                            render={onChange => <input type="file" className={`form-control-file mt30 ${this.state.choose==1? '' : 'activeText'}`} onChange={onChange} />}
+                            render={onChange => <input type="file" className={`form-control-file mt30 `} onChange={onChange} />}
                           /> 
                         </div>
                         <br/>
@@ -215,20 +219,24 @@ class AddContactsFile extends Component {
   }
 
   handleCheck=(event)=>{
-    console.log(event.target.value);
-    if(event.target.value == '0'){
-      this.setState({
-        noneList: true,
-        list: false,
-        choose: event.target.value
-      })
-    } else{
-      this.setState({
-        noneList: false,
-        list: true,
-        choose: event.target.value
-      })
-    }
+    // console.log(event.target.value);
+    // if(event.target.value == '0'){
+    //   this.setState({
+    //     noneList: true,
+    //     list: false,
+    //     choose: event.target.value
+    //   })
+    // } else{
+    //   this.setState({
+    //     noneList: false,
+    //     list: true,
+    //     choose: event.target.value
+    //   })
+    // }
+    this.setState({
+      list: !this.state.list,
+      noneList: !this.state.noneList
+    })
     // this.setState({choose: event.target.value},()=>console.log(this.state.choose))
     
       }
@@ -280,8 +288,8 @@ onSave= () => {
   var contactList = this.state.contacts;
   var self = this
     let contacts = contactList.map((contact)=>{
-      var contact= contact;
-      if(this.state.choose == 0){
+      var contact= contact; 
+      if(this.state.noneList == true){
         return {
           ...contact,
           gcSubcriberDTOS: 

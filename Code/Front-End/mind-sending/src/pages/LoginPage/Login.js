@@ -132,9 +132,9 @@ handleChange =(e)=> {
 						{/*<Link to="/"  className="login100-form-btn">Login</Link>*/}
 					</div>
 
-					<div className="text-center p-t-20">
+					{/* <div className="text-center p-t-20">
 						<Link to="/register"  className="a-link">Forgot Password?</Link>
-					</div>
+					</div> */}
 					<div className="text-center p-t-20">
 						<Link to="/register"  className="a-link">Not a member? SIGN UP</Link>
 						{this.renderLoading()}
@@ -181,7 +181,7 @@ getPosts() {
 				isLoggedIn: true,
 				user: userData
 			  }
-			  localStorage["appState"] = JSON.stringify(appState);
+			  sessionStorage["appState"] = JSON.stringify(appState);
 			  this.setState({
 				login:{
 					isLoggedIn: appState.isLoggedIn,

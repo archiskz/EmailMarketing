@@ -64,7 +64,7 @@ class EditContent extends Component {
      console.log(this.props.history.location.state.newCampaign)
      console.log(this.props.history.location.state.isChecked)
     this.isComponentMounted = true; 
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> this.loadTemplate() )

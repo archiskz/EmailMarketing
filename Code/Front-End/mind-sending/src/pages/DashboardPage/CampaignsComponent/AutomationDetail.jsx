@@ -16,6 +16,7 @@ import BpmnModdle from 'bpmn-moddle';
 import KeyboardModule from '../../../custom/keyboard';
 import axios from 'axios';
 import * as Config from '../../../constants/Config'
+import { withRouter } from "react-router";
 class BpmnModelerComponent extends Component {
     constructor(props) {
         super(props);
@@ -39,8 +40,7 @@ class BpmnModelerComponent extends Component {
 
 
     componentDidMount = () => {
-      console.log(this.props.automationName);
-      console.log(this.state.bpmn)
+      console.log(this.props.history.location.state.model)
         document.addEventListener('mousedown', this.handleClickOutside);
         this.modeler = new BpmnModeler({
             container: '#bpmnview',
@@ -64,7 +64,7 @@ class BpmnModelerComponent extends Component {
     }
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClickOutside);
-        const appState = JSON.parse(localStorage.getItem('appState'));
+        const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     });
@@ -161,7 +161,7 @@ onClickToExport = () =>{
     }
 
     newBpmnDiagram = () => {
-        this.openBpmnDiagram(emptyBpmn);
+        this.openBpmnDiagram(this.props.history.location.state.model);
     }
 
     openBpmnDiagram = (xml) => {
@@ -264,4 +264,4 @@ onClickToExport = () =>{
     }
 }
 
-export default BpmnModelerComponent;
+export default withRouter(BpmnModelerComponent);

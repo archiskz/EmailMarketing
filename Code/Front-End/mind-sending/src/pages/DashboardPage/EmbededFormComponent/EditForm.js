@@ -44,7 +44,7 @@ class EditForm extends React.Component {
         };
 
         componentDidMount(){
-            const appState = JSON.parse(localStorage.getItem('appState'));
+            const appState = JSON.parse(sessionStorage.getItem('appState'));
             this.setState({
                 auth_token: appState.user.auth_token
             },()=> {
@@ -97,7 +97,7 @@ class EditForm extends React.Component {
                 this.setState({
                     groupId:Groupid,
             },()=> console.log(this.state));
-                // localStorage["campaigns"] = JSON.stringify(selectOptions);
+                // sessionStorage["campaigns"] = JSON.stringify(selectOptions);
                 }).catch(function (error) {
                 console.log(error);
                 // if(error != null ){

@@ -24,12 +24,7 @@ class Home extends Component {
                 Voluptatem ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia. 
                 </h3>
 
-                <div className="home-content__button">
-                   
-                    <Link to="/login" className="smoothscroll btn btn--primary btn--large">
-                        Get Started
-                    </Link>
-                </div>
+               
 
             </div> 
 

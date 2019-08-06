@@ -45,7 +45,7 @@ class AutoRow extends Component {
 
   
      componentDidMount(){
-      const appState = JSON.parse(localStorage.getItem('appState'));
+      const appState = JSON.parse(sessionStorage.getItem('appState'));
       this.setState({
           auth_token: appState.user.auth_token
       })
@@ -54,9 +54,9 @@ class AutoRow extends Component {
       render(){
           return( 
 <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
-<td class="md_tablet6_tbody_td"><a>{this.props.status}</a></td>
+<td class="md_tablet6_tbody_td"><a onClick={()=> this.toCampaignDetail(this.props.id)}>{this.props.status}</a></td>
     <td class="md_tablet6_tbody_td">
-    <a onClick={()=> this.toCampaignDetail(this.props.id)}> {this.props.campaignName} </a>
+    <a > {this.props.campaignName} </a>
     </td>
     <td class="md_tablet6_tbody_td"></td>
     
@@ -122,10 +122,10 @@ class AutoRow extends Component {
     }
     toCampaignDetail = (id)=> {        
         this.props.history.push({
-            pathname:`/campaigns/detail/:${id}`,
+            pathname:`/automations/detail/:${id}`,
             state : {
               id: id,
-              bodyJson: this.props.bodyJson
+              model: this.props.model
             }
         });
         }

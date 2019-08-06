@@ -37,7 +37,7 @@ class OneTemplate extends Component {
   }
   componentDidMount(){
     console.log(this.props.imagePreview)
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     })
@@ -98,7 +98,7 @@ class OneTemplate extends Component {
                     <i className="sg-icon sg-icon-contacts-alt"></i>
                     <span>Duplicate</span>
                   </Link>
-                  <a onClick={()=> this.toEditTemplate(this.props.id)} data-role="dropdown-link" className="dropdown-link dropdown-link-with-icon" >
+                  <a onClick={()=> this.toEditTemplate(this.props.id)} data-role="dropdown-link" className={`dropdown-link dropdown-link-with-icon ${this.props.type == "ct"? '' : "activeText"}`} >
                     <i className="sg-icon sg-icon-contacts-alt"></i>
                     <span>Edit</span>
                   </a>

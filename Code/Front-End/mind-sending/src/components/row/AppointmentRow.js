@@ -67,7 +67,7 @@ class AppointmentRow extends Component {
        }
      }
      componentDidMount(){
-      const appState = JSON.parse(localStorage.getItem('appState'));
+      const appState = JSON.parse(sessionStorage.getItem('appState'));
       this.setState({
           auth_token: appState.user.auth_token
       },()=>{

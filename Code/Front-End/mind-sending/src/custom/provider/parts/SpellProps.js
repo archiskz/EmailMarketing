@@ -6,8 +6,9 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 export default function(group, element) {
-  var selectOptions = JSON.parse(localStorage.getItem('campaigns'));
-  var selectOptionsApp = JSON.parse(localStorage.getItem('appointments'));
+  var selectOptions = JSON.parse(sessionStorage.getItem('campaigns'));
+  var selectOptionsApp = JSON.parse(sessionStorage.getItem('appointments'));
+  var selectOptionsForm = JSON.parse(sessionStorage.getItem('forms'));
   var selectSequenceFlow = [
     { value: 'yes', name: 'Yes' },
     { value: 'no', name: 'No' }
@@ -16,7 +17,7 @@ export default function(group, element) {
     { value: 'Clicked ?', name: 'Clicked ?' },
     { value: 'Opened ?', name: 'Opened ?' }
   ];
-  // const appState = JSON.parse(localStorage.getItem('appState'));
+  // const appState = JSON.parse(sessionStorage.getItem('appState'));
   //     axios.get(`${Config.API_URL}campaigns`,{ 'headers': { 'Authorization': `${appState.user.auth_token}` } })
   //   .then(res => {
   //     var listCampaigns = new Array();
@@ -46,6 +47,15 @@ export default function(group, element) {
       id : 'campaign',
       selectOptions: selectOptionsApp,
       label : 'Choose Appointment',
+      modelProperty : 'name'
+    }));
+  
+  }
+  if (is(element, 'bpmn:UserTask')) {
+    group.entries.push(entryFactory.selectBox({
+      id : 'campaign',
+      selectOptions: selectOptionsForm,
+      label : 'Choose Form',
       modelProperty : 'name'
     }));
   

@@ -45,7 +45,7 @@ class ListRow extends Component {
 
   
      componentDidMount(){
-      const appState = JSON.parse(localStorage.getItem('appState'));
+      const appState = JSON.parse(sessionStorage.getItem('appState'));
       this.setState({
           auth_token: appState.user.auth_token
       })
@@ -58,17 +58,21 @@ class ListRow extends Component {
     <td class="md_tablet6_tbody_td">
     <a onClick={()=> this.toCampaignDetail(this.props.id)}> {this.props.campaignName} </a>
     </td>
-    <td class="md_tablet6_tbody_td"></td>
+    <td class="md_tablet6_tbody_td">
+      {`${this.props.delivery == null ? `0` : this.props.delivery}`}
+    </td>
     
     <td class="md_tablet6_tbody_td">
+    {`${this.props.open == null ? `0` : this.props.open}`}
     </td>
     <td class="md_tablet6_tbody_td">
+    {`${this.props.click == null ? `0` : this.props.click}`}
     </td>
     <td class="md_tablet6_tbody_td">
     <i 
     //  onClick={() => this.sendCampaign()} 
        onClick={()=>this.openModal()}
-      class={`fas fa-paper-plane ${this.props.status == "Sending" ? "activeText" : ''}`}></i>
+      class={`fas fa-paper-plane ${this.props.status == "Sending" || this.props.status == "Done" ? "activeText" : ''}`}></i>
     
     </td>
    {/* MODAL */}

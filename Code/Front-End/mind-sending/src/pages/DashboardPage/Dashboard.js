@@ -33,7 +33,7 @@ class DashBoard extends Component {
 
 	
   render(){
-       if(localStorage.getItem('appState')){
+       if(sessionStorage.getItem('appState')){
          return(
           <div className="dashboard-main">
 

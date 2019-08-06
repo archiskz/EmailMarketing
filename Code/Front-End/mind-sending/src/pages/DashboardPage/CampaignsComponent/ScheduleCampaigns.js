@@ -30,7 +30,7 @@ class Campaigns extends Component {
 
    componentDidMount(){
     
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> this.getAllCampaign() )
@@ -47,7 +47,7 @@ class Campaigns extends Component {
         selectOptions.push({value: element.name, name: element.name})
       });
       console.log(selectOptions)
-      localStorage["campaigns"] = JSON.stringify(selectOptions);
+      sessionStorage["campaigns"] = JSON.stringify(selectOptions);
     }) 
     console.log(this.state.campaigns)
 

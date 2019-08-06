@@ -46,7 +46,7 @@ class FormRow extends Component {
 
   
      componentDidMount(){
-      const appState = JSON.parse(localStorage.getItem('appState'));
+      const appState = JSON.parse(sessionStorage.getItem('appState'));
       this.setState({
           auth_token: appState.user.auth_token
       })
@@ -97,7 +97,7 @@ class FormRow extends Component {
     </td>
     <td class="md_tablet6_tbody_td">
     <a class="fas fa-edit margin_td_fontawsome" onClick = {()=> this.toFormEdit(this.props.id)} title="Edit"> </a>
-    <a class="fas fa-trash-alt margin_td_fontawsome" title="Delete" onClick={()=>this.openModal()}  > </a>
+    {/* <a class="fas fa-trash-alt margin_td_fontawsome" title="Delete" onClick={()=>this.openModal()}  > </a> */}
     <a class="fas fa-copy" title="Copy Embeded Code" onClick={()=>this.copyCode()} > </a>
     </td>
    {/* MODAL */}
