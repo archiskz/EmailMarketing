@@ -1,7 +1,6 @@
 package com.emailmkt.emailmarketing.repository;
 
 import com.emailmkt.emailmarketing.model.Task;
-import com.emailmkt.emailmarketing.model.Workflow;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,5 +28,11 @@ public interface TaskRepository extends JpaRepository<Task,Integer> {
 //        List<WorkflowTask> findAllByTaskId(int id);
 
         List<Task>findTaskByPreTask(String pretask);
+
+        Task findTaskByWorkflowIdAndShapeId(int workflowId,String shapeId);
+
+//        @Query("SELECT task FROM Task task WHERE task.workflow.id = :workflowId AND task.shapeId= :shapeId")
+//        Task findTaskByWorkflowIdAnd(@Param("subcriberId")int subcriberId,@Param("groupContactId") int groupContactId );
+
 
 }

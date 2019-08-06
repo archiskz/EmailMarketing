@@ -303,6 +303,13 @@ public class CampaignServiceImpl implements CampaignService {
         double click = campaignSubcriberRepository.countClick(id);
         double spam = campaignSubcriberRepository.countSpam(id);
 
+        campaign.setBounce(Math.round((bounce/request)*100)+"%");
+        campaign.setDelivery(Math.round((delivery/request)*100)+"%");
+        campaign.setClickRate(Math.round((click/request)*100) +"%");
+        campaign.setSpamRate(Math.round((spam/request)*100) +"%");
+
+        campaignRepository.save(campaign);
+
 
 
         CampaignFullDTO campaignFullDTO = new CampaignFullDTO();
