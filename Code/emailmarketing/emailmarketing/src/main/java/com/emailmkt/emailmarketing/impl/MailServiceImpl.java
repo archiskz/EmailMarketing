@@ -101,6 +101,8 @@ public class MailServiceImpl implements MailService {
 
             Transport transport = session.getTransport();
             transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
+            if (!transport.isConnected())//make sure the connection is alive
+                transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
             transport.sendMessage(message, message.getAllRecipients());
             if (transport instanceof SMTPTransport){
 

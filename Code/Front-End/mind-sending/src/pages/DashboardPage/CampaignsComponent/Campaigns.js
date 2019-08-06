@@ -112,7 +112,7 @@ class Campaigns extends Component {
                         </div>
                     </header>
                     {/* fiLTER */}
-                    <section className="row">
+                    {/* <section className="row">
                       <div className="segment-filter">
                       <span className="filter-header">
                         Filter Campaigns
@@ -172,7 +172,7 @@ class Campaigns extends Component {
                         </div>
                         
                       </div> 
-                     </section>
+                     </section> */}
                     <section>
                     {/* end filter */}
                     <div className="md_tablet1">
@@ -205,6 +205,7 @@ class Campaigns extends Component {
                                          click={list.clickRate}
                                          open={list.openRate}
                                          delivery={list.delivery}
+                                         updateList={this.getAllCampaign}
                                      />
                                     ))}
 

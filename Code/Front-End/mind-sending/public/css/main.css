@@ -6785,7 +6785,7 @@ display: flex;
     position: relative;
     vertical-align: top;
     z-index: 5;
-    margin: 5px;
+    margin-left: 10px;
 }
 .sub_dashboard_panels  h2 {
       font-weight: 600;

@@ -71,7 +71,7 @@
 }
 .dashboard_panel__label {
     left: 100%;
-    background-color: #4ce1b6;
+    
     font-size: 10px;
     font-weight: 500;
     text-transform: uppercase;
@@ -80,7 +80,8 @@
     margin-left: 10px;
 }
 .dashboard_badge_secondary{
-	color: #fff;
+	color: #0000FF;
+    font-size: 15px;
 }
 .dashboard_table_responsive{
 	display: block;
@@ -114,7 +115,27 @@
     font-weight: 700;
     margin:0;
 }
+.dashboard__btc4{
+	color: #330099;
+    font-weight: 700;
+    margin:0;
+}
+.dashboard__btc5{
+	color: #003300;
+    font-weight: 700;
+    margin:0;
+}
+.dashboard__btc6{
+	color: #663300;
+    font-weight: 700;
+    margin:0;
+}
 .dashboard_bold_text {
+    font-weight: 700;
+}
+.dashboard_bold_text2 {
+    margin-left: 30px;
+    text-align: left;
     font-weight: 700;
 }
 .dashboard_table tbody tr:nth-of-type(odd) {
@@ -173,4 +194,17 @@
 }
 .dashboard_admin{
 	margin-left: 20px;
+}
+.sub_dashboard_graph_container2 {
+    margin-left:15px;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,.25);
+    background: #fbfbfb;
+    border: 1px solid hsla(0,0%,59%,.09);
+    display: inline-block;
+    position: relative;
+    margin-top: -80px;
+    padding-top: 80px;
+    text-align: center;
+    width: 100%;
 }
