@@ -14,6 +14,7 @@ import org.camunda.bpm.model.bpmn.instance.Process;
 import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -246,15 +247,15 @@ public class WorkflowServiceImpl implements WorkflowService {
         String type = task.getType();
         if(type.contains("campaign")){
             Campaign campaign = campaignRepository.findCampaignById(task.getCampaignAppointment());
-            subcribers = campaignSubcriberRepository.findSubcriberMailByCampaignId(campaign.getId());
+            subcribers =campaignSubcriberRepository.findSubcriberMailByCampaignId(campaign.getId());
         }else{
             Appointment appointment = appointmentRepository.findAppointmentById(task.getCampaignAppointment());
-            subcribers = appointmentSubcriberRepository.findSubcriberMailByAppointmentId(appointment.getId());
+            subcribers  = appointmentSubcriberRepository.findSubcriberMailByAppointmentId(appointment.getId());
         }
         return subcribers;
     }
 
-    //    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 10000)
     @Override
     public void runWorkflow() {
         System.out.println("RUN WORK FLOW");
@@ -280,7 +281,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                                 }
                                 System.out.println("-----------------------------------------------------SUBCRIBER:" + subcriber.getEmail());
 //                                List<Task> tasks = workflow.getTasks();
-                                Task firstTask = taskRepository.findTaskByPreTaskAndWorkflow_Id(null, workflow.getId());
+                                Task firstTask = taskRepository.findTaskByPreTaskAndWorkflow_Id("UserTask_1sbexqx", workflow.getId());
                                 System.out.println("-------------------------first Task Type" + workflow.getId());
                                 System.out.println("-------------------------first Task Type" + firstTask.getName());
                                 if (firstTask.getType().equalsIgnoreCase("appointment")) {

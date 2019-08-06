@@ -16,6 +16,7 @@ import BpmnModdle from 'bpmn-moddle';
 import KeyboardModule from '../custom/keyboard';
 import axios from 'axios';
 import * as Config from '../constants/Config'
+import { withRouter } from "react-router";
 class BpmnModelerComponent extends Component {
     constructor(props) {
         super(props);
@@ -105,6 +106,7 @@ class BpmnModelerComponent extends Component {
 
 
 onClickToExport = () =>{
+  var self = this;
         this.modeler.saveXML({ format: true }, (err: any, xml: any) => {
     if (err) {
       return console.error('could not export BPMN 2.0 diagram xml', err);
@@ -149,6 +151,9 @@ onClickToExport = () =>{
       axios.post(`${Config.API_URL}workflow/create`,this.state.bpmn,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
         console.log("contact ID: " + res.data)
+        self.props.push({
+          pathname: '/dashboard/automations'
+        })
         // this.setState({count: res.data})
        }).catch(function (error) {
         console.log(error);
@@ -264,4 +269,4 @@ onClickToExport = () =>{
     }
 }
 
-export default BpmnModelerComponent;
+export default withRouter(BpmnModelerComponent);

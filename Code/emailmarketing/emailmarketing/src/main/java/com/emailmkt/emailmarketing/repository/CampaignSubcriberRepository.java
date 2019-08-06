@@ -16,7 +16,8 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
 //    @Query("SELECT COUNT(ap.subcriberEmail) FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id  = :appointmentId")
 //    Long countSubcriberInAppointment(@Param("appointmentId") int appointmentId);
 
-    @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE 'campaign_id' = :campaignId")
+
+    @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true ")
     List<String> findSubcriberMailByCampaignId(@Param("campaignId") int campaignId);
 //
     @Query("SELECT cp.confirmation FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail")

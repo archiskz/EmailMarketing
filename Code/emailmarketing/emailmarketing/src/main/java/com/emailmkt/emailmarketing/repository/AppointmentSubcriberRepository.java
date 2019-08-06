@@ -13,10 +13,10 @@ import java.util.List;
 @Transactional
 public interface AppointmentSubcriberRepository extends JpaRepository<AppointmentSubcriber,Integer> {
 
-    @Query("SELECT COUNT(ap.subcriberEmail) FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id  = :appointmentId")
+    @Query("SELECT COUNT(ap.subcriberEmail) FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id  = :appointmentId and ap.send=true ")
     Long countSubcriberInAppointment(@Param("appointmentId")int appointmentId);
 
-    @Query("SELECT ap.subcriberEmail FROM AppointmentSubcriber ap WHERE 'appointment_id' = :appointmentId")
+    @Query("SELECT ap.subcriberEmail FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId")
     List<String> findSubcriberMailByAppointmentId(@Param("appointmentId")int appointmentId);
 
     @Query("SELECT ap.confirmation FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId AND ap.subcriberEmail= :subcriberEmail")
