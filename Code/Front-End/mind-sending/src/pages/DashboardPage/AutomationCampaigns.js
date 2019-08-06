@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import Automations from './Automations';
 import CampaignPopUp from './../../components//modals/CampaignPopUp.js';
-import CampaignRow from './../../components/row/CampaignRow'
+import AutoRow from './../../components/row/AutoRow'
 
 class AutomationCampaigns extends Component {
    constructor(props) {
@@ -30,16 +30,28 @@ class AutomationCampaigns extends Component {
 
    componentDidMount(){
     
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> {
       this.getAllAutoCampaign()
       this.getAllCampaign()
+      this.getAllForms()
       this.getAllAppointment()
     })
    }
+   getAllForms=()=>{
+    var selectOptions = [
+    ];
+    axios.get(`${Config.API_URL}forms`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+      res.data.forEach(element => {
+        selectOptions.push({value: element.name, name: element.name})
+      });
+      sessionStorage["forms"] = JSON.stringify(selectOptions);
+    }) 
 
+   }
    getAllAutoCampaign=()=>{
     axios.get(`${Config.API_URL}workflows`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
@@ -60,7 +72,7 @@ class AutomationCampaigns extends Component {
       res.data.forEach(element => {
         selectOptions.push({value: element.name, name: element.name})
       });
-      localStorage["campaigns"] = JSON.stringify(selectOptions);
+      sessionStorage["campaigns"] = JSON.stringify(selectOptions);
     }) 
   
    }
@@ -73,7 +85,7 @@ class AutomationCampaigns extends Component {
       res.data.forEach(element => {
         selectOptions.push({value: element.name, name: element.name})
       });
-      localStorage["appointments"] = JSON.stringify(selectOptions);
+      sessionStorage["appointments"] = JSON.stringify(selectOptions);
     }) 
   
    }
@@ -121,23 +133,23 @@ class AutomationCampaigns extends Component {
                         <table className="table1 table-striped table-hover">
                             <thead className=" ">
                             <tr className=" ">
-                                <th className=" " scope="col">Status</th>
                                 <th className=" " scope="col">Campaign Name</th>
-                                <th className=" " scope="col">Clicks</th>
-                                <th className=" " scope="col">Opens</th>
-                                <th className=" " scope="col">Unsubcribe</th>
+                                <th className=" " scope="col">Status</th>
+                                <th className=" " scope="col">Start on</th>
+                                {/* <th className=" " scope="col">Opens</th>
+                                <th className=" " scope="col">Unsubcribe</th> */}
                                 <th className=" " scope="col">Actions</th>
                             </tr>
                                 
                             </thead>
                             <tbody>
                             {listCampaigns.map(list=>(
-                                        <CampaignRow
+                                        <AutoRow
                                         id={list.id}
                                         key={list.index}
-                                        status={list.status}
-                                         campaignName={list.name}
-                                         bodyJson = {list.bodyJson}
+                                        campaignName={list.status}
+                                         status={list.name}
+                                         model = {list.model}
                                      />
                                     ))}
 

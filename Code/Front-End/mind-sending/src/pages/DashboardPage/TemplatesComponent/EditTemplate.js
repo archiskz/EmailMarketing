@@ -59,7 +59,7 @@ class EditTemplate extends Component {
    componentDidMount(){
      console.log(this.state.template)
     this.isComponentMounted = true; 
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> this.loadTemplate() )
@@ -136,6 +136,10 @@ class EditTemplate extends Component {
             }`
             
           ],
+          customJS: [
+            window.location.protocol + '//' + window.location.host + '/custom.js',
+            // window.location.protocol + '//' + window.location.host + '/custom1.js',
+          ]
         }}
       minHeight="850px"
         ref={editor => this.editor = editor}
@@ -161,6 +165,7 @@ class EditTemplate extends Component {
 // }
 
   saveTemplate(){
+    var self = this;
   // this.exportHtml();
   this.editor.exportHtml(data => {
     const { design, html } = data
@@ -176,10 +181,12 @@ class EditTemplate extends Component {
       axios.put(`${Config.API_URL}update`,this.state.template,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
         console.log(res.data)
-        this.goBack()
-        this.addNotification();
-        
-        
+        self.props.history.push({
+          pathname:'/dashboard/templates',
+          state: {
+            success: "Edit Template"
+          }
+      });
        }).catch(function (error) {
         console.log(error.response.data);
       });

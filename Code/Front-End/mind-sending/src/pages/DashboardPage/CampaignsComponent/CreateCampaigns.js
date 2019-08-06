@@ -69,7 +69,7 @@ class CreateCampaign extends Component{
   
    
    componentDidMount (){
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> {
@@ -203,21 +203,21 @@ class CreateCampaign extends Component{
                 <strong class="navToggleButton-css__toggle-name___3Y4ez">Create Campaign</strong>
             </span>
         </nav>
-        <span class="toolbar-css__save-container___2x7qH">
+        {/* <span class="toolbar-css__save-container___2x7qH">
         <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class={`btn btn-secondary btn-on-dark btn-with-icon btn-with-icon ${this.state.isChecked == true ? "activeText" : "" }` }
         >
             <i class="sg-icon sg-icon-save-draft">
 
             </i>Save Draft
         </a>
-    </span>
-    <span class="toolbar-css__send-container___AbB6n">
+    </span> */}
+    {/* <span class="toolbar-css__send-container___AbB6n">
         <a icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
             <i class="sg-icon sg-icon-airplane-fill">
 
             </i>Send Campaign
         </a>
-    </span>
+    </span> */}
 </div>
       <div className="new-campaign-container lefts" style={{"height":`calc(${this.state.height}px)`}} >
       <Modal visible={this.state.modalIsOpen} width="80%" height="96%" effect="fadeInUp" 

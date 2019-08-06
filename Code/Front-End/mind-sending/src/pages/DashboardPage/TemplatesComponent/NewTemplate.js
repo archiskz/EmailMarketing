@@ -49,7 +49,7 @@ class NewTemplate extends Component {
   }
 
   componentDidMount(){
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     })
@@ -158,7 +158,7 @@ class NewTemplate extends Component {
           ],
           customJS: [
             window.location.protocol + '//' + window.location.host + '/custom.js',
-            window.location.protocol + '//' + window.location.host + '/custom1.js',
+            // window.location.protocol + '//' + window.location.host + '/custom1.js',
           ]
         }}
       minHeight="780px"
@@ -187,14 +187,17 @@ handleChange = (event)=>{
   saveTemplate = () =>{
   this.exportHtml();
   console.log(this.state.template)
+  var self = this
  
   axios.post(`${Config.API_URL}template/create`,this.state.template,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
   .then(res => {
-    console.log("contact ID: " + res.data)
-    if(res.data=='Okay'){
-      this.addNotification()
-      this.closeModal()
-    }
+      self.props.history.push({
+        pathname:'/dashboard/templates',
+        state: {
+          success: "New Template"
+        }
+    });
+    
     // this.setState({count: res.data})
    }).catch(function (error) {
     console.log(error);

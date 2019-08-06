@@ -88,7 +88,7 @@ class TestForm extends Component {
                     ...this.state.newSubcriber,
                     gcSubcriberDTOS:[{groupContactId: id}]
                 }});
-                // localStorage["campaigns"] = JSON.stringify(selectOptions);
+                // sessionStorage["campaigns"] = JSON.stringify(selectOptions);
                 }).catch(function (error) {
                 console.log(error);
                 // if(error != null ){

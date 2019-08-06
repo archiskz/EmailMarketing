@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,Fragment} from 'react';
 import SideBar from './../../components/SideBar';
 import AutomationCampaigns from './AutomationCampaigns';
 import Lists from './ListsComponent/Lists';
@@ -13,7 +13,8 @@ import EmbededForm from './EmbededFormComponent/EmbededForm';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from "react-router-dom";
 import Templates from './TemplatesComponent/Templates';
 import AddContactsFile from './ListsComponent/AddContactsFile';
@@ -21,6 +22,7 @@ import Profile from './UserComponent/ViewUserProfile';
 import { withRouter } from "react-router";
 import InviteMails from './AppointmentComponent/AppointmentMails';
 import EmbeddedForms from './EmbededFormComponent/EmbeddedForms';
+import Login from './../LoginPage/Login'
 
 class DashBoard extends Component {
   constructor(props) {
@@ -31,8 +33,9 @@ class DashBoard extends Component {
 
 	
   render(){
-     return (
-       <div className="dashboard-main">
+       if(sessionStorage.getItem('appState')){
+         return(
+          <div className="dashboard-main">
 
           <SideBar /> 
        <div className="dashboard-component">
@@ -58,13 +61,19 @@ class DashBoard extends Component {
              {/* <Route path="/dashboard/lists/:id" render={()=> (</>)} /> */}
            </Switch>
            </div>
-          
-           
- 
   </div>
  
       );
+  } else {
+    console.log("Hello")
+    return(
+      <Fragment>
+                    <Route path="/login" exact component={Login} />
+                    <Redirect to="/login"  />
+                  </Fragment>
+    )
   }
 
+}
 }
 export default withRouter(DashBoard);

@@ -11,6 +11,9 @@ import CreateCampaign from './CreateCampaigns';
 import CampaignPopUp from './../../../components//modals/CampaignPopUp.js';
 import CampaignRow from './../../../components/row/CampaignRow'
 
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+
 class Campaigns extends Component {
    constructor(props) {
      super(props);
@@ -21,6 +24,8 @@ class Campaigns extends Component {
        campaigns: [],
        auth_token:""
      };
+     this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
    }
    onToggleDropdown = () => {
      this.setState({
@@ -29,8 +34,13 @@ class Campaigns extends Component {
    }
 
    componentDidMount(){
-    
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    if(this.props.history.location.state != null && this.props.history.location.state != undefined){
+      if(this.props.history.location.state.success != null && this.props.history.location.state.success != undefined){
+        this.addNotification(this.props.history.location.state.success)
+        this.props.history.replace({});
+      }
+    }
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> this.getAllCampaign() )
@@ -47,18 +57,37 @@ class Campaigns extends Component {
         selectOptions.push({value: element.name, name: element.name})
       });
       console.log(selectOptions)
-      localStorage["campaigns"] = JSON.stringify(selectOptions);
+      sessionStorage["campaigns"] = JSON.stringify(selectOptions);
     }) 
     console.log(this.state.campaigns)
 
    }
 
-
+   addNotification=(title)=> {
+    this.notificationDOMRef.current.addNotification({
+      title: `${title}`,
+      message: `${title} Success!`,
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
+  }
 	
   render(){
     var listCampaigns = this.state.campaigns
      return (
 	  <div className = "" >
+    <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
    <div className="flash_notice">
         </div>
         <div className="container" data-role="main-app-container">
@@ -159,12 +188,11 @@ class Campaigns extends Component {
                             <tr className=" ">
                                 <th className=" " scope="col">Status</th>
                                 <th className=" " scope="col">Campaign Name</th>
-                                <th className=" " scope="col">Clicks</th>
+                                <th className=" " scope="col">Delivery</th>
                                 <th className=" " scope="col">Opens</th>
-                                <th className=" " scope="col">Unsubcribe</th>
+                                <th className=" " scope="col">Clicks</th>
                                 <th className=" " scope="col">Actions</th>
                             </tr>
-                                
                             </thead>
                             <tbody>
                             {listCampaigns.map(list=>(
@@ -174,6 +202,9 @@ class Campaigns extends Component {
                                         status={list.status}
                                          campaignName={list.name}
                                          bodyJson = {list.bodyJson}
+                                         click={list.clickRate}
+                                         open={list.openRate}
+                                         delivery={list.delivery}
                                      />
                                     ))}
 

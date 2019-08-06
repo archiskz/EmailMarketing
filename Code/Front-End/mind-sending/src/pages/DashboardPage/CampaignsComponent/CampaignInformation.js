@@ -22,6 +22,12 @@ class CampaignInformation extends Component{
      this.isComponentMounted = false;
      this.isEditorLoaded = false;
      this.state = {
+      bounce: "",
+      click:  "",
+      delivery: "",
+      open: "",
+      request:"",
+      spam:"",
       id: this.props.history.location.state.id,
        height: 755,
       modalIsOpen: false,
@@ -71,7 +77,7 @@ class CampaignInformation extends Component{
   
    
    componentDidMount (){
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> { this.getCampaign();
@@ -135,7 +141,13 @@ class CampaignInformation extends Component{
                 fromMail: response.data.fromMail,
                 subject: response.data.subject,
               }
-            }
+            },
+            bounce: response.data.bounce,
+            click:  response.data.click,
+            delivery: response.data.delivery,
+            open: response.data.open,
+            request:response.data.request,
+            spam:response.data.spam
           },()=>{
             
           }
@@ -283,7 +295,7 @@ class CampaignInformation extends Component{
         				
         				<div className="user_profile9_sub">
         					<div className="user_profile8_sub1">
-        						<label className="user_profile_w3_label" data-shrink="false" for="username">Segment</label>
+        						{/* <label className="user_profile_w3_label" data-shrink="false" for="username">Segment</label> */}
         						
         						{/* <input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value="thangnguyen15297@gmail.com"/> */}
         					
@@ -374,15 +386,15 @@ class CampaignInformation extends Component{
               <div className="user_line"> 
               <div className="contact_information_detail">
                 <h4 >
-                        0%
+                {this.state.delivery}
                     </h4>
-                <p >Open rate</p>
+                <p >Delivery mail</p>
               </div>
               <div className="contact_information_detail">
                 <h4 >
-                        0%
+                        {this.state.request}
                     </h4>
-                <p >Click rate</p>
+                <p >Request</p>
               </div>
               </div>
              </div>
@@ -390,15 +402,15 @@ class CampaignInformation extends Component{
               <div className="user_line"> 
               <div className="contact_information_detail">
                 <h4 >
-                        0%
+                {this.state.bounce}
                     </h4>
-                <p >Reply rate</p>
+                <p >Bounce rate</p>
               </div>
               <div className="contact_information_detail">
                 <h4 >
-                        0%
+                {this.state.open}
                     </h4>
-                <p >Report rate</p>
+                <p >Open rate</p>
               </div>
               </div>
               </div>
@@ -406,21 +418,21 @@ class CampaignInformation extends Component{
               <div className="user_line"> 
               <div className="contact_information_detail">
                 <h4 >
-                        0%
+                {this.state.click}
                     </h4>
-                <p >Bounce rate</p>
+                <p >Click rate</p>
               </div>
               
 
               <div className="contact_information_detail">
                 <h4 >
-                        0%
+                {this.state.spam}
                     </h4>
-                <p >Rendering Failure rate</p>
+                <p >Spam rate</p>
               </div>
               </div>
               </div>
-              <div className="user_section user_line"> 
+              {/* <div className="user_section user_line"> 
               <div className="user_line"> 
               <div className="contact_information_detail">
                 <h4 >
@@ -436,7 +448,7 @@ class CampaignInformation extends Component{
               </div>
               </div>
               
-             </div>   
+             </div>    */}
             </div>
             </div>
         </div>

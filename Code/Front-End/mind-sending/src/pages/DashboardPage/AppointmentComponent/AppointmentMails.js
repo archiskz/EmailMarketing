@@ -25,7 +25,8 @@ class AppointmentMails extends Component {
        visible: true,
        dropdown_visible: false,
        existedGroup:"",
-       auth_token:""
+       auth_token:"",
+       filter:[]
      };
      
      this.addNotification = this.addNotification.bind(this);
@@ -47,10 +48,10 @@ class AppointmentMails extends Component {
 
   }
 
-   addNotification() {
+   addNotification=(title)=> {
     this.notificationDOMRef.current.addNotification({
-      title: "Create New Group",
-      message: "Add Group Success!",
+      title: `${title}`,
+      message: `${title} Success!`,
       type: "success",
       insert: "top",
       container: "top-right",
@@ -66,7 +67,13 @@ class AppointmentMails extends Component {
      })
    }
    componentDidMount(){
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    if(this.props.history.location.state != null && this.props.history.location.state != undefined){
+      if(this.props.history.location.state.success != null && this.props.history.location.state.success != undefined){
+        this.addNotification(this.props.history.location.state.success)
+        this.props.history.replace({});
+      }
+    }
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> this.getAllAppointment() )
@@ -211,11 +218,34 @@ class AppointmentMails extends Component {
     });
     }
 
+    handleSearch = (event) => {
+      var searchValue = event.target.value;
+      var groupContactsList = this.state.filter
+      if(searchValue !== ""){
+           groupContactsList = groupContactsList.filter(item => item.name.toLowerCase().includes(searchValue));
+           if(groupContactsList.length > 0){
+              this.setState({
+                listAppointments: groupContactsList,
+               });
+           }else {
+              this.setState({
+                listAppointments:  [],
+               }); 
+           }
+           
+      } else {
+          this.setState({
+            listAppointments: this.state.filter,
+           });
+      }
+     
+  }
     getAllAppointment=()=>{
     axios.get(`${Config.API_URL}appointments`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data)
-      this.setState({listAppointments:res.data})
+      this.setState({listAppointments:res.data,
+      filter: res.data})
     }).catch(function (error) {
       });
   }

@@ -7,7 +7,7 @@ import Modal from 'react-awesome-modal';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 
-class ListRow extends Component {
+class AutoRow extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -54,25 +54,17 @@ class ListRow extends Component {
       render(){
           return( 
 <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
-<td class="md_tablet6_tbody_td"><a>{this.props.status}</a></td>
+<td class="md_tablet6_tbody_td"><a onClick={()=> this.toCampaignDetail(this.props.id)}>{this.props.status}</a></td>
     <td class="md_tablet6_tbody_td">
-    <a onClick={()=> this.toCampaignDetail(this.props.id)}> {this.props.campaignName} </a>
+    <a > {this.props.campaignName} </a>
     </td>
-    <td class="md_tablet6_tbody_td">
-      {`${this.props.delivery == null ? `0` : this.props.delivery}`}
-    </td>
+    <td class="md_tablet6_tbody_td"></td>
     
-    <td class="md_tablet6_tbody_td">
-    {`${this.props.open == null ? `0` : this.props.open}`}
-    </td>
-    <td class="md_tablet6_tbody_td">
-    {`${this.props.click == null ? `0` : this.props.click}`}
-    </td>
     <td class="md_tablet6_tbody_td">
     <i 
     //  onClick={() => this.sendCampaign()} 
        onClick={()=>this.openModal()}
-      class={`fas fa-paper-plane ${this.props.status == "Sending" || this.props.status == "Done" ? "activeText" : ''}`}></i>
+      class={`fas fa-pause-circle ${this.props.campaignName == "Starting" ? "" : 'activeText'}`}></i>
     
     </td>
    {/* MODAL */}
@@ -82,11 +74,11 @@ class ListRow extends Component {
            <button type="button" onClick={()=>this.closeModal()} class="close" data-dismiss="modal" aria-hidden="true">×</button>
              </div>
                        <div class="modal-body">
-                         <p>Do you want to start your campaign</p>
+                         <p>Do you want to pause your automation campaign</p>
                        </div>
                        <div class="modal-footer">
                          <button type="button" onClick={()=>this.closeModal()} class="btn btn-info" >Cancel</button>
-                         <button type="button" onClick={()=>this.sendCampaign()} class="btn btn-danger">Start</button>
+                         <button type="button" onClick={()=>this.sendCampaign()} class="btn btn-danger">Pause</button>
                        </div>
     </Modal>
     <ReactNotification
@@ -130,10 +122,10 @@ class ListRow extends Component {
     }
     toCampaignDetail = (id)=> {        
         this.props.history.push({
-            pathname:`/campaigns/detail/:${id}`,
+            pathname:`/automations/detail/:${id}`,
             state : {
               id: id,
-              bodyJson: this.props.bodyJson
+              model: this.props.model
             }
         });
         }
@@ -197,7 +189,7 @@ class ListRow extends Component {
 
 
 
-export default withRouter(ListRow);
+export default withRouter(AutoRow);
 
 
 

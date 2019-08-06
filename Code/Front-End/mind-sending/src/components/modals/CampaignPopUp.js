@@ -32,7 +32,7 @@ class CampaignPopUp extends Component {
     this.props.onCreateCampaign(this.state.campaignName);
   }
   componentDidMount(){
-    const appState = JSON.parse(localStorage.getItem('appState'));
+    const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> this.getAllGroupContacts() )
@@ -82,14 +82,14 @@ class CampaignPopUp extends Component {
         </div>
         <p>Keep your subscribers engaged by sharing your latest news, promoting a line of products, or announcing an event.</p>
         <input onChange={this.onChange.bind(this)} className="iput_pop_up" placeholder="Write down your campaign name" autocomplete="off"/> 
-        <p className={` ${this.props.automation == "automation" ? 'activeText': ''}`}>Your Campaign will use</p>
+        {/* <p className={` ${this.props.automation == "automation" ? 'activeText': ''}`}>Your Campaign will use</p>
         <div className={` ${this.props.automation == "automation" ? 'activeText': ''}`} style={{"marginBottom":"20px","marginTop":"5px","textAlign":"center"}}>
         <a style={{"float":"left","marginRight":"0px"}} onClick={()=>this.buttonClick(1)} className={`btn-create-segment-pop-up + ${this.state.isButtonActive === 1 ? 'templateactive' : null}`}  >Template</a>
         <div className="btn-create-segment-pop-up" style={{"border":"none","width":"40%","cursor":"default","color":"rgba(0, 0, 0, 0.4)","marginRight":"0px"}}
         > Or </div> 
         <a  onClick={()=>this.buttonClick(2)} style={{"float":"right","marginRight":"0px"}} className={`btn-create-segment-pop-up + ${this.state.isButtonActive === 2 ? 'templateactive' : null}`}>Simple Text</a>
-        </div>
-        <div style={{"marginBottom":"20px"}}>
+        </div> */}
+        {/* <div style={{"marginBottom":"20px"}}>
         <h5>Choose Group</h5> 
         <MultiSelectComponent 
                               style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important","marginBottom":"15px"}} 
@@ -100,7 +100,7 @@ class CampaignPopUp extends Component {
                               ref={(scope) => { this.mulObj = scope; }}  
                               change={this.onChangeListsSelect}
                               placeholder="Choose Group"/>
-        </div>
+        </div> */}
         
         <div style={{"textAlign":"center"}}>
 
