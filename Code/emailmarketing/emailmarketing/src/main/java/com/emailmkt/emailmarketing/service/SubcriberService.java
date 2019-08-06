@@ -17,6 +17,9 @@ public interface SubcriberService {
 
     Subcriber editSubcriber(Subcriber subcriber);
 
+    void getStatisticSubcriber();
+
+    List<Subcriber>getContactLatest();
 
 
     List<Subcriber> getSubcriberByTag(String tag);
