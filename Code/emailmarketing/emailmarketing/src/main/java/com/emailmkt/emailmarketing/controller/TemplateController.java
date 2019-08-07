@@ -91,8 +91,8 @@ public class TemplateController {
     }
 
     @PostMapping("template/copy/{id}")
-    public ResponseEntity copyTemplate(@PathVariable int id) {
-        boolean flag = templateService.copyTemplateGallery(id);
+    public ResponseEntity copyTemplate(@PathVariable int id,@RequestParam String name) {
+        boolean flag = templateService.copyTemplateGallery(id,name);
         if (flag == true) {
             return ResponseEntity.status(CONFLICT).body("Đã copy thành công ");
         }
