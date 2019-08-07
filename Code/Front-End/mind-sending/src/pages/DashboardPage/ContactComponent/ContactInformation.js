@@ -73,7 +73,9 @@ showDropdownMenu(event) {
 		  address: res.data.address,
 		  createdTime: res.data.createTime,
 		  type: res.data.type,
-		  dob: res.data.dob
+		  dob: res.data.dob,
+		  openRate: res.data.openRate,
+  			clickRate: res.data.clickRate,
 	  };
 	  console.log(contact);
 	  this.setState({contact:contact})
@@ -243,13 +245,13 @@ showDropdownMenu(event) {
         		  <div className="user_line">	
         			<div className="contact_information_detail">
         				<h4 >
-                    		0%
+                    		{this.state.contact.openRate}
                			</h4>
         				<p >Open rate</p>
         			</div>
         			<div className="contact_information_detail">
         				<h4 >
-                    		0%
+						{this.state.contact.clickRate}
                			</h4>
         				<p >Click rate</p>
         			</div>

@@ -129,7 +129,7 @@ public class SubcriberController {
         LOGGER.info("delete contact: " + id);
         return new ResponseEntity<String>(message, HttpStatus.OK);
     }
-
+    //5 thằng sub mới
     @GetMapping("/subcriber/latest")
     public List<Subcriber> getSubcriberLatest() {
         return subcriberService.getContactLatest();

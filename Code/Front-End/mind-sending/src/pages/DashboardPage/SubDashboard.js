@@ -1,18 +1,44 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import * as Config from '../../constants/Config';
+import axios from 'axios';
 class SubDashboard extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             visible: true,
+            latestContact:[],
+            latestGroup:[]
         };
+    }
+componentDidMount(){
+  const appState = JSON.parse(sessionStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> { 
+      this.getLatestContact()
+    } )
+}
+
+    getLatestContact=()=>{
+      const allCountries = [{}];
+     axios.get(`${Config.API_URL}subcriber/latest`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+     .then(response => {
+       this.setState({
+        latestContact: response.data
+       });
+     })
+     .catch(error => {
+       console.log(error);
+     });
     }
 
 
 
-
     render() {
+      var latestContacts = this.state.latestContact
+      var latestGroup = this.state.latestGroup
         return (
             <div className = "" >
    <div className="flash_notice">
@@ -65,7 +91,7 @@ class SubDashboard extends Component {
                   </ul>
                   <div role="emailStatsGraph" class="sub_dashboard_graph_container2"> 
                   <div className="dashboard_panel__title">
-            <h5 className="dashboard_bold_text2">Campaign name: <span className="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
+            <h5 className="dashboard_bold_text2">Latest Campaign name: <span className="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
             Alibaba
             </span>
             </h5>
@@ -200,46 +226,15 @@ class SubDashboard extends Component {
                 </tr>
                   </thead>
               <tbody>
-              <tr>
-              <td>
-              1
-              </td>
-              <td>thangnguyen15297@gmail.com</td>
-               <td>Thắng</td>
-                <td>Nguyễn</td>
-              </tr>
-              <tr>
-              <td>
-              2
-              </td>           
-              <td>sonnguyen050797@gmail.com</td>
-               <td>Sơn</td>
-                <td>Nguyễn</td>
-              </tr>
-              <tr>
-              <td>
-              3
-              </td>
-              <td>tanminh111197@gmail.com</td>
-               <td>Tấn</td>
-                <td>Minh</td>
-              </tr>
-              <tr>
-              <td>
-              4
-              </td>
-              <td>archist@gmail.com</td>
-               <td>Archist</td>
-                <td>Nguyễn</td>
-              </tr>
-              <tr>
-              <td>
-              5
-              </td>
-              <td>Angelababy@gmail.com</td>
-               <td>Angela</td>
-                <td>Baby</td>
-              </tr>
+              
+              {latestContacts.map((latestContact,index)=>(
+                  <tr key={index}>
+                    <td>{index}</td>
+                    <td>{latestContact.email}</td>
+                    <td>{latestContact.firstName}</td>
+                    <td>{latestContact.lastName}</td>
+                  </tr> 
+                                    ))}
               </tbody>    
               </table>
             </div>

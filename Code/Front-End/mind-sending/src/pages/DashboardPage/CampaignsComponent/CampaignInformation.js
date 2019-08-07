@@ -15,6 +15,8 @@ import EmailEditor from 'react-email-editor';
 import Modal from 'react-awesome-modal';
 import ReactNotification from "react-notifications-component";
 import { withRouter } from "react-router";
+
+import ValidateField from '../../../components/inputValidate/ValidateField';
 class CampaignInformation extends Component{
    constructor(props) {
      super(props);
@@ -213,6 +215,28 @@ class CampaignInformation extends Component{
   goBack =()=>{
     this.props.history.goBack()
   }
+  sendCampaign(){
+    var self = this
+    
+   this.setState({isLoading: true},()=>{
+    axios.post(`${Config.API_URL}campaign/send/?id=${this.state.id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+      console.log(res.data);
+      self.setState({
+        isLoading: false
+    }, ()=>{
+      self.addNotification()
+      self.props.updateList();
+      self.closeModal()
+    });
+    
+
+    }).catch(error=>{
+      console.log(error.response.data)
+    }) 
+   })
+    
+  }
 
 	
   render(){
@@ -235,7 +259,7 @@ class CampaignInformation extends Component{
                 <span class="navToggleButton-css__code___2bWGz">
                
                 </span>
-                <strong class={`navToggleButton-css__toggle-name___3Y4ez ${this.state.updateCampaign.campaignDTO.status === "Sending" ? "" : "activeText"}`}>
+                <strong class={`navToggleButton-css__toggle-name___3Y4ez ${this.state.updateCampaign.campaignDTO.status !== "Draft" ? "" : "activeText"}`}>
                 Campaign Information
                 {/* <a href="/dashboard/campaigns">
                 Finish Later
@@ -255,7 +279,7 @@ class CampaignInformation extends Component{
         </a>
     </span>
     <span class="toolbar-css__send-container___AbB6n">
-        <a icon="airplane-fill" data-role="send-or-schedule-btn" class={`btn btn-primary btn-on-dark  btn-with-icon btn-with-icon ${this.state.updateCampaign.campaignDTO.status == "Draft" ? '' : 'activeText'}`}>
+        <a onClick={()=>this.sendCampaign()} icon="airplane-fill" data-role="send-or-schedule-btn" class={`btn btn-primary btn-on-dark  btn-with-icon btn-with-icon ${this.state.updateCampaign.campaignDTO.status == "Draft" ? '' : 'activeText'}`}>
             <i class="sg-icon sg-icon-airplane-fill">
 
             </i>Send Campaign
@@ -510,6 +534,15 @@ class CampaignInformation extends Component{
             }`
             
           ],
+          customJS: [
+            window.location.protocol + '//' + window.location.host + '/custom.js',
+            // window.location.protocol + '//' + window.location.host + '/custom1.js',
+          ],
+          mergeTags: [
+    {name: "First Name", value: "{{first_name}}"},
+    {name: "Last Name", value: "{{last_name}}"},
+    {name: "Email", value: "{{email}}"}
+  ]
         }}
       minHeight="700px"
         ref={editor => this.editor = editor}
@@ -519,6 +552,9 @@ class CampaignInformation extends Component{
       </div>
 
       );
+  }
+  validateInput(){
+
   }
 
   saveContent = ()=>{

@@ -93,24 +93,24 @@ public class SQSServiceImpl implements SQSService {
                     List<CampaignSubcriber> campaignSubcribers = campaignSubcriberRepository.findMessageId(messageId.trim());
                     if (!appointmentSubcribers.isEmpty()) {
                         AppointmentSubcriber appointmentSubcriber = appointmentSubcribers.stream().findFirst().get();
-                        if (eventType.contains("open")) {
+                        if (eventType.contains("Open")) {
                             appointmentSubcriber.setOpened(true);
-                        } else if (eventType.contains("click")) {
+                        } else if (eventType.contains("Click")) {
                             appointmentSubcriber.setConfirmation(true);
                         }
-                        if(eventType.contains("delivery")){
+                        if(eventType.contains("Delivery")){
                             appointmentSubcriber.setDelivery(true);
                         }
                         appointmentSubcriberRepository.save(appointmentSubcriber);
                     } else {
                         if(!campaignSubcribers.isEmpty()) {
                             CampaignSubcriber campaignSubcriber = campaignSubcribers.stream().findFirst().get();
-                            if (eventType.contains("open")) {
+                            if (eventType.contains("Open")) {
                                 campaignSubcriber.setOpened(true);
-                            } else if (eventType.contains("click")) {
+                            } else if (eventType.contains("Click")) {
                                 campaignSubcriber.setConfirmation(true);
                             }
-                            if (eventType.contains("delivery")) {
+                            if (eventType.contains("Delivery")) {
                                 campaignSubcriber.setDelivery(true);
                             }
                             campaignSubcriberRepository.save(campaignSubcriber);
