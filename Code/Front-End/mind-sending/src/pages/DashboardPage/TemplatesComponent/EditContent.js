@@ -181,6 +181,10 @@ button = <a onClick={()=>this.saveCampaign()} icon="airplane-fill" style={{"font
             }`
             
           ],
+          customJS: [
+            window.location.protocol + '//' + window.location.host + '/custom.js',
+            // window.location.protocol + '//' + window.location.host + '/custom1.js',
+          ]
         }}
       minHeight="700px"
         ref={editor => this.editor = editor}

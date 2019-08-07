@@ -6,6 +6,7 @@ import * as Config from '../../constants/Config';
 import Modal from 'react-awesome-modal';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
+import imgLoad from './../../assets/img/ajax-loader.gif'
 
 class ListRow extends Component {
     constructor(props) {
@@ -21,7 +22,8 @@ class ListRow extends Component {
          },
          sendCampaignVisible: false,
          auth_token:"",
-         isModalVisible:false
+         isModalVisible:false,
+         isLoading: false,
         };
         this.handleChange3 = this.handleChange3.bind(this);
         this.handleChange2 = this.handleChange2.bind(this);
@@ -31,8 +33,8 @@ class ListRow extends Component {
       }
       addNotification() {
         this.notificationDOMRef.current.addNotification({
-          title: "Update List",
-          message: "Updated Success!",
+          title: "Send Campaign",
+          message: "Send Campaign Success!",
           type: "success",
           insert: "top",
           container: "top-right",
@@ -42,8 +44,6 @@ class ListRow extends Component {
           dismissable: { click: true }
         });
       }
-
-  
      componentDidMount(){
       const appState = JSON.parse(sessionStorage.getItem('appState'));
       this.setState({
@@ -73,6 +73,7 @@ class ListRow extends Component {
     //  onClick={() => this.sendCampaign()} 
        onClick={()=>this.openModal()}
       class={`fas fa-paper-plane ${this.props.status == "Sending" || this.props.status == "Done" ? "activeText" : ''}`}></i>
+      <a class="fas fa-copy" title="Copy Embeded Code" onClick={()=>this.copyCode()} > </a>
     
     </td>
    {/* MODAL */}
@@ -82,7 +83,8 @@ class ListRow extends Component {
            <button type="button" onClick={()=>this.closeModal()} class="close" data-dismiss="modal" aria-hidden="true">×</button>
              </div>
                        <div class="modal-body">
-                         <p>Do you want to start your campaign</p>
+                         <p className={`${!this.state.isLoading ? "" : "activeText"}`}>Do you want to start your campaign</p>
+                         <p className={`${this.state.isLoading ? "" : "activeText"}`}>Sending Please Wait</p><img className={`${this.state.isLoading ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." />
                        </div>
                        <div class="modal-footer">
                          <button type="button" onClick={()=>this.closeModal()} class="btn btn-info" >Cancel</button>
@@ -103,13 +105,22 @@ class ListRow extends Component {
       }
 
       sendCampaign(){
+        var self = this
+       this.setState({isLoading: true},()=>{
         axios.post(`${Config.API_URL}campaign/send/?id=${this.props.id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {
           console.log(res.data);
+          this.addNotification()
+          this.props.updateList();
+          this.closeModal()
+      
+        
 
         }).catch(error=>{
           console.log(error.response.data)
         }) 
+       })
+        
       }
 
       toListContact = (id)=> {        
@@ -117,6 +128,15 @@ class ListRow extends Component {
             pathname:`/dashboard/contacts/:${id}`,
             state : id
         });
+        }
+        renderLoading(){
+          if (this.state.isLoading &&
+            this.state.msElapsed > this.showSpinnerIfReturnGreaterThanMs) {
+            return <h1>LOADING</h1>;
+        } else if (this.state.isLoading &&
+            this.state.msElapsed <= this.showSpinnerIfReturnGreaterThanMs) {
+            return (null);
+        }
         }
 
       handleCheck=()=> {

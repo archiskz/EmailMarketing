@@ -1,13 +1,13 @@
 unlayer.registerPropertyEditor({
-    name: 'my_color_picker',
+    name: 'personal',
     layout: 'bottom',
     Widget: unlayer.createWidget({
       render(value) {
         return `
-          <input class="color-value" value=${value} />
-          <button class="red">Red</button>
-          <button class="green">Green</button>
-          <button class="blue">Blue</button>
+          <p class="color-value" value=${value} />
+          <button class="email">Email</button>
+          <button class="last_name">LastName</button>
+          <button class="first_name">FirstName</button>
         `
       },
       mount(node, value, updateValue) {
@@ -16,19 +16,19 @@ unlayer.registerPropertyEditor({
           updateValue(event.target.value)
         }
   
-        var redButton = node.getElementsByClassName('red')[0]
+        var redButton = node.getElementsByClassName('email')[0]
         redButton.onclick = function() {
-          updateValue('#f00')
+          updateValue(`email_subcriber`)
         }
   
-        var greenButton = node.getElementsByClassName('green')[0]
+        var greenButton = node.getElementsByClassName('last_name')[0]
         greenButton.onclick = function() {
-          updateValue('#0f0')
+          updateValue(`last_name_subcriber`)
         }
   
-        var blueButton = node.getElementsByClassName('blue')[0]
+        var blueButton = node.getElementsByClassName('first_name')[0]
         blueButton.onclick = function() {
-          updateValue('#00f')
+          updateValue(`first_name_subcriber`)
         }
       }
     })
@@ -47,13 +47,18 @@ unlayer.registerPropertyEditor({
         title: null,
       },
       text: {
-        title: "Text",
+        title: "personalization",
         position: 1,
         options: {
-          "color": {
-            "label": "Color",
-            "defaultValue": "#000",
-            "widget": "my_color_picker"
+          "text": {
+            "label": "text",
+            "defaultValue": "<p style=\"font-size: 14px; line-height: 140%;\"><span style=\"font-family: Verdana, sans-serif; font-size: 16px; color: #000000; font-weight: 400; line-height: 22.4px;\">email_subcriber</span></p>",
+            "widget": "personal",
+            "draggable":"true",
+            "color":"#000",
+            "textAlign":"left",
+            "lineHeight":"140%",
+            "deletable":"true"
           }
         },
       }
@@ -61,15 +66,18 @@ unlayer.registerPropertyEditor({
     renderer: {
       Viewer: unlayer.createViewer({
         render(values) {
+          console.log(values.text)
           return `
-            <div style="color: ${values.color};">{subcriber_name}</div>
+          <p style=\"font-size: 14px; line-height: 140%;\"><span style=\"font-family: Verdana, sans-serif; font-size: 16px; color: #000000; font-weight: 400; line-height: 22.4px;\">${values.text}</span></p>
           `
         }
       }),
       exporters: {
-        web: function() {
+        web: function(values) {
+          return `<p style=\"font-size: 14px; line-height: 140%;\"><span style=\"font-family: Verdana, sans-serif; font-size: 16px; color: #000000; font-weight: 400; line-height: 22.4px;\">${values.text}</span></p>`
         },
-        email: function() {
+        email: function(values) {
+          return `<p style=\"font-size: 14px; line-height: 140%;\"><span style=\"font-family: Verdana, sans-serif; font-size: 16px; color: #000000; font-weight: 400; line-height: 22.4px;\">${values.text}</span></p>`
         }
       },
     },

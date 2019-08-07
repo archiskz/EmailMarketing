@@ -23,7 +23,7 @@ class SubDashboard extends Component {
           <div>
            <h1>
                 Hello Thắng Nguyễn!
-            Here's your recent email activity.
+            Here's your recent statistic.
             </h1>
             
 
@@ -31,6 +31,7 @@ class SubDashboard extends Component {
           </div>    
                 
                 <ul className="sub_dashboard_panels stats">
+                
                   <li className="sub_dashboard_request sub_dashboard_request" role="requests">
                   <h2>REQUESTS</h2>
                   <div className="sub_dashboard_single">0</div>
@@ -55,16 +56,27 @@ class SubDashboard extends Component {
                   <h2>SPAM </h2>
                   <div className="primary">N/A</div>
                   <div className="secondary">0</div>
-                  </li>
+                  </li>s
                   <li className="sub_dashboard_Unsubcribes unsubcribes" role="unsubcribes">
                   <h2>Bounces</h2>
                   <div className="primary">N/A</div>
                   <div className="secondary">0</div>
                   </li>
                   </ul>
-
+                  <div role="emailStatsGraph" class="sub_dashboard_graph_container2"> 
+                  <div className="dashboard_panel__title">
+            <h5 className="dashboard_bold_text2">Campaign name: <span className="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
+            Alibaba
+            </span>
+            </h5>
+            <h5 className="dashboard_bold_text2">Date created: <span className="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
+            03/08/2019
+            </span>
+            </h5>
+            </div>
+                  </div>
         <div className="dashboard_row">
-        <div className="col-12 col-md-12 col-lg-5 col-xl-4">
+        <div className="col-12 col-md-12 col-lg-5 col-xl-4 dashboar_top5">
         <div className="dashboard_panel dashboard_card">
         <div className="dashboard_card_body dashboard_panel__body">
           <div className="dashboard_panel__title">
@@ -90,21 +102,21 @@ class SubDashboard extends Component {
               <p className="dashboard_bold_text dashboard__btc">Beginner Contacts</p>
               </td>
               
-              <td>$134,23</td>
+              <td>9</td>
               </tr>
               <tr>
               <td>
               <p className="dashboard_bold_text dashboard__btc2">Intermediate Contacts</p>
               </td>
              
-              <td>$134,23</td>
+              <td>7</td>
               </tr>
               <tr>
               <td>
               <p className="dashboard_bold_text dashboard__btc3">Advanced Contacts</p>
               </td>
               
-              <td>$134,23</td>
+              <td>1</td>
               </tr>
               </tbody>    
               </table>
@@ -115,16 +127,56 @@ class SubDashboard extends Component {
         </div>
         </div>
         
-       <div className="col-12 col-md-12 col-lg-7 col-xl-8">
+       <div className="col-12 col-md-12 col-lg-7 col-xl-8 dashboar_top5">
         <div className="dashboard_panel dashboard_card">
         <div className="dashboard_card_body dashboard_panel__body">
           <div className="dashboard_panel__title">
-            <h5 className="dashboard_bold-text">Chỗ này để vẽ đồ thị<span class="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
+            <h5 className="dashboard_bold-text">LIST OF GROUPS HAVE BEEN RECENTLY CREATED<span class="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
             </span>
             </h5>
-            <h5 className="dashboard_subhead">Top selling campaign statistic by last month</h5>
+            <h5 className="dashboard_subhead">Sort by all current groups of user</h5>
           </div>
-          
+          <div className="collapse show">
+            <div className="panel_content">
+            <div className= "dashboard_table_responsive">
+              <table className="dashboard_table">
+              <thead>
+              <tr>
+              <th>Group name</th>
+              <th>Date created</th>
+              <th>Number of contact in group</th>
+                </tr>
+                  </thead>
+              <tbody>
+              <tr>
+              <td>
+              <p className="dashboard_bold_text dashboard__btc4">Beginner Contacts</p>
+              </td>
+              
+              <td>02/08/2019</td>
+              <td>20</td>
+              </tr>
+              <tr>
+              <td>
+              <p className="dashboard_bold_text dashboard__btc5">Intermediate Contacts</p>
+              </td>
+             
+              <td>02/08/2019</td>
+              <td>10</td>
+              </tr>
+              <tr>
+              <td>
+              <p className="dashboard_bold_text dashboard__btc6">Advanced Contacts</p>
+              </td>
+              
+              <td>02/08/2019</td>
+              <td>25</td>
+              </tr>
+              </tbody>    
+              </table>
+            </div>
+            </div>
+            </div>
           </div>
           </div>
         </div>
@@ -132,7 +184,7 @@ class SubDashboard extends Component {
         <div className="dashboard_panel dashboard_card">
         <div className="dashboard_card_body dashboard_panel__body">
           <div className="dashboard_panel__title">
-            <h5 className="dashboard_bold-text2">Top 5 contacts have been added<span class="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
+            <h5 className="dashboard_bold-text2">List of contacts have been recently added<span class="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
             </span>
             </h5>
               <div className="collapse show">

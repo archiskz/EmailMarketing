@@ -38,7 +38,8 @@ public class CampaignServiceImpl implements CampaignService {
     MailService mailService;
     @Autowired
     CampaignRepository campaignRepository;
-
+    @Autowired
+    SubcriberRepository subcriberRepository;
     @Autowired
     AccountRepository accountRepository;
 
@@ -149,7 +150,26 @@ public class CampaignServiceImpl implements CampaignService {
         }).collect(Collectors.toList());
         try{
             for (int counter = 0; counter < mailLists.size(); counter++) {
+                content = campaign.getContent();
+                try{
+                    content= content.replace("email_subcriber",mailLists.get(counter));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    Subcriber personalization = subcriberRepository.findSubcriberByEmail(mailLists.get(counter));
+                    content= content.replace("last_name_subcriber",personalization.getLastName());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    Subcriber personalization = subcriberRepository.findSubcriberByEmail(mailLists.get(counter));
+                    content = content.replace("first_name_subcriber",personalization.getFirstName());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 mailService.sendSimpleMessageV2(sender,fromMail,mailLists.get(counter),subject,content);
+                content="";
                 CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(id, mailLists.get(counter));
                 campaignSubcriber.setSend(true);
                 campaignSubcriber.setMessageId(MESSAGE_ID.trim());
