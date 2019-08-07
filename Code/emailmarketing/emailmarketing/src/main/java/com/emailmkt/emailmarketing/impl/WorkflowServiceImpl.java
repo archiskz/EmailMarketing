@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
+import com.emailmkt.emailmarketing.dto.ViewWorkflowDTO;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
 import com.emailmkt.emailmarketing.model.*;
 import com.emailmkt.emailmarketing.repository.*;
@@ -14,7 +15,6 @@ import org.camunda.bpm.model.bpmn.instance.Process;
 import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -242,6 +242,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     @Override
     public List<String> findSubcriberInTask(int workflowId, String shapeId) {
+
         List<String> subcribers = new ArrayList<>();
         Task task = taskRepository.findTaskByShapeIdAndWorkflow_Id(shapeId,workflowId);
         String type = task.getType();
@@ -253,6 +254,45 @@ public class WorkflowServiceImpl implements WorkflowService {
             subcribers  = appointmentSubcriberRepository.findSubcriberMailByAppointmentId(appointment.getId());
         }
         return subcribers;
+    }
+    @Override
+    public ViewWorkflowDTO viewWorkflowDTO(int workflowId, String shapeId) {
+        ViewWorkflowDTO viewWorkflowDTO = new ViewWorkflowDTO();
+        List<String> subcriberInTask = new ArrayList<>();
+        Task task = taskRepository.findTaskByShapeIdAndWorkflow_Id(shapeId,workflowId);
+        String type = task.getType();
+        if(type.contains("campaign")){
+            Campaign campaign = campaignRepository.findCampaignById(task.getCampaignAppointment());
+            viewWorkflowDTO.setCampaign(campaign);
+            subcriberInTask =campaignSubcriberRepository.findSubcriberMailByCampaignId(campaign.getId());
+        }else{
+            Appointment appointment = appointmentRepository.findAppointmentById(task.getCampaignAppointment());
+            viewWorkflowDTO.setAppointment(appointment);
+            subcriberInTask  = appointmentSubcriberRepository.findSubcriberMailByAppointmentId(appointment.getId());
+        }
+        viewWorkflowDTO.setSubcriberInTask(subcriberInTask);
+        String pretask = taskRepository.findPreTask(workflowId,shapeId);
+        Task task1 = taskRepository.findTaskByPreTask(pretask);
+        List<String> subcriberPreTask  = new ArrayList<String>(findSubcriberInTask(workflowId,task1.getShapeId()));
+        subcriberPreTask.retainAll(subcriberInTask);
+        subcriberInTask.removeAll(subcriberPreTask);
+        viewWorkflowDTO.setSubcriersComing(subcriberInTask);
+
+        return viewWorkflowDTO;
+    }
+
+    @Override
+    public List<String> findSubcriberIncoming(int workflowId, String shapeId) {
+        List<String> subcriberIncoming = new ArrayList<>();
+        List<String> subcriberTask = new ArrayList<String>(findSubcriberInTask(workflowId,shapeId));
+        String pretask = taskRepository.findPreTask(workflowId,shapeId);
+        Task task  = taskRepository.findTaskByPreTask(pretask);
+        List<String> subcriberPreTask  = new ArrayList<String>(findSubcriberInTask(workflowId,task.getShapeId()));
+        subcriberPreTask.retainAll(subcriberTask);
+        subcriberTask.removeAll(subcriberPreTask);
+        subcriberIncoming = subcriberTask;
+
+        return subcriberIncoming;
     }
 
 //    @Scheduled(fixedRate = 10000)

@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -254,8 +253,7 @@ public class CampaignServiceImpl implements CampaignService {
                         mailService.sendSimpleMessageV2(campaign.getSender(),campaign.getFromMail(),mailLists.get(counter),campaign.getSubject(),campaign.getContent());
                         CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(campaign.getId(), mailLists.get(counter));
                         campaignSubcriber.setSend(true);
-                        campaignSubcriber.setMessageId(MESSAGE_ID.trim());
-                        campaign.setStatus("Done");
+                        campaignSubcriber.setMessageId(MESSAGE_ID.trim()); //mỗi lần chạy là tự tạo ha?
                         campaignSubcriberRepository.save(campaignSubcriber);
                     }
 
@@ -264,6 +262,8 @@ public class CampaignServiceImpl implements CampaignService {
                 }
             }
         }, delay, TimeUnit.MILLISECONDS);
+        campaign.setStatus("Done");
+        campaignRepository.save(campaign);
         ses.shutdown();
         return true;
     }
@@ -418,7 +418,7 @@ public class CampaignServiceImpl implements CampaignService {
             @Override
             public void run() {
                 log.info("Get Statistic Campaign.\n");
-                for(Campaign campaign: campaignRepository.findAll()){
+                for(Campaign campaign: campaignRepository.findTop5ByOrderByCreatedTimeDesc()){
                     // Get Statistic of Campaign
                     double request = campaignSubcriberRepository.countRequest(campaign.getId());
                     double bounce = campaignSubcriberRepository.countBounce(campaign.getId());
@@ -426,7 +426,11 @@ public class CampaignServiceImpl implements CampaignService {
                     double open = campaignSubcriberRepository.countOpen(campaign.getId());
                     double click = campaignSubcriberRepository.countClick(campaign.getId());
                     double spam = campaignSubcriberRepository.countSpam(campaign.getId());
+<<<<<<< HEAD
+                    String requestStr = String.valueOf((int) request);
+=======
                     String requestStr =new Double(request).toString();
+>>>>>>> 85360d2359fc3c73a0810a29174ac89f54e90407
                     campaign.setRequest(requestStr);
                     campaign.setOpenRate(Math.round((open/request)*100)+"%");
                     campaign.setBounce(Math.round((bounce/request)*100)+"%");

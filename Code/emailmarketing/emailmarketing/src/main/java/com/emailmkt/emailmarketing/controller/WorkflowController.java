@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.controller;
 
+import com.emailmkt.emailmarketing.dto.ViewWorkflowDTO;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
 import com.emailmkt.emailmarketing.model.Workflow;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,11 +57,6 @@ public class WorkflowController {
         boolean flag = workflowService.createWorkflow(workflowDTO);
 
 
-//        boolean flag = workflowService.createWorkflow(mailAndCampaign.mailObjectDTO,mailAndCampaign.campaignDTO);
-//        if (flag == false) {
-//            return ResponseEntity.status(CONFLICT).body("Campaign Existed");
-//        }
-//        Campaign temp = campaignRepository.findByName(mailAndCampaign.campaignDTO.getCampaignName());
         return ResponseEntity.status(CREATED).body("aaa");
 
     }
@@ -70,59 +67,26 @@ public class WorkflowController {
         return workflowRepository.findAll();
     }
 
-//    @PostMapping("/template/search/{searchValue}")
-//    public List<Template> searchByNameOrType(@PathVariable(value = "searchValue") String searchValue) {
-//        return templateService.searchByNameorType(searchValue);
-//    }
-
-//    @GetMapping(value="campaign/{id}")
-//    Campaign read(@PathVariable int id) {
-//        return campaignRepository.findById(id)
-//        .orElseThrow(() -> new RuntimeException("Not found"));
-//    }
 
     @GetMapping("workflow/task")
     public List<String> findSubcriberInTask(@RequestParam(value = "workflowId")int workflowId,@RequestParam(value = "shapeId")String shapeId) {
         List<String> sucribers = workflowService.findSubcriberInTask(workflowId,shapeId);
         return sucribers;
     }
-//
-//    @PutMapping("campaign/edit/{id}")
-//    public ResponseEntity updateCampaign(@RequestBody MailAndCampaign mailAndCampaign, @PathVariable int id) {
-//        boolean flag = campaignService.editCampaign(mailAndCampaign.mailObjectDTO,mailAndCampaign.campaignDTO,id);
-//        if (flag == false) {
-//            return ResponseEntity.status(CONFLICT).body("Campaign can not edit");
-//        }
-//        return ResponseEntity.status(ACCEPTED).body("Successfully");
-//    }
-//
-//    @PutMapping(value = "campaign/add", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity addContent(@RequestBody Campaign campaign) {
-//        Campaign accountEdited = campaignService.addContentToCampaign(campaign);
-//        if (accountEdited != null) {
-//            return ResponseEntity.status(ACCEPTED).body(accountEdited);
-//        }
-//        return ResponseEntity.status(NOT_ACCEPTABLE).body("Updated Fail");
-//    }
-//
-//
-//
-//    @GetMapping("/campaigns")
-//    Iterable<Campaign> getAll() {
-//        return campaignRepository.findAll();
-//    }
-//
-//    @ApiOperation(value = "Send Campaign Without Template")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Successful"),
-//            @ApiResponse(code = 400, message = "Invalid  ID"),
-//            @ApiResponse(code = 500, message = "Internal server error") })
-//    @PostMapping(value="campaign/send", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public void sendCampaign(@RequestParam(value = "id")int id) {
-//        campaignService.sendCampaign(id);
-//    }
-//
-//
+
+    @GetMapping("workflow/pretask")
+    public List<String> findSubcriberInComing(@RequestParam(value = "workflowId")int workflowId,@RequestParam(value = "shapeId")String shapeId) {
+        List<String> sucribers = workflowService.findSubcriberIncoming(workflowId,shapeId);
+        return sucribers;
+    }
+
+    @GetMapping("/campaign/dashboard")
+    public ResponseEntity<ViewWorkflowDTO> getWorkflowDTO(@RequestParam(value = "workflowId")int workflowId,@RequestParam(value = "shapeId")String shapeId) {
+        ViewWorkflowDTO vms = workflowService.viewWorkflowDTO(workflowId,shapeId);
+        return new ResponseEntity<ViewWorkflowDTO>(vms, HttpStatus.OK);
+    }
+
+
 
 
 
