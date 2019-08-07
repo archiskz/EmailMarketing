@@ -257,10 +257,19 @@ onClickToExport = () =>{
     </span> */}
 </div>           
               
-                <div id="propview" style={{ width: '30%', height: 'auto', float: 'right', maxHeight: '98vh', overflowX: 'auto' }}>
-                <div style={{width: '100%', height: '49%', 'right': '0', background:"white" }}>aaaa</div>
-                  <hr/>
-                  <div style={{ width: '100%', height: '50%', 'right': '0', background:"white" }}>bbb</div>
+                <div id="propview" style={{padding:'10px', width: '30%', height: 'auto', float: 'right', maxHeight: '98vh' }}>
+                
+                <h3 style={{textAlign:"center", marginBottom:"30px" }}>Campaign: Welcome</h3>
+                <h4>Clicked: 50%</h4>
+                <h4>Opened: 50%</h4>
+                  <span>Contacts have completed: 10 contacts</span> <a style={{cursor:"pointer" }}> View</a>
+                  <br/>
+                  <span>Contacts incoming: 15 contacts</span> <a style={{cursor:"pointer" }}> View</a>
+                
+                  {/* <hr/>
+                  <div style={{ padding:'5px',width: '100%', height: '50%', 'right': '0', background:"white" }}>
+                   
+                  </div> */}
                 </div>
                 <div id="bpmnview" style={{ width: '70%', height: '98vh', float: 'right' }}>
                   

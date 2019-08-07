@@ -295,7 +295,7 @@ public class WorkflowServiceImpl implements WorkflowService {
         return subcriberIncoming;
     }
 
-    //    @Scheduled(fixedRate = 10000)
+//    @Scheduled(fixedRate = 10000)
     @Override
     public void runWorkflow() {
         System.out.println("RUN WORK FLOW");
