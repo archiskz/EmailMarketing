@@ -11,7 +11,6 @@ import com.emailmkt.emailmarketing.service.SubcriberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -177,7 +176,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         return null;
     }
 
-    @Scheduled(fixedRate = 60000)
+//    @Scheduled(fixedRate = 60000)
     @Override
     public void getStatisticSubcriber() {
         ExecutorService executor = Executors.newFixedThreadPool(30);
@@ -244,7 +243,8 @@ public class SubcriberServiceImpl implements SubcriberService {
     @Override
     public StatisticContactDTO countSubcriber() {
         StatisticContactDTO statisticContactDTO = new StatisticContactDTO();
-        statisticContactDTO.setIntermediateContact(subcriberRepository.countByType("Beginner Contacts"));
+        statisticContactDTO.setBeginerContact(subcriberRepository.countByType("Beginner Contacts"));
+        statisticContactDTO.setIntermediateContact(subcriberRepository.countByType("Intermediate Contacts"));
         statisticContactDTO.setAdvancedContact(subcriberRepository.countByType("Advanced Contacts"));
         return statisticContactDTO;
     }

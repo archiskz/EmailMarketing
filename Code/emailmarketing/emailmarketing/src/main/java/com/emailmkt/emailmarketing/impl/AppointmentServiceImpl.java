@@ -163,6 +163,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                 appointmentSubcriber.setMessageId(MESSAGE_APPOINTMENT_ID.trim());
                 appointmentSubcriberRepository.save(appointmentSubcriber);
 
+                //Em bỏ ra khỏi hàm thì chạy mượt vãi đưa vô timer là bị
+
             }
 
 
