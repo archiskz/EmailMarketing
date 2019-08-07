@@ -25,7 +25,7 @@ public interface TaskRepository extends JpaRepository<Task,Integer> {
 
         Task findTaskByPostTaskAndWorkflow_Id(String post, int workflow);
 
-        @Query("SELECT task.preTask FROM Task task WHERE task.workflow.id =: workflowId and task.shapeId =:shapeId  ")
+        @Query("SELECT tasks.preTask FROM Task tasks WHERE tasks.workflow.id =: workflowId AND tasks.shapeId =: shapeId")
         String findPreTask(@Param("workflowId")int workflowId,@Param("shapeId")String shapeId);
 
         Task findTaskByPreTask(String preTask);

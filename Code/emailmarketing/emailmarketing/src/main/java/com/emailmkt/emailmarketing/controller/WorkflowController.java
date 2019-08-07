@@ -80,7 +80,7 @@ public class WorkflowController {
         return sucribers;
     }
 
-    @GetMapping("/campaign/dashboard")
+    @GetMapping("/workflow/view")
     public ResponseEntity<ViewWorkflowDTO> getWorkflowDTO(@RequestParam(value = "workflowId")int workflowId,@RequestParam(value = "shapeId")String shapeId) {
         ViewWorkflowDTO vms = workflowService.viewWorkflowDTO(workflowId,shapeId);
         return new ResponseEntity<ViewWorkflowDTO>(vms, HttpStatus.OK);

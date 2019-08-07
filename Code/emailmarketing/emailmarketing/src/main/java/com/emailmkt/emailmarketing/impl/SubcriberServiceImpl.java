@@ -177,7 +177,7 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
 
-//    @Scheduled(fixedRate = 1000)
+
     @Override
     public void getStatisticSubcriber() {
         ExecutorService executor = Executors.newFixedThreadPool(30);

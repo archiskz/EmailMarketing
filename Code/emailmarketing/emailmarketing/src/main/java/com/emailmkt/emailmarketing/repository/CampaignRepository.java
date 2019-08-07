@@ -17,8 +17,10 @@ public interface CampaignRepository extends JpaRepository<Campaign,Integer> {
 
         List<Campaign> findTop5ByOrderByCreatedTimeDesc();
 
+
 //        Campaign findTop1ByOrderByCreatedTimeDesc();
-//        Campaign findTopByOrderByCreatedTimeDesc();
+
+
 
 
 
