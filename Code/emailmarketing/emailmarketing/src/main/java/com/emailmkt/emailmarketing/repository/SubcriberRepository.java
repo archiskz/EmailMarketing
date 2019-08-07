@@ -48,6 +48,8 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 
     List<Subcriber> findTop5ByOrderByCreatedTimeDesc();
 
+    long countByType(String type);
+
 
 
 }

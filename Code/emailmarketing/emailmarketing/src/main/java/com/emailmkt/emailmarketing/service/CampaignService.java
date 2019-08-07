@@ -20,6 +20,9 @@ public interface CampaignService {
     int copyCampaign(int campaignId, int workflowId);
 
 
+    void getStatisticCampaign();
+
+    CampaignFullDTO getCampaignLatest();
 
 
 }

@@ -49,6 +49,9 @@ public interface GroupContactRepository extends JpaRepository<GroupContact, Inte
     void deleteGroupContactById(@Param("groupContactId") int groupContactId);
 
 
+    List<GroupContact> findTop5ByOrderByCreatedTimeDesc();
+
+
 
 }
 

@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
+import com.emailmkt.emailmarketing.dto.StatisticContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
 import com.emailmkt.emailmarketing.model.Account;
@@ -191,7 +192,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                     double total = requestAppointment + requestCampaign;
                     double totalOpen = campaignSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(),true)
                             + appointmentSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(),true);
-                    double totalClick = campaignSubcriberRepository.countBySubcriberEmailAndClick(subcriber.getEmail(),true)+appointmentSubcriberRepository.countBySubcriberEmailAndConfirmation(subcriber.getEmail(),true);
+                    double totalClick = campaignSubcriberRepository.countBySubcriberEmailAndComfirmation(subcriber.getEmail(),true)+appointmentSubcriberRepository.countBySubcriberEmailAndConfirmation(subcriber.getEmail(),true);
                     subcriber.setOpenRate(Math.round(totalOpen/total)*100+ "%");
                     subcriber.setClickRate(Math.round(totalClick/total)*100+ "%");
                     if((Math.round(totalClick/total)*100)> 80 && Math.round(totalOpen/total)*100> 80 || total > 7  ){
@@ -238,6 +239,14 @@ public class SubcriberServiceImpl implements SubcriberService {
     @Override
     public int countTotalSubcriber(int subcriberId) {
         return subcriberRepository.countAllById(subcriberId);
+    }
+
+    @Override
+    public StatisticContactDTO countSubcriber() {
+        StatisticContactDTO statisticContactDTO = new StatisticContactDTO();
+        statisticContactDTO.setIntermediateContact(subcriberRepository.countByType("Beginner Contacts"));
+        statisticContactDTO.setAdvancedContact(subcriberRepository.countByType("Advanced Contacts"));
+        return statisticContactDTO;
     }
 
 

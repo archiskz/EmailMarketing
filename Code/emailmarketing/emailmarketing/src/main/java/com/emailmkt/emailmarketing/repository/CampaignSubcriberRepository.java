@@ -20,8 +20,8 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
     @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true ")
     List<String> findSubcriberMailByCampaignId(@Param("campaignId") int campaignId);
 //
-    @Query("SELECT cp.confirmation FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail")
-    public Boolean checkConfirmCampaign(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
+    @Query("SELECT cp.comfirmation FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail")
+    Boolean checkConfirmCampaign(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
 
      @Query("select cp from CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail ")
      CampaignSubcriber  changeConfirmSend(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
@@ -41,7 +41,7 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
     @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.opened = true")
     Double countOpen(@Param("campaignId") int campaignId);
 
-    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.click = true")
+    @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.comfirmation = true")
     Double  countClick(@Param("campaignId") int campaignId);
 
     @Query("SELECT COUNT(cam) FROM CampaignSubcriber cam WHERE cam.campaignGroupContact.campaign.id =:campaignId and cam.spam = true")
@@ -52,7 +52,7 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
 
     Double countCampaignSubcriberBySubcriberEmail(String email);
 
-    Double countBySubcriberEmailAndClick(String email, boolean click);
+    Double countBySubcriberEmailAndComfirmation(String email, boolean click);
     Double countBySubcriberEmailAndOpened(String email, boolean open);
 
 

@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.service;
 
 
+import com.emailmkt.emailmarketing.dto.StatisticContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -33,7 +34,7 @@ public interface SubcriberService {
 
     int countTotalSubcriber(int accountId);
 
-
+    StatisticContactDTO countSubcriber();
 
 
     Subcriber getSubcriberByEmail(String email);
