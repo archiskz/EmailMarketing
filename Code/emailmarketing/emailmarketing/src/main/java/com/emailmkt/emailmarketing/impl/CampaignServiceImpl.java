@@ -426,11 +426,7 @@ public class CampaignServiceImpl implements CampaignService {
                     double open = campaignSubcriberRepository.countOpen(campaign.getId());
                     double click = campaignSubcriberRepository.countClick(campaign.getId());
                     double spam = campaignSubcriberRepository.countSpam(campaign.getId());
-<<<<<<< HEAD
-                    String requestStr = String.valueOf((int) request);
-=======
                     String requestStr =new Double(request).toString();
->>>>>>> 85360d2359fc3c73a0810a29174ac89f54e90407
                     campaign.setRequest(requestStr);
                     campaign.setOpenRate(Math.round((open/request)*100)+"%");
                     campaign.setBounce(Math.round((bounce/request)*100)+"%");
