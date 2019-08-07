@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.controller;
 
+import com.emailmkt.emailmarketing.dto.StatisticContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -133,6 +134,12 @@ public class SubcriberController {
     @GetMapping("/subcriber/latest")
     public List<Subcriber> getSubcriberLatest() {
         return subcriberService.getContactLatest();
+    }
+
+    @GetMapping("/subcriber/dashboard")
+    public ResponseEntity<StatisticContactDTO> getStatistic() {
+        StatisticContactDTO vms = subcriberService.countSubcriber();
+        return new ResponseEntity<StatisticContactDTO>(vms, HttpStatus.OK);
     }
 
 

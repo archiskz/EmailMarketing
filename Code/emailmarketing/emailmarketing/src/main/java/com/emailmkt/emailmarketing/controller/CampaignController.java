@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,15 +57,15 @@ public class CampaignController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful"),
             @ApiResponse(code = 400, message = "Invalid  ID"),
-            @ApiResponse(code = 500, message = "Internal server error") })
-    @PostMapping(value="campaign/create", produces = MediaType.APPLICATION_JSON_VALUE)
+            @ApiResponse(code = 500, message = "Internal server error")})
+    @PostMapping(value = "campaign/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createCampaignWithoutTemplate(@RequestBody MailAndCampaign mailAndCampaign) {
-        boolean flag = campaignService.createCampaign(mailAndCampaign.mailObjectDTO,mailAndCampaign.campaignDTO);
+        boolean flag = campaignService.createCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign Existed");
         }
         Campaign temp = campaignRepository.findByName(mailAndCampaign.campaignDTO.getCampaignName());
-        return ResponseEntity.status(CREATED).body(temp.getId() );
+        return ResponseEntity.status(CREATED).body(temp.getId());
 
     }
 
@@ -72,23 +73,23 @@ public class CampaignController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful"),
             @ApiResponse(code = 400, message = "Invalid  ID"),
-            @ApiResponse(code = 500, message = "Internal server error") })
-    @PostMapping(value="campaign/create/timer", produces = MediaType.APPLICATION_JSON_VALUE)
+            @ApiResponse(code = 500, message = "Internal server error")})
+    @PostMapping(value = "campaign/create/timer", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createCampaignWithoutTimer(@RequestBody MailAndCampaign mailAndCampaign) {
 
 
-            LocalDate date = LocalDate.parse(mailAndCampaign.campaignDTO.getTimeStart(), DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a"));
-            if(date.isBefore(LocalDate.now())){
-                return ResponseEntity.status(NOT_ACCEPTABLE).body("This Time Start is before now");
-            }
+        LocalDate date = LocalDate.parse(mailAndCampaign.campaignDTO.getTimeStart(), DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a"));
+        if (date.isBefore(LocalDate.now())) {
+            return ResponseEntity.status(NOT_ACCEPTABLE).body("This Time Start is before now");
+        }
 
-        boolean flag = campaignService.createCampaignWithTimer(mailAndCampaign.mailObjectDTO,mailAndCampaign.campaignDTO);
+        boolean flag = campaignService.createCampaignWithTimer(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign Existed");
         }
         Campaign temp = campaignRepository.findByName(mailAndCampaign.campaignDTO.getCampaignName());
 
-        return ResponseEntity.status(CREATED).body(temp.getId() );
+        return ResponseEntity.status(CREATED).body(temp.getId());
 
     }
 
@@ -105,7 +106,7 @@ public class CampaignController {
 
     @PutMapping("campaign/edit/{id}")
     public ResponseEntity updateCampaign(@RequestBody MailAndCampaign mailAndCampaign, @PathVariable int id) {
-        boolean flag = campaignService.editCampaign(mailAndCampaign.mailObjectDTO,mailAndCampaign.campaignDTO,id);
+        boolean flag = campaignService.editCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, id);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign can not edit");
         }
@@ -122,7 +123,6 @@ public class CampaignController {
     }
 
 
-
     @GetMapping("/campaigns")
     Iterable<Campaign> getAll() {
         return campaignRepository.findAllByAutomationIsFalse();
@@ -132,16 +132,16 @@ public class CampaignController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful"),
             @ApiResponse(code = 400, message = "Invalid  ID"),
-            @ApiResponse(code = 500, message = "Internal server error") })
-    @PostMapping(value="campaign/send", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void sendCampaign(@RequestParam(value = "id")int id) {
+            @ApiResponse(code = 500, message = "Internal server error")})
+    @PostMapping(value = "campaign/send", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void sendCampaign(@RequestParam(value = "id") int id) {
         campaignService.sendCampaign(id);
     }
 
 
     @PostMapping("campaign/copy/")
-    public ResponseEntity copyCampaign(@RequestParam int id,@RequestParam int workflowId) {
-        int number = campaignService.copyCampaign(id,workflowId);
+    public ResponseEntity copyCampaign(@RequestParam int id, @RequestParam int workflowId) {
+        int number = campaignService.copyCampaign(id, workflowId);
         if (number != 1) {
             return ResponseEntity.status(CONFLICT).body("Đã copy thành công ");
         }
@@ -149,6 +149,12 @@ public class CampaignController {
 
     }
 
-
+    @GetMapping("/campaign/dashboard")
+    public ResponseEntity<CampaignFullDTO> getStatistic() {
+        CampaignFullDTO vms = campaignService.getCampaignLatest();
+        return new ResponseEntity<CampaignFullDTO>(vms, HttpStatus.OK);
     }
+
+
+}
 

@@ -125,6 +125,11 @@ public class GroupContactController {
 
     }
 
+    @GetMapping("/groupContact/latest")
+    public List<GroupContact> getGroupContactLatest() {
+        return groupContactRepository.findTop5ByOrderByCreatedTimeDesc();
+    }
+
 
 
 

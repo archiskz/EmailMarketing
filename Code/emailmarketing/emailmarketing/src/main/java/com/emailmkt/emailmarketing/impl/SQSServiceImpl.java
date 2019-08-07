@@ -108,7 +108,7 @@ public class SQSServiceImpl implements SQSService {
                             if (eventType.contains("Open")) {
                                 campaignSubcriber.setOpened(true);
                             } else if (eventType.contains("Click")) {
-                                campaignSubcriber.setConfirmation(true);
+                                campaignSubcriber.setComfirmation(true);
                             }
                             if (eventType.contains("Delivery")) {
                                 campaignSubcriber.setDelivery(true);

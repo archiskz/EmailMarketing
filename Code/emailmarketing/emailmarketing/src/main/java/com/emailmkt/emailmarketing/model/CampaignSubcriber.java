@@ -42,12 +42,6 @@ public class CampaignSubcriber implements Serializable {
     private String subcriberEmail;
 
 
-
-    @Column(name = "confirmation")
-    private boolean confirmation;
-
-
-
     @Column(name = "opened")
     private boolean opened;
 
@@ -58,7 +52,7 @@ public class CampaignSubcriber implements Serializable {
     private boolean delivery;
 
     @Column(name = "click")
-    private boolean click;
+    private boolean comfirmation;
 
     @Column(name = "bounce")
     private boolean bounce;
