@@ -151,7 +151,7 @@ onClickToExport = () =>{
       axios.post(`${Config.API_URL}workflow/create`,this.state.bpmn,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then(res => {
         console.log("contact ID: " + res.data)
-        self.props.push({
+        self.props.history.push({
           pathname: '/dashboard/automations'
         })
         // this.setState({count: res.data})

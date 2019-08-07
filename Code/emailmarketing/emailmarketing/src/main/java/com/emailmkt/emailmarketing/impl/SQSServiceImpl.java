@@ -12,7 +12,6 @@ import com.emailmkt.emailmarketing.model.CampaignSubcriber;
 import com.emailmkt.emailmarketing.model.MyMessage;
 import com.emailmkt.emailmarketing.repository.AppointmentSubcriberRepository;
 import com.emailmkt.emailmarketing.repository.CampaignSubcriberRepository;
-import com.emailmkt.emailmarketing.service.HibernateSearchService;
 import com.emailmkt.emailmarketing.service.SQSService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
@@ -35,8 +34,8 @@ public class SQSServiceImpl implements SQSService {
     private static final Logger log = LoggerFactory.getLogger(SQSServiceImpl.class);
     private static final String CREATE_MESSAGE_ENDPOINT_URL = "http://localhost:8080/api/messages";
 
-    @Autowired
-    HibernateSearchService hibernateSearchService;
+//    @Autowired
+//    HibernateSearchService hibernateSearchService;
 
     @Autowired
     CampaignSubcriberRepository campaignSubcriberRepository;

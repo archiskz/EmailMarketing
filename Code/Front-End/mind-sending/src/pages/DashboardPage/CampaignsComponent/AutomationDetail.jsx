@@ -49,7 +49,6 @@ class BpmnModelerComponent extends Component {
         this.modeler = new BpmnModeler({
             container: '#bpmnview',
             propertiesPanel: {
-                // parent: '#propview'
             },
             additionalModules: [
                 // customModule,
@@ -244,7 +243,7 @@ onClickToExport = () =>{
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
                 </span>
-                <strong class="navToggleButton-css__toggle-name___3Y4ez">Export</strong>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">Workflow: </strong>
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
@@ -257,22 +256,16 @@ onClickToExport = () =>{
         </a>
     </span> */}
 </div>           
-                 <div class="io-editing-tools" jswidget="editing-tools" style={{"display":"block","width":"100px"}}>
-                    <ul class="io-control-list io-horizontal">
-                    <li class="io-control">
-                        <button title="Toggle keyboard shortcuts overlay" onClick={this.toggleFullScreen} jsaction="click:bio.showKeyboard">
-                        <img src="https://img.icons8.com/ios/36/000000/full-screen.png"></img>
-                        </button>
-                    </li>
-                    {/* <li class="io-control">
-                        <button title="Toggle Fullscreen" onClick={this.openKeyboard}  jsaction="click:bio.toggleFullscreen">
-                        <img src="https://img.icons8.com/windows/36/000000/keyboard.png"></img>
-                        </button>
-                    </li> */}
-                    </ul>
+              
+                <div id="propview" style={{ width: '30%', height: 'auto', float: 'right', maxHeight: '98vh', overflowX: 'auto' }}>
+                <div style={{width: '100%', height: '49%', 'right': '0', background:"white" }}>aaaa</div>
+                  <hr/>
+                  <div style={{ width: '100%', height: '50%', 'right': '0', background:"white" }}>bbb</div>
                 </div>
-                <div id="propview" style={{ width: '25%', height: '98vh', float: 'right', maxHeight: '98vh', overflowX: 'auto' }}></div>
-                <div id="bpmnview" style={{ width: '75%', height: '98vh', float: 'right' }}></div>
+                <div id="bpmnview" style={{ width: '70%', height: '98vh', float: 'right' }}>
+                  
+                </div>
+                
                 {/* <button type="button" className="btn btn-default" onClick={this.onClickToExport}>button</button> */}
                 <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.isModalVisible} width="440" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
       <div class="modal-header"> 

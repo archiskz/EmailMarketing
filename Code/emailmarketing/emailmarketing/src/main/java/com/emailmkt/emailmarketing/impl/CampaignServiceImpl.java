@@ -152,19 +152,19 @@ public class CampaignServiceImpl implements CampaignService {
             for (int counter = 0; counter < mailLists.size(); counter++) {
                 content = campaign.getContent();
                 try{
-                    content= content.replace("email_subcriber",mailLists.get(counter));
+                    content= content.replace("{{email}}",mailLists.get(counter));
                 } catch (Exception e){
                     e.printStackTrace();
                 }
                 try{
                     Subcriber personalization = subcriberRepository.findSubcriberByEmail(mailLists.get(counter));
-                    content= content.replace("last_name_subcriber",personalization.getLastName());
+                    content= content.replace("{{last_name}}",personalization.getLastName());
                 } catch (Exception e){
                     e.printStackTrace();
                 }
                 try{
                     Subcriber personalization = subcriberRepository.findSubcriberByEmail(mailLists.get(counter));
-                    content = content.replace("first_name_subcriber",personalization.getFirstName());
+                    content = content.replace("{{first_name}}",personalization.getFirstName());
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -426,6 +426,8 @@ public class CampaignServiceImpl implements CampaignService {
                     double open = campaignSubcriberRepository.countOpen(campaign.getId());
                     double click = campaignSubcriberRepository.countClick(campaign.getId());
                     double spam = campaignSubcriberRepository.countSpam(campaign.getId());
+                    String requestStr =new Double(request).toString();
+                    campaign.setRequest(requestStr);
                     campaign.setOpenRate(Math.round((open/request)*100)+"%");
                     campaign.setBounce(Math.round((bounce/request)*100)+"%");
                     campaign.setDelivery(Math.round((delivery/request)*100)+"%");
@@ -440,10 +442,12 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Override
     public CampaignFullDTO getCampaignLatest() {
-        Campaign campaign = campaignRepository.findTop1ByOrderByCreatedTimeDesc();
+        Campaign campaign = campaignRepository.findTopByOrderByCreatedTimeDesc();
         // Get Statistic of Campaign
         CampaignFullDTO campaignFullDTO = new CampaignFullDTO();
+        campaignFullDTO.setCampaignName(campaign.getName());
         campaignFullDTO.setRequest(campaign.getRequest());
+//        campaignFullDTO.setCreatedTime(campaign.getCreatedTime());
         campaignFullDTO.setOpen(campaign.getOpenRate());
         campaignFullDTO.setBounce(campaign.getBounce());
         campaignFullDTO.setDelivery(campaign.getDelivery());
