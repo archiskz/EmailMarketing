@@ -410,7 +410,7 @@ public class CampaignServiceImpl implements CampaignService {
         return campaign.getId();
     }
 
-    @Scheduled(fixedRate = 5000)
+//    @Scheduled(fixedRate = 5000)
     @Override
     public void getStatisticCampaign() {
         ExecutorService executor = Executors.newFixedThreadPool(30);
