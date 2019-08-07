@@ -21,7 +21,7 @@ public interface TemplateService {
 
     boolean editTemplate(int id);
 
-    boolean copyTemplateGallery( int id);
+    boolean copyTemplateGallery( int id, String name);
 
 
 

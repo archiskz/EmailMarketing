@@ -49,17 +49,20 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public boolean copyTemplateGallery(int templateId) {
+    public boolean copyTemplateGallery(int templateId, String name) {
         Template templateGallery = templateRepository.findTemplateById(templateId);
+        Template templateTemp = templateRepository.findByNameTemplate(name);
         Template template = new Template();
-        if(templateGallery != null) {
+
+        if(templateGallery != null && templateTemp == null) {
             template.setAccount_id(1);
             template.setContentHtml(templateGallery.getContentHtml());
             template.setContentJson(templateGallery.getContentJson());
 
 
             template.setCreated_time(LocalDateTime.now().toString());
-            template.setNameTemplate(templateGallery.getNameTemplate() + "Copy");
+            template.setNameTemplate(name);
+
             template.setType("ct");
             templateRepository.save(template);
             java.lang.String previewImage = convertHtmlToString(template.getContentHtml(), template.getId());

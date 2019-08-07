@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.service;
 
+import com.emailmkt.emailmarketing.dto.ViewWorkflowDTO;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
 import com.emailmkt.emailmarketing.model.Workflow;
 
@@ -19,9 +20,13 @@ public interface WorkflowService {
 
     List<String> findSubcriberInTask(int workflowId,String shapeId);
 
+    List<String> findSubcriberIncoming(int workflowId,String shapeId);
+
     public void runWorkflow();
 
-    
+    ViewWorkflowDTO viewWorkflowDTO(int workflowId, String shapeId);
+
+
 //    Workflow getWorkflowByUsername(String username);
 //    List<Account> getAllAccountsByCucountAllByauthorityIdstomer();
 //Workflow loginForCustomer(String username, String password);
