@@ -34,7 +34,12 @@ public class SQSServiceImpl implements SQSService {
     private static final Logger log = LoggerFactory.getLogger(SQSServiceImpl.class);
     private static final String CREATE_MESSAGE_ENDPOINT_URL = "http://localhost:8080/api/messages";
 
+<<<<<<< HEAD
 
+=======
+//    @Autowired
+//    HibernateSearchService hibernateSearchService;
+>>>>>>> 85360d2359fc3c73a0810a29174ac89f54e90407
 
     @Autowired
     CampaignSubcriberRepository campaignSubcriberRepository;

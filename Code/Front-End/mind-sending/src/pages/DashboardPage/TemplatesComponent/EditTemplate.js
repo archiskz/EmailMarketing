@@ -139,7 +139,12 @@ class EditTemplate extends Component {
           customJS: [
             window.location.protocol + '//' + window.location.host + '/custom.js',
             // window.location.protocol + '//' + window.location.host + '/custom1.js',
-          ]
+          ],
+          mergeTags: [
+    {name: "First Name", value: "{{first_name}}"},
+    {name: "Last Name", value: "{{last_name}}"},
+    {name: "Email", value: "{{email}}"}
+  ]
         }}
       minHeight="850px"
         ref={editor => this.editor = editor}

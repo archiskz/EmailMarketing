@@ -73,7 +73,7 @@ class ListRow extends Component {
     //  onClick={() => this.sendCampaign()} 
        onClick={()=>this.openModal()}
       class={`fas fa-paper-plane ${this.props.status == "Sending" || this.props.status == "Done" ? "activeText" : ''}`}></i>
-      <a class="fas fa-copy" title="Copy Embeded Code" onClick={()=>this.copyCode()} > </a>
+      <a class="fas fa-copy" title="Copy Embeded Code" onClick={()=>this.copyCampaign()} > </a>
     
     </td>
    {/* MODAL */}

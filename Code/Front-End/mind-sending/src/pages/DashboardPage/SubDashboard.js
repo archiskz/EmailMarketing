@@ -1,18 +1,73 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import * as Config from '../../constants/Config';
+import axios from 'axios';
 class SubDashboard extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             visible: true,
+            latestContact:[],
+            latestGroup:[],
+            latestCampaign:{}
         };
+    }
+componentDidMount(){
+  const appState = JSON.parse(sessionStorage.getItem('appState'));
+    this.setState({
+        auth_token: appState.user.auth_token
+    },()=> { 
+      this.getLatestContact()
+      this.getLatestCampaign()
+      this.getLatestGroup()
+    } )
+}
+
+    getLatestContact=()=>{
+      const allCountries = [{}];
+     axios.get(`${Config.API_URL}subcriber/latest`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+     .then(response => {
+       this.setState({
+        latestContact: response.data
+       });
+     })
+     .catch(error => {
+       console.log(error);
+     });
+    }
+
+    getLatestCampaign=()=>{
+      const allCountries = [{}];
+     axios.get(`${Config.API_URL}campaign/dashboard`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+     .then(response => {
+       this.setState({
+        latestCampaign: response.data
+       });
+     })
+     .catch(error => {
+       console.log(error);
+     });
+    }
+    getLatestGroup=()=>{
+     axios.get(`${Config.API_URL}groupContact/latest`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+     .then(response => {
+       this.setState({
+        latestGroup: response.data
+       });
+     })
+     .catch(error => {
+       console.log(error);
+     });
     }
 
 
 
 
     render() {
+      var latestContacts = this.state.latestContact
+      var latestGroups = this.state.latestGroup
+      var latestCampaign = this.state.latestCampaign
         return (
             <div className = "" >
    <div className="flash_notice">
@@ -34,43 +89,43 @@ class SubDashboard extends Component {
                 
                   <li className="sub_dashboard_request sub_dashboard_request" role="requests">
                   <h2>REQUESTS</h2>
-                  <div className="sub_dashboard_single">0</div>
+                  <div className="primary">{latestCampaign.request}</div>
                   </li>
                   <li className="sub_dashboard_delivered deliver" role="delivered">
                   <h2>DELIVERED</h2>
-                  <div className="primary">N/A</div>
-                  <div className="secondary">0</div>
+                  <div className="primary">{latestCampaign.delivery}</div>
+                  {/* <div className="secondary">0</div> */}
                   </li>
                   <li className="sub_dashboard_opened open" role="Opened">
                   <h2>OPENED</h2>
-                  <div className="primary">N/A</div>
-                  <div className="secondary">0</div>
+                  <div className="primary">{latestCampaign.open}</div>
+                  
                   </li>
                   
                   <li className="sub_dashboard_clicked clicked" role="clicked">
                   <h2>CLICKED</h2>
-                  <div className="primary">N/A</div>
-                  <div className="secondary">0</div>
+                  <div className="primary">{latestCampaign.click}</div>
+                  
                   </li>
                   <li className="sub_dashboard_spam spam" role="spam">
                   <h2>SPAM </h2>
-                  <div className="primary">N/A</div>
-                  <div className="secondary">0</div>
+                  <div className="primary">{latestCampaign.spam}</div>
+                  
                   </li>s
                   <li className="sub_dashboard_Unsubcribes unsubcribes" role="unsubcribes">
                   <h2>Bounces</h2>
-                  <div className="primary">N/A</div>
-                  <div className="secondary">0</div>
+                  <div className="primary">{latestCampaign.bounce}</div>
+                 
                   </li>
                   </ul>
                   <div role="emailStatsGraph" class="sub_dashboard_graph_container2"> 
                   <div className="dashboard_panel__title">
-            <h5 className="dashboard_bold_text2">Campaign name: <span className="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
-            Alibaba
+            <h5 className="dashboard_bold_text2">Latest Campaign name: <span className="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
+            {latestCampaign.campaignName}
             </span>
             </h5>
             <h5 className="dashboard_bold_text2">Date created: <span className="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
-            03/08/2019
+            {latestCampaign.createdTime}
             </span>
             </h5>
             </div>
@@ -139,39 +194,25 @@ class SubDashboard extends Component {
           <div className="collapse show">
             <div className="panel_content">
             <div className= "dashboard_table_responsive">
-              <table className="dashboard_table">
+              <table className="table">
               <thead>
               <tr>
+              <th>#</th>
               <th>Group name</th>
               <th>Date created</th>
-              <th>Number of contact in group</th>
+              <th>Number of contacts</th>
                 </tr>
                   </thead>
               <tbody>
-              <tr>
-              <td>
-              <p className="dashboard_bold_text dashboard__btc4">Beginner Contacts</p>
-              </td>
+              {latestGroups.map((latestGroup,index)=>(
+                  <tr key={index}>
+                    <td>{index}</td>
+                    <td>{latestGroup.name}</td>
+                    <td>{latestGroup.createdTime}</td>
+                    <td>{latestGroup.groupContactSubcribers.length}</td>
+                  </tr> 
+                                    ))}
               
-              <td>02/08/2019</td>
-              <td>20</td>
-              </tr>
-              <tr>
-              <td>
-              <p className="dashboard_bold_text dashboard__btc5">Intermediate Contacts</p>
-              </td>
-             
-              <td>02/08/2019</td>
-              <td>10</td>
-              </tr>
-              <tr>
-              <td>
-              <p className="dashboard_bold_text dashboard__btc6">Advanced Contacts</p>
-              </td>
-              
-              <td>02/08/2019</td>
-              <td>25</td>
-              </tr>
               </tbody>    
               </table>
             </div>
@@ -183,14 +224,14 @@ class SubDashboard extends Component {
         <div className="col-lg-12 dashboar_top5">
         <div className="dashboard_panel dashboard_card">
         <div className="dashboard_card_body dashboard_panel__body">
-          <div className="dashboard_panel__title">
+          <div className="">
             <h5 className="dashboard_bold-text2">List of contacts have been recently added<span class="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
             </span>
             </h5>
               <div className="collapse show">
             <div className="panel_content">
-            <div className= "dashboard_table_responsive">
-              <table className="dashboard_table2">
+            <div className= "">
+              <table className="table">
               <thead>
               <tr>
               <th>#</th>
@@ -200,46 +241,15 @@ class SubDashboard extends Component {
                 </tr>
                   </thead>
               <tbody>
-              <tr>
-              <td>
-              1
-              </td>
-              <td>thangnguyen15297@gmail.com</td>
-               <td>Thắng</td>
-                <td>Nguyễn</td>
-              </tr>
-              <tr>
-              <td>
-              2
-              </td>           
-              <td>sonnguyen050797@gmail.com</td>
-               <td>Sơn</td>
-                <td>Nguyễn</td>
-              </tr>
-              <tr>
-              <td>
-              3
-              </td>
-              <td>tanminh111197@gmail.com</td>
-               <td>Tấn</td>
-                <td>Minh</td>
-              </tr>
-              <tr>
-              <td>
-              4
-              </td>
-              <td>archist@gmail.com</td>
-               <td>Archist</td>
-                <td>Nguyễn</td>
-              </tr>
-              <tr>
-              <td>
-              5
-              </td>
-              <td>Angelababy@gmail.com</td>
-               <td>Angela</td>
-                <td>Baby</td>
-              </tr>
+              
+              {latestContacts.map((latestContact,index)=>(
+                  <tr key={index}>
+                    <td>{index}</td>
+                    <td>{latestContact.email}</td>
+                    <td>{latestContact.firstName}</td>
+                    <td>{latestContact.lastName}</td>
+                  </tr> 
+                                    ))}
               </tbody>    
               </table>
             </div>
