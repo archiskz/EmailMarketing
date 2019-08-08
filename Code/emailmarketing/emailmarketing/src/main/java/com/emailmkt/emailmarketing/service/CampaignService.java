@@ -25,4 +25,7 @@ public interface CampaignService {
     CampaignFullDTO getCampaignLatest();
 
 
+
+
+
 }
