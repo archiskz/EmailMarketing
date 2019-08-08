@@ -56,6 +56,13 @@ public class AppointmentSubcriber implements Serializable {
     @Column(name = "delivery")
     private boolean delivery;
 
+
+    @Column(name = "bounce")
+    private boolean bounce;
+
+    @Column(name = "spam")
+    private boolean spam;
+
     @Column(name = "message_id")
     @Field(termVector = TermVector.YES)
     private String messageId;

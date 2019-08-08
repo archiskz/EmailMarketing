@@ -2,6 +2,7 @@ package com.emailmkt.emailmarketing.repository;
 
 import com.emailmkt.emailmarketing.model.CampaignSubcriber;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,14 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
 //
 //    @Query("SELECT COUNT(ap.subcriberEmail) FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id  = :appointmentId")
 //    Long countSubcriberInAppointment(@Param("appointmentId") int appointmentId);
+
+    @Query("select ap from CampaignSubcriber ap WHERE ap.campaignGroupContact.campaign.id = :campaignId ")
+    List<CampaignSubcriber>  findCampaignSubcriberByCampaignId(@Param("campaignId")int campaignId);
+
+    @javax.transaction.Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("DELETE FROM CampaignSubcriber cb WHERE cb.campaignGroupContact.campaign.id  = :campaignId")
+    void  clearCampaignSubcriber(@Param("campaignId") int campaignId);
 
 
     @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true ")

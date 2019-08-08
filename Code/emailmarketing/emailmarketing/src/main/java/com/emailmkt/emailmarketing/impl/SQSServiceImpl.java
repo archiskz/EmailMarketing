@@ -98,6 +98,9 @@ public class SQSServiceImpl implements SQSService {
                         if(eventType.contains("Delivery")){
                             appointmentSubcriber.setDelivery(true);
                         }
+                        if(eventType.contains("Bounce")){
+                            appointmentSubcriber.setBounce(true);
+                        }
                         appointmentSubcriberRepository.save(appointmentSubcriber);
                     } else {
                         if(!campaignSubcribers.isEmpty()) {
@@ -109,6 +112,9 @@ public class SQSServiceImpl implements SQSService {
                             }
                             if (eventType.contains("Delivery")) {
                                 campaignSubcriber.setDelivery(true);
+                            }
+                            if(eventType.contains("Bounce")){
+                                campaignSubcriber.setBounce(true);
                             }
                             campaignSubcriberRepository.save(campaignSubcriber);
                         }
