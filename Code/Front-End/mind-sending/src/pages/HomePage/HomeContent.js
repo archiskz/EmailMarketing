@@ -21,7 +21,7 @@ class Home extends Component {
                 </h1>
 
                 <h3>
-                Voluptatem ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia. 
+                Grow your audience, promote services and sell products with MindSending-a marketing software that does the job for you. 
                 </h3>
 
                

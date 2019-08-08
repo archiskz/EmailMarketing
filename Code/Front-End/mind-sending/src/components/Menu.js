@@ -46,7 +46,7 @@ class Menu extends Component {
             </div>
             <div className={`${this.state.isLogin ? 'activeText' : ''}`}>
                 <Link to="/login" className="btnright smoothscroll btn btn--primary ">
-                       Login
+                       Sign-in
                    </Link>
             </div> 
                    

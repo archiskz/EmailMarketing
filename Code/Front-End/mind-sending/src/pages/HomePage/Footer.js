@@ -42,9 +42,7 @@ class Home extends Component {
                 </div>
 
                 <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed 
-                do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam.
+                Grow your audience, promote services, and sell products with marketing software that does the job for you.
                 </p>
                 <br></br>
                 <ul className="footer__social">

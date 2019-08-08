@@ -10,7 +10,7 @@ const settings = {
     arrows: true,
       dots: false,
       infinite: true,
-      speed: 500,
+      speed: 700,
       slidesToShow: 3,
       slidesToScroll: 1,
       autoplay: true
@@ -23,14 +23,12 @@ const settings = {
         <div class="row section-header narrower align-center aos-init aos-animate" data-aos="fade-up">
             <div class="col-full">
                 <h1 class="display-1 wow fadeInUp">
-                    The Most Popular And Number 1 Mail App.
+                    The Most Popular And Number 1 Email marketing App.
                 </h1>
                 <br></br>
                 <br></br>
                 <p class="lead wow fadeInUp">
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
-                    omnis ea.
+                    MindSending is a comprehensive marketing software platform that helps you create content, boost sales, and increase traffic to your website. Integrated email marketing, autoresponders, and landing pages let you automate essential tasks and launch effective marketing campaigns.
                 </p>
             </div>
         </div> 
@@ -41,93 +39,76 @@ const settings = {
                 <div aria-live="polite" class="slick-list draggable"><div class="slick-track"  role="listbox">
                 <Slider {...settings}>
                 <div class="about-desc__slide slick-slide slick-cloned" data-slick-index="-3" aria-hidden="true" tabindex="-1" >
-                    <h3 class="item-title">USER-FRIENDLY.</h3>
+                    <h3 class="item-title">Put your audience first.</h3>
 
                     <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
-                    omnis ea aut cumque eos.
+                    Know who you’re talking to so you can say the right things. The more you know about your people, the smarter you can be with your campaigns. Our Marketing CRM tools help you turn audience data into insights that guide your campaigns—every step of the way.
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide slick-cloned" data-slick-index="-2" aria-hidden="true" tabindex="-1" >
-                    <h3 class="item-title">POWERFUL.</h3>
+                    <h3 class="item-title">Bring your brand to life.</h3>
 
                     <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
-                    omnis ea aut cumque eos.
+                    Look like a pro with elegant, easy-to-use design tools. Our deceptively simple design tools will help bring your ideas to life in professional‑looking marketing campaigns that look and feel like you.
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true" tabindex="-1"  >
-                    <h3 class="item-title">SECURE.</h3>
+                    <h3 class="item-title">Create integrated campaigns.</h3>
 
                     <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
-                    omnis ea aut cumque eos.
+                    Spread the word with social, email, ads, and more. In just a few easy steps
+                    you can have an entire campaign up and
+                    running, whether you’re an experienced
+                    marketer, or just starting out.
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide" data-slick-index="0" aria-hidden="true" tabindex="-1" role="option" aria-describedby="slick-slide00"  >
-                    <h3 class="item-title">SMART.</h3>
+                    <h3 class="item-title">Turn data into insights.</h3>
 
                     <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
-                    omnis ea aut cumque eos.
+                    Our recommendations get smarter as you go. Powered by 11 million users and 4 billion contacts, our platform helps you turn valuable insights and analytics into winning campaigns.
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide" data-slick-index="1" aria-hidden="true" tabindex="-1" role="option" aria-describedby="slick-slide01"  >
-                    <h3 class="item-title">User-Friendly.</h3>
+                    <h3 class="item-title">Marketing Automation.</h3>
 
                     <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
-                    omnis ea aut cumque eos.
+                    Use marketing automation tools to react to the actions your contacts take, in ways that help you reach your goals. Apply tagging and scoring for even more precise segments. Create a conversion path that’s educational, enjoyable, and compelling. Marketing automation cuts big goals down to a manageable size.
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide" data-slick-index="2" aria-hidden="true" tabindex="-1" role="option" aria-describedby="slick-slide02"  >
-                    <h3 class="item-title">Powerful.</h3>
+                    <h3 class="item-title">Embed Form.</h3>
 
                     <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
-                    omnis ea aut cumque eos.
+                    Capture Subscribers from your Website Automatically. Tell us a little about yourself, and we’ll give you tips and insights to help you grow your business faster and get smarter as you go.
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide slick-current slick-active" data-slick-index="3" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide03" >
-                    <h3 class="item-title">Secure.</h3>
+                    <h3 class="item-title">Drag and Drop Drip Automation.</h3>
 
                     <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
-                    omnis ea aut cumque eos.
+                    Use marketing automation tools to react to the actions your contacts take, in ways that help you reach your goals. Apply tagging and scoring for even more precise segments. Create a conversion path that’s educational, enjoyable, and compelling. Marketing automation cuts big goals down to a manageable size.
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide slick-cloned slick-active" data-slick-index="4" aria-hidden="false" tabindex="-1" >
-                    <h3 class="item-title">Smart.</h3>
+                    <h3 class="item-title">Turn data into insights.</h3>
 
                     <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
-                    omnis ea aut cumque eos.
+                    Our recommendations get smarter as you go. Powered by 11 million users and 4 billion contacts, our platform helps you turn valuable insights and analytics into winning campaigns.
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide slick-cloned slick-active" data-slick-index="5" aria-hidden="false" tabindex="-1" >
-                    <h3 class="item-title">User-Friendly.</h3>
+                    <h3 class="item-title">Marketing Automation.</h3>
 
                     <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
-                    omnis ea aut cumque eos.
+                    Use marketing automation tools to react to the actions your contacts take, in ways that help you reach your goals. Apply tagging and scoring for even more precise segments. Create a conversion path that’s educational, enjoyable, and compelling. Marketing automation cuts big goals down to a manageable size.
                     </p>
                 </div>
                 <div class="about-desc__slide slick-slide slick-cloned" data-slick-index="6" aria-hidden="true" tabindex="-1" >
-                    <h3 class="item-title">Powerful.</h3>
+                    <h3 class="item-title">Embed Form.</h3>
 
                     <p>
-                    Et nihil atque ex. Reiciendis et rerum ut voluptate. Omnis molestiae nemo est. 
-                    Ut quis enim rerum quia assumenda repudiandae non cumque qui. Amet repellat 
-                    omnis ea aut cumque eos.
+                    Capture Subscribers from your Website Automatically.
                     </p>
                 </div>
                 </Slider>
@@ -138,9 +119,7 @@ const settings = {
         </div>
 
         <div class="row about-bottom-image aos-init aos-animate wow fadeInUp" data-aos="fade-up">
-            <img src="images/app-screen-1400.png" srcset="images/app-screen-600.png 600w, 
-                         images/app-screen-1400.png 1400w, 
-                         images/app-screen-2800.png 2800w" sizes="(max-width: 2800px) 100vw, 2800px" alt="App Screenshots"/> 
+            <img src="images/dashboard.png" sizes="(max-width: 2800px) 100vw, 2800px" alt="App Screenshots"/> 
          </div>
 
     </section>
@@ -155,38 +134,34 @@ const settings = {
 
         <div class="row process block-1-4 block-m-1-2 block-tab-full">
             <div class="col-block item-process aos-init aos-animate wow fadeInUp" data-aos="fade-up">
-                <div class="item-process__text">
+                <div class="item-process__text about_align">
                     <h3>Sign Up</h3>
                     <p>
-                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo non quis magni recusandae. 
-                    Numquam debitis pariatur omnis facere unde. 
+                    By clicking on Sign up, you agree to MindSending's Terms and Conditions of Use. To learn more about how MindSending collects, uses, shares and protects your personal.
                     </p>
                 </div>
             </div>
             <div class="col-block item-process aos-init aos-animate wow fadeInUp" data-aos="fade-up">
-                <div class="item-process__text">
+                <div class="item-process__text about_align">
                     <h3>Create</h3>
                     <p>
-                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo non quis magni recusandae. 
-                    Numquam debitis pariatur omnis facere unde. 
+                    To create a regular email campaign, follow these steps. Navigate to the Campaigns page. Click Create Campaign. Click Email. On the Regular tab, enter a campaign name and click Begin.
                     </p>
                 </div>
             </div>
             <div class="col-block item-process aos-init aos-animate wow fadeInUp" data-aos="fade-up">
-                <div class="item-process__text">
+                <div class="item-process__text about_align">
                     <h3>Compose</h3>
                     <p>
-                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo non quis magni recusandae. 
-                    Numquam debitis pariatur omnis facere unde. 
+                    Whether you're an expert or a novice in email marketing, MindSending gives you tools to easily design beautiful campaigns. Choose one of our template options to sell products, promote your brand, or boost audience engagement.
                     </p>
                 </div>
             </div>
             <div class="col-block item-process aos-init aos-animate wow fadeInUp" data-aos="fade-up">
-                <div class="item-process__text">
+                <div class="item-process__text about_align">
                     <h3>Send</h3>
                     <p>
-                    Quos dolores saepe mollitia deserunt accusamus autem reprehenderit. Voluptas facere animi explicabo non quis magni recusandae. 
-                    Numquam debitis pariatur omnis facere unde. 
+                    There are four main things to do before you can send. Add your recipients in the To section. Add your from name and from email address in the From section. Add your subject line in the Subject section. Design your email in the Content section.
                     </p>
                 </div>
             </div>
