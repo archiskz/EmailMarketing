@@ -21,7 +21,8 @@ class OneTemplate extends Component {
       copyTemplateVisible: false,
       newTemplate:{
         name: ""
-      }
+      },
+      existedTemplate: false
       
     };
     this.openModal = this.openModal.bind(this);
@@ -63,6 +64,13 @@ class OneTemplate extends Component {
   openCopyModal=()=>{
     this.setState({copyTemplateVisible: true})
   }
+  handleChangeTemplateName=(event)=>{
+    this.setState({
+      newTemplate:{
+        name: event.target.value
+      }
+    })
+  }
   render(){
     var image = this.props.image
      return (
@@ -103,7 +111,7 @@ class OneTemplate extends Component {
                     <i className="sg-icon sg-icon-csv"></i>
                     <span>Create Campaign</span>
                   </Link> */}
-                  <Link onClick={()=> this.onDuplicate(this.props.id)} data-role="dropdown-link" className="dropdown-link dropdown-link-with-icon" >
+                  <Link onClick={()=> this.openCopyModal()} data-role="dropdown-link" className="dropdown-link dropdown-link-with-icon" >
                     <i className="sg-icon sg-icon-contacts-alt"></i>
                     <span>Duplicate</span>
                   </Link>
@@ -111,10 +119,7 @@ class OneTemplate extends Component {
                     <i className="sg-icon sg-icon-contacts-alt"></i>
                     <span>Edit</span>
                   </a>
-                  <a onClick={()=> this.openCopyModal()} data-role="dropdown-link" className={`dropdown-link dropdown-link-with-icon `} >
-                    <i className="sg-icon sg-icon-contacts-alt"></i>
-                    <span>Copy</span>
-                  </a>
+                  
                 </ul>
               </div>
               <a>
@@ -153,26 +158,26 @@ class OneTemplate extends Component {
         </div>
  
                 </Modal>
-                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.copyTemplateVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.copyTemplateVisible} width="410" height="280" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                 <form class="contact1-form validate-form">
 				<span class="contact1-form-title">
 					Copy Template
 				</span>
 
                         <div className="wrap-input1 validate-input">
-                            <input value={this.state.newTemplate.name} onChange={this.handleChange1} className="name input1"
+                            <input value={this.state.newTemplate.name} onChange={this.handleChangeTemplateName} className="name input1"
                                    type="text" name="name" placeholder="Template Name"/>
                             
                         </div>
                         <div style={{"width":"100%","textAlign":"center"}}>
                         <p style={{"color":"red","textAlign":"center"}} class="">
-                        {/* {this.state.existedGroup} */}
+                        {this.state.existedTemplate == true ? 'Template name is existed' : ''}
                         </p>
                         </div>
                         
                         <div class="modal-footer">
                     <button type="button" onClick={()=>this.closeModal()} class="btn btn-info">Cancel</button>
-                    <button type="button" onClick={() => this.saveCopyTemplate()}  className={`btn btn-danger ${this.state.newTemplate.name ? "" : "disabled"}`} >Save</button>
+                    <button type="button" onClick={() => this.onDuplicate(this.props.id)}  className={`btn btn-danger ${this.state.newTemplate.name ? "" : "disabled"}`} >Save</button>
                     
                   </div>
                     </form>
@@ -187,13 +192,30 @@ class OneTemplate extends Component {
   }
   onDuplicate = (id)=>{
     // console.log(`${Config.API_URL}template/copy/${id}`);
-    axios.post(`${Config.API_URL}template/copy/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    axios.post(`${Config.API_URL}template/copy/${id}?name=${this.state.newTemplate.name}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
-     this.props.update()
+      console.log(response.data)
+      if(response.data == "Fail"){
+        this.setState({
+          existedTemplate: true
+        })
+      } else {
+        this.setState({
+          existedTemplate: true
+        },()=>{
+          this.props.update()
+        this.closeModal()
+        
+        })
+        
+      }
+     
     })
     .catch(error => {
       console.log(error);
       this.props.update()
+      this.closeModal()
+      this.props.notify()
     });
   }
 
