@@ -283,9 +283,11 @@ public class CampaignServiceImpl implements CampaignService {
         if (campaignEdit.getStatus() == "Done") {
             return false;
         }
-        campaignGroupContactRepository.deleteCampaignFromCampaginGroup(id);
+//        campaignSubcriberRepository.clearCampaignSubcriber(id);
+        List<CampaignSubcriber> subcribers = campaignSubcriberRepository.findCampaignSubcriberByCampaignId(id);
+        campaignSubcriberRepository.deleteInBatch(subcribers);
+        campaignSubcriberRepository.flush();
         Account account = accountRepository.findAccountById(1);
-        campaignSubcriberRepository.clearCampaignSubcriber(id);
         campaignGroupContactRepository.deleteCampaignFromCampaginGroup(id);
         campaignEdit.setAccount_id(account.getId());
         campaignEdit.setName(campaignDTO.getCampaignName());
