@@ -83,7 +83,7 @@ addActiveClass = (index) => {
              <li id="menu-academico" className={this.state.activeClasses2? "opend" : "closed"}>
                 <a onClick={() => this.addActiveClass(2)}>
                     <i className="fa fa-bullhorn" />
-                    <span style={{position: 'relative'}}>Campaigns</span>
+                    <span style={{position: 'relative'}}>Campaign</span>
                     <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
                     <div className="clearfix" />
                 </a>
@@ -95,7 +95,7 @@ addActiveClass = (index) => {
               
                 <Link to="/dashboard/automations">
                     <i className="fa " /> 
-                    <span style={{position: 'relative'}}>Automation Campaigns</span>
+                    <span style={{position: 'relative'}}>Workflow</span>
                     <div className="clearfix" />
                 </Link>
                
@@ -150,7 +150,7 @@ addActiveClass = (index) => {
             <li className={this.state.activeClasses1? "opend" : "closed"}>
                 <Link to="/dashboard/templates">
                     <i className="fa fa-image" aria-hidden="true" />
-                    <span style={{position: 'relative'}}>Templates</span>
+                    <span style={{position: 'relative'}}>Template</span>
                     
                     <div className="clearfix" />
                 </Link>

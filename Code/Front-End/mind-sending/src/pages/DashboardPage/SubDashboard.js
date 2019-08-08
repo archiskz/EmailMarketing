@@ -68,6 +68,8 @@ componentDidMount(){
       var latestContacts = this.state.latestContact
       var latestGroups = this.state.latestGroup
       var latestCampaign = this.state.latestCampaign
+      var latestRequest = new Intl.NumberFormat();
+      var num = latestRequest.format(this.state.latestCampaign.request); 
         return (
             <div className = "" >
    <div className="flash_notice">
@@ -89,7 +91,7 @@ componentDidMount(){
                 
                   <li className="sub_dashboard_request sub_dashboard_request" role="requests">
                   <h2>REQUESTS</h2>
-                  <div className="primary">{latestCampaign.request}</div>
+                  <div className="primary">{num}</div>
                   </li>
                   <li className="sub_dashboard_delivered deliver" role="delivered">
                   <h2>DELIVERED</h2>

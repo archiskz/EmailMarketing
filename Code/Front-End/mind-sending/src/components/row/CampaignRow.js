@@ -70,6 +70,7 @@ class ListRow extends Component {
     </td>
     <td class="md_tablet6_tbody_td">
     <i 
+    style={{"pointer":"cursor", marginRight: "10px"}}
     //  onClick={() => this.sendCampaign()} 
        onClick={()=>this.openModal()}
       class={`fas fa-paper-plane ${this.props.status == "Sending" || this.props.status == "Done" ? "activeText" : ''}`}></i>
@@ -153,7 +154,8 @@ class ListRow extends Component {
             pathname:`/campaigns/detail/:${id}`,
             state : {
               id: id,
-              bodyJson: this.props.bodyJson
+              bodyJson: this.props.bodyJson,
+              status: this.props.status
             }
         });
         }

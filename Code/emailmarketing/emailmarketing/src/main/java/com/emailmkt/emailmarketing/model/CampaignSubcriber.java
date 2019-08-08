@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "campaign_has_subcriber"
+@Table(name = "campaign_has_subcriber",uniqueConstraints={@UniqueConstraint(columnNames = { "campaign_id","subcriber_email"})}
 
 )
 @Indexed
