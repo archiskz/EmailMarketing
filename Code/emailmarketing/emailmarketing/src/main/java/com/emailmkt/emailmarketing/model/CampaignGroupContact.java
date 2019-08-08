@@ -35,12 +35,12 @@ public class CampaignGroupContact implements Serializable {
     private String updatedTime;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campaign_id")
     private Campaign campaign;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_contact_id" )
     private GroupContact groupContact;
 
