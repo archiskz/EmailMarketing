@@ -70,7 +70,10 @@ public class AppointmentSubcriber implements Serializable {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "appointment_id",referencedColumnName = "appointment_id")
+    @JoinColumns({@JoinColumn(name = "appointment_id",referencedColumnName = "appointment_id"),
+            @JoinColumn(name = "group_contact_id",referencedColumnName = "group_contact_id")
+    })
+
     private AppointmentGroupContact appointmentGroupContact;
 
 

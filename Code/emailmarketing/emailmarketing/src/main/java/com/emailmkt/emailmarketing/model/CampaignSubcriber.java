@@ -69,7 +69,9 @@ public class CampaignSubcriber implements Serializable {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "campaign_id",referencedColumnName = "campaign_id")
+    @JoinColumns({@JoinColumn(name = "campaign_id",referencedColumnName = "campaign_id"),
+            @JoinColumn(name = "group_contact_id",referencedColumnName = "group_contact_id")
+    })
     private CampaignGroupContact campaignGroupContact;
 
 

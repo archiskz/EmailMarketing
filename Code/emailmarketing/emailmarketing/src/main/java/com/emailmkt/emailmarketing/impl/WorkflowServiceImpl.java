@@ -16,7 +16,6 @@ import org.camunda.bpm.model.bpmn.instance.Process;
 import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -305,7 +304,7 @@ public class WorkflowServiceImpl implements WorkflowService {
         return subcriberIncoming;
     }
 
-    @Scheduled(fixedRate = 10000)
+//    @Scheduled(fixedRate = 10000)
     @Override
     public void runWorkflow() {
         System.out.println("RUN WORK FLOW");
