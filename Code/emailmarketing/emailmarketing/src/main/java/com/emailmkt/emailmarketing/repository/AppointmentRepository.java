@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -19,6 +20,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Integer
         @Query("SELECT ap FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId AND ap.subcriberEmail= :subcriberEmail")
         AppointmentSubcriber findMailByAppointmentId(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);
 
+
+        List<Appointment> findAllByAutomationIsFalse();
 
         Appointment findAppointmentByName(String name);
 
