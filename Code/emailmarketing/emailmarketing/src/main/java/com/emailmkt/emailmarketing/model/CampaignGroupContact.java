@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class CampaignGroupContact implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campaign_id")
     private Campaign campaign;
+
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -410,7 +411,7 @@ public class CampaignServiceImpl implements CampaignService {
         return campaign.getId();
     }
 
-//    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 5000)
     @Override
     public void getStatisticCampaign() {
         ExecutorService executor = Executors.newFixedThreadPool(30);

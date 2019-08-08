@@ -109,7 +109,6 @@ class CampaignInformation extends Component{
      }
 
    loadTemplate = () => { 
-     console.log(this.props.history.location.state.bodyJson)
      if (!this.isEditorLoaded || !this.isComponentMounted) 
      return; 
      if(this.state.updateCampaign.mailObjectDTO.bodyJson != ""){
@@ -294,10 +293,10 @@ class CampaignInformation extends Component{
         		<h4 className="user_profile5_h4">Campaign Name:</h4>
         		<div className="user_profile5_p"> 
             <a style={{"backgroundColor":"transparent","color":"white","float":"left","marginTop":"10px"}} class="fas fa-edit margin_td_fontawsome"  title="Edit"> </a>
-            <input style={{"backgroundColor":"transparent","color":"white","width":"auto","float":"left","border-bottom":"none"}} 
+            <input  style={{"backgroundColor":"transparent","color":"white","width":"auto","float":"left","border-bottom":"none"}} 
             placeholder="Campaign Name" name="campaignName" aria-invalid="false" onChange={this.handleChange} 
             className="user_profile_w3_input" 
-            disabled={this.state.updateCampaign.campaignDTO.status == "Sending" ? true : false}
+            disabled={this.state.updateCampaign.campaignDTO.status == "Sending" || this.state.updateCampaign.campaignDTO.status == "Done"  ? true : false}
              id="company-disabled" type="text" 
             value={this.state.updateCampaign.campaignDTO.campaignName} />
             </div>
@@ -312,7 +311,7 @@ class CampaignInformation extends Component{
                         <MultiSelectComponent ref={(scope) => { this.mulObj = scope; }}  
                           style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important"}} 
                           id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
-                          enabled={this.state.updateCampaign.campaignDTO.status == "Sending" ? false : true}
+                          enabled={this.state.updateCampaign.campaignDTO.status == "Sending" || this.state.updateCampaign.campaignDTO.status == "Done" ? false : true}
                           value={this.state.selectedGrup}
                           change={this.onChangeListsSelect}
                           placeholder="Lists"/>
@@ -344,7 +343,7 @@ class CampaignInformation extends Component{
         						{/* <label className="user_profile_w3_label" >Sender Name </label> */}
         						<div className="user_profile7_sub2">
         						<input placeholder="Sender Name" name="from" aria-invalid="false" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled={this.state.updateCampaign.campaignDTO.status == "Sending" ? true : false} id="company-disabled" type="text" value={this.state.updateCampaign.mailObjectDTO.from} />
+                     disabled={this.state.updateCampaign.campaignDTO.status == "Sending" || this.state.updateCampaign.campaignDTO.status == "Done" ? true : false} id="company-disabled" type="text" value={this.state.updateCampaign.mailObjectDTO.from} />
         						</div>
         					</div>
         				</div>
@@ -353,7 +352,7 @@ class CampaignInformation extends Component{
         					<div className="user_profile8_sub1">
         						{/* <label className="user_profile_w3_label" data-shrink="false" for="username">Email Address</label> */}
         						
-        						<input aria-invalid="false" disabled={this.state.updateCampaign.campaignDTO.status == "Sending" ? true : false} onChange={this.handleChange} name="fromMail" 
+        						<input aria-invalid="false" disabled={this.state.updateCampaign.campaignDTO.status == "Sending" || this.state.updateCampaign.campaignDTO.status == "Done" ? true : false} onChange={this.handleChange} name="fromMail" 
                     className="user_profile_w3_input2" placeholder="Email Address" id="username" type="text" value={this.state.updateCampaign.mailObjectDTO.fromMail} />
         						
         					</div>
@@ -371,7 +370,7 @@ class CampaignInformation extends Component{
         						{/* <label className="user_profile_w3_label" >Subject </label> */}
         					
         						<input aria-invalid="false" placeholder="Subject" name="subject" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled={this.state.updateCampaign.campaignDTO.status == "Sending" ? true : false} id="company-disabled" type="text" value={this.state.updateCampaign.mailObjectDTO.subject}  />
+                     disabled={this.state.updateCampaign.campaignDTO.status == "Sending" || this.state.updateCampaign.campaignDTO.status == "Done" ? true : false} id="company-disabled" type="text" value={this.state.updateCampaign.mailObjectDTO.subject}  />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
                    
         					</div>
@@ -485,16 +484,16 @@ class CampaignInformation extends Component{
 
 <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
         <nav class="toolbar-css__nav___27cII">
-            <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
+            <span style={{cursor: "default"}} data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
                 </span>
-                <strong class="navToggleButton-css__toggle-name___3Y4ez">Create Campaign</strong>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">{this.state.updateCampaign.campaignDTO.status == "Draft" ? 'Edit Content' : 'Preview Content'}</strong>
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
     </span>
     <span class="toolbar-css__send-container___AbB6n">
-        <a onClick={()=>this.saveContent()} icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+        <a style={{marginRight: "20px"}}  onClick={()=>this.saveContent()} icon="airplane-fill" data-role="send-or-schedule-btn" class={`btn btn-primary btn-on-dark  btn-with-icon btn-with-icon ${this.state.updateCampaign.campaignDTO.status == "Draft" ?'':'activeText'}`}>
             <i class="sg-icon sg-icon-airplane-fill">
 
             </i>Save Content Mail
@@ -528,6 +527,10 @@ class CampaignInformation extends Component{
               background-color: white !important;
             }
             `,
+            `${this.props.history.location.state.status == "Draft"  ? '.blockbuilder-preferences { display: inline-block;} ': '.blockbuilder-preferences { display: none ;visibility: hidden } .blockbuilder-preview {width: 100% }'}`,
+            
+            // `${this.state.updateCampaign.campaignDTO.status == "Draft" ? '.blockbuilder-preferences { display: block ; }': '.blockbuilder-preferences { display: inline-block;}'}`,
+            
             `#u_row_11 {
               display: none;
               visibility: hidden
@@ -570,7 +573,9 @@ class CampaignInformation extends Component{
             body: html
           }
         }
-      },()=>this.closeModal())
+      },()=>{this.closeModal()
+      console.log(this.state.updateCampaign)
+      })
     })
   
     
