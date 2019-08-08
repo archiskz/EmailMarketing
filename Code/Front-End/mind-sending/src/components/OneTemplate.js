@@ -17,7 +17,11 @@ class OneTemplate extends Component {
       visible: true,
       dropdown_visible: false,
       modalIsOpen: false,
-      auth_token:""
+      auth_token:"",
+      copyTemplateVisible: false,
+      newTemplate:{
+        name: ""
+      }
       
     };
     this.openModal = this.openModal.bind(this);
@@ -49,10 +53,15 @@ class OneTemplate extends Component {
   }
 
   closeModal=()=> {
-    this.setState({modalIsOpen: false},()=>console.log(this.state.modalIsOpen));
+    this.setState({modalIsOpen: false,
+      copyTemplateVisible: false
+    },()=>console.log(this.state.modalIsOpen));
   }
   onSelectTemplate = ()=>{
       console.log("Hello true")
+  }
+  openCopyModal=()=>{
+    this.setState({copyTemplateVisible: true})
   }
   render(){
     var image = this.props.image
@@ -102,6 +111,10 @@ class OneTemplate extends Component {
                     <i className="sg-icon sg-icon-contacts-alt"></i>
                     <span>Edit</span>
                   </a>
+                  <a onClick={()=> this.openCopyModal()} data-role="dropdown-link" className={`dropdown-link dropdown-link-with-icon `} >
+                    <i className="sg-icon sg-icon-contacts-alt"></i>
+                    <span>Copy</span>
+                  </a>
                 </ul>
               </div>
               <a>
@@ -140,7 +153,30 @@ class OneTemplate extends Component {
         </div>
  
                 </Modal>
- 
+                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.copyTemplateVisible} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <form class="contact1-form validate-form">
+				<span class="contact1-form-title">
+					Copy Template
+				</span>
+
+                        <div className="wrap-input1 validate-input">
+                            <input value={this.state.newTemplate.name} onChange={this.handleChange1} className="name input1"
+                                   type="text" name="name" placeholder="Template Name"/>
+                            
+                        </div>
+                        <div style={{"width":"100%","textAlign":"center"}}>
+                        <p style={{"color":"red","textAlign":"center"}} class="">
+                        {/* {this.state.existedGroup} */}
+                        </p>
+                        </div>
+                        
+                        <div class="modal-footer">
+                    <button type="button" onClick={()=>this.closeModal()} class="btn btn-info">Cancel</button>
+                    <button type="button" onClick={() => this.saveCopyTemplate()}  className={`btn btn-danger ${this.state.newTemplate.name ? "" : "disabled"}`} >Save</button>
+                    
+                  </div>
+                    </form>
+                </Modal>
           </div>
                                     
         </div>
