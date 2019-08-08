@@ -70,6 +70,19 @@ class Templates extends Component {
       dismissable: { click: true }
     });
   }
+  addNotificationa=()=>{
+    this.notificationDOMRef.current.addNotification({
+      title: `Copy Template`,
+      message: `Copy Template Success!`,
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
+  }
 	
    getAllTemplates=()=>{
      this.setState({templateType:0})
@@ -167,6 +180,7 @@ class Templates extends Component {
                     imagePreview={list.preview}
                     preview={true}
                     type={list.type}
+                    notify={this.addNotificationa}
                      />
           ))}     
       
