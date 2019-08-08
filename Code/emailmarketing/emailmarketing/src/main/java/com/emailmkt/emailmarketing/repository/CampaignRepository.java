@@ -13,7 +13,6 @@ public interface CampaignRepository extends JpaRepository<Campaign,Integer> {
         Campaign findCampaignById(int id);
         List<Campaign> findAllByAutomationIsFalse();
 
-
         Campaign findTopByOrderByCreatedTimeDesc();
 
         List<Campaign> findTop5ByOrderByCreatedTimeDesc();

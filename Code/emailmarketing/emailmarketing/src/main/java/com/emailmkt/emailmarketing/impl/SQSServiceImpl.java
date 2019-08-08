@@ -35,7 +35,6 @@ public class SQSServiceImpl implements SQSService {
     private static final String CREATE_MESSAGE_ENDPOINT_URL = "http://localhost:8080/api/messages";
 
 
-
     @Autowired
     CampaignSubcriberRepository campaignSubcriberRepository;
 
