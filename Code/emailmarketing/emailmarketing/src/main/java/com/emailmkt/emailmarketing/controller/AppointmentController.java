@@ -93,7 +93,7 @@ public class AppointmentController {
 
     @GetMapping("/appointments")
     Iterable<Appointment> getAll() {
-        return appointmentRepository.findAll();
+        return appointmentRepository.findAllByAutomationIsFalse();
     }
     @GetMapping("appointment/{id}")
     public Appointment getAppointmentById(@PathVariable(value = "id") int id) {

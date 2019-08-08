@@ -16,11 +16,10 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "appointment_has_group_contact",uniqueConstraints= {
-        @UniqueConstraint(columnNames = {"group_contact_id", "appointment_id"})
-}
+@Table(name = "appointment_has_group_contact")
 
-)
+
+
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
 public class AppointmentGroupContact  implements Serializable {
     @Id
@@ -37,12 +36,12 @@ public class AppointmentGroupContact  implements Serializable {
     private String updatedTime;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_contact_id" )
     private GroupContact groupContact;
 

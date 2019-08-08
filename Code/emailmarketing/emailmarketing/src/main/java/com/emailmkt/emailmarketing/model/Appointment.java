@@ -77,6 +77,12 @@ public class Appointment implements Serializable {
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;
 
+    @Column(name = "click")
+    private String clickRate;
+
+    @Column(name = "open")
+    private String openRate;
+
 
 
 
