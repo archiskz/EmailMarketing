@@ -558,3 +558,23 @@
   background-color: #f2f2f2;
   padding: 20px;
 }
+.margin_add_contact_file_exclamation{
+    margin-left: 75px;
+    margin-top: 37px;
+}
+.padding_add_contact_file_exclamation{
+        padding-left: 15px !important;
+}
+.add_contact_file_exclamation{
+    color: red;
+}
+.col-sm-6-file{
+        position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 1px !important;
+    margin-left: -20px;
+}
+.col-sm-6-file2{
+    margin-left: -30px !important;
+}

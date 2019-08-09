@@ -7,8 +7,8 @@ import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
 import { withRouter } from "react-router";
- 
-
+import ToolTip from 'react-portal-tooltip'
+import imgAvatar from './../../../access/img/CSV.jpg'
 
 class AddContactsFile extends Component {
   
@@ -39,6 +39,7 @@ class AddContactsFile extends Component {
       choose:0,
       group:[],
       list: false,
+      isTooltipActive: false,
       noneList: true
     };
     this.fields = { text: 'name', value: 'id' };
@@ -47,6 +48,12 @@ class AddContactsFile extends Component {
     this.handleData = this.handleData.bind(this)
     this.onChangeListsSelect = this.onChangeListsSelect.bind(this)
   }
+  showTooltip() {
+        this.setState({isTooltipActive: true})
+    }
+    hideTooltip() {
+        this.setState({isTooltipActive: false})
+    }
   addNotification() {
     this.notificationDOMRef.current.addNotification({
       title: "Awesomeness",
@@ -134,6 +141,7 @@ class AddContactsFile extends Component {
         </div>
         <div className="container" data-role="main-app-container">
           <div>
+
           <article>
          
         <header className="row">
@@ -152,8 +160,9 @@ class AddContactsFile extends Component {
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Save Contact
                                 </a>
-                            
+
                         </div>
+
                     </header>
 
             <div className="md_tablet1">
@@ -175,11 +184,11 @@ class AddContactsFile extends Component {
                             render={onChange => <input type="file" className={`form-control-file ${this.state.choose==0? '' : 'activeText'}`} onChange={onChange} />}
                           />                 
                     </div> */}
-                    <div class="col-sm-6" >
+                    <div class="col-sm-6-file" >
                     <label className="container-cb">Add contacts and include in an existing group
                     <input onChange={this.handleCheck} checked={this.state.list} value="1" type="checkbox" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
                         
-                        <div className={`col-sm-8`}>
+                        <div className={`col-sm-8`} style={{"padding-left": "1px!important"}}>
                         
                         <div className={`${this.state.list==true? '' : 'activeText'}`}>
                         <h5>Choose Group</h5>
@@ -191,18 +200,31 @@ class AddContactsFile extends Component {
                               change={this.onChangeListsSelect}
                               placeholder="Choose Group"/>
                         </div>
-                        
+                              <div className="col-md-6 col-sm-6-file2">
+                              
                               <CsvParse
                             keys={keys}
                             onDataUploaded={this.handleData}
                             onError={this.handleError}
                             render={onChange => <input type="file" className={`form-control-file mt30 `} onChange={onChange} />}
-                          /> 
+                          />
+                           
+                           </div>
+                           <div className="col-md-6">
+                           <a className="fas fa-exclamation-circle margin_add_contact_file_exclamation" id="text" onMouseEnter={this.showTooltip.bind(this)} onMouseLeave={this.hideTooltip.bind(this)}></a>
+                            <ToolTip active={this.state.isTooltipActive} position="right" arrow="top" parent="#text">
+                                <div>
+                                    <p className="add_contact_file_exclamation">PLEASE UPLOAD YOUR CSV FILE WITH THE ACCURACY ORDER OF THE FOLLOWING FIELDS  </p>
+                                    <p>*Duplicate emails will not be added! </p>
+                                    <img src={imgAvatar} alt="..." />
+                                </div>
+                            </ToolTip>
+                            </div>
                         </div>
                         <br/>
                         
                     </div>
-                            </div>
+                  </div>
                     
               </div>
             </div>
