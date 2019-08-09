@@ -247,10 +247,11 @@ class AppointmentInfo extends Component{
         </a>
     </span> */}
 </div>
-      <div className="new-campaign-container lefts" style={{"height":`calc(${this.state.height}px)`}} >
-    <img src={imm_bg}></img>
-      </div>
-      <div className="user_profile3 right" ref="height">
+      {/* <div className="new-campaign-container lefts" style={{"height":`calc(${this.state.height}px)`}} > */}
+        {/* </div> */}
+        <div className="user_profile">
+      <div className="user_profile2">
+      <div className="user_profile3" ref="height">
         	<div className="user_profile4" >
           <div className="user_profile5">
         		<h4 className="user_profile5_h4">Appointment Name:</h4>
@@ -423,7 +424,83 @@ class AppointmentInfo extends Component{
         	</div>
         	
         </div>
-        
+        <div className="user_profile12">
+        <div className="user_profile5_1">
+            <h4 className="user_profile5_h4">Appointment detail</h4>
+            <p className="user_profile5_p">Check your Appointment's summarize below here: </p>
+            </div>
+        <div className="user_profile13">
+             <div className="user_section user_line"> 
+              <div className="user_line"> 
+              <div className="contact_information_detail">
+                <h4 >
+                {this.state.delivery}
+                    </h4>
+                <p >Delivery mail</p>
+              </div>
+              <div className="contact_information_detail">
+                <h4 >
+                        {this.state.request}
+                    </h4>
+                <p >Request</p>
+              </div>
+              </div>
+             </div>
+             <div className="user_section user_line"> 
+              <div className="user_line"> 
+              <div className="contact_information_detail">
+                <h4 >
+                {this.state.bounce}
+                    </h4>
+                <p >Bounce rate</p>
+              </div>
+              <div className="contact_information_detail">
+                <h4 >
+                {this.state.open}
+                    </h4>
+                <p >Open rate</p>
+              </div>
+              </div>
+              </div>
+              <div className="user_section user_line"> 
+              <div className="user_line"> 
+              <div className="contact_information_detail">
+                <h4 >
+                {this.state.click}
+                    </h4>
+                <p >Click rate</p>
+              </div>
+              
+
+              <div className="contact_information_detail">
+                <h4 >
+                {this.state.spam}
+                    </h4>
+                <p >Spam rate</p>
+              </div>
+              </div>
+              </div>
+              {/* <div className="user_section user_line"> 
+              <div className="user_line"> 
+              <div className="contact_information_detail">
+                <h4 >
+                        0%
+                    </h4>
+                <p >Delivery rate</p>
+              </div>
+              <div className="contact_information_detail">
+                <h4 >
+                        0%
+                    </h4>
+                <p >Sent rate</p>
+              </div>
+              </div>
+              
+             </div>    */}
+            </div>
+            </div>
+   </div>
+   </div>
       </div>
 
       );

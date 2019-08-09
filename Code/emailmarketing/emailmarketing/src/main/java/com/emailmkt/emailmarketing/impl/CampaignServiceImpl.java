@@ -463,7 +463,7 @@ public class CampaignServiceImpl implements CampaignService {
         CampaignFullDTO campaignFullDTO = new CampaignFullDTO();
         campaignFullDTO.setCampaignName(campaign.getName());
         campaignFullDTO.setRequest(campaign.getRequest());
-//        campaignFullDTO.setCreatedTime(campaign.getCreatedTime());
+        campaignFullDTO.setCreatedTime(campaign.getCreatedTime());
         campaignFullDTO.setOpen(campaign.getOpenRate());
         campaignFullDTO.setBounce(campaign.getBounce());
         campaignFullDTO.setDelivery(campaign.getDelivery());

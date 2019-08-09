@@ -24,6 +24,7 @@ class ListRow extends Component {
          auth_token:"",
          isModalVisible:false,
          isLoading: false,
+         isSend:false
         };
         this.handleChange3 = this.handleChange3.bind(this);
         this.handleChange2 = this.handleChange2.bind(this);
@@ -54,7 +55,7 @@ class ListRow extends Component {
       render(){
           return( 
 <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
-<td class="md_tablet6_tbody_td"><a>{this.props.status}</a></td>
+<td class="md_tablet6_tbody_td"><a>{this.props.status == "Draft" && this.state.isSend? "Sending" : this.props.status}</a></td>
     <td class="md_tablet6_tbody_td">
     <a onClick={()=> this.toCampaignDetail(this.props.id)}> {this.props.campaignName} </a>
     </td>
@@ -85,7 +86,8 @@ class ListRow extends Component {
              </div>
                        <div class="modal-body">
                          <p className={`${!this.state.isLoading ? "" : "activeText"}`}>Do you want to start your campaign</p>
-                         <p className={`${this.state.isLoading ? "" : "activeText"}`}>Sending Please Wait</p><img className={`${this.state.isLoading ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." />
+                         <p className={`${this.state.isLoading ? "" : "activeText"}`}>Your Campaign is ready for sending 
+                         Please Wait</p><img className={`${this.state.isLoading ? "" : "activeText"}`} style={{"marginLeft":"15px"}} src={imgLoad} alt="loading..." />
                        </div>
                        <div class="modal-footer">
                          <button type="button" onClick={()=>this.closeModal()} class="btn btn-info" >Cancel</button>
@@ -105,22 +107,24 @@ class ListRow extends Component {
           );
       }
 
-      sendCampaign(){
+      async sendCampaign(){
         var self = this
-       this.setState({isLoading: true},()=>{
-        axios.post(`${Config.API_URL}campaign/send/?id=${this.props.id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+       this.setState({isLoading: true})
+       this.addNotification()
+       // this.props.updateList();
+       this.setState({isSend: true})
+       this.closeModal()
+      const data = await axios.post(`${Config.API_URL}campaign/send/?id=${this.props.id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {
           console.log(res.data);
           this.addNotification()
           this.props.updateList();
           this.closeModal()
-      
-        
-
         }).catch(error=>{
-          console.log(error.response.data)
+          console.log(error.response)
         }) 
-       })
+       
+       
         
       }
 
