@@ -6,6 +6,7 @@ import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
 import { withRouter } from "react-router";
+
  
 class AddContact extends Component {
   constructor(props) {
@@ -209,8 +210,19 @@ handleCheck=(event)=>{
         </div>
         <div className="container" data-role="main-app-container">
           <div>
-          <article>
+
          
+          <article>
+         {/*<section className="culture-section">
+  <div className="container">
+    <div className="col-md-8 col-md-offset-2">
+      <h2>Slider Popup</h2>
+      <h3>Easily Customized to Meet Your Needs</h3>
+      <p>Create a unique slider embedded in a popup. Include valuable information while perserving space and optimizing your deisgn.</p>
+    </div>
+    <span className="btn_pop_up_add btn-slider">Are You Ready?</span>
+  </div>
+</section>*/}
         <header className="row">
                         <div className="col-md-6">
                             <span>

@@ -31,6 +31,7 @@
     "react-metismenu": "^1.4.0",
     "react-modal": "^3.8.1",
     "react-notifications-component": "^1.1.1",
+    "react-portal-tooltip": "^2.4.7",
     "react-redux": "^7.0.3",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
