@@ -10,7 +10,8 @@ class SubDashboard extends Component {
             visible: true,
             latestContact:[],
             latestGroup:[],
-            latestCampaign:{}
+            latestCampaign:{},
+            contactStatitic:{}
         };
     }
 componentDidMount(){
@@ -21,6 +22,7 @@ componentDidMount(){
       this.getLatestContact()
       this.getLatestCampaign()
       this.getLatestGroup()
+      this.getSubcriberStatitic()
     } )
 }
 
@@ -60,6 +62,17 @@ componentDidMount(){
        console.log(error);
      });
     }
+    getSubcriberStatitic=()=>{
+      axios.get(`${Config.API_URL}subcriber/dashboard`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+      .then(response => {
+        this.setState({
+         contactStatitic: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+     }
 
 
 
@@ -69,6 +82,7 @@ componentDidMount(){
       var latestGroups = this.state.latestGroup
       var latestCampaign = this.state.latestCampaign
       var latestRequest = new Intl.NumberFormat();
+      var contactStatitic = this.state.contactStatitic
       var num = latestRequest.format(this.state.latestCampaign.request); 
         return (
             <div className = "" >
@@ -159,21 +173,21 @@ componentDidMount(){
               <p className="dashboard_bold_text dashboard__btc">Beginner Contacts</p>
               </td>
               
-              <td>9</td>
+              <td>{this.state.contactStatitic.beginerContact}</td>
               </tr>
               <tr>
               <td>
               <p className="dashboard_bold_text dashboard__btc2">Intermediate Contacts</p>
               </td>
              
-              <td>7</td>
+              <td>{this.state.contactStatitic.intermediateContact}</td>
               </tr>
               <tr>
               <td>
               <p className="dashboard_bold_text dashboard__btc3">Advanced Contacts</p>
               </td>
               
-              <td>1</td>
+              <td>{this.state.contactStatitic.advancedContact}</td>
               </tr>
               </tbody>    
               </table>

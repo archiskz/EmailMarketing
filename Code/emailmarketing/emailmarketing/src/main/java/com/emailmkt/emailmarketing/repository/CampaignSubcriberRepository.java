@@ -32,11 +32,17 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
     @Query("SELECT cp.comfirmation FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail")
     Boolean checkConfirmCampaign(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
 
+
+
      @Query("select cp from CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail ")
      CampaignSubcriber  changeConfirmSend(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
 
      @Query("SELECT cp.send FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail")
     public Boolean checkSend(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
+
+    @Query("SELECT cp.opened FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail")
+    public Boolean checkOpen(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
+
 
     @Query("select ap from CampaignSubcriber ap WHERE ap.messageId = :messageId ")
     List<CampaignSubcriber>  findMessageId(@Param("messageId")String messageId);

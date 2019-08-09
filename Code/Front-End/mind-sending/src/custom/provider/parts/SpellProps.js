@@ -10,8 +10,8 @@ export default function(group, element) {
   var selectOptionsApp = JSON.parse(sessionStorage.getItem('appointments'));
   var selectOptionsForm = JSON.parse(sessionStorage.getItem('forms'));
   var selectSequenceFlow = [
-    { value: 'yes', name: 'Yes' },
-    { value: 'no', name: 'No' }
+    { value: 'no', name: 'No' },
+    { value: 'yes', name: 'Yes' }
   ];
   var selectGateway = [
     { value: 'Clicked ?', name: 'Clicked ?' },
@@ -69,14 +69,14 @@ export default function(group, element) {
     }));
   
   }
-  if (is(element, 'bpmn:StartEvent')) {
-    group.entries.push(entryFactory.textField({
-      id : 'spell',
-      description : 'Apply a black magic spell',
-      label : 'Spell',
-      modelProperty : 'name'
-    }));
-  }
+  // if (is(element, 'bpmn:StartEvent')) {
+  //   group.entries.push(entryFactory.textField({
+  //     id : 'spell',
+  //     description : 'Apply a black magic spell',
+  //     label : 'Spell',
+  //     modelProperty : 'name'
+  //   }));
+  // }
   if (is(element, 'bpmn:Gateway')) {
     group.entries.push(entryFactory.selectBox({
       id : 'campaign',

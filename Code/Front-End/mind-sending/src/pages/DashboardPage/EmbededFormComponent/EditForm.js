@@ -57,6 +57,7 @@ class EditForm extends React.Component {
             this.props.history.goBack()
           }
         getFormById=(id)=>{
+            var self = this
             axios.get(`${Config.API_URL}form/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
                 .then(res => {
                 console.log(res.data);
@@ -65,7 +66,10 @@ class EditForm extends React.Component {
                 groups = groupDTO
                 var group = groups[0]
                 var Groupid = group.groupContact.id
-                console.log("GROUP" + id)
+                self.setState({
+                    groupId:Groupid,
+            },()=> console.log(this.state.groupId));
+                console.log("GROUP" + Groupid)
                 this.setState({newForm: {
                     form: res.data.form,
                     name: res.data.name,
@@ -92,11 +96,6 @@ class EditForm extends React.Component {
                 if(formDisplay.includes('birth')){
                     this.setState({birth: true})
                 }
-                
-            
-                this.setState({
-                    groupId:Groupid,
-            },()=> console.log(this.state));
                 // sessionStorage["campaigns"] = JSON.stringify(selectOptions);
                 }).catch(function (error) {
                 console.log(error);
@@ -132,7 +131,8 @@ class EditForm extends React.Component {
         
     render(){
         var lists = this.state.lists;
-       
+       var groupId = this.state.groupId
+       console.log(groupId)
         
         
         /* Simply pass myCustoms to */
@@ -278,7 +278,8 @@ class EditForm extends React.Component {
                           id="defaultelement"  mode="Default"  
                           dataSource={lists} mode="Default" fields={this.fields}  
                           change={this.onChangeListsSelect}
-                          value={this.state.groupId}
+                          value={groupId.toString()}
+                        //   value={10}
                           placeholder="Choose Group"/>  
                                </div>
                          

@@ -150,7 +150,23 @@ public class AppointmentServiceImpl implements AppointmentService {
                         newString += "http://localhost:8080/api/accept-appointment?confirmationToken=" + appointment.getToken() + "&subcriberEmail=" + mailLists.get(counter);
                     }
                 }
-
+                try{
+                    newString= newString.replace("{{email}}",mailLists.get(counter));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    Subcriber personalization = subcriberRepository.findSubcriberByEmail(mailLists.get(counter));
+                    newString= newString.replace("{{last_name}}",personalization.getLastName());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    Subcriber personalization = subcriberRepository.findSubcriberByEmail(mailLists.get(counter));
+                    newString = newString.replace("{{first_name}}",personalization.getFirstName());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 mailService.sendAppointment(appointment.getSender(),
                         appointment.getFromMail(),
                         mailLists.get(counter), appointment.getSubject(),
