@@ -13,7 +13,7 @@ class AccountDropdown extends Component {
 	}
 
 	componentDidMount(){
-		const appState = JSON.parse(localStorage.getItem('appState'));
+		const appState = JSON.parse(sessionStorage.getItem('appState'));
 		if(appState != null){
 			var username = appState.user.username
 			this.setState({username: username})
@@ -54,7 +54,7 @@ componentWillUnmount(){
 
   onLogOut=()=>{
 	  console.log("Log out")
-	localStorage.clear();
+	sessionStorage.clear();
 	window.location.reload();
   }
 

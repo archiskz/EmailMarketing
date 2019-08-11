@@ -265,12 +265,16 @@ class CampaignInformation extends Component{
                 </a> */}
                 <CampaignPopUp />
                 </strong>
+               
                 <strong class={`navToggleButton-css__toggle-name___3Y4ez ${this.state.updateCampaign.campaignDTO.status === "Draft"  ? "" : "activeText"}`}>
                 Edit Campaign
                 </strong>
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
+        
+    </span>
+        <span style={{marginRight: "20px"}} class="toolbar-css__save-container___2x7qH">
         <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class={`btn btn-primary btn-on-dark  btn-with-icon btn-with-icon ${this.state.updateCampaign.campaignDTO.status == "Draft" ? '' : 'activeText'}`}>
             <i class="sg-icon sg-icon-save-draft">
 
