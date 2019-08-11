@@ -38,7 +38,8 @@ export default function(group, element) {
       id : 'campaign',
       selectOptions: selectOptions,
       label : 'Choose Campaign',
-      modelProperty : 'name'
+      modelProperty : 'name',
+      default: '1'
     }));
   
   }
@@ -79,17 +80,18 @@ export default function(group, element) {
   // }
   if (is(element, 'bpmn:Gateway')) {
     group.entries.push(entryFactory.selectBox({
-      id : 'campaign',
+      id : 'gateway',
       selectOptions: selectGateway,
       label : 'Condition',
       modelProperty : 'name'
     }));
   }
   if (is(element, 'bpmn:Gateway')) {
-    group.entries.push(entryFactory.textField({
+    group.entries.push(entryFactory.selectBox({
       id: 'class-task',
       label: 'After',
-      modelProperty: 'targetRef',
+      modelProperty: 'name',
+      
   }));
   }
 }

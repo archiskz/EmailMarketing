@@ -13,6 +13,7 @@ import { select } from '@syncfusion/ej2-base';
 import { withRouter } from "react-router";
 import Modal from 'react-awesome-modal';
 import DatePicker from 'react-datepicker';
+import ValidateField from '../../../components/inputValidate/ValidateField';
 import "react-datepicker/dist/react-datepicker.css";
 import OneTemplate from './../../../components/OneTemplate';
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
@@ -21,6 +22,8 @@ class CreateCampaign extends Component{
      super(props);
 
      this.state = {
+       canPass:false,
+      validates:{},
        isChecked:false,
        using:this.props.history.location.state.using,
        height: 755,
@@ -316,7 +319,8 @@ class CreateCampaign extends Component{
         				<div className="user_profile9_sub">
         					<div className="user_profile7_sub1">
                       <div className="control-styles">
-                      <DateTimePickerComponent value={this.state.newCampaign.campaignDTO.timeStart}  change={this.onChangeDate} min={minDate} id="datetimepicker" placeholder="Select a date and time"/>
+                      <DateTimePickerComponent onBlur={()=>this.Validate('datetime')} value={this.state.newCampaign.campaignDTO.timeStart}  change={this.onChangeDate} min={minDate} id="datetimepicker" placeholder="Select a date and time"/>
+                      <ValidateField isValidate={false} isError = {this.state.validates.datetimeValidate} />
                       </div>
         					</div>
         				</div>
@@ -336,13 +340,14 @@ class CreateCampaign extends Component{
                           id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
                           change={this.onChangeListsSelect}
                           placeholder="Lists"/>
+                          <ValidateField isValidate={false} isError = {this.state.validates.groupValidate} />
                       </div>
         					</div>
         				</div>
         				
         				<div className="user_profile9_sub">
         					<div className="user_profile8_sub1">
-        						<label className="user_profile_w3_label" data-shrink="false" for="username">Segment</label>
+        						{/* <label className="user_profile_w3_label" data-shrink="false" for="username">Segment</label> */}
         						
         						{/* <input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value="thangnguyen15297@gmail.com"/> */}
         					
@@ -360,22 +365,18 @@ class CreateCampaign extends Component{
             <h3>From<h5 style = {{"fontStyle":"italic"}}>Who is sending this campaign?</h5></h3>
         			<div className="user_profile7">
         				<div className="user_profile9_sub">
-        					<div className="user_profile7_sub1">
-        						{/* <label className="user_profile_w3_label" >Sender Name </label> */}
-        						<div className="user_profile7_sub2">
-        						<input placeholder="Sender Name" name="from" aria-invalid="false" onChange={this.handleChange} className="user_profile_w3_input"
-                     disabled="" id="company-disabled" type="text" value={this.state.newCampaign.mailObjectDTO.from} />
-        						</div>
+        					<div className="user_profile8_sub1">
+        						<input onBlur={()=>this.Validate('from')} placeholder="Sender Name" name="from" aria-invalid="false" onChange={this.handleChange} className="user_profile_w3_input"
+                      id="company-disabled" type="text" value={this.state.newCampaign.mailObjectDTO.from} />
+                     <ValidateField isValidate={false} isError = {this.state.validates.fromValidate} />	
         					</div>
         				</div>
         				
         				<div className="user_profile9_sub">
         					<div className="user_profile8_sub1">
-        						{/* <label className="user_profile_w3_label" data-shrink="false" for="username">Email Address</label> */}
-        						
-        						<input aria-invalid="false" onChange={this.handleChange} name="fromMail" 
-                    className="user_profile_w3_input2" placeholder="Email Address" id="username" type="text" value={this.state.newCampaign.mailObjectDTO.fromMail} />
-        						
+        						<input  onBlur={()=>this.Validate('fromMail')} aria-invalid="false" onChange={this.handleChange} name="fromMail" 
+                    className="user_profile_w3_input" placeholder="Email Address" id="username" type="text" value={this.state.newCampaign.mailObjectDTO.fromMail} />
+        						<ValidateField isValidate={false} isError = {this.state.validates.mailValidate} />
         					</div>
         				</div>
         			</div>
@@ -390,9 +391,9 @@ class CreateCampaign extends Component{
         					<div className="user_profile7_sub1" style={{"marginLeft":"15px", "marginRight":"15px"}}>
         						{/* <label className="user_profile_w3_label" >Subject </label> */}
         					
-        						<input aria-invalid="false" placeholder="Subject" name="subject" onChange={this.handleChange} className="user_profile_w3_input"
+        						<input onBlur={()=>this.Validate('subject')} aria-invalid="false" placeholder="Subject" name="subject" onChange={this.handleChange} className="user_profile_w3_input"
                      disabled="" id="company-disabled" type="text" value={this.state.newCampaign.mailObjectDTO.subject}  />
-        						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
+                    <ValidateField isValidate={false} isError = {this.state.validates.subjectValidate} />
                    
         					</div>
         				
@@ -470,7 +471,98 @@ class CreateCampaign extends Component{
 		} });
 		console.log(this.state.newCampaign)
 	 }
-
+   Validate = (name)=>{
+    var validate = {};
+    switch(name){
+      case "datetime":{
+        if(this.state.newCampaign.campaignDTO.timeStart == "" && this.state.isChecked == true ){
+          validate.datetimeValidate = "Enter datetime start your campaign";
+        } 
+        break;
+      }
+      case "group":{
+        console.log('group')
+        if(!Array.isArray(this.state.newCampaign.campaignDTO.gcCampaignDTOS )   ){
+          validate.groupValidate = "Choose List receiver";
+          
+          
+        }else {
+          var array = new Array();
+          array = this.state.newCampaign.campaignDTO.gcCampaignDTOS 
+          if(array.length<=0){
+            validate.groupValidate = "Choose List receiver";
+          }
+        }
+      }
+      case "from":{
+        if(this.state.newCampaign.mailObjectDTO.from == ""){
+          validate.fromValidate = "Enter Sender name";
+        }
+      }
+      case"fromMail":{
+        if(this.state.newCampaign.mailObjectDTO.fromMail == ""){
+          validate.mailValidate = "Enter an Email";
+        } else if(this.state.newCampaign.mailObjectDTO.fromMail != ""){
+         var  emailValid = this.state.newCampaign.mailObjectDTO.fromMail.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+          validate.mailValidate = emailValid ? "" : "Enter an Email";
+        }
+      }
+      case "subject":{
+        if(this.state.newCampaign.mailObjectDTO.subject.length <=2 || this.state.newCampaign.mailObjectDTO.subject.length >= 512){
+          validate.subjectValidate = "This field can not be empty. It must contain between 2 and 512 characters"
+         } 
+      }
+      case "all":{
+        if(this.state.newCampaign.campaignDTO.timeStart == "" && this.state.isChecked == true){
+          validate.datetimeValidate = "Enter datetime start your campaign";
+        } 
+        if(!Array.isArray(this.state.newCampaign.campaignDTO.gcCampaignDTOS )   ){
+          validate.groupValidate = "Choose List receiver";
+        }else {
+          var array = new Array();
+          array = this.state.newCampaign.campaignDTO.gcCampaignDTOS
+          if(array.length<=0){
+            validate.groupValidate = "Choose List receiver";
+          }
+        }
+        
+        if(this.state.newCampaign.mailObjectDTO.from == ""){
+          validate.fromValidate = "Enter Sender name";
+        }
+        if(this.state.newCampaign.mailObjectDTO.fromMail == ""){
+          validate.mailValidate = "Enter an Email";
+        } else if(this.state.newCampaign.mailObjectDTO.fromMail != ""){
+         var  emailValid = this.state.newCampaign.mailObjectDTO.fromMail.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+          validate.mailValidate = emailValid ? "" : "Enter an Email";
+        }
+        if(this.state.newCampaign.mailObjectDTO.subject.length <=2 || this.state.newCampaign.mailObjectDTO.subject.length >= 512){
+          validate.subjectValidate = "This field can not be empty. It must contain between 2 and 512 characters"
+         } 
+         var wrong = 0;
+         Object.keys(validate).forEach(function(key){
+           console.log("key" + validate[key])
+           if(validate[key] != ""){
+             wrong ++;
+           }
+         })
+         console.log(wrong)   
+         if(wrong > 0){
+           this.setState({canPass: false})
+         } else {
+          this.setState({canPass: true})
+         }
+        this.setState({
+          validates: validate
+        })
+        console.log(validate);
+        break;
+      }
+    }
+    
+    this.setState({
+      validates: validate
+    })
+  }
 
 
   openModal() {
