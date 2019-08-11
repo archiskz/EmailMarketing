@@ -41,13 +41,15 @@ class EmbeddedForms extends Component {
     axios.get(`${Config.API_URL}forms`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data);
-      this.setState({forms: res.data});
+      this.setState({forms: res.data,
+    filter: res.data});
     }) 
 
    }
    handleSearch = (event) => {
     var searchValue = event.target.value;
     var groupContactsList = this.state.filter
+    console.log(groupContactsList)
     if(searchValue !== ""){
          groupContactsList = groupContactsList.filter(item => item.name.toLowerCase().includes(searchValue));
          if(groupContactsList.length > 0){
@@ -63,7 +65,7 @@ class EmbeddedForms extends Component {
     } else {
         this.setState({
             forms: this.state.filter,
-         });
+         }, ()=>{console.log(this.state.forms)});
     }
    
 }

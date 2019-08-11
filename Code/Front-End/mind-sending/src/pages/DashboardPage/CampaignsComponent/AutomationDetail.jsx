@@ -31,8 +31,103 @@ class BpmnModelerComponent extends Component {
               wtWorkflowDTOS: "",
               gcWorkflowDTOS: this.props.group
             },
+            workflowDTO:{ 
+              appointment: {
+              account_id: 0,
+              appointmentGroupContacts: [
+                {
+                  appointmentSubcribers: [
+                    {
+                      bounce: true,
+                      confirmation: true,
+                      createdTime: "",
+                      delivery: true,
+                      id: 0,
+                      messageId: "",
+                      opened: true,
+                      send: true,
+                      spam: true,
+                      subcriberEmail: "",
+                    updatedTime: ""
+                    }
+                  ],
+                  createdTime: "",
+                  id: 0,
+                  updatedTime: ""
+                }
+              ],
+              automation: true,
+              body: "",
+              bodyJson: "",
+              clickRate: "",
+              createdTime: "",
+              fromMail: "",
+              id: 0,
+              messageId: "",
+              name: "",
+              openRate: "",
+              sender: "",
+              status: "",
+              subject: "",
+              time: "",
+              token: "",
+              updatedTime: ""
+            },
+            campaign: {
+              account_id: 0,
+              automation: true,
+              bodyJson: "",
+              bounce: "",
+              campaignGroupContacts: [
+                {
+                  campaignSubcribers: [
+                    {
+                      bounce: true,
+                      comfirmation: true,
+                      createdTime: "",
+                      delivery: true,
+                      id: 0,
+                      messageId: "",
+                      opened: true,
+                      send: true,
+                      spam: true,
+                      subcriberEmail: "",
+                      updatedTime: ""
+                    }
+                  ],
+                  createdTime: "",
+                  id: 0,
+                  updatedTime: ""
+                }
+              ],
+              clickRate: "",
+              content: "",
+              createdTime: "",
+              delivery: "",
+              fromMail: "",
+              id: 0,
+              name: "",
+              openRate: "",
+              request: "",
+              sender: "",
+              spamRate: "",
+              status: "",
+              subject: "",
+              timeStart: "",
+              type: "",
+              updatedTime: ""
+            },
+            subcriberInTask: [
+              ""
+            ],
+            subcriersComing: [
+              ""
+            ]},
             auth_token:"",
-            contacts:[]
+            contacts:[],
+            inTask: false,
+            inComing: false,
+            isModalVisible:false
         };
         this.setWrapperRef = this.setWrapperRef.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
@@ -85,17 +180,15 @@ events.forEach(function(event) {
     }
 
     getInfoATask(shapeId){
-      axios.get(`${Config.API_URL}workflow/task?shapeId=${shapeId}&workflowId=${this.props.history.location.state.id}`,
+      axios.get(`${Config.API_URL}workflow/view?shapeId=${shapeId}&workflowId=${this.props.history.location.state.id}`,
        this.state.updateList,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {
           console.log(res.data)
           // this.getAllListContact();
           this.setState({
-            contacts: res.data
+            workflowDTO: res.data
           })
-          this.openModal();
-          this.addNotification()
-          this.props.update();
+          // this.openModal();
           
         })
         .catch(function (error) {
@@ -233,9 +326,43 @@ onClickToExport = () =>{
     saveBpmn(){
 
     }
+    renderTask(){
+     if(this.state.inTask == true){
+       var array = new Array;
+       array = this.state.workflowDTO.subcriberInTask
+       var x = "No contacts pass this task"
+      if(array != null){
+        x = array.toString();
+      }
+       document.getElementById("workflow-task").innerHTML = x;
+     } else if (this.state.inComing == true){
+      array = this.state.workflowDTO.subcriersComing
+      var x = "No contacts incoming"
+      if(array != null){
+        x = array.toString();
+      }
+       document.getElementById("workflow-task").innerHTML = x;
+     } 
+    }
+    getCompleted=()=>{
+      console.log("completed")
+      this.setState({
+        inTask: true,
+            inComing: false,
+            isModalVisible: true
+      },()=>this.renderTask())
+    }
+    getInComing=()=>{
+      console.log("incoming")
+      this.setState({
+        inTask: false,
+            inComing: true,
+            isModalVisible:true
+      },()=>this.renderTask())
+    }
 
     render = () => {
-      var contacts = this.state.contacts
+      var contacts = this.state.workflowDTO
         return(
             <div id="bpmncontainer">
             <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
@@ -248,54 +375,39 @@ onClickToExport = () =>{
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
     </span>
-    {/* <span class="toolbar-css__send-container___AbB6n">
-        <a onClick={this.onClickToExport}  icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
-            <i class="sg-icon sg-icon-airplane-fill">
-
-            </i>Save Design
-        </a>
-    </span> */}
 </div>           
               
-                <div id="propview" style={{padding:'10px', width: '30%', height: 'auto', float: 'right', maxHeight: '98vh' }}>
-                
-                <h3 style={{textAlign:"center", marginBottom:"30px" }}>Campaign: Welcome</h3>
-                <h4>Clicked: 50%</h4>
-                <h4>Opened: 50%</h4>
-                  <span>Contacts have completed: 10 contacts</span> <a style={{cursor:"pointer" }}> View</a>
+                <div id="propview" style={{marginTop:"30px", width: '30%', height: 'auto', float: 'right', maxHeight: '98vh' }}>
+                <div style={{marginTop:"-30px", width:"100%",height:"70px", backgroundColor:"#2e3544", color:"white" }}>
+                <h3 style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Campaign: {this.state.workflowDTO.campaign.name.substring(0,(this.state.workflowDTO.campaign.name.length - 36))}</h3>
+              
+                </div>
+                <div style={{"padding":"10px" }}> 
+                <h4>Clicked: {this.state.workflowDTO.campaign.clickRate}</h4>
+                <h4>Opened: {this.state.workflowDTO.campaign.openRate}</h4>
+                  <span>Contacts have completed: {this.state.workflowDTO.subcriberInTask != null ? this.state.workflowDTO.subcriberInTask.length : '0'} contacts</span> <a onClick={this.getCompleted} style={{cursor:"pointer" }}> View</a>
                   <br/>
-                  <span>Contacts incoming: 15 contacts</span> <a style={{cursor:"pointer" }}> View</a>
+                  <span>Contacts incoming: {this.state.workflowDTO.subcriersComing != null ? this.state.workflowDTO.subcriersComing.length : '0'} contacts</span> <a onClick={this.getInComing} style={{cursor:"pointer" }}> View</a>
                 
-                  {/* <hr/>
-                  <div style={{ padding:'5px',width: '100%', height: '50%', 'right': '0', background:"white" }}>
-                   
-                  </div> */}
+                </div>
+                  
                 </div>
                 <div id="bpmnview" style={{ width: '70%', height: '98vh', float: 'right' }}>
                   
                 </div>
                 
-                {/* <button type="button" className="btn btn-default" onClick={this.onClickToExport}>button</button> */}
                 <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.isModalVisible} width="440" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
       <div class="modal-header"> 
-        <h4 class="modal-title">Contacts have passed through </h4>	
+        <h4 class="modal-title">{this.state.inTask ? 'Contacts have passed through' : 'Contacts incoming'} </h4>	
            <button type="button" onClick={()=>this.closeModal()} class="close" data-dismiss="modal" aria-hidden="true">×</button>
              </div>
-                       <div class="modal-body">
-                       {contacts.map(list=>(
-                                        <AutoRow
-                                        id={list.id}
-                                        key={list.index}
-                                        campaignName={list}
-                                         status={list.name}
-                                         model = {list.model}
-                                     />
-                                    ))}
+                       <div id="workflow-task" class="modal-body">
+                       
                        </div>
-                       <div class="modal-footer">
+                       {/* <div class="modal-footer">
                          <button type="button" onClick={()=>this.closeModal()} class="btn btn-info" >Cancel</button>
-                         {/* <button type="button" onClick={()=>this.sendCampaign()} class="btn btn-danger">Pause</button> */}
-                       </div>
+                        
+                       </div> */}
     </Modal>
             </div>
         )

@@ -67,16 +67,20 @@ class AppointmentMails extends Component {
      })
    }
    componentDidMount(){
+    
     if(this.props.history.location.state != null && this.props.history.location.state != undefined){
       if(this.props.history.location.state.success != null && this.props.history.location.state.success != undefined){
         this.addNotification(this.props.history.location.state.success)
         this.props.history.replace({});
       }
     }
+    
     const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
-    },()=> this.getAllAppointment() )
+    },()=> {this.getAllAppointment()
+      this.loadStatitic()
+    } )
    }	
   render(){
     var lists = this.state.listAppointments;
@@ -185,6 +189,8 @@ class AppointmentMails extends Component {
                                         contactId={list.id}
                                          name={list.name}
                                     time={list.time}
+                                    invited={list.request}
+                                    registed={list.clickRate}
                                     group={list.appointmentGroupContacts.id}
                                     contactDateAdded={list.totalContacts} />
                                     ))}
@@ -244,6 +250,12 @@ class AppointmentMails extends Component {
       console.log(res.data)
       this.setState({listAppointments:res.data,
       filter: res.data})
+    }).catch(function (error) {
+      });
+  }
+  loadStatitic=()=>{
+    axios.get(`${Config.API_URL}appointment/statistic`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
     }).catch(function (error) {
       });
   }
