@@ -254,7 +254,7 @@ class CampaignInformation extends Component{
       style={{"fontSize":"60px", "width":"40px","marginLeft":"10px","color":"white ", "cursor":"pointer","textDecoration":"none"}}>&#8249;</a>
         <nav class="toolbar-css__nav___27cII_detail">
            
-            <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
+            <span data-role="code-button" class="navToggleButton-css__btn___2zvVdd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
                
                 </span>
@@ -271,10 +271,10 @@ class CampaignInformation extends Component{
                 </strong>
             </span>
         </nav>
-        <span class="toolbar-css__save-container___2x7qH">
+        <span style={{marginLeft: "-50px"}} class="toolbar-css__save-container___2x7qH">
         
     </span>
-        <span style={{marginRight: "20px"}} class="toolbar-css__save-container___2x7qH">
+        <span style={{marginRight: "20px",marginLeft: "-50px"}} class="toolbar-css__save-container___2x7qH">
         <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class={`btn btn-primary btn-on-dark  btn-with-icon btn-with-icon ${this.state.updateCampaign.campaignDTO.status == "Draft" ? '' : 'activeText'}`}>
             <i class="sg-icon sg-icon-save-draft">
 

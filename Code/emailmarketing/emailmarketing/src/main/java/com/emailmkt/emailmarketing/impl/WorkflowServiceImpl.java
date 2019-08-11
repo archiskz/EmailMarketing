@@ -622,10 +622,12 @@ public class WorkflowServiceImpl implements WorkflowService {
         }
     }
 
-    public boolean concompareTwoTimes(LocalDateTime timeSend, LocalDateTime interval) {
+    public boolean concompareTwoTimes(String timeSend, int interval) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
         LocalDateTime now = LocalDateTime.now();
-        if(timeSend.plusMinutes(interval.getMinute()).isBefore(now)){
+        LocalDateTime formatTimeSend = LocalDateTime.parse(timeSend,formatter);
+
+        if(formatTimeSend.plusMinutes(interval).isBefore(now)){
             return true;
         }
         return false;

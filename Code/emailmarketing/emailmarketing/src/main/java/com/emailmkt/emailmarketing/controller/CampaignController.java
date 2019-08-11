@@ -150,9 +150,15 @@ public class CampaignController {
     }
 
     @GetMapping("/campaign/dashboard")
-    public ResponseEntity<CampaignFullDTO> getStatistic() {
+    public ResponseEntity<CampaignFullDTO> getStatisticDashboard() {
         CampaignFullDTO vms = campaignService.getCampaignLatest();
         return new ResponseEntity<CampaignFullDTO>(vms, HttpStatus.OK);
+    }
+
+    @GetMapping("/campaign/statistic")
+    public ResponseEntity getStatisticCampaign() {
+        campaignService.getStatisticCampaign();
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully");
     }
 
 
