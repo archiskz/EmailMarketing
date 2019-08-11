@@ -43,8 +43,8 @@ componentWillUnmount(){
 		</div>
 		
 		<div ref={node => this.node = node} id="myDropdown" className= {"dropdown-content " + (this.state.dropdowns ? "show" : "")}>
-    <a href="/profile">Profile</a>
-    <a href="/dashboard">Account</a>
+    <a href="/dashboard/profile">Profile</a>
+    <a href="/dashboard">Report</a>
     <a style={{"cursor":"pointer"}} onClick={this.onLogOut}>Log Out</a>
   </div>
     
