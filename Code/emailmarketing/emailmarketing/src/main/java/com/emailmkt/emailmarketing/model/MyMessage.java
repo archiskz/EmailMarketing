@@ -27,12 +27,15 @@ public class MyMessage implements Serializable {
     private String updatedTime;
 
     @Column(name = "content")
-    String content;
+    private String content;
+
+
 
     @JsonCreator
     public MyMessage(String createdTime, String updatedTime, String content) {
         this.createdTime = createdTime;
         this.updatedTime = updatedTime;
         this.content = content;
+
     }
 }

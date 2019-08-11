@@ -6,11 +6,9 @@ import com.emailmkt.emailmarketing.model.*;
 import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.AppointmentService;
 import com.emailmkt.emailmarketing.service.MailService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +28,7 @@ import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_APPOINTMENT
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
     public static final int NUM_OF_THREAD = 10;
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(AppointmentServiceImpl.class);
 
     private final Configuration templates;
 
@@ -303,20 +302,29 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public boolean testMappingMessage(int id) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
+    public void getStatisticAppointment() {
+        log.info("Get Statistic Appointment.\n");
+        for(Appointment appointment: appointmentRepository.findAll()){
+            // Get Statistic of Campaign
+            double request = appointmentSubcriberRepository.countRequest(appointment.getId());
+            double bounce = appointmentSubcriberRepository.countBounce(appointment.getId());
+            double delivery = appointmentSubcriberRepository.countDelivery(appointment.getId());
+            double open = appointmentSubcriberRepository.countOpen(appointment.getId());
+            double click = appointmentSubcriberRepository.countClick(appointment.getId());
+            double spam = appointmentSubcriberRepository.countSpam(appointment.getId());
+            String requestStr = String.valueOf((int) request);
 
+//                    String requestStr =new Double(request).toString();
+            appointment.setRequest(requestStr);
+            appointment.setOpenRate(Math.round((open/request)*100)+"%");
+            appointment.setBounce(Math.round((bounce/request)*100)+"%");
+            appointment.setDelivery(Math.round((delivery/request)*100)+"%");
+            appointment.setClickRate(Math.round((click/request)*100) +"%");
+            appointment.setSpamRate(Math.round((spam/request)*100) +"%");
 
-            String jsonInString = myMessageRepository.findContentByMessageId(id);
-            JSONObject jsonObject = new JSONObject(jsonInString);
-            JSONObject mail = jsonObject.getJSONObject("mail");
-            System.out.println((String) mail.get("messageId") + "Tan123");
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+            appointmentRepository.save(appointment);
         }
-        return true;
     }
+
+
 }

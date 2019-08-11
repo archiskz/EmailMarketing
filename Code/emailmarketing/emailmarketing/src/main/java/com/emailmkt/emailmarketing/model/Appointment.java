@@ -77,11 +77,24 @@ public class Appointment implements Serializable {
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
     private Account account;
 
+    //statistic of Campaign
+    @Column(name = "request")
+    private String request;
+
     @Column(name = "click")
     private String clickRate;
 
     @Column(name = "open")
     private String openRate;
+
+    @Column(name = "spam")
+    private String spamRate;
+
+    @Column(name = "delivery")
+    private String delivery;
+
+    @Column(name = "bounce")
+    private String bounce;
 
 
 

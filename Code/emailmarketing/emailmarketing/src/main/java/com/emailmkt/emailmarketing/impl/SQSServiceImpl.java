@@ -24,7 +24,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -54,11 +58,11 @@ public class SQSServiceImpl implements SQSService {
     private String sqsURL;
 
     @Override
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 5000)
     public void getMessage() {
         final AmazonSQS sqs = AmazonSQSClientBuilder.standard().withRegion(awsRegion).withCredentials(
                 new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey))).build();
-        while (true) {
+//        while (true) {
         log.info("Receiving messages from MyQueue.\n");
         final ReceiveMessageRequest receiveMessageRequest =
                 new ReceiveMessageRequest(sqsURL)
@@ -78,6 +82,7 @@ public class SQSServiceImpl implements SQSService {
                     + message.getBody());
             if ((!message.getBody().isEmpty())) {
                 System.out.println("Calling POST /notification to insert records into database");
+                String checked = "uncheck";
                 ObjectMapper mapper = new ObjectMapper();
                 //Convert Json
                 try {
@@ -85,36 +90,61 @@ public class SQSServiceImpl implements SQSService {
                     JSONObject jsonObject = new JSONObject(jsonInString);
                     JSONObject mail = jsonObject.getJSONObject("mail");
                     String messageId = (String) mail.get("messageId");
+                    String timeSend = (String)mail.get("timestamp");
                     String eventType = (String) jsonObject.get("eventType");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
+
+                    // Convert UTC to LocalTime
+                    Instant timestamp = Instant.parse(timeSend);
+                    ZonedDateTime saigonTime = timestamp.atZone(ZoneId.of("Asia/Saigon"));
+                    String timeSendStr =  saigonTime.format(formatter);
                     List<AppointmentSubcriber> appointmentSubcribers = appointmentSubcriberRepository.findMessageId(messageId.trim());
                     List<CampaignSubcriber> campaignSubcribers = campaignSubcriberRepository.findMessageId(messageId.trim());
                     if (!appointmentSubcribers.isEmpty()) {
                         AppointmentSubcriber appointmentSubcriber = appointmentSubcribers.stream().findFirst().get();
                         if (eventType.contains("Open")) {
                             appointmentSubcriber.setOpened(true);
+                            appointmentSubcriber.setCreatedTime(timeSendStr);
+                            checked = "checked";
                         } else if (eventType.contains("Click")) {
                             appointmentSubcriber.setConfirmation(true);
+                            appointmentSubcriber.setCreatedTime(timeSendStr);
+                            checked = "checked";
                         }
                         if(eventType.contains("Delivery")){
                             appointmentSubcriber.setDelivery(true);
+                            appointmentSubcriber.setCreatedTime(timeSendStr);
+                            checked = "checked";
                         }
                         if(eventType.contains("Bounce")){
                             appointmentSubcriber.setBounce(true);
+                            appointmentSubcriber.setCreatedTime(timeSendStr);
+                            checked = "checked";
                         }
+
                         appointmentSubcriberRepository.save(appointmentSubcriber);
+
                     } else {
                         if(!campaignSubcribers.isEmpty()) {
                             CampaignSubcriber campaignSubcriber = campaignSubcribers.stream().findFirst().get();
                             if (eventType.contains("Open")) {
                                 campaignSubcriber.setOpened(true);
+                                campaignSubcriber.setCreatedTime(timeSendStr);
+                                checked = "checked";
                             } else if (eventType.contains("Click")) {
                                 campaignSubcriber.setComfirmation(true);
+                                campaignSubcriber.setCreatedTime(timeSendStr);
+                                checked = "checked";
                             }
                             if (eventType.contains("Delivery")) {
                                 campaignSubcriber.setDelivery(true);
+                                campaignSubcriber.setCreatedTime(timeSendStr);
+                                checked = "checked";
                             }
                             if(eventType.contains("Bounce")){
                                 campaignSubcriber.setBounce(true);
+                                campaignSubcriber.setCreatedTime(timeSendStr);
+                                checked = "checked";
                             }
                             campaignSubcriberRepository.save(campaignSubcriber);
                         }
@@ -133,7 +163,7 @@ public class SQSServiceImpl implements SQSService {
 
             }
         }
-        }
+//        }
     }
 
 }

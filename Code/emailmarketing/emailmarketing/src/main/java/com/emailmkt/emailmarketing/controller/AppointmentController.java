@@ -112,6 +112,14 @@ public class AppointmentController {
 
     }
 
+    @GetMapping("/appointment/statistic")
+    public ResponseEntity getStatistic() {
+        appointmentService.getStatisticAppointment();
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully");
+    }
+
+
+
 
 
 

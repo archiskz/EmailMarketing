@@ -38,5 +38,21 @@ public interface AppointmentSubcriberRepository extends JpaRepository<Appointmen
 
     double countBySubcriberEmailAndConfirmation(String email,boolean click);
 
-}
+    @Query("SELECT COUNT(u) FROM AppointmentSubcriber u WHERE u.appointmentGroupContact.appointment.id =:appointmentId")
+    Double countRequest(@Param("appointmentId") int appointmentId);
 
+    @Query("SELECT COUNT(ap) FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id =:appointmentId and ap.delivery= true")
+    Double countDelivery(@Param("appointmentId") int appointmentId);
+
+    @Query("SELECT COUNT(ap) FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id =:appointmentId and ap.opened= true")
+    Double countOpen(@Param("appointmentId") int appointmentId);
+
+    @Query("SELECT COUNT(ap) FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id =:appointmentId and ap.confirmation= true")
+    Double  countClick(@Param("appointmentId") int appointmentId);
+
+    @Query("SELECT COUNT(ap) FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id =:appointmentId and ap.spam= true")
+    Double countSpam(@Param("appointmentId") int appointmentId);
+
+    @Query("SELECT COUNT(ap) FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id =:appointmentId and ap.bounce= true")
+    Double countBounce(@Param("appointmentId") int appointmentId);
+}

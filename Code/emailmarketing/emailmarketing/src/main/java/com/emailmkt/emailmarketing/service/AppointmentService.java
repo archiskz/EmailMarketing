@@ -27,6 +27,5 @@ public interface AppointmentService {
     public ResponseEntity<String> acceptAppointment(String token,String email);
 
     int copyAppointment(int appointmentId,int workflowId);
-
-    boolean testMappingMessage(int id);
+    void getStatisticAppointment();
 }

@@ -33,7 +33,7 @@ import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_ID;
 
 @Service
 public class CampaignServiceImpl implements CampaignService {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SubcriberServiceImpl.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(CampaignServiceImpl.class);
     @Autowired
     MailService mailService;
     @Autowired
@@ -432,7 +432,7 @@ public class CampaignServiceImpl implements CampaignService {
             @Override
             public void run() {
                 log.info("Get Statistic Campaign.\n");
-                for(Campaign campaign: campaignRepository.findTop5ByOrderByCreatedTimeDesc()){
+                for(Campaign campaign: campaignRepository.findAll()){
                     // Get Statistic of Campaign
                     double request = campaignSubcriberRepository.countRequest(campaign.getId());
                     double bounce = campaignSubcriberRepository.countBounce(campaign.getId());

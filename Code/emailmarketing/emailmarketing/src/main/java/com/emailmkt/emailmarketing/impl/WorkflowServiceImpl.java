@@ -16,7 +16,6 @@ import org.camunda.bpm.model.bpmn.instance.Process;
 import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -307,7 +307,7 @@ public class WorkflowServiceImpl implements WorkflowService {
         return subcriberIncoming;
     }
 
-    @Scheduled(fixedRate = 10000)
+//    @Scheduled(fixedRate = 10000)
     @Override
     public void runWorkflow() {
         System.out.println("RUN WORK FLOW");
@@ -622,12 +622,15 @@ public class WorkflowServiceImpl implements WorkflowService {
         }
     }
 
-//    public String concompareTwoTimes(LocalDateTime timeSend, LocalDateTime interval) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//
-//        LocalDateTime conditionTime = timeSend.plusHours(interval.getHour());
-//
-//        return formatConditionTime;
-//    }
+    public boolean concompareTwoTimes(LocalDateTime timeSend, LocalDateTime interval) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
+        LocalDateTime now = LocalDateTime.now();
+        if(timeSend.plusMinutes(interval.getMinute()).isBefore(now)){
+            return true;
+        }
+        return false;
+
+
+    }
 
 }
