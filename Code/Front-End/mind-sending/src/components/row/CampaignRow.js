@@ -70,12 +70,13 @@ class ListRow extends Component {
     {`${this.props.click == null ? `0` : this.props.click}`}
     </td>
     <td class="md_tablet6_tbody_td">
-    <i 
-    style={{"pointer":"cursor", marginRight: "10px"}}
+    <a 
+    style={{cursor:"pointer", marginRight: "10px"}}
     //  onClick={() => this.sendCampaign()} 
+      title="Send Campaign"
        onClick={()=>this.openModal()}
-      class={`fas fa-paper-plane ${this.props.status == "Sending" || this.props.status == "Done" ? "activeText" : ''}`}></i>
-      <a class="fas fa-copy" title="Copy Embeded Code" onClick={()=>this.copyCampaign()} > </a>
+      class={` fas fa-paper-plane ${this.props.status == "Sending" || this.props.status == "Done" ? "activeText" : ''}`}></a>
+      <a class="fas fa-copy" title="Duplicate Campaign" onClick={()=>this.copyCampaign()} > </a>
     
     </td>
    {/* MODAL */}
