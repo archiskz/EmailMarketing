@@ -461,5 +461,58 @@ public class CampaignServiceImpl implements CampaignService {
         return campaignFullDTO;
     }
 
+    @Override
+    public boolean copyCampaign(int campaignId,String name) {
+        Campaign temp = campaignRepository.findCampaignById(campaignId);
+        Campaign checked = campaignRepository.findByName(name);
+        if (temp == null || checked != null) {
+            return false;
+        }
+        Campaign campaign = new Campaign();
+        List<CampaignGroupContact> campaignGroupContacts = temp.getCampaignGroupContacts().stream().map(g -> {
+            CampaignGroupContact campaignGroupContact = new CampaignGroupContact();
+        campaignGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContact().getId()));
+        campaignGroupContact.setCreatedTime(LocalDateTime.now().toString());
+        String[] mailList = groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
+        List<CampaignSubcriber> campaignSubcribers = new ArrayList<>();
+        for (int i = 0; i < mailList.length; i++) {
+            CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
+            campaignSubcriber.setComfirmation(false);
+            campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
+            campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
+            campaignSubcriber.setSubcriberEmail(mailList[i]);
+            campaignSubcribers.add(campaignSubcriber);
+            campaignSubcriber.setOpened(false);
+            campaignSubcriber.setSend(false);
+        }
+        campaignGroupContact.setCampaignSubcribers(campaignSubcribers);
+        campaignGroupContact.setCampaign(campaign);
+        return campaignGroupContact;
+    }).collect(Collectors.toList());
+        campaign.setAccount_id(1);
+        campaign.setCampaignGroupContacts(campaignGroupContacts);
+        campaign.setAutomation(false);
+        campaign.setTimeStart(temp.getTimeStart());
+        campaign.setStatus("Draft");
+        campaign.setBodyJson(temp.getBodyJson());
+        campaign.setFromMail(temp.getFromMail());
+        campaign.setSubject(temp.getSubject());
+        campaign.setSender(temp.getSender());
+        campaign.setContent(temp.getContent());
+        campaign.setType(temp.getType());
+        campaign.setName(name);
+        campaignRepository.save(campaign);
+        return true;
+    }
+
+    @Override
+    public boolean checkDuplicatName(String name) {
+        Campaign campaign = campaignRepository.findByName(name);
+        if(campaign!= null){
+            return false;
+        }
+        return true;
+    }
+
 
 }

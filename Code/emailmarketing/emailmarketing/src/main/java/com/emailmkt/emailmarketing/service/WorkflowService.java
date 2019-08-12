@@ -24,6 +24,10 @@ public interface WorkflowService {
 
     public void runWorkflow();
 
+    void pauseWorkflow(int id);
+
+    void restartWorkflow(int id);
+
     ViewWorkflowDTO viewWorkflowDTO(int workflowId, String shapeId);
 
 

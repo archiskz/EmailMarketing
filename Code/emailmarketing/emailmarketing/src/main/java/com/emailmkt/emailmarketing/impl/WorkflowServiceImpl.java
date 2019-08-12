@@ -407,6 +407,20 @@ public class WorkflowServiceImpl implements WorkflowService {
         }
     }
 
+    @Override
+    public void pauseWorkflow(int id) {
+        Workflow workflow = workflowRepository.findWorkflowById(id);
+        workflow.setStatus("Pause");
+        workflowRepository.save(workflow);
+    }
+
+    @Override
+    public void restartWorkflow(int id) {
+        Workflow workflow = workflowRepository.findWorkflowById(id);
+        workflow.setStatus("Starting");
+        workflowRepository.save(workflow);
+    }
+
     public void runTask(Task firstTask, Workflow workflow, Subcriber subcriber) {
         //clicked yes : 1
 //        clicked no : 0

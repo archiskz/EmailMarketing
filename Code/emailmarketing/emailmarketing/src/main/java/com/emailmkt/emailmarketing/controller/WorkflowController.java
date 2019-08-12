@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
@@ -84,6 +85,18 @@ public class WorkflowController {
     public ResponseEntity<ViewWorkflowDTO> getWorkflowDTO(@RequestParam(value = "workflowId")int workflowId,@RequestParam(value = "shapeId")String shapeId) {
         ViewWorkflowDTO vms = workflowService.viewWorkflowDTO(workflowId,shapeId);
         return new ResponseEntity<ViewWorkflowDTO>(vms, HttpStatus.OK);
+    }
+
+    @PutMapping("workflow/pause/{id}")
+    public ResponseEntity pauseWorkflow(@PathVariable int id) {
+        workflowService.pauseWorkflow(id);
+        return ResponseEntity.status(ACCEPTED).body("Successfully");
+    }
+
+    @PutMapping("workflow/restart/{id}")
+    public ResponseEntity restartWorkflow(@PathVariable int id) {
+        workflowService.restartWorkflow(id);
+        return ResponseEntity.status(ACCEPTED).body("Successfully");
     }
 
 
