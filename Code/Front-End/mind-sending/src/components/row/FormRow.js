@@ -96,7 +96,7 @@ class FormRow extends Component {
     <a onClick = {()=> this.toListContact(this.props.contactId)} >{this.state.groupName} </a>
     </td>
     <td class="md_tablet6_tbody_td">
-    <a class="fas fa-edit margin_td_fontawsome" onClick = {()=> this.toFormEdit(this.props.id)} title="Edit"> </a>
+    <a class="fas fa-eye margin_td_fontawsome" onClick = {()=> this.toFormEdit(this.props.id)} title="Preview"> </a>
     {/* <a class="fas fa-trash-alt margin_td_fontawsome" title="Delete" onClick={()=>this.openModal()}  > </a> */}
     <a class="fas fa-copy" title="Copy Embeded Code" onClick={()=>this.copyCode()} > </a>
     </td>

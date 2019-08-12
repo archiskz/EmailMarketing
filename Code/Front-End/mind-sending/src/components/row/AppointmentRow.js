@@ -90,9 +90,9 @@ class AppointmentRow extends Component {
       render(){
           return( 
 <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
-<td>
+{/*<td>
 <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
-</td>
+</td>*/}
 <td class="md_tablet6_tbody_td"><a onClick = {()=> this.toListContact(this.props.contactId)} >{this.props.name}</a></td>
     <td class="md_tablet6_tbody_td">{this.props.time}</td>
     {/* <td class="md_tablet6_tbody_td">{this.props.group}</td> */}
