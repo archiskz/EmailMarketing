@@ -24,7 +24,9 @@ class ListRow extends Component {
          auth_token:"",
          isModalVisible:false,
          isLoading: false,
-         isSend:false
+         isSend:false,
+         isModalCopyVisible:false,
+         copyCampaignName:""
         };
         this.handleChange3 = this.handleChange3.bind(this);
         this.handleChange2 = this.handleChange2.bind(this);
@@ -36,6 +38,19 @@ class ListRow extends Component {
         this.notificationDOMRef.current.addNotification({
           title: "Send Campaign",
           message: "Send Campaign Success!",
+          type: "success",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: { duration: 2000 },
+          dismissable: { click: true }
+        });
+      }
+      addNotificationCopy() {
+        this.notificationDOMRef.current.addNotification({
+          title: "Copy Campaign",
+          message: "Copy Campaign Success!",
           type: "success",
           insert: "top",
           container: "top-right",
@@ -76,7 +91,7 @@ class ListRow extends Component {
       title="Send Campaign"
        onClick={()=>this.openModal()}
       class={` fas fa-paper-plane ${this.props.status == "Sending" || this.props.status == "Done" ? "activeText" : ''}`}></a>
-      <a class="fas fa-copy" title="Duplicate Campaign" onClick={()=>this.copyCampaign()} > </a>
+      <a class="fas fa-copy" title="Duplicate Campaign" onClick={()=>this.openModalCopy()} > </a>
     
     </td>
    {/* MODAL */}
@@ -94,6 +109,26 @@ class ListRow extends Component {
                          <button type="button" onClick={()=>this.closeModal()} class="btn btn-info" >Cancel</button>
                          <button type="button" onClick={()=>this.sendCampaign()} class="btn btn-danger">Start</button>
                        </div>
+    </Modal>
+    <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.isModalCopyVisible} width="440" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+      <div class="modal-header">
+        <h4 class="modal-title">Copy Campaign</h4>	
+           <button type="button" onClick={()=>this.closeModalCopy()} class="close" data-dismiss="modal" aria-hidden="true">×</button>
+             </div>
+                       <div class="modal-body">
+                       <div className="wrap-input1 validate-input" >
+                          <input  value={this.state.copyCampaignName} onChange={this.handleChange} className="updatename input1" type="text" name="copyCampaignName" placeholder="Campaign Name"/>
+                          <span class="shadow-input1"></span>
+                        </div>
+                        
+                          </div>
+                          <div class="modal-footer">
+                         <button type="button" onClick={()=>this.closeModalCopy()} class="btn btn-info" >Cancel</button>
+                         <button type="button" onClick={()=>this.copyCampaign()} 
+                         className={`btn btn-danger ${this.state.copyCampaignName ? "" : "disabled"}`}>Copy</button>
+                       </div>
+                          
+                       
     </Modal>
     <ReactNotification
           types={[{
@@ -127,6 +162,21 @@ class ListRow extends Component {
        
        
         
+      }
+      copyCampaign = ()=>{
+        
+        axios.post(`${Config.API_URL}campaign/duplicate/?id=${this.props.id}&name=${this.state.copyCampaignName}`,
+       this.state.updateList,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+        .then(res => {
+          console.log(res)
+          this.closeModalCopy();
+          this.addNotificationCopy()
+          this.props.updateList();
+          
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       }
 
       toListContact = (id)=> {        
@@ -164,6 +214,7 @@ class ListRow extends Component {
             }
         });
         }
+
 
     saveUpdatedList(){
      
@@ -207,11 +258,27 @@ class ListRow extends Component {
       });
 
   }
+  handleChange=(event)=>{
+    this.setState({
+      copyCampaignName: event.target.value
+    })
+  }
   
     openModal() {
       this.setState({
         isModalVisible : true,
          
+      });
+    }
+    openModalCopy() {
+      this.setState({
+        isModalCopyVisible : true,
+         
+      });
+    }
+    closeModalCopy() {
+      this.setState({
+        isModalCopyVisible : false
       });
     }
     

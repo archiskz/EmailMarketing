@@ -900,3 +900,9 @@ text-decoration: underline
   display: none !important;
   visibility: hidden !important;
 } */
+
+
+input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"] {
+    line-height: inherit !important;
+    padding: 8px !important;
+}

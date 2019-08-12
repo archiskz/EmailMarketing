@@ -21,7 +21,8 @@ class AutoRow extends Component {
          },
          sendCampaignVisible: false,
          auth_token:"",
-         isModalVisible:false
+         isModalVisible:false,
+         isModalPlayVisible:false
         };
         this.handleChange3 = this.handleChange3.bind(this);
         this.handleChange2 = this.handleChange2.bind(this);
@@ -29,10 +30,10 @@ class AutoRow extends Component {
      this.notificationDOMRef = React.createRef();
     //  this.sendCampaign = this.sendCampaign.bind(this);
       }
-      addNotification() {
+      addNotification(name) {
         this.notificationDOMRef.current.addNotification({
-          title: "Update List",
-          message: "Updated Success!",
+          title: name,
+          message: name+ "Success!" ,
           type: "success",
           insert: "top",
           container: "top-right",
@@ -63,9 +64,12 @@ class AutoRow extends Component {
     <td class="md_tablet6_tbody_td">
     <i 
     //  onClick={() => this.sendCampaign()} 
-       onClick={()=>this.openModal()}
+       onClick={()=>this.openModal()} style={{marginLeft:"10px"}}
       class={`fas fa-pause-circle ${this.props.campaignName == "Starting" ? "" : 'activeText'}`}></i>
-    
+      <i 
+    //  onClick={() => this.sendCampaign()} 
+       onClick={()=>this.openPlayModal()}
+      class={`fas fa-play-circle ${this.props.campaignName == "Starting" ? "activeText" : ''}`} style={{marginLeft:"10px"}}></i>
     </td>
    {/* MODAL */}
    <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.isModalVisible} width="440" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
@@ -74,11 +78,24 @@ class AutoRow extends Component {
            <button type="button" onClick={()=>this.closeModal()} class="close" data-dismiss="modal" aria-hidden="true">×</button>
              </div>
                        <div class="modal-body">
-                         <p>Do you want to pause your automation campaign</p>
+                         <p>Do you want to pause your workflow</p>
                        </div>
                        <div class="modal-footer">
                          <button type="button" onClick={()=>this.closeModal()} class="btn btn-info" >Cancel</button>
-                         <button type="button" onClick={()=>this.sendCampaign()} class="btn btn-danger">Pause</button>
+                         <button type="button" onClick={()=>this.pauseCampaign()} class="btn btn-danger">Pause</button>
+                       </div>
+    </Modal>
+    <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.isModalPlayVisible} width="440" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+      <div class="modal-header">
+        <h4 class="modal-title">Are you sure?</h4>	
+           <button type="button" onClick={()=>this.closeModal()} class="close" data-dismiss="modal" aria-hidden="true">×</button>
+             </div>
+                       <div class="modal-body">
+                         <p>Do you want to continue your workflow</p>
+                       </div>
+                       <div class="modal-footer">
+                         <button type="button" onClick={()=>this.closePlayModal()} class="btn btn-info" >Cancel</button>
+                         <button type="button" onClick={()=>this.playCampaign()} class="btn btn-danger">Play</button>
                        </div>
     </Modal>
     <ReactNotification
@@ -92,6 +109,29 @@ class AutoRow extends Component {
 </tr>
 
           );
+      }
+
+      pauseCampaign(){
+        axios.put(`${Config.API_URL}workflow/pause/${this.props.id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+        .then(res => {
+          console.log(res.data);
+          this.closeModal();
+          this.addNotification('Pause Workflow')
+          this.props.update();
+        }).catch(error=>{
+          console.log(error.response.data)
+        }) 
+      }
+      playCampaign(){
+        axios.put(`${Config.API_URL}workflow/restart/${this.props.id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+        .then(res => {
+          console.log(res.data);
+          this.closePlayModal();
+          this.addNotification('Restart Workflow')
+          this.props.update();
+        }).catch(error=>{
+          console.log(error.response.data)
+        }) 
       }
 
       sendCampaign(){
@@ -183,6 +223,18 @@ class AutoRow extends Component {
     closeModal() {
       this.setState({
         isModalVisible : false
+      });
+    }
+    openPlayModal() {
+      this.setState({
+        isModalPlayVisible : true,
+         
+      });
+    }
+    
+    closePlayModal() {
+      this.setState({
+        isModalPlayVisible : false
       });
     }
 }

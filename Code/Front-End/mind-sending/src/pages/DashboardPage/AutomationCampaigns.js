@@ -150,6 +150,7 @@ class AutomationCampaigns extends Component {
                                         campaignName={list.status}
                                          status={list.name}
                                          model = {list.model}
+                                         update={this.getAllAutoCampaign}
                                      />
                                     ))}
 
