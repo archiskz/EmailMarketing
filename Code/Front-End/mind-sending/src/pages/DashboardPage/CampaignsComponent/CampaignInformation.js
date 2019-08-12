@@ -274,18 +274,19 @@ class CampaignInformation extends Component{
         <span style={{marginLeft: "-50px"}} class="toolbar-css__save-container___2x7qH">
         
     </span>
-        <span style={{marginRight: "20px",marginLeft: "-50px"}} class="toolbar-css__save-container___2x7qH">
+    
+    <span class="toolbar-css__send-container___AbB6n">
+        {/* <a onClick={()=>this.sendCampaign()} icon="airplane-fill" data-role="send-or-schedule-btn" class={`btn btn-primary btn-on-dark  btn-with-icon btn-with-icon ${this.state.updateCampaign.campaignDTO.status == "Draft" ? '' : 'activeText'}`}>
+            <i class="sg-icon sg-icon-airplane-fill">
+
+            </i>Send Campaign
+        </a> */}
+    </span>
+    <span style={{marginRight: "20px",marginLeft: "-50px"}} class="toolbar-css__save-container___2x7qH">
         <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class={`btn btn-primary btn-on-dark  btn-with-icon btn-with-icon ${this.state.updateCampaign.campaignDTO.status == "Draft" ? '' : 'activeText'}`}>
             <i class="sg-icon sg-icon-save-draft">
 
             </i>Save Draft
-        </a>
-    </span>
-    <span class="toolbar-css__send-container___AbB6n">
-        <a onClick={()=>this.sendCampaign()} icon="airplane-fill" data-role="send-or-schedule-btn" class={`btn btn-primary btn-on-dark  btn-with-icon btn-with-icon ${this.state.updateCampaign.campaignDTO.status == "Draft" ? '' : 'activeText'}`}>
-            <i class="sg-icon sg-icon-airplane-fill">
-
-            </i>Send Campaign
         </a>
     </span>
 </div>

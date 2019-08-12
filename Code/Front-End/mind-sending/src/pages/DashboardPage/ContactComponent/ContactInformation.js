@@ -4,6 +4,8 @@ import { withRouter } from "react-router";
 import imgAvatar from './../../../access/img/client3.jpg'
 import axios from 'axios';
 import * as Config from './../../../constants/Config';
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 
 class ContactInformation extends Component {
     constructor(props) {
@@ -24,6 +26,9 @@ class ContactInformation extends Component {
         this.showDropdownMenu = this.showDropdownMenu.bind(this);
 	  this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
 	  this.onUpdateProfile = this.onUpdateProfile.bind(this);
+	  this.addNotification = this.addNotification.bind(this);
+      this.notificationDOMRef = React.createRef();
+      
 	//   this.handleChange = this.handleChange.bind(this)
     }
 showDropdownMenu(event) {
@@ -31,6 +36,20 @@ showDropdownMenu(event) {
     this.setState({ displayMenu: true }, () => {
     document.addEventListener('click', this.hideDropdownMenu);
     });
+  }
+
+  addNotification=()=> {
+	this.notificationDOMRef.current.addNotification({
+	  title: `Update Contact`,
+	  message: `Update Contact Success!`,
+	  type: "success",
+	  insert: "top",
+	  container: "top-right",
+	  animationIn: ["animated", "fadeIn"],
+	  animationOut: ["animated", "fadeOut"],
+	  dismiss: { duration: 2000 },
+	  dismissable: { click: true }
+	});
   }
 
   hideDropdownMenu() {
@@ -55,6 +74,7 @@ showDropdownMenu(event) {
 	axios.put(`${Config.API_URL}subcriber/edit/${this.props.history.location.state}`, this.state.contact,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
   .then((response) => {
 	console.log(response);
+	this.addNotification()
   })
   .catch((error) => {
 	console.log(error);
@@ -75,6 +95,7 @@ showDropdownMenu(event) {
 		  type: res.data.type,
 		  dob: res.data.dob,
 		  openRate: res.data.openRate,
+		  phone:res.data.phone,
   			clickRate: res.data.clickRate,
 	  };
 	  console.log(contact);
@@ -88,9 +109,24 @@ showDropdownMenu(event) {
 
         return (<div style={{"width":"100%","height":"auto"}}>
 		<div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
-      <a onClick={this.goBack}
-      style={{"fontSize":"60px", "width":"120px","marginLeft":"20px","color":"white ", "cursor":"pointer","textDecoration":"none"}}>&#8249;</a>
-        {/* <nav class="toolbar-css__nav___27cII_detail">
+		<a onClick={this.goBack}
+      style={{"fontSize":"60px", "width":"40px","marginLeft":"20px","color":"white ", "cursor":"pointer","textDecoration":"none"}}>&#8249;</a>
+       
+		<nav class="toolbar-css__nav___27cII">
+            <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
+                <span class="navToggleButton-css__code___2bWGz">
+                </span>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">Contact Information</strong>
+            </span>
+        </nav>
+		<ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
+       {/* <nav class="toolbar-css__nav___27cII_detail">
            
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
@@ -141,7 +177,7 @@ showDropdownMenu(event) {
         					<div className="user_profile8_sub1">
         						<label className="user_profile_w3_label"  data-shrink="false" for="username">Phone number</label>
         						
-        						<input  aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value=""/>
+        						<input name="phone" onChange={this.handleChange}  aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value={this.state.contact.phone}/>
         						
         					</div>
         				</div>
@@ -177,13 +213,13 @@ showDropdownMenu(event) {
                             <div className="user_profile9_sub1">
                                 <label className="user_profile_w3_label" data-shrink="false" for="first-name">Date of birth</label>
                                 
-                                <input onChange={this.handleChange} name="dob" aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value={this.state.contact.dob} />
+                                <input onChange={this.handleChange} name="dob" aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="date" value={this.state.contact.dob} />
                                 
                             </div>
                         </div>
                     </div>
         			
-        			<div className="user_profile16">
+        			{/* <div className="user_profile16">
         				<div className="user_profile16_sub">
         					<label className="user_profile16_label" Style="color: rgb(170, 170, 170);">Write a note for this contact</label>
         					<div className="user_profile16_sub1">
@@ -197,7 +233,7 @@ showDropdownMenu(event) {
         						</div>
         					</div>
         				</div>
-        			</div>
+        			</div> */}
         			
         		</div>	
         		<div className="user_profile11">
