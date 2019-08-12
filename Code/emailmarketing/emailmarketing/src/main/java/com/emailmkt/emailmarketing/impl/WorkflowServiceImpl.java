@@ -32,9 +32,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_APPOINTMENT_ID;
-import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_ID;
-
 //import com.emailmkt.emailmarketing.model.Task;
 //import com.emailmkt.emailmarketing.repository.TaskRepository;
 @Transactional
@@ -286,7 +283,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 
             System.out.println("GROUP---------------------------------------:");
         } else {
-            Task task1 = taskRepository.findTaskByPreTask(pretask);
+            Task task1 = taskRepository.findTaskByShapeId(pretask);
             List<String> subcriberPreTask = new ArrayList<String>(findSubcriberInTask(workflowId, task1.getShapeId()));
             viewWorkflowDTO.setSubcriersComing(new ArrayList<>(CollectionUtils.disjunction(subcriberInTask, subcriberPreTask)));
         }
