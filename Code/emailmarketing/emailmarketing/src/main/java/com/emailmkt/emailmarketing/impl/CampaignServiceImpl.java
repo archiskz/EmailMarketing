@@ -257,10 +257,10 @@ public class CampaignServiceImpl implements CampaignService {
                     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
                 }
                 campaign.setStatus("Done");
+                campaignRepository.save(campaign);
             }
         }, delay, TimeUnit.MILLISECONDS);
 
-        campaignRepository.save(campaign);
         ses.shutdown();
         return true;
     }
