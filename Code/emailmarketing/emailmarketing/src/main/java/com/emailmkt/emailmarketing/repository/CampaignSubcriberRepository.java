@@ -70,6 +70,7 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
     Double countBySubcriberEmailAndComfirmation(String email, boolean click);
     Double countBySubcriberEmailAndOpened(String email, boolean open);
 
+    int countAllBySubcriberEmail(String mail);
 
 }
 

@@ -390,6 +390,7 @@ renderGroupList(currentCountries){
     }
 
     saveNewList() {
+      var self = this;
 
         axios.post(`${Config.API_URL}groupContact/create`, this.state.newList, { 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(res => {
@@ -400,8 +401,8 @@ renderGroupList(currentCountries){
             })
             .catch((error) => {
                 console.log(error.response.data);
-                this.setState({
-                    existedGroup: error.response.data
+                self.setState({
+                    existedGroup: "This group name is existed"
                 })
             })
     }

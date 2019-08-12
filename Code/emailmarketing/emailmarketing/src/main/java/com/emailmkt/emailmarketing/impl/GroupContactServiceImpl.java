@@ -49,6 +49,7 @@ public class GroupContactServiceImpl implements GroupContactService {
             if (checkExistedGroupContact != null) {
                 System.out.println("TEST");
                 checkExistedGroupContact.setName(GroupContact.getName());
+
                 checkExistedGroupContact.setDescription(GroupContact.getDescription());
                 checkExistedGroupContact.setUpdatedTime(LocalDateTime.now().toString());
 
@@ -58,7 +59,7 @@ public class GroupContactServiceImpl implements GroupContactService {
             e.printStackTrace();
         }
 
-        return null;
+        return null ;
     }
 
     @Override

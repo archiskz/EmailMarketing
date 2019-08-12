@@ -3,6 +3,7 @@ package com.emailmkt.emailmarketing.controller;
 import com.emailmkt.emailmarketing.dto.StatisticContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
+import com.emailmkt.emailmarketing.dto.SubcriberViewDTO;
 import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.SubcriberService;
@@ -51,10 +52,8 @@ public class SubcriberController {
     }
 
     @GetMapping(value="subcriber/{id}")
-    Subcriber read(@PathVariable int id) {
-        return subcriberRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
-//        return subcriberService.getSubcriberById(id);
-
+    SubcriberViewDTO read(@PathVariable int id) {
+        return subcriberService.getSubcriberById(id);
     }
 
     @PostMapping("subcriber/create")

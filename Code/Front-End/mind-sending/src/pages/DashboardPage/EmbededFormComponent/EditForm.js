@@ -145,10 +145,10 @@ class EditForm extends React.Component {
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
                 </span>
-                <strong class="navToggleButton-css__toggle-name___3Y4ez">Edit Embedded Form</strong>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">Preview Embedded Form</strong>
             </span>
         </nav>
-        <span class="toolbar-css__save-container___2x7qH">
+        {/*<span class="toolbar-css__save-container___2x7qH">
          <div className="fix_size_embed_form2">
         <button onClick={this.generateCode} class="fix_size_btn_embed copy-button ButtonContainer-cCzDqJ dbshwx" type="button" color="primary">
                     <div class="ButtonContent-dNFcBm ijrtmX">
@@ -161,7 +161,7 @@ class EditForm extends React.Component {
                     </div>
                 </button>
                 </div>
-    </span>
+    </span>*/}
     <span class="toolbar-css__send-container___AbB6n">
 
         {/* <a onClick={()=>this.saveCampaign()} icon="airplane-fill" style={{"fontSize":"16px"}} data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
@@ -236,7 +236,7 @@ class EditForm extends React.Component {
             </div>
             
             <div class="" id="code_plain">
-            <button class=" ButtonContainer-cCzDqJ dbshwx copycode" type="button" color="primary">
+            <button  class=" ButtonContainer-cCzDqJ dbshwx copycode" type="button" color="primary">
                     <div class="ButtonContent-dNFcBm ijrtmX">
                         <span class="ButtonText-cgEyiP kPJhKT">COPY CODE</span>
                     </div>
@@ -266,7 +266,7 @@ class EditForm extends React.Component {
                                 <span>Form Name</span>
                                 <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
                             </div>
-                            <input onChange={this.handleChange} value={this.state.newForm.name} class="user_profile_w3_input" name="button" type="text" autocomplete="off" maxlength="64"/>
+                            <input disabled="true" onChange={this.handleChange} value={this.state.newForm.name} class="user_profile_w3_input" name="button" type="text" autocomplete="off" maxlength="64"/>
                         </div>
                         <div class="FormFieldContainer-cVnFXD gVnSPE">
                             <div class="FormFieldLabel-jJcHUJ foZsFZ">
@@ -283,24 +283,24 @@ class EditForm extends React.Component {
                           placeholder="Choose Group"/>  
                                </div>
                          
-                        <div class="FormFieldContainer-cVnFXD gVnSPE">
+                        {/*<div class="FormFieldContainer-cVnFXD gVnSPE">
                             <div class="FormFieldLabel-jJcHUJ foZsFZ">
                                 <span>Submit button value</span>
                                 <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
                             </div>
                             <input onChange={this.handleBtn} value={this.state.submit} class="user_profile_w3_input" name="button" type="text" autocomplete="off" maxlength="64"/>
-                        </div>
+                        </div>*/}
                         <div class="section-content">
                         <div class="FormFieldLabel-jJcHUJ foZsFZ">
                                 <span>Add custom fields</span>
                                 <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
                             </div>
                             <br/>
-                        <label className="container-cb">First Name<input onChange={this.handleCheck} type="checkbox" name="firstName" class="blue" checked={this.state.firstName} /><span class="checkmark-cb"></span></label><br/>
-                        <label className="container-cb">Last Name<input onChange={this.handleCheck} type="checkbox" name="lastName" class="blue" checked={this.state.lastName} /><span class="checkmark-cb"></span></label><br/>
-                        <label className="container-cb">Phone<input onChange={this.handleCheck} type="checkbox" name="phone" class="blue" checked={this.state.phone} /><span class="checkmark-cb"></span></label><br/>
-                        <label className="container-cb">Address<input onChange={this.handleCheck} type="checkbox" name="address" class="blue" checked={this.state.address} /><span class="checkmark-cb"></span></label><br/>
-                        <label className="container-cb">Birth Date<input onChange={this.handleCheck} type="checkbox" name="birth" class="blue" checked={this.state.birth} /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">First Name<input disabled="true" onChange={this.handleCheck} type="checkbox" name="firstName" class="blue" checked={this.state.firstName} /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Last Name<input disabled="true" onChange={this.handleCheck} type="checkbox" name="lastName" class="blue" checked={this.state.lastName} /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Phone<input disabled="true" onChange={this.handleCheck} type="checkbox" name="phone" class="blue" checked={this.state.phone} /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Address<input disabled="true" onChange={this.handleCheck} type="checkbox" name="address" class="blue" checked={this.state.address} /><span class="checkmark-cb"></span></label><br/>
+                        <label className="container-cb">Birth Date<input disabled="true" onChange={this.handleCheck} type="checkbox" name="birth" class="blue" checked={this.state.birth} /><span class="checkmark-cb"></span></label><br/>
                         </div>
                     </fieldset>
                 </form>

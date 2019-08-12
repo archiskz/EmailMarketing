@@ -3,6 +3,7 @@ package com.emailmkt.emailmarketing.impl;
 import com.emailmkt.emailmarketing.dto.StatisticContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
+import com.emailmkt.emailmarketing.dto.SubcriberViewDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -11,7 +12,6 @@ import com.emailmkt.emailmarketing.service.SubcriberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -121,9 +121,12 @@ public class SubcriberServiceImpl implements SubcriberService {
                                 groupContactSubcriber2.setActive(true);
                                 groupContactSubcriberRepository.save(groupContactSubcriber2);
                             }
+                            return;
 
 
                         }
+
+
                         GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
                         groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(x.getGroupContactId()));
                         groupContactSubcriber.setSubcriber(result);
@@ -214,9 +217,23 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
     @Override
-    public Subcriber getSubcriberById(int id) {
-
-        return subcriberRepository.findSubcriberById(id);
+    public SubcriberViewDTO getSubcriberById(int id) {
+        SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+        Subcriber subcriber = subcriberRepository.findSubcriberById(id);
+        subcriberViewDTO.setAddress(subcriber.getAddress());
+        subcriberViewDTO.setType(subcriber.getType());
+        subcriberViewDTO.setFirstName(subcriber.getFirstName());
+        subcriberViewDTO.setLastName(subcriber.getLastName());
+        subcriberViewDTO.setDob(subcriber.getDob());
+        subcriberViewDTO.setEmail(subcriber.getEmail());
+        subcriberViewDTO.setPhone(subcriber.getPhone());
+        int belongGroup = groupContactSubcriberRepository.countAllBySubcriberId(subcriber.getId());
+        int belongCampaign = campaignSubcriberRepository.countAllBySubcriberEmail(subcriber.getEmail());
+        subcriberViewDTO.setClickRate(subcriber.getClickRate());
+        subcriberViewDTO.setOpenRate(subcriber.getOpenRate());
+        subcriberViewDTO.setBelongCampaign(belongCampaign);
+        subcriberViewDTO.setBelongGroup(belongGroup);
+        return subcriberViewDTO;
     }
 
 

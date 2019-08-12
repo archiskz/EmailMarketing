@@ -150,7 +150,7 @@ class AppointmentMails extends Component {
                         <table className="table1 table-striped table-hover">
                             <thead className=" ">
                             <tr className=" ">
-                                <th className=" " scope="col"></th>
+                                
                                 <th className=" " scope="col">Name</th>
                                 <th className=" " scope="col">Start On</th>
                                 {/* <th className="md_tablet6_th" scope="col">Groups</th> */}

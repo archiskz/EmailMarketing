@@ -15,6 +15,7 @@ import java.util.List;
 @Transactional
 public interface GroupContactSubcriberRepository extends JpaRepository<GroupContactSubcriber,Integer> {
 
+        int countAllBySubcriberId(int id);
 
         GroupContactSubcriber findGroupContactSubcriberBySubcriberIdAndGroupContactId(int subcriberId,int groupContactId);
         @Transactional
