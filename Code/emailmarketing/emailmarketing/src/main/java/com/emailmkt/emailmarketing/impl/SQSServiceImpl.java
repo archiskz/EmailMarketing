@@ -58,11 +58,11 @@ public class SQSServiceImpl implements SQSService {
     private String sqsURL;
 
     @Override
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedDelay = 1000)
     public void getMessage() {
         final AmazonSQS sqs = AmazonSQSClientBuilder.standard().withRegion(awsRegion).withCredentials(
                 new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey))).build();
-//        while (true) {
+        while (true) {
         log.info("Receiving messages from MyQueue.\n");
         final ReceiveMessageRequest receiveMessageRequest =
                 new ReceiveMessageRequest(sqsURL)
@@ -163,7 +163,7 @@ public class SQSServiceImpl implements SQSService {
 
             }
         }
-//        }
+        }
     }
 
 }

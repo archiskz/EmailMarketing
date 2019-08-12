@@ -19,8 +19,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Indexed
-@Table(name = "appointment_has_subcriber"
-//        uniqueConstraints={@UniqueConstraint(columnNames = { "group_contact_id","subcriber_email"})}
+@Table(name = "appointment_has_subcriber", uniqueConstraints={@UniqueConstraint(columnNames = { "appointment_id","subcriber_email"})}
 
 )
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "id")
