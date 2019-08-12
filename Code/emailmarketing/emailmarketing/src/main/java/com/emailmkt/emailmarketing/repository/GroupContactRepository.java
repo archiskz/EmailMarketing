@@ -17,6 +17,8 @@ public interface GroupContactRepository extends JpaRepository<GroupContact, Inte
     GroupContact findByName(String name);
     GroupContact findGroupById(int id);
 
+
+
     @Query("SELECT COUNT(gr) FROM GroupContact gr ")
     Long countTotalGroupContacts();
 

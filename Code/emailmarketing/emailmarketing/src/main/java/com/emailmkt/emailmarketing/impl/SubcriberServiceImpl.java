@@ -3,6 +3,7 @@ package com.emailmkt.emailmarketing.impl;
 import com.emailmkt.emailmarketing.dto.StatisticContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
+import com.emailmkt.emailmarketing.dto.SubcriberViewDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -216,9 +217,23 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
     @Override
-    public Subcriber getSubcriberById(int id) {
-
-        return subcriberRepository.findSubcriberById(id);
+    public SubcriberViewDTO getSubcriberById(int id) {
+        SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+        Subcriber subcriber = subcriberRepository.findSubcriberById(id);
+        subcriberViewDTO.setAddress(subcriber.getAddress());
+        subcriberViewDTO.setType(subcriber.getType());
+        subcriberViewDTO.setFirstName(subcriber.getFirstName());
+        subcriberViewDTO.setLastName(subcriber.getLastName());
+        subcriberViewDTO.setDob(subcriber.getDob());
+        subcriberViewDTO.setEmail(subcriber.getEmail());
+        subcriberViewDTO.setPhone(subcriber.getPhone());
+        int belongGroup = groupContactSubcriberRepository.countAllBySubcriberId(subcriber.getId());
+        int belongCampaign = campaignSubcriberRepository.countAllBySubcriberEmail(subcriber.getEmail());
+        subcriberViewDTO.setClickRate(subcriber.getClickRate());
+        subcriberViewDTO.setOpenRate(subcriber.getOpenRate());
+        subcriberViewDTO.setBelongCampaign(belongCampaign);
+        subcriberViewDTO.setBelongGroup(belongGroup);
+        return subcriberViewDTO;
     }
 
 
