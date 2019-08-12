@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     Account findByUsername(String username);
 
-//    List<Account> findAllByauthorityIdGreaterThanEqual(int authority_id);
+
 
 
     Account findAccountById(Integer id);
@@ -24,9 +24,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     Account findAccountByUsernameAndPassword(String username, String password);
 
-//    List<Account> findAllByauthorityIdOrderByCreatedTimeDesc(int authorityId);
-//
-//    int countAllByauthorityId(int authorityId);
+
 
     @Query(value = "Select ac From Account ac Where ac.username = :username and ac.status <> :status")
     Account findByUserLogin(@Param("username") String username, @Param("status") String status);

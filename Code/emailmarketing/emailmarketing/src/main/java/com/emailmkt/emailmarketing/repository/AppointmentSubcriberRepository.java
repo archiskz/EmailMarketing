@@ -16,7 +16,7 @@ public interface AppointmentSubcriberRepository extends JpaRepository<Appointmen
     @Query("SELECT COUNT(ap.subcriberEmail) FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id  = :appointmentId and ap.send=true ")
     Long countSubcriberInAppointment(@Param("appointmentId")int appointmentId);
 
-    @Query("SELECT ap.subcriberEmail FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId")
+    @Query("SELECT ap.subcriberEmail FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId and ap.send= true")
     List<String> findSubcriberMailByAppointmentId(@Param("appointmentId")int appointmentId);
 
     @Query("SELECT ap.confirmation FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId AND ap.subcriberEmail= :subcriberEmail")

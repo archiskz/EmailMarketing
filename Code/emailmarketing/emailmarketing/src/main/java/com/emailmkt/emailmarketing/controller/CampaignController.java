@@ -80,7 +80,7 @@ public class CampaignController {
 
         LocalDate date = LocalDate.parse(mailAndCampaign.campaignDTO.getTimeStart(), DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a"));
         if (date.isBefore(LocalDate.now())) {
-            return ResponseEntity.status(NOT_ACCEPTABLE).body("This Time Start is before now");
+            return ResponseEntity.status(NOT_ACCEPTABLE).body("This time is over");
         }
 
         boolean flag = campaignService.createCampaignWithTimer(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO);
