@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,7 +61,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setLastName(dto.getLastName());
         subcriber.setType("Beginner Contacts");
         Account account = accountRepository.findAccountById(1);
-        subcriber.setAccount_id(account.getId() + "");
+        subcriber.setAccount_id(account.getId());
         List<GroupContactSubcriber> groupContactSubcribers = dto.getGcSubcriberDTOS().stream().map(g -> {
             GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
             groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
@@ -94,7 +92,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setFirstName(dto.getFirstName());
         subcriber.setType("Beginner Contacts");
         Account account = accountRepository.findAccountById(1);
-        subcriber.setAccount_id(account.getId() + "");
+        subcriber.setAccount_id(account.getId() );
         List<GroupContactSubcriber> groupContactSubcribers = new ArrayList<>();
 
         GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
@@ -154,7 +152,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             subcriber.setType(subcriberDTO.getType());
             subcriber.setTag(subcriberDTO.getTag());
             Account account = accountRepository.findAccountById(1);
-            subcriber.setAccount_id(account.getId() + "");
+            subcriber.setAccount_id(account.getId() );
             List<GroupContactSubcriber> groupContactSubcribers = subcriberDTO.getGcSubcriberDTOS().stream().map(g -> {
                 GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
                 groupContactSubcriber.setActive(true);
@@ -178,35 +176,31 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
 
-    @Scheduled(fixedRate = 1000)
     @Override
     public void getStatisticSubcriber() {
-        ExecutorService executor = Executors.newFixedThreadPool(30);
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                log.info("Get Statistic By Subcriber .\n");
-                for(Subcriber subcriber : subcriberRepository.findAll()){
 
-                    double requestCampaign = campaignSubcriberRepository.countCampaignSubcriberBySubcriberEmail(subcriber.getEmail());
-                    double requestAppointment = appointmentSubcriberRepository.countAppointmentSubcriberBySubcriberEmail(subcriber.getEmail());
-                    double total = requestAppointment + requestCampaign;
-                    double totalOpen = campaignSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(),true)
-                            + appointmentSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(),true);
-                    double totalClick = campaignSubcriberRepository.countBySubcriberEmailAndComfirmation(subcriber.getEmail(),true)+appointmentSubcriberRepository.countBySubcriberEmailAndConfirmation(subcriber.getEmail(),true);
-                    subcriber.setOpenRate(Math.round(totalOpen/total)*100+ "%");
-                    subcriber.setClickRate(Math.round(totalClick/total)*100+ "%");
-                    if((Math.round(totalClick/total)*100)> 80 && Math.round(totalOpen/total)*100> 80 || total > 7  ){
-                        subcriber.setType("Advanced Contacts");
-                    }else if((Math.round(totalClick/total)*100)> 50 && Math.round(totalOpen/total)*100> 50 && total > 5){
-                        subcriber.setType("Intermediate Contacts");
-                    }else{
-                        subcriber.setType("Beginner Contacts");
-                    }
-                    subcriberRepository.save(subcriber);
-                }
+        log.info("Get Statistic By Subcriber .\n");
+        for (Subcriber subcriber : subcriberRepository.findAll()) {
+
+            double requestCampaign = campaignSubcriberRepository.countCampaignSubcriberBySubcriberEmail(subcriber.getEmail());
+            double requestAppointment = appointmentSubcriberRepository.countAppointmentSubcriberBySubcriberEmail(subcriber.getEmail());
+            double total = requestAppointment + requestCampaign;
+            double totalOpen = campaignSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(), true)
+                    + appointmentSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(), true);
+            double totalClick = campaignSubcriberRepository.countBySubcriberEmailAndComfirmation(subcriber.getEmail(), true) + appointmentSubcriberRepository.countBySubcriberEmailAndConfirmation(subcriber.getEmail(), true);
+            subcriber.setOpenRate(Math.round(totalOpen / total) * 100 + "%");
+            subcriber.setClickRate(Math.round(totalClick / total) * 100 + "%");
+            if ((Math.round(totalClick / total) * 100) > 80 && Math.round(totalOpen / total) * 100 > 80 || total > 7) {
+                subcriber.setType("Advanced Contacts");
+            } else if ((Math.round(totalClick / total) * 100) > 50 && Math.round(totalOpen / total) * 100 > 50 && total > 5) {
+                subcriber.setType("Intermediate Contacts");
+            } else {
+                subcriber.setType("Beginner Contacts");
             }
-        });
+            subcriberRepository.save(subcriber);
+        }
+
+
     }
 
     @Override
@@ -224,7 +218,6 @@ public class SubcriberServiceImpl implements SubcriberService {
 
         return subcriberRepository.findSubcriberById(id);
     }
-
 
 
     @Override

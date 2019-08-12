@@ -78,7 +78,8 @@ public class MailServiceImpl implements MailService {
 //    }Map
 
     @Override
-    public void sendSimpleMessageV2(String from, String fromMail, String to, String subject, String body) {
+    public String sendSimpleMessageV2(String from, String fromMail, String to, String subject, String body) {
+        String messageId = "";
         try {
 
             Properties properties = System.getProperties();
@@ -108,7 +109,7 @@ public class MailServiceImpl implements MailService {
 
                 String response = ((SMTPTransport) transport).getLastServerResponse();
                     System.out.println(response.split(" ")[2]);
-                    MESSAGE_ID = response.split(" ")[2];
+                    messageId = response.split(" ")[2];
 
             }
 
@@ -117,11 +118,13 @@ public class MailServiceImpl implements MailService {
 
             e.printStackTrace();
         }
+        return messageId;
     }
 
 
     @Override
-    public void sendAppointment(String from, String fromMail, String to, String subject, String body) {
+    public String sendAppointment(String from, String fromMail, String to, String subject, String body) {
+        String appointmentMessageId = "";
         try {
 
             Properties properties = System.getProperties();
@@ -150,7 +153,7 @@ public class MailServiceImpl implements MailService {
 
                 String response = ((SMTPTransport) transport).getLastServerResponse();
                 System.out.println(response.split(" ")[2]);
-                MESSAGE_APPOINTMENT_ID = response.split(" ")[2];
+                appointmentMessageId = response.split(" ")[2];
 
             }
 
@@ -158,6 +161,8 @@ public class MailServiceImpl implements MailService {
 
             e.printStackTrace();
         }
+        return appointmentMessageId;
+
     }
 
 

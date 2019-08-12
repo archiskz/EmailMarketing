@@ -76,7 +76,7 @@ public class Subcriber implements Serializable {
 
     @Basic
     @Column(name = "account_id")
-    private String account_id;
+    private int account_id;
 
     @JsonIgnore
     @ManyToOne

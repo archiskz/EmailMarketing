@@ -143,9 +143,9 @@ public class CampaignController {
     public ResponseEntity copyCampaign(@RequestParam int id, @RequestParam int workflowId) {
         int number = campaignService.copyCampaign(id, workflowId);
         if (number != 1) {
-            return ResponseEntity.status(CONFLICT).body("Đã copy thành công ");
+            return ResponseEntity.status(CREATED).body("Đã copy thành công ");
         }
-        return ResponseEntity.status(CREATED).body("Fail");
+        return ResponseEntity.status(CONFLICT).body("Fail");
 
     }
 
@@ -159,6 +159,27 @@ public class CampaignController {
     public ResponseEntity getStatisticCampaign() {
         campaignService.getStatisticCampaign();
         return ResponseEntity.status(HttpStatus.OK).body("Successfully");
+    }
+
+    @PostMapping("campaign/duplicate/")
+    public ResponseEntity duplicateCampaign(@RequestParam int id, @RequestParam String name) {
+        boolean flag = campaignService.copyCampaign(id, name);
+        if (flag == false) {
+            return ResponseEntity.status(CONFLICT).body("Fail ");
+        }
+        return ResponseEntity.status(CREATED).body("Successfully");
+
+    }
+
+
+    @PostMapping("campaign/check/")
+    public ResponseEntity checkDuplicateName(@RequestParam String name) {
+        boolean flag = campaignService.checkDuplicatName(name);
+        if (flag == false) {
+            return ResponseEntity.status(CONFLICT).body("Fail ");
+        }
+        return ResponseEntity.status(ACCEPTED).body("Successfully");
+
     }
 
 

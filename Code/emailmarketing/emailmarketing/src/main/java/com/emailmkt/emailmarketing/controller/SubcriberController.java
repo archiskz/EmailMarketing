@@ -142,6 +142,11 @@ public class SubcriberController {
         return new ResponseEntity<StatisticContactDTO>(vms, HttpStatus.OK);
     }
 
+    @GetMapping("/subcriber/statistic")
+    public ResponseEntity getStatisticCampaign() {
+        subcriberService.getStatisticSubcriber();
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully");
+    }
 
 
 

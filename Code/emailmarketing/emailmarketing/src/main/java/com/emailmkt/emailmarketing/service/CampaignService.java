@@ -24,6 +24,10 @@ public interface CampaignService {
 
     CampaignFullDTO getCampaignLatest();
 
+    boolean copyCampaign(int campaignId, String name);
+
+    boolean checkDuplicatName(String name);
+
 
 
 
