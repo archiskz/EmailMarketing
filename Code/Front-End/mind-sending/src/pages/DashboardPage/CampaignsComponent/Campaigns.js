@@ -43,8 +43,18 @@ class Campaigns extends Component {
     const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
-    },()=> this.getAllCampaign() )
+    },()=> {this.getAllCampaign()
+      this.loadStatitic()
+    })
    }
+
+
+   loadStatitic=()=>{
+    axios.get(`${Config.API_URL}campaign/statistic`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+    }).catch(function (error) {
+      });
+  }
    getAllCampaign=()=>{
     var selectOptions = [
     ];
