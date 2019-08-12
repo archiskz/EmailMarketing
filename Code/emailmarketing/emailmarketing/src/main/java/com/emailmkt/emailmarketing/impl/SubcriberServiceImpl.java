@@ -11,6 +11,7 @@ import com.emailmkt.emailmarketing.service.SubcriberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -60,7 +61,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setLastName(dto.getLastName());
         subcriber.setType("Beginner Contacts");
         Account account = accountRepository.findAccountById(1);
-        subcriber.setAccount_id(account.getId() + "");
+        subcriber.setAccount_id(account.getId());
         List<GroupContactSubcriber> groupContactSubcribers = dto.getGcSubcriberDTOS().stream().map(g -> {
             GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
             groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
@@ -91,7 +92,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setFirstName(dto.getFirstName());
         subcriber.setType("Beginner Contacts");
         Account account = accountRepository.findAccountById(1);
-        subcriber.setAccount_id(account.getId() + "");
+        subcriber.setAccount_id(account.getId() );
         List<GroupContactSubcriber> groupContactSubcribers = new ArrayList<>();
 
         GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
@@ -151,7 +152,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             subcriber.setType(subcriberDTO.getType());
             subcriber.setTag(subcriberDTO.getTag());
             Account account = accountRepository.findAccountById(1);
-            subcriber.setAccount_id(account.getId() + "");
+            subcriber.setAccount_id(account.getId() );
             List<GroupContactSubcriber> groupContactSubcribers = subcriberDTO.getGcSubcriberDTOS().stream().map(g -> {
                 GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
                 groupContactSubcriber.setActive(true);

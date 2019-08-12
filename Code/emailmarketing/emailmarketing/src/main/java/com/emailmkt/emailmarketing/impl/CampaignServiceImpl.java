@@ -90,7 +90,7 @@ public class CampaignServiceImpl implements CampaignService {
                 mailLists.add(mailList[i]);
                 CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
                 campaignSubcriber.setComfirmation(false);
-                campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                campaignSubcriber.setCreatedTime("");
                 campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
                 campaignSubcriber.setSubcriberEmail(mailList[i]);
                 campaignSubcribers.add(campaignSubcriber);
@@ -130,7 +130,7 @@ public class CampaignServiceImpl implements CampaignService {
                 mailLists.add(mailList[i]);
                 CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
                 campaignSubcriber.setComfirmation(false);
-                campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                campaignSubcriber.setCreatedTime("");
                 campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
                 campaignSubcriber.setSend(true);
                 campaignSubcriber.setOpened(false);
@@ -214,7 +214,7 @@ public class CampaignServiceImpl implements CampaignService {
                 mailLists.add(mailList[i]);
                 CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
                 campaignSubcriber.setComfirmation(false);
-                campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                campaignSubcriber.setCreatedTime("");
                 campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
                 campaignSubcriber.setSubcriberEmail(mailList[i]);
                 campaignSubcribers.add(campaignSubcriber);
@@ -246,10 +246,10 @@ public class CampaignServiceImpl implements CampaignService {
             public void run() {
                 try {
                     for (int counter = 0; counter < mailLists.size(); counter++) {
-                        mailService.sendSimpleMessageV2(campaign.getSender(), campaign.getFromMail(), mailLists.get(counter), campaign.getSubject(), campaign.getContent());
+                        String messageId = mailService.sendSimpleMessageV2(campaign.getSender(), campaign.getFromMail(), mailLists.get(counter), campaign.getSubject(), campaign.getContent());
                         CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(campaign.getId(), mailLists.get(counter));
                         campaignSubcriber.setSend(true);
-                        campaignSubcriber.setMessageId(MESSAGE_ID.trim()); //mỗi lần chạy là tự tạo ha?
+                        campaignSubcriber.setMessageId(messageId.trim()); //mỗi lần chạy là tự tạo ha?
                         campaignSubcriberRepository.save(campaignSubcriber);
                     }
 
@@ -300,7 +300,7 @@ public class CampaignServiceImpl implements CampaignService {
             for (int i = 0; i < mailList.length; i++) {
                 CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
                 campaignSubcriber.setComfirmation(false);
-                campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                campaignSubcriber.setCreatedTime("");
                 campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
                 campaignSubcriber.setSubcriberEmail(mailList[i]);
                 campaignSubcribers.add(campaignSubcriber);
@@ -391,7 +391,7 @@ public class CampaignServiceImpl implements CampaignService {
             for (int i = 0; i < mailList.length; i++) {
                 CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
                 campaignSubcriber.setComfirmation(false);
-                campaignSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                campaignSubcriber.setCreatedTime("");
                 campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
                 campaignSubcriber.setOpened(false);
                 campaignSubcriber.setSend(false);

@@ -111,7 +111,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 mailLists.add(mailList[i]);
                 AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
                 appointmentSubcriber.setConfirmation(false);
-                appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                appointmentSubcriber.setCreatedTime("");
                 appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
                 appointmentSubcriber.setSend(false);
                 appointmentSubcriber.setOpened(false);
@@ -166,7 +166,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                mailService.sendAppointment(appointment.getSender(),
+                String messageId = mailService.sendAppointment(appointment.getSender(),
                         appointment.getFromMail(),
                         mailLists.get(counter), appointment.getSubject(),
                         newString);
@@ -175,7 +175,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 appointmentSubcriber.setConfirmation(false);
                 appointmentSubcriber.setDelivery(false);
                 appointmentSubcriber.setOpened(false);
-                appointmentSubcriber.setMessageId(MESSAGE_APPOINTMENT_ID.trim());
+                    appointmentSubcriber.setMessageId(messageId.trim());
                 appointmentSubcriberRepository.save(appointmentSubcriber);
 
                 //Em bỏ ra khỏi hàm thì chạy mượt vãi đưa vô timer là bị
@@ -272,7 +272,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 for (int i = 0; i < mailList.length; i++) {
                     AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
                     appointmentSubcriber.setConfirmation(false);
-                    appointmentSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                    appointmentSubcriber.setCreatedTime("");
                     appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
                     appointmentSubcriber.setSend(false);
                     appointmentSubcriber.setOpened(false);

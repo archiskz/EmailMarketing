@@ -16,6 +16,7 @@ import org.camunda.bpm.model.bpmn.instance.Process;
 import org.camunda.bpm.model.bpmn.instance.SequenceFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_APPOINTMENT_ID;
 import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_ID;
 
 //import com.emailmkt.emailmarketing.model.Task;
@@ -307,7 +309,7 @@ public class WorkflowServiceImpl implements WorkflowService {
         return subcriberIncoming;
     }
 
-//    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 30000)
     @Override
     public void runWorkflow() {
         System.out.println("RUN WORK FLOW");
@@ -315,7 +317,6 @@ public class WorkflowServiceImpl implements WorkflowService {
         List<Workflow> workflows = workflowRepository.findWorkflowByStatus("Starting");
         if (workflows != null) {
             for (Workflow workflow : workflows) {
-                System.out.println("-----------------------------------------------------WORK FLOW:");
                 System.out.println("-----------------------------------------------------WORK FLOW:" + workflow.getName());
                 executor.execute(new Runnable() {
                     @Override
@@ -340,9 +341,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                                     Appointment firstApp = appointmentRepository.findAppointmentById(firstTask.getCampaignAppointment());
                                     System.out.println("First APP -----------------" + firstApp.getName());
                                     if (appointmentSubcriberRepository.checkConfirmAppointment(firstApp.getId(), subcriber.getEmail()) != null) {
-                                        System.out.println(appointmentSubcriberRepository.checkSend(firstApp.getId(), subcriber.getEmail()));
                                         if (appointmentSubcriberRepository.checkSend(firstApp.getId(), subcriber.getEmail()) == true) {
-                                            System.out.println("T DANG O DAY NE ---------------------------------------");
                                             runTask(firstTask, workflow, subcriber);
                                         } else {
                                             System.out.println("-----------------------------------------------------SENDING:");
@@ -367,11 +366,11 @@ public class WorkflowServiceImpl implements WorkflowService {
                                     System.out.println("First CAMPAIGN -----------------" + firstApp.getName() + subcriber.getEmail());
                                     if (campaignSubcriberRepository.checkConfirmCampaign(firstApp.getId(), subcriber.getEmail()) != null) {
                                         System.out.println("SUBCRIBER ------------------------" + campaignSubcriberRepository.checkSend(firstApp.getId(), subcriber.getEmail()));
-                                        if (campaignSubcriberRepository.checkSend(firstApp.getId(), subcriber.getEmail()) == true) {
+                                        if (campaignSubcriberRepository.checkSend(firstApp.getId(), subcriber.getEmail()) == true &&
+                                                campaignSubcriberRepository.changeConfirmSend(firstApp.getId(), subcriber.getEmail()).getMessageId() != "") {
                                             System.out.println("Gửi rồi nha ");
                                             runTask(firstTask, workflow, subcriber);
-                                            System.out.println(firstTask.getName() + workflow.getName() + subcriber.getLastName());
-                                        } else {
+                                        } else if(campaignSubcriberRepository.checkSend(firstApp.getId(), subcriber.getEmail()) != true) {
 //                                            System.out.println("-----------------------------------------------------SENDING:");
 
                                             CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(firstApp.getId(), subcriber.getEmail());
@@ -432,6 +431,7 @@ public class WorkflowServiceImpl implements WorkflowService {
         ;
         if (firstTask.getType().equalsIgnoreCase("appointment")) {
             Appointment firstAppointment = appointmentRepository.findAppointmentById(firstTask.getCampaignAppointment());
+            AppointmentSubcriber appointmentSubcriberCheck = appointmentSubcriberRepository.changeConfirmSend(firstAppointment.getId(), subcriber.getEmail());
             System.out.println("CHECK---------------------------------" + appointmentSubcriberRepository.checkConfirmAppointment(firstAppointment.getId(), subcriber.getEmail()));
             if (appointmentSubcriberRepository.checkConfirmAppointment(firstAppointment.getId(), subcriber.getEmail()) == true) {
                 clicked = 1;
@@ -454,22 +454,61 @@ public class WorkflowServiceImpl implements WorkflowService {
                         Task tmp = taskRepository.findTaskByShapeIdAndWorkflow_Id(postsCode.get(i), workflow.getId());
                         System.out.println("GATE WAY-------------------------------" + tmp.getGateway());
 
-                        if ((tmp.getGateway().equalsIgnoreCase("Clicked ?yes") && clicked == 1) ||
-                                (tmp.getGateway().equalsIgnoreCase("Clicked ?no") && clicked == 0)
+                        if ((tmp.getGateway().equalsIgnoreCase("Clicked ?yes") && clicked == 1)
+                                || (tmp.getGateway().equalsIgnoreCase("Clicked ?no") && clicked == 0
+                                || (tmp.getGateway().equalsIgnoreCase("Opened ?yes") && open == 1)
+                                || (tmp.getGateway().equalsIgnoreCase("Opened ?no") && open == 0))
                         ) {
-                            System.out.println("--------------------------------------------------------Clicked ?No");
-                            Appointment tmpAppointment = appointmentRepository.findAppointmentById(tmp.getCampaignAppointment());
-                            AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(tmpAppointment.getId(), subcriber.getEmail());
-                            if (appointmentSubcriber.isSend() == false) {
-                                appointmentSubcriber.setSend(true);
-                                appointmentSubcriberRepository.save(appointmentSubcriber);
-//                                
-                                addContentApppointment(tmpAppointment, subcriber);
+                            if (tmp.getType().equalsIgnoreCase("appointment")) {
+                                System.out.println("--------------------------------------------------------Clicked ?No");
+                                Appointment tmpAppointment = appointmentRepository.findAppointmentById(tmp.getCampaignAppointment());
+                                AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(tmpAppointment.getId(), subcriber.getEmail());
+                                if (!appointmentSubcriber.isSend()
+                                        && concompareTwoTimes(appointmentSubcriberCheck.getCreatedTime(), 2)
+                                ) {
+
+                                    appointmentSubcriber.setSend(true);
+                                    appointmentSubcriberRepository.save(appointmentSubcriber);
+//                                    mailService.sendAppointment(tmpAppointment.getSender(), tmpAppointment.getFromMail(), subcriber.getEmail(), tmpAppointment.getSubject(), tmpAppointment.getBody());
+                                    addContentApppointment(tmpAppointment, subcriber);
+//                                    break;
+                                }
+                                runTask(tmp, workflow, subcriber);
+                            } else {
+                                // CAMPAIGN
+                                Campaign tmpCampaign = campaignRepository.findCampaignById(tmp.getCampaignAppointment());
+                                CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(tmpCampaign.getId(), subcriber.getEmail());
+                                campaignSubcriber.getCreatedTime();
+                                if (campaignSubcriberRepository.checkConfirmCampaign(tmpCampaign.getId(), subcriber.getEmail()) != null) {
+                                    System.out.println("--------------------------------------------------------Clicked ?No");
+
+                                    System.out.println("------ISSEND" + subcriber.getEmail() + tmpCampaign.getName());
+                                    System.out.println("-----------ISSEND" + campaignSubcriber.isSend());
+                                    if (!campaignSubcriber.isSend()
+                                            && concompareTwoTimes(appointmentSubcriberCheck.getCreatedTime(), 2)
+                                    ) {
+                                        campaignSubcriber.setSend(true);
+                                        campaignSubcriberRepository.save(campaignSubcriber);
+//                                        mailService.sendAppointment(tmpCampaign.getSender(), tmpCampaign.getFromMail(), subcriber.getEmail(), tmpCampaign.getSubject(), tmpCampaign.getContent());
+                                        sendCampaignWorkflow(tmpCampaign, subcriber);
+//                                        break;
+                                    }
+                                    runTask(tmp, workflow, subcriber);
+                                } else {
+                                    System.out.println("DANG O DAY NE");
+                                    CampaignSubcriber newCampaignSub = new CampaignSubcriber();
+                                    CampaignGroupContact cgc = tmpCampaign.getCampaignGroupContacts().get(0);
+                                    newCampaignSub.setCampaignGroupContact(cgc);
+                                    newCampaignSub.setSubcriberEmail(subcriber.getEmail());
+                                    newCampaignSub.setSend(false);
+                                    newCampaignSub.setComfirmation(false);
+                                    campaignSubcriberRepository.save(newCampaignSub);
+                                }
+
                             }
-                            runTask(tmp, workflow, subcriber);
                         } else {
-//                        runTask(tmp,workflow,subcriber);
-//                        return;
+                            runTask(tmp, workflow, subcriber);
+                            return;
                         }
 
                     }//array of post code
@@ -490,9 +529,13 @@ public class WorkflowServiceImpl implements WorkflowService {
 //                mailService.sendAppointment(firstAppointment.getSender(),firstAppointment.getFromMail(),subcriber.getEmail(),firstAppointment.getSubject(),firstAppointment.getBody());
             }
             ///IF CAMPAIGN
-        } else if (firstTask.getType().equalsIgnoreCase("campaign")) {
+        }
+        else if (firstTask.getType().equalsIgnoreCase("campaign")) {
             Campaign firstCampaign = campaignRepository.findCampaignById(firstTask.getCampaignAppointment());
 //            System.out.println("CHECK---------------------------------" +appointmentSubcriberRepository.checkConfirmAppointment(firstCampaign.getId(), subcriber.getEmail()).toString());
+            CampaignSubcriber campaignSubcriberCheck = campaignSubcriberRepository.changeConfirmSend(firstCampaign.getId(), subcriber.getEmail());
+            String timeSend = campaignSubcriberCheck.getCreatedTime();
+
             if (campaignSubcriberRepository.checkConfirmCampaign(firstCampaign.getId(), subcriber.getEmail()) == true) {
                 clicked = 1;
             } else {
@@ -503,7 +546,7 @@ public class WorkflowServiceImpl implements WorkflowService {
             } else {
                 open = 0;
             }
-            if (campaignSubcriberRepository.checkSend(firstCampaign.getId(), subcriber.getEmail()) == true) {
+            if (campaignSubcriberRepository.checkSend(firstCampaign.getId(), subcriber.getEmail()) == true && campaignSubcriberCheck.getMessageId() != "" && campaignSubcriberCheck.getMessageId() != null) {
                 List<String> postsCode = new ArrayList<>();
                 try {
                     postsCode = Arrays.asList(firstTask.getPostTask().split("-"));
@@ -515,9 +558,8 @@ public class WorkflowServiceImpl implements WorkflowService {
                     return;
                 } else {
                     for (int i = 0; i < postsCode.size(); i++) {
-                        System.out.println("POST CODE--------------------------------------------------" + postsCode.get(i) + "CLicked" + clicked);
+                        System.out.println("POST CODE--------------------------------------------------" + postsCode.get(i) + "c" + timeSend);
                         Task tmp = taskRepository.findTaskByShapeIdAndWorkflow_Id(postsCode.get(i), workflow.getId());
-                        System.out.println("GATE WAY-------------------------------" + tmp.getGateway());
 
                         if ((tmp.getGateway().equalsIgnoreCase("Clicked ?yes") && clicked == 1) || (tmp.getGateway().equalsIgnoreCase("Clicked ?no") && clicked == 0)
                                 || (tmp.getGateway().equalsIgnoreCase("Opened ?yes") && open == 1) || (tmp.getGateway().equalsIgnoreCase("Opened ?no") && open == 0)) {
@@ -525,14 +567,20 @@ public class WorkflowServiceImpl implements WorkflowService {
                                 System.out.println("--------------------------------------------------------Clicked ?No");
                                 Appointment tmpAppointment = appointmentRepository.findAppointmentById(tmp.getCampaignAppointment());
                                 AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(tmpAppointment.getId(), subcriber.getEmail());
-                                if (appointmentSubcriber.isSend() == false) {
+                                System.out.println("Appointment Here" + appointmentSubcriber.isSend() + tmpAppointment.getName());
+                                if (!appointmentSubcriber.isSend()
+                                        && concompareTwoTimes(timeSend, 2) == true
+                                )
+                                {
+
                                     appointmentSubcriber.setSend(true);
                                     appointmentSubcriberRepository.save(appointmentSubcriber);
 //                                    mailService.sendAppointment(tmpAppointment.getSender(), tmpAppointment.getFromMail(), subcriber.getEmail(), tmpAppointment.getSubject(), tmpAppointment.getBody());
                                     addContentApppointment(tmpAppointment, subcriber);
+//                                    break;
                                 }
                                 runTask(tmp, workflow, subcriber);
-                            } else {
+                            } else if(tmp.getType().equalsIgnoreCase("campaign")) {
                                 // CAMPAIGN
                                 Campaign tmpCampaign = campaignRepository.findCampaignById(tmp.getCampaignAppointment());
                                 CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(tmpCampaign.getId(), subcriber.getEmail());
@@ -541,14 +589,20 @@ public class WorkflowServiceImpl implements WorkflowService {
                                     System.out.println("--------------------------------------------------------Clicked ?No");
 
                                     System.out.println("------ISSEND" + subcriber.getEmail() + tmpCampaign.getName());
-                                    System.out.println("-----------ISSEND" + campaignSubcriber.isSend());
-                                    if (!campaignSubcriber.isSend()) {
+                                    System.out.println("-----------ISSEND" + campaignSubcriber.isSend() + concompareTwoTimes(timeSend, 2));
+                                    if (!campaignSubcriber.isSend() && campaignSubcriber.getMessageId() != ""
+                                            && concompareTwoTimes(timeSend, 1) && timeSend != "" && timeSend != null
+                                    ) {
+                                        System.out.println("IM HERE");
                                         campaignSubcriber.setSend(true);
                                         campaignSubcriberRepository.save(campaignSubcriber);
 //                                        mailService.sendAppointment(tmpCampaign.getSender(), tmpCampaign.getFromMail(), subcriber.getEmail(), tmpCampaign.getSubject(), tmpCampaign.getContent());
                                         sendCampaignWorkflow(tmpCampaign, subcriber);
+                                    } else if(campaignSubcriber.isSend() && campaignSubcriber.getMessageId().equalsIgnoreCase("")){
+                                        continue;
+                                    } else if(campaignSubcriber.isSend() && !campaignSubcriber.getMessageId().equalsIgnoreCase("")) {
+                                        runTask(tmp, workflow, subcriber);
                                     }
-                                    runTask(tmp, workflow, subcriber);
                                 } else {
                                     System.out.println("DANG O DAY NE");
                                     CampaignSubcriber newCampaignSub = new CampaignSubcriber();
@@ -567,7 +621,8 @@ public class WorkflowServiceImpl implements WorkflowService {
                 }
 
 
-            } else {
+            } else if(campaignSubcriberRepository.changeConfirmSend(firstCampaign.getId(), subcriber.getEmail()).getMessageId() != "" &&
+                    !campaignSubcriberRepository.changeConfirmSend(firstCampaign.getId(), subcriber.getEmail()).isSend() ){
                 System.out.println("CHUA SEND NE --------------------------------------");
 
                 firstCampaign = campaignRepository.findCampaignById(firstTask.getCampaignAppointment());
@@ -603,12 +658,14 @@ public class WorkflowServiceImpl implements WorkflowService {
             e.printStackTrace();
         }
         CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(campaign.getId(), subcriber.getEmail());
-        campaignSubcriber.setSend(true);// nó cũng chưa chay vô đây nè
-        campaignSubcriber.setMessageId(MESSAGE_ID.trim());
+        campaignSubcriber.setSend(true);
         campaignSubcriberRepository.save(campaignSubcriber);
         campaign.setStatus("Done");
         campaignRepository.save(campaign);
-        mailService.sendSimpleMessageV2(campaign.getSender(), campaign.getFromMail(), subcriber.getEmail(), campaign.getSubject(), content);
+        String messageId = "";
+        messageId = mailService.sendSimpleMessageV2(campaign.getSender(), campaign.getFromMail(), subcriber.getEmail(), campaign.getSubject(), content);
+        campaignSubcriber.setMessageId(messageId.trim());
+        campaignSubcriberRepository.save(campaignSubcriber);
 
     }
 
@@ -625,25 +682,34 @@ public class WorkflowServiceImpl implements WorkflowService {
                     newString += "http://localhost:8080/api/accept-appointment?confirmationToken=" + appointment.getToken() + "&subcriberEmail=" + subcriber.getEmail();
                 }
             }
-
-            mailService.sendAppointment(appointment.getSender(),
+            String messageId = "";
+            messageId = mailService.sendAppointment(appointment.getSender(),
                     appointment.getFromMail(),
                     subcriber.getEmail()
                     , appointment.getSubject(),
                     newString);
+            AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(appointment.getId(), subcriber.getEmail());
+            appointmentSubcriber.setMessageId(messageId.trim());
+            appointmentSubcriberRepository.save(appointmentSubcriber);
         } catch (MailException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
     public boolean concompareTwoTimes(String timeSend, int interval) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime formatTimeSend = LocalDateTime.parse(timeSend,formatter);
 
-        if(formatTimeSend.plusMinutes(interval).isBefore(now)){
-            return true;
+
+        if (timeSend == "" || timeSend.isEmpty()) {
+            return false;
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime formatTimeSend = LocalDateTime.parse(timeSend, formatter);
+            if (formatTimeSend.plusMinutes(interval).isBefore(now)) {
+                return true;
+            }
         }
+
         return false;
 
 

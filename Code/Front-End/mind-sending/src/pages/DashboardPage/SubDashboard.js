@@ -10,7 +10,7 @@ class SubDashboard extends Component {
             visible: true,
             latestContact:[],
             latestGroup:[],
-            latestCampaign:{},
+            latestCampaign:{createdTime:""},
             contactStatitic:{}
         };
     }
@@ -73,7 +73,20 @@ componentDidMount(){
         console.log(error);
       });
      }
-
+// renderFormatDate=(datetime)=>{
+//   if(datetime != ""){
+//     var days = Array();
+//     days = datetime.split("T");
+//    var time = days.pop();
+//    var date = days.pop()
+//    var dateString = date.split("-")
+//    var timeString = time.split(":")
+//    var datetimeFormat = dateString.pop() + "/" + dateString.pop()+"/" + dateString.pop();
+//    datetimeFormat = datetimeFormat+ " " + timeString.shift() + ":" + timeString.shift()
+//    return datetimeFormat;
+//   }
+//    return null
+// }
 
 
 
@@ -141,6 +154,7 @@ componentDidMount(){
             </span>
             </h5>
             <h5 className="dashboard_bold_text2">Date created: <span className="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
+            {/* {this.renderFormatDate(latestCampaign.createdTime)} */}
             {latestCampaign.createdTime}
             </span>
             </h5>
@@ -224,7 +238,7 @@ componentDidMount(){
                   <tr key={index}>
                     <td>{index}</td>
                     <td>{latestGroup.name}</td>
-                    <td>{latestGroup.createdTime}</td>
+                    {/* <td>{this.renderFormatDate(latestGroup.createdTime)}</td> */}
                     <td>{latestGroup.groupContactSubcribers.length}</td>
                   </tr> 
                                     ))}
