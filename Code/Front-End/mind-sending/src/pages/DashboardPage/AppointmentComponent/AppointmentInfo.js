@@ -67,18 +67,7 @@ class AppointmentInfo extends Component{
     this.closeModal = this.closeModal.bind(this);
     // this.handleDate = this.handleDate.bind(this);
    }
-  //  handleDate(date) {
-  //   this.setState({ newAppointment: {
-  //     ...this.state.newAppointment,
-  //     appointmentDTO:{
-  //       ...this.state.newAppointment.appointmentDTO,
-  //       time: date,
-  //   }
-    
-  //   } });
-  //   console.log(this.state.newAppointment)
-  // }
-   
+  
   componentDidMount (){
     const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
@@ -262,7 +251,7 @@ class AppointmentInfo extends Component{
             value={this.state.appointmentInfo.name} 
             name="name"  onChange={this.handleName} 
             className="user_profile_w3_input" id="company-disabled" type="text"  />
-            <ValidateField isValidate={false} isError = {this.state.validates.nameValidate} />
+            {/* <ValidateField isValidate={false} isError = {this.state.validates.nameValidate} /> */}
             </div>
             
         		</div>
@@ -280,7 +269,7 @@ class AppointmentInfo extends Component{
                  
                        
                       </div>
-                      <ValidateField isValidate={false} isError = {this.state.validates.datetimeValidate} />
+                      {/* <ValidateField isValidate={false} isError = {this.state.validates.datetimeValidate} /> */}
         					</div>
         				</div>
         				
@@ -303,7 +292,7 @@ class AppointmentInfo extends Component{
                           enabled={false}
                           // onBlur={()=>this.Validate('group')}
                           placeholder="Choose Lists"/>    
-                           <ValidateField isValidate={false} isError = {this.state.validates.groupValidate} />
+                           {/* <ValidateField isValidate={false} isError = {this.state.validates.groupValidate} /> */}
               </div>
               </div>
             
@@ -319,7 +308,7 @@ class AppointmentInfo extends Component{
 
                      />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
-                    <ValidateField isValidate={false} isError = {this.state.validates.fromValidate} />
+                    {/* <ValidateField isValidate={false} isError = {this.state.validates.fromValidate} /> */}
         					</div>
             </div>
             <div className="user_profile9_sub">
@@ -330,7 +319,7 @@ class AppointmentInfo extends Component{
                       value={this.state.appointmentInfo.fromMail} 
                         />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
-                    <ValidateField isValidate={false} isError = {this.state.validates.mailValidate} />
+                    {/* <ValidateField isValidate={false} isError = {this.state.validates.mailValidate} /> */}
         					</div>
             </div>
         					
@@ -348,13 +337,13 @@ class AppointmentInfo extends Component{
 
                        />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
-                    <ValidateField isValidate={false} isError = {this.state.validates.subjectValidate} />
+                    {/* <ValidateField isValidate={false} isError = {this.state.validates.subjectValidate} /> */}
         					</div>
         				
         			</div>
-              <a className='user_profile_btn' onClick={this.openModal}  tabindex="0" type="button">
+              {/* <a className='user_profile_btn' onClick={this.openModal}  tabindex="0" type="button">
         					Choose Template
-        				</a>
+        				</a> */}
         		</div>
             {/* ENDSUBJECT */}
             {/* Content */}
@@ -434,13 +423,13 @@ class AppointmentInfo extends Component{
               <div className="user_line"> 
               <div className="contact_information_detail">
                 <h4 >
-                {this.state.delivery}
+                {this.state.appointmentInfo.delivery}
                     </h4>
                 <p >Delivery mail</p>
               </div>
               <div className="contact_information_detail">
                 <h4 >
-                        {this.state.request}
+                {this.state.appointmentInfo.request}
                     </h4>
                 <p >Request</p>
               </div>
@@ -450,13 +439,13 @@ class AppointmentInfo extends Component{
               <div className="user_line"> 
               <div className="contact_information_detail">
                 <h4 >
-                {this.state.bounce}
+                {this.state.appointmentInfo.bounce}
                     </h4>
                 <p >Bounce rate</p>
               </div>
               <div className="contact_information_detail">
                 <h4 >
-                {this.state.open}
+                {this.state.appointmentInfo.openRate}
                     </h4>
                 <p >Open rate</p>
               </div>
@@ -466,7 +455,7 @@ class AppointmentInfo extends Component{
               <div className="user_line"> 
               <div className="contact_information_detail">
                 <h4 >
-                {this.state.click}
+                {this.state.appointmentInfo.clickRate}
                     </h4>
                 <p >Click rate</p>
               </div>
@@ -474,7 +463,7 @@ class AppointmentInfo extends Component{
 
               <div className="contact_information_detail">
                 <h4 >
-                {this.state.spam}
+                {this.state.appointmentInfo.spamRate}
                     </h4>
                 <p >Spam rate</p>
               </div>

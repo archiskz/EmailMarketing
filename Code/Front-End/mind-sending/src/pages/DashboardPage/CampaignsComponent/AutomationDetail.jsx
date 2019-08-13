@@ -331,8 +331,9 @@ onClickToExport = () =>{
        var array = new Array;
        array = this.state.workflowDTO.subcriberInTask
        var x = "No contacts pass this task"
-      if(array != null){
+      if(array != null && array.length != 0){
         x = array.toString();
+        x =  x.split(',').join("</br>")
       }
        document.getElementById("workflow-task").innerHTML = x;
      } else if (this.state.inComing == true){
@@ -340,6 +341,7 @@ onClickToExport = () =>{
       var x = "No contacts incoming"
       if(array != null){
         x = array.toString();
+        x =  x.split(',').join('</br>')
       }
        document.getElementById("workflow-task").innerHTML = x;
      } 
@@ -377,14 +379,18 @@ onClickToExport = () =>{
     </span>
 </div>           
               
-                <div id="propview" style={{marginTop:"30px", width: '30%', height: 'auto', float: 'right', maxHeight: '98vh' }}>
-                <div style={{marginTop:"-30px", width:"100%",height:"70px", backgroundColor:"#2e3544", color:"white" }}>
-                <h3 style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Campaign: {this.state.workflowDTO.campaign.name.substring(0,(this.state.workflowDTO.campaign.name.length - 36))}</h3>
-              
+                <div id="propview"  style={{marginTop:"30px", width: '30%', height: 'auto', float: 'right', maxHeight: '98vh' }}>
+                <div style={{marginTop:"-20px", width:"100%",height:"70px", backgroundColor:"#2e3544", color:"white" }}>
+                  <h3 className={`${this.state.workflowDTO.campaign == null ? 'activeText' : ''}`} style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Campaign: {this.state.workflowDTO.campaign != null ? this.state.workflowDTO.campaign.name.substring(0,(this.state.workflowDTO.campaign.name.length - 36)) : ''}</h3>
+                  <h3 className={`${this.state.workflowDTO.campaign == null ? '' : 'activeText'}`} style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Appointment: {this.state.workflowDTO.appointment != null ? this.state.workflowDTO.appointment.name.substring(0,(this.state.workflowDTO.campaign.name.length - 36)) : ''}</h3>
                 </div>
-                <div style={{"padding":"10px" }}> 
-                <h4>Clicked: {this.state.workflowDTO.campaign.clickRate}</h4>
-                <h4>Opened: {this.state.workflowDTO.campaign.openRate}</h4>
+                <div className={`${this.state.workflowDTO.campaign == null && this.state.workflowDTO.appointment == null  ? 'activeText' : ''}`} style={{"padding":"10px" }}> 
+                <h4>Clicked: {this.state.workflowDTO.campaign != null ? this.state.workflowDTO.campaign.clickRate : ""} 
+                {this.state.workflowDTO.appointment != null ? this.state.workflowDTO.appointment.clickRate : ""}
+                </h4>
+                <h4>Opened: { this.state.workflowDTO.campaign != null ? this.state.workflowDTO.campaign.openRate:"" }
+                { this.state.workflowDTO.appointment != null ? this.state.workflowDTO.appointment.openRate : ""}
+                </h4>
                   <span>Contacts have completed: {this.state.workflowDTO.subcriberInTask != null ? this.state.workflowDTO.subcriberInTask.length : '0'} contacts</span> <a onClick={this.getCompleted} style={{cursor:"pointer" }}> View</a>
                   <br/>
                   <span>Contacts incoming: {this.state.workflowDTO.subcriersComing != null ? this.state.workflowDTO.subcriersComing.length : '0'} contacts</span> <a onClick={this.getInComing} style={{cursor:"pointer" }}> View</a>
@@ -396,7 +402,7 @@ onClickToExport = () =>{
                   
                 </div>
                 
-                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.isModalVisible} width="440" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.isModalVisible} width="440" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
       <div class="modal-header"> 
         <h4 class="modal-title">{this.state.inTask ? 'Contacts have passed through' : 'Contacts incoming'} </h4>	
            <button type="button" onClick={()=>this.closeModal()} class="close" data-dismiss="modal" aria-hidden="true">×</button>
