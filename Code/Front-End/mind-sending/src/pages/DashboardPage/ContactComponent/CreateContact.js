@@ -46,19 +46,19 @@ class CreateContact extends Component {
 
   }
 
-  addNotification=(title)=> {
-    this.notificationDOMRef.current.addNotification({
-      title: `${title}`,
-      message: `${title} Success!`,
-      type: "success",
-      insert: "top",
-      container: "top-right",
-      animationIn: ["animated", "fadeIn"],
-      animationOut: ["animated", "fadeOut"],
-      dismiss: { duration: 2000 },
-      dismissable: { click: true }
-    });
-  }
+    addNotification=(title)=> {
+      this.notificationDOMRef.current.addNotification({
+        title: `${title}`,
+        message: `${title} Success!`,
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: { duration: 2000 },
+        dismissable: { click: true }
+      });
+    }
    onToggleDropdown = () => {
      this.setState({
        dropdown_visible: !this.state.dropdown_visible
