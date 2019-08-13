@@ -76,7 +76,8 @@ class ViewUserProfile extends Component {
 	  this.addNotification()
     }).catch(error =>{
       console.log(error)
-    }) 
+	}) 
+	this.addNotification()
    }
    handleChange=(event)=>{
 	var name = event.target.name

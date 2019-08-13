@@ -238,7 +238,7 @@ componentDidMount(){
                   <tr key={index}>
                     <td>{index}</td>
                     <td>{latestGroup.name}</td>
-                    {/* <td>{this.renderFormatDate(latestGroup.createdTime)}</td> */}
+                    <td>{latestGroup.createdTime}</td>
                     <td>{latestGroup.groupContactSubcribers.length}</td>
                   </tr> 
                                     ))}
