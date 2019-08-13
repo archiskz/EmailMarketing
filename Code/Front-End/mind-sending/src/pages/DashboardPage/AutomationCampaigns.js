@@ -38,6 +38,8 @@ class AutomationCampaigns extends Component {
       this.getAllCampaign()
       this.getAllForms()
       this.getAllAppointment()
+      this.loadStatitic()
+      this.loadStatiticApp()
     })
    }
    getAllForms=()=>{
@@ -89,6 +91,18 @@ class AutomationCampaigns extends Component {
     }) 
   
    }
+   loadStatitic=()=>{
+    axios.get(`${Config.API_URL}campaign/statistic`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+    }).catch(function (error) {
+      });
+  }
+  loadStatiticApp=()=>{
+    axios.get(`${Config.API_URL}appointment/statistic`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+    }).catch(function (error) {
+      });
+  }
 
 	
   render(){
