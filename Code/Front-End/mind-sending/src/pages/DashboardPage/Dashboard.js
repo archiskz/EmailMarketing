@@ -10,6 +10,7 @@ import CreateList from './ListsComponent/CreateList';
 import CreateContact from './ContactComponent/CreateContact';
 import ContactByGroup from './ContactComponent/ContactByGroup';
 import EmbededForm from './EmbededFormComponent/EmbededForm';
+import Segmentation from './../SegmentationPage/Segmentation';
 import {
   BrowserRouter as Router,
   Route,
@@ -58,6 +59,7 @@ class DashBoard extends Component {
              <Route path="/dashboard/invite-mail" component={InviteMails} />
              <Route path="/dashboard/forms" component={EmbeddedForms} />
              <Route path="/dashboard/contacts-group/:id" component={ContactByGroup} />
+             <Route path="/dashboard/segmentation" component={Segmentation} />
              {/* <Route path="/dashboard/lists/:id" render={()=> (</>)} /> */}
            </Switch>
            </div>

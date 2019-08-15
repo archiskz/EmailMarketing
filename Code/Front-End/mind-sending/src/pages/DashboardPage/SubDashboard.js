@@ -236,7 +236,7 @@ componentDidMount(){
               <tbody>
               {latestGroups.map((latestGroup,index)=>(
                   <tr key={index}>
-                    <td>{index}</td>
+                    <td>{index+1}</td>
                     <td>{latestGroup.name}</td>
                     <td>{latestGroup.createdTime}</td>
                     <td>{latestGroup.groupContactSubcribers.length}</td>
@@ -274,7 +274,7 @@ componentDidMount(){
               
               {latestContacts.map((latestContact,index)=>(
                   <tr key={index}>
-                    <td>{index}</td>
+                    <td>{index+1}</td>
                     <td>{latestContact.email}</td>
                     <td>{latestContact.firstName}</td>
                     <td>{latestContact.lastName}</td>

@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 import axios from 'axios';
 import ContactRow from './../../../components/row/ContactRow';
 import * as Config from './../../../constants/Config';
-
+import Modal from 'react-awesome-modal';
 import imgAvatar from './../../../access/img/client3.jpg'
 
 
@@ -29,7 +29,9 @@ class ViewUserProfile extends Component {
 				status: "",
 				username: "",
 				id:1
-			  }
+			  },
+			  isOpenModal:false,
+			  newEmail:""	
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.addNotification = this.addNotification.bind(this);
@@ -118,7 +120,7 @@ class ViewUserProfile extends Component {
                         </header>
         <div className="user_profile">
         <div className="user_profile2">
-        <div className="user_profile3">
+        <div className="user_profile3 flex50">
         	<div className="user_profile4">
         		<div className="user_profile5">
         		<h4 className="user_profile5_h4">Edit Profile</h4>
@@ -230,16 +232,30 @@ class ViewUserProfile extends Component {
         	</div>
         	
         </div>
-        <div className="user_profile12">
+        <div className="user_profile3 flex50" >
         		<div className="user_profile13">
-        			<div className="user_profile14">
-        				<img src={imgAvatar} alt="..."/>
-        			</div>
+        			
         			<div className="user_profile15">
-        				<h6>CEO / CO-FOUNDER</h6>
-        				<h4>Thắng Nguyễn</h4>
-        				<p></p>
-        			</div>
+					<div style={{"display":"flex",justifyContent:"space-between",marginBottom:"15px"}}>
+						<h3 style={{textTransform:"uppercase","fontWeight":"500"}}>Email addresses</h3>
+						<button onClick={()=>this.openModal()} type="button" class="btn btn-info">Add email</button>
+					</div>
+
+					<table class="table table-condensed">
+						<thead className="thead-dark">
+						<tr>
+							<th>Email address</th>
+							<th>Status</th>
+						</tr>
+						</thead>
+						<tbody style={{"border":"none"}}>
+						<tr>
+							<td>abc@gmail.com</td>
+							<td>Confirmed</td>
+						</tr>
+						</tbody>
+					</table>	
+						</div>
         		</div>
         	</div>
         </div>
@@ -247,9 +263,50 @@ class ViewUserProfile extends Component {
 
         </div>
         </div>
-        
+		<Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.isOpenModal} width="410" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <form class="contact1-form validate-form"  onSubmit={(e) => this.saveNewAddress(e)}>
+				<span class="contact1-form-title">
+					Add email address
+				</span>
+
+                        <div className="wrap-input1 validate-input">
+                            <input value={this.state.newEmail} onChange={this.handleChange1} className="name input1"
+                                   type="email" name="newEmail" placeholder="Email address"/>
+                            
+                        </div>
+                        <div style={{"width":"100%","textAlign":"center"}}>
+                        {/* <p style={{"color":"red","textAlign":"center"}} class="">{this.state.existedGroup}</p> */}
+                        </div>
+                        <div class="modal-footer">
+                    <button type="button" onClick={()=>this.closeModal()} class="btn btn-info">Cancel</button>
+                    <button type="submit"   className={`btn btn-danger ${this.state.newEmail ? "" : "disabled"}`} >Add address</button>
+                    
+                  </div>
+                    </form>
+                </Modal>
     </div>
  		);
  }
+ saveNewAddress(e){
+	e.preventDefault();
+ }
+ handleChange1 = (event) => {
+	var name = event.target.name;
+	var value = event.target.value;
+	this.setState({
+		[name]:value
+	});
+}
+ openModal() {
+	this.setState({
+		isOpenModal : true
+	});
+  }
+  
+  closeModal() {
+	this.setState({
+		isOpenModal : false
+	});
+  }
  }
 export default ViewUserProfile;

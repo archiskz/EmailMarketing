@@ -394,7 +394,8 @@ class CampaignInformation extends Component{
         					</div>
         					<div className="user_profile7_sub1">
                   <a onClick={this.openModal} className={`user_profile_btn  ${this.state.updateCampaign.mailObjectDTO.bodyJson == null ? 'activeText' : " "}`} tabindex="0" type="button">
-        					Design Email
+        					
+                  {this.state.updateCampaign.campaignDTO.status == "Draft" ? "Design Email" : "Preview"}
         				</a>
         					</div>
                   

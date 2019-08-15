@@ -129,6 +129,15 @@ addActiveClass = (index) => {
                 </Link>
             </li>
             {/* END LIST */}
+             {/* LIST */}
+             <li id="menu-academico" className={this.state.activeClasses0 ? "opend" : "closed"} >
+                <Link to = "/dashboard/segmentation" >
+                <i className="fa fa-list-alt" />
+                    <span style={{position: 'relative'}}>Segment</span>
+                    <div className="clearfix" />
+                </Link>
+            </li>
+            {/* END LIST */}
             
             
             

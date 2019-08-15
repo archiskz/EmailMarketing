@@ -201,13 +201,13 @@ class CreateAppointment extends Component{
                 <strong class="navToggleButton-css__toggle-name___3Y4ez">Create Invitation</strong>
             </span>
         </nav>
-        <span class="toolbar-css__save-container___2x7qH">
+        {/* <span class="toolbar-css__save-container___2x7qH">
         <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class="btn btn-secondary btn-on-dark btn-with-icon btn-with-icon">
             <i class="sg-icon sg-icon-save-draft">
 
             </i>Save Draft
         </a>
-    </span>
+    </span> */}
     {/* <span class="toolbar-css__send-container___AbB6n">
         <a icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
             <i class="sg-icon sg-icon-airplane-fill">
