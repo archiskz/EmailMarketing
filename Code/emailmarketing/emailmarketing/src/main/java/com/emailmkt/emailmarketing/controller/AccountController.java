@@ -1,11 +1,18 @@
 package com.emailmkt.emailmarketing.controller;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
+import com.amazonaws.services.simpleemail.model.VerifyEmailAddressRequest;
+import com.amazonaws.services.simpleemail.model.VerifyEmailAddressResult;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.service.AccountService;
 import com.emailmkt.emailmarketing.service.MailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +37,14 @@ public class AccountController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
 //    private final AuthenticationManager authenticationManager;
 
+    @Value("${cloud.aws.credentials.accessKey}")
+    private String accessKey;
 
+    @Value("${cloud.aws.credentials.secretKey}")
+    private String secretKey;
+
+    @Value("${cloud.aws.region.static}")
+    private String awsRegion;
 
 
     @Autowired
@@ -55,10 +69,12 @@ public class AccountController {
     @PostMapping("sign-up")
     public ResponseEntity createAccount(@RequestBody Account account) {
         boolean flag = accountService.createAccount(account);
+        AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard().withRegion(awsRegion).withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey))).build();
+        VerifyEmailAddressResult res = client.verifyEmailAddress(new VerifyEmailAddressRequest().withEmailAddress(account.getEmail()));
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Username của đã tồn tại, vui lòng chon username khác");
         }
-        return ResponseEntity.status(CREATED).body("Đăng kí thành công");
+        return ResponseEntity.status(CREATED).body("Đăng kí thành công. Please Verify Email to Accept Google ");
 
     }
 

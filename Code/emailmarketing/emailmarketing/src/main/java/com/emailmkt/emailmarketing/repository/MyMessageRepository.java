@@ -12,8 +12,9 @@ import javax.transaction.Transactional;
 @Transactional
 public interface MyMessageRepository extends JpaRepository<MyMessage,Integer> {
 
-    @Query("SELECT mes.content FROM MyMessage mes WHERE mes.id = :id")
-    String findContentByMessageId(@Param("id")int id);
+    @Query("SELECT mes.content FROM MyMessage mes WHERE mes.id = :id and mes.content = :content")
+    String findContentByMessageId(@Param("id")int id,@Param("content")String content);
+
 
 
 

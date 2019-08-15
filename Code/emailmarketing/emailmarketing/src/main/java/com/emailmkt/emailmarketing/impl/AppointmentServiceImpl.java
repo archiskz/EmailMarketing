@@ -23,8 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_APPOINTMENT_ID;
-
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
     public static final int NUM_OF_THREAD = 10;
@@ -316,11 +314,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 //                    String requestStr =new Double(request).toString();
             appointment.setRequest(requestStr);
-            appointment.setOpenRate(Math.round((open/request)*100)+"%");
-            appointment.setBounce(Math.round((bounce/request)*100)+"%");
-            appointment.setDelivery(Math.round((delivery/request)*100)+"%");
-            appointment.setClickRate(Math.round((click/request)*100) +"%");
-            appointment.setSpamRate(Math.round((spam/request)*100) +"%");
+            appointment.setOpenRate(String.valueOf((int) open)+"("+Math.round((open/request)*100)+"%)");
+            appointment.setBounce(String.valueOf((int) bounce)+"("+Math.round((bounce/request)*100)+"%)");
+            appointment.setDelivery(String.valueOf((int) delivery)+"("+Math.round((delivery/request)*100)+"%)");
+            appointment.setClickRate(String.valueOf((int) click)+"("+Math.round((click/request)*100) +"%)");
+            appointment.setSpamRate(String.valueOf((int) spam)+"("+Math.round((spam/request)*100) +"%)");
 
             appointmentRepository.save(appointment);
         }

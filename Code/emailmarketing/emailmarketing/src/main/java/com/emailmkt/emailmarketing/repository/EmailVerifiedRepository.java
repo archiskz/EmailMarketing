@@ -1,0 +1,21 @@
+package com.emailmkt.emailmarketing.repository;
+
+import com.emailmkt.emailmarketing.model.EmailVerified;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface EmailVerifiedRepository extends JpaRepository<EmailVerified, Integer> {
+
+    @Query("SELECT em.email FROM EmailVerified em WHERE em.account_id =:accountId")
+    List<String> findEmailVerifiedBy(@Param("accountId") int accountId);
+
+    List<EmailVerified>findEmailVerifiedByAccount_id(int accountId);
+
+
+
+}
