@@ -7,7 +7,6 @@ import * as Config from './../../../constants/Config';
 import Modal from 'react-awesome-modal';
 import imgAvatar from './../../../access/img/client3.jpg'
 
-
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 
@@ -31,7 +30,11 @@ class ViewUserProfile extends Component {
 				id:1
 			  },
 			  isOpenModal:false,
-			  newEmail:""	
+			 
+			  newVerify:{
+				email:"",
+			  },
+			  verified:[],
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.addNotification = this.addNotification.bind(this);
@@ -41,7 +44,10 @@ class ViewUserProfile extends Component {
 		const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
-    },()=>this.getAccount())
+    },()=>{
+		this.getAccount()
+		this.getVerifiedEmails()
+	})
    }
 
    getAccount(){
@@ -57,6 +63,16 @@ class ViewUserProfile extends Component {
     }) 
    }
 
+   getVerifiedEmails(){
+	axios.get(`${Config.API_URL}emailverified?accountId=1`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+	  console.log(res);
+	  this.setState({verified: res.data});
+    }).catch(error =>{
+      console.log(error)
+    }) 
+   }
+
    addNotification() {
 	this.notificationDOMRef.current.addNotification({
 	  title: "Update Account",
@@ -67,6 +83,19 @@ class ViewUserProfile extends Component {
 	  animationIn: ["animated", "fadeIn"],
 	  animationOut: ["animated", "fadeOut"],
 	  dismiss: { duration: 2000 },
+	  dismissable: { click: true }
+	});
+  }
+  addNotificationVeify() {
+	this.notificationDOMRef.current.addNotification({
+	  title: "Email Address Added",
+	  message: "We sent you an email, please confirm to verify your email address",
+	  type: "success",
+	  insert: "top",
+	  container: "top-right",
+	  animationIn: ["animated", "fadeIn"],
+	  animationOut: ["animated", "fadeOut"],
+	  dismiss: { duration: 3000 },
 	  dismissable: { click: true }
 	});
   }
@@ -94,6 +123,7 @@ class ViewUserProfile extends Component {
 	
 
  render(){
+	 var listVeifiedEmails = this.state.verified
  	return(
  			<div className = "" >
         <div className >
@@ -175,54 +205,6 @@ class ViewUserProfile extends Component {
         					</div>
         				</div>
         			</div>
-        			{/* <div className="user_profile9">
-        				<div className="user_profile10">
-        					<div className="user_profile9_sub1">
-        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">City</label>
-        						
-        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="Hồ Chí Minh city"/>
-        						
-        					</div>
-        				</div>
-        				<div className="user_profile10">
-        					<div className="user_profile9_sub1">
-        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">Country</label>
-        						
-        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="Việt Nam" />
-        						
-        					</div>
-        				</div>
-        				<div className="user_profile10">
-        					<div className="user_profile9_sub1">
-        						<label className="user_profile_w3_label" data-shrink="false" for="first-name">Postal code</label>
-        					
-        						<input aria-invalid="false" className="user_profile_w3_input2" id="first-name" type="text" value="70000" />
-        						
-        					</div>
-        				</div>
-        			</div>
-        			<div className="user_profile16">
-        				<div className="user_profile16_sub">
-        					<label className="user_profile16_label" Style="color: rgb(170, 170, 170);">Keep in touch with me</label>
-        					<div className="user_profile16_sub1">
-        						<label className="user_profile16_sub1_label" data-shrink="true" for="about-me">Below is my information:</label>
-        						
-        						<div className="user_profile9_sub2">
-        						<textarea aria-invalid="false" className="user_profile16_sub1_textarea" id="about-me" rows="3">
-        						MindSending is an internet marketing platform designed for small businesses. 
-        						With MindSending, you can launch various campaigns to engage with your subscribers,
-        						like emails, SMS, Facebook messenger and social campaigns for all major social media platforms,
-        						automated drip email campaigns.
-
-								MindSending also offers a bundle of advanced marketing automation features, 
-								transactional email delivery API, and all-in-one CRM for small businesses to manage their customers and teams efficiently on the MindSending app.                                                                       FPT University, Quang Trung Software, 0938169174.                                                                            
-
-        						</textarea>
-        						</div>
-        					</div>
-        				</div>
-        			</div>
-        			 */}
         		</div>	
         		<div className="user_profile11">
         				<button onClick={this.updateAccount} className="user_profile_btn" tabindex="0" type="button">
@@ -237,8 +219,8 @@ class ViewUserProfile extends Component {
         			
         			<div className="user_profile15">
 					<div style={{"display":"flex",justifyContent:"space-between",marginBottom:"15px"}}>
-						<h3 style={{textTransform:"uppercase","fontWeight":"500"}}>Email addresses</h3>
-						<button onClick={()=>this.openModal()} type="button" class="btn btn-info">Add email</button>
+						<h3 style={{textTransform:"uppercase","fontWeight":"500"}}>Verified Email</h3>
+						<button onClick={()=>this.openModal()} type="button" style={{width:"100px"}} class="user_profile_btn">Add email</button>
 					</div>
 
 					<table class="table table-condensed">
@@ -249,10 +231,14 @@ class ViewUserProfile extends Component {
 						</tr>
 						</thead>
 						<tbody style={{"border":"none"}}>
-						<tr>
-							<td>abc@gmail.com</td>
-							<td>Confirmed</td>
-						</tr>
+						
+						{listVeifiedEmails.map(list=>(
+							<tr>
+							<td>{list.email}</td>
+							<td>{list.verified ? 'Verified' : 'Unverified'}</td>
+						</tr>    
+                                    ))}
+
 						</tbody>
 					</table>	
 						</div>
@@ -270,8 +256,8 @@ class ViewUserProfile extends Component {
 				</span>
 
                         <div className="wrap-input1 validate-input">
-                            <input value={this.state.newEmail} onChange={this.handleChange1} className="name input1"
-                                   type="email" name="newEmail" placeholder="Email address"/>
+                            <input value={this.state.newVerify.email} onChange={this.handleChange1} className="name input1"
+                                   type="email" name="email" placeholder="Email address"/>
                             
                         </div>
                         <div style={{"width":"100%","textAlign":"center"}}>
@@ -279,7 +265,7 @@ class ViewUserProfile extends Component {
                         </div>
                         <div class="modal-footer">
                     <button type="button" onClick={()=>this.closeModal()} class="btn btn-info">Cancel</button>
-                    <button type="submit"   className={`btn btn-danger ${this.state.newEmail ? "" : "disabled"}`} >Add address</button>
+                    <button type="submit"   className={`btn btn-danger ${this.state.newVerify.email ? "" : "disabled"}`} >Add address</button>
                     
                   </div>
                     </form>
@@ -289,13 +275,23 @@ class ViewUserProfile extends Component {
  }
  saveNewAddress(e){
 	e.preventDefault();
+	axios.post(`${Config.API_URL}emailverified/verify?accountId=1`,this.state.newVerify,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+		this.closeModal()
+	  this.addNotificationVeify()
+    }).catch(error =>{
+      console.log(error)
+    }) 
  }
  handleChange1 = (event) => {
 	var name = event.target.name;
 	var value = event.target.value;
 	this.setState({
-		[name]:value
-	});
+		newVerify:{
+			[name]:value
+		}
+		
+	},()=> console.log(this.state.newVerify));
 }
  openModal() {
 	this.setState({
@@ -309,4 +305,4 @@ class ViewUserProfile extends Component {
 	});
   }
  }
-export default ViewUserProfile;
+export default withRouter(ViewUserProfile);

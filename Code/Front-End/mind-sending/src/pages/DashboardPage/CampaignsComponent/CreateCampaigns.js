@@ -61,7 +61,8 @@ class CreateCampaign extends Component{
 
           }
         },
-        auth_token:""       
+        auth_token:"" ,
+        verified:[]
      };
      this.fields = { text: 'name', value: 'id' };
      this.handleChange = this.handleChange.bind(this);
@@ -78,6 +79,7 @@ class CreateCampaign extends Component{
     },()=> {
       this.getAllGroupContacts();
       this.getAllTemplates();
+      this.getAllFrom()
     });
      
      this.setState({height: this.refs.height.clientHeight})
@@ -104,6 +106,22 @@ class CreateCampaign extends Component{
       console.log(res.data);
       this.setState({templates: res.data});
     }) 
+   }
+
+   getAllFrom=()=>{
+    axios.get(`${Config.API_URL}emailverified?accountId=1`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+    var listFrom = res.data
+    var listFinal = []
+    listFrom.forEach(element => {
+      if(element.verified){
+        listFinal.push(element)
+      }
+    });
+	  this.setState({verified: listFinal});
+    }).catch(error =>{
+      console.log(error)
+    })
    }
    onChangeListsSelect(args){
     var numbers = args.value;
@@ -194,7 +212,7 @@ class CreateCampaign extends Component{
   var minDate = (tempDate.getMonth()+1) + '/' + tempDate.getDate() +'/'+tempDate.getFullYear() + ' ' +  tempDate.getHours()+':'+ tempDate.getMinutes();
     var selectDateTmp = new Date(this.state.newCampaign.campaignDTO.timeStart);
     var selectedDate = (selectDateTmp.getMonth()+1) + '/' + selectDateTmp.getDate() +'/'+selectDateTmp.getFullYear() + ' ' +  selectDateTmp.getHours()+':'+ selectDateTmp.getMinutes();
-  
+    var listFrom = this.state.verified
   // const currDate = "Current Date= "+date;
      return (
        <div style={{"width":"100%","height":"100%"}}>
@@ -206,21 +224,6 @@ class CreateCampaign extends Component{
                 <strong class="navToggleButton-css__toggle-name___3Y4ez">Create Campaign</strong>
             </span>
         </nav>
-        {/* <span class="toolbar-css__save-container___2x7qH">
-        <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class={`btn btn-secondary btn-on-dark btn-with-icon btn-with-icon ${this.state.isChecked == true ? "activeText" : "" }` }
-        >
-            <i class="sg-icon sg-icon-save-draft">
-
-            </i>Save Draft
-        </a>
-    </span> */}
-    {/* <span class="toolbar-css__send-container___AbB6n">
-        <a icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
-            <i class="sg-icon sg-icon-airplane-fill">
-
-            </i>Send Campaign
-        </a>
-    </span> */}
 </div>
       <div className="new-campaign-container lefts" style={{"height":`calc(${this.state.height}px)`}} >
       <Modal visible={this.state.modalIsOpen} width="80%" height="96%" effect="fadeInUp" 
@@ -347,13 +350,7 @@ class CreateCampaign extends Component{
         				
         				<div className="user_profile9_sub">
         					<div className="user_profile8_sub1">
-        						{/* <label className="user_profile_w3_label" data-shrink="false" for="username">Segment</label> */}
-        						
-        						{/* <input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value="thangnguyen15297@gmail.com"/> */}
         					
-                    {/* <select className="inputContact mt15" style={{"width": "250px", "borderBottom":"1px solid #ccc !important"}} value={this.state.selectValue} onChange={this.handleChange} type="text" tabindex="-1" readonly="readonly" role="presentation">
-                            {lists.map(list => <option value={list.name}  key={list.id}>{list.name}</option>)}
-                            </select> */}
         					</div>
         				</div>
         			</div>
@@ -366,8 +363,16 @@ class CreateCampaign extends Component{
         			<div className="user_profile7">
         				<div className="user_profile9_sub">
         					<div className="user_profile8_sub1">
-        						<input onBlur={()=>this.Validate('from')} placeholder="Sender Name" name="from" aria-invalid="false" onChange={this.handleChange} className="user_profile_w3_input"
-                      id="company-disabled" type="text" value={this.state.newCampaign.mailObjectDTO.from} />
+        						{/* <input onBlur={()=>this.Validate('from')} placeholder="Sender Name" name="from" aria-invalid="false" onChange={this.handleChange} className="user_profile_w3_input"
+                      id="company-disabled" type="text" value={this.state.newCampaign.mailObjectDTO.from} /> */}
+                    <select name="from" className="user_profile_w3_input" value={this.state.newCampaign.mailObjectDTO.from} 
+                     onChange={this.handleChange}> 
+                     <option value="" disabled selected style={{display:"none"}}>---Choose an email address---</option>
+                        {listFrom.map(list=>(
+                          <option value={list.email}>{list.email}</option>
+                                    ))}
+                          <option value="addVerify" onClick={this.toUserProfile}>Add veify email</option>
+                    </select>  
                      <ValidateField isValidate={false} isError = {this.state.validates.fromValidate} />	
         					</div>
         				</div>
@@ -447,6 +452,13 @@ class CreateCampaign extends Component{
       }
   });
   }
+
+  toUserProfile= ()=>{
+    this.props.history.push({
+      pathname:`/dashboard/profile`,
+      });
+  }
+
   saveDraft =()=>{
     axios.post(`${Config.API_URL}campaign/create`,this.state.newCampaign)
     .then(response => {
@@ -460,7 +472,12 @@ class CreateCampaign extends Component{
   handleChange =(e)=> {
 		const { name, value } = e.target;
 		// let contact = state.contact;
-		// contact = {...contact, [name]: value};
+    // contact = {...contact, [name]: value};
+    if(name == "from" && value == "addVerify"){
+      this.props.history.push({
+        pathname:`/dashboard/profile`,
+        });
+    }
 		this.setState({ newCampaign: {
       ...this.state.newCampaign,
       mailObjectDTO:{
