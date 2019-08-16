@@ -1,9 +1,6 @@
 package com.emailmkt.emailmarketing.controller;
 
-import com.emailmkt.emailmarketing.dto.StatisticContactDTO;
-import com.emailmkt.emailmarketing.dto.SubcriberDTO;
-import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
-import com.emailmkt.emailmarketing.dto.SubcriberViewDTO;
+import com.emailmkt.emailmarketing.dto.*;
 import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.SubcriberService;
@@ -87,10 +84,12 @@ public class SubcriberController {
 
     }
 
-    @GetMapping("subcriber/getSubcriberByTag")
-    public List<Subcriber> getSubcriberByTag(@RequestParam(value = "tag") String tag) {
-        return subcriberService.getSubcriberByTag(tag);
+    @PostMapping("subcriber/getSubcriberBySegment")
+    public List<Subcriber> getSubcriberBySegment(@RequestBody List<SegmentDTO> dtos,@RequestParam String condition) {
+        return subcriberService.getSubcriberBySegment(dtos,condition);
     }
+
+
     @PutMapping("subcriber/edit/{id}")
     Subcriber update(@RequestBody Subcriber updatingSubcriber, @PathVariable int id) {
         return subcriberRepository.findById(id)
@@ -146,6 +145,8 @@ public class SubcriberController {
         subcriberService.getStatisticSubcriber();
         return ResponseEntity.status(HttpStatus.OK).body("Successfully");
     }
+
+
 
 
 

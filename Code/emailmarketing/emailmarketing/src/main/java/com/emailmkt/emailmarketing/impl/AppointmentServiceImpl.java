@@ -89,7 +89,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setAutomation(false);
 
 
-
         //Add to Group Contacts
         Account account = accountRepository.findAccountById(3);
         appointment.setAccount_id(account.getId());
@@ -147,21 +146,26 @@ public class AppointmentServiceImpl implements AppointmentService {
                         newString += "http://localhost:8080/api/accept-appointment?confirmationToken=" + appointment.getToken() + "&subcriberEmail=" + mailLists.get(counter);
                     }
                 }
-                try{
-                    newString= newString.replace("{{email}}",mailLists.get(counter));
-                } catch (Exception e){
+                try {
+                    newString = newString.replace("{{email}}", mailLists.get(counter));
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                try{
-                    Subcriber personalization = subcriberRepository.findSubcriberByEmail(mailLists.get(counter));
-                    newString= newString.replace("{{last_name}}",personalization.getLastName());
-                } catch (Exception e){
+                try {
+                    newString = newString.replace("{{reject}}", "http://localhost:8080/api/deny-appointment?confirmationToken=");
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                try{
+                try {
                     Subcriber personalization = subcriberRepository.findSubcriberByEmail(mailLists.get(counter));
-                    newString = newString.replace("{{first_name}}",personalization.getFirstName());
-                } catch (Exception e){
+                    newString = newString.replace("{{last_name}}", personalization.getLastName());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Subcriber personalization = subcriberRepository.findSubcriberByEmail(mailLists.get(counter));
+                    newString = newString.replace("{{first_name}}", personalization.getFirstName());
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 String messageId = mailService.sendAppointment(appointment.getSender(),
@@ -173,7 +177,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 appointmentSubcriber.setConfirmation(false);
                 appointmentSubcriber.setDelivery(false);
                 appointmentSubcriber.setOpened(false);
-                    appointmentSubcriber.setMessageId(messageId.trim());
+                appointmentSubcriber.setMessageId(messageId.trim());
                 appointmentSubcriberRepository.save(appointmentSubcriber);
 
                 //Em bỏ ra khỏi hàm thì chạy mượt vãi đưa vô timer là bị
@@ -254,55 +258,55 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Appointment temp = appointmentRepository.findAppointmentById(appointmentId);
         Workflow workflow = workflowRepository.findWorkflowById(workflowId);
-        if(temp==null || workflow==null){
+        if (temp == null || workflow == null) {
             return 1;
         }
-        Appointment appointment= new Appointment();
-            appointment.setAccount_id(1);
-            List<AppointmentGroupContact> appointmentGroupContacts = workflow.getWorkflowGroupContacts().stream().map(g->{
-                AppointmentGroupContact appointmentGroupContact = new AppointmentGroupContact();
-                appointmentGroupContact.setGroupContact(g.getGroupContact());
-                appointmentGroupContact.setAppointment(appointment);
-                appointmentGroupContact.setCreatedTime(LocalDateTime.now().toString());
-                String[] mailList = groupContactRepository.findSubcriberMailByGroupContactId(appointmentGroupContact.getGroupContact().getId());
-                //Add Subcriber To Appointments
-                List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
-                for (int i = 0; i < mailList.length; i++) {
-                    AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
-                    appointmentSubcriber.setConfirmation(false);
-                    appointmentSubcriber.setCreatedTime("");
-                    appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
-                    appointmentSubcriber.setSend(false);
-                    appointmentSubcriber.setOpened(false);
+        Appointment appointment = new Appointment();
+        appointment.setAccount_id(1);
+        List<AppointmentGroupContact> appointmentGroupContacts = workflow.getWorkflowGroupContacts().stream().map(g -> {
+            AppointmentGroupContact appointmentGroupContact = new AppointmentGroupContact();
+            appointmentGroupContact.setGroupContact(g.getGroupContact());
+            appointmentGroupContact.setAppointment(appointment);
+            appointmentGroupContact.setCreatedTime(LocalDateTime.now().toString());
+            String[] mailList = groupContactRepository.findSubcriberMailByGroupContactId(appointmentGroupContact.getGroupContact().getId());
+            //Add Subcriber To Appointments
+            List<AppointmentSubcriber> appointmentSubcribers = new ArrayList<>();
+            for (int i = 0; i < mailList.length; i++) {
+                AppointmentSubcriber appointmentSubcriber = new AppointmentSubcriber();
+                appointmentSubcriber.setConfirmation(false);
+                appointmentSubcriber.setCreatedTime("");
+                appointmentSubcriber.setAppointmentGroupContact(appointmentGroupContact);
+                appointmentSubcriber.setSend(false);
+                appointmentSubcriber.setOpened(false);
 
-                    appointmentSubcriber.setSubcriberEmail(mailList[i]);
-                    appointmentSubcribers.add(appointmentSubcriber);
-                }
-                appointmentGroupContact.setAppointmentSubcribers(appointmentSubcribers);
+                appointmentSubcriber.setSubcriberEmail(mailList[i]);
+                appointmentSubcribers.add(appointmentSubcriber);
+            }
+            appointmentGroupContact.setAppointmentSubcribers(appointmentSubcribers);
 
-                return appointmentGroupContact;
-            }).collect(Collectors.toList());
-             appointment.setAppointmentGroupContacts(appointmentGroupContacts);
-            appointment.setBody(temp.getBody());
-            appointment.setToken(UUID.randomUUID().toString());
-            appointment.setTime(temp.getTime());
-            appointment.setBodyJson(temp.getBodyJson());
-            appointment.setCreatedTime(LocalDateTime.now().toString());
-            appointment.setName(temp.getName()+UUID.randomUUID().toString());
-            appointment.setSubject(temp.getSubject());
-            appointment.setStatus("Sending");
-            appointment.setAutomation(true);
-            appointment.setMessageId(temp.getMessageId());
-            appointment.setFromMail(temp.getFromMail());
-            appointment.setSender(temp.getSender());
-            appointmentRepository.save(appointment);
-            return appointment.getId();
+            return appointmentGroupContact;
+        }).collect(Collectors.toList());
+        appointment.setAppointmentGroupContacts(appointmentGroupContacts);
+        appointment.setBody(temp.getBody());
+        appointment.setToken(UUID.randomUUID().toString());
+        appointment.setTime(temp.getTime());
+        appointment.setBodyJson(temp.getBodyJson());
+        appointment.setCreatedTime(LocalDateTime.now().toString());
+        appointment.setName(temp.getName() + UUID.randomUUID().toString());
+        appointment.setSubject(temp.getSubject());
+        appointment.setStatus("Sending");
+        appointment.setAutomation(true);
+        appointment.setMessageId(temp.getMessageId());
+        appointment.setFromMail(temp.getFromMail());
+        appointment.setSender(temp.getSender());
+        appointmentRepository.save(appointment);
+        return appointment.getId();
     }
 
     @Override
     public void getStatisticAppointment() {
         log.info("Get Statistic Appointment.\n");
-        for(Appointment appointment: appointmentRepository.findAll()){
+        for (Appointment appointment : appointmentRepository.findAll()) {
             // Get Statistic of Campaign
             double request = appointmentSubcriberRepository.countRequest(appointment.getId());
             double bounce = appointmentSubcriberRepository.countBounce(appointment.getId());
@@ -314,11 +318,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 //                    String requestStr =new Double(request).toString();
             appointment.setRequest(requestStr);
-            appointment.setOpenRate(String.valueOf((int) open)+"("+Math.round((open/request)*100)+"%)");
-            appointment.setBounce(String.valueOf((int) bounce)+"("+Math.round((bounce/request)*100)+"%)");
-            appointment.setDelivery(String.valueOf((int) delivery)+"("+Math.round((delivery/request)*100)+"%)");
-            appointment.setClickRate(String.valueOf((int) click)+"("+Math.round((click/request)*100) +"%)");
-            appointment.setSpamRate(String.valueOf((int) spam)+"("+Math.round((spam/request)*100) +"%)");
+            appointment.setOpenRate(String.valueOf((int) open));
+            appointment.setBounce(String.valueOf((int) bounce));
+            appointment.setDelivery(String.valueOf((int) delivery));
+            appointment.setClickRate(String.valueOf((int) click));
+//            appointment.setSpamRate(String.valueOf((int) spam)+"("+Math.round((spam/request)*100) +"%)");
+//            appointment.setOpenRate(String.valueOf((int) open)+"("+Math.round((open/request)*100)+"%)");
+//            appointment.setBounce(String.valueOf((int) bounce)+"("+Math.round((bounce/request)*100)+"%)");
+//            appointment.setDelivery(String.valueOf((int) delivery)+"("+Math.round((delivery/request)*100)+"%)");
+//            appointment.setClickRate(String.valueOf((int) click)+"("+Math.round((click/request)*100) +"%)");
+//            appointment.setSpamRate(String.valueOf((int) spam)+"("+Math.round((spam/request)*100) +"%)");
 
             appointmentRepository.save(appointment);
         }
