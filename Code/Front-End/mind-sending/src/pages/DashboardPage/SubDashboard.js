@@ -24,10 +24,6 @@ class SubDashboard extends Component {
             latestCampaign:{createdTime:""},
             contactStatitic:{},
             data1:[
-              // { x: "Clicked", y: 20, text: "Clicked" },
-              // { x: "Opened", y: 50, text: "Opened" },
-              //  { x: "Delivery", y: 98, text: "Delivery" },
-              //  { x: "Request", y: 100, text: "Request" }
               ]
         };
     }
@@ -65,11 +61,10 @@ componentDidMount(){
        self.setState({
         latestCampaign: response.data,
         data1:[
-          { x: "Clicked", y: 10, text: "Clicked" },
-              { x: "Opened", y: 30, text: "Opened" },
-               { x: "Delivery", y: 80, text: "Delivery" },
-               { x: "Request", y: 100, text: "Request" }
-        ]
+          { x: "Clicked", y: response.data.click, text: "Clicked" },
+                  { x: "Opened", y: response.data.open, text: "Opened" },
+                   { x: "Delivery", y: response.data.delivery, text: "Delivery" },
+                   { x: "Request", y: response.data.request, text: "Request" }]
        },()=>console.log(self.state.data1));
      })
      .catch(error => {

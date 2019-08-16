@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import * as Config from './../../constants/Config';
 import AddContactRow from './../../components/row/AddContactRow';
+import ContactRow from './../../components/row/ContactRow';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
@@ -30,7 +31,9 @@ class Segmentation extends Component {
       list: false,
       listCampaigns:[],
       listAppointments:[],
-      noneList: true
+      noneList: true,
+      condition: "or",
+      contactSegment:[]
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
@@ -216,6 +219,7 @@ handleCheck=(event)=>{
     listCampaigns = this.state.listCampaigns
     var listAppointments =new Array;
     listAppointments = this.state.listAppointments
+    var listSegment = this.state.contactSegment
     return (
 
       <div className role="main">
@@ -257,7 +261,7 @@ handleCheck=(event)=>{
                             
                                 <a onClick={this.onSave} icon="segment" className="btn_create_contact">
                                     <i className="sg-icon sg-icon-segment"></i>
-                                    Save Contact
+                                    Save As Group
                                 </a>
                             
                         </div>
@@ -301,11 +305,12 @@ handleCheck=(event)=>{
                     </div>
                     
                       <div className="md_tablet4">
-                      <div style={{fontSize:"16px",fontWeight:"500",display:"flex",justifyContent: "flex-start",alignItems:"baseline",marginLeft:"10px","marginTop":"10px"}}>
+                      <div style={{fontSize:"16px",fontWeight:"600",display:"flex",justifyContent: "flex-start",alignItems:"baseline",marginLeft:"10px","marginTop":"10px"}}>
                       Contacts match
-                      <select style={{"width":"70px",marginLeft:"5px",marginRight:"5px"}} ref="selectCondition" name="select1" value="Any" class="form-control" id="exampleFormControlSelect1" >
-                        <option>Any</option>
-                        <option>All</option>
+                      <select value={this.state.condition} onChange={this.handleChangeCondition.bind(this)} style={{"width":"70px",marginLeft:"5px",marginRight:"5px"}} ref="selectCondition" name="select1" class="form-control"  id="exampleFormControlSelect1" >
+                        
+                        <option value="or">Any</option>
+                        <option value="and">All</option>
                       </select>
                       of the following conditions
                        </div> 
@@ -322,6 +327,7 @@ handleCheck=(event)=>{
                         </thead>
                         <tbody>
                         {this.createUI(listCampaigns,listAppointments,lists)}   
+                        <button onClick={this.applySegment} style={{"marginLeft":"10px", marginTop:"10px"}} type="button" class="btn btn-primary">Apply</button>
                         </tbody>
                       </table>
                        
@@ -340,21 +346,37 @@ handleCheck=(event)=>{
                     {/* <div className="md_tablet3">
                     </div> */}
                       <div className="md_tablet4">
-                      <p>Contacts match</p>
+                      <p style={{"fontSize":"17px", fontStyle:"bold"}}>Contacts match</p>
                       <table class="table">
                       
                         <thead>
                           <tr>
                             <th scope="col">Email</th>
-                            <th scope="col">Score</th>
                             <th scope="col">First Name</th>
                             <th scope="col">Last Name</th>
+                            <th scope="col">Engagement Score</th>
                             <th scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                           </tr>
                         </thead>
                         <tbody>
-                       
+                        {listSegment.map(list=>(
+                          <ContactRow
+                                id = {list.id}
+                                firstName={list.firstName}
+                                key={list.index}
+                                email={list.email}
+                                lastName={list.lastName}
+                                address={list.address}
+                                dob={list.dob}
+                                phone={list.dob}
+                                createdTime={list.createdTime}
+                                type={list.type}
+                                update = {this.updatePage}
+                            />
+                                    ))}
                         </tbody>
+                        <button onClick={this.applySegment} style={{"marginLeft":"10px", marginTop:"10px"}} type="button" class="btn btn-primary">Save as Group</button>
+                      
                       </table>
                        
                     
@@ -375,22 +397,33 @@ handleCheck=(event)=>{
     }))
     console.log(this.state.contacts)
   }
+  applySegment=()=>{
+    axios.post(`${Config.API_URL}subcriber/getSubcriberBySegment?condition=${this.state.condition}`,this.state.contacts,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+   .then(response => {
+     this.setState({
+       contactSegment: response.data
+     },()=>console.log(response.data));
+   })
+   .catch(error => {
+     console.log(error);
+   });
+  }
   
   createUI(listCampaigns, listAppointments,lists){
      return this.state.contacts.map((el, i) => (
        <tr key={i}>
-       <td style={{"alignItems":"baseline"}} className="pd5">
+       <td style={{"alignItems":"baseline"}} className="pd5 border_bottom_none">
        {/* <input className="form-control" placeholder="Email" name="email" value={el.email ||''} onChange={this.handleChange.bind(this, i)} />      */}
        
     <select ref="selectCondition" name="select1" value={el.select1 ||'Contact details'} class="form-control" id="exampleFormControlSelect1" 
-    onChange={this.handleChange.bind(this, i)}>
-      <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
-      <option>Contact details</option>
-      <option>Contact actions</option>
-    </select>
+      onChange={this.handleChange.bind(this, i)}>
+        <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
+        <option>Contact details</option>
+        <option>Contact actions</option>
+      </select>
   
        </td>
-       <td className="pd5">
+       <td className="pd5 border_bottom_none">
        {/* <input   className={`form-control ${el.email == 'Contact details' ? '' : 'activeText'}`}  placeholder="First Name" name="firstName" value={el.firstName ||''} onChange={this.handleChange.bind(this, i)} />       */}
        <select ref="selectFieldDetail"  name="select2" value={el.select2 ||'Name'} className={`form-control ${el.select1 == 'Contact details' ? '' : 'activeText'}`} id="exampleFormControlSelect2" 
         onChange={this.handleChange.bind(this, i)}>
@@ -413,7 +446,7 @@ handleCheck=(event)=>{
       <option>Mail not clicked</option>
     </select>
        </td>
-       <td className="pd5">
+       <td className="pd5 border_bottom_none">
       
           <select ref="selectFieldAction1" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Email' || el.select2 == 'Name' || el.select2 == 'Address' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
@@ -448,7 +481,7 @@ handleCheck=(event)=>{
           <option>is not group</option>
         </select>
        </td>
-       <td>
+       <td className=" border_bottom_none">
           <input className={`form-control ${el.select3 == 'is' || el.select3 == "is not" || el.select3 == "contains" || el.select3 == "doesn't contain"  ? '' : 'activeText'}`}  placeholder="" name="select4" value={el.select4 ||''} onChange={this.handleChange.bind(this, i)} />      
           <select ref="selectFieldAction5" name="select4" value={el.select4 ||'1 bar'} className={`form-control ${el.select3 == 'is equal to'||el.select3 == 'is not equal to'|| el.select3 == 'is not equal to'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
@@ -487,7 +520,7 @@ handleCheck=(event)=>{
         
        
        </td>
-       <td style={{ height:'100%'}} >
+       <td className=" border_bottom_none" style={{ height:'100%'}} >
         <div style={{"alignItems":"baseline" , "display":"flex"}}  className="md_tablet6_tbody_td_add font_awsome_size">
           <a className="fas fa-plus-square icon_sz_add margin_td_fontawsome font_awsome_size" title="Add more" onClick={this.addClick.bind(this)}/>
           <a className={`fas fa-trash-alt icon_sz_add ${i == 0 ? 'activeText' : ''}`} title="Delete" onClick={this.removeClick.bind(this, i)} />
@@ -508,6 +541,13 @@ handleCheck=(event)=>{
   // console.log(this.state.contacts)
 
 }
+
+handleChangeCondition=(event)=>{
+  this.setState({
+    condition: event.target.value
+  },()=> console.log(this.state.condition))
+}
+
   handleChange(i, e) {
     const { name, value } = e.target;
     if(name == "select1" && value =="Contact actions"){

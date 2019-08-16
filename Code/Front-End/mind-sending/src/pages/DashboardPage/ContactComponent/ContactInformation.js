@@ -85,7 +85,7 @@ showDropdownMenu(event) {
 	axios.get(`${Config.API_URL}subcriber/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
 	.then(res => {
 		
-		// console.log(res.data);
+		console.log(res.data);
 	  const contact = {
 		  firstName: res.data.firstName,
 		  lastName: res.data.lastName,
@@ -96,7 +96,8 @@ showDropdownMenu(event) {
 		  dob: res.data.dob,
 		  openRate: res.data.openRate,
 		  phone:res.data.phone,
-  			clickRate: res.data.clickRate,
+			  clickRate: res.data.clickRate,
+			  createdTime: res.data.createdTime,
 	  };
 	  console.log(contact);
 	  this.setState({contact:contact})
@@ -244,15 +245,13 @@ showDropdownMenu(event) {
         	</div>
         	
         </div>
-        <div className="user_profile12">
+        <div className="user_profile12 mt-20">
         		<div className="user_profile13">
-        			<div className="user_profile14">
-        				<img src={imgAvatar} alt="..."/>
-        			</div>
+        			
         			<div className="user_profile15">
         				
-        				<h4>Thắng Nguyễn</h4>
-        				<p>Added via MindSending on {this.state.contact.createdTime}</p>
+        				<h4>{this.state.contact.lastName} {this.state.contact.firstName} </h4>
+        				<p>Added via MindSending on: {this.state.contact.createdTime}</p>
         				 {/* <div className="btn_create_contact2" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
                                     
                                     Action

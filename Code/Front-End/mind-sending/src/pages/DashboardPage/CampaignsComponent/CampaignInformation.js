@@ -154,10 +154,10 @@ class CampaignInformation extends Component{
             request:response.data.request,
             spam:response.data.spam,
             data1:[
-              { x: "Clicked", y: 10, text: "Clicked" },
-                  { x: "Opened", y: 30, text: "Opened" },
-                   { x: "Delivery", y: 80, text: "Delivery" },
-                   { x: "Request", y: 100, text: "Request" }
+              { x: "Clicked", y: response.data.click, text: "Clicked" },
+                  { x: "Opened", y: response.data.open, text: "Opened" },
+                   { x: "Delivery", y: response.data.delivery, text: "Delivery" },
+                   { x: "Request", y: response.data.request, text: "Request" }
             ]
           },()=>{
             
