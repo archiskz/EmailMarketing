@@ -15,6 +15,9 @@ import EmailEditor from 'react-email-editor';
 import Modal from 'react-awesome-modal';
 import ReactNotification from "react-notifications-component";
 import { withRouter } from "react-router";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import "react-tabs/style/react-tabs.css";
+import FunelChart from '../../../components/chart/FunelChart'
 
 import ValidateField from '../../../components/inputValidate/ValidateField';
 class CampaignInformation extends Component{
@@ -65,7 +68,8 @@ class CampaignInformation extends Component{
               subject: "string",
             }
           },
-          auth_token:""
+          auth_token:"",
+          data1:[]
      };
      this.fields = { text: 'name', value: 'id' };
      this.handleChange = this.handleChange.bind(this);
@@ -148,7 +152,13 @@ class CampaignInformation extends Component{
             delivery: response.data.delivery,
             open: response.data.open,
             request:response.data.request,
-            spam:response.data.spam
+            spam:response.data.spam,
+            data1:[
+              { x: "Clicked", y: 10, text: "Clicked" },
+                  { x: "Opened", y: 30, text: "Opened" },
+                   { x: "Delivery", y: 80, text: "Delivery" },
+                   { x: "Request", y: 100, text: "Request" }
+            ]
           },()=>{
             
           }
@@ -292,7 +302,7 @@ class CampaignInformation extends Component{
 </div>
       <div className="user_profile">
       <div className="user_profile2">
-      <div className="user_profile3 " ref="height">
+      <div className="user_profile3 flex50" ref="height">
         	<div className="user_profile4" >
         		<div className="user_profile5">
         		<h4 className="user_profile5_h4">Campaign Name:</h4>
@@ -408,88 +418,79 @@ class CampaignInformation extends Component{
         	
         </div>
         
-        <div className="user_profile12">
+        <div className="user_profile12 flex50 maxwidth100">
         <div className="user_profile5_1">
             <h4 className="user_profile5_h4">Campaign detail</h4>
             <p className="user_profile5_p">Check your campaign's summarize below here: </p>
             </div>
-        <div className="user_profile13">
-             <div className="user_section user_line"> 
-              <div className="user_line"> 
-              <div className="contact_information_detail">
-                <h4 >
-                {this.state.delivery}
-                    </h4>
-                <p >Delivery mail</p>
-              </div>
-              <div className="contact_information_detail">
-                <h4 >
-                        {this.state.request}
-                    </h4>
-                <p >Request</p>
-              </div>
-              </div>
-             </div>
-             <div className="user_section user_line"> 
-              <div className="user_line"> 
-              <div className="contact_information_detail">
-                <h4 >
-                {this.state.bounce}
-                    </h4>
-                <p >Bounce rate</p>
-              </div>
-              <div className="contact_information_detail">
-                <h4 >
-                {this.state.open}
-                    </h4>
-                <p >Open rate</p>
-              </div>
-              </div>
-              </div>
-              <div className="user_section user_line"> 
-              <div className="user_line"> 
-              <div className="contact_information_detail">
-                <h4 >
-                {this.state.click}
-                    </h4>
-                <p >Click rate</p>
-              </div>
-              
-
-              <div className="contact_information_detail">
-                <h4 >
-                {this.state.spam}
-                    </h4>
-                <p >Spam rate</p>
-              </div>
-              </div>
-              </div>
-              {/* <div className="user_section user_line"> 
-              <div className="user_line"> 
-              <div className="contact_information_detail">
-                <h4 >
-                        0%
-                    </h4>
-                <p >Delivery rate</p>
-              </div>
-              <div className="contact_information_detail">
-                <h4 >
-                        0%
-                    </h4>
-                <p >Sent rate</p>
-              </div>
-              </div>
-              
-             </div>    */}
+            <div className="user_profile3 flex100" style={{"backgroundColor":"white", boxShadow: "0 1px 2px 1px rgba(0,0,0,.2)", width:"95%", "boderRadius":"50px", position:"relative", right:"-18px"}}>
+            {this.state.data1 == null || this.state.data1.length <= 0 ?  null : 
+              <FunelChart data1={this.state.data1} />
+            }
             </div>
+            <Tabs style={{marginTop:"20px","backgroundColor":"white", boxShadow: "0 1px 2px 1px rgba(0,0,0,.2)", "boderRadius":"50px", width:"95%", position:"relative", right:"-18px"}}>
+                  <TabList>
+                    <Tab>Request</Tab>
+                    <Tab>Delivery</Tab>
+                    <Tab>Bounce</Tab>
+                    <Tab>Spam</Tab>
+                    <Tab>Opened</Tab>
+                    <Tab>Clicked</Tab>
+                  </TabList>
+
+                  <TabPanel>
+                  {/* Request */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+                  {this.state.request}
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                </tbody>
+              </table>
+                    </div>
+                  
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Delivery */}
+                  {this.state.delivery}
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Bounce */}
+                  {this.state.bounce}
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Spam */}
+                  {this.state.spam}
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Opened */}
+                  {this.state.open}
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Clicked */}
+                  {this.state.click}
+                  </TabPanel>
+            </Tabs>
+        
             </div>
         </div>
         </div>
-        <Modal visible={this.state.modalIsOpen} width="100%" height="100%" effect="fadeInUp" 
-      onClickAway={this.closeModal}>
-
-<div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
-        <nav class="toolbar-css__nav___27cII">
+        <Modal visible={this.state.modalIsOpen} width="100%" height="100%" effect="fadeInUp" onClickAway={this.closeModal}>
+         <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
+          <nav class="toolbar-css__nav___27cII">
             <span style={{cursor: "default"}} data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">
                 </span>
@@ -497,8 +498,8 @@ class CampaignInformation extends Component{
             </span>
         </nav>
         <span class="toolbar-css__save-container___2x7qH">
-    </span>
-    <span class="toolbar-css__send-container___AbB6n">
+        </span>
+        <span class="toolbar-css__send-container___AbB6n">
         <a style={{marginRight: "20px"}}  onClick={()=>this.saveContent()} icon="airplane-fill" data-role="send-or-schedule-btn" class={`btn btn-primary btn-on-dark  btn-with-icon btn-with-icon ${this.state.updateCampaign.campaignDTO.status == "Draft" ?'':'activeText'}`}>
             <i class="sg-icon sg-icon-airplane-fill">
 
@@ -511,8 +512,7 @@ class CampaignInformation extends Component{
         </a>
     </span>
     </div>
-    <EmailEditor
-    displayMode= {'email'}
+    <EmailEditor displayMode= {'email'}
       projectId={1071}
       onLoad={this.onLoad}
       options={{
@@ -547,11 +547,11 @@ class CampaignInformation extends Component{
             window.location.protocol + '//' + window.location.host + '/custom.js',
             // window.location.protocol + '//' + window.location.host + '/custom1.js',
           ],
-          mergeTags: [
-    {name: "First Name", value: "{{first_name}}"},
-    {name: "Last Name", value: "{{last_name}}"},
-    {name: "Email", value: "{{email}}"}
-  ]
+                  mergeTags: [
+            {name: "First Name", value: "{{first_name}}"},
+            {name: "Last Name", value: "{{last_name}}"},
+            {name: "Email", value: "{{email}}"}
+          ]
         }}
       minHeight="700px"
         ref={editor => this.editor = editor}

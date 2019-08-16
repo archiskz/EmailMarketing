@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as Config from '../../constants/Config';
+import { AccumulationChartComponent, AccumulationSeriesCollectionDirective, AccumulationSeriesDirective,  FunnelSeries, Inject, AccumulationTooltip, AccumulationDataLabel}
+from'@syncfusion/ej2-react-charts';
+import FunelChart from './../../components/chart/FunelChart'
 import axios from 'axios';
 class SubDashboard extends Component {
+
+  data1: any[] = [
+    { x: "Clicked", y: 20, text: "Clicked" },
+    { x: "Opened", y: 50, text: "Opened" },
+     { x: "Delivery", y: 98, text: "Delivery" },
+     { x: "Request", y: 100, text: "Request" }
+    ];
+
     constructor(props) {
         super(props);
 
@@ -11,7 +22,13 @@ class SubDashboard extends Component {
             latestContact:[],
             latestGroup:[],
             latestCampaign:{createdTime:""},
-            contactStatitic:{}
+            contactStatitic:{},
+            data1:[
+              // { x: "Clicked", y: 20, text: "Clicked" },
+              // { x: "Opened", y: 50, text: "Opened" },
+              //  { x: "Delivery", y: 98, text: "Delivery" },
+              //  { x: "Request", y: 100, text: "Request" }
+              ]
         };
     }
 componentDidMount(){
@@ -40,12 +57,20 @@ componentDidMount(){
     }
 
     getLatestCampaign=()=>{
+      console.log("T DAY")
+      var self = this
       const allCountries = [{}];
      axios.get(`${Config.API_URL}campaign/dashboard`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
      .then(response => {
-       this.setState({
-        latestCampaign: response.data
-       });
+       self.setState({
+        latestCampaign: response.data,
+        data1:[
+          { x: "Clicked", y: 10, text: "Clicked" },
+              { x: "Opened", y: 30, text: "Opened" },
+               { x: "Delivery", y: 80, text: "Delivery" },
+               { x: "Request", y: 100, text: "Request" }
+        ]
+       },()=>console.log(self.state.data1));
      })
      .catch(error => {
        console.log(error);
@@ -73,23 +98,6 @@ componentDidMount(){
         console.log(error);
       });
      }
-// renderFormatDate=(datetime)=>{
-//   if(datetime != ""){
-//     var days = Array();
-//     days = datetime.split("T");
-//    var time = days.pop();
-//    var date = days.pop()
-//    var dateString = date.split("-")
-//    var timeString = time.split(":")
-//    var datetimeFormat = dateString.pop() + "/" + dateString.pop()+"/" + dateString.pop();
-//    datetimeFormat = datetimeFormat+ " " + timeString.shift() + ":" + timeString.shift()
-//    return datetimeFormat;
-//   }
-//    return null
-// }
-
-
-
     render() {
       var latestContacts = this.state.latestContact
       var latestGroups = this.state.latestGroup
@@ -158,6 +166,12 @@ componentDidMount(){
             {latestCampaign.createdTime}
             </span>
             </h5>
+            {/* CHART */}
+            {this.state.data1 == null || this.state.data1.length <= 0 ?  null : 
+              <FunelChart data1={this.state.data1} />
+            }
+
+
             </div>
                   </div>
         <div className="dashboard_row">
@@ -341,6 +355,29 @@ componentDidMount(){
 
         );
     }
-
+    load(args) {
+      console.log(args)
+      // let selectedTheme = location.hash.split('/')[1];
+     let selectedTheme = 'Material'
+      args.accumulation.theme = (selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1));
+      if (args.accumulation.availableSize.width < args.accumulation.availableSize.height) {
+          args.accumulation.series[0].width = '80%';
+          args.accumulation.series[0].height = '70%';
+      }
+  }
+  onChartLoad(args) {
+    document.getElementById('funnel-chart').setAttribute('title', '');
+}
+onChartResized(args) {
+  let bounds = document.getElementById('funnel-chart').getBoundingClientRect();
+  if (bounds.width < bounds.height) {
+      args.accumulation.series[0].width = '80%';
+      args.accumulation.series[0].height = '70%';
+  }
+  else {
+      args.accumulation.series[0].width = '60%';
+      args.accumulation.series[0].height = '80%';
+  }
+}
 }
 export default SubDashboard;
