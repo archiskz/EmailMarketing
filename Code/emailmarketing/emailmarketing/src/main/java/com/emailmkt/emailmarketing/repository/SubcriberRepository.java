@@ -51,5 +51,56 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     long countByType(String type);
 
 
+    //Segment
+    List<Subcriber> findAllByLastNameContains(String name);
+
+    List<Subcriber> findAllByLastNameNotContains(String name);
+
+    List<Subcriber> findAllByLastNameIs(String name);
+
+    List<Subcriber> findAllByLastNameIsNot(String name);
+
+    //Find All By Emails
+    List<Subcriber> findAllByEmailContains(String mail);
+
+    List<Subcriber> findAllByEmailNotContains(String mail);
+
+    List<Subcriber> findAllByEmailIs(String mail);
+
+    List<Subcriber> findAllByEmailIsNot(String mail);
+
+    //Address
+    List<Subcriber> findAllByAddressContains(String address);
+
+    //Dob
+    List<Subcriber> findAllByDobBefore(String date);
+
+    List<Subcriber> findAllByDobAfter(String date);
+
+    List<Subcriber> findAllByDob(String date);
+
+    //Created Time
+    List<Subcriber> findAllByCreatedTime(String date);
+
+    List<Subcriber> findAllByCreatedTimeBefore(String date);
+
+    List<Subcriber> findAllByCreatedTimeAfter(String date);
+
+    //Group
+
+    @Query("SELECT gr.subcriber FROM GroupContactSubcriber gr WHERE gr.groupContact.id = :groupContactId")
+    List<Subcriber> findAllByGroupContact(@Param("groupContactId") int groupContactId );
+
+
+    //Level
+
+
+
+
+
+
+
+
+
 
 }

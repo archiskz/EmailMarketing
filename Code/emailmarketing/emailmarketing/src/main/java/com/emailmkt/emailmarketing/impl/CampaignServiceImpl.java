@@ -432,11 +432,16 @@ public class CampaignServiceImpl implements CampaignService {
 
 //                    String requestStr =new Double(request).toString();
             campaign.setRequest(requestStr);
-            campaign.setOpenRate(String.valueOf((int) open)+"("+Math.round((open / request) * 100) + "%)");
-            campaign.setBounce(String.valueOf((int) bounce)+"("+Math.round((bounce / request) * 100) + "%)");
-            campaign.setDelivery(String.valueOf((int) delivery)+"("+Math.round((delivery / request) * 100) + "%)");
-            campaign.setClickRate(String.valueOf((int) click)+"("+Math.round((click / request) * 100) + "%)");
-            campaign.setSpamRate(String.valueOf((int) spam)+"("+Math.round((spam / request) * 100) + "%)");
+//            campaign.setOpenRate(String.valueOf((int) open)+"("+Math.round((open / request) * 100) + "%)");
+//            campaign.setBounce(String.valueOf((int) bounce)+"("+Math.round((bounce / request) * 100) + "%)");
+//            campaign.setDelivery(String.valueOf((int) delivery)+"("+Math.round((delivery / request) * 100) + "%)");
+//            campaign.setClickRate(String.valueOf((int) click)+"("+Math.round((click / request) * 100) + "%)");
+//            campaign.setSpamRate(String.valueOf((int) spam)+"("+Math.round((spam / request) * 100) + "%)");
+            campaign.setOpenRate(String.valueOf((int) open));
+            campaign.setBounce(String.valueOf((int) bounce));
+            campaign.setDelivery(String.valueOf((int) delivery));
+            campaign.setClickRate(String.valueOf((int) click));
+            campaign.setSpamRate(String.valueOf((int) spam));
 
             campaignRepository.save(campaign);
         }
