@@ -906,3 +906,25 @@ input[type="date"], input[type="time"], input[type="datetime-local"], input[type
     line-height: inherit !important;
     padding: 8px !important;
 }
+.flex50{
+  flex-basis:50% !important;
+  width:100%;
+}
+.flex100{
+  flex-basis:100% !important;
+  width:100%;
+  max-width:100% !important;
+}
+#funnel-chart_border{
+  width: 100% !important;
+  height: 350px !important;
+}
+div#funnel-chart {
+  height: 300px !important;
+}
+.maxwidth100{
+  max-width:100% !important;
+} 
+.mt-20{
+  margin-top:20px !important;
+}

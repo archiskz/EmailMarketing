@@ -53,7 +53,8 @@ class CreateAppointment extends Component{
             fromMail: "",
             subject: ""
           }
-        }       
+        } ,
+        verified:[]      
      };
      this.fields = { text: 'name', value: 'id' };
      this.handleChange = this.handleChange.bind(this);
@@ -81,12 +82,25 @@ class CreateAppointment extends Component{
     },()=> {
       this.getAllGroupContacts();
       this.getAllTemplates();
+      this.getAllFrom()
     });
      
      this.setState({height: this.refs.height.clientHeight})
-    
-    
-
+   }
+   getAllFrom=()=>{
+    axios.get(`${Config.API_URL}emailverified?accountId=1`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+    var listFrom = res.data
+    var listFinal = []
+    listFrom.forEach(element => {
+      if(element.verified){
+        listFinal.push(element)
+      }
+    });
+	  this.setState({verified: listFinal});
+    }).catch(error =>{
+      console.log(error)
+    })
    }
 
    getAllGroupContacts=()=>{
@@ -190,7 +204,7 @@ class CreateAppointment extends Component{
     listTemplates=listTemplates.filter(item=> item.type=="iv");
     var tempDate = new Date();
     var minDate = (tempDate.getMonth()+1) + '/' + tempDate.getDate() +'/'+tempDate.getFullYear() + ' ' +  tempDate.getHours()+':'+ tempDate.getMinutes();
-   
+    var listFrom = this.state.verified
      return (
        <div style={{"width":"100%","height":"100%"}}>
       <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
@@ -201,20 +215,7 @@ class CreateAppointment extends Component{
                 <strong class="navToggleButton-css__toggle-name___3Y4ez">Create Invitation</strong>
             </span>
         </nav>
-        <span class="toolbar-css__save-container___2x7qH">
-        <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class="btn btn-secondary btn-on-dark btn-with-icon btn-with-icon">
-            <i class="sg-icon sg-icon-save-draft">
-
-            </i>Save Draft
-        </a>
-    </span>
-    {/* <span class="toolbar-css__send-container___AbB6n">
-        <a icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
-            <i class="sg-icon sg-icon-airplane-fill">
-
-            </i>Send Campaign
-        </a>
-    </span> */}
+        
 </div>
       <div className="new-campaign-container lefts" style={{"height":`calc(${this.state.height}px)`}} >
     <img src={imm_bg}></img>
@@ -275,9 +276,16 @@ class CreateAppointment extends Component{
             <div className="user_profile7_sub1" style={{"marginLeft":"15px", "marginRight":"15px"}}>
         						<label className="user_profile_w3_label" >From </label>
         					
-        						<input onBlur={()=>this.Validate('from')}  aria-invalid="false" placeholder="Sender Name" name="from" onChange={this.handleChange} className="user_profile_w3_input"
-                     id="company-disabled" type="text" value={this.state.newAppointment.mailObjectDTO.from}  />
-        						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
+        						{/* <input onBlur={()=>this.Validate('from')}  aria-invalid="false" placeholder="Sender Name" name="from" onChange={this.handleChange} className="user_profile_w3_input"
+                     id="company-disabled" type="text" value={this.state.newAppointment.mailObjectDTO.from}  /> */}
+                     <select onBlur={()=>this.Validate('from')} name="from" className="user_profile_w3_input" value={this.state.newAppointment.mailObjectDTO.from} 
+                     onChange={this.handleChange}> 
+                     <option value="" disabled selected style={{display:"none"}}>---Choose an email address---</option>
+                        {listFrom.map(list=>(
+                          <option value={list.email}>{list.email}</option>
+                                    ))}
+                          <option value="addVerify" onClick={this.toUserProfile}>Add veify email</option>
+                    </select>  
                     <ValidateField isValidate={false} isError = {this.state.validates.fromValidate} />
         					</div>
             </div>
@@ -385,6 +393,7 @@ class CreateAppointment extends Component{
   }
 
   Validate = (name)=>{
+    var self = this
     var validate = {};
     switch(name){
       case "name":{
@@ -484,7 +493,12 @@ class CreateAppointment extends Component{
     }
     
     this.setState({
-      validates: validate
+      validates: validate,
+     
+    },()=> {
+self.setState({
+  height: this.refs.height.clientHeight - 30
+})
     })
   }
 
@@ -512,7 +526,12 @@ class CreateAppointment extends Component{
   
  
   handleChange =(e)=> {
-		const { name, value } = e.target;
+    const { name, value } = e.target;
+    if(name == "from" && value == "addVerify"){
+      this.props.history.push({
+        pathname:`/dashboard/profile`,
+        });
+    }
 		this.setState({ newAppointment: {
       ...this.state.newAppointment,
       mailObjectDTO:{

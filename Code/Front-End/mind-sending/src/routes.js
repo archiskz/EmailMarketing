@@ -27,6 +27,7 @@ import AppointmentInfo from './pages/DashboardPage/AppointmentComponent/Appointm
 import TestForm from './pages/DashboardPage/EmbededFormComponent/TestForm';
 import EditForm from './pages/DashboardPage/EmbededFormComponent/EditForm';
 import AutomationDetail from './pages/DashboardPage/CampaignsComponent/AutomationDetail'
+import Segmentation from './pages/SegmentationPage/Segmentation'
 const routes = [
 {
 	path:'/',
@@ -164,6 +165,11 @@ const routes = [
 	path: '/automations/detail/:id',
 	exact: false,
 	main: () => <AutomationDetail />
+},
+{
+	path: '/dashboard/segmentation',
+	exact: false,
+	main: () => <Segmentation />
 },
 
 {/* {

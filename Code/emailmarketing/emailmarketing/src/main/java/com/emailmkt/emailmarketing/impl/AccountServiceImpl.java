@@ -30,6 +30,7 @@ public class AccountServiceImpl implements AccountService {
     public boolean createAccount(Account account) {
         System.out.println(account.getUsername());
         Account checkExistedAccount = accountRepository.findByUsername(account.getUsername());
+
         if (checkExistedAccount != null) {
             return false;
         }
@@ -38,6 +39,7 @@ public class AccountServiceImpl implements AccountService {
         account.setCreatedTime(LocalDateTime.now().toString());
 //        account.setPassword(encoder.encode(account.getPassword()));
         account.setPassword(encoder.encode(account.getPassword()));
+
         accountRepository.save(account);
         return true;
     }

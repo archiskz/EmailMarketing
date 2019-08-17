@@ -19,6 +19,13 @@ public interface AppointmentSubcriberRepository extends JpaRepository<Appointmen
     @Query("SELECT ap.subcriberEmail FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId and ap.send= true")
     List<String> findSubcriberMailByAppointmentId(@Param("appointmentId")int appointmentId);
 
+    @Query("SELECT ap.subcriberEmail FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId and ap.send= true and ap.opened =:check")
+    List<String> findSubcriberMailByAppointmentAndOpened(@Param("appointmentId")int appointmentId,@Param("check")boolean check);
+
+    @Query("SELECT ap.subcriberEmail FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId and ap.send= true and ap.confirmation =:check")
+    List<String> findSubcriberMailByAppointmentAndClicked(@Param("appointmentId")int appointmentId,@Param("check")boolean check);
+
+
     @Query("SELECT ap.confirmation FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId AND ap.subcriberEmail= :subcriberEmail")
     public Boolean checkConfirmAppointment(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);
 

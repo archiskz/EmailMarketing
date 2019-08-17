@@ -18,10 +18,6 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_ID;
-
-import static com.emailmkt.emailmarketing.constants.Constant.MESSAGE_APPOINTMENT_ID;
-
 @Service
 public class MailServiceImpl implements MailService {
 
@@ -34,6 +30,16 @@ public class MailServiceImpl implements MailService {
 
     @Autowired
     private SpringTemplateEngine templateEngine;
+        //Ver 2
+//    static final String CONFIGSET = "SES-SNS";
+//    static final String HOST = "email-smtp.us-west-2.amazonaws.com";
+//    static final int PORT = 587;
+//
+//    // Replace smtp_username with your Amazon SES SMTP user name.
+//    static final String SMTP_USERNAME = "AKIAYD4J7KHBZ5CEMVEB";
+//
+//    // Replace smtp_password with your Amazon SES SMTP password.
+//    static final String SMTP_PASSWORD = "BIX35Wr2KHwQki6PWcoezK37aH1bvyHRU9sbNNWOz6G3";
 
     static final String CONFIGSET = "Engagement";
     static final String HOST = "email-smtp.us-west-2.amazonaws.com";
@@ -44,6 +50,7 @@ public class MailServiceImpl implements MailService {
 
     // Replace smtp_password with your Amazon SES SMTP password.
     static final String SMTP_PASSWORD = "BOTVwUto/Dcqr+iURWA7NUSrSN8o3zisLqHl849z0ZVi";
+
 
 
 

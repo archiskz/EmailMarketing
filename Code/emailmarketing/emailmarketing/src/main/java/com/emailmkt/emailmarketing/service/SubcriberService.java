@@ -1,10 +1,7 @@
 package com.emailmkt.emailmarketing.service;
 
 
-import com.emailmkt.emailmarketing.dto.StatisticContactDTO;
-import com.emailmkt.emailmarketing.dto.SubcriberDTO;
-import com.emailmkt.emailmarketing.dto.SubcriberFormDTO;
-import com.emailmkt.emailmarketing.dto.SubcriberViewDTO;
+import com.emailmkt.emailmarketing.dto.*;
 import com.emailmkt.emailmarketing.model.Subcriber;
 
 import java.util.List;
@@ -46,6 +43,8 @@ public interface SubcriberService {
 
     String deleteSubcriber(int id,int groupId);
 
+
+    List<Subcriber>getSubcriberBySegment(List<SegmentDTO> segmentDTO,String condition);
 
 //    List<Account> getAllAccountsByCustomer();
 //    Account loginForCustomer(String username, String password);

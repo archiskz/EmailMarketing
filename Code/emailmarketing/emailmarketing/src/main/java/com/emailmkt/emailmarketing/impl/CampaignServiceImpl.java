@@ -419,7 +419,7 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Override
     public void getStatisticCampaign() {
-        log.info("Get Statistic Campaign.\n");
+        log.info("Get Statistic Campaign.");
         for (Campaign campaign : campaignRepository.findAll()) {
             // Get Statistic of Campaign
             double request = campaignSubcriberRepository.countRequest(campaign.getId());
@@ -432,11 +432,16 @@ public class CampaignServiceImpl implements CampaignService {
 
 //                    String requestStr =new Double(request).toString();
             campaign.setRequest(requestStr);
-            campaign.setOpenRate(Math.round((open / request) * 100) + "%");
-            campaign.setBounce(Math.round((bounce / request) * 100) + "%");
-            campaign.setDelivery(Math.round((delivery / request) * 100) + "%");
-            campaign.setClickRate(Math.round((click / request) * 100) + "%");
-            campaign.setSpamRate(Math.round((spam / request) * 100) + "%");
+//            campaign.setOpenRate(String.valueOf((int) open)+"("+Math.round((open / request) * 100) + "%)");
+//            campaign.setBounce(String.valueOf((int) bounce)+"("+Math.round((bounce / request) * 100) + "%)");
+//            campaign.setDelivery(String.valueOf((int) delivery)+"("+Math.round((delivery / request) * 100) + "%)");
+//            campaign.setClickRate(String.valueOf((int) click)+"("+Math.round((click / request) * 100) + "%)");
+//            campaign.setSpamRate(String.valueOf((int) spam)+"("+Math.round((spam / request) * 100) + "%)");
+            campaign.setOpenRate(String.valueOf((int) open));
+            campaign.setBounce(String.valueOf((int) bounce));
+            campaign.setDelivery(String.valueOf((int) delivery));
+            campaign.setClickRate(String.valueOf((int) click));
+            campaign.setSpamRate(String.valueOf((int) spam));
 
             campaignRepository.save(campaign);
         }
@@ -444,7 +449,8 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Override
     public CampaignFullDTO getCampaignLatest() {
-        Campaign campaign = campaignRepository.findTopByOrderByCreatedTimeDesc();
+//        Campaign campaign = campaignRepository.findTopByOrderByCreatedTimeDesc();
+            Campaign campaign = campaignRepository.findTopByAutomationIsFalseAndStatusContainsOrderByCreatedTimeDesc("Done");
         // Get Statistic of Campaign
         CampaignFullDTO campaignFullDTO = new CampaignFullDTO();
         campaignFullDTO.setCampaignName(campaign.getName());
