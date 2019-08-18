@@ -449,7 +449,8 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Override
     public CampaignFullDTO getCampaignLatest() {
-        Campaign campaign = campaignRepository.findTopByOrderByCreatedTimeDesc();
+//        Campaign campaign = campaignRepository.findTopByOrderByCreatedTimeDesc();
+            Campaign campaign = campaignRepository.findTopByAutomationIsFalseAndStatusContainsOrderByCreatedTimeDesc("Done");
         // Get Statistic of Campaign
         CampaignFullDTO campaignFullDTO = new CampaignFullDTO();
         campaignFullDTO.setCampaignName(campaign.getName());

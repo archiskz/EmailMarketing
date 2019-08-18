@@ -106,11 +106,22 @@ addActiveClass = (index) => {
             </li>
 
             {/* END CAMPAIGNS */}
+            <li id="menu-academico" className={this.state.activeClasses3 ? "opend" : "closed"} >
+              
+                    <Link to="/dashboard/contacts">
+                    <i className="fa fa-user nav_icon" />
+                    <span style={{position: 'relative'}}>Contact</span>
+                    
+                    <div className="clearfix" />
+                    
+                    </Link>
+                
+            </li>
 
             <li id="menu-academico" className={this.state.activeClasses3? "opend" : "closed"}>
                 <a onClick={() => this.addActiveClass(3)}>
                     <i className="fa fa-users nav_icon" />
-                    <span style={{position: 'relative'}}>Contact Manage</span>
+                    <span style={{position: 'relative'}}>Group Management</span>
                     <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
                     <div className="clearfix" />
                 </a>
@@ -124,14 +135,8 @@ addActiveClass = (index) => {
                     <span style={{position: 'relative'}}>Segment</span>
                     <div className="clearfix" />
                 </Link>
-                <Link to="/dashboard/contacts">
-                    <i className="" />
-                    <span style={{position: 'relative'}}>Contact</span>
-                    
-                    <div className="clearfix" />
-                    
-                    </Link>
             </li>
+            
             {/* Embeded Form */}
             <li  className={this.state.activeClasses5 ? "opend" : "closed"} >
                 <Link to="/dashboard/forms" >
@@ -163,17 +168,7 @@ addActiveClass = (index) => {
             
             
 
-            {/* <li id="menu-academico" className={this.state.activeClasses3 ? "opend" : "closed"} >
-              
-                    <Link to="/dashboard/contacts">
-                    <i className="fa fa-users nav_icon" />
-                    <span style={{position: 'relative'}}>Contact</span>
-                    
-                    <div className="clearfix" />
-                    
-                    </Link>
-                
-            </li> */}
+            
             {/* END CONTACT */}
 
             {/* TEMPLATE */}
