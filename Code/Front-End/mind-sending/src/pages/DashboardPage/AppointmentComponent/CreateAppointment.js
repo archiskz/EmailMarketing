@@ -197,6 +197,12 @@ class CreateAppointment extends Component{
 		,()=>console.log(this.state.newAppointment) );
   
   }
+  
+  goBack=()=>{
+    this.props.history.push({
+      pathname:`/dashboard/invite-mail`,
+  });
+  }
 	
   render(){
     var lists = this.state.lists;
@@ -208,6 +214,9 @@ class CreateAppointment extends Component{
      return (
        <div style={{"width":"100%","height":"100%"}}>
       <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
+      <a onClick={this.goBack}
+      style={{"fontSize":"60px", "width":"40px","marginLeft":"20px","color":"white ", "cursor":"pointer","textDecoration":"none"}}>&#8249;</a>
+      
         <nav class="toolbar-css__nav___27cII">
             <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
                 <span class="navToggleButton-css__code___2bWGz">

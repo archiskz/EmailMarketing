@@ -80,7 +80,7 @@ public class Campaign implements Serializable {
     private String clickRate;
 
     @Column(name = "open")
-    private String openRate;
+    private String  openRate;
 
     @Column(name = "spam")
     private String spamRate;

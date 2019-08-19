@@ -8,6 +8,7 @@ import Pagination from './../../../components/row/Pagination';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 
+
       
 class CreateContact extends Component {
    constructor(props) {
@@ -23,7 +24,8 @@ class CreateContact extends Component {
        allCountries: [],
             currentCountries: [],
             currentPage: null,
-            totalPages: null
+            totalPages: null,
+            score:4,
      };
       this.showDropdownMenu = this.showDropdownMenu.bind(this);
       this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
@@ -165,6 +167,7 @@ onPageChanged = data => {
             createdTime={list.createdTime}
             type={list.type}
             update = {this.updatePage}
+            score={this.state.score}
         />
             ))
         )
@@ -179,10 +182,6 @@ toAddContactManual=()=>{
         pathname:`/dashboard/add-contacts`,
     });    
 }
-  
-
-
-	
   render(){
     var {
         allCountries,
@@ -269,7 +268,7 @@ toAddContactManual=()=>{
                                 <th className=" " scope="col">First Name</th>
                                 <th className=" " scope="col">Last Name</th>
                                 
-                                <th className=" " scope="col">Status</th>
+                                <th className=" " scope="col">Engagement Score</th>
                                 
                                 <th  className="" role="presentation">
                                 

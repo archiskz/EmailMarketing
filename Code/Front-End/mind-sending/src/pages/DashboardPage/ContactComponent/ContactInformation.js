@@ -96,8 +96,8 @@ showDropdownMenu(event) {
 		  dob: res.data.dob,
 		  openRate: res.data.openRate,
 		  phone:res.data.phone,
-			  clickRate: res.data.clickRate,
-			  createdTime: res.data.createdTime,
+		  clickRate: res.data.clickRate,
+		  createdTime: res.data.createdTime,
 	  };
 	  console.log(contact);
 	  this.setState({contact:contact})

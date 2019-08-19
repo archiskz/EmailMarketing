@@ -160,7 +160,7 @@ class CampaignInformation extends Component{
                    { x: "Request", y: response.data.request, text: "Request" }
             ]
           },()=>{
-            
+            console.log(this.state)
           }
           );
         })

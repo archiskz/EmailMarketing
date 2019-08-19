@@ -7,7 +7,7 @@ import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
 import { withRouter } from "react-router";
-
+import Modal from 'react-awesome-modal';
  
 class Segmentation extends Component {
   constructor(props) {
@@ -33,7 +33,12 @@ class Segmentation extends Component {
       listAppointments:[],
       noneList: true,
       condition: "or",
-      contactSegment:[]
+      contactSegment:[],
+      createGroupVisibility: false,
+      newList:{
+        name: "",
+        description:""
+      }
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
@@ -184,26 +189,23 @@ class Segmentation extends Component {
 }
 handleCheck=(event)=>{
   console.log(event.target.value);
-  // if(event.target.value == '0'){
-  //   this.setState({
-  //     noneList: true,
-  //     list: false,
-  //     choose: event.target.value
-  //   })
-  // } else{
-  //   this.setState({
-  //     noneList: false,
-  //     list: true,
-  //     choose: event.target.value
-  //   })
   this.setState({
     list: !this.state.list,
     noneList: !this.state.noneList
   })
-  
-  // this.setState({choose: event.target.value},()=>console.log(this.state.choose))
-  
+
     }
+    openModal() {
+      this.setState({
+        createGroupVisibility: true
+      });
+  }
+
+  closeModal() {
+      this.setState({
+        createGroupVisibility: false
+      });
+  }
 
 
 
@@ -234,19 +236,7 @@ handleCheck=(event)=>{
         </div>
         <div className="container" data-role="main-app-container">
           <div>
-
-         
           <article>
-         {/*<section className="culture-section">
-  <div className="container">
-    <div className="col-md-8 col-md-offset-2">
-      <h2>Slider Popup</h2>
-      <h3>Easily Customized to Meet Your Needs</h3>
-      <p>Create a unique slider embedded in a popup. Include valuable information while perserving space and optimizing your deisgn.</p>
-    </div>
-    <span className="btn_pop_up_add btn-slider">Are You Ready?</span>
-  </div>
-</section>*/}
         <header className="row">
                         <div className="col-md-6">
                             <span>
@@ -259,7 +249,7 @@ handleCheck=(event)=>{
                         </div>
                         <div className="col-md-6">
                             
-                                <a onClick={this.onSave} icon="segment" className="btn_create_contact">
+                                <a onClick={()=>this.openModal()} icon="segment" className="btn_create_contact">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Save As Group
                                 </a>
@@ -271,37 +261,11 @@ handleCheck=(event)=>{
             <p className="fix_size_add_h2" style={{"color": "black" }}>
                   {/* Please note that the contact will not receive a confirmation email. */}
                 </p>
-              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fix_size_add md_tablet2">
-                
-                  <div className="pd20" >
-                    <div class="col-sm-6" >
-                    <label className="container-cb">Add contacts and include in an existing group
-                    <input onChange={this.handleCheck} checked={this.state.list} value="1" type="checkbox" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
-                        
-                        <div className={`col-sm-8 `}>
-                        <h5>Choose Groups</h5>
-                        <MultiSelectComponent 
-                              style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important","marginBottom":"15px"}} 
-                              id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
-                              ref={(scope) => { this.mulObj = scope; }}
-                              value={this.state.group}  
-                              change={this.onChangeListsSelect}
-                              placeholder="Group"/>
-                              
-                        </div>
-                        <br/>
-                        
-                    </div>
-                            </div>
-                    
-              </div>
-            */}
             </div>
                  <div className="md_tablet1">
                   <div className="md_tablet2">
                     <div className="md_tablet3">
                     <h4 class="md_tablet_h4">Create a segment</h4>
-                    {/* <p class="md_tablet_p">Here is the list of your contacts you will add </p> */}
                     </div>
                     
                       <div className="md_tablet4">
@@ -382,7 +346,34 @@ handleCheck=(event)=>{
                     
                     
                   </div>
-                 
+                  <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createGroupVisibility} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <form class="contact1-form validate-form">
+				<span class="contact1-form-title">
+					Save segment as Group
+				</span>
+
+                        <div className="wrap-input1 validate-input">
+                            <input value={this.state.newList.name} onChange={this.handleChange1} className="name input1"
+                                   type="text" name="name" placeholder="New Name"/>
+                            
+                        </div>
+                        <div style={{"width":"100%","textAlign":"center"}}>
+                        <p style={{"color":"red","textAlign":"center"}} class="">{this.state.existedGroup}</p>
+                        </div>
+                        
+                        <div class="wrap-input1 validate-input">
+                            <input value={this.state.newList.description} onChange={this.handleChange2}
+                                   className="description input1" type="text" name="email"
+                                   placeholder="New Description"/>
+                            <span class="shadow-input1"></span>
+                        </div>
+                        <div class="modal-footer">
+                    <button type="button" onClick={()=>this.closeModal()} class="btn btn-info">Cancel</button>
+                    <button type="button" onClick={() => this.saveNewList()}  className={`btn btn-danger ${this.state.newList.name ? "" : "disabled"}`} >Create</button>
+                    
+                  </div>
+                    </form>
+                </Modal>
                 </div>
                 </div> 
           </article>
