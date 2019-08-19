@@ -365,6 +365,12 @@ public class CampaignServiceImpl implements CampaignService {
         campaignFullDTO.setClick(campaign.getClickRate());
         campaignFullDTO.setSpam(campaign.getSpamRate());
 
+        campaignFullDTO.setContactDelivery(campaignSubcriberRepository.findSubcriberMailByCampaignAndDelivery(campaign.getId(),true));
+        campaignFullDTO.setContactOpened(campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(campaign.getId(),true));
+        campaignFullDTO.setContactBounce(campaignSubcriberRepository.findSubcriberMailByCampaignAndBounce(campaign.getId(),true));
+        campaignFullDTO.setContactClicked(campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(campaign.getId(),true));
+        campaignFullDTO.setContactRequest(campaignSubcriberRepository.findSubcriberMailByCampaignId(campaign.getId()));
+        campaignFullDTO.setContactSpam(campaignSubcriberRepository.findSubcriberMailByCampaignAndSpam(campaign.getId(),true));
         return campaignFullDTO;
     }
 

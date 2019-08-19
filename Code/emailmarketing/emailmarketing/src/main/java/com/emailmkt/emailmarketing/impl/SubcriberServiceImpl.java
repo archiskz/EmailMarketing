@@ -313,7 +313,7 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
     @Override
-    public List<Subcriber> getSubcriberBySegment(List<SegmentDTO> segmentDTOs,String condition) {
+    public List<Subcriber> getSubcriberBySegment(List<SegmentDTO> segmentDTOs, String condition) {
         List<Subcriber> subcribers = new ArrayList(new LinkedHashSet());
 
         for (SegmentDTO segmentDTO : segmentDTOs) {
@@ -331,7 +331,7 @@ public class SubcriberServiceImpl implements SubcriberService {
 
                     }
                     if (segmentDTO.getSelect3().equalsIgnoreCase("doesn't contains")) {
-                        subcriberList = subcriberRepository.findAllByLastNameNotContains(segmentDTO.getSelect4());
+                        subcriberList = subcriberRepository.findAllByLastNameNotLike(segmentDTO.getSelect4());
                     }
                 }
                 //Email
@@ -346,7 +346,7 @@ public class SubcriberServiceImpl implements SubcriberService {
 
                     }
                     if (segmentDTO.getSelect3().equalsIgnoreCase("doesn't contains")) {
-                        subcriberList = subcriberRepository.findAllByEmailNotContains(segmentDTO.getSelect4());
+                        subcriberList = subcriberRepository.findAllByEmailNotLike(segmentDTO.getSelect4());
                     }
                 }
                 //Birthday
@@ -379,97 +379,105 @@ public class SubcriberServiceImpl implements SubcriberService {
                 }
                 //Group
                 if (segmentDTO.getSelect2().equalsIgnoreCase("Group")) {
-                    subcriberList = subcriberRepository.findAllByGroupContact(Integer.valueOf(segmentDTO.getSelect4()));
+                    if (segmentDTO.getSelect3().equalsIgnoreCase("is")) {
+                        subcriberList = subcriberRepository.findAllByGroupContact(Integer.valueOf(segmentDTO.getSelect4()));
+                    }
+                    if (segmentDTO.getSelect3().equalsIgnoreCase("is not group")) {
+                        subcriberList = subcriberRepository.findAllByGroupContactNot(Integer.valueOf(segmentDTO.getSelect4()));
+                    }
                 }
             } else {
                 //Mail not Opened
-                if (segmentDTO.getSelect2().equalsIgnoreCase("Mail not opened")) {
-                    if (segmentDTO.getSelect2().equalsIgnoreCase("Campaign")) {
-                        List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
-                        for (String subcriberMail : subcriberMails) {
-                            Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                            subcriberList.add(subcriber);
-                        }
+                if (segmentDTO.getSelect1().equalsIgnoreCase("Contact Actions")) {
+                    //Mail Not Opened
+                    if (segmentDTO.getSelect2().equalsIgnoreCase("Mail not opened")) {
+                        if (segmentDTO.getSelect2().equalsIgnoreCase("Campaign")) {
+                            List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
+                            for (String subcriberMail : subcriberMails) {
+                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriber);
+                            }
 
+                        }
+                        if (segmentDTO.getSelect2().equalsIgnoreCase("appointment")) {
+                            List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
+                            for (String subcriberMail : subcriberMails) {
+                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriber);
+                            }
+
+                        }
                     }
-                    if (segmentDTO.getSelect2().equalsIgnoreCase("appointment")) {
-                        List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
-                        for (String subcriberMail : subcriberMails) {
-                            Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                            subcriberList.add(subcriber);
-                        }
 
+                    //Mail Opened
+                    if (segmentDTO.getSelect2().equalsIgnoreCase("Mail opened")) {
+                        if (segmentDTO.getSelect3().equalsIgnoreCase("Campaign")) {
+                            List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), true);
+                            for (String subcriberMail : subcriberMails) {
+                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriber);
+                            }
+
+                        }
+                        if (segmentDTO.getSelect3().equalsIgnoreCase("appointment")) {
+                            List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndOpened(Integer.valueOf(segmentDTO.getSelect4()), true);
+                            for (String subcriberMail : subcriberMails) {
+                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriber);
+                            }
+
+                        }
                     }
-                }
-                //Mail Opened
-                if (segmentDTO.getSelect2().equalsIgnoreCase("Mail opened")) {
-                    if (segmentDTO.getSelect2().equalsIgnoreCase("Campaign")) {
-                        List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), true);
-                        for (String subcriberMail : subcriberMails) {
-                            Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                            subcriberList.add(subcriber);
-                        }
+                    //Mail Clicked
+                    if (segmentDTO.getSelect2().equalsIgnoreCase("Mail clicked")) {
+                        if (segmentDTO.getSelect2().equalsIgnoreCase("Campaign")) {
+                            List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), true);
+                            for (String subcriberMail : subcriberMails) {
+                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriber);
+                            }
 
+                        }
+                        if (segmentDTO.getSelect2().equalsIgnoreCase("appointment")) {
+                            List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndClicked(Integer.valueOf(segmentDTO.getSelect4()), true);
+                            for (String subcriberMail : subcriberMails) {
+                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriber);
+                            }
+
+                        }
                     }
-                    if (segmentDTO.getSelect2().equalsIgnoreCase("appointment")) {
-                        List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndOpened(Integer.valueOf(segmentDTO.getSelect4()), true);
-                        for (String subcriberMail : subcriberMails) {
-                            Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                            subcriberList.add(subcriber);
+
+                    //Mail not clicked
+                    if (segmentDTO.getSelect2().equalsIgnoreCase("Mail clicked")) {
+                        if (segmentDTO.getSelect2().equalsIgnoreCase("Campaign")) {
+                            List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), false);
+                            for (String subcriberMail : subcriberMails) {
+                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriber);
+                            }
+
                         }
+                        if (segmentDTO.getSelect2().equalsIgnoreCase("appointment")) {
+                            List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndClicked(Integer.valueOf(segmentDTO.getSelect4()), false);
+                            for (String subcriberMail : subcriberMails) {
+                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriber);
+                            }
 
-                    }
-                }
-                //Mail Clicked
-                if (segmentDTO.getSelect2().equalsIgnoreCase("Mail clicked")) {
-                    if (segmentDTO.getSelect2().equalsIgnoreCase("Campaign")) {
-                        List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), true);
-                        for (String subcriberMail : subcriberMails) {
-                            Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                            subcriberList.add(subcriber);
                         }
-
-                    }
-                    if (segmentDTO.getSelect2().equalsIgnoreCase("appointment")) {
-                        List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndClicked(Integer.valueOf(segmentDTO.getSelect4()), true);
-                        for (String subcriberMail : subcriberMails) {
-                            Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                            subcriberList.add(subcriber);
-                        }
-
-                    }
-                }
-
-                //Mail not clicked
-                if (segmentDTO.getSelect2().equalsIgnoreCase("Mail clicked")) {
-                    if (segmentDTO.getSelect2().equalsIgnoreCase("Campaign")) {
-                        List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), false);
-                        for (String subcriberMail : subcriberMails) {
-                            Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                            subcriberList.add(subcriber);
-                        }
-
-                    }
-                    if (segmentDTO.getSelect2().equalsIgnoreCase("appointment")) {
-                        List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndClicked(Integer.valueOf(segmentDTO.getSelect4()), false);
-                        for (String subcriberMail : subcriberMails) {
-                            Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                            subcriberList.add(subcriber);
-                        }
-
                     }
                 }
             }
-            if(condition.equalsIgnoreCase("or")){
+            if (condition.equalsIgnoreCase("or")) {
                 subcribers.addAll(subcriberList);
             }
-            if(condition.equalsIgnoreCase("and")){
-                if(subcribers.isEmpty()){
+            if (condition.equalsIgnoreCase("and")) {
+                if (subcribers.isEmpty()) {
                     subcribers.addAll(subcriberList);
                 }
                 subcribers.retainAll(subcriberList);
             }
-
 
 
         }
