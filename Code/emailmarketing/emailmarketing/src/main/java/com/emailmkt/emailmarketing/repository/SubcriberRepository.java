@@ -54,7 +54,8 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     //Segment
     List<Subcriber> findAllByLastNameContains(String name);
 
-    List<Subcriber> findAllByLastNameNotContains(String name);
+    @Query("SELECT sub FROM Subcriber sub WHERE sub.lastName NOT LIKE  %:name%")
+    List<Subcriber> findAllByLastNameNotLike(@Param("name") String name);
 
     List<Subcriber> findAllByLastNameIs(String name);
 
@@ -63,7 +64,8 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     //Find All By Emails
     List<Subcriber> findAllByEmailContains(String mail);
 
-    List<Subcriber> findAllByEmailNotContains(String mail);
+    @Query("SELECT sub FROM Subcriber sub WHERE sub.email NOT LIKE  %:email%")
+    List<Subcriber> findAllByEmailNotLike(@Param("email") String email);
 
     List<Subcriber> findAllByEmailIs(String mail);
 
@@ -90,6 +92,9 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 
     @Query("SELECT gr.subcriber FROM GroupContactSubcriber gr WHERE gr.groupContact.id = :groupContactId")
     List<Subcriber> findAllByGroupContact(@Param("groupContactId") int groupContactId );
+
+    @Query("SELECT gr.subcriber FROM GroupContactSubcriber gr WHERE gr.groupContact.id <> :groupContactId")
+    List<Subcriber> findAllByGroupContactNot(@Param("groupContactId") int groupContactId );
 
 
     //Level

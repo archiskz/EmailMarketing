@@ -34,5 +34,13 @@ public class CampaignFullDTO {
 //    private String[] groupContactName;
 private List<GCCampaignDTO> gcCampaignDTOS;
 
+// List Of Contacts
+    private List<String> contactRequest;
+    private List<String> contactSpam;
+    private List<String> contactOpened;
+    private List<String> contactClicked;
+    private List<String> contactBounce;
+    private List<String> contactDelivery;
+
 
 }
