@@ -330,7 +330,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                         subcriberList = subcriberRepository.findAllByLastNameContains(segmentDTO.getSelect4());
 
                     }
-                    if (segmentDTO.getSelect3().equalsIgnoreCase("doesn't contains")) {
+                    if (segmentDTO.getSelect3().equalsIgnoreCase("doesn't contain")) {
                         subcriberList = subcriberRepository.findAllByLastNameNotLike(segmentDTO.getSelect4());
                     }
                 }
@@ -345,7 +345,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                         subcriberList = subcriberRepository.findAllByEmailContains(segmentDTO.getSelect4());
 
                     }
-                    if (segmentDTO.getSelect3().equalsIgnoreCase("doesn't contains")) {
+                    if (segmentDTO.getSelect3().equalsIgnoreCase("doesn't contain")) {
                         subcriberList = subcriberRepository.findAllByEmailNotLike(segmentDTO.getSelect4());
                     }
                 }
@@ -379,7 +379,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                 }
                 //Group
                 if (segmentDTO.getSelect2().equalsIgnoreCase("Group")) {
-                    if (segmentDTO.getSelect3().equalsIgnoreCase("is")) {
+                    if (segmentDTO.getSelect3().equalsIgnoreCase("is group")) {
                         subcriberList = subcriberRepository.findAllByGroupContact(Integer.valueOf(segmentDTO.getSelect4()));
                     }
                     if (segmentDTO.getSelect3().equalsIgnoreCase("is not group")) {
@@ -391,7 +391,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                 if (segmentDTO.getSelect1().equalsIgnoreCase("Contact Actions")) {
                     //Mail Not Opened
                     if (segmentDTO.getSelect2().equalsIgnoreCase("Mail not opened")) {
-                        if (segmentDTO.getSelect2().equalsIgnoreCase("Campaign")) {
+                        if (segmentDTO.getSelect2().equalsIgnoreCase("campaign")) {
                             List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
                             for (String subcriberMail : subcriberMails) {
                                 Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
@@ -411,7 +411,7 @@ public class SubcriberServiceImpl implements SubcriberService {
 
                     //Mail Opened
                     if (segmentDTO.getSelect2().equalsIgnoreCase("Mail opened")) {
-                        if (segmentDTO.getSelect3().equalsIgnoreCase("Campaign")) {
+                        if (segmentDTO.getSelect3().equalsIgnoreCase("campaign")) {
                             List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), true);
                             for (String subcriberMail : subcriberMails) {
                                 Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);

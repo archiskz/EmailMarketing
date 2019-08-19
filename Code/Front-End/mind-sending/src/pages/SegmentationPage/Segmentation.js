@@ -111,10 +111,16 @@ class Segmentation extends Component {
   }
 
   getAllCampaign=()=>{
+    var self = this
     axios.get(`${Config.API_URL}campaigns`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
+      console.log(res.data)
+      var listCampaigns = res.data
+      listCampaigns = listCampaigns.filter(function(item){
+        return item.status == "Done";
+      })
       console.log(res.data);
-      this.setState({listCampaigns: res.data});
+      this.setState({listCampaigns: listCampaigns});
     }) 
   }
   getAllAppointment=()=>{
@@ -439,13 +445,19 @@ handleCheck=(event)=>{
        </td>
        <td className="pd5 border_bottom_none">
       
-          <select ref="selectFieldAction1" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Email' || el.select2 == 'Name' || el.select2 == 'Address' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+          <select ref="selectFieldAction1" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Email' || el.select2 == 'Name' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
             <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
           <option>is</option>
           <option>is not</option>
           <option>contains</option>
           <option>doesn't contain</option>
+        </select>
+        <select ref="selectFieldAction1" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Address' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChange.bind(this, i)}>
+          <option value="" selected style={{display:"none"}}>---select an option---</option>
+          <option>contains</option>
+          {/* <option>doesn't contain</option> */}
         </select>
         <select ref="selectFieldAction2" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Birthday' || el.select2 == 'Subscription date' || el.select2 == 'Last click date' || el.select2 == 'Last open date' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
@@ -468,6 +480,7 @@ handleCheck=(event)=>{
         </select>
         <select ref="selectFieldAction2" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Group' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
+            <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
           <option>is group</option>
           <option>is not group</option>
         </select>
@@ -476,6 +489,7 @@ handleCheck=(event)=>{
           <input className={`form-control ${el.select3 == 'is' || el.select3 == "is not" || el.select3 == "contains" || el.select3 == "doesn't contain"  ? '' : 'activeText'}`}  placeholder="" name="select4" value={el.select4 ||''} onChange={this.handleChange.bind(this, i)} />      
           <select ref="selectFieldAction5" name="select4" value={el.select4 ||'1 bar'} className={`form-control ${el.select3 == 'is equal to'||el.select3 == 'is not equal to'|| el.select3 == 'is not equal to'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
+            <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
           <option>1 bar</option>
           <option>2 bars</option>
           <option>3 bars</option>
@@ -484,6 +498,7 @@ handleCheck=(event)=>{
         </select>
         <select ref="selectFieldAction5" name="select4" value={el.select4 ||''} className={`form-control ${el.select3 == 'is group'||el.select3 == 'is not group'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
+            <option value=""  selected style={{display:"none"}}>---select an option---</option>
           {lists.map(list=>(
             <option value={list.id}>{list.name}</option>  
                                     ))}
@@ -491,7 +506,7 @@ handleCheck=(event)=>{
 
         <select ref="selectFieldAction6" name="select4" value={el.select4 ||''} className={`form-control ${el.select3 == 'campaign'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
-        
+        <option value=""  selected style={{display:"none"}}>---select an option---</option>
           {listCampaigns.map(list=>(
             <option value={list.id}>{list.name}</option>  
                                     ))}
@@ -499,7 +514,7 @@ handleCheck=(event)=>{
         </select>
         <select ref="selectFieldAction7" name="select4" value={el.select4 ||''} className={`form-control ${el.select3 == 'appointment'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
-        
+        <option value=""  selected >---select an option---</option>
           {listAppointments.map(list=>(
             <option value={list.id}>{list.name}</option>  
                                     ))}
@@ -572,8 +587,10 @@ handleChangeCondition=(event)=>{
     else {
       let contacts = [...this.state.contacts];
       contacts[i] = {...contacts[i], [name]: value};
-      this.setState({ contacts });
-      console.log(this.state.contacts)
+      this.setState({ contacts },()=>{
+        console.log(this.state.contacts)
+      });
+      
     }
     
  }
