@@ -98,6 +98,7 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 
 
     //Level
+    List<Subcriber> findAllByOrderByCreatedTimeDesc();
 
 
 

@@ -11,7 +11,7 @@ public interface CampaignRepository extends JpaRepository<Campaign,Integer> {
         Campaign findByName(String name);
 //        Campaign findById(int id);
         Campaign findCampaignById(int id);
-        List<Campaign> findAllByAutomationIsFalse();
+        List<Campaign> findAllByAutomationIsFalseOrderByCreatedTimeDesc();
 
         Campaign findTopByAutomationIsFalseAndStatusContainsOrderByCreatedTimeDesc(String status);
 
@@ -20,7 +20,7 @@ public interface CampaignRepository extends JpaRepository<Campaign,Integer> {
 
 //        Campaign findTop1ByOrderByCreatedTimeDesc();
 
-
+        List<Campaign> findAllByOrderByCreatedTimeDesc();
 
 
 

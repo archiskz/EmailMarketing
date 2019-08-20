@@ -125,7 +125,7 @@ public class CampaignController {
 
     @GetMapping("/campaigns")
     Iterable<Campaign> getAll() {
-        return campaignRepository.findAllByAutomationIsFalse();
+        return campaignRepository.findAllByAutomationIsFalseOrderByCreatedTimeDesc();
     }
 
     @ApiOperation(value = "Send Campaign Without Template")

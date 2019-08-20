@@ -44,7 +44,7 @@ public class GroupContactServiceImpl implements GroupContactService {
 
     @Override
     public List<GroupContact> getAllGroupContacts() {
-        return groupContactRepository.findAll();
+        return groupContactRepository.findAllByOrderByCreatedTimeDesc();
     }
 
     @Override
