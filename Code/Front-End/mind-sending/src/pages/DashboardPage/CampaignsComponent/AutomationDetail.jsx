@@ -2,22 +2,13 @@ import React, { Component }  from 'react';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-font/dist/css/bpmn-embedded.css';
-import { emptyBpmn } from '../../../assets/empty.bpmn';
-import propertiesPanelModule from 'bpmn-js-properties-panel';
-// import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
-import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
-import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
-import customModule from '../../../custom/palete';
-import qaExtension from './../../../resources/qa'
-import propertiesProviderModule from '../../../custom/provider'
-import customRulesModule from '../../../custom/custom-rules'
+import qaExtension from './../../../resources/qa';
+import customRulesModule from '../../../custom/custom-rules';
 import magicModdleDescriptor from '../../../custom/descriptors/magic.json';
 import BpmnModdle from 'bpmn-moddle';
-import KeyboardModule from '../../../custom/keyboard';
 import axios from 'axios';
-import * as Config from '../../../constants/Config'
+import * as Config from '../../../constants/Config';
 import { withRouter } from "react-router";
-import AutoRow from './../../../components/row/AutoRow'
 
 import Modal from 'react-awesome-modal';
 class BpmnModelerComponent extends Component {

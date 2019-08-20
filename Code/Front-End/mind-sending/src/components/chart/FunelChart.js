@@ -21,15 +21,34 @@ class FunelChart extends Component {
     render() {
         return (
             
-            <AccumulationChartComponent onClick={this.show.bind(this)} id='funnel-chart' ref={funnel => this.funnel = funnel} title='' load={this.load.bind(this)} tooltip={{ enable: true, format: '${point.x} : <b>${point.y}</b>' }} resized={this.onChartResized.bind(this)} loaded={this.onChartLoad.bind(this)}>
-              <Inject services={[FunnelSeries, AccumulationTooltip, AccumulationDataLabel]}/>
-              <AccumulationSeriesCollectionDirective>
-                <AccumulationSeriesDirective dataSource={this.props.data1} xName='x' yName='y' type='Funnel' width='40%' height='100%' neckWidth='15%' gapRatio={0.03} neckHeight='18%' explode={false} dataLabel={{
-            name: 'text', visible: true, position: 'Outside', connectorStyle: { length: "6%" }
-        }}>
-                </AccumulationSeriesDirective>
-              </AccumulationSeriesCollectionDirective>
-            </AccumulationChartComponent>
+            <AccumulationChartComponent id="pie-chart"
+                        title='Project Cost Breakdown'
+                        legendSettings={{
+                            visible: true,
+                            position: 'Top'
+                        }}
+                        enableSmartLabels={true}
+                        load={this.load.bind(this)}
+                        tooltip={{ enable: false }}
+                        loaded={this.onChartLoad.bind(this)}
+                    >
+                        <Inject services={[AccumulationLegend, PieSeries, AccumulationDataLabel]} />
+                        <AccumulationSeriesCollectionDirective>
+                            <AccumulationSeriesDirective name='Project' dataSource={this.props.data1} xName='x' yName='y' innerRadius='40%' startAngle={0}
+                                endAngle={360} radius='70%' explode={true} explodeOffset='10%' explodeIndex={3}
+                                dataLabel={{
+                                    visible: true,
+                                    name: 'text',
+                                    position: 'Inside',
+                                    font: {
+                                        fontWeight: '600',
+                                        color: '#ffffff'
+                                    }
+                                }}
+                            >
+                            </AccumulationSeriesDirective>
+                        </AccumulationSeriesCollectionDirective>
+                    </AccumulationChartComponent>
 
         );
     }
@@ -44,7 +63,7 @@ class FunelChart extends Component {
       }
   }
   onChartLoad(args) {
-    document.getElementById('funnel-chart').setAttribute('title', '');
+    document.getElementById('pie-chart').setAttribute('title', '');
 }
 onChartResized(args) {
   let bounds = document.getElementById('funnel-chart').getBoundingClientRect();
