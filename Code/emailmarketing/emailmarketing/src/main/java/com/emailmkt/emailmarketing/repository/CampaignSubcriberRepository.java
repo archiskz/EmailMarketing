@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.repository;
 
 import com.emailmkt.emailmarketing.model.CampaignSubcriber;
+import com.emailmkt.emailmarketing.model.Subcriber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,20 +26,23 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
     @Query("DELETE FROM CampaignSubcriber cb WHERE cb.id in ( SELECT cb2.id  FROM CampaignSubcriber cb2 WHERE cb2.campaignGroupContact.campaign.id = :campaignId)")
     void  clearCampaignSubcriber(@Param("campaignId") int campaignId);
 
-    @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true and cp.opened = :check ")
-    List<String> findSubcriberMailByCampaignAndOpened(@Param("campaignId") int campaignId,@Param("check") boolean check);
+    @Query("SELECT su FROM CampaignSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true and cp.opened = :check ")
+    List<Subcriber> findSubcriberMailByCampaignAndOpened(@Param("campaignId") int campaignId,@Param("check") boolean check);
 
-    @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true and cp.delivery = :check ")
-    List<String> findSubcriberMailByCampaignAndDelivery(@Param("campaignId") int campaignId,@Param("check") boolean check);
+    @Query("SELECT su FROM CampaignSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true and cp.delivery = :check ")
+    List<Subcriber> findSubcriberMailByCampaignAndDelivery(@Param("campaignId") int campaignId,@Param("check") boolean check);
 
-    @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true and cp.bounce = :check ")
-    List<String> findSubcriberMailByCampaignAndBounce(@Param("campaignId") int campaignId,@Param("check") boolean check);
+    @Query("SELECT su FROM CampaignSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true and cp.bounce = :check ")
+    List<Subcriber> findSubcriberMailByCampaignAndBounce(@Param("campaignId") int campaignId, @Param("check") boolean check);
 
-    @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true and cp.comfirmation = :check ")
-    List<String> findSubcriberMailByCampaignAndClicked(@Param("campaignId") int campaignId,@Param("check") boolean check);
+    @Query("SELECT su FROM CampaignSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true and cp.comfirmation = :check ")
+    List<Subcriber> findSubcriberMailByCampaignAndClicked(@Param("campaignId") int campaignId,@Param("check") boolean check);
 
-    @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true and cp.spam = :check ")
-    List<String> findSubcriberMailByCampaignAndSpam(@Param("campaignId") int campaignId,@Param("check") boolean check);
+    @Query("SELECT su FROM CampaignSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true and cp.spam = :check ")
+    List<Subcriber> findSubcriberMailByCampaignAndSpam(@Param("campaignId") int campaignId,@Param("check") boolean check);
+
+    @Query("SELECT su FROM CampaignSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true ")
+    List<Subcriber> findSubcriberByCampaignID(@Param("campaignId") int campaignId);
 
     @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true ")
     List<String> findSubcriberMailByCampaignId(@Param("campaignId") int campaignId);

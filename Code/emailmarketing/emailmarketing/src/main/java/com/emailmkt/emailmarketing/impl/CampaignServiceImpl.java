@@ -365,11 +365,12 @@ public class CampaignServiceImpl implements CampaignService {
         campaignFullDTO.setClick(campaign.getClickRate());
         campaignFullDTO.setSpam(campaign.getSpamRate());
 
+
         campaignFullDTO.setContactDelivery(campaignSubcriberRepository.findSubcriberMailByCampaignAndDelivery(campaign.getId(),true));
         campaignFullDTO.setContactOpened(campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(campaign.getId(),true));
         campaignFullDTO.setContactBounce(campaignSubcriberRepository.findSubcriberMailByCampaignAndBounce(campaign.getId(),true));
         campaignFullDTO.setContactClicked(campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(campaign.getId(),true));
-        campaignFullDTO.setContactRequest(campaignSubcriberRepository.findSubcriberMailByCampaignId(campaign.getId()));
+        campaignFullDTO.setContactRequest(campaignSubcriberRepository.findSubcriberByCampaignID(campaign.getId()));
         campaignFullDTO.setContactSpam(campaignSubcriberRepository.findSubcriberMailByCampaignAndSpam(campaign.getId(),true));
         return campaignFullDTO;
     }
@@ -417,7 +418,7 @@ public class CampaignServiceImpl implements CampaignService {
         campaign.setSender(temp.getSender());
         campaign.setContent(temp.getContent());
         campaign.setType(temp.getType());
-        campaign.setName(temp.getName() + UUID.randomUUID().toString());
+        campaign.setName(temp.getName() +"<"+ workflow.getName() + ">"+UUID.randomUUID().toString());
         campaignRepository.save(campaign);
         return campaign.getId();
     }

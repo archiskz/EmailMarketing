@@ -2,6 +2,8 @@ package com.emailmkt.emailmarketing.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class GroupContactDTO {
 
@@ -12,5 +14,7 @@ public class GroupContactDTO {
     private String created_time;
 
     private String updated_time;
+
+    private List<SubcriberGCDTO> subcriberGCDTOS;
 
 }
