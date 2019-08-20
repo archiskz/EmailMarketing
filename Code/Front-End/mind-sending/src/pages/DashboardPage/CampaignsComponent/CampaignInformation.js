@@ -290,6 +290,7 @@ class CampaignInformation extends Component{
     var clicks = this.state.contactClicked
     var deliverys = this.state.contactDelivery
     var requests = this.state.contactRequest
+
     console.log(requests)
      return (
        <div style={{"width":"100%","height":"100%"}}>
@@ -482,7 +483,7 @@ class CampaignInformation extends Component{
                   <TabPanel>
                   {/* Request */}
                   <div className="" style={{textAlign:"left", padding:"10px"}}>
-                  {this.state.request}
+                  {/* {this.state.request} */}
                   <table class="table">
                 <thead class="thead-dark">
                   <tr>
@@ -496,7 +497,7 @@ class CampaignInformation extends Component{
                 {
                   requests.map((list,index) => (
                     <tr>
-                    <th scope="row">{index}</th>
+                    <th scope="row">{index + 1}</th>
                     <td>{list}</td>
                     <td>Otto</td>
                     <td>@mdo</td>
@@ -511,23 +512,153 @@ class CampaignInformation extends Component{
                   </TabPanel>
                   <TabPanel>
                   {/* Delivery */}
-                  {this.state.delivery}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+               
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {
+                  deliverys.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{list}</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                ))
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  
+                  {/* {this.state.delivery} */}
                   </TabPanel>
                   <TabPanel>
                   {/* Bounce */}
-                  {this.state.bounce}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+    
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {
+                  bounces.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{list}</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                ))
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  
+                  {/* {this.state.bounce} */}
                   </TabPanel>
                   <TabPanel>
                   {/* Spam */}
-                  {this.state.spam}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+    
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {
+                  spams.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{list}</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                ))
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
                   </TabPanel>
                   <TabPanel>
                   {/* Opened */}
-                  {this.state.open}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {
+                  opens.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{list}</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                ))
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  
+                  {/* {this.state.open} */}
                   </TabPanel>
                   <TabPanel>
                   {/* Clicked */}
-                  {this.state.click}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {
+                  clicks.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{list}</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                ))
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  {/* {this.state.click} */}
                   </TabPanel>
             </Tabs>
         

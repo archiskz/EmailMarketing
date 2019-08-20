@@ -21,7 +21,9 @@ class ContactInformation extends Component {
 				address:"",
 				dob:"",
 				auth_token:""
-			}
+			},
+			groupTotal: null,
+			campaignTotal: null,
         };
         this.showDropdownMenu = this.showDropdownMenu.bind(this);
 	  this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
@@ -99,8 +101,11 @@ showDropdownMenu(event) {
 		  clickRate: res.data.clickRate,
 		  createdTime: res.data.createdTime,
 	  };
+	 
 	  console.log(contact);
-	  this.setState({contact:contact})
+	  this.setState({contact:contact,
+		groupTotal: res.data.belongGroup,
+		campaignTotal: res.data.belongCampaign})
 	})
   }
   goBack =()=>{
@@ -296,13 +301,13 @@ showDropdownMenu(event) {
         		  <div className="user_line">	
         			<div className="contact_information_detail">
         				<h4 className="contact_information_detail_h4">
-                    		Belong to: 50 groups
+                    		Belong to: {this.state.groupTotal} groups
                			</h4>
         				
         			</div>
         			<div className="contact_information_detail">
         				<h4 className="contact_information_detail_h4" >
-                    		Belong to: 40 campaigns
+                    		Belong to: {this.state.campaignTotal} campaigns
                			</h4>
         				
         			</div>

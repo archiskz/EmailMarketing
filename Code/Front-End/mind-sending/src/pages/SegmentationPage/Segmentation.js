@@ -8,6 +8,7 @@ import "react-notifications-component/dist/theme.css";
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
 import { withRouter } from "react-router";
 import Modal from 'react-awesome-modal';
+
  
 class Segmentation extends Component {
   constructor(props) {
@@ -38,7 +39,8 @@ class Segmentation extends Component {
       newList:{
         name: "",
         description:""
-      }
+      },
+      isApply: false
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
@@ -310,12 +312,12 @@ handleCheck=(event)=>{
 
 
                 {/* TABLECONTACT MATCH */}
-                <div className="md_tablet1">
+                <div className="md_tablet1" >
                   <div className="md_tablet2">
                   
                     {/* <div className="md_tablet3">
                     </div> */}
-                      <div className="md_tablet4">
+                      <div className={`md_tablet4 ${this.state.isApply ? '' : 'activeText'}`} >
                       <p style={{"fontSize":"17px", fontStyle:"bold"}}>Contacts match</p>
                       <table class="table">
                       
@@ -329,7 +331,7 @@ handleCheck=(event)=>{
                           </tr>
                         </thead>
                         <tbody>
-                        {listSegment.map(list=>(
+                        {listSegment.length >0 ? listSegment.map(list=>(
                           <ContactRow
                                 id = {list.id}
                                 firstName={list.firstName}
@@ -343,9 +345,9 @@ handleCheck=(event)=>{
                                 type={list.type}
                                 update = {this.updatePage}
                             />
-                                    ))}
+                                    )) : <tr style={{"color":"red", "textAlign":"center", "width":"100%"}}><td className=" border_bottom_none"></td><td className=" border_bottom_none"></td><p style={{"color":"red", "textAlign":"center", "width":"100%"}}>No record found</p></tr> }
                         </tbody>
-                        <button onClick={this.applySegment} style={{"marginLeft":"10px", marginTop:"10px"}} type="button" class="btn btn-primary">Save as Group</button>
+                        <button onClick={()=>this.openModal()} style={{"marginLeft":"10px", marginTop:"10px"}} type="button" class="btn btn-primary">Save as Group</button>
                       
                       </table>
                        
@@ -395,10 +397,12 @@ handleCheck=(event)=>{
     console.log(this.state.contacts)
   }
   applySegment=()=>{
+
     axios.post(`${Config.API_URL}subcriber/getSubcriberBySegment?condition=${this.state.condition}`,this.state.contacts,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
    .then(response => {
      this.setState({
-       contactSegment: response.data
+       contactSegment: response.data,
+       isApply: true
      },()=>console.log(response.data));
    })
    .catch(error => {

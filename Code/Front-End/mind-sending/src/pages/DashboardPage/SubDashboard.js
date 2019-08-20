@@ -4,6 +4,7 @@ import * as Config from '../../constants/Config';
 import { AccumulationChartComponent, AccumulationSeriesCollectionDirective, AccumulationSeriesDirective,  FunnelSeries, Inject, AccumulationTooltip, AccumulationDataLabel}
 from'@syncfusion/ej2-react-charts';
 import FunelChart from './../../components/chart/FunelChart'
+import DonutChart from './../../components/chart/DonutChart'
 import axios from 'axios';
 class SubDashboard extends Component {
 
@@ -13,6 +14,7 @@ class SubDashboard extends Component {
      { x: "Delivery", y: 98, text: "Delivery" },
      { x: "Request", y: 100, text: "Request" }
     ];
+  
 
     constructor(props) {
         super(props);
@@ -24,7 +26,10 @@ class SubDashboard extends Component {
             latestCampaign:{createdTime:""},
             contactStatitic:{},
             data1:[
-              ]
+              ],
+              dataPie:[{ x: 'Bronze', y: 50, text: '50%' }, { x: 'Silver', y: 20, text: '20%' },
+              { x: 'Gold', y: 15, text: '15%' }, { x: 'Planinum', y: 11, text: '11%' },
+              { x: 'Diamond', y: 4, text: '4%' }]
         };
     }
 componentDidMount(){
@@ -162,9 +167,9 @@ componentDidMount(){
             </span>
             </h5>
             {/* CHART */}
-            {this.state.data1 == null || this.state.data1.length <= 0 ?  null : 
+            {/* {this.state.data1 == null || this.state.data1.length <= 0 ?  null : 
               <FunelChart data1={this.state.data1} />
-            }
+            } */}
 
 
             </div>
@@ -181,8 +186,8 @@ componentDidMount(){
             </div>
             <div className="collapse show">
             <div className="panel_content">
-            <div className= "dashboard_table_responsive">
-              <table className="dashboard_table">
+            <div  className= "dashboard_table_responsive">
+              <table style={{"display":"none"}} className="dashboard_table">
               <thead>
               <tr>
               <th>Contact type</th>
@@ -214,6 +219,13 @@ componentDidMount(){
               </tr>
               </tbody>    
               </table>
+            <DonutChart data1={this.state.dataPie} />
+            
+            
+            
+            
+            
+            
             </div>
             </div>
             </div>
