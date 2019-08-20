@@ -71,6 +71,17 @@ public class GroupContactController {
 
     }
 
+
+    @PostMapping("/groupContact/create/segment")
+    public ResponseEntity createGroupContactBySegment(@RequestBody GroupContactDTO groupContactDTO) {
+        boolean flag = groupContactService.createGroupContactFromSegment(groupContactDTO);
+        if (flag == false) {
+            return ResponseEntity.status(CONFLICT).body("Group Existed");
+        }
+        return ResponseEntity.status(CREATED).body("Successfully");
+
+    }
+
     @PostMapping("/groupContact/search/{searchValue}")
     public List<GroupContact> searchGroupContact(@PathVariable(value = "searchValue") String searchValue){
         return groupContactService.searchByName(searchValue);
