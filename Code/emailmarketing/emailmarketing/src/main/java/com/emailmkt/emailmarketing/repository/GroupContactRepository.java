@@ -53,6 +53,8 @@ public interface GroupContactRepository extends JpaRepository<GroupContact, Inte
 
     List<GroupContact> findTop5ByOrderByCreatedTimeDesc();
 
+    List<GroupContact> findAllByOrderByCreatedTimeDesc();
+
 
 
 }

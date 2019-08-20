@@ -37,7 +37,7 @@ public class SubcriberController {
 
     @GetMapping("/subcribers")
     Iterable<Subcriber> getAll() {
-        return subcriberRepository.findAll();
+        return subcriberRepository.findAllByOrderByCreatedTimeDesc();
     }
 
 

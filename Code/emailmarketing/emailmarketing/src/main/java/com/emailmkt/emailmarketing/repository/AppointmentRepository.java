@@ -21,7 +21,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Integer
         AppointmentSubcriber findMailByAppointmentId(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);
 
 
-        List<Appointment> findAllByAutomationIsFalse();
+        List<Appointment> findAllByAutomationIsFalseOrderByCreatedTimeDesc();
 
         Appointment findAppointmentByName(String name);
 
