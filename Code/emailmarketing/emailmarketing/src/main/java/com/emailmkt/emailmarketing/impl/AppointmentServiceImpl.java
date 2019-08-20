@@ -292,7 +292,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setTime(temp.getTime());
         appointment.setBodyJson(temp.getBodyJson());
         appointment.setCreatedTime(LocalDateTime.now().toString());
-        appointment.setName(temp.getName() + UUID.randomUUID().toString());
+        appointment.setName(temp.getName() + "<"+workflow.getName()+">"+UUID.randomUUID().toString());
         appointment.setSubject(temp.getSubject());
         appointment.setStatus("Sending");
         appointment.setAutomation(true);

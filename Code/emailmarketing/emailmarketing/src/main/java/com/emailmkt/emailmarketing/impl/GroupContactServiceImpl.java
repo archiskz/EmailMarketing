@@ -6,6 +6,7 @@ import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.repository.GroupContactRepository;
+import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.GroupContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +14,16 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupContactServiceImpl implements GroupContactService {
 
     @Autowired
     GroupContactRepository groupContactRepository;
+
+    @Autowired
+    SubcriberRepository subcriberRepository;
 
 
     @Override
@@ -123,6 +128,29 @@ public class GroupContactServiceImpl implements GroupContactService {
         return false;
     }
 
+    @Override
+    public boolean createGroupContactFromSegment(GroupContactDTO groupContactDTO) {
+        GroupContact checkExistedGroupContact = groupContactRepository.findByName(groupContactDTO.getName());
+        if (checkExistedGroupContact != null) {
+            return false;
+        }
+
+        GroupContact groupContact = new GroupContact();
+        groupContact.setCreatedTime(LocalDateTime.now().toString());
+        groupContact.setName(groupContactDTO.getName());
+        groupContact.setAccount_id(1);
+        List<GroupContactSubcriber> groupContactSubcribers = groupContactDTO.getSubcriberGCDTOS().stream().map(g -> {
+            GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
+            groupContactSubcriber.setActive(true);
+            groupContactSubcriber.setGroupContact(groupContact);
+            groupContactSubcriber.setCreatedTime(LocalDateTime.now().toString());
+            groupContactSubcriber.setSubcriber(subcriberRepository.findSubcriberById(g.getSubcriberId()));
+            return groupContactSubcriber;
+        }).collect(Collectors.toList());
+        groupContact.setGroupContactSubcribers(groupContactSubcribers);
+        groupContactRepository.save(groupContact);
+        return true;
+    }
 
 
     @Override

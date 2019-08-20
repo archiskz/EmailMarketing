@@ -33,6 +33,11 @@ public interface GroupContactService {
 
     boolean deleteSubcriberOutGroup(int subcriberId);
 
+    boolean createGroupContactFromSegment(GroupContactDTO groupContactDTO);
+
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.dto;
 
+import com.emailmkt.emailmarketing.model.Subcriber;
 import lombok.Data;
 
 import java.util.List;
@@ -35,12 +36,12 @@ public class CampaignFullDTO {
 private List<GCCampaignDTO> gcCampaignDTOS;
 
 // List Of Contacts
-    private List<String> contactRequest;
-    private List<String> contactSpam;
-    private List<String> contactOpened;
-    private List<String> contactClicked;
-    private List<String> contactBounce;
-    private List<String> contactDelivery;
+    private List<Subcriber> contactRequest;
+    private List<Subcriber> contactSpam;
+    private List<Subcriber> contactOpened;
+    private List<Subcriber> contactClicked;
+    private List<Subcriber> contactBounce;
+    private List<Subcriber> contactDelivery;
 
 
 }
