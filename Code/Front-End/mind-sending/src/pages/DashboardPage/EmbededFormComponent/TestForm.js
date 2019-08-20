@@ -100,7 +100,7 @@ class TestForm extends Component {
     render(){
         /* Simply pass myCustoms to */
         return(
-            <div id="code_preview" className={`${this.state.isShow ? '':'activeText'}`} style={{"marginLeft":"0px !important","width":"360px", "border":"1px solid black","padding":"15px", "borderRadius":"10px"}}>
+            <div id="code_preview" className={`${this.state.isShow ? '':'activeText'}`} style={{"marginLeft":"0px !important","width":"360px", "border":"1px solid black","padding":"15px", "borderRadius":"10px", "opacity":"0.8"}}>
             JOIN US <br/><br/>
             <form>
                     <div class="form-group">
@@ -122,7 +122,7 @@ class TestForm extends Component {
                         <input name="dob" value={this.state.newSubcriber.dob} onChange={this.handleChange} type="text" class="form-control" id="exampleInputPassword1" placeholder="Birth Date"/>
                     </div>
                     <button  onClick={this.onSubcribe} class="btn btn-primary">Subcribe</button>
-                    <a onClick={this.closeIframe} id="close_btn_mindsending" class="btn btn-primary">Close</a>
+                    <a style={{"marginLeft":"10px"}} onClick={this.closeIframe} id="close_btn_mindsending" class="btn btn-primary">Close</a>
                 </form>    
             </div>
                      );
