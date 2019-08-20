@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -105,40 +103,45 @@ public class SubcriberServiceImpl implements SubcriberService {
 
     @Override
     public boolean createListSubcrbier(List<SubcriberDTO> subcriberDTOS) {
-        boolean check = false;
         for (SubcriberDTO subcriberDTO : subcriberDTOS) {
 
             Subcriber result = subcriberRepository.findByEmail(subcriberDTO.getEmail());
 
             if (result != null) {
-                List<GroupContactSubcriber> groupContactSubcribers2 = result.getGroupContactSubcribers();
-                for (GroupContactSubcriber groupContactSubcriber2 : groupContactSubcribers2) {
-                    subcriberDTO.getGcSubcriberDTOS().stream().forEach(x -> {
-                        if (groupContactSubcriber2.getGroupContact().getId() == x.getGroupContactId()) {
-                            if (!groupContactSubcriber2.isActive()) {
-                                groupContactSubcriber2.setActive(true);
-                                groupContactSubcriberRepository.save(groupContactSubcriber2);
-                            }
-                            return;
-
-
-                        }
-
-
-                        GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
-                        groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(x.getGroupContactId()));
-                        groupContactSubcriber.setSubcriber(result);
-                        groupContactSubcribers2.add(groupContactSubcriber);
-                        result.setGroupContactSubcribers(groupContactSubcribers2);
-                        subcriberRepository.save(result);
-
-
-                    });
-
+                List<GroupContactSubcriber> groupContactSubcriber1st = result.getGroupContactSubcribers();
+                List<Integer> groupId = result.getGroupContactSubcribers().stream().map(x -> x.getGroupContact().getId()).collect(Collectors.toList());
+                List<Integer> groupInputId = subcriberDTO.getGcSubcriberDTOS().stream().map(x -> x.getGroupContactId()).collect(Collectors.toList());
+                groupId.retainAll(groupInputId);// Group after filter will set Active
+                for(int number : groupId){
+                    GroupContactSubcriber groupContactSubcriber = groupContactSubcriberRepository.findGroupContactSubcriberBySubcriberIdAndGroupContactId(result.getId(),number);
+                    if(!groupContactSubcriber.isActive()){
+                        groupContactSubcriber.setActive(true);
+                        groupContactSubcriber.setUpdatedTime(LocalDateTime.now().toString());
+                        groupContactSubcriberRepository.save(groupContactSubcriber);
+                    }
+                }
+                Set<Integer> intersection = new HashSet<Integer>(groupId);
+                intersection.retainAll(groupInputId);
+                // Subtract the intersection from the union
+                groupInputId.removeAll(intersection);
+                if(!groupInputId.isEmpty()){
+                   List<GroupContactSubcriber> groupContactSubcribers = groupInputId.stream().map(g ->{
+                       GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
+                       groupContactSubcriber.setActive(true);
+                       groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(g));
+                       groupContactSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                       groupContactSubcriber.setSubcriber(result);
+                       return groupContactSubcriber;
+                   }).collect(Collectors.toList());
+                    Set<GroupContactSubcriber> fooSet = new LinkedHashSet<>(groupContactSubcriber1st);
+                    fooSet.addAll(groupContactSubcribers);
+                    List<GroupContactSubcriber> finalGroupContact = new ArrayList<>(fooSet);
+                   result.setGroupContactSubcribers(finalGroupContact);
+                    subcriberRepository.save(result);
+                    return true;
                 }
                 return false;
             }
-
 
             Subcriber subcriber = new Subcriber();
             subcriber.setLastName(subcriberDTO.getLastName());
@@ -164,7 +167,6 @@ public class SubcriberServiceImpl implements SubcriberService {
             }).collect(Collectors.toList());
             subcriber.setGroupContactSubcribers(groupContactSubcribers);
             subcriberRepository.save(subcriber);
-
         }
 
         return true;
