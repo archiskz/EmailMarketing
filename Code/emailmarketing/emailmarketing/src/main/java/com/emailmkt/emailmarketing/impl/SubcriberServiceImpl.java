@@ -394,10 +394,10 @@ public class SubcriberServiceImpl implements SubcriberService {
                     //Mail Not Opened
                     if (segmentDTO.getSelect2().equalsIgnoreCase("Mail not opened")) {
                         if (segmentDTO.getSelect2().equalsIgnoreCase("campaign")) {
-                            List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
-                            for (String subcriberMail : subcriberMails) {
-                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                                subcriberList.add(subcriber);
+                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
+                            for (Subcriber subcriberMail: subcriberMails) {
+//                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriberMail);
                             }
 
                         }
@@ -414,10 +414,10 @@ public class SubcriberServiceImpl implements SubcriberService {
                     //Mail Opened
                     if (segmentDTO.getSelect2().equalsIgnoreCase("Mail opened")) {
                         if (segmentDTO.getSelect3().equalsIgnoreCase("campaign")) {
-                            List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), true);
-                            for (String subcriberMail : subcriberMails) {
-                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                                subcriberList.add(subcriber);
+                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), true);
+                            for (Subcriber subcriberMail : subcriberMails) {
+//                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriberMail);
                             }
 
                         }
@@ -433,10 +433,10 @@ public class SubcriberServiceImpl implements SubcriberService {
                     //Mail Clicked
                     if (segmentDTO.getSelect2().equalsIgnoreCase("Mail clicked")) {
                         if (segmentDTO.getSelect2().equalsIgnoreCase("Campaign")) {
-                            List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), true);
-                            for (String subcriberMail : subcriberMails) {
-                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                                subcriberList.add(subcriber);
+                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), true);
+                            for (Subcriber subcriberMail : subcriberMails) {
+//                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriberMail);
                             }
 
                         }
@@ -453,10 +453,10 @@ public class SubcriberServiceImpl implements SubcriberService {
                     //Mail not clicked
                     if (segmentDTO.getSelect2().equalsIgnoreCase("Mail clicked")) {
                         if (segmentDTO.getSelect2().equalsIgnoreCase("Campaign")) {
-                            List<String> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), false);
-                            for (String subcriberMail : subcriberMails) {
-                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                                subcriberList.add(subcriber);
+                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), false);
+                            for (Subcriber subcriberMail : subcriberMails) {
+//                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriberMail);
                             }
 
                         }
