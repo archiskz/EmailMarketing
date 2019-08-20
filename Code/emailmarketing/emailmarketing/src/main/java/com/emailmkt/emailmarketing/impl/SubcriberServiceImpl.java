@@ -112,9 +112,9 @@ public class SubcriberServiceImpl implements SubcriberService {
                 List<Integer> groupId = result.getGroupContactSubcribers().stream().map(x -> x.getGroupContact().getId()).collect(Collectors.toList());
                 List<Integer> groupInputId = subcriberDTO.getGcSubcriberDTOS().stream().map(x -> x.getGroupContactId()).collect(Collectors.toList());
                 groupId.retainAll(groupInputId);// Group after filter will set Active
-                for(int number : groupId){
-                    GroupContactSubcriber groupContactSubcriber = groupContactSubcriberRepository.findGroupContactSubcriberBySubcriberIdAndGroupContactId(result.getId(),number);
-                    if(!groupContactSubcriber.isActive()){
+                for (int number : groupId) {
+                    GroupContactSubcriber groupContactSubcriber = groupContactSubcriberRepository.findGroupContactSubcriberBySubcriberIdAndGroupContactId(result.getId(), number);
+                    if (!groupContactSubcriber.isActive()) {
                         groupContactSubcriber.setActive(true);
                         groupContactSubcriber.setUpdatedTime(LocalDateTime.now().toString());
                         groupContactSubcriberRepository.save(groupContactSubcriber);
@@ -124,19 +124,19 @@ public class SubcriberServiceImpl implements SubcriberService {
                 intersection.retainAll(groupInputId);
                 // Subtract the intersection from the union
                 groupInputId.removeAll(intersection);
-                if(!groupInputId.isEmpty()){
-                   List<GroupContactSubcriber> groupContactSubcribers = groupInputId.stream().map(g ->{
-                       GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
-                       groupContactSubcriber.setActive(true);
-                       groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(g));
-                       groupContactSubcriber.setCreatedTime(LocalDateTime.now().toString());
-                       groupContactSubcriber.setSubcriber(result);
-                       return groupContactSubcriber;
-                   }).collect(Collectors.toList());
+                if (!groupInputId.isEmpty()) {
+                    List<GroupContactSubcriber> groupContactSubcribers = groupInputId.stream().map(g -> {
+                        GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
+                        groupContactSubcriber.setActive(true);
+                        groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(g));
+                        groupContactSubcriber.setCreatedTime(LocalDateTime.now().toString());
+                        groupContactSubcriber.setSubcriber(result);
+                        return groupContactSubcriber;
+                    }).collect(Collectors.toList());
                     Set<GroupContactSubcriber> fooSet = new LinkedHashSet<>(groupContactSubcriber1st);
                     fooSet.addAll(groupContactSubcribers);
                     List<GroupContactSubcriber> finalGroupContact = new ArrayList<>(fooSet);
-                   result.setGroupContactSubcribers(finalGroupContact);
+                    result.setGroupContactSubcribers(finalGroupContact);
                     subcriberRepository.save(result);
                     return true;
                 }
@@ -289,8 +289,11 @@ public class SubcriberServiceImpl implements SubcriberService {
             dto.setAddress(subcriber.getAddress());
             dto.setTag(subcriber.getTag());
             dto.setType(subcriber.getType());
+            dto.setCreatedTime(subcriber.getCreatedTime());
             dtos.add(dto);
         }
+        Comparator<SubcriberDTO> createTimeComparator = (o1, o2)->o1.getCreatedTime().compareTo(o2.getCreatedTime());
+        dtos.sort(createTimeComparator.reversed());
         return dtos;
     }
 
@@ -395,7 +398,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                     if (segmentDTO.getSelect2().equalsIgnoreCase("Mail not opened")) {
                         if (segmentDTO.getSelect3().equalsIgnoreCase("campaign")) {
                             List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
-                            for (Subcriber subcriberMail: subcriberMails) {
+                            for (Subcriber subcriberMail : subcriberMails) {
 //                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
                                 subcriberList.add(subcriberMail);
                             }
