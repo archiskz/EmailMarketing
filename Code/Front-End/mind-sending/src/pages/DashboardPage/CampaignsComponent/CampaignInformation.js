@@ -69,7 +69,25 @@ class CampaignInformation extends Component{
             }
           },
           auth_token:"",
-          data1:[]
+          data1:[],
+          contactBounce: [
+            ""
+          ],
+          contactClicked: [
+            ""
+          ],
+          contactDelivery: [
+            ""
+          ],
+          contactOpened: [
+            ""
+          ],
+          contactRequest: [
+            ""
+          ],
+          contactSpam: [
+            ""
+          ]
      };
      this.fields = { text: 'name', value: 'id' };
      this.handleChange = this.handleChange.bind(this);
@@ -158,9 +176,25 @@ class CampaignInformation extends Component{
                   { x: "Opened", y: response.data.open, text: "Opened" },
                    { x: "Delivery", y: response.data.delivery, text: "Delivery" },
                    { x: "Request", y: response.data.request, text: "Request" }
+            ],
+            contactBounce: response.data.contactBounce,
+            contactClicked: [
+              response.data.contactClicked
+            ],
+            contactDelivery: [
+              response.data.contactDelivery
+            ],
+            contactOpened: [
+              response.data.contactOpened
+            ],
+            contactRequest: [
+              response.data.contactRequest
+            ],
+            contactSpam: [
+              response.data.contactSpam
             ]
           },()=>{
-            
+            console.log(this.state)
           }
           );
         })
@@ -250,6 +284,13 @@ class CampaignInformation extends Component{
 	
   render(){
     var lists = this.state.lists;
+    var bounces = this.state.contactBounce
+    var spams = this.state.contactSpam
+    var opens = this.state.contactOpened
+    var clicks = this.state.contactClicked
+    var deliverys = this.state.contactDelivery
+    var requests = this.state.contactRequest
+    console.log(requests)
      return (
        <div style={{"width":"100%","height":"100%"}}>
        <ReactNotification
@@ -452,12 +493,17 @@ class CampaignInformation extends Component{
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
+                {
+                  requests.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index}</th>
+                    <td>{list}</td>
                     <td>Otto</td>
                     <td>@mdo</td>
                   </tr>
+                ))
+                }
+                  
                 </tbody>
               </table>
                     </div>

@@ -928,3 +928,48 @@ div#funnel-chart {
 .mt-20{
   margin-top:20px !important;
 }
+.rating-bar{
+  width:15px;
+  height:4px;
+  background-color: #7ed6df;
+  margin-right:2px;
+}
+.bar1{
+  background-color: #B2EBF2;
+   background-image: linear-gradient(to right, #D8E6F3 , #B2CDE6)
+}
+.bar2{
+  background-color: #00BCD4;
+  background-image: linear-gradient(to right, #B2CDE6 , #8DB3D8)
+}
+.bar3{
+  background-color: #03A9F4;
+  background-image: linear-gradient(to right, #8DB3D8 , #689ACA)
+}
+.bar4{
+  background-color: #448AFF;
+   background-image: linear-gradient(to right, #689ACA , #4381BC)
+}
+.bar5{
+  background-color: #3F51B5;
+  background-image: linear-gradient(to right, #4381BC , #388A9E)
+}
+.inactiveBar{
+  background-color: #BDBDBD !important;
+  background-image: linear-gradient(to right, #BDBDBD , #BDBDBD) !important;
+}
+
+input[type="text"]:disabled {
+   cursor: not-allowed !important;
+       background: none !important;
+    color: inherit !important;
+    border-bottom-style: dashed !important;
+    border-bottom:dashed  rgba(0, 0, 0, 0.42) 1px !important;
+}
+input[type="email"]:disabled {
+   cursor: not-allowed !important;
+       background: none !important;
+    color: inherit !important;
+     border-bottom-style: dashed !important;
+     border-bottom:dashed rgba(0, 0, 0, 0.42) 1px !important;
+}

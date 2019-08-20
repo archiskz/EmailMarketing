@@ -7,7 +7,7 @@ import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns';
 import { withRouter } from "react-router";
-
+import Modal from 'react-awesome-modal';
  
 class Segmentation extends Component {
   constructor(props) {
@@ -33,7 +33,12 @@ class Segmentation extends Component {
       listAppointments:[],
       noneList: true,
       condition: "or",
-      contactSegment:[]
+      contactSegment:[],
+      createGroupVisibility: false,
+      newList:{
+        name: "",
+        description:""
+      }
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
@@ -106,10 +111,16 @@ class Segmentation extends Component {
   }
 
   getAllCampaign=()=>{
+    var self = this
     axios.get(`${Config.API_URL}campaigns`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
+      console.log(res.data)
+      var listCampaigns = res.data
+      listCampaigns = listCampaigns.filter(function(item){
+        return item.status == "Done";
+      })
       console.log(res.data);
-      this.setState({listCampaigns: res.data});
+      this.setState({listCampaigns: listCampaigns});
     }) 
   }
   getAllAppointment=()=>{
@@ -184,26 +195,23 @@ class Segmentation extends Component {
 }
 handleCheck=(event)=>{
   console.log(event.target.value);
-  // if(event.target.value == '0'){
-  //   this.setState({
-  //     noneList: true,
-  //     list: false,
-  //     choose: event.target.value
-  //   })
-  // } else{
-  //   this.setState({
-  //     noneList: false,
-  //     list: true,
-  //     choose: event.target.value
-  //   })
   this.setState({
     list: !this.state.list,
     noneList: !this.state.noneList
   })
-  
-  // this.setState({choose: event.target.value},()=>console.log(this.state.choose))
-  
+
     }
+    openModal() {
+      this.setState({
+        createGroupVisibility: true
+      });
+  }
+
+  closeModal() {
+      this.setState({
+        createGroupVisibility: false
+      });
+  }
 
 
 
@@ -234,19 +242,7 @@ handleCheck=(event)=>{
         </div>
         <div className="container" data-role="main-app-container">
           <div>
-
-         
           <article>
-         {/*<section className="culture-section">
-  <div className="container">
-    <div className="col-md-8 col-md-offset-2">
-      <h2>Slider Popup</h2>
-      <h3>Easily Customized to Meet Your Needs</h3>
-      <p>Create a unique slider embedded in a popup. Include valuable information while perserving space and optimizing your deisgn.</p>
-    </div>
-    <span className="btn_pop_up_add btn-slider">Are You Ready?</span>
-  </div>
-</section>*/}
         <header className="row">
                         <div className="col-md-6">
                             <span>
@@ -259,7 +255,7 @@ handleCheck=(event)=>{
                         </div>
                         <div className="col-md-6">
                             
-                                <a onClick={this.onSave} icon="segment" className="btn_create_contact">
+                                <a onClick={()=>this.openModal()} icon="segment" className="btn_create_contact">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Save As Group
                                 </a>
@@ -271,37 +267,11 @@ handleCheck=(event)=>{
             <p className="fix_size_add_h2" style={{"color": "black" }}>
                   {/* Please note that the contact will not receive a confirmation email. */}
                 </p>
-              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fix_size_add md_tablet2">
-                
-                  <div className="pd20" >
-                    <div class="col-sm-6" >
-                    <label className="container-cb">Add contacts and include in an existing group
-                    <input onChange={this.handleCheck} checked={this.state.list} value="1" type="checkbox" name="list" class="blue" /><span class="checkmark-cb"></span></label><br/>
-                        
-                        <div className={`col-sm-8 `}>
-                        <h5>Choose Groups</h5>
-                        <MultiSelectComponent 
-                              style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important","marginBottom":"15px"}} 
-                              id="defaultelement" dataSource={lists} mode="Default" fields={this.fields}  
-                              ref={(scope) => { this.mulObj = scope; }}
-                              value={this.state.group}  
-                              change={this.onChangeListsSelect}
-                              placeholder="Group"/>
-                              
-                        </div>
-                        <br/>
-                        
-                    </div>
-                            </div>
-                    
-              </div>
-            */}
             </div>
                  <div className="md_tablet1">
                   <div className="md_tablet2">
                     <div className="md_tablet3">
                     <h4 class="md_tablet_h4">Create a segment</h4>
-                    {/* <p class="md_tablet_p">Here is the list of your contacts you will add </p> */}
                     </div>
                     
                       <div className="md_tablet4">
@@ -382,7 +352,34 @@ handleCheck=(event)=>{
                     
                     
                   </div>
-                 
+                  <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.createGroupVisibility} width="410" height="360" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                <form class="contact1-form validate-form">
+				<span class="contact1-form-title">
+					Save segment as Group
+				</span>
+
+                        <div className="wrap-input1 validate-input">
+                            <input value={this.state.newList.name} onChange={this.handleChange1} className="name input1"
+                                   type="text" name="name" placeholder="New Name"/>
+                            
+                        </div>
+                        <div style={{"width":"100%","textAlign":"center"}}>
+                        <p style={{"color":"red","textAlign":"center"}} class="">{this.state.existedGroup}</p>
+                        </div>
+                        
+                        <div class="wrap-input1 validate-input">
+                            <input value={this.state.newList.description} onChange={this.handleChange2}
+                                   className="description input1" type="text" name="email"
+                                   placeholder="New Description"/>
+                            <span class="shadow-input1"></span>
+                        </div>
+                        <div class="modal-footer">
+                    <button type="button" onClick={()=>this.closeModal()} class="btn btn-info">Cancel</button>
+                    <button type="button" onClick={() => this.saveNewList()}  className={`btn btn-danger ${this.state.newList.name ? "" : "disabled"}`} >Create</button>
+                    
+                  </div>
+                    </form>
+                </Modal>
                 </div>
                 </div> 
           </article>
@@ -448,13 +445,19 @@ handleCheck=(event)=>{
        </td>
        <td className="pd5 border_bottom_none">
       
-          <select ref="selectFieldAction1" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Email' || el.select2 == 'Name' || el.select2 == 'Address' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+          <select ref="selectFieldAction1" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Email' || el.select2 == 'Name' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
             <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
           <option>is</option>
           <option>is not</option>
           <option>contains</option>
           <option>doesn't contain</option>
+        </select>
+        <select ref="selectFieldAction1" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Address' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChange.bind(this, i)}>
+          <option value="" selected style={{display:"none"}}>---select an option---</option>
+          <option>contains</option>
+          {/* <option>doesn't contain</option> */}
         </select>
         <select ref="selectFieldAction2" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Birthday' || el.select2 == 'Subscription date' || el.select2 == 'Last click date' || el.select2 == 'Last open date' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
@@ -477,6 +480,7 @@ handleCheck=(event)=>{
         </select>
         <select ref="selectFieldAction2" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Group' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
+            <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
           <option>is group</option>
           <option>is not group</option>
         </select>
@@ -485,6 +489,7 @@ handleCheck=(event)=>{
           <input className={`form-control ${el.select3 == 'is' || el.select3 == "is not" || el.select3 == "contains" || el.select3 == "doesn't contain"  ? '' : 'activeText'}`}  placeholder="" name="select4" value={el.select4 ||''} onChange={this.handleChange.bind(this, i)} />      
           <select ref="selectFieldAction5" name="select4" value={el.select4 ||'1 bar'} className={`form-control ${el.select3 == 'is equal to'||el.select3 == 'is not equal to'|| el.select3 == 'is not equal to'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
+            <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
           <option>1 bar</option>
           <option>2 bars</option>
           <option>3 bars</option>
@@ -493,6 +498,7 @@ handleCheck=(event)=>{
         </select>
         <select ref="selectFieldAction5" name="select4" value={el.select4 ||''} className={`form-control ${el.select3 == 'is group'||el.select3 == 'is not group'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
+            <option value=""  selected style={{display:"none"}}>---select an option---</option>
           {lists.map(list=>(
             <option value={list.id}>{list.name}</option>  
                                     ))}
@@ -500,7 +506,7 @@ handleCheck=(event)=>{
 
         <select ref="selectFieldAction6" name="select4" value={el.select4 ||''} className={`form-control ${el.select3 == 'campaign'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
-        
+        <option value=""  selected style={{display:"none"}}>---select an option---</option>
           {listCampaigns.map(list=>(
             <option value={list.id}>{list.name}</option>  
                                     ))}
@@ -508,7 +514,7 @@ handleCheck=(event)=>{
         </select>
         <select ref="selectFieldAction7" name="select4" value={el.select4 ||''} className={`form-control ${el.select3 == 'appointment'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
-        
+        <option value=""  selected >---select an option---</option>
           {listAppointments.map(list=>(
             <option value={list.id}>{list.name}</option>  
                                     ))}
@@ -581,8 +587,10 @@ handleChangeCondition=(event)=>{
     else {
       let contacts = [...this.state.contacts];
       contacts[i] = {...contacts[i], [name]: value};
-      this.setState({ contacts });
-      console.log(this.state.contacts)
+      this.setState({ contacts },()=>{
+        console.log(this.state.contacts)
+      });
+      
     }
     
  }

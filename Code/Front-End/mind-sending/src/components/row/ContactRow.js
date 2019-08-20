@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { withRouter } from "react-router";
 import Modal from 'react-awesome-modal';
 import axios from 'axios';
+import RatingBar from './../bar/RatingBar';
 import ReactNotification from "react-notifications-component";
 import * as Config from '../../constants/Config';
 class ContactRow extends Component {
@@ -61,7 +62,8 @@ class ContactRow extends Component {
           <td class="md_tablet6_tbody_td">{this.props.firstName}</td>
           <td class="md_tablet6_tbody_td">{this.props.lastName}</td>
          
-          <td class="md_tablet6_tbody_td">{this.props.type}</td>
+          {/* <td class="md_tablet6_tbody_td">{this.props.type}</td> */}
+          <td class="md_tablet6_tbody_td"><RatingBar score={this.props.score} /></td>
           <td class="md_tablet6_tbody_td">
           {this.props.contactActions}
           <a class="fas fa-edit margin_td_fontawsome" onClick={()=>this.openModal()} title="Edit"> </a>
