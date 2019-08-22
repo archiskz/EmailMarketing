@@ -37,7 +37,7 @@ public class CampaignSubcriber implements Serializable {
     @Column(name = "updated_time")
     private String updatedTime;
 
-
+    @JsonIgnore
     @Column(name = "subcriber_email")
     private String subcriberEmail;
 

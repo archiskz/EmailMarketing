@@ -1,11 +1,13 @@
 package com.emailmkt.emailmarketing.dto;
 
-import com.emailmkt.emailmarketing.model.Subcriber;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@JsonIgnoreProperties(  {"handler","hibernateLazyInitializer"} )
 public class CampaignFullDTO {
     private String campaignName;
     private String status;
@@ -36,12 +38,18 @@ public class CampaignFullDTO {
 private List<GCCampaignDTO> gcCampaignDTOS;
 
 // List Of Contacts
-    private List<Subcriber> contactRequest;
-    private List<Subcriber> contactSpam;
-    private List<Subcriber> contactOpened;
-    private List<Subcriber> contactClicked;
-    private List<Subcriber> contactBounce;
-    private List<Subcriber> contactDelivery;
+    @JsonView
+    private List<SubcriberViewDTO> contactSpam;
+    @JsonView
+    private List<SubcriberViewDTO> contactOpened;
+    @JsonView
+    private List<SubcriberViewDTO> contactClicked;
+    @JsonView
+    private List<SubcriberViewDTO> contactBounce;
+    @JsonView
+    private List<SubcriberViewDTO> contactDelivery;
+    @JsonView
+    private List<SubcriberViewDTO> contactRequest;
 
 
 }

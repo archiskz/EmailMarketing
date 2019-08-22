@@ -50,12 +50,11 @@ public class SubcriberServiceImpl implements SubcriberService {
 
         subcriber.setCreatedTime(LocalDateTime.now().toString());
         subcriber.setEmail(dto.getEmail());
-        subcriber.setTag(dto.getTag());
         subcriber.setAddress(dto.getAddress());
         subcriber.setPhone(dto.getPhone());
         subcriber.setFirstName(dto.getFirstName());
         subcriber.setLastName(dto.getLastName());
-        subcriber.setType("Beginner Contacts");
+        subcriber.setType("0");
         Account account = accountRepository.findAccountById(1);
         subcriber.setAccount_id(account.getId());
         List<GroupContactSubcriber> groupContactSubcribers = dto.getGcSubcriberDTOS().stream().map(g -> {
@@ -154,7 +153,6 @@ public class SubcriberServiceImpl implements SubcriberService {
             subcriber.setFirstName(subcriberDTO.getFirstName());
             subcriber.setCreatedTime(LocalDateTime.now().toString());
             subcriber.setType(subcriberDTO.getType());
-            subcriber.setTag(subcriberDTO.getTag());
             Account account = accountRepository.findAccountById(1);
             subcriber.setAccount_id(account.getId());
             List<GroupContactSubcriber> groupContactSubcribers = subcriberDTO.getGcSubcriberDTOS().stream().map(g -> {
@@ -191,14 +189,20 @@ public class SubcriberServiceImpl implements SubcriberService {
             double totalOpen = campaignSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(), true)
                     + appointmentSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(), true);
             double totalClick = campaignSubcriberRepository.countBySubcriberEmailAndComfirmation(subcriber.getEmail(), true) + appointmentSubcriberRepository.countBySubcriberEmailAndConfirmation(subcriber.getEmail(), true);
-            subcriber.setOpenRate(Math.round(totalOpen / total) * 100 + "%");
-            subcriber.setClickRate(Math.round(totalClick / total) * 100 + "%");
-            if ((Math.round(totalClick / total) * 100) > 80 && Math.round(totalOpen / total) * 100 > 80 || total > 7) {
-                subcriber.setType("Advanced Contacts");
-            } else if ((Math.round(totalClick / total) * 100) > 50 && Math.round(totalOpen / total) * 100 > 50 && total > 5) {
-                subcriber.setType("Intermediate Contacts");
-            } else {
-                subcriber.setType("Beginner Contacts");
+            subcriber.setOpenRate(String.valueOf((int) totalOpen));
+            subcriber.setClickRate(String.valueOf((int) totalClick));
+            if (subcriber.getPoint()>= 30) {
+                subcriber.setType("1");
+            } else if (subcriber.getPoint()>=65) {
+                subcriber.setType("2");
+            } else if(subcriber.getPoint()>=102){
+                subcriber.setType("3");
+            }else if(subcriber.getPoint()>=247){
+                subcriber.setType("4");
+            }else if(subcriber.getPoint()>=534){
+                subcriber.setType("5");
+            }else{
+                subcriber.setType("No Rank");
             }
             subcriberRepository.save(subcriber);
         }
@@ -211,10 +215,6 @@ public class SubcriberServiceImpl implements SubcriberService {
         return subcriberRepository.findTop5ByOrderByCreatedTimeDesc();
     }
 
-    @Override
-    public List<Subcriber> getSubcriberByTag(String tag) {
-        return subcriberRepository.findSubcriberByTag(tag);
-    }
 
     @Override
     public SubcriberViewDTO getSubcriberById(int id) {
@@ -287,7 +287,6 @@ public class SubcriberServiceImpl implements SubcriberService {
             dto.setDob(subcriber.getDob());
             dto.setPhone(subcriber.getPhone());
             dto.setAddress(subcriber.getAddress());
-            dto.setTag(subcriber.getTag());
             dto.setType(subcriber.getType());
             dto.setCreatedTime(subcriber.getCreatedTime());
             dtos.add(dto);
@@ -397,7 +396,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                     //Mail Not Opened
                     if (segmentDTO.getSelect2().equalsIgnoreCase("Mail not opened")) {
                         if (segmentDTO.getSelect3().equalsIgnoreCase("campaign")) {
-                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
+                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
                             for (Subcriber subcriberMail : subcriberMails) {
 //                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
                                 subcriberList.add(subcriberMail);
@@ -417,7 +416,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                     //Mail Opened
                     if (segmentDTO.getSelect2().equalsIgnoreCase("Mail opened")) {
                         if (segmentDTO.getSelect3().equalsIgnoreCase("campaign")) {
-                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), true);
+                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberByCampaignAndOpened(Integer.valueOf(segmentDTO.getSelect4()), true);
                             for (Subcriber subcriberMail : subcriberMails) {
 //                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
                                 subcriberList.add(subcriberMail);
@@ -436,7 +435,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                     //Mail Clicked
                     if (segmentDTO.getSelect2().equalsIgnoreCase("Mail clicked")) {
                         if (segmentDTO.getSelect3().equalsIgnoreCase("Campaign")) {
-                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), true);
+                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), true);
                             for (Subcriber subcriberMail : subcriberMails) {
 //                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
                                 subcriberList.add(subcriberMail);
@@ -456,7 +455,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                     //Mail not clicked
                     if (segmentDTO.getSelect2().equalsIgnoreCase("Mail not clicked")) {
                         if (segmentDTO.getSelect3().equalsIgnoreCase("Campaign")) {
-                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), false);
+                            List<Subcriber> subcriberMails = campaignSubcriberRepository.findSubcriberByCampaignAndClicked(Integer.valueOf(segmentDTO.getSelect4()), false);
                             for (Subcriber subcriberMail : subcriberMails) {
 //                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
                                 subcriberList.add(subcriberMail);

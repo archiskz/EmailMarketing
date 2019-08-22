@@ -40,7 +40,6 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 
     List<Subcriber> findSubcriberByAccount_id(Integer id);
 
-    List<Subcriber> findSubcriberByTag(String tag);
 
     Subcriber findSubcriberByEmail(String Email);
 

@@ -21,7 +21,6 @@ public interface SubcriberService {
     List<Subcriber>getContactLatest();
 
 
-    List<Subcriber> getSubcriberByTag(String tag);
 
     SubcriberViewDTO getSubcriberById(int id);
 
