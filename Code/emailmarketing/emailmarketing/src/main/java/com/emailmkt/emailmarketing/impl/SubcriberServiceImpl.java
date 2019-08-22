@@ -148,6 +148,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             subcriber.setDob(subcriberDTO.getDob());
             subcriber.setEmail(subcriberDTO.getEmail());
             subcriber.setAddress(subcriberDTO.getAddress());
+            subcriber.setBlackList(false);
             subcriber.setPhone(subcriberDTO.getPhone());
             subcriber.setLastName(subcriberDTO.getLastName());
             subcriber.setFirstName(subcriberDTO.getFirstName());
@@ -213,6 +214,22 @@ public class SubcriberServiceImpl implements SubcriberService {
     @Override
     public List<Subcriber> getContactLatest() {
         return subcriberRepository.findTop5ByOrderByCreatedTimeDesc();
+    }
+
+    @Override
+    public boolean moveToBlackList(int subcriberId) {
+        Subcriber subcriber = subcriberRepository.findSubcriberById(subcriberId);
+        if(subcriber == null){
+            return false;
+        }
+        if(subcriber.isBlackList()){
+            subcriber.setBlackList(false);
+            subcriberRepository.save(subcriber);
+        }else{
+        subcriber.setBlackList(true);
+        subcriberRepository.save(subcriber);
+        }
+        return true;
     }
 
 
@@ -404,10 +421,10 @@ public class SubcriberServiceImpl implements SubcriberService {
 
                         }
                         if (segmentDTO.getSelect3().equalsIgnoreCase("appointment")) {
-                            List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
-                            for (String subcriberMail : subcriberMails) {
-                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                                subcriberList.add(subcriber);
+                            List<Subcriber> subcriberMails = appointmentSubcriberRepository.findSubcriberByAppointmentAndOpened(Integer.valueOf(segmentDTO.getSelect4()), false);
+                            for (Subcriber subcriberMail : subcriberMails) {
+//                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriberMail);
                             }
 
                         }
@@ -424,10 +441,10 @@ public class SubcriberServiceImpl implements SubcriberService {
 
                         }
                         if (segmentDTO.getSelect3().equalsIgnoreCase("appointment")) {
-                            List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndOpened(Integer.valueOf(segmentDTO.getSelect4()), true);
-                            for (String subcriberMail : subcriberMails) {
-                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                                subcriberList.add(subcriber);
+                            List<Subcriber> subcriberMails = appointmentSubcriberRepository.findSubcriberByAppointmentAndOpened(Integer.valueOf(segmentDTO.getSelect4()), true);
+                            for (Subcriber subcriberMail : subcriberMails) {
+//                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriberMail);
                             }
 
                         }
@@ -443,10 +460,10 @@ public class SubcriberServiceImpl implements SubcriberService {
 
                         }
                         if (segmentDTO.getSelect3().equalsIgnoreCase("appointment")) {
-                            List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndClicked(Integer.valueOf(segmentDTO.getSelect4()), true);
-                            for (String subcriberMail : subcriberMails) {
-                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                                subcriberList.add(subcriber);
+                            List<Subcriber> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndClicked(Integer.valueOf(segmentDTO.getSelect4()), true);
+                            for (Subcriber subcriberMail : subcriberMails) {
+//                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriberMail);
                             }
 
                         }
@@ -463,10 +480,10 @@ public class SubcriberServiceImpl implements SubcriberService {
 
                         }
                         if (segmentDTO.getSelect3().equalsIgnoreCase("appointment")) {
-                            List<String> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndClicked(Integer.valueOf(segmentDTO.getSelect4()), false);
-                            for (String subcriberMail : subcriberMails) {
-                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
-                                subcriberList.add(subcriber);
+                            List<Subcriber> subcriberMails = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndClicked(Integer.valueOf(segmentDTO.getSelect4()), false);
+                            for (Subcriber subcriberMail : subcriberMails) {
+//                                Subcriber subcriber = subcriberRepository.findSubcriberByEmail(subcriberMail);
+                                subcriberList.add(subcriberMail);
                             }
 
                         }

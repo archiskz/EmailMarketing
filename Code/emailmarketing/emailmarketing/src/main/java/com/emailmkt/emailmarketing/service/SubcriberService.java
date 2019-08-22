@@ -20,7 +20,7 @@ public interface SubcriberService {
 
     List<Subcriber>getContactLatest();
 
-
+    boolean moveToBlackList(int subcriberId);
 
     SubcriberViewDTO getSubcriberById(int id);
 

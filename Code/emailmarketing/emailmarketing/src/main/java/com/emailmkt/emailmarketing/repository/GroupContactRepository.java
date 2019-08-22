@@ -1,6 +1,5 @@
 package com.emailmkt.emailmarketing.repository;
 
-import com.emailmkt.emailmarketing.model.Campaign;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -35,7 +34,7 @@ public interface GroupContactRepository extends JpaRepository<GroupContact, Inte
     @Query("SELECT gr.subcriber FROM GroupContactSubcriber gr WHERE gr.groupContact.id = :groupContactId")
     List<Subcriber> findSubcriberByGroupContactId(@Param("groupContactId")int groupContactId);
 
-    @Query("SELECT su.email FROM GroupContactSubcriber gr JOIN Subcriber su ON gr.subcriber.id = su.id  WHERE gr.groupContact.id = :groupContactId")
+    @Query("SELECT su.email FROM GroupContactSubcriber gr JOIN Subcriber su ON gr.subcriber.id = su.id  WHERE gr.groupContact.id = :groupContactId and su.blackList = false")
     String[]findSubcriberMailByGroupContactId(@Param("groupContactId")int groupContactId);
 
 

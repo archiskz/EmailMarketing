@@ -1,7 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
-import com.emailmkt.emailmarketing.dto.AppointmentDTO;
-import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.dto.*;
 import com.emailmkt.emailmarketing.model.*;
 import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.AppointmentService;
@@ -219,8 +218,110 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment getAppointmentById(int id) {
-        return appointmentRepository.findAppointmentById(id);
+    public AppointmentFullDTO getAppointmentById(int id) {
+        Appointment appointment= appointmentRepository.findAppointmentById(id);
+        // Get Statistic of Campaign
+        AppointmentFullDTO appointmentDTO = new AppointmentFullDTO();
+
+        appointmentDTO.setName(appointment.getName());
+        appointmentDTO.setTime(appointmentDTO.getTime());
+        appointment.setStatus(appointment.getStatus());
+        appointmentDTO.setBody(appointment.getBody());
+        appointmentDTO.setFrom(appointment.getSender());
+        appointmentDTO.setSubject(appointment.getSubject());
+        appointmentDTO.setFrom(appointment.getSender());
+        appointmentDTO.setCreatedTime(appointment.getCreatedTime());
+        appointmentDTO.setUpdatedTime(LocalDateTime.now().toString());
+        appointmentDTO.setFromMail(appointment.getFromMail());
+        appointmentDTO.setBodyJson(appointment.getBodyJson());
+
+        List<GCAppointmentDTO> gcAppointmentDTOS = appointment.getAppointmentGroupContacts().stream().map(g -> {
+            GCAppointmentDTO gcAppointmentDTO = new GCAppointmentDTO();
+            gcAppointmentDTO.setGroupContactId(g.getGroupContact().getId());
+
+            return gcAppointmentDTO;
+        }).collect(Collectors.toList());
+        appointmentDTO.setGcAppointmentDTOS(gcAppointmentDTOS);
+        //Statistic
+        appointmentDTO.setRequest(appointment.getRequest());
+        appointmentDTO.setOpen(appointment.getOpenRate());
+        appointmentDTO.setBounce(appointment.getBounce());
+        appointmentDTO.setDelivery(appointment.getDelivery());
+        appointmentDTO.setClick(appointment.getClickRate());
+        appointmentDTO.setSpam(appointment.getSpamRate());
+        //Contact Request
+        List<Subcriber> contactRequest = appointmentSubcriberRepository.findSubcriberByAppointment(appointment.getId());
+        List<SubcriberViewDTO>contactRequestDto = contactRequest.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        appointmentDTO.setContactRequest(contactRequestDto);
+        //Contact Delivery
+        List<Subcriber> contactDelivery = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndDelivery(appointment.getId(),true);
+        List<SubcriberViewDTO>contactDeliveryDto = contactDelivery.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        appointmentDTO.setContactDelivery(contactDeliveryDto);
+        //Contact Opened
+        List<Subcriber> contactOpened = appointmentSubcriberRepository.findSubcriberByAppointmentAndOpened(appointment.getId(),true);
+        List<SubcriberViewDTO>contactOpenDto = contactOpened.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        appointmentDTO.setContactOpened(contactOpenDto);
+        //Contact Bounce
+        List<Subcriber> contactBounce = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndBounce(appointment.getId(),true);
+        List<SubcriberViewDTO>contactBounceDTO = contactBounce.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        appointmentDTO.setContactBounce(contactBounceDTO);
+        //Contact Clicked
+        List<Subcriber> contactClick = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndClicked(appointment.getId(),true);
+        List<SubcriberViewDTO>contactClickDTO = contactClick.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        appointmentDTO.setContactClicked(contactClickDTO);
+        //Contact Spam
+        List<Subcriber> contactSpam = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndSpam(appointment.getId(),true);
+        List<SubcriberViewDTO>contactSpamDTO = contactSpam.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        appointmentDTO.setContactSpam(contactSpamDTO);
+        return appointmentDTO;
     }
 
     @Override

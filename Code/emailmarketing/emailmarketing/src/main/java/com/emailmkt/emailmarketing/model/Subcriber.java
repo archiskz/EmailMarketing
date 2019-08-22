@@ -65,8 +65,6 @@ public class Subcriber implements Serializable {
     private String clickRate;
 
 
-
-
     @Basic
     @Column(name = "created_time")
     private String createdTime;
@@ -78,6 +76,10 @@ public class Subcriber implements Serializable {
     @Basic
     @Column(name = "point")
     private Long point;
+
+    @Basic
+    @Column(name = "black_list")
+    private boolean blackList;
 
     @Basic
     @Column(name = "account_id")

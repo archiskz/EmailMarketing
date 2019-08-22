@@ -2,6 +2,7 @@ package com.emailmkt.emailmarketing.controller;
 
 import com.emailmkt.emailmarketing.Utils.Ultilities;
 import com.emailmkt.emailmarketing.dto.AppointmentDTO;
+import com.emailmkt.emailmarketing.dto.AppointmentFullDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
@@ -25,7 +26,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -108,7 +108,7 @@ public class AppointmentController {
         return appointmentRepository.findAppointmentByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
     }
     @GetMapping("appointment/{id}")
-    public Appointment getAppointmentById(@PathVariable(value = "id") int id) {
+    public AppointmentFullDTO getAppointmentById(@PathVariable(value = "id") int id) {
         return appointmentService.getAppointmentById(id);
     }
 

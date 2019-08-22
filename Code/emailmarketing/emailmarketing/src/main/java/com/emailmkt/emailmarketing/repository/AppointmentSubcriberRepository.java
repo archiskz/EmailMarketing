@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.repository;
 
 import com.emailmkt.emailmarketing.model.AppointmentSubcriber;
+import com.emailmkt.emailmarketing.model.Subcriber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,12 +20,23 @@ public interface AppointmentSubcriberRepository extends JpaRepository<Appointmen
     @Query("SELECT ap.subcriberEmail FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId and ap.send= true")
     List<String> findSubcriberMailByAppointmentId(@Param("appointmentId")int appointmentId);
 
-    @Query("SELECT ap.subcriberEmail FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId and ap.send= true and ap.opened =:check")
-    List<String> findSubcriberMailByAppointmentAndOpened(@Param("appointmentId")int appointmentId,@Param("check")boolean check);
+    @Query("SELECT su FROM AppointmentSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.appointmentGroupContact.appointment.id = :appointmentId and cp.send=true and cp.opened =:check ")
+    List<Subcriber> findSubcriberByAppointmentAndOpened(@Param("appointmentId") int appointmentId,@Param("check") boolean check);
 
-    @Query("SELECT ap.subcriberEmail FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId and ap.send= true and ap.confirmation =:check")
-    List<String> findSubcriberMailByAppointmentAndClicked(@Param("appointmentId")int appointmentId,@Param("check")boolean check);
+    @Query("SELECT su FROM AppointmentSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.appointmentGroupContact.appointment.id = :appointmentId and cp.send=true and cp.confirmation =:check ")
+    List<Subcriber> findSubcriberMailByAppointmentAndClicked(@Param("appointmentId")int appointmentId,@Param("check")boolean check);
 
+    @Query("SELECT su FROM AppointmentSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.appointmentGroupContact.appointment.id = :appointmentId and cp.send=true and cp.delivery =:check ")
+    List<Subcriber> findSubcriberMailByAppointmentAndDelivery(@Param("appointmentId")int appointmentId,@Param("check")boolean check);
+
+    @Query("SELECT su FROM AppointmentSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.appointmentGroupContact.appointment.id = :appointmentId and cp.send=true and cp.spam =:check ")
+    List<Subcriber> findSubcriberMailByAppointmentAndSpam(@Param("appointmentId")int appointmentId,@Param("check")boolean check);
+
+    @Query("SELECT su FROM AppointmentSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.appointmentGroupContact.appointment.id = :appointmentId and cp.send=true and cp.bounce =:check ")
+    List<Subcriber> findSubcriberMailByAppointmentAndBounce(@Param("appointmentId")int appointmentId,@Param("check")boolean check);
+
+    @Query("SELECT su FROM AppointmentSubcriber cp JOIN Subcriber su ON cp.subcriberEmail = su.email WHERE cp.appointmentGroupContact.appointment.id = :appointmentId and cp.send=true ")
+    List<Subcriber> findSubcriberByAppointment(@Param("appointmentId") int appointmentId);
 
     @Query("SELECT ap.confirmation FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id = :appointmentId AND ap.subcriberEmail= :subcriberEmail")
     public Boolean checkConfirmAppointment(@Param("appointmentId")int appointmentId,@Param("subcriberEmail")String subcriberEmail);

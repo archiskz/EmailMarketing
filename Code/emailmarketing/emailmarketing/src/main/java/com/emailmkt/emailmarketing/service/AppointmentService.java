@@ -1,6 +1,7 @@
 package com.emailmkt.emailmarketing.service;
 
 import com.emailmkt.emailmarketing.dto.AppointmentDTO;
+import com.emailmkt.emailmarketing.dto.AppointmentFullDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
@@ -24,7 +25,7 @@ public interface AppointmentService {
     void sendAppointment(int appointmentId);
     Appointment addContentToAppointment(Appointment appointment);
     boolean editAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO appointmentDTO, int id);
-    Appointment getAppointmentById(int id);
+    AppointmentFullDTO getAppointmentById(int id);
     public ResponseEntity<String> acceptAppointment(String token,String email);
 
     int copyAppointment(int appointmentId,int workflowId);

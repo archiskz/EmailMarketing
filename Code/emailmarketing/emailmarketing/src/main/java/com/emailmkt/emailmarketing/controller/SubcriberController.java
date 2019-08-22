@@ -63,6 +63,17 @@ public class SubcriberController {
 
     }
 
+    @PutMapping("subcriber/movetoblacklist/{id}")
+    public ResponseEntity moveToBlackList(@PathVariable int id) {
+        boolean flag = subcriberService.moveToBlackList(id);
+        if (flag == false) {
+            return ResponseEntity.status(CONFLICT).body("Subcriber Not Found");
+        }
+        return ResponseEntity.status(CREATED).body("Successfully");
+
+    }
+
+
 
     @PostMapping("subcriber/createForm")
     public ResponseEntity createSubcriberForm(@RequestBody SubcriberFormDTO dto) {
