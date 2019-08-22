@@ -26,4 +26,5 @@ public class SubcriberDTO {
     private String tag;
 
     private List<GCSubcriberDTO> gcSubcriberDTOS;
+    private String createdTime;
 }

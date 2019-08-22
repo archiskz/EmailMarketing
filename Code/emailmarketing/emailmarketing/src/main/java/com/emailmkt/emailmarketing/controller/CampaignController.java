@@ -111,8 +111,8 @@ public class CampaignController {
 //        .orElseThrow(() -> new RuntimeException("Not found"));
 //    }
 
-    @GetMapping("campaign/{id}")
-    public CampaignFullDTO getCampaignById(@PathVariable(value = "id") int id) {
+    @GetMapping(value="campaign/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    CampaignFullDTO read(@PathVariable int id) {
         return campaignService.getCampaginById(id);
     }
 

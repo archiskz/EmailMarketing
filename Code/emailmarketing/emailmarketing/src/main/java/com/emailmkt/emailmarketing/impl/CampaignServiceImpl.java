@@ -1,9 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
-import com.emailmkt.emailmarketing.dto.CampaignDTO;
-import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
-import com.emailmkt.emailmarketing.dto.GCCampaignDTO;
-import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.dto.*;
 import com.emailmkt.emailmarketing.model.*;
 import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.CampaignService;
@@ -365,14 +362,78 @@ public class CampaignServiceImpl implements CampaignService {
         campaignFullDTO.setDelivery(campaign.getDelivery());
         campaignFullDTO.setClick(campaign.getClickRate());
         campaignFullDTO.setSpam(campaign.getSpamRate());
-
-
-        campaignFullDTO.setContactDelivery(campaignSubcriberRepository.findSubcriberMailByCampaignAndDelivery(campaign.getId(),true));
-        campaignFullDTO.setContactOpened(campaignSubcriberRepository.findSubcriberMailByCampaignAndOpened(campaign.getId(),true));
-        campaignFullDTO.setContactBounce(campaignSubcriberRepository.findSubcriberMailByCampaignAndBounce(campaign.getId(),true));
-        campaignFullDTO.setContactClicked(campaignSubcriberRepository.findSubcriberMailByCampaignAndClicked(campaign.getId(),true));
-        campaignFullDTO.setContactRequest(campaignSubcriberRepository.findSubcriberByCampaignID(campaign.getId()));
-        campaignFullDTO.setContactSpam(campaignSubcriberRepository.findSubcriberMailByCampaignAndSpam(campaign.getId(),true));
+        //Contact Request
+        List<Subcriber> contactRequest = campaignSubcriberRepository.findSubcriberByCampaignID(campaign.getId());
+        List<SubcriberViewDTO>contactRequestDto = contactRequest.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        campaignFullDTO.setContactRequest(contactRequestDto);
+        //Contact Delivery
+        List<Subcriber> contactDelivery = campaignSubcriberRepository.findSubcriberByCampaignAndDelivery(campaign.getId(),true);
+        List<SubcriberViewDTO>contactDeliveryDto = contactDelivery.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        campaignFullDTO.setContactDelivery(contactDeliveryDto);
+        //Contact Opened
+        List<Subcriber> contactOpened = campaignSubcriberRepository.findSubcriberByCampaignAndOpened(campaign.getId(),true);
+        List<SubcriberViewDTO>contactOpenDto = contactOpened.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        campaignFullDTO.setContactOpened(contactOpenDto);
+        //Contact Bounce
+        List<Subcriber> contactBounce = campaignSubcriberRepository.findSubcriberByCampaignAndBounce(campaign.getId(),true);
+        List<SubcriberViewDTO>contactBounceDTO = contactBounce.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        campaignFullDTO.setContactBounce(contactBounceDTO);
+        //Contact Clicked
+        List<Subcriber> contactClick = campaignSubcriberRepository.findSubcriberByCampaignAndClicked(campaign.getId(),true);
+        List<SubcriberViewDTO>contactClickDTO = contactClick.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        campaignFullDTO.setContactClicked(contactClickDTO);
+        //Contact Spam
+        List<Subcriber> contactSpam = campaignSubcriberRepository.findSubcriberByCampaignAndSpam(campaign.getId(),true);
+        List<SubcriberViewDTO>contactSpamDTO = contactSpam.stream().map(g->{
+            SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
+            subcriberViewDTO.setFirstName(g.getFirstName());
+            subcriberViewDTO.setLastName(g.getLastName());
+            subcriberViewDTO.setId(g.getId());
+            subcriberViewDTO.setEmail(g.getEmail());
+            subcriberViewDTO.setType(g.getType());
+            return subcriberViewDTO;
+        }).collect(Collectors.toList());
+        campaignFullDTO.setContactSpam(contactSpamDTO);
         return campaignFullDTO;
     }
 
@@ -440,11 +501,6 @@ public class CampaignServiceImpl implements CampaignService {
 
 //                    String requestStr =new Double(request).toString();
             campaign.setRequest(requestStr);
-//            campaign.setOpenRate(String.valueOf((int) open)+"("+Math.round((open / request) * 100) + "%)");
-//            campaign.setBounce(String.valueOf((int) bounce)+"("+Math.round((bounce / request) * 100) + "%)");
-//            campaign.setDelivery(String.valueOf((int) delivery)+"("+Math.round((delivery / request) * 100) + "%)");
-//            campaign.setClickRate(String.valueOf((int) click)+"("+Math.round((click / request) * 100) + "%)");
-//            campaign.setSpamRate(String.valueOf((int) spam)+"("+Math.round((spam / request) * 100) + "%)");
             campaign.setOpenRate(String.valueOf((int) open));
             campaign.setBounce(String.valueOf((int) bounce));
             campaign.setDelivery(String.valueOf((int) delivery));

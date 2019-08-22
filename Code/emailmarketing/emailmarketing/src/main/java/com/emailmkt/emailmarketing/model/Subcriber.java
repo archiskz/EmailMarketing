@@ -53,8 +53,8 @@ public class Subcriber implements Serializable {
     private String dob;
 
     @Basic
-    @Column(name = "tag")
-    private String tag;
+    @Column(name = "totalRequest")
+    private String totalRequest;
 
     @Basic
     @Column(name = "open_rate")
@@ -66,6 +66,7 @@ public class Subcriber implements Serializable {
 
 
 
+
     @Basic
     @Column(name = "created_time")
     private String createdTime;
@@ -73,6 +74,10 @@ public class Subcriber implements Serializable {
     @Basic
     @Column(name = "updated_time")
     private String updatedTime;
+
+    @Basic
+    @Column(name = "point")
+    private Long point;
 
     @Basic
     @Column(name = "account_id")
@@ -97,14 +102,14 @@ public class Subcriber implements Serializable {
                 Objects.equals(email, subcriber.email) &&
                 Objects.equals(address, subcriber.address) &&
                 Objects.equals(type, subcriber.type) &&
-                Objects.equals(tag, subcriber.tag) &&
+                Objects.equals(totalRequest, subcriber.totalRequest) &&
                 Objects.equals(createdTime, subcriber.createdTime) &&
                 Objects.equals(updatedTime, subcriber.updatedTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName,lastName,dob, email, address, type, tag, createdTime, updatedTime);
+        return Objects.hash(id, firstName,lastName,dob, email, address, type, totalRequest, createdTime, updatedTime);
     }
 //    @ManyToMany(fetch = FetchType.LAZY,
 //            cascade = {

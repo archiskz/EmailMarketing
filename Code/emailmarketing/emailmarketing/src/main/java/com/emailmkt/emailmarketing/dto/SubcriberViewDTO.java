@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class SubcriberViewDTO {
 
+    private int id;
     private String firstName;
 
     private String lastName;
