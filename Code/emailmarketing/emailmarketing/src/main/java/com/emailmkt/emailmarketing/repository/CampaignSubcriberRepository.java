@@ -91,7 +91,14 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
     Double countBySubcriberEmailAndComfirmation(String email, boolean click);
     Double countBySubcriberEmailAndOpened(String email, boolean open);
 
+    Double countBySubcriberEmailAndCreatedTimeContains(String email, String createTime);
+
+    Double countBySubcriberEmailAndCreatedTimeContainsAndOpenedIsTrue(String email, String createTime);
+    Double countBySubcriberEmailAndCreatedTimeContainsAndComfirmationIsTrue(String email, String createTime);
+    Double countBySubcriberEmailAndCreatedTimeContainsAndSendIsTrue(String email,String createTime);
     int countAllBySubcriberEmail(String mail);
+
+    List<CampaignSubcriber> findCampaignSubcriberBySubcriberEmailAndCreatedTimeContainsOrderByCreatedTimeDesc(String email, String createTime);
 
 }
 
