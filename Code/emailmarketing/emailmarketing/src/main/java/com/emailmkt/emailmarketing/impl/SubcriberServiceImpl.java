@@ -155,6 +155,8 @@ public class SubcriberServiceImpl implements SubcriberService {
             subcriber.setCreatedTime(LocalDateTime.now().toString());
             subcriber.setType(subcriberDTO.getType());
             subcriber.setTag(subcriberDTO.getTag());
+//            Account account = accountRepository.findAccountByUsername(username);
+
             Account account = accountRepository.findAccountById(1);
             subcriber.setAccount_id(account.getId());
             List<GroupContactSubcriber> groupContactSubcribers = subcriberDTO.getGcSubcriberDTOS().stream().map(g -> {

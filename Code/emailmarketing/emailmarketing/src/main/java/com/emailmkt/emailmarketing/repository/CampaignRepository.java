@@ -8,12 +8,14 @@ import java.util.List;
 
 @Repository
 public interface CampaignRepository extends JpaRepository<Campaign,Integer> {
-        Campaign findByName(String name);
+        Campaign findByNameAndAccount_id(String name, int account_id);
 //        Campaign findById(int id);
         Campaign findCampaignById(int id);
         List<Campaign> findAllByAutomationIsFalseOrderByCreatedTimeDesc();
 
-        Campaign findTopByAutomationIsFalseAndStatusContainsOrderByCreatedTimeDesc(String status);
+        List<Campaign> findCampaignByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(int account_id);
+
+        Campaign findTopByAccount_idAndAutomationIsFalseAndStatusContainsOrderByCreatedTimeDesc(int accountId,String status);
 
         List<Campaign> findTop5ByOrderByCreatedTimeDesc();
 

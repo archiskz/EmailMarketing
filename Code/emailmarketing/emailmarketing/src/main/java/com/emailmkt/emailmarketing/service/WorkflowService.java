@@ -2,13 +2,14 @@ package com.emailmkt.emailmarketing.service;
 
 import com.emailmkt.emailmarketing.dto.ViewWorkflowDTO;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Workflow;
 
 import java.util.List;
 
 
 public interface WorkflowService {
-    boolean createWorkflow(WorkflowDTO workflowDTO);
+    boolean createWorkflow(WorkflowDTO workflowDTO, Account account);
 
     List<Workflow> getAllWorkflows();
 

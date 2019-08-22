@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { AccumulationChartComponent, AccumulationSeriesCollectionDirective, AccumulationSeriesDirective,  FunnelSeries, Inject, AccumulationTooltip, AccumulationDataLabel}
-from'@syncfusion/ej2-react-charts';
+import { AccumulationChartComponent, AccumulationSeriesCollectionDirective, AccumulationSeriesDirective,  FunnelSeries, Inject,AccumulationLegend, AccumulationTooltip, AccumulationDataLabel}
+from '@syncfusion/ej2-react-charts';
 import axios from 'axios';
 class FunelChart extends Component {
 
@@ -21,35 +21,16 @@ class FunelChart extends Component {
     render() {
         return (
             
-            <AccumulationChartComponent id="pie-chart"
-                        title='Project Cost Breakdown'
-                        legendSettings={{
-                            visible: true,
-                            position: 'Top'
-                        }}
-                        enableSmartLabels={true}
-                        load={this.load.bind(this)}
-                        tooltip={{ enable: false }}
-                        loaded={this.onChartLoad.bind(this)}
-                    >
-                        <Inject services={[AccumulationLegend, PieSeries, AccumulationDataLabel]} />
-                        <AccumulationSeriesCollectionDirective>
-                            <AccumulationSeriesDirective name='Project' dataSource={this.props.data1} xName='x' yName='y' innerRadius='40%' startAngle={0}
-                                endAngle={360} radius='70%' explode={true} explodeOffset='10%' explodeIndex={3}
-                                dataLabel={{
-                                    visible: true,
-                                    name: 'text',
-                                    position: 'Inside',
-                                    font: {
-                                        fontWeight: '600',
-                                        color: '#ffffff'
-                                    }
-                                }}
-                            >
-                            </AccumulationSeriesDirective>
-                        </AccumulationSeriesCollectionDirective>
-                    </AccumulationChartComponent>
-
+            <AccumulationChartComponent id='chart' legendSettings={{ visible: false }} tooltip={{ enable: true, format: '${point.x} : <b>${point.y}</b>' }} title='Top population countries in the world 2017' resized={this.onChartResized.bind(this)} load={this.onLoad.bind(this)}>
+      <Inject services={[AccumulationLegend, FunnelSeries, AccumulationTooltip, AccumulationDataLabel]}/>
+      <AccumulationSeriesCollectionDirective>
+        <AccumulationSeriesDirective dataSource={this.props.data1} xName='x' yName='y' type='Funnel' name='' dataLabel={{
+            visible: true, position: 'Outside',
+            connectorStyle: { length: '6%' }, name: 'text',
+        }} explode="false">
+        </AccumulationSeriesDirective>
+      </AccumulationSeriesCollectionDirective>
+    </AccumulationChartComponent>
         );
     }
     load(args) {
@@ -63,10 +44,16 @@ class FunelChart extends Component {
       }
   }
   onChartLoad(args) {
-    document.getElementById('pie-chart').setAttribute('title', '');
+    document.getElementById('chart').setAttribute('title', '');
 }
+onLoad(args) {
+        if (args.accumulation.availableSize.width < args.accumulation.availableSize.height) {
+            args.accumulation.series[0].width = '80%';
+            args.accumulation.series[0].height = '70%';
+        }
+    }
 onChartResized(args) {
-  let bounds = document.getElementById('funnel-chart').getBoundingClientRect();
+  let bounds = document.getElementById('chart').getBoundingClientRect();
   if (bounds.width < bounds.height) {
       args.accumulation.series[0].width = '80%';
       args.accumulation.series[0].height = '70%';

@@ -275,6 +275,7 @@ class CreateAppointment extends Component{
                           change={this.onChangeListsSelect}
                           // onBlur={()=>this.Validate('group')}
                           placeholder="Choose Lists"/>    
+                          
                            <ValidateField isValidate={false} isError = {this.state.validates.groupValidate} />
               </div>
               </div>
@@ -287,7 +288,17 @@ class CreateAppointment extends Component{
         					
         						{/* <input onBlur={()=>this.Validate('from')}  aria-invalid="false" placeholder="Sender Name" name="from" onChange={this.handleChange} className="user_profile_w3_input"
                      id="company-disabled" type="text" value={this.state.newAppointment.mailObjectDTO.from}  /> */}
-                     <select onBlur={()=>this.Validate('from')} name="from" className="user_profile_w3_input" value={this.state.newAppointment.mailObjectDTO.from} 
+                     <input onBlur={()=>this.Validate('from')} aria-invalid="false" placeholder="Sender Name" name="from" onChange={this.handleChange} className="user_profile_w3_input"
+                      id="company-disabled" type="email" value={this.state.newAppointment.mailObjectDTO.from}  />
+        					
+                    <ValidateField isValidate={false} isError = {this.state.validates.fromValidate} />
+        					</div>
+            </div>
+            <div className="user_profile9_sub">
+            <div className="user_profile7_sub1" style={{"marginLeft":"15px", "marginRight":"15px"}}>
+              <label className="user_profile_w3_label" style={{"color":"white"}} >.</label>					
+        						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
+                    <select onBlur={()=>this.Validate('fromMail')} name="fromMail" className="user_profile_w3_input" value={this.state.newAppointment.mailObjectDTO.fromMail} 
                      onChange={this.handleChange}> 
                      <option value="" disabled selected style={{display:"none"}}>---Choose an email address---</option>
                         {listFrom.map(list=>(
@@ -295,15 +306,6 @@ class CreateAppointment extends Component{
                                     ))}
                           <option value="addVerify" onClick={this.toUserProfile}>Add veify email</option>
                     </select>  
-                    <ValidateField isValidate={false} isError = {this.state.validates.fromValidate} />
-        					</div>
-            </div>
-            <div className="user_profile9_sub">
-            <div className="user_profile7_sub1" style={{"marginLeft":"15px", "marginRight":"15px"}}>
-              <label className="user_profile_w3_label" style={{"color":"white"}} >.</label>					
-        						<input onBlur={()=>this.Validate('fromMail')} aria-invalid="false" placeholder="Email Address" name="fromMail" onChange={this.handleChange} className="user_profile_w3_input"
-                      id="company-disabled" type="email" value={this.state.newAppointment.mailObjectDTO.fromMail}  />
-        						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
                     <ValidateField isValidate={false} isError = {this.state.validates.mailValidate} />
         					</div>
             </div>

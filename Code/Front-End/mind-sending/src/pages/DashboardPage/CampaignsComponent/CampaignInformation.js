@@ -178,21 +178,12 @@ class CampaignInformation extends Component{
                    { x: "Request", y: response.data.request, text: "Request" }
             ],
             contactBounce: response.data.contactBounce,
-            contactClicked: [
-              response.data.contactClicked
-            ],
-            contactDelivery: [
-              response.data.contactDelivery
-            ],
-            contactOpened: [
-              response.data.contactOpened
-            ],
-            contactRequest: [
-              response.data.contactRequest
-            ],
-            contactSpam: [
-              response.data.contactSpam
-            ]
+            contactClicked:response.data.contactClicked,
+            contactDelivery: response.data.contactDelivery ,
+            contactOpened: response.data.contactOpened,
+            contactRequest: response.data.contactRequest
+            ,contactSpam: response.data.contactSpam
+            
           },()=>{
             console.log(this.state)
           }
@@ -290,6 +281,7 @@ class CampaignInformation extends Component{
     var clicks = this.state.contactClicked
     var deliverys = this.state.contactDelivery
     var requests = this.state.contactRequest
+    console.log(requests)
 
     console.log(requests)
      return (
@@ -494,15 +486,15 @@ class CampaignInformation extends Component{
                   </tr>
                 </thead>
                 <tbody>
-                {
+                { requests.length > 0 ? 
                   requests.map((list,index) => (
                     <tr>
                     <th scope="row">{index + 1}</th>
-                    <td>{list}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>{list.email}</td>
+                    <td>{list.firstName}</td>
+                    <td>{list.lastName}</td>
                   </tr>
-                ))
+                )) : "No contact"
                 }
                   
                 </tbody>
@@ -524,15 +516,15 @@ class CampaignInformation extends Component{
                   </tr>
                 </thead>
                 <tbody>
-                {
+                { deliverys.length > 0 ?
                   deliverys.map((list,index) => (
                     <tr>
                     <th scope="row">{index + 1}</th>
-                    <td>{list}</td>
+                    <td>{list.email}</td>
                     <td>Otto</td>
                     <td>@mdo</td>
                   </tr>
-                ))
+                )) : "No contact"
                 }
                   
                 </tbody>
@@ -555,15 +547,15 @@ class CampaignInformation extends Component{
                   </tr>
                 </thead>
                 <tbody>
-                {
+                { bounces.length > 0 ? 
                   bounces.map((list,index) => (
                     <tr>
                     <th scope="row">{index + 1}</th>
-                    <td>{list}</td>
+                    <td>{list.email}</td>
                     <td>Otto</td>
                     <td>@mdo</td>
                   </tr>
-                ))
+                )) : "No contact"
                 }
                   
                 </tbody>
@@ -587,14 +579,15 @@ class CampaignInformation extends Component{
                 </thead>
                 <tbody>
                 {
+                  spams.length > 0 ? 
                   spams.map((list,index) => (
                     <tr>
                     <th scope="row">{index + 1}</th>
-                    <td>{list}</td>
+                    <td>{list.email}</td>
                     <td>Otto</td>
                     <td>@mdo</td>
                   </tr>
-                ))
+                )) : "No contact"
                 }
                   
                 </tbody>
@@ -615,14 +608,15 @@ class CampaignInformation extends Component{
                 </thead>
                 <tbody>
                 {
+                  opens.length > 0 ? 
                   opens.map((list,index) => (
                     <tr>
                     <th scope="row">{index + 1}</th>
-                    <td>{list}</td>
+                    <td>{list.email}</td>
                     <td>Otto</td>
                     <td>@mdo</td>
                   </tr>
-                ))
+                )) : "No contact"
                 }
                   
                 </tbody>
@@ -644,15 +638,16 @@ class CampaignInformation extends Component{
                   </tr>
                 </thead>
                 <tbody>
-                {
+                { 
+                  clicks.length > 0 ? 
                   clicks.map((list,index) => (
                     <tr>
                     <th scope="row">{index + 1}</th>
-                    <td>{list}</td>
+                    <td>{list.email}</td>
                     <td>Otto</td>
                     <td>@mdo</td>
                   </tr>
-                ))
+                )) : "No contact"
                 }
                   
                 </tbody>

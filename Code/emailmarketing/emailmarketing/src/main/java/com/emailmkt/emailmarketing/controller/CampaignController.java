@@ -1,9 +1,12 @@
 package com.emailmkt.emailmarketing.controller;
 
+import com.emailmkt.emailmarketing.Utils.Ultilities;
 import com.emailmkt.emailmarketing.dto.CampaignDTO;
 import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Campaign;
+import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.CampaignRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.CampaignService;
@@ -19,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -40,6 +44,8 @@ public class CampaignController {
     SubcriberRepository subcriberRepository;
 
     @Autowired
+    AccountRepository accountRepository;
+    @Autowired
     public CampaignController(CampaignRepository campaignRepository) {
         this.campaignRepository = campaignRepository;
     }
@@ -59,12 +65,16 @@ public class CampaignController {
             @ApiResponse(code = 400, message = "Invalid  ID"),
             @ApiResponse(code = 500, message = "Internal server error")})
     @PostMapping(value = "campaign/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createCampaignWithoutTemplate(@RequestBody MailAndCampaign mailAndCampaign) {
-        boolean flag = campaignService.createCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO);
+    public ResponseEntity createCampaignWithoutTemplate(@RequestBody MailAndCampaign mailAndCampaign, HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = campaignService.createCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, account);
+
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign Existed");
         }
-        Campaign temp = campaignRepository.findByName(mailAndCampaign.campaignDTO.getCampaignName());
+        Campaign temp = campaignRepository.findByNameAndAccount_id(mailAndCampaign.campaignDTO.getCampaignName(),account.getId());
         return ResponseEntity.status(CREATED).body(temp.getId());
 
     }
@@ -75,19 +85,21 @@ public class CampaignController {
             @ApiResponse(code = 400, message = "Invalid  ID"),
             @ApiResponse(code = 500, message = "Internal server error")})
     @PostMapping(value = "campaign/create/timer", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createCampaignWithoutTimer(@RequestBody MailAndCampaign mailAndCampaign) {
-
+    public ResponseEntity createCampaignWithoutTimer(@RequestBody MailAndCampaign mailAndCampaign, HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
 
         LocalDate date = LocalDate.parse(mailAndCampaign.campaignDTO.getTimeStart(), DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a"));
         if (date.isBefore(LocalDate.now())) {
             return ResponseEntity.status(NOT_ACCEPTABLE).body("This time is over");
         }
 
-        boolean flag = campaignService.createCampaignWithTimer(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO);
+        boolean flag = campaignService.createCampaignWithTimer(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, account);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign Existed");
         }
-        Campaign temp = campaignRepository.findByName(mailAndCampaign.campaignDTO.getCampaignName());
+        Campaign temp = campaignRepository.findByNameAndAccount_id(mailAndCampaign.campaignDTO.getCampaignName(),account.getId());
 
         return ResponseEntity.status(CREATED).body(temp.getId());
 
@@ -124,8 +136,11 @@ public class CampaignController {
 
 
     @GetMapping("/campaigns")
-    Iterable<Campaign> getAll() {
-        return campaignRepository.findAllByAutomationIsFalseOrderByCreatedTimeDesc();
+    Iterable<Campaign> getAll(HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        return campaignRepository.findCampaignByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
     }
 
     @ApiOperation(value = "Send Campaign Without Template")
@@ -150,8 +165,11 @@ public class CampaignController {
     }
 
     @GetMapping("/campaign/dashboard")
-    public ResponseEntity<CampaignFullDTO> getStatisticDashboard() {
-        CampaignFullDTO vms = campaignService.getCampaignLatest();
+    public ResponseEntity<CampaignFullDTO> getStatisticDashboard(HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        CampaignFullDTO vms = campaignService.getCampaignLatest(account);
         return new ResponseEntity<CampaignFullDTO>(vms, HttpStatus.OK);
     }
 
@@ -173,8 +191,11 @@ public class CampaignController {
 
 
     @PostMapping("campaign/check/")
-    public ResponseEntity checkDuplicateName(@RequestParam String name) {
-        boolean flag = campaignService.checkDuplicatName(name);
+    public ResponseEntity checkDuplicateName(@RequestParam String name,HttpServletRequest request ) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = campaignService.checkDuplicatName(name, account.getId());
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Fail ");
         }

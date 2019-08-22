@@ -2,15 +2,16 @@ package com.emailmkt.emailmarketing.service;
 
 import com.emailmkt.emailmarketing.dto.GroupContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 
 import java.util.List;
 
 public interface GroupContactService {
-    boolean createGroupContact(GroupContactDTO groupContactDTO);
+    boolean createGroupContact(GroupContactDTO groupContactDTO, Account account);
 
-    List<GroupContact> getAllGroupContacts();
+    List<GroupContact> getAllGroupContacts(Account account);
 
     GroupContact editGroupContact(GroupContact GroupContact);
 
@@ -33,7 +34,7 @@ public interface GroupContactService {
 
     boolean deleteSubcriberOutGroup(int subcriberId);
 
-    boolean createGroupContactFromSegment(GroupContactDTO groupContactDTO);
+    boolean createGroupContactFromSegment(GroupContactDTO groupContactDTO, Account account);
 
 
 

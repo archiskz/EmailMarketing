@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.repository;
 
+import com.emailmkt.emailmarketing.model.Campaign;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
 import com.emailmkt.emailmarketing.model.Subcriber;
@@ -14,10 +15,11 @@ import java.util.List;
 
 @Repository
 public interface GroupContactRepository extends JpaRepository<GroupContact, Integer> {
-    GroupContact findByName(String name);
+    GroupContact findByNameAndAccount_id(String name, int accountId);
+
     GroupContact findGroupById(int id);
 
-
+    List<GroupContact> findGroupContactByAccount_idOrderByCreatedTimeDesc(int account_id);
 
     @Query("SELECT COUNT(gr) FROM GroupContact gr ")
     Long countTotalGroupContacts();
@@ -26,7 +28,7 @@ public interface GroupContactRepository extends JpaRepository<GroupContact, Inte
             "(LOWER(gr.name) like %:searchValue% ) " )
     List<GroupContact> searchByName(@Param("searchValue") String searchValue);
 
-    @Query("SELECT gr FROM GroupContactSubcriber gr " )
+    @Query("SELECT gr FROM GroupContactSubcriber gr" )
     List<GroupContactSubcriber> getAllSubcriber();
 
 

@@ -54,9 +54,9 @@ public class CampaignServiceImpl implements CampaignService {
 
 
     @Override
-    public boolean createCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO) {
+    public boolean createCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO, Account account) {
         System.out.println(campaignDTO.getCampaignName());
-        Campaign checkExistedCampain = campaignRepository.findByName(campaignDTO.getCampaignName());
+        Campaign checkExistedCampain = campaignRepository.findByNameAndAccount_id(campaignDTO.getCampaignName(), account.getId());
         if (checkExistedCampain != null) {
             return false;
         }
@@ -75,7 +75,7 @@ public class CampaignServiceImpl implements CampaignService {
         campaign.setAutomation(false);
         campaign.setTimeStart(LocalDateTime.now().toString());
         //Add to Group Contacts
-        Account account = accountRepository.findAccountById(1);
+//        Account account = accountRepository.findAccountById(1);
         campaign.setAccount_id(account.getId());
         List<String> mailLists = new ArrayList<>();
         List<CampaignGroupContact> campaignGroupContacts = campaignDTO.getGcCampaignDTOS().stream().map(g -> {
@@ -114,6 +114,7 @@ public class CampaignServiceImpl implements CampaignService {
     public void sendCampaign(int id) {
         Campaign campaign = campaignRepository.findCampaignById(id);
         campaign.setStatus("Sending");
+        campaignRepository.save(campaign);
         String sender = campaign.getSender();
         String fromMail = campaign.getFromMail();
         String subject = campaign.getSubject();
@@ -177,9 +178,9 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public boolean createCampaignWithTimer(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO) {
+    public boolean createCampaignWithTimer(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO, Account account) {
         System.out.println(campaignDTO.getCampaignName());
-        Campaign checkExistedCampain = campaignRepository.findByName(campaignDTO.getCampaignName());
+        Campaign checkExistedCampain = campaignRepository.findByNameAndAccount_id(campaignDTO.getCampaignName(), account.getId());
         if (checkExistedCampain != null) {
             return false;
         }
@@ -199,7 +200,7 @@ public class CampaignServiceImpl implements CampaignService {
         campaign.setTimeStart(campaignDTO.getTimeStart());
 
         //Add to Group Contacts
-        Account account = accountRepository.findAccountById(1);
+//        Account account = accountRepository.findAccountById(1);
         campaign.setAccount_id(account.getId());
         List<String> mailLists = new ArrayList<>();
         List<CampaignGroupContact> campaignGroupContacts = campaignDTO.getGcCampaignDTOS().stream().map(g -> {
@@ -455,9 +456,9 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public CampaignFullDTO getCampaignLatest() {
+    public CampaignFullDTO getCampaignLatest(Account account) {
 //        Campaign campaign = campaignRepository.findTopByOrderByCreatedTimeDesc();
-            Campaign campaign = campaignRepository.findTopByAutomationIsFalseAndStatusContainsOrderByCreatedTimeDesc("Done");
+            Campaign campaign = campaignRepository.findTopByAccount_idAndAutomationIsFalseAndStatusContainsOrderByCreatedTimeDesc(account.getId(),"Done");
         // Get Statistic of Campaign
         CampaignFullDTO campaignFullDTO = new CampaignFullDTO();
         campaignFullDTO.setCampaignName(campaign.getName());
@@ -475,7 +476,7 @@ public class CampaignServiceImpl implements CampaignService {
     @Override
     public boolean copyCampaign(int campaignId, String name) {
         Campaign temp = campaignRepository.findCampaignById(campaignId);
-        Campaign checked = campaignRepository.findByName(name);
+        Campaign checked = campaignRepository.findByNameAndAccount_id(name, temp.getAccount_id());
         if (temp == null || checked != null) {
             return false;
         }
@@ -517,8 +518,8 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public boolean checkDuplicatName(String name) {
-        Campaign campaign = campaignRepository.findByName(name);
+    public boolean checkDuplicatName(String name, int accountId) {
+        Campaign campaign = campaignRepository.findByNameAndAccount_id(name, accountId);
         if (campaign != null) {
             return false;
         }

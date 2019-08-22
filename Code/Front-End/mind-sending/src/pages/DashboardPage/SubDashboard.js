@@ -178,54 +178,12 @@ componentDidMount(){
         <div className="col-12 col-md-12 col-lg-5 col-xl-4 dashboar_top5">
         <div className="dashboard_panel dashboard_card">
         <div className="dashboard_card_body dashboard_panel__body">
-          <div className="dashboard_panel__title">
-            <h5 className="dashboard_bold-text">List contact by type<span className="dashboard_panel__label dashboard_badge dashboard_badge_secondary">
-            </span>
-            </h5>
-            <h5 className="dashboard_subhead">Sort by all current contacts of user</h5>
-            </div>
+        
             <div className="collapse show">
             <div className="panel_content">
             <div  className= "dashboard_table_responsive">
-              <table style={{"display":"none"}} className="dashboard_table">
-              <thead>
-              <tr>
-              <th>Contact type</th>
              
-              <th>Number of contact</th>
-                </tr>
-                  </thead>
-              <tbody>
-              <tr>
-              <td>
-              <p className="dashboard_bold_text dashboard__btc">Beginner Contacts</p>
-              </td>
-              
-              <td>{this.state.contactStatitic.beginerContact}</td>
-              </tr>
-              <tr>
-              <td>
-              <p className="dashboard_bold_text dashboard__btc2">Intermediate Contacts</p>
-              </td>
-             
-              <td>{this.state.contactStatitic.intermediateContact}</td>
-              </tr>
-              <tr>
-              <td>
-              <p className="dashboard_bold_text dashboard__btc3">Advanced Contacts</p>
-              </td>
-              
-              <td>{this.state.contactStatitic.advancedContact}</td>
-              </tr>
-              </tbody>    
-              </table>
-            <DonutChart data1={this.state.dataPie} />
-            
-            
-            
-            
-            
-            
+            <DonutChart data1={this.state.dataPie} />   
             </div>
             </div>
             </div>

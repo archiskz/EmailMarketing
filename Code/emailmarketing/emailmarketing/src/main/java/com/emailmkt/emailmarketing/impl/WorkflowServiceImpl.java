@@ -76,7 +76,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     EmbeddedFormRepository embeddedFormRepository;
 
     @Override
-    public boolean createWorkflow(WorkflowDTO workflowDTO) {
+    public boolean createWorkflow(WorkflowDTO workflowDTO, Account account) {
         Workflow newWorkflow = new Workflow();
         newWorkflow.setName(workflowDTO.getWorkflowName());
         newWorkflow.setModel(workflowDTO.getWtWorkflowDTOS());
@@ -130,7 +130,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                 //set task Type
                 if (shapeId.contains("SendTask")) {
                     newWorkflowTask.setType("campaign");
-                    Campaign campaignTask = campaignRepository.findByName(name);
+                    Campaign campaignTask = campaignRepository.findByNameAndAccount_id(name, account.getId());
                     int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWorkflow.getId());
                     newWorkflowTask.setCampaignAppointment(campaignOrAppId);
                 } else if (shapeId.contains("BusinessRule")) {

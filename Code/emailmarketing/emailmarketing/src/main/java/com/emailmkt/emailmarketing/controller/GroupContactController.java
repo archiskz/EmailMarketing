@@ -1,10 +1,13 @@
 package com.emailmkt.emailmarketing.controller;
 
 
+import com.emailmkt.emailmarketing.Utils.Ultilities;
 import com.emailmkt.emailmarketing.dto.GroupContactDTO;
 import com.emailmkt.emailmarketing.dto.SubcriberDTO;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.GroupContact;
 import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
+import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.GroupContactRepository;
 import com.emailmkt.emailmarketing.service.GroupContactService;
 import io.swagger.annotations.ApiResponse;
@@ -16,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,13 +38,17 @@ public class GroupContactController {
     @Autowired
     GroupContactRepository groupContactRepository;
 
+    @Autowired
+    AccountRepository accountRepository;
 
 
 
 
     @GetMapping("/groupContacts")
-    public List<GroupContact> getAllGroups() {
-        return groupContactService.getAllGroupContacts();
+    public List<GroupContact> getAllGroups(HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        Account account = accountRepository.findAccountByUsername(username);
+        return groupContactService.getAllGroupContacts(account);
     }
 
     @GetMapping("/groupContact/contactById")
@@ -48,8 +56,11 @@ public class GroupContactController {
         return groupContactService.getGroupById(id);
     }
 
+//    ko dung
     @GetMapping("/groupContacts/subcribers")
-    public List<GroupContactSubcriber> getAllSubcribers() {
+    public List<GroupContactSubcriber> getAllSubcribers(HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        Account account = accountRepository.findAccountByUsername(username);
         return groupContactService.getAllSubcriber();
     }
 
@@ -60,8 +71,10 @@ public class GroupContactController {
             @ApiResponse(code = 409, message = "Existed Group"),
     })
     @PostMapping("/groupContact/create")
-    public ResponseEntity createGroupContact(@RequestBody GroupContactDTO groupContactDTO) {
-        boolean flag = groupContactService.createGroupContact(groupContactDTO);
+    public ResponseEntity createGroupContact(@RequestBody GroupContactDTO groupContactDTO, HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = groupContactService.createGroupContact(groupContactDTO, account);
         if (flag == false) {
 
             return ResponseEntity.status(CONFLICT).body("Group Existed");
@@ -73,8 +86,10 @@ public class GroupContactController {
 
 
     @PostMapping("/groupContact/create/segment")
-    public ResponseEntity createGroupContactBySegment(@RequestBody GroupContactDTO groupContactDTO) {
-        boolean flag = groupContactService.createGroupContactFromSegment(groupContactDTO);
+    public ResponseEntity createGroupContactBySegment(@RequestBody GroupContactDTO groupContactDTO, HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = groupContactService.createGroupContactFromSegment(groupContactDTO, account);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Group Existed");
         }

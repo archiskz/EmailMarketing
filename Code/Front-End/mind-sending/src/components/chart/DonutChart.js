@@ -25,7 +25,7 @@ class DonutChart extends Component {
         return (
             
             <AccumulationChartComponent id="pie-chart"
-            title='Project Cost Breakdown'
+            title='LIST CONTACT BY TYPE'
             legendSettings={{
                 visible: true,
                 position: 'Top'
@@ -38,7 +38,7 @@ class DonutChart extends Component {
             <Inject services={[AccumulationLegend, PieSeries, AccumulationDataLabel]} />
             <AccumulationSeriesCollectionDirective>
                 <AccumulationSeriesDirective name='Project' dataSource={this.props.data1} xName='x' yName='y' innerRadius='40%' startAngle={0}
-                    endAngle={360} radius='70%' explode={true} explodeOffset='10%' explodeIndex={3}
+                    endAngle={360} radius='80%' explode={true} explodeOffset='10%' explodeIndex={3}
                     dataLabel={{
                         visible: true,
                         name: 'text',
@@ -66,7 +66,7 @@ class DonutChart extends Component {
       }
   }
   onChartLoad(args) {
-    // document.getElementById('funnel-chart').setAttribute('title', '');
+    document.getElementById('pie-chart').setAttribute('title', 'LIST CONTACT BY TYPE');
 }
 onChartResized(args) {
   let bounds = document.getElementById('funnel-chart').getBoundingClientRect();

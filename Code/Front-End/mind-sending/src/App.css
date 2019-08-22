@@ -973,3 +973,12 @@ input[type="email"]:disabled {
      border-bottom-style: dashed !important;
      border-bottom:dashed rgba(0, 0, 0, 0.42) 1px !important;
 }
+.ml0{
+  margin-left:0px !important;
+}
+.dashboard_table_responsive {
+    display: block;
+    width: 100%;
+    overflow-x: hidden !important;
+    overflow:hidden !important;
+}

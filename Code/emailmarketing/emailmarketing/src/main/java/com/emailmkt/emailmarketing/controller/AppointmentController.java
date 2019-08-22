@@ -1,7 +1,9 @@
 package com.emailmkt.emailmarketing.controller;
 
+import com.emailmkt.emailmarketing.Utils.Ultilities;
 import com.emailmkt.emailmarketing.dto.AppointmentDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.AppointmentRepository;
@@ -22,7 +24,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 import static javax.mail.event.FolderEvent.CREATED;
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -69,8 +74,10 @@ public class AppointmentController {
             @ApiResponse(code = 400, message = "Invalid  ID"),
             @ApiResponse(code = 500, message = "Internal server error")})
     @PostMapping(value = "appointment/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createAppointment(@RequestBody MailAndAppointment mailAndAppointment) throws IOException, TemplateException {
-        boolean flag = appointmentService.createAppointment(mailAndAppointment.mailObjectDTO, mailAndAppointment.appointmentDTO);
+    public ResponseEntity createAppointment(@RequestBody MailAndAppointment mailAndAppointment, HttpServletRequest request) throws IOException, TemplateException {
+        String username = Ultilities.getUsername(request);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = appointmentService.createAppointment(mailAndAppointment.mailObjectDTO, mailAndAppointment.appointmentDTO, account);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Appointment Existed");
         }
@@ -92,8 +99,13 @@ public class AppointmentController {
     }
 
     @GetMapping("/appointments")
-    Iterable<Appointment> getAll() {
-        return appointmentRepository.findAllByAutomationIsFalseOrderByCreatedTimeDesc();
+    Iterable<Appointment> getAll(HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        System.out.println("ACCOUNTID IS :" + account.getId());
+         List<Appointment> temp =appointmentRepository.findAppointmentByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
+        return appointmentRepository.findAppointmentByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
     }
     @GetMapping("appointment/{id}")
     public Appointment getAppointmentById(@PathVariable(value = "id") int id) {

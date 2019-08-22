@@ -68,7 +68,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public boolean createAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO appointmentDTO) {
+    public boolean createAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO appointmentDTO, Account account) {
         System.out.println(appointmentDTO.getName());
         Appointment checkExistedAppointment = appointmentRepository.findByName(appointmentDTO.getName());
         if (checkExistedAppointment != null) {
@@ -90,7 +90,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 
         //Add to Group Contacts
-        Account account = accountRepository.findAccountById(3);
+//        Account account = accountRepository.findAccountById(3);
         appointment.setAccount_id(account.getId());
 //        appointment.setTo("tannm@unicode.edu.vn");
 //        String[] strArray = new String[] {appointment.getTo()};

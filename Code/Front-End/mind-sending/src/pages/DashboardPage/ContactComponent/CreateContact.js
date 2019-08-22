@@ -275,23 +275,9 @@ toAddContactManual=()=>{
                                 <div className="" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
                                     
                                     Action
-                                    <i class="fa fa-caret-down"></i>
+                         
                                     </div>
-                                   { this.state.displayMenu ? (
-                                    <ul className="">
-                                   <li><a className="active" href="#">Add to list</a></li>
-                                   <li><a href="# ">Remove from list</a></li>
-                                   <li><a href="# ">Move to list</a></li>
-                                   <li><a href="# ">Copy to list</a></li>
-                                   <li><a href="# ">Unsubcribe</a></li>
-                                   <li><a href="# ">Resubcribe</a></li>                                  
-                                   <li><a href="# ">Delete</a></li>
-                                    </ul>
-                                    ):
-                                    (
-                                      null
-                                    )
-                                    }
+              
                                 
                                 </th>
                                 

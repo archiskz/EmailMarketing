@@ -1,8 +1,11 @@
 package com.emailmkt.emailmarketing.controller;
 
+import com.emailmkt.emailmarketing.Utils.Ultilities;
 import com.emailmkt.emailmarketing.dto.ViewWorkflowDTO;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Workflow;
+import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.repository.WorkflowRepository;
 import com.emailmkt.emailmarketing.service.WorkflowService;
@@ -17,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.ACCEPTED;
@@ -38,6 +42,8 @@ public class WorkflowController {
 
     @Autowired
     SubcriberRepository subcriberRepository;
+    @Autowired
+    AccountRepository accountRepository;
 
     @Autowired
     public WorkflowController(WorkflowRepository workflowRepository) {
@@ -53,9 +59,11 @@ public class WorkflowController {
             @ApiResponse(code = 400, message = "Invalid  ID"),
             @ApiResponse(code = 500, message = "Internal server error") })
     @PostMapping(value="workflow/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createCampaignWithoutTemplate(@RequestBody WorkflowDTO workflowDTO) {
-
-        boolean flag = workflowService.createWorkflow(workflowDTO);
+    public ResponseEntity createCampaignWithoutTemplate(@RequestBody WorkflowDTO workflowDTO, HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = workflowService.createWorkflow(workflowDTO, account);
 
 
         return ResponseEntity.status(CREATED).body("aaa");

@@ -2,6 +2,7 @@ package com.emailmkt.emailmarketing.service;
 
 import com.emailmkt.emailmarketing.dto.AppointmentDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
 import org.springframework.http.ResponseEntity;
 
@@ -18,7 +19,7 @@ public interface AppointmentService {
         Appointment findByName(String token);
         Appointment findByToken(String token);
 
-    boolean createAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO appointmentDTO);
+    boolean createAppointment(MailObjectDTO mailObjectDTO, AppointmentDTO appointmentDTO, Account accountId);
 
     void sendAppointment(int appointmentId);
     Appointment addContentToAppointment(Appointment appointment);

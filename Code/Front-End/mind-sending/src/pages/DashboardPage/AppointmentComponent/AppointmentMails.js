@@ -70,7 +70,9 @@ class AppointmentMails extends Component {
     
     if(this.props.history.location.state != null && this.props.history.location.state != undefined){
       if(this.props.history.location.state.success != null && this.props.history.location.state.success != undefined){
+        this.getAllAppointment()
         this.addNotification(this.props.history.location.state.success)
+  
         this.props.history.replace({});
       }
     }

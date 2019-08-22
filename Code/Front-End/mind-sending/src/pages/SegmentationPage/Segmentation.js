@@ -38,9 +38,15 @@ class Segmentation extends Component {
       createGroupVisibility: false,
       newList:{
         name: "",
-        description:""
+        description:"",
+        subcriberGCDTOS: [
+          {
+            subcriberId: 0
+          }
+        ]
       },
-      isApply: false
+      isApply: false,
+      existedGroup:""
     };
     this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
@@ -50,8 +56,8 @@ class Segmentation extends Component {
 
   addNotification() {
     this.notificationDOMRef.current.addNotification({
-      title: "Awesomeness",
-      message: "Add Contact Success!",
+      title: "Save Group Contact",
+      message: "Save Group Contact Successfully!",
       type: "success",
       insert: "top",
       container: "top-right",
@@ -215,6 +221,33 @@ handleCheck=(event)=>{
       });
   }
 
+  saveNewList=()=>{
+    var self = this
+    var contactSegment = this.state.contactSegment;
+   var subcriberGCDTOS=  contactSegment.map(subcriber =>({
+    subcriberId: subcriber.id
+   }))
+   
+   this.setState({
+     newList:{
+       ...this.state.newList,
+       subcriberGCDTOS: subcriberGCDTOS
+     }
+   }, ()=>{
+    console.log(this.state.newList)
+    axios.post(`${Config.API_URL}groupContact/create/segment`,this.state.newList,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+      console.log(res.data)
+      this.closeModal()
+      this.addNotification()
+    }).catch(function (error) {
+      self.setState({
+        existedGroup: "This group name is existed"
+      })
+    }); 
+   })
+  }
+
 
 
   render() {
@@ -256,11 +289,11 @@ handleCheck=(event)=>{
                             </span>
                         </div>
                         <div className="col-md-6">
-                            
+{/*                             
                                 <a onClick={()=>this.openModal()} icon="segment" className="btn_create_contact">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Save As Group
-                                </a>
+                                </a> */}
                             
                         </div>
                     </header>
@@ -318,7 +351,7 @@ handleCheck=(event)=>{
                     {/* <div className="md_tablet3">
                     </div> */}
                       <div className={`md_tablet4 ${this.state.isApply ? '' : 'activeText'}`} >
-                      <p style={{"fontSize":"17px", fontStyle:"bold"}}>Contacts match</p>
+                      <p style={{"fontSize":"17px", fontStyle:"bold"}}>  Found: {listSegment.length} contact(s)</p>
                       <table class="table">
                       
                         <thead>
@@ -361,7 +394,7 @@ handleCheck=(event)=>{
 				</span>
 
                         <div className="wrap-input1 validate-input">
-                            <input value={this.state.newList.name} onChange={this.handleChange1} className="name input1"
+                            <input value={this.state.newList.name} onChange={this.handleChangeList} className="name input1"
                                    type="text" name="name" placeholder="New Name"/>
                             
                         </div>
@@ -370,8 +403,8 @@ handleCheck=(event)=>{
                         </div>
                         
                         <div class="wrap-input1 validate-input">
-                            <input value={this.state.newList.description} onChange={this.handleChange2}
-                                   className="description input1" type="text" name="email"
+                            <input value={this.state.newList.description} onChange={this.handleChangeList}
+                                   className="description input1" type="text" name="description"
                                    placeholder="New Description"/>
                             <span class="shadow-input1"></span>
                         </div>
@@ -389,6 +422,19 @@ handleCheck=(event)=>{
         </div>
       </div>
     );
+  }
+
+  handleChangeList=(e)=>{
+    var value = e.target.value
+    var name = e.target.name
+    this.setState({
+      newList: {
+        ...this.state.newList,
+        [name]:value
+      }
+    },()=>{
+      console.log(this.state.newList)
+    })
   }
   addClick(){
     this.setState(prevState => ({ 

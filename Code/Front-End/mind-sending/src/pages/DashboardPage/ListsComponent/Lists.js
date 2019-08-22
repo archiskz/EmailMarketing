@@ -142,11 +142,16 @@ class Lists extends Component {
                                     </h1>
                                     </span>
                                 </div>
-                                <div style={{"float":"left"}}>
-                                                    <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="btn_create_contact ">
+                                <div style={{"float":"right"}}>
+                                                    <Link to="/dashboard/segmentation" style={{"marginLeft":"0px !important"}} className="ml0 btn_create_contact ">
+                                                        <i className="sg-icon sg-icon-segment"></i>
+                                                        Create Segment
+                                                    </Link>
+                                                    <a style={{"marginLeft":"0px !important"}} onClick={() => this.openModal()} className="ml0 btn_create_contact ">
                                                         <i className="sg-icon sg-icon-segment"></i>
                                                         Create Group
                                                     </a>
+                                                   
                                                     </div>
                                 {/* <div className="col-md-6">
                             
@@ -229,21 +234,9 @@ class Lists extends Component {
                                                                          data-role="bulk-actions-toggle2">
 
                                                                         Action
-                                                                        <i class="fa fa-caret-down"></i>
+                                                                       
                                                                     </div>
-                                                                    {this.state.displayMenu ? (
-                                                                            <ul className="">
-                                                                                <li><a href="# ">Import</a></li>
-                                                                                {this.props.contactActions}
-                                                                                <li><a title="Edit">Edit </a></li>
-                                                                                <li><a href="# ">Delete</a></li>
-
-                                                                            </ul>
-                                                                        ) :
-                                                                        (
-                                                                            null
-                                                                        )
-                                                                    }
+                                                                   
 
                                                                 </th>
                                                             </tr>
