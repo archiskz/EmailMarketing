@@ -333,8 +333,9 @@ public class SubcriberServiceImpl implements SubcriberService {
     @Override
     public void autoUpdatePointSubcriber() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-//        String formatTime = LocalDateTime.now().minusDays(1).format(formatter);
-        String formatTime = LocalDateTime.now().format(formatter);
+//        String formatTime = LocalDateTime.now().minusDays(7).format(formatter);
+//        String formatTime = LocalDateTime.now().format(formatter);
+        String formatTime = "08/15/2019";
         for (Subcriber subcriber : subcriberRepository.findAll()) {
             Long point = subcriber.getPoint();
             double totalRequest = campaignSubcriberRepository.countBySubcriberEmailAndCreatedTimeContains(subcriber.getEmail(), formatTime)

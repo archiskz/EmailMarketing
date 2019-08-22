@@ -166,6 +166,12 @@ public class SubcriberController {
         return ResponseEntity.status(HttpStatus.OK).body("Successfully");
     }
 
+    @GetMapping("/subcriber/autoupdate")
+    public ResponseEntity autoUpdatePoing() {
+        subcriberService.autoUpdatePointSubcriber();
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully");
+    }
+
 
 
 
