@@ -3,11 +3,13 @@ import {Link} from 'react-router-dom';
 import { withRouter } from "react-router";
 import axios from 'axios';
 import ContactRow from './../../../components/row/ContactRow';
+
+import ContactBlackListRow from './../../../components/row/ContactBlackListRow';
 import * as Config from './../../../constants/Config';
 import Pagination from './../../../components/row/Pagination';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-
+import Modal from 'react-awesome-modal';
 
       
 class CreateContact extends Component {
@@ -23,9 +25,11 @@ class CreateContact extends Component {
        listAllAccounts:[],
        allCountries: [],
             currentCountries: [],
+            blackLists:[],
             currentPage: null,
             totalPages: null,
             score:4,
+            modalBlackList: false
      };
       this.showDropdownMenu = this.showDropdownMenu.bind(this);
       this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
@@ -99,9 +103,17 @@ class CreateContact extends Component {
     console.log("haha")
     const allCountries = [{}];
    axios.get(`${Config.API_URL}subcribersV2`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-   .then(response => {
+   .then(response => {console.log(response.data)
      this.setState({
-        allCountries: response.data,
+        allCountries: response.data.filter(user => {
+          return user.blackList == false
+        }),
+        blackLists: response.data.filter(user => {
+          return user.blackList == true
+        }),
+        currentCountries: response.data.filter(user => {
+          return user.blackList == false
+        }).slice(0,8),
        listFilter: response.data
      });
    })
@@ -187,11 +199,15 @@ toAddContactManual=()=>{
         allCountries,
         currentCountries,
         currentPage,
-        totalPages
+        totalPages,
+        blackLists
       } = this.state;
       var totalCountries = allCountries.length;
+      if(totalCountries == 0){
+        totalCountries = 1
+      }
         if (totalCountries === 0) return null
-      else return (
+       return (
 	  <div className = "" >
       <ReactNotification
           types={[{
@@ -251,12 +267,13 @@ toAddContactManual=()=>{
                         </section>
                         </div>
                     </section>
-                    
+                      <a onClick={this.openModalBlackList} style={{fontSize:"1px","float":"right",marginRight:"20px", marginBottom:"30px","cursor":"pointer"}}>Black list</a>
                     <div className="md_tablet1">
                     <div className="md_tablet2">
                         <div className="md_tablet3">
-                        <h4 className="md_tablet_h4">Contact List</h4>
-                        <p className="md_tablet_p">Here is the list of your contacts </p>
+                        <h4 className="md_tablet_h4">Contact List: {allCountries.length} contacts</h4>
+                        <p className="md_tablet_p" onClick={this.openModalBlackList} style={{"cursor":"pointer","textDecoration":"underline"}}>{blackLists.length} inactive</p>
+                        {/* <p className="md_tablet_p">Here is the list of your contacts </p> */}
                         </div>
                     <div className="md_tablet4">
                         <div className="md_tablet5">
@@ -298,7 +315,62 @@ toAddContactManual=()=>{
                     </div>
                     </div>
                     </div>
+                    <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.modalBlackList} width="700" height="660" effect="fadeInUp" onClickAway={() => this.closeModalBlackList()}>
+                <form style={{"display":"flex", flexDirection:"column", height: "100%"}} class="contact1-form validate-form">
+				<div className="">
+        <span class="contact1-form-title">
+				Black List
+				</span>
+        </div>
+        <div class="modal-body" style={{"textAlign":"center", height:"70%"}}>
 
+        <table className="table1 table-striped table-hover">
+                            <thead className=" ">
+                            <tr className=" ">
+                                {/* <th className="md_tablet6_th" scope="col"></th> */}
+                                <th className=" " scope="col">Email</th>
+                                <th className=" " scope="col">First Name</th>
+                                <th className=" " scope="col">Last Name</th>
+                                
+                                <th className=" " scope="col">Engagement Score</th>
+                                
+                                <th  className="" role="presentation">
+                                
+                                </th>
+                                
+                            </tr>
+                                
+                            </thead>
+                            <tbody>
+                            {
+        blackLists.map((list,index) => (
+                <ContactBlackListRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
+            ))
+       }
+                            </tbody>
+                        </table>
+
+        </div>
+        <div class="modal-footer">
+                    <button type="button" onClick={()=>this.closeModalBlackList()} class="btn btn-info">Cancel</button>
+                    {/* <button type="button" onClick={()=>this.saveUpdatedContact()}  className={`btn btn-danger ${this.state.updateContact.firstName ? "" : "disabled"}`} >Update</button>
+                     */}
+                  </div>
+			</form>
+    </Modal>
             </article>
         </div>
     </div>
@@ -306,6 +378,17 @@ toAddContactManual=()=>{
     </div>
       );
   }
+  openModalBlackList = ()=>{
+    this.setState({
+      modalBlackList: true
+    })
+  }
+  closeModalBlackList = ()=>{
+    this.setState({
+      modalBlackList: false
+    })
+  }
+ 
 
 }
 export default withRouter(CreateContact);

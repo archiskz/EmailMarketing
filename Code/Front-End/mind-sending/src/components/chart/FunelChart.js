@@ -21,7 +21,7 @@ class FunelChart extends Component {
     render() {
         return (
             
-            <AccumulationChartComponent id='chart' legendSettings={{ visible: false }} tooltip={{ enable: true, format: '${point.x} : <b>${point.y}</b>' }} title='Top population countries in the world 2017' resized={this.onChartResized.bind(this)} load={this.onLoad.bind(this)}>
+            <AccumulationChartComponent id='chart' legendSettings={{ visible: false }} tooltip={{ enable: true, format: '${point.x} : <b>${point.y}</b>' }} title={this.props.title} resized={this.onChartResized.bind(this)} load={this.onLoad.bind(this)}>
       <Inject services={[AccumulationLegend, FunnelSeries, AccumulationTooltip, AccumulationDataLabel]}/>
       <AccumulationSeriesCollectionDirective>
         <AccumulationSeriesDirective dataSource={this.props.data1} xName='x' yName='y' type='Funnel' name='' dataLabel={{

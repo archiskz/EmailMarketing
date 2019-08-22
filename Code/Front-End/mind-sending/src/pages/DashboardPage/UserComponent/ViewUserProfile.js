@@ -235,7 +235,13 @@ class ViewUserProfile extends Component {
 						{listVeifiedEmails.map(list=>(
 							<tr>
 							<td>{list.email}</td>
-							<td>{list.verified ? 'Verified' : 'Unverified'}</td>
+							<td style={{color: `${list.verified ? 'green' : 'red'}`}}>
+							{/* {list.verified ? 'Verified' : 'Unverified'} */}
+							{list.verified ? <i class="fas fa-check-circle"></i> :  <i className="fas fa-times-circle"> </i>}
+
+							{list.verified ?  null :  <a style={{marginLeft:"10px", "cursor":"pointer"}} onClick={()=>this.resendEmail(list.email)}> Resend</a>}
+							
+							</td>
 						</tr>    
                                     ))}
 
@@ -283,6 +289,24 @@ class ViewUserProfile extends Component {
       console.log(error)
     }) 
  }
+ 
+ resendEmail=(email)=>{
+	this.setState({
+		newVerify:{
+			email:email
+		}
+		
+	},()=>{
+		axios.post(`${Config.API_URL}emailverified/verify?accountId=1`,this.state.newVerify,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+		this.closeModal()
+	  this.addNotificationVeify()
+    }).catch(error =>{
+      console.log(error)
+    }) 
+	});
+ }
+ 
  handleChange1 = (event) => {
 	var name = event.target.name;
 	var value = event.target.value;

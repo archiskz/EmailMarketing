@@ -190,6 +190,7 @@ class AppointmentMails extends Component {
                                         key={list.index}
                                         contactId={list.id}
                                          name={list.name}
+                                         bodyJson={list.bodyJson}
                                     time={list.time}
                                     invited={list.request}
                                     registed={list.clickRate}

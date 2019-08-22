@@ -91,14 +91,19 @@ class ContactByGroup extends Component {
    
 
    getContactsByGroupId=()=>{
-    console.log("haha")
+    
   if(this.props.history.location.state != null){
     axios.get(`${Config.API_URL}groupContact=${this.props.history.location.state.id}/contacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
+      console.log(response.data)
       this.setState({
-        allCountries: response.data,
+        allCountries: response.data.filter(user => {
+          return user.blackList == false
+        }),
        listFilter: response.data,
-       currentCountries: response.data.slice(0,8)
+       currentCountries: response.data.filter(user => {
+        return user.blackList == false
+      }).slice(0,8)
       });
     })
     .catch(error => {
@@ -199,7 +204,10 @@ toAddContactManual=()=>{
         currentPage,
         totalPages
       } = this.state;
-      var totalCountries = allCountries.length;
+      var totalCountries = allCountries.length + 1;
+      if(totalCountries == 0){
+        totalCountries = 1
+      }
      
   
       const headerClass = [
@@ -208,7 +216,7 @@ toAddContactManual=()=>{
       ]
         .join(" ")
         .trim();
-        // if (totalCountries === 0) {return null}
+        if (totalCountries === 0) {return null}
       return (
 	  <div className = "" >
    <div className="flash_notice">

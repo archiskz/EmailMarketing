@@ -117,6 +117,9 @@ class Lists extends Component {
             totalPages
           } = this.state;
           var totalCountries = allCountries.length;
+          if(totalCountries == 0){
+            totalCountries = 1
+          }
             if (totalCountries === 0) return null
           else return (
             <div className="">
