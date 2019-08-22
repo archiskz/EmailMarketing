@@ -42,6 +42,8 @@ public interface SubcriberService {
 
     String deleteSubcriber(int id,int groupId);
 
+    void autoUpdatePointSubcriber();
+
 
     List<Subcriber>getSubcriberBySegment(List<SegmentDTO> segmentDTO,String condition);
 

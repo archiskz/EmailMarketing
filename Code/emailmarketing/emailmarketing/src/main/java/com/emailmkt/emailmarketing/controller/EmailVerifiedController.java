@@ -1,6 +1,9 @@
 package com.emailmkt.emailmarketing.controller;
 
+import com.emailmkt.emailmarketing.Utils.Ultilities;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.EmailVerified;
+import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.service.EmailVerifiedService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -37,17 +41,24 @@ public class EmailVerifiedController {
     @Autowired
     EmailVerifiedService emailVerifiedService;
 
+    @Autowired
+    AccountRepository accountRepository;
+
 
 
     @GetMapping("/emailverified")
-    public List<EmailVerified> getAllEmailVerified(@RequestParam int accountId) {
-        return emailVerifiedService.getEmailVerifed(accountId);
+    public List<EmailVerified> getAllEmailVerified(HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        Account account = accountRepository.findAccountByUsername(username);
+        return emailVerifiedService.getEmailVerifed(account.getId());
 
     }
 
     @PostMapping("emailverified/verify")
-    public ResponseEntity verifyEmail(@RequestBody EmailVerified emailVerified, @RequestParam int accountId) {
-        boolean flag = emailVerifiedService.verifyEmail(emailVerified,accountId);
+    public ResponseEntity verifyEmail(@RequestBody EmailVerified emailVerified, HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = emailVerifiedService.verifyEmail(emailVerified,account.getId());
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Verify fail");
         }
