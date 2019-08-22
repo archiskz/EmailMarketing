@@ -74,4 +74,12 @@ public interface AppointmentSubcriberRepository extends JpaRepository<Appointmen
 
     @Query("SELECT COUNT(ap) FROM AppointmentSubcriber ap WHERE ap.appointmentGroupContact.appointment.id =:appointmentId and ap.bounce= true")
     Double countBounce(@Param("appointmentId") int appointmentId);
+
+
+    Double countBySubcriberEmailAndCreatedTimeContains(String subcriberEmail, String createTime);
+    Double countBySubcriberEmailAndCreatedTimeContainsAndOpenedIsTrue(String email, String createTime);
+    Double countBySubcriberEmailAndCreatedTimeContainsAndConfirmationIsTrue(String email, String createTime);
+    Double countBySubcriberEmailAndCreatedTimeContainsAndSendIsTrue(String email,String createTime);
 }
+
+

@@ -1,18 +1,16 @@
 package com.emailmkt.emailmarketing.impl;
 
 import com.emailmkt.emailmarketing.dto.*;
-import com.emailmkt.emailmarketing.model.Account;
-import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
-import com.emailmkt.emailmarketing.model.Subcriber;
+import com.emailmkt.emailmarketing.model.*;
 import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.SubcriberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -193,17 +191,17 @@ public class SubcriberServiceImpl implements SubcriberService {
             double totalClick = campaignSubcriberRepository.countBySubcriberEmailAndComfirmation(subcriber.getEmail(), true) + appointmentSubcriberRepository.countBySubcriberEmailAndConfirmation(subcriber.getEmail(), true);
             subcriber.setOpenRate(String.valueOf((int) totalOpen));
             subcriber.setClickRate(String.valueOf((int) totalClick));
-            if (subcriber.getPoint()>= 30) {
+            if (subcriber.getPoint() >= 30) {
                 subcriber.setType("1");
-            } else if (subcriber.getPoint()>=65) {
+            } else if (subcriber.getPoint() >= 65) {
                 subcriber.setType("2");
-            } else if(subcriber.getPoint()>=102){
+            } else if (subcriber.getPoint() >= 102) {
                 subcriber.setType("3");
-            }else if(subcriber.getPoint()>=247){
+            } else if (subcriber.getPoint() >= 247) {
                 subcriber.setType("4");
-            }else if(subcriber.getPoint()>=534){
+            } else if (subcriber.getPoint() >= 534) {
                 subcriber.setType("5");
-            }else{
+            } else {
                 subcriber.setType("No Rank");
             }
             subcriberRepository.save(subcriber);
@@ -220,15 +218,15 @@ public class SubcriberServiceImpl implements SubcriberService {
     @Override
     public boolean moveToBlackList(int subcriberId) {
         Subcriber subcriber = subcriberRepository.findSubcriberById(subcriberId);
-        if(subcriber == null){
+        if (subcriber == null) {
             return false;
         }
-        if(subcriber.isBlackList()){
+        if (subcriber.isBlackList()) {
             subcriber.setBlackList(false);
             subcriberRepository.save(subcriber);
-        }else{
-        subcriber.setBlackList(true);
-        subcriberRepository.save(subcriber);
+        } else {
+            subcriber.setBlackList(true);
+            subcriberRepository.save(subcriber);
         }
         return true;
     }
@@ -310,7 +308,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             dto.setBlackList(subcriber.isBlackList());
             dtos.add(dto);
         }
-        Comparator<SubcriberDTO> createTimeComparator = (o1, o2)->o1.getCreatedTime().compareTo(o2.getCreatedTime());
+        Comparator<SubcriberDTO> createTimeComparator = (o1, o2) -> o1.getCreatedTime().compareTo(o2.getCreatedTime());
         dtos.sort(createTimeComparator.reversed());
         return dtos;
     }
@@ -329,18 +327,86 @@ public class SubcriberServiceImpl implements SubcriberService {
             groupContactSubcriberRepository.deleteSubcriberFromGroup(id, groupId);
             return "sucess";
         }
-
-
-//
-
     }
 
-    @Scheduled(cron = "0 0 17 ? * *")
+
     @Override
     public void autoUpdatePointSubcriber() {
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+//        String formatTime = LocalDateTime.now().minusDays(1).format(formatter);
+        String formatTime = LocalDateTime.now().format(formatter);
         for (Subcriber subcriber : subcriberRepository.findAll()) {
+            Long point = subcriber.getPoint();
+            double totalRequest = campaignSubcriberRepository.countBySubcriberEmailAndCreatedTimeContains(subcriber.getEmail(), formatTime)
+                    + appointmentSubcriberRepository.countBySubcriberEmailAndCreatedTimeContains(subcriber.getEmail(), formatTime);
+            double totalOpen = campaignSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndOpenedIsTrue(subcriber.getEmail(), formatTime)
+                    + appointmentSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndOpenedIsTrue(subcriber.getEmail(), formatTime);
+            double totalClick = campaignSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndComfirmationIsTrue(subcriber.getEmail(), formatTime)
+                    + appointmentSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndConfirmationIsTrue(subcriber.getEmail(), formatTime);
+            double totalSent = campaignSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndSendIsTrue(subcriber.getEmail(),formatTime)
+                    + appointmentSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndConfirmationIsTrue(subcriber.getEmail(),formatTime);
 
+            double openRate = (Math.round(totalOpen / totalRequest));
+            double clickRate = (Math.round(totalClick / totalRequest));
+            List<CampaignSubcriber> campaignSubcribers = campaignSubcriberRepository.findCampaignSubcriberBySubcriberEmailAndCreatedTimeContainsOrderByCreatedTimeDesc(subcriber.getEmail(),
+                    formatTime);
+            ListIterator<CampaignSubcriber> listIterator = campaignSubcribers.listIterator();
+            boolean clickRow = false;
+            boolean openRow = false;
+            //Dx
+            while(listIterator.hasNext()){
+                if(listIterator.previous().isOpened()&&listIterator.next().isOpened()){
+                    openRow = true;
+                }
+                if(listIterator.next().isComfirmation()&&listIterator.previous().isComfirmation()){
+                    clickRow = true;
+                }
+            }
+
+
+            if(totalSent >= 1){
+                point += 2;
+            }
+
+            if(totalOpen <= 2 && totalSent >= 3){
+                point -=5;
+            }
+            if (openRate <= 25 && openRate >= 10) {
+                point += 5;
+
+            }
+            if (openRate > 25 && openRate <= 75) {
+                point += 10;
+
+            }
+            if (openRate > 75) {
+                point += 15;
+            }
+            if (clickRate <= 25 && clickRate >= 10) {
+                point += 10;
+
+            }
+            if (clickRate > 25 && clickRate <= 75) {
+                point += 15;
+
+            }
+            if (clickRate > 75) {
+                point += 20;
+            }
+            if(openRow == true){
+                point += 10;
+            }
+            if(clickRow == true){
+                point+= 20;
+            }
+            System.out.println(point);
+            //+ mark by Level
+            double level = Integer.parseInt(subcriber.getType());
+            double pointPlus = (level + 1) * Math.log(level);
+            point = point + (int)pointPlus;
+
+            subcriber.setPoint(point);
+            subcriberRepository.save(subcriber);
         }
     }
 

@@ -47,6 +47,8 @@ public interface SubcriberService {
 
     List<Subcriber>getSubcriberBySegment(List<SegmentDTO> segmentDTO,String condition);
 
+
+
 //    List<Account> getAllAccountsByCustomer();
 //    Account loginForCustomer(String username, String password);
 }
