@@ -347,7 +347,7 @@ handleCheck=(event)=>{
                             />
                                     )) : <tr style={{"color":"red", "textAlign":"center", "width":"100%"}}><td className=" border_bottom_none"></td><td className=" border_bottom_none"></td><p style={{"color":"red", "textAlign":"center", "width":"100%"}}>No record found</p></tr> }
                         </tbody>
-                        <button onClick={()=>this.openModal()} style={{"marginLeft":"10px", marginTop:"10px"}} type="button" class="btn btn-primary">Save as Group</button>
+                        <button onClick={()=>this.openModal()} style={{"marginLeft":"10px", marginTop:"10px"}} type="button" class={`btn btn-primary ${listSegment.length > 0 ? '':'activeText'}`}>Save as Group</button>
                       
                       </table>
                        
