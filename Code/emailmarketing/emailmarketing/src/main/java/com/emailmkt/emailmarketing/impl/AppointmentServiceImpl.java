@@ -224,7 +224,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         AppointmentFullDTO appointmentDTO = new AppointmentFullDTO();
 
         appointmentDTO.setName(appointment.getName());
-        appointmentDTO.setTime(appointmentDTO.getTime());
+        appointmentDTO.setTime(appointment.getTime());
         appointment.setStatus(appointment.getStatus());
         appointmentDTO.setBody(appointment.getBody());
         appointmentDTO.setFrom(appointment.getSender());

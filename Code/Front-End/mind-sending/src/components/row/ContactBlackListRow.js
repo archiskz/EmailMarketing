@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import { withRouter } from "react-router";
 import Modal from 'react-awesome-modal';
 import axios from 'axios';
-import RatingBar from './../bar/RatingBar';
+import RatingBar from '../bar/RatingBar';
 import ReactNotification from "react-notifications-component";
 import * as Config from '../../constants/Config';
-class ContactRow extends Component {
+class ContactBlackListRow extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -79,8 +79,7 @@ class ContactRow extends Component {
           <td class="md_tablet6_tbody_td"><RatingBar score={this.props.score} /></td>
           <td class="md_tablet6_tbody_td">
           {this.props.contactActions}
-          <a class="fas fa-edit margin_td_fontawsome" onClick={()=>this.openModal()} title="Edit"> </a>
-          <a class="fas fa-ban margin_td_fontawsome" onClick={()=>this.openModalDelete()} title="Move to blacklist"> </a>
+          <a class="fas fa-redo-alt margin_td_fontawsome" onClick={()=>this.openModalDelete()} title="Remove to blacklist"> </a>
           {/* <a class="fas fa-trash-alt" onClick={()=>this.openModalDelete()} title="Delete"> </a> */}
           </td>
           <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.updateContactVisible} width="440" height="660" effect="fadeInUp" onClickAway={() => this.closeModal()}>
@@ -217,7 +216,7 @@ class ContactRow extends Component {
 
 
 
-export default withRouter(ContactRow);
+export default withRouter(ContactBlackListRow);
 
 
 

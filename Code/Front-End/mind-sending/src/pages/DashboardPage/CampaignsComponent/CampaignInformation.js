@@ -459,7 +459,7 @@ class CampaignInformation extends Component{
             </div>
             <div className="user_profile3 flex100" style={{"backgroundColor":"white", boxShadow: "0 1px 2px 1px rgba(0,0,0,.2)", width:"95%", "boderRadius":"50px", position:"relative", right:"-18px"}}>
             {this.state.data1 == null || this.state.data1.length <= 0 ?  null : 
-              <FunelChart data1={this.state.data1} />
+              <FunelChart title="Campaign Statistic" data1={this.state.data1} />
             }
             </div>
             <Tabs style={{marginTop:"20px","backgroundColor":"white", boxShadow: "0 1px 2px 1px rgba(0,0,0,.2)", "boderRadius":"50px", width:"95%", position:"relative", right:"-18px"}}>

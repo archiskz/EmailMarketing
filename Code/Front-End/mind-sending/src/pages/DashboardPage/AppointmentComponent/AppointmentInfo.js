@@ -15,12 +15,18 @@ import Modal from 'react-awesome-modal';
 import OneTemplate from '../../../components/OneTemplate';
 import ValidateField from '../../../components/inputValidate/ValidateField';
 import DatePicker from 'react-datepicker';
+import EmailEditor from 'react-email-editor';
 import "react-datepicker/dist/react-datepicker.css";
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import "react-tabs/style/react-tabs.css";
+import FunelChart from '../../../components/chart/FunelChart'
 class AppointmentInfo extends Component{
    constructor(props) {
      super(props);
-
+     this.editora = null; 
+     this.isComponentMounted = false;
+     this.isEditorLoaded = false;
      this.state = {
        auth_token:"",
        validates:{},
@@ -58,26 +64,45 @@ class AppointmentInfo extends Component{
         appointmentInfo:{
         },
         selectedGrup :[],
-            
+            data1:[],
+            contactBounce: [
+              ""
+            ],
+            contactClicked: [
+              ""
+            ],
+            contactDelivery: [
+              ""
+            ],
+            contactOpened: [
+              ""
+            ],
+            contactRequest: [
+              ""
+            ],
+            contactSpam: [
+              ""
+            ]
      };
      this.fields = { text: 'name', value: 'id' };
      this.handleChange = this.handleChange.bind(this);
      this.openModal = this.openModal.bind(this);
+     this.onLoad = this.onLoad.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     // this.handleDate = this.handleDate.bind(this);
    }
   
   componentDidMount (){
+    this.isComponentMounted = true; 
     const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
     },()=> {
       this.getAllGroupContacts();
       this.getAppointmentById(this.props.history.location.state.id)
-     
       this.getAllTemplates();
-      
+      this.loadTemplate()
     });
      
      this.setState({height: this.refs.height.clientHeight})
@@ -86,18 +111,31 @@ class AppointmentInfo extends Component{
 
    }
    getAppointmentById=(id)=>{
+     var self = this
     axios.get(`${Config.API_URL}appointment/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
-      console.log(response)
-      var oldGroups = response.data.appointmentGroupContacts
+      console.log(response.data)
+      var oldGroups = response.data.gcAppointmentDTOS
       console.log(oldGroups)
           let oldGroupsNumber = oldGroups.map((group, index, oldGroups)=>{
-            return group.id
+            return group.groupContactId
           },()=>console.log(oldGroupsNumber))
       this.setState({
         appointmentInfo: response.data,
         selectedGrup: oldGroupsNumber,
-      });
+        data1:[
+          { x: "Clicked", y: response.data.clickRate, text: "Clicked" },
+              { x: "Opened", y: response.data.openRate, text: "Opened" },
+               { x: "Delivery", y: response.data.delivery, text: "Delivery" },
+               { x: "Request", y: response.data.request, text: "Request" }
+        ],
+        contactBounce: response.data.contactBounce,
+            contactClicked:response.data.contactClicked,
+            contactDelivery: response.data.contactDelivery ,
+            contactOpened: response.data.contactOpened,
+            contactRequest: response.data.contactRequest
+            ,contactSpam: response.data.contactSpam
+      },()=> console.log(this.state));
     })
     .catch(error => {
       console.log(error);
@@ -207,7 +245,13 @@ class AppointmentInfo extends Component{
     listTemplates=listTemplates.filter(item=> item.type=="iv");
     var tempDate = new Date();
     var minDate = (tempDate.getMonth()+1) + '/' + tempDate.getDate() +'/'+tempDate.getFullYear() + ' ' +  tempDate.getHours()+':'+ tempDate.getMinutes();
-   
+    var bounces = this.state.contactBounce
+    var spams = this.state.contactSpam
+    var opens = this.state.contactOpened
+    var clicks = this.state.contactClicked
+    var deliverys = this.state.contactDelivery
+    var requests = this.state.contactRequest
+
      return (
        <div style={{"width":"100%","height":"100%"}}>
       <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
@@ -240,7 +284,7 @@ class AppointmentInfo extends Component{
         {/* </div> */}
         <div className="user_profile">
       <div className="user_profile2">
-      <div className="user_profile3" ref="height">
+      <div className="user_profile3 flex50" ref="height">
         	<div className="user_profile4" >
           <div className="user_profile5">
         		<h4 className="user_profile5_h4">Appointment Name:</h4>
@@ -304,7 +348,7 @@ class AppointmentInfo extends Component{
         					
         						<input disabled aria-invalid="false" placeholder="Sender Name" name="from" onChange={this.handleChange} className="user_profile_w3_input"
                      id="company-disabled" type="text" 
-                     value={this.state.appointmentInfo.sender} 
+                     value={this.state.appointmentInfo.from} 
 
                      />
         						{/* <input cols="1" rows="1" className="inputContact"  type="text" /> */}
@@ -341,160 +385,299 @@ class AppointmentInfo extends Component{
         					</div>
         				
         			</div>
-              {/* <a className='user_profile_btn' onClick={this.openModal}  tabindex="0" type="button">
-        					Choose Template
-        				</a> */}
+              <a className='user_profile_btn' onClick={this.openModal}  tabindex="0" type="button">
+        					Preview
+        				</a>
         		</div>
             {/* ENDSUBJECT */}
             {/* Content */}
 	
             {/* END CONTENT */}
-            <Modal visible={this.state.modalIsOpen} width="80%" height="96%" effect="fadeInUp" 
-      onClickAway={this.closePreviewModal}>
             
-            
-          <div className="flash_notice">
-          </div>
-        <div className="container" style={{"background":"white", "height":"96%"}} data-role="main-app-container">
-        <div>
-  <div data-role="marketing-templates-app" className="container">
-    <div className="templates-list-views listView-css__list-view___1G-eZ">
-      <header className="row">
-                        <div className="col-md-6">
-                            <span>
-                                <h1 className="">
-                                    <span style={{"fontFamily": "Calibri"}} className="pageTitle-css__title-heading___3H2vL">Invitation Templates
-                                        <span>&nbsp;</span>
-                                    </span>
-                                </h1>
-                            </span>
-                        </div>
-                        <div className="col-md-6" style={{"display": "block", "textAlign":"left", "paddingLeft":"13%"}}>
-                            
-                            {/* <Link icon="segment" style={{"float":"left","display": "inline-block"}} className="width50 btn_create_contact" to="/new-template">
-                                    <i className="sg-icon sg-icon-segment"></i>
-                                    Continue
-                                </Link> */}
-                                <a icon="segment" style={{"float":"left","display": "inline-block"}} className="width50 btn_create_contact" onClick={this.closeModal}>
-                                    <i className="sg-icon sg-icon-segment"></i>
-                                    Cancel
-                                </a>
-                            
-                        </div>
-        <div className="col-md-12">
-        
-        </div>
-        <div className="col-md-6">
-        </div>
-      </header>
-      <div className="thumbnail-views" style={{"width": "90%","height":"75%"}}>
-      {listTemplates.map(list=>(
-               <OneTemplate
-                    campaignId={this.props.campaignId}
-                    id={list.id}
-                    key={list.index}
-                    templateName={list.nameTemplate}   
-                    image={this.state.htmlImage}
-                    preview={false}
-                    content={list.content}
-                    onChooseTemplate = {this.onChooseTemplate}
-                     />
-          ))}    
-      </div>
-    </div>
-  </div>
-</div>
-
-        </div>
-        
-    
-        
-  </Modal>
         	</div>
         	
         </div>
-        <div className="user_profile12">
+        <div className="user_profile12 flex50 maxwidth100">
         <div className="user_profile5_1">
             <h4 className="user_profile5_h4">Appointment detail</h4>
             <p className="user_profile5_p">Check your Appointment's summarize below here: </p>
             </div>
-        <div className="user_profile13">
-             <div className="user_section user_line"> 
-              <div className="user_line"> 
-              <div className="contact_information_detail">
-                <h4 >
-                {this.state.appointmentInfo.delivery}
-                    </h4>
-                <p >Delivery mail</p>
-              </div>
-              <div className="contact_information_detail">
-                <h4 >
-                {this.state.appointmentInfo.request}
-                    </h4>
-                <p >Request</p>
-              </div>
-              </div>
-             </div>
-             <div className="user_section user_line"> 
-              <div className="user_line"> 
-              <div className="contact_information_detail">
-                <h4 >
-                {this.state.appointmentInfo.bounce}
-                    </h4>
-                <p >Bounce rate</p>
-              </div>
-              <div className="contact_information_detail">
-                <h4 >
-                {this.state.appointmentInfo.openRate}
-                    </h4>
-                <p >Open rate</p>
-              </div>
-              </div>
-              </div>
-              <div className="user_section user_line"> 
-              <div className="user_line"> 
-              <div className="contact_information_detail">
-                <h4 >
-                {this.state.appointmentInfo.clickRate}
-                    </h4>
-                <p >Click rate</p>
-              </div>
-              
+            <div className="user_profile3 flex100" style={{"backgroundColor":"white", boxShadow: "0 1px 2px 1px rgba(0,0,0,.2)", width:"95%", "boderRadius":"50px", position:"relative", right:"-18px"}}>
+            {this.state.data1 == null || this.state.data1.length <= 0 ?  null : 
+              <FunelChart title="Appointment Statistic" data1={this.state.data1} />
+            }
+            </div>
+            <Tabs style={{marginTop:"20px","backgroundColor":"white", boxShadow: "0 1px 2px 1px rgba(0,0,0,.2)", "boderRadius":"50px", width:"95%", position:"relative", right:"-18px"}}>
+                  <TabList>
+                    <Tab>Request</Tab>
+                    <Tab>Delivery</Tab>
+                    <Tab>Bounce</Tab>
+                    <Tab>Spam</Tab>
+                    <Tab>Opened</Tab>
+                    <Tab>Clicked</Tab>
+                  </TabList>
 
-              <div className="contact_information_detail">
-                <h4 >
-                {this.state.appointmentInfo.spamRate}
-                    </h4>
-                <p >Spam rate</p>
-              </div>
-              </div>
-              </div>
-              {/* <div className="user_section user_line"> 
-              <div className="user_line"> 
-              <div className="contact_information_detail">
-                <h4 >
-                        0%
-                    </h4>
-                <p >Delivery rate</p>
-              </div>
-              <div className="contact_information_detail">
-                <h4 >
-                        0%
-                    </h4>
-                <p >Sent rate</p>
-              </div>
-              </div>
-              
-             </div>    */}
+                  <TabPanel>
+                  {/* Request */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+                  {/* {this.state.request} */}
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                { requests.length > 0 ? 
+                  requests.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{list.email}</td>
+                    <td>{list.firstName}</td>
+                    <td>{list.lastName}</td>
+                  </tr>
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Delivery */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+               
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                { deliverys.length > 0 ?
+                  deliverys.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{list.email}</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  
+                  {/* {this.state.delivery} */}
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Bounce */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+    
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                { bounces.length > 0 ? 
+                  bounces.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{list.email}</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  
+                  {/* {this.state.bounce} */}
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Spam */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+    
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {
+                  spams.length > 0 ? 
+                  spams.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{list.email}</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Opened */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {
+                  opens.length > 0 ? 
+                  opens.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{list.email}</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  
+                  {/* {this.state.open} */}
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Clicked */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                { 
+                  clicks.length > 0 ? 
+                  clicks.map((list,index) => (
+                    <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{list.email}</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  {/* {this.state.click} */}
+                  </TabPanel>
+            </Tabs>
+        
             </div>
-            </div>
-   </div>
-   </div>
-      </div>
+        </div>
+        </div>
+        <Modal visible={this.state.modalIsOpen} width="100%" height="100%" effect="fadeInUp" onClickAway={this.closeModal}>
+         <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
+          <nav class="toolbar-css__nav___27cII">
+            <span style={{cursor: "default"}} data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
+                <span class="navToggleButton-css__code___2bWGz">
+                </span>
+                <strong class="navToggleButton-css__toggle-name___3Y4ez">Preview Content</strong>
+            </span>
+        </nav>
+        <span class="toolbar-css__save-container___2x7qH">
+        </span>
+        <span class="toolbar-css__send-container___AbB6n">
+        <a onClick={this.closeModal} icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
+            <i class="sg-icon sg-icon-airplane-fill">
+
+            </i>Cancel
+        </a>
+    </span>
+    </div>
+    <EmailEditor displayMode= {'email'}
+      projectId={1071}
+      onLoad={this.onLoad}
+      options={{
+          customCSS: [
+            `
+              #u_body{
+               
+              }
+            `,
+            `
+              .blockbuilder-branding {
+                display: none !important;
+              }
+            `,
+            `
+            .tab-content {
+              height: 100% !important;
+              background-color: white !important;
+            }
+            `,
+            `${this.props.history.location.state.status == "Draft"  ? '.blockbuilder-preferences { display: inline-block;} ': '.blockbuilder-preferences { display: none ;visibility: hidden } .blockbuilder-preview {width: 100% }'}`,
+            
+            // `${this.state.updateCampaign.campaignDTO.status == "Draft" ? '.blockbuilder-preferences { display: block ; }': '.blockbuilder-preferences { display: inline-block;}'}`,
+            
+            `#u_row_11 {
+              display: none;
+              visibility: hidden
+            }`
+            
+          ],
+          customJS: [
+            window.location.protocol + '//' + window.location.host + '/custom.js',
+            // window.location.protocol + '//' + window.location.host + '/custom1.js',
+          ],
+                  mergeTags: [
+            {name: "First Name", value: "{{first_name}}"},
+            {name: "Last Name", value: "{{last_name}}"},
+            {name: "Email", value: "{{email}}"}
+          ]
+        }}
+      minHeight="700px"
+        ref={editora => this.editora = editora}
+      />
+
+      </Modal>
+        </div>
+  
+   
 
       );
   }
 
+  
   Validate = (name)=>{
     var validate = {};
     switch(name){
@@ -621,6 +804,16 @@ class AppointmentInfo extends Component{
     // });
   }
   
+  onLoad = () => { this.isEditorLoaded = true; this.loadTemplate(); }
+
+  loadTemplate = () => { 
+        if (!this.isEditorLoaded || !this.isComponentMounted) 
+     return; 
+        
+        if(this.props.history.location.state.bodyJson != null){
+          this.editora.loadDesign(JSON.parse(this.props.history.location.state.bodyJson))     
+        }   
+       }
  
   handleChange =(e)=> {
 		const { name, value } = e.target;
@@ -650,13 +843,7 @@ class AppointmentInfo extends Component{
 
 
   openModal() {
-    this.Validate('all')
-    if(this.state.canPass){
       this.setState({modalIsOpen: true});
-    }
-    
-
-    console.log("modal is open:" + this.state.modalIsOpen)
   }
 
   afterOpenModal() {

@@ -150,12 +150,14 @@ class AppointmentRow extends Component {
           );
       }
 
-      toListContact = (id)=> {        
+      toListContact = (id)=> {    
+        console.log(this.props.bodyJson)    
         this.props.history.push({
             pathname:`/appointment/:${id}`,
             state : {
               id: id,
-              name:this.props.contactEmail
+              name:this.props.contactEmail,
+              bodyJson: this.props.bodyJson
             },
         });
         }
