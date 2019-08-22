@@ -290,9 +290,9 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
     @Override
-    public List<SubcriberDTO> getAllSubcriberV2() {
+    public List<SubcriberDTO> getAllSubcriberV2(int accountId) {
 
-        List<Subcriber> subcribers = groupContactSubcriberRepository.findAllSubcriberIsActiveOrderByCreatedTimeDesc();
+        List<Subcriber> subcribers = groupContactSubcriberRepository.findAllSubcriberIsActiveOrderByCreatedTimeDesc(accountId);
 
         List<SubcriberDTO> dtos = new ArrayList<>();
         for (Subcriber subcriber : subcribers) {
@@ -306,6 +306,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             dto.setAddress(subcriber.getAddress());
             dto.setType(subcriber.getType());
             dto.setCreatedTime(subcriber.getCreatedTime());
+            dto.setBlackList(subcriber.isBlackList());
             dtos.add(dto);
         }
         Comparator<SubcriberDTO> createTimeComparator = (o1, o2)->o1.getCreatedTime().compareTo(o2.getCreatedTime());

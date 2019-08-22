@@ -38,7 +38,7 @@ public interface SubcriberService {
 
     List<Subcriber> searchByNameorEmail( String searchValue);
 
-    List<SubcriberDTO>getAllSubcriberV2();
+    List<SubcriberDTO>getAllSubcriberV2(int accountId);
 
     String deleteSubcriber(int id,int groupId);
 

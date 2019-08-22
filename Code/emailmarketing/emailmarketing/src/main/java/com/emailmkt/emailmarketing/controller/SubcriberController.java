@@ -1,7 +1,10 @@
 package com.emailmkt.emailmarketing.controller;
 
+import com.emailmkt.emailmarketing.Utils.Ultilities;
 import com.emailmkt.emailmarketing.dto.*;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Subcriber;
+import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.SubcriberRepository;
 import com.emailmkt.emailmarketing.service.SubcriberService;
 import org.slf4j.Logger;
@@ -11,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,6 +34,9 @@ public class SubcriberController {
     SubcriberService subcriberService;
 
     @Autowired
+    AccountRepository accountRepository;
+
+    @Autowired
     public SubcriberController(SubcriberRepository subcriberRepository) {
         this.subcriberRepository = subcriberRepository;
     }
@@ -43,8 +50,10 @@ public class SubcriberController {
 
 
     @GetMapping("/subcribersV2")
-    public ResponseEntity<List<SubcriberDTO>> getAllSubcriber() {
-        List<SubcriberDTO> vms = subcriberService.getAllSubcriberV2();
+    public ResponseEntity<List<SubcriberDTO>> getAllSubcriber(HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        Account account = accountRepository.findAccountByUsername(username);
+        List<SubcriberDTO> vms = subcriberService.getAllSubcriberV2(account.getId());
         return new ResponseEntity<List<SubcriberDTO>>(vms, HttpStatus.OK);
     }
 

@@ -25,6 +25,8 @@ public class SubcriberDTO {
 
     private String tag;
 
+    boolean blackList;
+
     private List<GCSubcriberDTO> gcSubcriberDTOS;
     private String createdTime;
 }
