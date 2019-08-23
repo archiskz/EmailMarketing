@@ -191,18 +191,16 @@ public class SubcriberServiceImpl implements SubcriberService {
             double totalClick = campaignSubcriberRepository.countBySubcriberEmailAndComfirmation(subcriber.getEmail(), true) + appointmentSubcriberRepository.countBySubcriberEmailAndConfirmation(subcriber.getEmail(), true);
             subcriber.setOpenRate(String.valueOf((int) totalOpen));
             subcriber.setClickRate(String.valueOf((int) totalClick));
-            if (subcriber.getPoint() >= 30) {
+            if (subcriber.getPoint() >= 0 && subcriber.getPoint() < 30) {
                 subcriber.setType("1");
-            } else if (subcriber.getPoint() >= 65) {
+            } else if (subcriber.getPoint() >= 30 && subcriber.getPoint() < 65) {
                 subcriber.setType("2");
-            } else if (subcriber.getPoint() >= 102) {
+            } else if (subcriber.getPoint() >= 65 && subcriber.getPoint() < 102) {
                 subcriber.setType("3");
-            } else if (subcriber.getPoint() >= 247) {
+            } else if (subcriber.getPoint() >= 102 && subcriber.getPoint() < 237) {
                 subcriber.setType("4");
-            } else if (subcriber.getPoint() >= 534) {
+            } else if (subcriber.getPoint() >= 237 ) {
                 subcriber.setType("5");
-            } else {
-                subcriber.setType("0");
             }
             subcriberRepository.save(subcriber);
         }
@@ -337,7 +335,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 //        String formatTime = LocalDateTime.now().minusDays(7).format(formatter);
 //        String formatTime = LocalDateTime.now().format(formatter);
-        String formatTime = "08/13/2019";
+        String formatTime = "08/22/2019";
         for (Subcriber subcriber : subcriberRepository.findAll()) {
             Long point = subcriber.getPoint();
             if(point<0 ){
@@ -360,23 +358,24 @@ public class SubcriberServiceImpl implements SubcriberService {
             boolean clickRow = false;
             boolean openRow = false;
             //Dx
+            if(campaignSubcribers.size()>0) {
+                for (int counter = 1; counter <= campaignSubcribers.size(); counter++) {
+                    int next = counter + 1;
 
-            for(int counter = 1; counter<=campaignSubcribers.size();counter++){
-                int next = counter + 1;
-                if(next == campaignSubcribers.size()){
-                    break;
-                }
-                CampaignSubcriber campaignSubcriber = campaignSubcribers.get(counter);
-                CampaignSubcriber campaignSubcriberNext = campaignSubcribers.get(next);
-                CampaignSubcriber campaignSubcriberPrevious = campaignSubcribers.get(counter-1);
-                if(campaignSubcriber.isOpened()&&campaignSubcriberNext.isOpened()&&campaignSubcriberPrevious.isOpened()){
-                    openRow = true;
-                }
-                if(campaignSubcriber.isComfirmation()&&campaignSubcriberNext.isComfirmation()&&campaignSubcriberPrevious.isComfirmation()){
-                    clickRow = true;
+                    if (next == campaignSubcribers.size()) {
+                        break;
+                    }
+                    CampaignSubcriber campaignSubcriber = campaignSubcribers.get(counter);
+                    CampaignSubcriber campaignSubcriberNext = campaignSubcribers.get(next);
+                    CampaignSubcriber campaignSubcriberPrevious = campaignSubcribers.get(counter - 1);
+                    if (campaignSubcriber.isOpened() && campaignSubcriberNext.isOpened() && campaignSubcriberPrevious.isOpened()) {
+                        openRow = true;
+                    }
+                    if (campaignSubcriber.isComfirmation() && campaignSubcriberNext.isComfirmation() && campaignSubcriberPrevious.isComfirmation()) {
+                        clickRow = true;
+                    }
                 }
             }
-
             if (totalSent >= 1) {
                 point += 2;
             }
@@ -415,8 +414,11 @@ public class SubcriberServiceImpl implements SubcriberService {
             System.out.println(point);
             //+ mark by Level
             double level = Integer.parseInt(subcriber.getType());
-            double pointPlus = (level + 1) * Math.log(level);
-            point = point + (int) pointPlus;
+            if(level >0 ){
+                double pointPlus = (level + 1) * Math.log(level);
+                point = point + (int) pointPlus;
+            }
+
 
             subcriber.setPoint(point);
             subcriberRepository.save(subcriber);

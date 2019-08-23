@@ -83,13 +83,19 @@ class CreateContact extends Component {
             this.setState({
                 auth_token: appState.user.auth_token
             },()=> {
+              this.tryLoad()
                     this.getAllContacts()
                     this.loadStatitic()
             } )
 
            
         }   
-    
+        tryLoad=()=>{
+          axios.get(`${Config.API_URL}subcriber/autoupdate`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+          .then(res => {
+          }).catch(function (error) {
+            });
+        }
    
         loadStatitic=()=>{
           axios.get(`${Config.API_URL}subcriber/statistic`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
