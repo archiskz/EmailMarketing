@@ -936,23 +936,23 @@ div#funnel-chart {
 }
 .bar1{
   background-color: #B2EBF2;
-   background-image: linear-gradient(to right, #D8E6F3 , #B2CDE6)
+   background-image: linear-gradient(to right, #6bb34d , #6ab04c)
 }
 .bar2{
   background-color: #00BCD4;
-  background-image: linear-gradient(to right, #B2CDE6 , #8DB3D8)
+  background-image: linear-gradient(to right, #6ab04c , #60a145)
 }
 .bar3{
   background-color: #03A9F4;
-  background-image: linear-gradient(to right, #8DB3D8 , #689ACA)
+  background-image: linear-gradient(to right, #60a145 , #568f3d)
 }
 .bar4{
   background-color: #448AFF;
-   background-image: linear-gradient(to right, #689ACA , #4381BC)
+   background-image: linear-gradient(to right, #568f3d , #4b7d36)
 }
 .bar5{
   background-color: #3F51B5;
-  background-image: linear-gradient(to right, #4381BC , #388A9E)
+  background-image: linear-gradient(to right, #4b7d36 , #406b2e)
 }
 .inactiveBar{
   background-color: #BDBDBD !important;
