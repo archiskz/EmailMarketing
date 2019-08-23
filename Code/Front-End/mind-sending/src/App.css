@@ -982,3 +982,14 @@ input[type="email"]:disabled {
     overflow-x: hidden !important;
     overflow:hidden !important;
 }
+button.btn.btn-primary {
+    border-radius: 50px;
+    width: 200px;
+    height: 50px;
+    font-size: 18px;
+    background: #0ec500;
+    border:none
+}
+.form-embed {
+  text-align: center  
+}

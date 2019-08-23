@@ -35,6 +35,7 @@ class TestForm extends Component {
             address: "",
             dob:"",
             },
+            headline: "",
             isShow:true,
             isEmpty: false
         }     
@@ -58,7 +59,8 @@ class TestForm extends Component {
                 console.log(res.data);
                 if(res.data == null || res.data == undefined || res.data == ""){
                     self.setState({
-                        isShow: false
+                        isShow: false,
+                        headline: res.data.code
                     })
                 }
                 var formDisplay = new String();
@@ -100,9 +102,11 @@ class TestForm extends Component {
     render(){
         /* Simply pass myCustoms to */
         return(
-            <div id="code_preview" className={`${this.state.isShow ? '':'activeText'}`} style={{"marginLeft":"0px !important","width":"360px", "border":"1px solid black","padding":"15px", "borderRadius":"10px", "opacity":"0.8"}}>
-            JOIN US <br/><br/>
-            <form>
+            <div id="code_preview" className={`${this.state.isShow ? '':'activeText'}`} style={{"marginLeft":"0px !important","width":"360px","padding":"15px"}}>
+          
+            <form className="form-embed">
+            <b>{this.state.headline}</b>
+            <br/><br/>
                     <div class="form-group">
                         <input name="email" type="email" value={this.state.newSubcriber.email} onChange={this.handleChange} class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email"/>
                     </div>

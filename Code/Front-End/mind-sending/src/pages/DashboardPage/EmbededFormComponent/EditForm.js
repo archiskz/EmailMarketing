@@ -78,6 +78,7 @@ class EditForm extends React.Component {
                         groupContactId: Groupid
                         }
                     ],
+                    code: res.data.code
                 }})
                 var formDisplay = new String();
                 formDisplay = res.data.form
@@ -192,11 +193,13 @@ class EditForm extends React.Component {
                     </h3>
                 </div>
                 
-                <div id="code_preview" className="ml30p" style={{"marginLeft":"0px !important","width":"360px", "border":"1px solid black","padding":"15px", "borderRadius":"10px"}}>
-            JOIN US <br/><br/>
-            <form>
+                <div id="code_preview" className="ml30p" style={{"marginLeft":"0px !important","width":"360px","padding":"15px","textTransform":"uppercase"}}>
+            
+            <form className="form-embed">
+            <b>{this.state.newForm.code}</b>
+            <br/><br/>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email"/>
+                        <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="Email"/>
                     </div>
                     <div class={'form-group' +  (this.state.firstName ? " " : " activeText" )}>
                         <input type="text" class="form-control" id="exampleInputPassword1" placeholder="First Name"/>
@@ -266,7 +269,15 @@ class EditForm extends React.Component {
                                 <span>Form Name</span>
                                 <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
                             </div>
-                            <input disabled="true" onChange={this.handleChange} value={this.state.newForm.name} class="user_profile_w3_input" name="button" type="text" autocomplete="off" maxlength="64"/>
+                            <input disabled="true" onChange={this.handleChange} value={this.state.newForm.name} class="user_profile_w3_input" name="name" type="text" autocomplete="off" maxlength="64"/>
+                        </div>
+                        <div class="FormFieldContainer-cVnFXD gVnSPE">
+                            <div class="FormFieldLabel-jJcHUJ foZsFZ">
+                                <span>Headline</span>
+                                <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
+                            </div>
+                            <input onChange={this.handleChange} value={this.state.newForm.code} class="user_profile_w3_input" name="code" type="text" autocomplete="off" maxlength="64"/>
+                            {/* <ValidateField isValidate={false} isError = {this.state.validates.nameValidate} /> */}
                         </div>
                         <div class="FormFieldContainer-cVnFXD gVnSPE">
                             <div class="FormFieldLabel-jJcHUJ foZsFZ">
@@ -312,10 +323,11 @@ class EditForm extends React.Component {
 
     handleChange=(event)=>{
         const value = event.target.value
+        const name = event.target.name
         this.setState({
             newForm: {
                 ...this.state.newForm,
-                name: value
+                [name]: value
             }
         })
     }
