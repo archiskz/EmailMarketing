@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Template;
 import com.emailmkt.emailmarketing.repository.TemplateRepository;
 import com.emailmkt.emailmarketing.service.TemplateService;
@@ -27,7 +28,7 @@ public class TemplateServiceImpl implements TemplateService {
 
 
     @Override
-    public boolean createTemplate(Template template) {
+    public boolean createTemplate(Template template, Account account) {
             System.out.println(template.getNameTemplate());
             Template checkExistedTemplate = templateRepository.findByNameTemplate(template.getNameTemplate());
             if (checkExistedTemplate != null) {
@@ -35,7 +36,7 @@ public class TemplateServiceImpl implements TemplateService {
             }
 
 
-            template.setAccount_id(1);
+            template.setAccount_id(account.getId());
             template.setNameTemplate(template.getNameTemplate());
             template.setType("ct");
             template.setCreated_time(LocalDateTime.now().toString());
@@ -49,13 +50,13 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public boolean copyTemplateGallery(int templateId, String name) {
+    public boolean copyTemplateGallery(int templateId, String name,Account account) {
         Template templateGallery = templateRepository.findTemplateById(templateId);
         Template templateTemp = templateRepository.findByNameTemplate(name);
         Template template = new Template();
 
         if(templateGallery != null && templateTemp == null) {
-            template.setAccount_id(1);
+            template.setAccount_id(account.getId());
             template.setContentHtml(templateGallery.getContentHtml());
             template.setContentJson(templateGallery.getContentJson());
 

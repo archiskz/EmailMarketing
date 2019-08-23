@@ -26,10 +26,9 @@ public interface GroupContactSubcriberRepository extends JpaRepository<GroupCont
 
         @Query("SELECT DISTINCT gr.subcriber FROM GroupContactSubcriber gr JOIN Subcriber su ON gr.subcriber.id = su.id WHERE gr.active=1 and su.account_id =:accountId")
         List<Subcriber> findAllSubcriberIsActiveOrderByCreatedTimeDesc( @Param("accountId") int accountId);
-//        @Query("SELECT gr.name " +
-//                "FROM CampaignGroupContact com JOIN GroupContact gr ON com.groupContact.id = gr.id " +
-//                "WHERE com.campaign.id  = :campaignId")
-//        String[] findGroupByCampaignId(@Param("campaignId") int campaignId);
+
+
+        List<GroupContactSubcriber> findGroupContactSubcriberBySubcriber (Subcriber subcriber);
 
 
 

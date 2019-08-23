@@ -249,6 +249,27 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriberViewDTO.setOpenRate(subcriber.getOpenRate());
         subcriberViewDTO.setBelongCampaign(belongCampaign);
         subcriberViewDTO.setBelongGroup(belongGroup);
+        List<GroupContactDTO> groupContactDTOS =  groupContactSubcriberRepository.findGroupContactSubcriberBySubcriber(subcriber).stream().map(g->{
+            GroupContactDTO groupContactDTO = new GroupContactDTO();
+            groupContactDTO.setName(g.getGroupContact().getName());
+            groupContactDTO.setCreated_time(g.getGroupContact().getCreatedTime());
+            groupContactDTO.setId(g.getGroupContact().getId());
+            groupContactDTO.setDescription(g.getGroupContact().getDescription());
+            return groupContactDTO;
+        }).collect(Collectors.toList());
+        subcriberViewDTO.setGroupContactDTOList(groupContactDTOS);
+        List<CampaignDTO> campaignDTOS = campaignSubcriberRepository.findCampaignSubcriberBySubcriberEmail(subcriber.getEmail()).stream()
+                .map(g->{
+                CampaignDTO campaignDTO = new CampaignDTO();
+                campaignDTO.setCampaignName(g.getCampaignGroupContact().getCampaign().getName());
+                campaignDTO.setId(g.getCampaignGroupContact().getCampaign().getId());
+                campaignDTO.setStatus(g.getCampaignGroupContact().getCampaign().getStatus());
+                campaignDTO.setCreatedTime(g.getCreatedTime());
+                campaignDTO.setType(g.getCampaignGroupContact().getCampaign().getType());
+                return campaignDTO;
+                }).collect(Collectors.toList());
+
+        subcriberViewDTO.setCampaignDTOList(campaignDTOS);
         return subcriberViewDTO;
     }
 
