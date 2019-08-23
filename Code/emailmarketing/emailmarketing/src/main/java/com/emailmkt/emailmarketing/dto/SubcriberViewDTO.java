@@ -26,4 +26,6 @@ public class SubcriberViewDTO {
     int belongGroup;
     int belongCampaign;
 
+    String createdTime;
+
 }

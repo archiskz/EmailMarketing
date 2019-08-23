@@ -148,6 +148,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             subcriber.setEmail(subcriberDTO.getEmail());
             subcriber.setAddress(subcriberDTO.getAddress());
             subcriber.setBlackList(false);
+            subcriber.setPoint(Long.valueOf(0));
             subcriber.setPhone(subcriberDTO.getPhone());
             subcriber.setLastName(subcriberDTO.getLastName());
             subcriber.setFirstName(subcriberDTO.getFirstName());
@@ -237,6 +238,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
         Subcriber subcriber = subcriberRepository.findSubcriberById(id);
         subcriberViewDTO.setAddress(subcriber.getAddress());
+        subcriberViewDTO.setCreatedTime(subcriber.getCreatedTime());
         subcriberViewDTO.setType(subcriber.getType());
         subcriberViewDTO.setFirstName(subcriber.getFirstName());
         subcriberViewDTO.setLastName(subcriber.getLastName());
