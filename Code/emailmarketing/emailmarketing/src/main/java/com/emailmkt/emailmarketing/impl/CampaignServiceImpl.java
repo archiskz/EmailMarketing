@@ -558,6 +558,7 @@ public class CampaignServiceImpl implements CampaignService {
             return campaignGroupContact;
         }).collect(Collectors.toList());
         campaign.setAccount_id(1);
+        campaign.setCreatedTime(LocalDateTime.now().toString());
         campaign.setCampaignGroupContacts(campaignGroupContacts);
         campaign.setAutomation(false);
         campaign.setTimeStart(temp.getTimeStart());
