@@ -202,7 +202,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             } else if (subcriber.getPoint() >= 534) {
                 subcriber.setType("5");
             } else {
-                subcriber.setType("No Rank");
+                subcriber.setType("0");
             }
             subcriberRepository.save(subcriber);
         }
@@ -271,9 +271,11 @@ public class SubcriberServiceImpl implements SubcriberService {
     @Override
     public StatisticContactDTO countSubcriber() {
         StatisticContactDTO statisticContactDTO = new StatisticContactDTO();
-        statisticContactDTO.setBeginerContact(subcriberRepository.countByType("Beginner Contacts"));
-        statisticContactDTO.setIntermediateContact(subcriberRepository.countByType("Intermediate Contacts"));
-        statisticContactDTO.setAdvancedContact(subcriberRepository.countByType("Advanced Contacts"));
+        statisticContactDTO.setLevel1(subcriberRepository.countByType("1"));
+        statisticContactDTO.setLevel2(subcriberRepository.countByType("2"));
+        statisticContactDTO.setLevel3(subcriberRepository.countByType("3"));
+        statisticContactDTO.setLevel4(subcriberRepository.countByType("4"));
+        statisticContactDTO.setLevel5(subcriberRepository.countByType("5"));
         return statisticContactDTO;
     }
 
@@ -335,42 +337,52 @@ public class SubcriberServiceImpl implements SubcriberService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 //        String formatTime = LocalDateTime.now().minusDays(7).format(formatter);
 //        String formatTime = LocalDateTime.now().format(formatter);
-        String formatTime = "08/15/2019";
+        String formatTime = "08/13/2019";
         for (Subcriber subcriber : subcriberRepository.findAll()) {
             Long point = subcriber.getPoint();
+            if(point<0 ){
+                point = (long)0;
+            }
             double totalRequest = campaignSubcriberRepository.countBySubcriberEmailAndCreatedTimeContains(subcriber.getEmail(), formatTime)
                     + appointmentSubcriberRepository.countBySubcriberEmailAndCreatedTimeContains(subcriber.getEmail(), formatTime);
             double totalOpen = campaignSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndOpenedIsTrue(subcriber.getEmail(), formatTime)
                     + appointmentSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndOpenedIsTrue(subcriber.getEmail(), formatTime);
             double totalClick = campaignSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndComfirmationIsTrue(subcriber.getEmail(), formatTime)
                     + appointmentSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndConfirmationIsTrue(subcriber.getEmail(), formatTime);
-            double totalSent = campaignSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndSendIsTrue(subcriber.getEmail(),formatTime)
-                    + appointmentSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndConfirmationIsTrue(subcriber.getEmail(),formatTime);
+            double totalSent = campaignSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndSendIsTrue(subcriber.getEmail(), formatTime)
+                    + appointmentSubcriberRepository.countBySubcriberEmailAndCreatedTimeContainsAndConfirmationIsTrue(subcriber.getEmail(), formatTime);
 
             double openRate = (Math.round(totalOpen / totalRequest));
             double clickRate = (Math.round(totalClick / totalRequest));
             List<CampaignSubcriber> campaignSubcribers = campaignSubcriberRepository.findCampaignSubcriberBySubcriberEmailAndCreatedTimeContainsOrderByCreatedTimeDesc(subcriber.getEmail(),
                     formatTime);
-            ListIterator<CampaignSubcriber> listIterator = campaignSubcribers.listIterator();
+//            ListIterator<CampaignSubcriber> listIterator = campaignSubcribers.listIterator();
             boolean clickRow = false;
             boolean openRow = false;
             //Dx
-            while(listIterator.hasNext()){
-                if(listIterator.previous().isOpened()&&listIterator.next().isOpened()){
+
+            for(int counter = 1; counter<=campaignSubcribers.size();counter++){
+                int next = counter + 1;
+                if(next == campaignSubcribers.size()){
+                    break;
+                }
+                CampaignSubcriber campaignSubcriber = campaignSubcribers.get(counter);
+                CampaignSubcriber campaignSubcriberNext = campaignSubcribers.get(next);
+                CampaignSubcriber campaignSubcriberPrevious = campaignSubcribers.get(counter-1);
+                if(campaignSubcriber.isOpened()&&campaignSubcriberNext.isOpened()&&campaignSubcriberPrevious.isOpened()){
                     openRow = true;
                 }
-                if(listIterator.next().isComfirmation()&&listIterator.previous().isComfirmation()){
+                if(campaignSubcriber.isComfirmation()&&campaignSubcriberNext.isComfirmation()&&campaignSubcriberPrevious.isComfirmation()){
                     clickRow = true;
                 }
             }
 
-
-            if(totalSent >= 1){
+            if (totalSent >= 1) {
                 point += 2;
             }
 
-            if(totalOpen <= 2 && totalSent >= 3){
-                point -=5;
+            if (totalOpen <= 2 && totalSent >= 3) {
+                point -= 5;
             }
             if (openRate <= 25 && openRate >= 10) {
                 point += 5;
@@ -394,21 +406,22 @@ public class SubcriberServiceImpl implements SubcriberService {
             if (clickRate > 75) {
                 point += 20;
             }
-            if(openRow == true){
+            if (openRow == true) {
                 point += 10;
             }
-            if(clickRow == true){
-                point+= 20;
+            if (clickRow == true) {
+                point += 20;
             }
             System.out.println(point);
             //+ mark by Level
             double level = Integer.parseInt(subcriber.getType());
             double pointPlus = (level + 1) * Math.log(level);
-            point = point + (int)pointPlus;
+            point = point + (int) pointPlus;
 
             subcriber.setPoint(point);
             subcriberRepository.save(subcriber);
         }
+
     }
 
     @Override

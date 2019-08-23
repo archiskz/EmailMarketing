@@ -5,12 +5,13 @@ import lombok.Data;
 @Data
 public class StatisticContactDTO {
 
-    private long beginerContact;
+    private long level1;
 
-    private long intermediateContact;
+    private long level2;
 
-    private long advancedContact;
+    private long level3;
 
-
+    private long level4;
+    private long level5;
 
 }

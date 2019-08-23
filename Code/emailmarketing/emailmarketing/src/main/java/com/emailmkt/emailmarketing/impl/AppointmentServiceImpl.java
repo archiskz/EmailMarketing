@@ -342,7 +342,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 Map<String, String> map = new HashMap<>();
                 map.put("DATE", appointment.getTime());
                 map.put("APPOINTMENT_NAME", appointment.getName());
-                map.put("REJECT_APPOINTMENT","Link");
+                map.put("REJECT_APPOINTMENT","http://localhost:8080/api/deny-appointment?confirmationToken="+token+"&subcriberEmail="+email);
                 body = FreeMarkerTemplateUtils.processTemplateIntoString(t, map);
 
             } catch (Exception ex) {
