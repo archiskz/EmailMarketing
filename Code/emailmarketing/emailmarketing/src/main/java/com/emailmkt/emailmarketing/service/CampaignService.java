@@ -16,16 +16,16 @@ public interface CampaignService {
      boolean editCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO,int id);
     Campaign addContentToCampaign(Campaign campaign);
 
-    CampaignFullDTO getCampaginById(int id);
+    CampaignFullDTO getCampaignById(int id);
 
-    int copyCampaign(int campaignId, int workflowId);
+    int copyCampaign(int campaignId, int workflowId,Account account);
 
 
     void getStatisticCampaign();
 
     CampaignFullDTO getCampaignLatest(Account account);
 
-    boolean copyCampaign(int campaignId, String name);
+    boolean copyCampaign(int campaignId, String name, Account account);
 
     boolean checkDuplicatName(String name, int accountId);
 

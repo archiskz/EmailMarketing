@@ -100,5 +100,6 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
 
     List<CampaignSubcriber> findCampaignSubcriberBySubcriberEmailAndCreatedTimeContainsOrderByCreatedTimeDesc(String email, String createTime);
 
+    List<CampaignSubcriber> findCampaignSubcriberBySubcriberEmail(String subcriberEmail);
 }
 

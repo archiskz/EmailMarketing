@@ -331,7 +331,7 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public CampaignFullDTO getCampaginById(int id) {
+    public CampaignFullDTO getCampaignById(int id) {
         Campaign campaign = campaignRepository.findCampaignById(id);
         // Get Statistic of Campaign
         CampaignFullDTO campaignFullDTO = new CampaignFullDTO();
@@ -438,7 +438,7 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public int copyCampaign(int campaignId, int workflowId) {
+    public int copyCampaign(int campaignId, int workflowId, Account account) {
 
         Campaign temp = campaignRepository.findCampaignById(campaignId);
         Workflow workflow = workflowRepository.findWorkflowById(workflowId);
@@ -469,7 +469,7 @@ public class CampaignServiceImpl implements CampaignService {
 
             return campaignGroupContact;
         }).collect(Collectors.toList());
-        campaign.setAccount_id(1);
+        campaign.setAccount_id(account.getId());
         campaign.setCampaignGroupContacts(campaignGroupContacts);
         campaign.setAutomation(true);
         campaign.setTimeStart(temp.getTimeStart());
@@ -530,7 +530,7 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
-    public boolean copyCampaign(int campaignId, String name) {
+    public boolean copyCampaign(int campaignId, String name, Account account) {
         Campaign temp = campaignRepository.findCampaignById(campaignId);
         Campaign checked = campaignRepository.findByNameAndAccount_id(name, temp.getAccount_id());
         if (temp == null || checked != null) {
@@ -557,7 +557,7 @@ public class CampaignServiceImpl implements CampaignService {
             campaignGroupContact.setCampaign(campaign);
             return campaignGroupContact;
         }).collect(Collectors.toList());
-        campaign.setAccount_id(1);
+        campaign.setAccount_id(account.getId());
         campaign.setCreatedTime(LocalDateTime.now().toString());
         campaign.setCampaignGroupContacts(campaignGroupContacts);
         campaign.setAutomation(false);
