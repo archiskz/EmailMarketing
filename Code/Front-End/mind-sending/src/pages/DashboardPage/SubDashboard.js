@@ -27,9 +27,7 @@ class SubDashboard extends Component {
             contactStatitic:{},
             data1:[
               ],
-              dataPie:[{ x: 'Bronze', y: 50, text: '50%' }, { x: 'Silver', y: 20, text: '20%' },
-              { x: 'Gold', y: 15, text: '15%' }, { x: 'Planinum', y: 11, text: '11%' },
-              { x: 'Diamond', y: 4, text: '4%' }]
+              dataPie:[]
         };
     }
 componentDidMount(){
@@ -38,12 +36,20 @@ componentDidMount(){
         auth_token: appState.user.auth_token
     },()=> { 
       this.getLatestContact()
+      this.getContactByType()
+      this.loadStatitic()
       this.getLatestCampaign()
       this.getLatestGroup()
       this.getSubcriberStatitic()
     } )
 }
 
+loadStatitic=()=>{
+  axios.get(`${Config.API_URL}campaign/statistic`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+  .then(res => {
+  }).catch(function (error) {
+    });
+}
     getLatestContact=()=>{
       const allCountries = [{}];
      axios.get(`${Config.API_URL}subcriber/latest`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
@@ -56,9 +62,31 @@ componentDidMount(){
        console.log(error);
      });
     }
+    getContactByType=()=>{
+
+      var self = this
+      const allCountries = [{}];
+     axios.get(`${Config.API_URL}subcriber/dashboard`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+     .then(response => {
+       var total = response.data.level1 + response.data.level2 + response.data.level3 + response.data.level4 + response.data.level5
+       var level1 = Math.round((response.data.level1*100)/total) 
+       var level2 =  Math.round((response.data.level2*100)/total) 
+       var level3 =  Math.round((response.data.level3*100)/total) 
+       var level4 =  Math.round((response.data.level4*100)/total) 
+       var level5 =  Math.round((response.data.level5*100)/total) 
+       self.setState({
+        dataPie:[{ x: 'Bronze', y: level1, text: `${level1}%` }, { x: 'Silver', y: level2, text: `${level2}%` },
+              { x: 'Gold', y: level3, text: `${level3}%` }, { x: 'Planinum', y: level4, text: `${level4}%` },
+              { x: 'Diamond', y: level5, text: `${level5}%` }]
+       },()=>console.log(self.state.data1));
+     })
+     .catch(error => {
+       console.log(error);
+     });
+    }
 
     getLatestCampaign=()=>{
-      console.log("T DAY")
+      
       var self = this
       const allCountries = [{}];
      axios.get(`${Config.API_URL}campaign/dashboard`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
@@ -182,8 +210,10 @@ componentDidMount(){
             <div className="collapse show">
             <div className="panel_content">
             <div  className= "dashboard_table_responsive">
-             
-            <DonutChart data1={this.state.dataPie} />   
+            {this.state.dataPie == null || this.state.dataPie.length <= 0 ?  null : 
+              <DonutChart data1={this.state.dataPie} />   
+            }
+           
             </div>
             </div>
             </div>

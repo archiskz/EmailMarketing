@@ -155,7 +155,7 @@ class ContactRow extends Component {
             console.log(res)
             this.closeModalDelete();
             this.addNotificationRemove()
-            this.props.update();
+            this.props.update();  
             
           })
           .catch(function (error) {
