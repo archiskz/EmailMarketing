@@ -118,6 +118,7 @@ public class GroupContactServiceImpl implements GroupContactService {
         for(Subcriber subcriber : subcribers){
             SubcriberDTO dto = new SubcriberDTO();
             dto.setId(subcriber.getId());
+            dto.setBlackList(subcriber.isBlackList());
             dto.setEmail(subcriber.getEmail());
             dto.setFirstName(subcriber.getFirstName());
             dto.setLastName(subcriber.getLastName());
