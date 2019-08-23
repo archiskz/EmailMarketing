@@ -104,7 +104,7 @@ class ContactByGroup extends Component {
        currentCountries: response.data.filter(user => {
         return user.blackList == false
       }).slice(0,8)
-      });
+      }, ()=>{console.log(this.state.allCountries)});
     })
     .catch(error => {
       console.log(error);
