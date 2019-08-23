@@ -15,6 +15,7 @@ import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.server.ResponseStatusException;
+import org.thymeleaf.TemplateEngine;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -31,6 +32,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     MyMessageRepository myMessageRepository;
+
+    @Autowired
+    TemplateEngine htmlTemplateEngine;
 
     @Autowired
     AppointmentRepository appointmentRepository;
@@ -151,7 +155,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                     e.printStackTrace();
                 }
                 try {
-                    newString = newString.replace("{{reject}}", "http://localhost:8080/api/deny-appointment?confirmationToken=");
+                    newString = newString.replace("{{reject}}", "http://localhost:8080/api/deny-appointment?confirmationToken=" +appointment.getToken() + "&subcriberEmail="+mailLists.get(counter));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -328,7 +332,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     public ResponseEntity<String> acceptAppointment(String token, String email) {
         Appointment appointment = appointmentRepository.findByToken(token);
         AppointmentSubcriber appointmentSubcriber = appointmentRepository.findMailByAppointmentId(appointment.getId(), email);
-        List<AppointmentGroupContact> appointmentGroupContacts = new ArrayList<>();
 
         if (appointmentSubcriber == null) {
             return ResponseEntity.badRequest().body("Invalid token.");
@@ -343,7 +346,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 map.put("DATE", appointment.getTime());
                 if (appointment.getName().contains("<")) {
                     String[] output = appointment.getName().split("<");
-                    map.put("APPOINTMENT_NAME",output[0]);
+                    map.put("APPOINTMENT_NAME", output[0]);
                 } else {
                     map.put("APPOINTMENT_NAME", appointment.getName());
                 }
@@ -356,8 +359,10 @@ public class AppointmentServiceImpl implements AppointmentService {
             mailService.sendAppointment(appointment.getFromMail(), appointment.getFromMail(), appointmentSubcriber.getSubcriberEmail(), "Confirm Invite Email", body);
 
         }
-
-        return ResponseEntity.ok("Thanks for accepting my invite!");
+        final org.thymeleaf.context.Context ctx = new org.thymeleaf.context.Context();
+        ctx.setVariable("name", appointmentSubcriber.getSubcriberEmail());
+        String htmlContent = this.htmlTemplateEngine.process("accept.html", ctx);
+        return ResponseEntity.ok().body(htmlContent);
     }
 
     @Override
@@ -440,5 +445,22 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
 
+    @Override
+    public ResponseEntity<String> denyAppointment(String token, String email) {
+        Appointment appointment = appointmentRepository.findByToken(token);
+        AppointmentSubcriber appointmentSubcriber = appointmentRepository.findMailByAppointmentId(appointment.getId(), email);
+        if (appointmentSubcriber == null) {
+            return ResponseEntity.badRequest().body("Invalid token.");
+        } else {
+            appointmentSubcriber.setConfirmation(false);
+            appointmentRepository.save(appointment);
+            final org.thymeleaf.context.Context ctx = new org.thymeleaf.context.Context();
+            ctx.setVariable("name", appointmentSubcriber.getSubcriberEmail());
+            String htmlContent = this.htmlTemplateEngine.process("thankyou.html", ctx);
 
+            return ResponseEntity.ok().body(htmlContent);
+        }
+
+
+    }
 }

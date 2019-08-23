@@ -69,7 +69,10 @@ public class EmailVerifiedServiceImpl implements EmailVerifiedService {
         VerifyEmailAddressResult res = client.verifyEmailAddress(new VerifyEmailAddressRequest().withEmailAddress(emailVerified.getEmail()));
         EmailVerified emailVerified1 = new EmailVerified();
 
-        emailVerified1.setVerified(false);
+        EmailVerified temp = emailVerifiedRepository.findEmailVerifiedByEmailAndAccount_id(emailVerified.getEmail(),accountId);
+        if(temp!= null){
+            return false;
+        }
         emailVerified1.setEmail(emailVerified.getEmail());
         Account account = accountRepository.findAccountById(accountId);
         emailVerified1.setAccount_id(account.getId());

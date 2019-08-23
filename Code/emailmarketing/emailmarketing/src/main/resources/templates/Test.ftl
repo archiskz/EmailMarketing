@@ -1,6 +1,7 @@
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
     <!--[if gte mso 9]>
     <xml>
@@ -13,7 +14,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="x-apple-disable-message-reformatting">
-    <!--[if !mso]><!--><meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
+    <!--[if !mso]><!-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
     <title></title>
     <style type="text/css">
         body {
@@ -53,85 +55,226 @@
             vertical-align: top;
         }
 
-        .ie-container .email-col-100, .ie-container .email-row, [owa] .email-col-100, [owa] .email-row { width: 500px !important; }
-        .ie-container .email-col-17, [owa] .email-col-17 { width: 85px !important; }
-        .ie-container .email-col-25, [owa] .email-col-25 { width: 125px !important; }
-        .ie-container .email-col-33, [owa] .email-col-33 { width: 165px !important; }
-        .ie-container .email-col-50, [owa] .email-col-50 { width: 250px !important; }
-        .ie-container .email-col-67, [owa] .email-col-67 { width: 335px !important; }
+        .ie-container .email-col-100, .ie-container .email-row, [owa] .email-col-100, [owa] .email-row {
+            width: 500px !important;
+        }
+
+        .ie-container .email-col-17, [owa] .email-col-17 {
+            width: 85px !important;
+        }
+
+        .ie-container .email-col-25, [owa] .email-col-25 {
+            width: 125px !important;
+        }
+
+        .ie-container .email-col-33, [owa] .email-col-33 {
+            width: 165px !important;
+        }
+
+        .ie-container .email-col-50, [owa] .email-col-50 {
+            width: 250px !important;
+        }
+
+        .ie-container .email-col-67, [owa] .email-col-67 {
+            width: 335px !important;
+        }
 
         @media only screen and (min-width: 520px) {
-            .email-row { width: 500px !important; }
-            .email-row .email-col { vertical-align: top; }
-            .email-row .email-col-100 { width: 500px !important; }
-            .email-row .email-col-67 { width: 335px !important; }
-            .email-row .email-col-50 { width: 250px !important; }
-            .email-row .email-col-33 { width: 165px !important; }
-            .email-row .email-col-25 { width: 125px !important; }
-            .email-row .email-col-17 { width: 85px !important; }
+            .email-row {
+                width: 500px !important;
+            }
+
+            .email-row .email-col {
+                vertical-align: top;
+            }
+
+            .email-row .email-col-100 {
+                width: 500px !important;
+            }
+
+            .email-row .email-col-67 {
+                width: 335px !important;
+            }
+
+            .email-row .email-col-50 {
+                width: 250px !important;
+            }
+
+            .email-row .email-col-33 {
+                width: 165px !important;
+            }
+
+            .email-row .email-col-25 {
+                width: 125px !important;
+            }
+
+            .email-row .email-col-17 {
+                width: 85px !important;
+            }
         }
 
         @media (max-width: 520px) {
-            .hide-mobile { display: none !important; }
+            .hide-mobile {
+                display: none !important;
+            }
+
             .email-row-container {
                 padding-left: 0px !important;
                 padding-right: 0px !important;
             }
+
             .email-row .email-col {
                 min-width: 320px !important;
                 max-width: 100% !important;
                 display: block !important;
             }
-            .email-row { width: calc(100% - 40px) !important; }
-            .email-col { width: 100% !important; }
-            .email-col > div { margin: 0 auto; }
-            .no-stack .email-col { min-width: 0 !important; display: table-cell !important; }
-            .no-stack .email-col-50 { width: 50% !important; }
-            .no-stack .email-col-33 { width: 33% !important; }
-            .no-stack .email-col-67 { width: 67% !important; }
-            .no-stack .email-col-25 { width: 25% !important; }
-            .no-stack .email-col-17 { width: 17% !important; }
+
+            .email-row {
+                width: calc(100% - 40px) !important;
+            }
+
+            .email-col {
+                width: 100% !important;
+            }
+
+            .email-col > div {
+                margin: 0 auto;
+            }
+
+            .no-stack .email-col {
+                min-width: 0 !important;
+                display: table-cell !important;
+            }
+
+            .no-stack .email-col-50 {
+                width: 50% !important;
+            }
+
+            .no-stack .email-col-33 {
+                width: 33% !important;
+            }
+
+            .no-stack .email-col-67 {
+                width: 67% !important;
+            }
+
+            .no-stack .email-col-25 {
+                width: 25% !important;
+            }
+
+            .no-stack .email-col-17 {
+                width: 17% !important;
+            }
         }
+
+        .mybutton {
+            background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f24537), color-stop(1, #db2c1c) );
+            background:-moz-linear-gradient( center top, #f24537 5%, #db2c1c 100% );
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24537', endColorstr='#db2c1c');
+            background-color:#f24537;
+            -webkit-border-top-left-radius:17px;
+            -moz-border-radius-topleft:17px;
+            border-top-left-radius:17px;
+            -webkit-border-top-right-radius:17px;
+            -moz-border-radius-topright:17px;
+            border-top-right-radius:17px;
+            -webkit-border-bottom-right-radius:17px;
+            -moz-border-radius-bottomright:17px;
+            border-bottom-right-radius:17px;
+            -webkit-border-bottom-left-radius:17px;
+            -moz-border-radius-bottomleft:17px;
+            border-bottom-left-radius:17px;
+            text-indent:0px;
+            border:4px solid #d02718;
+            display:inline-block;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:20px;
+            font-weight:bold;
+            font-style:italic;
+            height:50px;
+            line-height:50px;
+            width:100px;
+            text-decoration:none;
+            text-align:center;
+        }.mybutton:hover {
+             background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #db2c1c), color-stop(1, #f24537) );
+             background:-moz-linear-gradient( center top, #db2c1c 5%, #f24537 100% );
+             filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#db2c1c', endColorstr='#f24537');
+             background-color:#db2c1c;
+         }.mybutton:active {
+              position:relative;
+              top:1px;
 
     </style>
 
     <!--[if mso]>
     <style type="text/css">
         ul li {
-            list-style:disc inside;
-            mso-special-format:bullet;
+            list-style: disc inside;
+            mso-special-format: bullet;
         }
+
+
+
     </style>
     <![endif]-->
 
 </head>
 
 <body class="clean-body" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #e7e7e7">
-<!--[if IE]><div class="ie-container"><![endif]-->
-<!--[if mso]><div class="mso-container"><![endif]-->
-<table class="nl-container" style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 320px;Margin: 0 auto;background-color: #e7e7e7;width:100%" cellpadding="0" cellspacing="0">
+<!--[if IE]>
+<div class="ie-container"><![endif]-->
+<!--[if mso]>
+<div class="mso-container"><![endif]-->
+<table class="nl-container"
+       style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 320px;Margin: 0 auto;background-color: #e7e7e7;width:100%"
+       cellpadding="0" cellspacing="0">
     <tbody>
     <tr style="vertical-align: top">
         <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-            <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #e7e7e7;"><![endif]-->
+            <!--[if (mso)|(IE)]>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td align="center" style="background-color: #e7e7e7;"><![endif]-->
 
-            <div class="email-row-container" style="padding: 0px;background-image: url('https://images.unsplash.com/photo-1489549132488-d00b7eee80f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1868&q=80');background-repeat: no-repeat;background-position: left top;background-color: transparent">
-                <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="email-row">
+            <div class="email-row-container"
+                 style="padding: 0px;background-image: url('https://images.unsplash.com/photo-1489549132488-d00b7eee80f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1868&q=80');background-repeat: no-repeat;background-position: left top;background-color: transparent">
+                <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;"
+                     class="email-row">
                     <div style="border-collapse: collapse;display: table;width: 100%;background-color: transparent;">
-                        <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-image: url('https://images.unsplash.com/photo-1489549132488-d00b7eee80f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1868&q=80');background-repeat: no-repeat;background-position: left top;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
+                        <!--[if (mso)|(IE)]>
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td style="padding: 0px;background-image: url('https://images.unsplash.com/photo-1489549132488-d00b7eee80f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1868&q=80');background-repeat: no-repeat;background-position: left top;background-color: transparent;"
+                                    align="center">
+                                    <table cellpadding="0" cellspacing="0" border="0" style="width:500px;">
+                                        <tr style="background-color: transparent;"><![endif]-->
 
-                        <!--[if (mso)|(IE)]><td align="center" width="500" style="width: 500px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;" valign="top"><![endif]-->
-                        <div class="email-col email-col-100" style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
+                        <!--[if (mso)|(IE)]>
+                        <td align="center" width="500"
+                            style="width: 500px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;"
+                            valign="top"><![endif]-->
+                        <div class="email-col email-col-100"
+                             style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
                             <div style="width: 100% !important;">
-                                <!--[if (!mso)&(!IE)]><!--><div style="padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;"><!--<![endif]-->
+                                <!--[if (!mso)&(!IE)]><!-->
+                                <div style="padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;">
+                                    <!--<![endif]-->
 
-                                    <table id="u_content_text_2" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                    <table id="u_content_text_2" class="u_content_text"
+                                           style="font-family:arial,helvetica,sans-serif;" role="presentation"
+                                           cellpadding="0" cellspacing="0" width="100%" border="0">
                                         <tbody>
                                         <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:180px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
+                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:180px 10px 10px;font-family:arial,helvetica,sans-serif;"
+                                                align="left">
 
                                                 <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="color: #ffffff; font-size: 14px; line-height: 19.6px; font-family: tahoma, arial, helvetica, sans-serif;"><strong><span style="font-size: 40px; line-height: 56px;">${APPOINTMENT_NAME}</span></strong></span></p>
+                                                    <p style="font-size: 14px; line-height: 140%; text-align: center;">
+                                                        <span style="color: #ffffff; font-size: 14px; line-height: 19.6px; font-family: tahoma, arial, helvetica, sans-serif;"><strong><span
+                                                                        style="font-size: 40px; line-height: 56px;">${APPOINTMENT_NAME}</span></strong></span>
+                                                    </p>
                                                 </div>
 
                                             </td>
@@ -139,13 +282,20 @@
                                         </tbody>
                                     </table>
 
-                                    <table id="u_content_text_3" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                    <table id="u_content_text_3" class="u_content_text"
+                                           style="font-family:arial,helvetica,sans-serif;" role="presentation"
+                                           cellpadding="0" cellspacing="0" width="100%" border="0">
                                         <tbody>
                                         <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:40px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
+                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:40px 10px 10px;font-family:arial,helvetica,sans-serif;"
+                                                align="left">
 
                                                 <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="line-height: 140%; text-align: center; font-size: 14px;"><span style="font-size: 24px; line-height: 33.6px;"><span style="color: #ffffff; font-family: tahoma, arial, helvetica, sans-serif; font-size: 24px; line-height: 33.6px;"><span style="line-height: 33.6px; font-size: 24px;">Our meeting will start soon, please remember to come on </span></span></span></p>
+                                                    <p style="line-height: 140%; text-align: center; font-size: 14px;">
+                                                        <span style="font-size: 24px; line-height: 33.6px;"><span
+                                                                    style="color: #ffffff; font-family: tahoma, arial, helvetica, sans-serif; font-size: 24px; line-height: 33.6px;"><span
+                                                                        style="line-height: 33.6px; font-size: 24px;">Our meeting will start soon, please remember to come on </span></span></span>
+                                                    </p>
                                                 </div>
 
                                             </td>
@@ -153,13 +303,41 @@
                                         </tbody>
                                     </table>
 
-                                    <table id="u_content_text_4" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                    <table id="u_content_text_4" class="u_content_text"
+                                           style="font-family:arial,helvetica,sans-serif;" role="presentation"
+                                           cellpadding="0" cellspacing="0" width="100%" border="0">
                                         <tbody>
                                         <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
+                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 10px;font-family:arial,helvetica,sans-serif;
+											text-align:center"
+                                                align="left">
 
                                                 <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                                    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-size: 30px; line-height: 42px; color: #ccffff;"><strong>${DATE}</strong></span></p>
+                                                    <p style="font-size: 14px; line-height: 140%; text-align: center;">
+                                                        <span style="font-size: 30px; line-height: 42px; color: #ccffff;"><strong>${DATE}</strong></span>
+                                                    </p>
+
+                                                </div>
+                                                <a href=${REJECT_APPOINTMENT} class="mybutton">REJECT</a>
+
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+
+
+                                    <table id="u_content_text_6" class="u_content_text"
+                                           style="font-family:arial,helvetica,sans-serif;" role="presentation"
+                                           cellpadding="0" cellspacing="0" width="100%" border="0">
+                                        <tbody>
+                                        <tr>
+                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 10px;font-family:arial,helvetica,sans-serif;"
+                                                align="left">
+
+                                                <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
+
                                                 </div>
 
                                             </td>
@@ -167,24 +345,13 @@
                                         </tbody>
                                     </table>
 
-                                    <table id="u_content_text_6" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                    <table id="u_content_text_5" class="u_content_text"
+                                           style="font-family:arial,helvetica,sans-serif;" role="presentation"
+                                           cellpadding="0" cellspacing="0" width="100%" border="0">
                                         <tbody>
                                         <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
-
-                                                <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
-
-                                                </div>
-
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <table id="u_content_text_5" class="u_content_text" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                                        <tbody>
-                                        <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:240px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
+                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:240px 10px 10px;font-family:arial,helvetica,sans-serif;"
+                                                align="left">
 
                                                 <div style="color: #000; line-height: 140%; text-align: left; word-wrap: break-word;">
 

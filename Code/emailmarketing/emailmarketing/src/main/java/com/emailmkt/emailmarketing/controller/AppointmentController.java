@@ -98,6 +98,12 @@ public class AppointmentController {
         return appointmentService.acceptAppointment(confirmationToken,subcriberEmail).getBody();
     }
 
+    @RequestMapping(value = "/deny-appointment", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public String denyAppointment(String confirmationToken, String subcriberEmail) {
+        return appointmentService.denyAppointment(confirmationToken,subcriberEmail).getBody();
+    }
+
     @GetMapping("/appointments")
     Iterable<Appointment> getAll(HttpServletRequest request) {
         String username = Ultilities.getUsername(request);

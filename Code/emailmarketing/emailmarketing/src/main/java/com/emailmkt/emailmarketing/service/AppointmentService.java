@@ -30,4 +30,6 @@ public interface AppointmentService {
 
     int copyAppointment(int appointmentId,int workflowId);
     void getStatisticAppointment();
+
+    ResponseEntity<String> denyAppointment(String token, String email);
 }
