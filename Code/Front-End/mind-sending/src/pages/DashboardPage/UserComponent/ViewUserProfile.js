@@ -284,7 +284,9 @@ class ViewUserProfile extends Component {
 	axios.post(`${Config.API_URL}emailverified/verify?accountId=1`,this.state.newVerify,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
 		this.closeModal()
+		this.getVerifiedEmails()
 	  this.addNotificationVeify()
+	  
     }).catch(error =>{
       console.log(error)
     }) 
@@ -300,6 +302,7 @@ class ViewUserProfile extends Component {
 		axios.post(`${Config.API_URL}emailverified/verify?accountId=1`,this.state.newVerify,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
 		this.closeModal()
+		this.getVerifiedEmails()
 	  this.addNotificationVeify()
     }).catch(error =>{
       console.log(error)

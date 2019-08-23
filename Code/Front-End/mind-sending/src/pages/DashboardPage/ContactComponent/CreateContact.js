@@ -91,10 +91,10 @@ class CreateContact extends Component {
            
         }   
         tryLoad=()=>{
-          axios.get(`${Config.API_URL}subcriber/autoupdate`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
-          .then(res => {
-          }).catch(function (error) {
-            });
+          // axios.get(`${Config.API_URL}subcriber/autoupdate`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+          // .then(res => {
+          // }).catch(function (error) {
+          //   });
         }
    
         loadStatitic=()=>{

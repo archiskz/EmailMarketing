@@ -87,7 +87,7 @@ class FormRow extends Component {
     <span 
     // onClick={()=> this.toCampaignDetail(this.props.id)}
     > {this.props.formName} </span><br/>
-    <a target="_blank" href={`http://localhost:3000/form-register/${this.props.id}`}>http://localhost:3000/form-register/{this.props.id}</a>
+    {/* <a target="_blank" href={`http://localhost:3000/form-register/${this.props.id}`}>http://localhost:3000/form-register/{this.props.id}</a> */}
     </td>
     <td class="md_tablet6_tbody_td">
               {this.props.createTime}
