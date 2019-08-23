@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
+import scala.collection.Iterable;
 
 import javax.transaction.Transactional;
 
@@ -87,7 +88,7 @@ public class EmbeddedFormController {
 
     @GetMapping("/forms")
     Iterable<EmbeddedForm> getAll() {
-        return embeddedFormRepository.findAll();
+        return embeddedFormRepository.findAllByOrderByCreatedTimeDesc();
     }
 
     @RequestMapping(value = "form/delete/{id}", method = RequestMethod.POST)

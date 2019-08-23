@@ -14,7 +14,7 @@ public interface EmailVerifiedRepository extends JpaRepository<EmailVerified, In
     @Query("SELECT DISTINCT em.email FROM EmailVerified em WHERE em.account_id =:accountId")
     List<String> findEmailVerifiedBy(@Param("accountId") int accountId);
 
-    List<EmailVerified>findEmailVerifiedByAccount_id(int accountId);
+    List<EmailVerified>findDistinctByEmailVerifiedByAccount_id(int accountId);
 
     EmailVerified findEmailVerifiedByEmailAndAccount_id(String email, int accountId);
 
