@@ -58,7 +58,7 @@ public class Campaign implements Serializable {
     @Column(name = "updated_time")
     private String updatedTime;
 
-    @OneToMany( mappedBy = "campaign",cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "campaign",cascade = CascadeType.ALL,fetch=FetchType.EAGER )
     private List<CampaignGroupContact> campaignGroupContacts;
 
     @Column(name = "account_id")

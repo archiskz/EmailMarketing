@@ -108,7 +108,7 @@ class CreateContact extends Component {
 
 
    getAllContacts=()=>{
-    console.log("haha")
+    console.log(this.state.auth_token)
     const allCountries = [{}];
    axios.get(`${Config.API_URL}subcribersV2`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
    .then(response => {console.log(response.data)

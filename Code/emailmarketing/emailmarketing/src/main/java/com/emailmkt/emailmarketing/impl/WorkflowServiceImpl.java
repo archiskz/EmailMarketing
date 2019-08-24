@@ -1,5 +1,7 @@
 package com.emailmkt.emailmarketing.impl;
 
+import com.emailmkt.emailmarketing.dto.CampaignDTO;
+import com.emailmkt.emailmarketing.dto.GCCampaignDTO;
 import com.emailmkt.emailmarketing.dto.ViewWorkflowDTO;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
 import com.emailmkt.emailmarketing.model.*;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
 import javax.transaction.Transactional;
 import java.io.ByteArrayInputStream;
@@ -35,6 +38,7 @@ import java.util.stream.Collectors;
 //import com.emailmkt.emailmarketing.model.Task;
 //import com.emailmkt.emailmarketing.repository.TaskRepository;
 @Transactional
+
 @Service
 public class WorkflowServiceImpl implements WorkflowService {
 
@@ -130,9 +134,12 @@ public class WorkflowServiceImpl implements WorkflowService {
                 //set task Type
                 if (shapeId.contains("SendTask")) {
                     newWorkflowTask.setType("campaign");
+                    System.out.println("Campaign name is" + name + account.getId());
                     Campaign campaignTask = campaignRepository.findByNameAndAccount_id(name, account.getId());
-                    
-int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWorkflow.getId(), account);                    newWorkflowTask.setCampaignAppointment(campaignOrAppId);
+
+
+                    int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWorkflow.getId(), account);
+                    newWorkflowTask.setCampaignAppointment(campaignOrAppId);
                 } else if (shapeId.contains("BusinessRule")) {
                     newWorkflowTask.setType("appointment");
                     Appointment appointmentTask = appointmentRepository.findAppointmentByName(name);
@@ -307,6 +314,7 @@ int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWork
     }
 
     @Scheduled(fixedRate = 30000)
+    @Transactional
     @Override
     public void runWorkflow() {
         System.out.println("RUN WORK FLOW");
@@ -360,6 +368,7 @@ int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWork
 
                                 } else if (firstTask.getType().equalsIgnoreCase(("campaign"))) {
                                     Campaign firstApp = campaignRepository.findCampaignById(firstTask.getCampaignAppointment());
+
                                     System.out.println("First CAMPAIGN -----------------" + firstApp.getName() + subcriber.getEmail());
                                     if (campaignSubcriberRepository.checkConfirmCampaign(firstApp.getId(), subcriber.getEmail()) != null) {
                                         System.out.println("SUBCRIBER ------------------------" + campaignSubcriberRepository.checkSend(firstApp.getId(), subcriber.getEmail()));
@@ -367,7 +376,7 @@ int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWork
                                                 campaignSubcriberRepository.changeConfirmSend(firstApp.getId(), subcriber.getEmail()).getMessageId() != "") {
                                             System.out.println("Gửi rồi nha ");
                                             runTask(firstTask, workflow, subcriber);
-                                        } else if(campaignSubcriberRepository.checkSend(firstApp.getId(), subcriber.getEmail()) != true) {
+                                        } else if (campaignSubcriberRepository.checkSend(firstApp.getId(), subcriber.getEmail()) != true) {
 //                                            System.out.println("-----------------------------------------------------SENDING:");
 
                                             CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(firstApp.getId(), subcriber.getEmail());
@@ -380,8 +389,8 @@ int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWork
                                     } else {
                                         System.out.println("DANG O DAY NE");
                                         CampaignSubcriber newCampaignSub = new CampaignSubcriber();
-                                        CampaignGroupContact cgc = firstApp.getCampaignGroupContacts().get(0);
-                                        newCampaignSub.setCampaignGroupContact(cgc);
+                                        CampaignGroupContact campaignGroupContact = firstApp.getCampaignGroupContacts().get(0);
+                                        newCampaignSub.setCampaignGroupContact(campaignGroupContact);
                                         newCampaignSub.setSubcriberEmail(subcriber.getEmail());
                                         newCampaignSub.setSend(false);
                                         newCampaignSub.setComfirmation(false);
@@ -526,8 +535,7 @@ int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWork
 //                mailService.sendAppointment(firstAppointment.getSender(),firstAppointment.getFromMail(),subcriber.getEmail(),firstAppointment.getSubject(),firstAppointment.getBody());
             }
             ///IF CAMPAIGN
-        }
-        else if (firstTask.getType().equalsIgnoreCase("campaign")) {
+        } else if (firstTask.getType().equalsIgnoreCase("campaign")) {
             Campaign firstCampaign = campaignRepository.findCampaignById(firstTask.getCampaignAppointment());
 //            System.out.println("CHECK---------------------------------" +appointmentSubcriberRepository.checkConfirmAppointment(firstCampaign.getId(), subcriber.getEmail()).toString());
             CampaignSubcriber campaignSubcriberCheck = campaignSubcriberRepository.changeConfirmSend(firstCampaign.getId(), subcriber.getEmail());
@@ -567,8 +575,7 @@ int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWork
                                 System.out.println("Appointment Here" + appointmentSubcriber.isSend() + tmpAppointment.getName());
                                 if (!appointmentSubcriber.isSend()
                                         && concompareTwoTimes(timeSend, 2) == true
-                                )
-                                {
+                                ) {
 
                                     appointmentSubcriber.setSend(true);
                                     appointmentSubcriberRepository.save(appointmentSubcriber);
@@ -577,7 +584,7 @@ int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWork
 //                                    break;
                                 }
                                 runTask(tmp, workflow, subcriber);
-                            } else if(tmp.getType().equalsIgnoreCase("campaign")) {
+                            } else if (tmp.getType().equalsIgnoreCase("campaign")) {
                                 // CAMPAIGN
                                 Campaign tmpCampaign = campaignRepository.findCampaignById(tmp.getCampaignAppointment());
                                 CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(tmpCampaign.getId(), subcriber.getEmail());
@@ -595,9 +602,9 @@ int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWork
                                         campaignSubcriberRepository.save(campaignSubcriber);
 //                                        mailService.sendAppointment(tmpCampaign.getSender(), tmpCampaign.getFromMail(), subcriber.getEmail(), tmpCampaign.getSubject(), tmpCampaign.getContent());
                                         sendCampaignWorkflow(tmpCampaign, subcriber);
-                                    } else if(campaignSubcriber.isSend() && campaignSubcriber.getMessageId().equalsIgnoreCase("")){
+                                    } else if (campaignSubcriber.isSend() && campaignSubcriber.getMessageId().equalsIgnoreCase("")) {
                                         continue;
-                                    } else if(campaignSubcriber.isSend() && !campaignSubcriber.getMessageId().equalsIgnoreCase("")) {
+                                    } else if (campaignSubcriber.isSend() && !campaignSubcriber.getMessageId().equalsIgnoreCase("")) {
                                         runTask(tmp, workflow, subcriber);
                                     }
                                 } else {
@@ -618,8 +625,8 @@ int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWork
                 }
 
 
-            } else if(campaignSubcriberRepository.changeConfirmSend(firstCampaign.getId(), subcriber.getEmail()).getMessageId() != "" &&
-                    !campaignSubcriberRepository.changeConfirmSend(firstCampaign.getId(), subcriber.getEmail()).isSend() ){
+            } else if (campaignSubcriberRepository.changeConfirmSend(firstCampaign.getId(), subcriber.getEmail()).getMessageId() != "" &&
+                    !campaignSubcriberRepository.changeConfirmSend(firstCampaign.getId(), subcriber.getEmail()).isSend()) {
                 System.out.println("CHUA SEND NE --------------------------------------");
 
                 firstCampaign = campaignRepository.findCampaignById(firstTask.getCampaignAppointment());
