@@ -18,7 +18,9 @@ import { withRouter } from "react-router";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
 import FunelChart from '../../../components/chart/FunelChart'
+import ContactRowCampaign from './../../../components/row/ContactRowCampaign'
 
+import ContactRow from './../../../components/row/ContactRow'
 import ValidateField from '../../../components/inputValidate/ValidateField';
 class CampaignInformation extends Component{
    constructor(props) {
@@ -488,12 +490,20 @@ class CampaignInformation extends Component{
                 <tbody>
                 { requests.length > 0 ? 
                   requests.map((list,index) => (
-                    <tr>
-                    <th scope="row">{index + 1}</th>
-                    <td>{list.email}</td>
-                    <td>{list.firstName}</td>
-                    <td>{list.lastName}</td>
-                  </tr>
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
                 )) : "No contact"
                 }
                   
@@ -518,12 +528,20 @@ class CampaignInformation extends Component{
                 <tbody>
                 { deliverys.length > 0 ?
                   deliverys.map((list,index) => (
-                    <tr>
-                    <th scope="row">{index + 1}</th>
-                    <td>{list.email}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
                 )) : "No contact"
                 }
                   
@@ -549,12 +567,20 @@ class CampaignInformation extends Component{
                 <tbody>
                 { bounces.length > 0 ? 
                   bounces.map((list,index) => (
-                    <tr>
-                    <th scope="row">{index + 1}</th>
-                    <td>{list.email}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
                 )) : "No contact"
                 }
                   
@@ -581,12 +607,20 @@ class CampaignInformation extends Component{
                 {
                   spams.length > 0 ? 
                   spams.map((list,index) => (
-                    <tr>
-                    <th scope="row">{index + 1}</th>
-                    <td>{list.email}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
                 )) : "No contact"
                 }
                   
@@ -610,12 +644,20 @@ class CampaignInformation extends Component{
                 {
                   opens.length > 0 ? 
                   opens.map((list,index) => (
-                    <tr>
-                    <th scope="row">{index + 1}</th>
-                    <td>{list.email}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
                 )) : "No contact"
                 }
                   
@@ -641,12 +683,20 @@ class CampaignInformation extends Component{
                 { 
                   clicks.length > 0 ? 
                   clicks.map((list,index) => (
-                    <tr>
-                    <th scope="row">{index + 1}</th>
-                    <td>{list.email}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
                 )) : "No contact"
                 }
                   

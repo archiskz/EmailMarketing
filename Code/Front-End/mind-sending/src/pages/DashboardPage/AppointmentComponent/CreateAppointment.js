@@ -403,6 +403,12 @@ class CreateAppointment extends Component{
       );
   }
 
+  toUserProfile= ()=>{
+    this.props.history.push({
+      pathname:`/dashboard/profile`,
+      });
+  }
+
   Validate = (name)=>{
     var self = this
     var validate = {};
@@ -538,7 +544,7 @@ self.setState({
  
   handleChange =(e)=> {
     const { name, value } = e.target;
-    if(name == "from" && value == "addVerify"){
+    if(value == "addVerify"){
       this.props.history.push({
         pathname:`/dashboard/profile`,
         });

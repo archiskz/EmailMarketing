@@ -381,7 +381,7 @@ class CreateCampaign extends Component{
                         {listFrom.map(list=>(
                           <option value={list.email}>{list.email}</option>
                                     ))}
-                          <option value="addVerify" onClick={this.toUserProfile}>Add veify email</option>
+                          <option value="addVerify" onClick={()=>this.toUserProfile}>Add veify email</option>
                     </select>  
         						<ValidateField isValidate={false} isError = {this.state.validates.mailValidate} />
         					</div>
@@ -456,6 +456,7 @@ class CreateCampaign extends Component{
   }
 
   toUserProfile= ()=>{
+    console.log("click r ne ma")
     this.props.history.push({
       pathname:`/dashboard/profile`,
       });
@@ -472,10 +473,12 @@ class CreateCampaign extends Component{
   }
   
   handleChange =(e)=> {
-		const { name, value } = e.target;
+    const { name, value } = e.target;
+    console.log(value)
 		// let contact = state.contact;
     // contact = {...contact, [name]: value};
-    if(name == "from" && value == "addVerify"){
+    if(value == "addVerify"){
+      console.log("t dang day ne")
       this.props.history.push({
         pathname:`/dashboard/profile`,
         });

@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.impl;
 
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Template;
 import com.emailmkt.emailmarketing.repository.TemplateRepository;
 import com.emailmkt.emailmarketing.service.TemplateService;
@@ -27,7 +28,7 @@ public class TemplateServiceImpl implements TemplateService {
 
 
     @Override
-    public boolean createTemplate(Template template) {
+    public boolean createTemplate(Template template, Account account) {
             System.out.println(template.getNameTemplate());
             Template checkExistedTemplate = templateRepository.findByNameTemplate(template.getNameTemplate());
             if (checkExistedTemplate != null) {
@@ -35,7 +36,7 @@ public class TemplateServiceImpl implements TemplateService {
             }
 
 
-            template.setAccount_id(1);
+            template.setAccount_id(account.getId());
             template.setNameTemplate(template.getNameTemplate());
             template.setType("ct");
             template.setCreated_time(LocalDateTime.now().toString());
@@ -49,13 +50,20 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public boolean copyTemplateGallery(int templateId, String name) {
+    public boolean copyTemplateGallery(int templateId, String name,Account account) {
         Template templateGallery = templateRepository.findTemplateById(templateId);
         Template templateTemp = templateRepository.findByNameTemplate(name);
         Template template = new Template();
 
         if(templateGallery != null && templateTemp == null) {
+            System.out.println("Test Account");
+//            template.setAccount_id(account.getId());
             template.setAccount_id(1);
+
+            //Lỗi dòng này nha m? sao nó k get dc account ne
+            System.out.println("Not Account");
+            // ko get dc account nè m?
+            // Ko truyền được account vô nè. bị null ngay account
             template.setContentHtml(templateGallery.getContentHtml());
             template.setContentJson(templateGallery.getContentJson());
 
@@ -70,7 +78,7 @@ public class TemplateServiceImpl implements TemplateService {
             templateRepository.save(template);
             return true;
         }
-        return false;
+            return false;
     }
 
     @Override
@@ -106,7 +114,7 @@ public class TemplateServiceImpl implements TemplateService {
         }
 
         templateEdit.setNameTemplate(template.getNameTemplate());
-        templateEdit.setType(template.getType());
+        templateEdit.setType("ct");
         templateEdit.setContentHtml(template.getContentHtml());
         java.lang.String previewImage = convertHtmlToString(template.getContentHtml(), template.getId());
         template.setPreview(previewImage);

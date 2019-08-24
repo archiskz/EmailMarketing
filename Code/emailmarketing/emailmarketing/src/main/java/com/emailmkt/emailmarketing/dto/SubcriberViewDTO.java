@@ -1,6 +1,8 @@
 package com.emailmkt.emailmarketing.dto;
 
 import lombok.Data;
+import java.util.*;
+
 
 @Data
 public class SubcriberViewDTO {
@@ -25,5 +27,11 @@ public class SubcriberViewDTO {
 
     int belongGroup;
     int belongCampaign;
+
+    List<CampaignDTO> campaignDTOList;
+
+    List<GroupContactDTO>groupContactDTOList;
+
+    String createdTime;
 
 }

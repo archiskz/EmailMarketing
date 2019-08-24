@@ -118,6 +118,7 @@ public class GroupContactServiceImpl implements GroupContactService {
         for(Subcriber subcriber : subcribers){
             SubcriberDTO dto = new SubcriberDTO();
             dto.setId(subcriber.getId());
+            dto.setBlackList(subcriber.isBlackList());
             dto.setEmail(subcriber.getEmail());
             dto.setFirstName(subcriber.getFirstName());
             dto.setLastName(subcriber.getLastName());
@@ -143,6 +144,7 @@ public class GroupContactServiceImpl implements GroupContactService {
         GroupContact groupContact = new GroupContact();
         groupContact.setCreatedTime(LocalDateTime.now().toString());
         groupContact.setName(groupContactDTO.getName());
+        groupContact.setDescription(groupContactDTO.getDescription());
         groupContact.setAccount_id(account.getId());
         List<GroupContactSubcriber> groupContactSubcribers = groupContactDTO.getSubcriberGCDTOS().stream().map(g -> {
             GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();

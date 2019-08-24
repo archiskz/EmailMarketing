@@ -6,6 +6,7 @@ import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
 import org.springframework.http.ResponseEntity;
+import java.util.*;
 
 public interface AppointmentService {
 //    boolean createCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO);
@@ -28,6 +29,10 @@ public interface AppointmentService {
     AppointmentFullDTO getAppointmentById(int id);
     public ResponseEntity<String> acceptAppointment(String token,String email);
 
-    int copyAppointment(int appointmentId,int workflowId);
+    int copyAppointment(int appointmentId,int workflowId, Account account);
     void getStatisticAppointment();
+
+    ResponseEntity<String> denyAppointment(String token, String email);
+
+    List<AppointmentDTO> getAppointmentSegment(int accountId);
 }

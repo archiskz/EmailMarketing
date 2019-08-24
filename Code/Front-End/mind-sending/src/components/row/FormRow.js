@@ -69,7 +69,7 @@ class FormRow extends Component {
      }
      copyCode = (e) => {
       var textField = document.createElement('textarea')
-      textField.innerText = `<iframe style="border:none;z-index:1000;background:none;position: fixed;bottom:0;right:0;width:360px; height: 415px" src="http://localhost:3000/form-register/${this.props.id}?${this.state.auth_token}">
+      textField.innerText = `<iframe style="border:none;background:none;width:360px; height: 415px" src="http://localhost:3000/form-register/${this.props.id}?${this.state.auth_token}">
       <p>Your browser does not support iframes.</p>
     </iframe>`
       document.body.appendChild(textField)
@@ -87,7 +87,7 @@ class FormRow extends Component {
     <span 
     // onClick={()=> this.toCampaignDetail(this.props.id)}
     > {this.props.formName} </span><br/>
-    <a target="_blank" href={`http://localhost:3000/form-register/${this.props.id}`}>http://localhost:3000/form-register/{this.props.id}</a>
+    {/* <a target="_blank" href={`http://localhost:3000/form-register/${this.props.id}`}>http://localhost:3000/form-register/{this.props.id}</a> */}
     </td>
     <td class="md_tablet6_tbody_td">
               {this.props.createTime}

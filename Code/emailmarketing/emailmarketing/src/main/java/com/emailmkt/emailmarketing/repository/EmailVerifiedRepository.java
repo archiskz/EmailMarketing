@@ -11,10 +11,12 @@ import java.util.List;
 @Repository
 public interface EmailVerifiedRepository extends JpaRepository<EmailVerified, Integer> {
 
-    @Query("SELECT em.email FROM EmailVerified em WHERE em.account_id =:accountId")
+    @Query("SELECT DISTINCT em.email FROM EmailVerified em WHERE em.account_id =:accountId")
     List<String> findEmailVerifiedBy(@Param("accountId") int accountId);
 
-    List<EmailVerified>findEmailVerifiedByAccount_id(int accountId);
+@Query("SELECT DISTINCT em FROM EmailVerified em WHERE em.account_id =:accountId")
+    List<EmailVerified>findDistinct(@Param("accountId") int accountId);
+    EmailVerified findEmailVerifiedByEmailAndAccount_id(String email, int accountId);
 
 
 

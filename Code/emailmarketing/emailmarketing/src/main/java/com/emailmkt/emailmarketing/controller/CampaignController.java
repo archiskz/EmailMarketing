@@ -113,7 +113,7 @@ public class CampaignController {
 
     @GetMapping(value="campaign/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     CampaignFullDTO read(@PathVariable int id) {
-        return campaignService.getCampaginById(id);
+        return campaignService.getCampaignById(id);
     }
 
     @PutMapping("campaign/edit/{id}")
@@ -143,6 +143,14 @@ public class CampaignController {
         return campaignRepository.findCampaignByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
     }
 
+    @GetMapping("/campaigns/segment")
+    Iterable<CampaignDTO> getCampaignSegment(HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        return campaignService.getCampaignSegment(account.getId());
+    }
+
     @ApiOperation(value = "Send Campaign Without Template")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful"),
@@ -155,8 +163,11 @@ public class CampaignController {
 
 
     @PostMapping("campaign/copy/")
-    public ResponseEntity copyCampaign(@RequestParam int id, @RequestParam int workflowId) {
-        int number = campaignService.copyCampaign(id, workflowId);
+    public ResponseEntity copyCampaign(@RequestParam int id, @RequestParam int workflowId,HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        int number = campaignService.copyCampaign(id, workflowId,account);
         if (number != 1) {
             return ResponseEntity.status(CREATED).body("Đã copy thành công ");
         }
@@ -180,8 +191,11 @@ public class CampaignController {
     }
 
     @PostMapping("campaign/duplicate/")
-    public ResponseEntity duplicateCampaign(@RequestParam int id, @RequestParam String name) {
-        boolean flag = campaignService.copyCampaign(id, name);
+    public ResponseEntity duplicateCampaign(@RequestParam int id, @RequestParam String name, HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = campaignService.copyCampaign(id, name,account);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Fail ");
         }

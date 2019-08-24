@@ -137,7 +137,7 @@ class EditTemplate extends Component {
             
           ],
           customJS: [
-            window.location.protocol + '//' + window.location.host + '/custom.js',
+            // window.location.protocol + '//' + window.location.host + '/custom.js',
             // window.location.protocol + '//' + window.location.host + '/custom1.js',
           ],
           mergeTags: [

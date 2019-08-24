@@ -7,6 +7,8 @@ import java.util.List;
 @Data
 public class GroupContactDTO {
 
+    private int id;
+
     private String name;
 
     private String description;

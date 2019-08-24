@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import { withRouter } from "react-router";
 import Modal from 'react-awesome-modal';
 import axios from 'axios';
-import RatingBar from '../bar/RatingBar';
+import RatingBar from './../bar/RatingBar';
 import ReactNotification from "react-notifications-component";
 import * as Config from '../../constants/Config';
-class ContactBlackListRow extends Component {
+class ContactRowCampaign extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -45,8 +45,8 @@ class ContactBlackListRow extends Component {
       }
       addNotificationRemove() {
         this.notificationDOMRef.current.addNotification({
-          title: "Enable Contact",
-          message: "Enabled Successfully!",
+          title: "Disable Contact",
+          message: "Disabled!",
           type: "success",
           insert: "top",
           container: "top-right",
@@ -66,22 +66,15 @@ class ContactBlackListRow extends Component {
       render(){
           return( 
       <tr className={"md_tablet6_tbody_tr " + (this.state.checked ? " rowSelected " : "") } onClick={this.onSelectedRow}>
-          {/* <td>
-          <input type="checkbox" onChange={this.handleCheck} defaultChecked={this.state.checked}/>
-          </td> */}
+          <td>
+          {this.props.key}
+          </td>
           <td class="md_tablet6_tbody_td">
           <a onClick={()=> this.toContactDetail(this.props.id)}>{this.props.email}</a>
+          <RatingBar type={this.props.type} />
           </td>
           <td class="md_tablet6_tbody_td">{this.props.firstName}</td>
           <td class="md_tablet6_tbody_td">{this.props.lastName}</td>
-         
-          {/* <td class="md_tablet6_tbody_td">{this.props.type}</td> */}
-          <td class="md_tablet6_tbody_td"><RatingBar type={this.props.type} /></td>
-          <td class="md_tablet6_tbody_td">
-          {this.props.contactActions}
-          <a class="fas fa-redo-alt margin_td_fontawsome" onClick={()=>this.openModalDelete()} title="Remove to blacklist"> </a>
-          {/* <a class="fas fa-trash-alt" onClick={()=>this.openModalDelete()} title="Delete"> </a> */}
-          </td>
           <Modal style={{"paddingLeft": "10px","paddingRight": "10px"}} visible={this.state.updateContactVisible} width="440" height="660" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                 <form class="contact1-form validate-form">
 				<div className="modal-body">
@@ -129,11 +122,11 @@ class ContactBlackListRow extends Component {
            <button type="button" onClick={()=>this.closeModalDelete()} class="close" data-dismiss="modal" aria-hidden="true">×</button>
              </div>
                        <div class="modal-body">
-                         <p>Do you really want to enable this CONTACT?.</p>
+                         <p>Do you really want to disable this CONTACT?.</p>
                        </div>
                        <div class="modal-footer">
                          <button type="button" onClick={()=>this.closeModalDelete()} class="btn btn-info" >Cancel</button>
-                         <button type="button" onClick={()=>this.deleteGroup()} class="btn btn-danger">Enable</button>
+                         <button type="button" onClick={()=>this.deleteGroup()} class="btn btn-danger">Disable</button>
                        </div>
     </Modal>
     
@@ -216,7 +209,7 @@ class ContactBlackListRow extends Component {
 
 
 
-export default withRouter(ContactBlackListRow);
+export default withRouter(ContactRowCampaign);
 
 
 

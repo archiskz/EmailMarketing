@@ -15,6 +15,7 @@ import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.server.ResponseStatusException;
+import org.thymeleaf.TemplateEngine;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -31,6 +32,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     MyMessageRepository myMessageRepository;
+
+    @Autowired
+    TemplateEngine htmlTemplateEngine;
 
     @Autowired
     AppointmentRepository appointmentRepository;
@@ -151,7 +155,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                     e.printStackTrace();
                 }
                 try {
-                    newString = newString.replace("{{reject}}", "http://localhost:8080/api/deny-appointment?confirmationToken=");
+                    newString = newString.replace("{{reject}}", "http://localhost:8080/api/deny-appointment?confirmationToken=" +appointment.getToken() + "&subcriberEmail="+mailLists.get(counter));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -164,6 +168,11 @@ public class AppointmentServiceImpl implements AppointmentService {
                 try {
                     Subcriber personalization = subcriberRepository.findSubcriberByEmail(mailLists.get(counter));
                     newString = newString.replace("{{first_name}}", personalization.getFirstName());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    newString = newString.replace("{{date}}", appointment.getTime());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -219,7 +228,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public AppointmentFullDTO getAppointmentById(int id) {
-        Appointment appointment= appointmentRepository.findAppointmentById(id);
+        Appointment appointment = appointmentRepository.findAppointmentById(id);
         // Get Statistic of Campaign
         AppointmentFullDTO appointmentDTO = new AppointmentFullDTO();
 
@@ -251,7 +260,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentDTO.setSpam(appointment.getSpamRate());
         //Contact Request
         List<Subcriber> contactRequest = appointmentSubcriberRepository.findSubcriberByAppointment(appointment.getId());
-        List<SubcriberViewDTO>contactRequestDto = contactRequest.stream().map(g->{
+        List<SubcriberViewDTO> contactRequestDto = contactRequest.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -262,8 +271,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         }).collect(Collectors.toList());
         appointmentDTO.setContactRequest(contactRequestDto);
         //Contact Delivery
-        List<Subcriber> contactDelivery = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndDelivery(appointment.getId(),true);
-        List<SubcriberViewDTO>contactDeliveryDto = contactDelivery.stream().map(g->{
+        List<Subcriber> contactDelivery = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndDelivery(appointment.getId(), true);
+        List<SubcriberViewDTO> contactDeliveryDto = contactDelivery.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -274,8 +283,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         }).collect(Collectors.toList());
         appointmentDTO.setContactDelivery(contactDeliveryDto);
         //Contact Opened
-        List<Subcriber> contactOpened = appointmentSubcriberRepository.findSubcriberByAppointmentAndOpened(appointment.getId(),true);
-        List<SubcriberViewDTO>contactOpenDto = contactOpened.stream().map(g->{
+        List<Subcriber> contactOpened = appointmentSubcriberRepository.findSubcriberByAppointmentAndOpened(appointment.getId(), true);
+        List<SubcriberViewDTO> contactOpenDto = contactOpened.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -286,8 +295,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         }).collect(Collectors.toList());
         appointmentDTO.setContactOpened(contactOpenDto);
         //Contact Bounce
-        List<Subcriber> contactBounce = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndBounce(appointment.getId(),true);
-        List<SubcriberViewDTO>contactBounceDTO = contactBounce.stream().map(g->{
+        List<Subcriber> contactBounce = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndBounce(appointment.getId(), true);
+        List<SubcriberViewDTO> contactBounceDTO = contactBounce.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -298,8 +307,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         }).collect(Collectors.toList());
         appointmentDTO.setContactBounce(contactBounceDTO);
         //Contact Clicked
-        List<Subcriber> contactClick = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndClicked(appointment.getId(),true);
-        List<SubcriberViewDTO>contactClickDTO = contactClick.stream().map(g->{
+        List<Subcriber> contactClick = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndClicked(appointment.getId(), true);
+        List<SubcriberViewDTO> contactClickDTO = contactClick.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -310,8 +319,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         }).collect(Collectors.toList());
         appointmentDTO.setContactClicked(contactClickDTO);
         //Contact Spam
-        List<Subcriber> contactSpam = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndSpam(appointment.getId(),true);
-        List<SubcriberViewDTO>contactSpamDTO = contactSpam.stream().map(g->{
+        List<Subcriber> contactSpam = appointmentSubcriberRepository.findSubcriberMailByAppointmentAndSpam(appointment.getId(), true);
+        List<SubcriberViewDTO> contactSpamDTO = contactSpam.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -328,7 +337,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     public ResponseEntity<String> acceptAppointment(String token, String email) {
         Appointment appointment = appointmentRepository.findByToken(token);
         AppointmentSubcriber appointmentSubcriber = appointmentRepository.findMailByAppointmentId(appointment.getId(), email);
-        List<AppointmentGroupContact> appointmentGroupContacts = new ArrayList<>();
 
         if (appointmentSubcriber == null) {
             return ResponseEntity.badRequest().body("Invalid token.");
@@ -341,8 +349,13 @@ public class AppointmentServiceImpl implements AppointmentService {
                 Template t = templates.getTemplate("test.ftl");
                 Map<String, String> map = new HashMap<>();
                 map.put("DATE", appointment.getTime());
-                map.put("APPOINTMENT_NAME", appointment.getName());
-                map.put("REJECT_APPOINTMENT","http://localhost:8080/api/deny-appointment?confirmationToken="+token+"&subcriberEmail="+email);
+                if (appointment.getName().contains("<")) {
+                    String[] output = appointment.getName().split(">");
+                    map.put("APPOINTMENT_NAME", output[0]);
+                } else {
+                    map.put("APPOINTMENT_NAME", appointment.getName());
+                }
+                map.put("REJECT_APPOINTMENT", "http://localhost:8080/api/deny-appointment?confirmationToken=" + token + "&subcriberEmail=" + email);
                 body = FreeMarkerTemplateUtils.processTemplateIntoString(t, map);
 
             } catch (Exception ex) {
@@ -351,12 +364,14 @@ public class AppointmentServiceImpl implements AppointmentService {
             mailService.sendAppointment(appointment.getFromMail(), appointment.getFromMail(), appointmentSubcriber.getSubcriberEmail(), "Confirm Invite Email", body);
 
         }
-
-        return ResponseEntity.ok("Thanks for accepting my invite!");
+        final org.thymeleaf.context.Context ctx = new org.thymeleaf.context.Context();
+        ctx.setVariable("name", appointmentSubcriber.getSubcriberEmail());
+        String htmlContent = this.htmlTemplateEngine.process("accept.html", ctx);
+        return ResponseEntity.ok().body(htmlContent);
     }
 
     @Override
-    public int copyAppointment(int appointmentId, int workflowId) {
+    public int copyAppointment(int appointmentId, int workflowId, Account account) {
 
         Appointment temp = appointmentRepository.findAppointmentById(appointmentId);
         Workflow workflow = workflowRepository.findWorkflowById(workflowId);
@@ -364,7 +379,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             return 1;
         }
         Appointment appointment = new Appointment();
-        appointment.setAccount_id(1);
+        appointment.setAccount_id(account.getId());
         List<AppointmentGroupContact> appointmentGroupContacts = workflow.getWorkflowGroupContacts().stream().map(g -> {
             AppointmentGroupContact appointmentGroupContact = new AppointmentGroupContact();
             appointmentGroupContact.setGroupContact(g.getGroupContact());
@@ -394,7 +409,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setTime(temp.getTime());
         appointment.setBodyJson(temp.getBodyJson());
         appointment.setCreatedTime(LocalDateTime.now().toString());
-        appointment.setName(temp.getName() + "<"+workflow.getName()+">"+UUID.randomUUID().toString());
+        appointment.setName(temp.getName() + "-" + workflow.getName() + ">" + UUID.randomUUID().toString());
         appointment.setSubject(temp.getSubject());
         appointment.setStatus("Sending");
         appointment.setAutomation(true);
@@ -435,5 +450,40 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
 
+    @Override
+    public ResponseEntity<String> denyAppointment(String token, String email) {
+        Appointment appointment = appointmentRepository.findByToken(token);
+        AppointmentSubcriber appointmentSubcriber = appointmentRepository.findMailByAppointmentId(appointment.getId(), email);
+        if (appointmentSubcriber == null) {
+            return ResponseEntity.badRequest().body("Invalid token.");
+        } else {
+            appointmentSubcriber.setConfirmation(false);
+            appointmentRepository.save(appointment);
+            final org.thymeleaf.context.Context ctx = new org.thymeleaf.context.Context();
+            ctx.setVariable("name", appointmentSubcriber.getSubcriberEmail());
+            String htmlContent = this.htmlTemplateEngine.process("thankyou.html", ctx);
 
+            return ResponseEntity.ok().body(htmlContent);
+        }
+
+
+    }
+
+    @Override
+    public List<AppointmentDTO> getAppointmentSegment(int accountId) {
+        List<Appointment> appointments = appointmentRepository.findAppointmentByAccount_idOrderByCreatedTimeDesc(accountId);
+        List<AppointmentDTO> appointmentDTOS = appointments.stream().map(g -> {
+            AppointmentDTO appointmentDTO = new AppointmentDTO();
+            appointmentDTO.setId(g.getId());
+            appointmentDTO.setCreatedTime(g.getCreatedTime());
+            if (g.getName().contains(">")) {
+                String[] output = g.getName().split(">");
+                appointmentDTO.setName(output[0]);
+            } else {
+                appointmentDTO.setName(g.getName());
+            }
+            return appointmentDTO;
+        }).collect(Collectors.toList());
+        return appointmentDTOS;
+    }
 }

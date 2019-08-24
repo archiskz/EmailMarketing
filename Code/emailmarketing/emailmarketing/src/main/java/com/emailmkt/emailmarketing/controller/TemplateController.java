@@ -1,6 +1,9 @@
 package com.emailmkt.emailmarketing.controller;
 
+import com.emailmkt.emailmarketing.Utils.Ultilities;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Template;
+import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.repository.TemplateRepository;
 import com.emailmkt.emailmarketing.service.TemplateService;
 import org.slf4j.Logger;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -23,6 +27,9 @@ public class TemplateController {
 //    private final AuthenticationManager authenticationManager;
     private final  TemplateService templateService;
     private final TemplateRepository templateRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @Autowired
     public TemplateController(TemplateService templateService, TemplateRepository templateRepository) {
@@ -52,8 +59,11 @@ public class TemplateController {
     }
 
     @PostMapping("template/create")
-    public ResponseEntity createTemplate(@RequestBody Template template) {
-        boolean flag = templateService.createTemplate(template);
+    public ResponseEntity createTemplate(@RequestBody Template template, HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = templateService.createTemplate(template,account);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Template Existed ");
         }
@@ -91,8 +101,11 @@ public class TemplateController {
     }
 
     @PostMapping("template/copy/{id}")
-    public ResponseEntity copyTemplate(@PathVariable int id,@RequestParam String name) {
-        boolean flag = templateService.copyTemplateGallery(id,name);
+    public ResponseEntity copyTemplate(@PathVariable int id,@RequestParam String name,HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + request);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = templateService.copyTemplateGallery(id,name,account);
         if (flag == true) {
             return ResponseEntity.status(CONFLICT).body("Đã copy thành công ");
         }

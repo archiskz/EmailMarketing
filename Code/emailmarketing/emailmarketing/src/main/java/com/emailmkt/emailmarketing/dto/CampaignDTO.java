@@ -7,6 +7,8 @@ import java.util.List;
 
 @Data
 public class CampaignDTO implements Serializable {
+
+    private int id;
     private String campaignName;
     private String status;
     private String createdTime;

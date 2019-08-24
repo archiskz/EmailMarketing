@@ -1,12 +1,13 @@
 package com.emailmkt.emailmarketing.service;
 
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Template;
 
 import java.util.List;
 
 
 public interface TemplateService {
-    boolean createTemplate(Template template);
+    boolean  createTemplate(Template template, Account account);
 
 
     List<Template> getAllTemplates();
@@ -21,7 +22,7 @@ public interface TemplateService {
 
     boolean editTemplate(int id);
 
-    boolean copyTemplateGallery( int id, String name);
+    boolean copyTemplateGallery( int id, String name,Account account);
 
 
 
