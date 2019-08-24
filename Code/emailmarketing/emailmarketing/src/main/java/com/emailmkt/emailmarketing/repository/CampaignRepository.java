@@ -10,6 +10,7 @@ import java.util.List;
 public interface CampaignRepository extends JpaRepository<Campaign,Integer> {
         Campaign findByNameAndAccount_id(String name, int account_id);
 //        Campaign findById(int id);
+
         Campaign findCampaignById(int id);
         List<Campaign> findAllByAutomationIsFalseOrderByCreatedTimeDesc();
 
