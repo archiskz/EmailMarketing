@@ -78,7 +78,7 @@ class CampaignPopUp extends Component {
         <div className="popuptext">
         <div className="popup-header">
         {/* <img className="img-pop-up" src="https://img.icons8.com/cool-color/64/000000/upload-mail.png"/> */}
-        <h1>{` ${this.props.automation == "automation" ? 'AUTOMATION CAMPAIGN': 'CAMPAIGN NAME'}`}</h1>
+        <h1>{` ${this.props.automation == "automation" ? 'WORKFLOW': 'CAMPAIGN NAME'}`}</h1>
         </div>
         <p>Keep your subscribers engaged by sharing your latest news, promoting a line of products, or announcing an event.</p>
         <input onChange={this.onChange.bind(this)} className="iput_pop_up" placeholder="Write down your campaign name" autocomplete="off"/> 
