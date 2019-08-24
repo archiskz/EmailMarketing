@@ -136,7 +136,7 @@ int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWork
                 } else if (shapeId.contains("BusinessRule")) {
                     newWorkflowTask.setType("appointment");
                     Appointment appointmentTask = appointmentRepository.findAppointmentByName(name);
-                    int campaignOrAppId = appointmentService.copyAppointment(appointmentTask.getId(), newWorkflow.getId());
+                    int campaignOrAppId = appointmentService.copyAppointment(appointmentTask.getId(), newWorkflow.getId(), account);
                     newWorkflowTask.setCampaignAppointment(campaignOrAppId);
                 }
 
