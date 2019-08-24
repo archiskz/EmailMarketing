@@ -350,7 +350,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 Map<String, String> map = new HashMap<>();
                 map.put("DATE", appointment.getTime());
                 if (appointment.getName().contains("<")) {
-                    String[] output = appointment.getName().split("<");
+                    String[] output = appointment.getName().split(">");
                     map.put("APPOINTMENT_NAME", output[0]);
                 } else {
                     map.put("APPOINTMENT_NAME", appointment.getName());
@@ -371,7 +371,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public int copyAppointment(int appointmentId, int workflowId) {
+    public int copyAppointment(int appointmentId, int workflowId, Account account) {
 
         Appointment temp = appointmentRepository.findAppointmentById(appointmentId);
         Workflow workflow = workflowRepository.findWorkflowById(workflowId);
@@ -379,7 +379,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             return 1;
         }
         Appointment appointment = new Appointment();
-        appointment.setAccount_id(1);
+        appointment.setAccount_id(account.getId());
         List<AppointmentGroupContact> appointmentGroupContacts = workflow.getWorkflowGroupContacts().stream().map(g -> {
             AppointmentGroupContact appointmentGroupContact = new AppointmentGroupContact();
             appointmentGroupContact.setGroupContact(g.getGroupContact());
@@ -409,7 +409,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setTime(temp.getTime());
         appointment.setBodyJson(temp.getBodyJson());
         appointment.setCreatedTime(LocalDateTime.now().toString());
-        appointment.setName(temp.getName() + "<" + workflow.getName() + ">" + UUID.randomUUID().toString());
+        appointment.setName(temp.getName() + "-" + workflow.getName() + ">" + UUID.randomUUID().toString());
         appointment.setSubject(temp.getSubject());
         appointment.setStatus("Sending");
         appointment.setAutomation(true);
@@ -467,5 +467,23 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
 
 
+    }
+
+    @Override
+    public List<AppointmentDTO> getAppointmentSegment(int accountId) {
+        List<Appointment> appointments = appointmentRepository.findAppointmentByAccount_idOrderByCreatedTimeDesc(accountId);
+        List<AppointmentDTO> appointmentDTOS = appointments.stream().map(g -> {
+            AppointmentDTO appointmentDTO = new AppointmentDTO();
+            appointmentDTO.setId(g.getId());
+            appointmentDTO.setCreatedTime(g.getCreatedTime());
+            if (g.getName().contains(">")) {
+                String[] output = g.getName().split(">");
+                appointmentDTO.setName(output[0]);
+            } else {
+                appointmentDTO.setName(g.getName());
+            }
+            return appointmentDTO;
+        }).collect(Collectors.toList());
+        return appointmentDTOS;
     }
 }

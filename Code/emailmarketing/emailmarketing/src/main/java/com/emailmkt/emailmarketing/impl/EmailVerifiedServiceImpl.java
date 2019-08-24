@@ -44,7 +44,8 @@ public class EmailVerifiedServiceImpl implements EmailVerifiedService {
 
         List<String> emailVerified = new ArrayList<>(CollectionUtils.intersection(emailVerify, emailVerifiedOnSES));
 
-List<EmailVerified> emailVerifyByAccountId = emailVerifiedRepository.findDistinct(accountId);        for (EmailVerified verified : emailVerifyByAccountId) {
+        List<EmailVerified> emailVerifyByAccountId = emailVerifiedRepository.findDistinct(accountId);
+        for (EmailVerified verified : emailVerifyByAccountId) {
             for (int counter = 0; counter < emailVerified.size(); counter++) {
                 if (verified.getEmail().equals(emailVerified.get(counter))) {
                     verified.setVerified(true);
@@ -68,9 +69,9 @@ List<EmailVerified> emailVerifyByAccountId = emailVerifiedRepository.findDistinc
         VerifyEmailAddressResult res = client.verifyEmailAddress(new VerifyEmailAddressRequest().withEmailAddress(emailVerified.getEmail()));
         EmailVerified emailVerified1 = new EmailVerified();
 
-        EmailVerified temp = emailVerifiedRepository.findEmailVerifiedByEmailAndAccount_id(emailVerified.getEmail(),accountId);
-        if(temp!= null){
-            if(temp.isVerified()){
+        EmailVerified temp = emailVerifiedRepository.findEmailVerifiedByEmailAndAccount_id(emailVerified.getEmail(), accountId);
+        if (temp != null) {
+            if (temp.isVerified()) {
                 return false;
             }
             client.verifyEmailAddress(new VerifyEmailAddressRequest().withEmailAddress(temp.getEmail()));

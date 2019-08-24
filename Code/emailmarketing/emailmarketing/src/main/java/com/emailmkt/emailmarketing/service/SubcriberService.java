@@ -2,6 +2,7 @@ package com.emailmkt.emailmarketing.service;
 
 
 import com.emailmkt.emailmarketing.dto.*;
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Subcriber;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface SubcriberService {
 
     boolean createSubcriberForm(SubcriberFormDTO dto);
 
-    boolean createListSubcrbier(List<SubcriberDTO> subcriberDTO);
+    boolean createListSubcrbier(List<SubcriberDTO> subcriberDTO, Account account);
 
 
     Subcriber editSubcriber(Subcriber subcriber);

@@ -143,6 +143,14 @@ public class CampaignController {
         return campaignRepository.findCampaignByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
     }
 
+    @GetMapping("/campaigns/segment")
+    Iterable<CampaignDTO> getCampaignSegment(HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        return campaignService.getCampaignSegment(account.getId());
+    }
+
     @ApiOperation(value = "Send Campaign Without Template")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful"),

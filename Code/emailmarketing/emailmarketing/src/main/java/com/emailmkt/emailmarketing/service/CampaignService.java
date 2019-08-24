@@ -6,6 +6,7 @@ import com.emailmkt.emailmarketing.dto.MailObjectDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Campaign;
 import com.emailmkt.emailmarketing.model.Template;
+import java.util.*;
 
 public interface CampaignService {
     boolean createCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO, Account account);
@@ -28,6 +29,8 @@ public interface CampaignService {
     boolean copyCampaign(int campaignId, String name, Account account);
 
     boolean checkDuplicatName(String name, int accountId);
+
+    List<CampaignDTO> getCampaignSegment(int accountId);
 
 
 

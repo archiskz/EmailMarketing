@@ -113,6 +113,14 @@ public class AppointmentController {
          List<Appointment> temp =appointmentRepository.findAppointmentByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
         return appointmentRepository.findAppointmentByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
     }
+
+    @GetMapping("/campaigns/segment")
+    Iterable<AppointmentDTO> getAppointmentSegment(HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        return appointmentService.getAppointmentSegment(account.getId());
+    }
     @GetMapping("appointment/{id}")
     public AppointmentFullDTO getAppointmentById(@PathVariable(value = "id") int id) {
         return appointmentService.getAppointmentById(id);
@@ -121,8 +129,11 @@ public class AppointmentController {
 
     ///Test POST
     @PostMapping("appointment/copy/")
-    public ResponseEntity copyAppointment(@RequestParam int id,@RequestParam int workflowId) {
-        int number = appointmentService.copyAppointment(id,workflowId);
+    public ResponseEntity copyAppointment(@RequestParam int id,@RequestParam int workflowId, HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        int number = appointmentService.copyAppointment(id,workflowId,account);
         if (number != 1) {
             return ResponseEntity.status(CONFLICT).body("Đã copy thành công ");
         }

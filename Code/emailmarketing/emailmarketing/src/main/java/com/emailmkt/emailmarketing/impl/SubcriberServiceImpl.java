@@ -100,7 +100,7 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
     @Override
-    public boolean createListSubcrbier(List<SubcriberDTO> subcriberDTOS) {
+    public boolean createListSubcrbier(List<SubcriberDTO> subcriberDTOS,Account account) {
         for (SubcriberDTO subcriberDTO : subcriberDTOS) {
 
             Subcriber result = subcriberRepository.findByEmail(subcriberDTO.getEmail());
@@ -154,13 +154,12 @@ public class SubcriberServiceImpl implements SubcriberService {
             subcriber.setFirstName(subcriberDTO.getFirstName());
             subcriber.setCreatedTime(LocalDateTime.now().toString());
             subcriber.setType(subcriberDTO.getType());
-            Account account = accountRepository.findAccountById(1);
             subcriber.setAccount_id(account.getId());
             List<GroupContactSubcriber> groupContactSubcribers = subcriberDTO.getGcSubcriberDTOS().stream().map(g -> {
 
                 GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
                 groupContactSubcriber.setActive(true);
-                if (subcriberDTO.getGcSubcriberDTOS().size() == 0 || g.getGroupContactId() ==0) {
+                if (subcriberDTO.getGcSubcriberDTOS().size() == 0 || g.getGroupContactId() == 0) {
                     groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(1));
                 } else {
                     groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
@@ -517,6 +516,16 @@ public class SubcriberServiceImpl implements SubcriberService {
                     }
                     if (segmentDTO.getSelect3().equalsIgnoreCase("is on")) {
                         subcriberList = subcriberRepository.findAllByCreatedTime(segmentDTO.getSelect4());
+                    }
+                }
+                //Engagement Score
+                if (segmentDTO.getSelect2().equalsIgnoreCase("Engagement Score")) {
+                    if (segmentDTO.getSelect3().equalsIgnoreCase("is equal to")) {
+                        subcriberList = subcriberRepository.findAllByTypeContains(segmentDTO.getSelect4());
+
+                        if (segmentDTO.getSelect3().equalsIgnoreCase("is on")) {
+                            subcriberList = subcriberRepository.findAllByTypeNotLike(segmentDTO.getSelect4());
+                        }
                     }
                 }
                 //Group
