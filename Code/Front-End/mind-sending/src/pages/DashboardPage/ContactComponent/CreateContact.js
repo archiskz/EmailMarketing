@@ -77,6 +77,8 @@ class CreateContact extends Component {
             if(this.props.history.location.state.success != null && this.props.history.location.state.success != undefined){
             //   this.addNotification(this.props.history.location.state.success)
               this.props.history.replace({});
+              this.getAllContacts()
+                    this.loadStatitic()
             }
           }
             const appState = JSON.parse(sessionStorage.getItem('appState'));
@@ -273,12 +275,12 @@ toAddContactManual=()=>{
                         </section>
                         </div>
                     </section>
-                      <a onClick={this.openModalBlackList} style={{fontSize:"1px","float":"right",marginRight:"20px", marginBottom:"30px","cursor":"pointer"}}>Black list</a>
+                      {/* <a onClick={this.openModalBlackList} style={{fontSize:"1px","float":"right",marginRight:"20px", marginBottom:"30px","cursor":"pointer"}}>Black list</a> */}
                     <div className="md_tablet1">
                     <div className="md_tablet2">
                         <div className="md_tablet3">
                         <h4 className="md_tablet_h4">Contact List: {allCountries.length} contacts</h4>
-                        <p className="md_tablet_p" onClick={this.openModalBlackList} style={{"cursor":"pointer","textDecoration":"underline"}}>{blackLists.length} inactive</p>
+                        <p className="md_tablet_p" onClick={this.openModalBlackList} style={{"color":"black","cursor":"pointer","textDecoration":"underline"}}>{blackLists.length} contacts in blacklist</p>
                         {/* <p className="md_tablet_p">Here is the list of your contacts </p> */}
                         </div>
                     <div className="md_tablet4">

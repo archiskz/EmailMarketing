@@ -76,7 +76,7 @@ class ContactBlackListRow extends Component {
           <td class="md_tablet6_tbody_td">{this.props.lastName}</td>
          
           {/* <td class="md_tablet6_tbody_td">{this.props.type}</td> */}
-          <td class="md_tablet6_tbody_td"><RatingBar score={this.props.score} /></td>
+          <td class="md_tablet6_tbody_td"><RatingBar type={this.props.type} /></td>
           <td class="md_tablet6_tbody_td">
           {this.props.contactActions}
           <a class="fas fa-redo-alt margin_td_fontawsome" onClick={()=>this.openModalDelete()} title="Remove to blacklist"> </a>

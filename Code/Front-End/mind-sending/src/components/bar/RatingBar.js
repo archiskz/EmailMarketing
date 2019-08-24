@@ -20,6 +20,9 @@ class RatingBar extends React.Component {
     render(){
         
         var point = parseInt(this.props.type, 10)
+        if(this.props.type == null){
+            point = 1
+        }
         console.log(this.props.type)
         return(
             <div style={{"display":"flex"}}>
