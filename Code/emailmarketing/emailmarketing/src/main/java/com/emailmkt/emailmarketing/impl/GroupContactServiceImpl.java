@@ -144,6 +144,7 @@ public class GroupContactServiceImpl implements GroupContactService {
         GroupContact groupContact = new GroupContact();
         groupContact.setCreatedTime(LocalDateTime.now().toString());
         groupContact.setName(groupContactDTO.getName());
+        groupContact.setDescription(groupContactDTO.getDescription());
         groupContact.setAccount_id(account.getId());
         List<GroupContactSubcriber> groupContactSubcribers = groupContactDTO.getSubcriberGCDTOS().stream().map(g -> {
             GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();

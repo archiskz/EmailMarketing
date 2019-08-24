@@ -131,7 +131,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                 if (shapeId.contains("SendTask")) {
                     newWorkflowTask.setType("campaign");
                     Campaign campaignTask = campaignRepository.findByNameAndAccount_id(name, account.getId());
-                    int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWorkflow.getId());
+                    int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWorkflow.getId(),account);
                     newWorkflowTask.setCampaignAppointment(campaignOrAppId);
                 } else if (shapeId.contains("BusinessRule")) {
                     newWorkflowTask.setType("appointment");

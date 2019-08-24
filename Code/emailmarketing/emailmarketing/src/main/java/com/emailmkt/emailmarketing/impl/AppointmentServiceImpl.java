@@ -171,6 +171,11 @@ public class AppointmentServiceImpl implements AppointmentService {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                try {
+                    newString = newString.replace("{{date}}", appointment.getTime());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 String messageId = mailService.sendAppointment(appointment.getSender(),
                         appointment.getFromMail(),
                         mailLists.get(counter), appointment.getSubject(),
