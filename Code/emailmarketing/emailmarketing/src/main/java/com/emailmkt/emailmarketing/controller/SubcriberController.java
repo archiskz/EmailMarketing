@@ -95,8 +95,11 @@ public class SubcriberController {
     }
 
     @PostMapping("subcriber/createListSubcriber")
-    public ResponseEntity createListSubcriber(@RequestBody List<SubcriberDTO> dtos) {
-        boolean flag = subcriberService.createListSubcrbier(dtos);
+    public ResponseEntity createListSubcriber(@RequestBody List<SubcriberDTO> dtos,HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = subcriberService.createListSubcrbier(dtos,account);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Email đã tồn tại vui lòng thêm email khác");
         }

@@ -71,9 +71,9 @@ for (EmailVerified verified : emailVerifyByAccountId) {
         VerifyEmailAddressResult res = client.verifyEmailAddress(new VerifyEmailAddressRequest().withEmailAddress(emailVerified.getEmail()));
         EmailVerified emailVerified1 = new EmailVerified();
 
-        EmailVerified temp = emailVerifiedRepository.findEmailVerifiedByEmailAndAccount_id(emailVerified.getEmail(),accountId);
-        if(temp!= null){
-            if(temp.isVerified()){
+        EmailVerified temp = emailVerifiedRepository.findEmailVerifiedByEmailAndAccount_id(emailVerified.getEmail(), accountId);
+        if (temp != null) {
+            if (temp.isVerified()) {
                 return false;
             }
             client.verifyEmailAddress(new VerifyEmailAddressRequest().withEmailAddress(temp.getEmail()));

@@ -100,7 +100,7 @@ public class SubcriberServiceImpl implements SubcriberService {
     }
 
     @Override
-    public boolean createListSubcrbier(List<SubcriberDTO> subcriberDTOS) {
+    public boolean createListSubcrbier(List<SubcriberDTO> subcriberDTOS,Account account) {
         for (SubcriberDTO subcriberDTO : subcriberDTOS) {
 
             Subcriber result = subcriberRepository.findByEmail(subcriberDTO.getEmail());
@@ -154,12 +154,16 @@ public class SubcriberServiceImpl implements SubcriberService {
             subcriber.setFirstName(subcriberDTO.getFirstName());
             subcriber.setCreatedTime(LocalDateTime.now().toString());
             subcriber.setType(subcriberDTO.getType());
-            Account account = accountRepository.findAccountById(1);
             subcriber.setAccount_id(account.getId());
             List<GroupContactSubcriber> groupContactSubcribers = subcriberDTO.getGcSubcriberDTOS().stream().map(g -> {
+
                 GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
                 groupContactSubcriber.setActive(true);
-                groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
+                if (subcriberDTO.getGcSubcriberDTOS().size() == 0 || g.getGroupContactId() == 0) {
+                    groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(1));
+                } else {
+                    groupContactSubcriber.setGroupContact(groupContactRepository.findGroupById(g.getGroupContactId()));
+                }
                 groupContactSubcriber.setCreatedTime(LocalDateTime.now().toString());
                 groupContactSubcriber.setSubcriber(subcriber);
                 return groupContactSubcriber;
@@ -200,7 +204,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                 subcriber.setType("3");
             } else if (subcriber.getPoint() >= 102 && subcriber.getPoint() < 237) {
                 subcriber.setType("4");
-            } else if (subcriber.getPoint() >= 237 ) {
+            } else if (subcriber.getPoint() >= 237) {
                 subcriber.setType("5");
             }
             subcriberRepository.save(subcriber);
@@ -249,7 +253,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriberViewDTO.setOpenRate(subcriber.getOpenRate());
         subcriberViewDTO.setBelongCampaign(belongCampaign);
         subcriberViewDTO.setBelongGroup(belongGroup);
-        List<GroupContactDTO> groupContactDTOS =  groupContactSubcriberRepository.findGroupContactSubcriberBySubcriber(subcriber).stream().map(g->{
+        List<GroupContactDTO> groupContactDTOS = groupContactSubcriberRepository.findGroupContactSubcriberBySubcriber(subcriber).stream().map(g -> {
             GroupContactDTO groupContactDTO = new GroupContactDTO();
             groupContactDTO.setName(g.getGroupContact().getName());
             groupContactDTO.setCreated_time(g.getGroupContact().getCreatedTime());
@@ -259,14 +263,14 @@ public class SubcriberServiceImpl implements SubcriberService {
         }).collect(Collectors.toList());
         subcriberViewDTO.setGroupContactDTOList(groupContactDTOS);
         List<CampaignDTO> campaignDTOS = campaignSubcriberRepository.findCampaignSubcriberBySubcriberEmail(subcriber.getEmail()).stream()
-                .map(g->{
-                CampaignDTO campaignDTO = new CampaignDTO();
-                campaignDTO.setCampaignName(g.getCampaignGroupContact().getCampaign().getName());
-                campaignDTO.setId(g.getCampaignGroupContact().getCampaign().getId());
-                campaignDTO.setStatus(g.getCampaignGroupContact().getCampaign().getStatus());
-                campaignDTO.setCreatedTime(g.getCreatedTime());
-                campaignDTO.setType(g.getCampaignGroupContact().getCampaign().getType());
-                return campaignDTO;
+                .map(g -> {
+                    CampaignDTO campaignDTO = new CampaignDTO();
+                    campaignDTO.setCampaignName(g.getCampaignGroupContact().getCampaign().getName());
+                    campaignDTO.setId(g.getCampaignGroupContact().getCampaign().getId());
+                    campaignDTO.setStatus(g.getCampaignGroupContact().getCampaign().getStatus());
+                    campaignDTO.setCreatedTime(g.getCreatedTime());
+                    campaignDTO.setType(g.getCampaignGroupContact().getCampaign().getType());
+                    return campaignDTO;
                 }).collect(Collectors.toList());
 
         subcriberViewDTO.setCampaignDTOList(campaignDTOS);
@@ -361,8 +365,8 @@ public class SubcriberServiceImpl implements SubcriberService {
         String formatTime = "08/22/2019";
         for (Subcriber subcriber : subcriberRepository.findAll()) {
             Long point = subcriber.getPoint();
-            if(point<0 ){
-                point = (long)0;
+            if (point < 0) {
+                point = (long) 0;
             }
             double totalRequest = campaignSubcriberRepository.countBySubcriberEmailAndCreatedTimeContains(subcriber.getEmail(), formatTime)
                     + appointmentSubcriberRepository.countBySubcriberEmailAndCreatedTimeContains(subcriber.getEmail(), formatTime);
@@ -381,7 +385,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             boolean clickRow = false;
             boolean openRow = false;
             //Dx
-            if(campaignSubcribers.size()>0) {
+            if (campaignSubcribers.size() > 0) {
                 for (int counter = 1; counter <= campaignSubcribers.size(); counter++) {
                     int next = counter + 1;
 
@@ -437,7 +441,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             System.out.println(point);
             //+ mark by Level
             double level = Integer.parseInt(subcriber.getType());
-            if(level >0 ){
+            if (level > 0) {
                 double pointPlus = (level + 1) * Math.log(level);
                 point = point + (int) pointPlus;
             }
@@ -512,6 +516,16 @@ public class SubcriberServiceImpl implements SubcriberService {
                     }
                     if (segmentDTO.getSelect3().equalsIgnoreCase("is on")) {
                         subcriberList = subcriberRepository.findAllByCreatedTime(segmentDTO.getSelect4());
+                    }
+                }
+                //Engagement Score
+                if (segmentDTO.getSelect2().equalsIgnoreCase("Engagement Score")) {
+                    if (segmentDTO.getSelect3().equalsIgnoreCase("is equal to")) {
+                        subcriberList = subcriberRepository.findAllByTypeContains(segmentDTO.getSelect4());
+
+                        if (segmentDTO.getSelect3().equalsIgnoreCase("is on")) {
+                            subcriberList = subcriberRepository.findAllByTypeNotLike(segmentDTO.getSelect4());
+                        }
                     }
                 }
                 //Group

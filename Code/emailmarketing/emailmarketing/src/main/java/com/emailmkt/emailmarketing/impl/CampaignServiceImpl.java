@@ -364,7 +364,7 @@ public class CampaignServiceImpl implements CampaignService {
         campaignFullDTO.setSpam(campaign.getSpamRate());
         //Contact Request
         List<Subcriber> contactRequest = campaignSubcriberRepository.findSubcriberByCampaignID(campaign.getId());
-        List<SubcriberViewDTO>contactRequestDto = contactRequest.stream().map(g->{
+        List<SubcriberViewDTO> contactRequestDto = contactRequest.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -375,8 +375,8 @@ public class CampaignServiceImpl implements CampaignService {
         }).collect(Collectors.toList());
         campaignFullDTO.setContactRequest(contactRequestDto);
         //Contact Delivery
-        List<Subcriber> contactDelivery = campaignSubcriberRepository.findSubcriberByCampaignAndDelivery(campaign.getId(),true);
-        List<SubcriberViewDTO>contactDeliveryDto = contactDelivery.stream().map(g->{
+        List<Subcriber> contactDelivery = campaignSubcriberRepository.findSubcriberByCampaignAndDelivery(campaign.getId(), true);
+        List<SubcriberViewDTO> contactDeliveryDto = contactDelivery.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -387,8 +387,8 @@ public class CampaignServiceImpl implements CampaignService {
         }).collect(Collectors.toList());
         campaignFullDTO.setContactDelivery(contactDeliveryDto);
         //Contact Opened
-        List<Subcriber> contactOpened = campaignSubcriberRepository.findSubcriberByCampaignAndOpened(campaign.getId(),true);
-        List<SubcriberViewDTO>contactOpenDto = contactOpened.stream().map(g->{
+        List<Subcriber> contactOpened = campaignSubcriberRepository.findSubcriberByCampaignAndOpened(campaign.getId(), true);
+        List<SubcriberViewDTO> contactOpenDto = contactOpened.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -399,8 +399,8 @@ public class CampaignServiceImpl implements CampaignService {
         }).collect(Collectors.toList());
         campaignFullDTO.setContactOpened(contactOpenDto);
         //Contact Bounce
-        List<Subcriber> contactBounce = campaignSubcriberRepository.findSubcriberByCampaignAndBounce(campaign.getId(),true);
-        List<SubcriberViewDTO>contactBounceDTO = contactBounce.stream().map(g->{
+        List<Subcriber> contactBounce = campaignSubcriberRepository.findSubcriberByCampaignAndBounce(campaign.getId(), true);
+        List<SubcriberViewDTO> contactBounceDTO = contactBounce.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -411,8 +411,8 @@ public class CampaignServiceImpl implements CampaignService {
         }).collect(Collectors.toList());
         campaignFullDTO.setContactBounce(contactBounceDTO);
         //Contact Clicked
-        List<Subcriber> contactClick = campaignSubcriberRepository.findSubcriberByCampaignAndClicked(campaign.getId(),true);
-        List<SubcriberViewDTO>contactClickDTO = contactClick.stream().map(g->{
+        List<Subcriber> contactClick = campaignSubcriberRepository.findSubcriberByCampaignAndClicked(campaign.getId(), true);
+        List<SubcriberViewDTO> contactClickDTO = contactClick.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -423,8 +423,8 @@ public class CampaignServiceImpl implements CampaignService {
         }).collect(Collectors.toList());
         campaignFullDTO.setContactClicked(contactClickDTO);
         //Contact Spam
-        List<Subcriber> contactSpam = campaignSubcriberRepository.findSubcriberByCampaignAndSpam(campaign.getId(),true);
-        List<SubcriberViewDTO>contactSpamDTO = contactSpam.stream().map(g->{
+        List<Subcriber> contactSpam = campaignSubcriberRepository.findSubcriberByCampaignAndSpam(campaign.getId(), true);
+        List<SubcriberViewDTO> contactSpamDTO = contactSpam.stream().map(g -> {
             SubcriberViewDTO subcriberViewDTO = new SubcriberViewDTO();
             subcriberViewDTO.setFirstName(g.getFirstName());
             subcriberViewDTO.setLastName(g.getLastName());
@@ -480,7 +480,7 @@ public class CampaignServiceImpl implements CampaignService {
         campaign.setSender(temp.getSender());
         campaign.setContent(temp.getContent());
         campaign.setType(temp.getType());
-        campaign.setName(temp.getName() +"<"+ workflow.getName() + ">"+UUID.randomUUID().toString());
+        campaign.setName(temp.getName() + "-" + workflow.getName() + ">" + UUID.randomUUID().toString());
         campaignRepository.save(campaign);
         return campaign.getId();
     }
@@ -514,7 +514,7 @@ public class CampaignServiceImpl implements CampaignService {
     @Override
     public CampaignFullDTO getCampaignLatest(Account account) {
 //        Campaign campaign = campaignRepository.findTopByOrderByCreatedTimeDesc();
-            Campaign campaign = campaignRepository.findTopByAccount_idAndAutomationIsFalseAndStatusContainsOrderByCreatedTimeDesc(account.getId(),"Done");
+        Campaign campaign = campaignRepository.findTopByAccount_idAndAutomationIsFalseAndStatusContainsOrderByCreatedTimeDesc(account.getId(), "Done");
         // Get Statistic of Campaign
         CampaignFullDTO campaignFullDTO = new CampaignFullDTO();
         campaignFullDTO.setCampaignName(campaign.getName());
@@ -581,6 +581,24 @@ public class CampaignServiceImpl implements CampaignService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<CampaignDTO> getCampaignSegment(int accountId) {
+        List<Campaign> campaigns = campaignRepository.findCampaignByAccount_idOrderByCreatedTimeDesc(accountId);
+        List<CampaignDTO> campaignDTOS = campaigns.stream().map(g -> {
+            CampaignDTO campaignDTO = new CampaignDTO();
+            campaignDTO.setId(g.getId());
+            campaignDTO.setType(g.getType());
+            if (g.getName().contains(">")) {
+                String[] output = g.getName().split(">");
+                campaignDTO.setCampaignName(output[0]);
+            } else {
+                campaignDTO.setCampaignName(g.getName());
+            }
+            return campaignDTO;
+        }).collect(Collectors.toList());
+        return campaignDTOS;
     }
 
 

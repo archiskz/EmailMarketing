@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class AppointmentDTO implements Serializable {
+    private int id;
     private String name;
     private String status;
     private String createdTime;

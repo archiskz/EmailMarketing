@@ -1,6 +1,5 @@
 package com.emailmkt.emailmarketing.repository;
 
-import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
 import com.emailmkt.emailmarketing.model.AppointmentSubcriber;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,6 +24,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment,Integer
         List<Appointment>findAppointmentByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc (int accountId);
 
         Appointment findAppointmentByName(String name);
+
+        List<Appointment> findAppointmentByAccount_idOrderByCreatedTimeDesc(int accountId);
 
 
 

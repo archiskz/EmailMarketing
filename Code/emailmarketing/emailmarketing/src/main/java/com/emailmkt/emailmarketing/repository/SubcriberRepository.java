@@ -97,6 +97,11 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 
 
     //Level
+    List<Subcriber> findAllByTypeContains(String type);
+
+    @Query("SELECT sub FROM Subcriber sub WHERE sub.type NOT LIKE  %:type%")
+    List<Subcriber> findAllByTypeNotLike(@Param("type") String type);
+
     List<Subcriber> findAllByOrderByCreatedTimeDesc();
 
 

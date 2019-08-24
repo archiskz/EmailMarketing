@@ -24,7 +24,7 @@ public interface CampaignRepository extends JpaRepository<Campaign,Integer> {
 
         List<Campaign> findAllByOrderByCreatedTimeDesc();
 
-
+        List<Campaign> findCampaignByAccount_idOrderByCreatedTimeDesc(int account_id);
 
 
 }
