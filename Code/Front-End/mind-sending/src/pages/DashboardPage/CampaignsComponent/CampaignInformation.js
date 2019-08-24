@@ -20,6 +20,7 @@ import "react-tabs/style/react-tabs.css";
 import FunelChart from '../../../components/chart/FunelChart'
 import ContactRowCampaign from './../../../components/row/ContactRowCampaign'
 
+import ContactRow from './../../../components/row/ContactRow'
 import ValidateField from '../../../components/inputValidate/ValidateField';
 class CampaignInformation extends Component{
    constructor(props) {
@@ -489,7 +490,7 @@ class CampaignInformation extends Component{
                 <tbody>
                 { requests.length > 0 ? 
                   requests.map((list,index) => (
-                    <ContactRowCampaign
+                    <ContactRow
             id = {list.id}
             firstName={list.firstName}
             key={list.index}
@@ -527,7 +528,7 @@ class CampaignInformation extends Component{
                 <tbody>
                 { deliverys.length > 0 ?
                   deliverys.map((list,index) => (
-                    <ContactRowCampaign
+                    <ContactRow
             id = {list.id}
             firstName={list.firstName}
             key={list.index}
@@ -566,7 +567,7 @@ class CampaignInformation extends Component{
                 <tbody>
                 { bounces.length > 0 ? 
                   bounces.map((list,index) => (
-                    <ContactRowCampaign
+                    <ContactRow
             id = {list.id}
             firstName={list.firstName}
             key={list.index}
@@ -606,7 +607,7 @@ class CampaignInformation extends Component{
                 {
                   spams.length > 0 ? 
                   spams.map((list,index) => (
-                    <ContactRowCampaign
+                    <ContactRow
             id = {list.id}
             firstName={list.firstName}
             key={list.index}
@@ -643,7 +644,7 @@ class CampaignInformation extends Component{
                 {
                   opens.length > 0 ? 
                   opens.map((list,index) => (
-                    <ContactRowCampaign
+                    <ContactRow
             id = {list.id}
             firstName={list.firstName}
             key={list.index}
@@ -682,7 +683,7 @@ class CampaignInformation extends Component{
                 { 
                   clicks.length > 0 ? 
                   clicks.map((list,index) => (
-                    <ContactRowCampaign
+                    <ContactRow
             id = {list.id}
             firstName={list.firstName}
             key={list.index}
