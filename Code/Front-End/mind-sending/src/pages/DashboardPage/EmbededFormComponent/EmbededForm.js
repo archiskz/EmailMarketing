@@ -141,9 +141,11 @@ class EmbededForm extends React.Component {
                     </h3>
                 </div>
                 
-                <div id="code_preview" className="ml30p" style={{"marginLeft":"0px !important","width":"360px", "border":"1px solid black","padding":"15px", "borderRadius":"10px"}}>
-            JOIN US <br/><br/>
-            <form>
+                <div id="code_preview" className="ml30p" style={{"marginLeft":"0px !important","width":"360px","padding":"15px", "textTransform":"uppercase"}}>
+                 
+            <form className="form-embed">
+            <b>{this.state.newForm.code}</b>
+            <br/><br/>
                     <div class="form-group">
                         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email"/>
                     </div>
@@ -162,7 +164,7 @@ class EmbededForm extends React.Component {
                     <div class={'form-group' +  (this.state.birth ? " " : " activeText" )}>
                         <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Birth Date"/>
                     </div>
-                    <button type="submit" onClick={this.onSubcribe} class="btn btn-primary">Subcribe</button>
+                    <button type="submit" onClick={this.onSubcribe} class="btn btn-primarys">Subcribe</button>
                 </form>
                     
             </div>
@@ -194,7 +196,7 @@ class EmbededForm extends React.Component {
                 <div class="">
                 
                     <div class="plain-code__textarea StyledTextarea-giTpQe hUwqAX" readonly="" name="plain_code" rows="8">
-                    {`<iframe style="border:none;z-index:1000;background:none;position: fixed;bottom:0;right:0;width:360px; height: 415px" src="http://localhost:3000/form-register/${this.state.formId}?${this.state.auth_token}">
+                    {`<iframe style="border:none;background:none;width:360px; height: 415px" src="http://localhost:3000/form-register/${this.state.formId}?${this.state.auth_token}">
   <p>Your browser does not support iframes.</p>
 </iframe>`}
                     </div>
@@ -216,8 +218,16 @@ class EmbededForm extends React.Component {
                                 <span>Form Name</span>
                                 <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
                             </div>
-                            <input onBlur={this.Validate} onChange={this.handleChange} value={this.state.newForm.name} class="user_profile_w3_input" name="button" type="text" autocomplete="off" maxlength="64"/>
+                            <input onBlur={this.Validate} onChange={this.handleChange} value={this.state.newForm.name} class="user_profile_w3_input" name="name" type="text" autocomplete="off" maxlength="64"/>
                             <ValidateField isValidate={false} isError = {this.state.validates.nameValidate} />
+                        </div>
+                        <div class="FormFieldContainer-cVnFXD gVnSPE">
+                            <div class="FormFieldLabel-jJcHUJ foZsFZ">
+                                <span>Headline</span>
+                                <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
+                            </div>
+                            <input onChange={this.handleChange} value={this.state.newForm.code} class="user_profile_w3_input" name="code" type="text" autocomplete="off" maxlength="64"/>
+                            {/* <ValidateField isValidate={false} isError = {this.state.validates.nameValidate} /> */}
                         </div>
                         <div class="FormFieldContainer-cVnFXD gVnSPE">
                             <div class="FormFieldLabel-jJcHUJ foZsFZ">
@@ -261,10 +271,11 @@ class EmbededForm extends React.Component {
 
     handleChange=(event)=>{
         const value = event.target.value
+        const name = event.target.name
         this.setState({
             newForm: {
                 ...this.state.newForm,
-                name: value
+                [name]: value
             }
         })
     }

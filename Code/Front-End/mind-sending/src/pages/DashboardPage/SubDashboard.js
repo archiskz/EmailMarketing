@@ -50,6 +50,12 @@ loadStatitic=()=>{
   }).catch(function (error) {
     });
 }
+loadSubscriberrStatitic=()=>{
+  axios.get(`${Config.API_URL}subcriber/statistic`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+  .then(res => {
+  }).catch(function (error) {
+    });
+}
     getLatestContact=()=>{
       const allCountries = [{}];
      axios.get(`${Config.API_URL}subcriber/latest`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })

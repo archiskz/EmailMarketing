@@ -89,7 +89,6 @@ public class EmbeddedFormController {
     Iterable<EmbeddedForm> getAll() {
         return embeddedFormRepository.findAllByOrderByCreatedTimeDesc();
     }
-
     @RequestMapping(value = "form/delete/{id}", method = RequestMethod.POST)
     @Transactional
     public ResponseEntity<String>  delete(@PathVariable("id") int id) {
