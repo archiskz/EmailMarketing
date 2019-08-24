@@ -103,7 +103,7 @@ public class TemplateController {
     @PostMapping("template/copy/{id}")
     public ResponseEntity copyTemplate(@PathVariable int id,@RequestParam String name,HttpServletRequest request) {
         String username = Ultilities.getUsername(request);
-        System.out.println("USER NAME IS :" + username);
+        System.out.println("USER NAME IS :" + request);
         Account account = accountRepository.findAccountByUsername(username);
         boolean flag = templateService.copyTemplateGallery(id,name,account);
         if (flag == true) {

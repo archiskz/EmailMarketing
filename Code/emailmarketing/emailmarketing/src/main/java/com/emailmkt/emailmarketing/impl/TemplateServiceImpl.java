@@ -56,7 +56,14 @@ public class TemplateServiceImpl implements TemplateService {
         Template template = new Template();
 
         if(templateGallery != null && templateTemp == null) {
-            template.setAccount_id(account.getId());
+            System.out.println("Test Account");
+//            template.setAccount_id(account.getId());
+            template.setAccount_id(1);
+
+            //Lỗi dòng này nha m? sao nó k get dc account ne
+            System.out.println("Not Account");
+            // ko get dc account nè m?
+            // Ko truyền được account vô nè. bị null ngay account
             template.setContentHtml(templateGallery.getContentHtml());
             template.setContentJson(templateGallery.getContentJson());
 
@@ -71,7 +78,7 @@ public class TemplateServiceImpl implements TemplateService {
             templateRepository.save(template);
             return true;
         }
-        return false;
+            return false;
     }
 
     @Override
@@ -107,7 +114,7 @@ public class TemplateServiceImpl implements TemplateService {
         }
 
         templateEdit.setNameTemplate(template.getNameTemplate());
-        templateEdit.setType(template.getType());
+        templateEdit.setType("ct");
         templateEdit.setContentHtml(template.getContentHtml());
         java.lang.String previewImage = convertHtmlToString(template.getContentHtml(), template.getId());
         template.setPreview(previewImage);

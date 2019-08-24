@@ -982,7 +982,7 @@ input[type="email"]:disabled {
     overflow-x: hidden !important;
     overflow:hidden !important;
 }
-button.btn.btn-primary {
+button.btn.btn-primarys {
     border-radius: 50px;
     width: 200px;
     height: 50px;
@@ -992,4 +992,22 @@ button.btn.btn-primary {
 }
 .form-embed {
   text-align: center  
+}
+#root{
+  background: transparent
+}
+.leftright30{
+  padding-left:40px !important;
+  padding-right:40px !important
+}
+.mt0{
+  margin-top:0px !important
+}
+.react-tabs__tab-panel  {
+    max-height: 240px;
+    overflow: auto;
+}
+.react-tabs__tab-panel  {
+    max-height: 240px;
+    overflow: auto;
 }

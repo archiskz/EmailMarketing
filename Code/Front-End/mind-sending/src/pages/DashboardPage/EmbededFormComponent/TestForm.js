@@ -35,11 +35,13 @@ class TestForm extends Component {
             address: "",
             dob:"",
             },
-            headline: "",
+            headline: "JOIN US",
             isShow:true,
-            isEmpty: false
+            isEmpty: false,
+            ok: false
         }     
         this.handleBtn = this.handleBtn.bind(this);
+        this.onSubcribe = this.onSubcribe.bind(this);
         };
         componentDidMount(){
             console.log(window.location.pathname); //yields: "/js" (where snippets run)
@@ -65,7 +67,10 @@ class TestForm extends Component {
                 }
                 var formDisplay = new String();
                 formDisplay = res.data.form
-                if(formDisplay.includes('firstName')){
+                this.setState({
+                    headline: res.data.code
+                })
+                if(formDisplay.includes('firstName')){  
                     this.setState({firstName: true})
                 }
                 if(formDisplay.includes('lastName')){
@@ -104,7 +109,7 @@ class TestForm extends Component {
         return(
             <div id="code_preview" className={`${this.state.isShow ? '':'activeText'}`} style={{"marginLeft":"0px !important","width":"360px","padding":"15px"}}>
           
-            <form className="form-embed">
+            <form className="form-embed" onSubmit={this.onSubcribe}>
             <b>{this.state.headline}</b>
             <br/><br/>
                     <div class="form-group">
@@ -125,8 +130,8 @@ class TestForm extends Component {
                     <div class={'form-group' +  (this.state.birth ? " " : " activeText" )}>
                         <input name="dob" value={this.state.newSubcriber.dob} onChange={this.handleChange} type="text" class="form-control" id="exampleInputPassword1" placeholder="Birth Date"/>
                     </div>
-                    <button  onClick={this.onSubcribe} class="btn btn-primary">Subcribe</button>
-                    <a style={{"marginLeft":"10px"}} onClick={this.closeIframe} id="close_btn_mindsending" class="btn btn-primary">Close</a>
+                    <button  class="btn btn-primarys">{this.state.ok ? 'SUCCESSFULLY' : 'Subscribe'}</button>
+                    {/* <a style={{"marginLeft":"10px"}} onClick={this.closeIframe} id="close_btn_mindsending" class="btn btn-primary">Close</a> */}
                 </form>    
             </div>
                      );
@@ -136,11 +141,13 @@ class TestForm extends Component {
         this.setState({isShow: false})
 
     }
-    onSubcribe=()=>{
+    onSubcribe(event){
+        event.preventDefault()
         console.log("haha")
         axios.post(`${Config.API_URL}subcriber/create`,this.state.newSubcriber,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(response => {
           this.setState({
+            ok:true,
             listAllAccounts: response.data,
             listFilter: response.data
           });

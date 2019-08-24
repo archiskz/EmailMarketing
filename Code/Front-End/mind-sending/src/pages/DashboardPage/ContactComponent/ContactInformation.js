@@ -6,6 +6,9 @@ import axios from 'axios';
 import * as Config from './../../../constants/Config';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import ListRow from './../../../components/row/ListRow';
+import CampaignRow from './../../../components/row/CampaignRow'
 
 class ContactInformation extends Component {
     constructor(props) {
@@ -24,6 +27,8 @@ class ContactInformation extends Component {
 			},
 			groupTotal: null,
 			campaignTotal: null,
+			campaignDTOList:[],
+			groupContactDTOList:[]
         };
         this.showDropdownMenu = this.showDropdownMenu.bind(this);
 	  this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
@@ -89,6 +94,7 @@ showDropdownMenu(event) {
 		
 		console.log(res.data);
 	  const contact = {
+		
 		  firstName: res.data.firstName,
 		  lastName: res.data.lastName,
 		  email: res.data.email,
@@ -105,14 +111,17 @@ showDropdownMenu(event) {
 	  console.log(contact);
 	  this.setState({contact:contact,
 		groupTotal: res.data.belongGroup,
-		campaignTotal: res.data.belongCampaign})
+		campaignTotal: res.data.belongCampaign,
+		campaignDTOList: res.data.campaignDTOList,
+		groupContactDTOList: res.data.groupContactDTOList,})
 	})
   }
   goBack =()=>{
     this.props.history.goBack()
   }
     render() {
-
+		var groups = this.state.groupContactDTOList
+		var campaigns = this.state.campaignDTOList
         return (<div style={{"width":"100%","height":"auto"}}>
 		<div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
 		<a onClick={this.goBack}
@@ -132,37 +141,11 @@ showDropdownMenu(event) {
           }]}
           ref={this.notificationDOMRef}
         />
-       {/* <nav class="toolbar-css__nav___27cII_detail">
-           
-            <span data-role="code-button" class="navToggleButton-css__btn___2zvVd toolbar-css__nav-item___2KoOr navToggleButton-css__active___2QGUn">
-                <span class="navToggleButton-css__code___2bWGz">
-               
-                </span>
-                <strong class="navToggleButton-css__toggle-name___3Y4ez">
-                <a href="/dashboard/campaigns">
-                Finish Later
-                </a>
-                </strong>
-            </span>
-        </nav>
-        <span class="toolbar-css__save-container___2x7qH">
-        <a onClick={this.saveDraft} icon="save-draft" data-role="save-draft" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
-            <i class="sg-icon sg-icon-save-draft">
-
-            </i>Save Draft
-        </a>
-    </span>
-    <span class="toolbar-css__send-container___AbB6n">
-        <a icon="airplane-fill" data-role="send-or-schedule-btn" class="btn btn-primary btn-on-dark  btn-with-icon btn-with-icon">
-            <i class="sg-icon sg-icon-airplane-fill">
-
-            </i>Send Campaign
-        </a>
-    </span> */}
+      
 </div> 
         	<div className="user_profile">
         <div className="user_profile2">
-        <div className="user_profile3">
+        <div className="user_profile3 flex50">
         	<div className="user_profile4">
         		<div className="user_profile5">
         		<h4 className="user_profile5_h4">Contact Information</h4>
@@ -250,33 +233,13 @@ showDropdownMenu(event) {
         	</div>
         	
         </div>
-        <div className="user_profile12 mt-20">
+        <div style={{"paddingLeft":"30px", "paddingRight":"30px"}} className="leftright30 user_profile12 mt0 flex50 maxwidth100">
         		<div className="user_profile13">
         			
         			<div className="user_profile15">
         				
         				<h4>{this.state.contact.lastName} {this.state.contact.firstName} </h4>
         				<p>Added via MindSending on: {this.state.contact.createdTime}</p>
-        				 {/* <div className="btn_create_contact2" onClick={this.showDropdownMenu} tabindex="0" type="text('Action')" data-dropdown-toggle="true" data-role="bulk-actions-toggle2">
-                                    
-                                    Action
-                                    <i className="fa fa-caret-down i_contact_information"></i>
-                                    </div>
-                                   { this.state.displayMenu ? (
-                                    <ul className="ul_contact_information">
-                                   <li><a href="#">Add to list</a></li>
-                                   <li><a href="# ">Remove from list</a></li>
-                                   <li><a href="# ">Move to list</a></li>
-                                   <li><a href="# ">Copy to list</a></li>
-                                   <li><a href="# ">Unsubcribe</a></li>
-                                   <li><a href="# ">Resubcribe</a></li>                                  
-                                   <li><a href="# ">Delete</a></li>
-                                    </ul>
-        ):
-        (
-          null
-        )
-        } */}
         			</div>
 
         		</div>
@@ -297,7 +260,7 @@ showDropdownMenu(event) {
         			</div>
         			</div>
         		 </div>
-        		 <div className="user_section user_line">	
+        		 {/* <div className="user_section user_line">	
         		  <div className="user_line">	
         			<div className="contact_information_detail">
         				<h4 className="contact_information_detail_h4">
@@ -312,8 +275,84 @@ showDropdownMenu(event) {
         				
         			</div>
         			</div>
-        		 </div>		
+        		 </div>		 */}
         		</div>
+				<Tabs style={{marginTop:"20px","backgroundColor":"white", boxShadow: "0 1px 2px 1px rgba(0,0,0,.2)", "boderRadius":"50px", width:"95%", position:"relative", right:"-18px"}}>
+                  <TabList>
+                    <Tab>Group</Tab>
+                    <Tab>Campaign</Tab>
+                  </TabList>
+
+                  <TabPanel>
+				  {/* Request */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+                  {/* {this.state.request} */}
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    {/* <th scope="col">#</th> */}
+                    <th scope="col">Group Name</th>
+                    <th scope="col">Description</th>
+					<th scope="col">Total contacts</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                { groups.length > 0 ? 
+                  groups.map((list,index) => (
+                    <ListRow
+                update={this.getAllListContact}
+                key={list.index}
+                contactId={list.id}
+                contactEmail={list.name}
+                contactStatus={list.description}
+                // contactDateAdded={list.totalContacts}
+				/>
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+				  </TabPanel>
+				  <TabPanel>
+				  {/* Request */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+                  {/* {this.state.request} */}
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    {/* <th scope="col">#</th> */}
+					<th scope="col">Status</th>
+                    <th scope="col">Campaign Name</th>
+                    <th scope="col">Delivery</th>
+					<th scope="col">Opens</th>
+                    <th scope="col">Clicks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                { campaigns.length > 0 ? 
+                  campaigns.map((list,index) => (
+                    <CampaignRow
+                                        id={list.id}
+                                        key={list.index}
+                                        status={list.status}
+                                         campaignName={list.name}
+                                         bodyJson = {list.bodyJson}
+                                         click={list.clickRate}
+                                         open={list.openRate}
+                                         delivery={list.delivery}
+                                         updateList={this.getAllCampaign}
+										 noaction = "true"
+                                     />
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+				  </TabPanel>
+				</Tabs>
         	</div>
         </div>
         </div>

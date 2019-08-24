@@ -164,7 +164,7 @@ class EmbededForm extends React.Component {
                     <div class={'form-group' +  (this.state.birth ? " " : " activeText" )}>
                         <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Birth Date"/>
                     </div>
-                    <button type="submit" onClick={this.onSubcribe} class="btn btn-primary">Subcribe</button>
+                    <button type="submit" onClick={this.onSubcribe} class="btn btn-primarys">Subcribe</button>
                 </form>
                     
             </div>
@@ -196,7 +196,7 @@ class EmbededForm extends React.Component {
                 <div class="">
                 
                     <div class="plain-code__textarea StyledTextarea-giTpQe hUwqAX" readonly="" name="plain_code" rows="8">
-                    {`<iframe style="border:none;z-index:1000;background:none;position: fixed;bottom:0;right:0;width:360px; height: 415px" src="http://localhost:3000/form-register/${this.state.formId}?${this.state.auth_token}">
+                    {`<iframe style="border:none;background:none;width:360px; height: 415px" src="http://localhost:3000/form-register/${this.state.formId}?${this.state.auth_token}">
   <p>Your browser does not support iframes.</p>
 </iframe>`}
                     </div>

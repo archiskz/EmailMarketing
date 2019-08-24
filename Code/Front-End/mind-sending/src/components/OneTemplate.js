@@ -192,6 +192,7 @@ class OneTemplate extends Component {
   }
   onDuplicate = (id)=>{
     // console.log(`${Config.API_URL}template/copy/${id}`);
+    console.log(this.state.auth_token)
     axios.post(`${Config.API_URL}template/copy/${id}?name=${this.state.newTemplate.name}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
       console.log(response.data)
