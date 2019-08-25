@@ -1,7 +1,5 @@
 package com.emailmkt.emailmarketing.impl;
 
-import com.emailmkt.emailmarketing.dto.CampaignDTO;
-import com.emailmkt.emailmarketing.dto.GCCampaignDTO;
 import com.emailmkt.emailmarketing.dto.ViewWorkflowDTO;
 import com.emailmkt.emailmarketing.dto.WorkflowDTO;
 import com.emailmkt.emailmarketing.model.*;
@@ -20,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 
 import javax.transaction.Transactional;
 import java.io.ByteArrayInputStream;
@@ -136,13 +133,12 @@ public class WorkflowServiceImpl implements WorkflowService {
                     newWorkflowTask.setType("campaign");
                     System.out.println("Campaign name is" + name + account.getId());
                     Campaign campaignTask = campaignRepository.findByNameAndAccount_id(name, account.getId());
-
-
                     int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWorkflow.getId(), account);
                     newWorkflowTask.setCampaignAppointment(campaignOrAppId);
                 } else if (shapeId.contains("BusinessRule")) {
                     newWorkflowTask.setType("appointment");
                     Appointment appointmentTask = appointmentRepository.findAppointmentByName(name);
+
                     int campaignOrAppId = appointmentService.copyAppointment(appointmentTask.getId(), newWorkflow.getId(), account);
                     newWorkflowTask.setCampaignAppointment(campaignOrAppId);
                 }
