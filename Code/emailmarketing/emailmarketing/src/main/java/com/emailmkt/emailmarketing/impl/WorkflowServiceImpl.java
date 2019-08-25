@@ -313,7 +313,7 @@ public class WorkflowServiceImpl implements WorkflowService {
         return subcriberIncoming;
     }
 
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = 10000)
     @Transactional
     @Override
     public void runWorkflow() {
@@ -572,23 +572,37 @@ public class WorkflowServiceImpl implements WorkflowService {
                                 System.out.println("--------------------------------------------------------Clicked ?No");
                                 Appointment tmpAppointment = appointmentRepository.findAppointmentById(tmp.getCampaignAppointment());
                                 AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(tmpAppointment.getId(), subcriber.getEmail());
-                                System.out.println("Appointment Here" + appointmentSubcriber.isSend() + tmpAppointment.getName());
-                                if (!appointmentSubcriber.isSend()
-                                        && concompareTwoTimes(timeSend, 2) == true
-                                ) {
+                                if(appointmentSubcriber != null){
+                                    if (!appointmentSubcriber.isSend()
+                                            && concompareTwoTimes(timeSend, 2) == true
+                                    ) {
 
-                                    appointmentSubcriber.setSend(true);
-                                    appointmentSubcriberRepository.save(appointmentSubcriber);
+                                        appointmentSubcriber.setSend(true);
+                                        appointmentSubcriberRepository.save(appointmentSubcriber);
 //                                    mailService.sendAppointment(tmpAppointment.getSender(), tmpAppointment.getFromMail(), subcriber.getEmail(), tmpAppointment.getSubject(), tmpAppointment.getBody());
-                                    addContentApppointment(tmpAppointment, subcriber);
+                                        addContentApppointment(tmpAppointment, subcriber);
 //                                    break;
+                                    }else if(appointmentSubcriber.isSend() && ! appointmentSubcriber.getMessageId().equalsIgnoreCase("")){
+                                        runTask(tmp, workflow, subcriber);
+                                    }
                                 }
-                                runTask(tmp, workflow, subcriber);
+                                else {
+                                    System.out.println("DANG O DAY NE");
+                                    AppointmentSubcriber newAppSub = new AppointmentSubcriber();
+                                    AppointmentGroupContact cgc = tmpAppointment.getAppointmentGroupContacts().get(0);
+                                    newAppSub.setAppointmentGroupContact(cgc);
+                                    newAppSub.setSubcriberEmail(subcriber.getEmail());
+                                    newAppSub.setSend(false);
+                                    newAppSub.setConfirmation(false);
+                                    appointmentSubcriberRepository.save(newAppSub);
+                                }
+
+
                             } else if (tmp.getType().equalsIgnoreCase("campaign")) {
                                 // CAMPAIGN
                                 Campaign tmpCampaign = campaignRepository.findCampaignById(tmp.getCampaignAppointment());
                                 CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(tmpCampaign.getId(), subcriber.getEmail());
-                                campaignSubcriber.getCreatedTime();
+//                                campaignSubcriber.getCreatedTime();
                                 if (campaignSubcriberRepository.checkConfirmCampaign(tmpCampaign.getId(), subcriber.getEmail()) != null) {
                                     System.out.println("--------------------------------------------------------Clicked ?No");
 
@@ -651,6 +665,7 @@ public class WorkflowServiceImpl implements WorkflowService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         try {
             content = content.replace("{{last_name}}", subcriber.getLastName());
         } catch (Exception e) {
@@ -676,12 +691,33 @@ public class WorkflowServiceImpl implements WorkflowService {
     public void addContentApppointment(Appointment appointment, Subcriber subcriber) {
         try {
 
-            String bodyTemp = appointment.getBody();
-            int index = bodyTemp.indexOf("<a href=\"\"") + 8;
-            String newString = new String();
-            for (int i = 0; i < bodyTemp.length(); i++) {
+            String content = appointment.getBody();
+            try {
+                content = content.replace("{{email}}", subcriber.getEmail());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-                newString += bodyTemp.charAt(i);
+            try {
+                content = content.replace("{{last_name}}", subcriber.getLastName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                content = content.replace("{{first_name}}", subcriber.getFirstName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                content = content.replace("{{date}}", appointment.getTime());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            int index = content.indexOf("<a href=\"\"") + 8;
+            String newString = new String();
+            for (int i = 0; i < content.length(); i++) {
+
+                newString += content.charAt(i);
                 if (i == index) {
                     newString += "http://localhost:8080/api/accept-appointment?confirmationToken=" + appointment.getToken() + "&subcriberEmail=" + subcriber.getEmail();
                 }
