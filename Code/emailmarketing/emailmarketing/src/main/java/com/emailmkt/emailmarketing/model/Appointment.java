@@ -66,7 +66,7 @@ public class Appointment implements Serializable {
 
 
 
-    @OneToMany( mappedBy = "appointment",cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "appointment",cascade = CascadeType.ALL,fetch=FetchType.EAGER )
     private List<AppointmentGroupContact> appointmentGroupContacts;
 
     @Column(name = "account_id")

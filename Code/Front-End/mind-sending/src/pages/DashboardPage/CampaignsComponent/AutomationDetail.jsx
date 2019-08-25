@@ -373,8 +373,8 @@ onClickToExport = () =>{
               
                 <div id="propview"  style={{marginTop:"30px", width: '30%', height: 'auto', float: 'right', maxHeight: '98vh' }}>
                 <div style={{marginTop:"-20px", width:"100%",height:"70px", backgroundColor:"#2e3544", color:"white" }}>
-                  <h3 className={`${this.state.workflowDTO.campaign == null ? 'activeText' : ''}`} style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Campaign: {this.state.workflowDTO.campaign != null ? this.state.workflowDTO.campaign.name.substring(0,(this.state.workflowDTO.campaign.name.length - 36)) : ''}</h3>
-                  <h3 className={`${this.state.workflowDTO.campaign == null ? '' : 'activeText'}`} style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Appointment: {this.state.workflowDTO.appointment != null ? this.state.workflowDTO.appointment.name.substring(0,(this.state.workflowDTO.appointment.name.length - 36)) : ''}</h3>
+                  <h3 className={`${this.state.workflowDTO.campaign == null ? 'activeText' : ''}`} style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Campaign: {this.state.workflowDTO.campaign != null ? this.state.workflowDTO.campaign.name.substring(0,(this.state.workflowDTO.campaign.name.length - 41)) : ''}</h3>
+                  <h3 className={`${this.state.workflowDTO.campaign == null ? '' : 'activeText'}`} style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Appointment: {this.state.workflowDTO.appointment != null ? this.state.workflowDTO.appointment.name.substring(0,(this.state.workflowDTO.appointment.name.length - 41)) : ''}</h3>
                 </div>
                 <div className={`${this.state.workflowDTO.campaign == null && this.state.workflowDTO.appointment == null  ? 'activeText' : ''}`} style={{"padding":"10px" }}> 
                 <h4>Clicked: {this.state.workflowDTO.campaign != null ? this.state.workflowDTO.campaign.clickRate : ""} 
