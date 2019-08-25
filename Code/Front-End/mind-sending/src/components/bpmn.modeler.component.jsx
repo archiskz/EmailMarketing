@@ -68,7 +68,7 @@ class BpmnModelerComponent extends Component {
         const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
-    });
+    }, ()=>{console.log(this.state.auth_token)});
       }
 
       setWrapperRef(node) {
@@ -139,7 +139,8 @@ onClickToExport = () =>{
 
         // the element was changed by the user
       });
-    console.log(xmlClone);
+    // console.log(xmlClone);
+    console.log(self.state.auth_token)
     this.setState({
       bpmn: {
         ...this.state.bpmn,
@@ -147,8 +148,10 @@ onClickToExport = () =>{
       }
     },
     ()=>{
-      console.log(this.state.bpmn)
-      axios.post(`${Config.API_URL}workflow/create`,this.state.bpmn,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+      const appState = JSON.parse(sessionStorage.getItem('appState'));
+      var auth_token = appState.user.auth_token
+      console.log(auth_token)
+      axios.post(`${Config.API_URL}workflow/create`,this.state.bpmn,{ 'headers': { 'Authorization': `${auth_token}` } })
       .then(res => {
         console.log("contact ID: " + res.data)
         self.props.history.push({

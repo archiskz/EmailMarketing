@@ -83,6 +83,7 @@ class AutomationCampaigns extends Component {
     ];
     axios.get(`${Config.API_URL}appointments`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
+      console.log(res.data)
       this.setState({appointments: res.data});
       res.data.forEach(element => {
         selectOptions.push({value: element.name, name: element.name})

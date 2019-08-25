@@ -120,19 +120,19 @@ class Segmentation extends Component {
 
   getAllCampaign=()=>{
     var self = this
-    axios.get(`${Config.API_URL}campaigns`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    axios.get(`${Config.API_URL}campaigns/segment`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data)
       var listCampaigns = res.data
-      listCampaigns = listCampaigns.filter(function(item){
-        return item.status == "Done";
-      })
+      // listCampaigns = listCampaigns.filter(function(item){
+      //   return item.status == "Done";
+      // })
       console.log(res.data);
       this.setState({listCampaigns: listCampaigns});
     }) 
   }
   getAllAppointment=()=>{
-    axios.get(`${Config.API_URL}appointments`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    axios.get(`${Config.API_URL}appointment/segment`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data)
       this.setState({listAppointments:res.data})
@@ -457,6 +457,8 @@ handleCheck=(event)=>{
   }
   
   createUI(listCampaigns, listAppointments,lists){
+    console.log(listCampaigns)
+    console.log(listAppointments)
      return this.state.contacts.map((el, i) => (
        <tr key={i}>
        <td style={{"alignItems":"baseline"}} className="pd5 border_bottom_none">
@@ -540,11 +542,11 @@ handleCheck=(event)=>{
           <select ref="selectFieldAction5" name="select4" value={el.select4 ||'1 bar'} className={`form-control ${el.select3 == 'is equal to'||el.select3 == 'is not equal to'|| el.select3 == 'is not equal to'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
             <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
-          <option>1 bar</option>
-          <option>2 bars</option>
-          <option>3 bars</option>
-          <option>4 bars</option>
-          <option>5 bars</option>
+          <option value="1">1 bar</option>
+          <option value="2">2 bars</option>
+          <option value="3">3 bars</option>
+          <option value="4">4 bars</option>
+          <option value="5">5 bars</option>
         </select>
         <select ref="selectFieldAction5" name="select4" value={el.select4 ||''} className={`form-control ${el.select3 == 'is group'||el.select3 == 'is not group'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChange.bind(this, i)}>
@@ -558,7 +560,7 @@ handleCheck=(event)=>{
             onChange={this.handleChange.bind(this, i)}>
         <option value=""  selected style={{display:"none"}}>---select an option---</option>
           {listCampaigns.map(list=>(
-            <option value={list.id}>{list.name}</option>  
+            <option value={list.id}>{list.campaignName}</option>  
                                     ))}
            
         </select>

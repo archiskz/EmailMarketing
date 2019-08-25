@@ -1,5 +1,4 @@
-
-//  export const API_URL = 'http://103.79.141.134:8080/api/';
+// export const API_URL = 'http://103.79.141.134:8080/api/';
 export const API_URL = 'http://localhost:8080/api/';
 // export const API_URL = 'http://192.168.100.104:8080/api/';
 // export const API_URL = 'http://5ceadd820c871100140bf778.mockapi.io/api/login';

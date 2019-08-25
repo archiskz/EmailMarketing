@@ -102,7 +102,8 @@ class AddContact extends Component {
     });
   }
 
-  onSave= () => {
+  onSave= (e) => {
+    e.preventDefault()
     var contactList = this.state.contacts;
     var self = this;
     if(this.state.noneList == true ){
@@ -143,7 +144,7 @@ class AddContact extends Component {
             
         }
         });
-        this.setState({contacts: contacts},()=> {
+        this.setState({contacts: contacts},()=> { 
           console.log(`${Config.API_URL}subcriber/createListSubcriber`)
     axios.post(`${Config.API_URL}subcriber/createListSubcriber`, this.state.contacts,{'headers': { 'Authorization': `${this.state.auth_token}` } })
       .then((response) => {
@@ -235,10 +236,10 @@ handleCheck=(event)=>{
                         </div>
                         <div className="col-md-6">
                             
-                                <a onClick={this.onSave} icon="segment" className="btn_create_contact">
+                                <button style={{paddingBottom:"15px"}} type="submit" form="formSubmit" onSubmit={this.onSave} icon="segment" className="btn_create_contact">
                                     <i className="sg-icon sg-icon-segment"></i>
                                     Save Contact
-                                </a>
+                                </button>
                             
                         </div>
                     </header>
@@ -287,6 +288,7 @@ handleCheck=(event)=>{
                     <p class="md_tablet_p">Here is the list of your contacts you will add </p>
                     </div>
                       <div className="md_tablet4">
+                      <form id="formSubmit" onSubmit={this.onSave}>
                       <table class="table1">
                         <thead>
                           <tr>
@@ -301,7 +303,8 @@ handleCheck=(event)=>{
                         {this.createUI()}   
                         </tbody>
                       </table>
-                       
+                      
+                       </form>
                     
                     
                   </div>
@@ -326,7 +329,7 @@ handleCheck=(event)=>{
        <tr key={i}>
        <th scope="row">{i+1}</th>
        <td className="pd5">
-       <input className="form-control" placeholder="Email" name="email" value={el.email ||''} onChange={this.handleChange.bind(this, i)} />     
+       <input type="email" className="form-control" placeholder="Email" name="email" value={el.email ||''} onChange={this.handleChange.bind(this, i)} />     
        </td>
        <td className="pd5">
        <input className="form-control" placeholder="First Name" name="firstName" value={el.firstName ||''} onChange={this.handleChange.bind(this, i)} />      
