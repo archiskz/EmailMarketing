@@ -114,7 +114,7 @@ public class AppointmentController {
         return appointmentRepository.findAppointmentByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
     }
 
-    @GetMapping("/campaigns/segment")
+    @GetMapping("/appointment/segment")
     Iterable<AppointmentDTO> getAppointmentSegment(HttpServletRequest request) {
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);

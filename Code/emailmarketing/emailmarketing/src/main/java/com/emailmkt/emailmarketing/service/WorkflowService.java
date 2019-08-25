@@ -5,9 +5,10 @@ import com.emailmkt.emailmarketing.dto.WorkflowDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Workflow;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-
+@Transactional
 public interface WorkflowService {
     boolean createWorkflow(WorkflowDTO workflowDTO, Account account);
 
