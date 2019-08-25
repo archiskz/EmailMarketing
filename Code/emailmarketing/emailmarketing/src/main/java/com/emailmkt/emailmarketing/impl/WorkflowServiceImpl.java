@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 //import com.emailmkt.emailmarketing.model.Task;
 //import com.emailmkt.emailmarketing.repository.TaskRepository;
 @Transactional
+
 @Service
 public class WorkflowServiceImpl implements WorkflowService {
 
@@ -130,14 +131,15 @@ public class WorkflowServiceImpl implements WorkflowService {
                 //set task Type
                 if (shapeId.contains("SendTask")) {
                     newWorkflowTask.setType("campaign");
+                    System.out.println("Campaign name is" + name + account.getId());
                     Campaign campaignTask = campaignRepository.findByNameAndAccount_id(name, account.getId());
-
                     int campaignOrAppId = campaignService.copyCampaign(campaignTask.getId(), newWorkflow.getId(), account);
                     newWorkflowTask.setCampaignAppointment(campaignOrAppId);
                 } else if (shapeId.contains("BusinessRule")) {
                     newWorkflowTask.setType("appointment");
                     Appointment appointmentTask = appointmentRepository.findAppointmentByName(name);
-                    int campaignOrAppId = appointmentService.copyAppointment(appointmentTask.getId(), newWorkflow.getId(),account);
+
+                    int campaignOrAppId = appointmentService.copyAppointment(appointmentTask.getId(), newWorkflow.getId(), account);
                     newWorkflowTask.setCampaignAppointment(campaignOrAppId);
                 }
 
@@ -308,6 +310,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     }
 
     @Scheduled(fixedRate = 30000)
+    @Transactional
     @Override
     public void runWorkflow() {
         System.out.println("RUN WORK FLOW");
@@ -361,6 +364,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 
                                 } else if (firstTask.getType().equalsIgnoreCase(("campaign"))) {
                                     Campaign firstApp = campaignRepository.findCampaignById(firstTask.getCampaignAppointment());
+
                                     System.out.println("First CAMPAIGN -----------------" + firstApp.getName() + subcriber.getEmail());
                                     if (campaignSubcriberRepository.checkConfirmCampaign(firstApp.getId(), subcriber.getEmail()) != null) {
                                         System.out.println("SUBCRIBER ------------------------" + campaignSubcriberRepository.checkSend(firstApp.getId(), subcriber.getEmail()));
@@ -381,9 +385,8 @@ public class WorkflowServiceImpl implements WorkflowService {
                                     } else {
                                         System.out.println("DANG O DAY NE");
                                         CampaignSubcriber newCampaignSub = new CampaignSubcriber();
-
-                                        CampaignGroupContact cgc = firstApp.getCampaignGroupContacts().get(0);
-                                        newCampaignSub.setCampaignGroupContact(cgc);
+                                        CampaignGroupContact campaignGroupContact = firstApp.getCampaignGroupContacts().get(0);
+                                        newCampaignSub.setCampaignGroupContact(campaignGroupContact);
                                         newCampaignSub.setSubcriberEmail(subcriber.getEmail());
                                         newCampaignSub.setSend(false);
                                         newCampaignSub.setComfirmation(false);
