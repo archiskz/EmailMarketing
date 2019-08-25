@@ -394,6 +394,12 @@ renderGroupList(currentCountries){
                 this.getAllListContact();
                 this.closeModal();
                 this.addNotification()
+                this.setState({
+                    newList: {
+                        name: "",
+                        description: ""
+                    }
+                })
             })
             .catch((error) => {
                 console.log(error.response.data);

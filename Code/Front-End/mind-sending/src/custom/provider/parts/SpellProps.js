@@ -10,10 +10,12 @@ export default function(group, element) {
   var selectOptionsApp = JSON.parse(sessionStorage.getItem('appointments'));
   var selectOptionsForm = JSON.parse(sessionStorage.getItem('forms'));
   var selectSequenceFlow = [
+    { value: 'Choose an option', name: 'Choose an option' },
     { value: 'no', name: 'No' },
     { value: 'yes', name: 'Yes' }
   ];
   var selectGateway = [
+    { value: 'Choose an option', name: 'Choose an option' },
     { value: 'Clicked ?', name: 'Clicked ?' },
     { value: 'Opened ?', name: 'Opened ?' }
   ];
