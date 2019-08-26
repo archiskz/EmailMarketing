@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -140,7 +142,23 @@ public class CampaignController {
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
-        return campaignRepository.findCampaignByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
+        List<Campaign> campaignList = campaignRepository.findCampaignByAccount_idOrderByCreatedTimeDesc(account.getId()).stream().map(g->{
+            Campaign campaign = new Campaign();
+            campaign.setId(g.getId());
+            if(g.getName().contains(">")){
+                String []output = g.getName().split(">");
+                campaign.setName(output[0]);
+            }else{
+            campaign.setName(g.getName());}
+
+            campaign.setStatus(g.getStatus());
+            campaign.setDelivery(g.getDelivery());
+            campaign.setOpenRate(g.getOpenRate());
+            campaign.setClickRate(g.getClickRate());
+            return campaign;
+        }).collect(Collectors.toList());
+return campaignList;
+
     }
 
     @GetMapping("/campaigns/segment")

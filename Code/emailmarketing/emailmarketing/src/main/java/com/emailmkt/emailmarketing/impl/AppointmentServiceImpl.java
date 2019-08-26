@@ -346,10 +346,10 @@ public class AppointmentServiceImpl implements AppointmentService {
             String body = "";
             try {
 
-                Template t = templates.getTemplate("test.ftl");
+                Template t = templates.getTemplate("thankyou.html");
                 Map<String, String> map = new HashMap<>();
                 map.put("DATE", appointment.getTime());
-                if (appointment.getName().contains("<")) {
+                if (appointment.getName().contains(">")) {
                     String[] output = appointment.getName().split(">");
                     map.put("APPOINTMENT_NAME", output[0]);
                 } else {
@@ -461,7 +461,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointmentRepository.save(appointment);
             final org.thymeleaf.context.Context ctx = new org.thymeleaf.context.Context();
             ctx.setVariable("name", appointmentSubcriber.getSubcriberEmail());
-            String htmlContent = this.htmlTemplateEngine.process("thankyou.html", ctx);
+            String htmlContent = this.htmlTemplateEngine.process("deny.html", ctx);
 
             return ResponseEntity.ok().body(htmlContent);
         }

@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.List;
 
 import static javax.mail.event.FolderEvent.CREATED;
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -110,8 +109,22 @@ public class AppointmentController {
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
         System.out.println("ACCOUNTID IS :" + account.getId());
-         List<Appointment> temp =appointmentRepository.findAppointmentByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
-        return appointmentRepository.findAppointmentByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
+        return appointmentRepository.findAppointmentByAccount_idOrderByCreatedTimeDesc(account.getId());
+//        List<Appointment> appointmentList =appointmentRepository.findAppointmentByAccount_idOrderByCreatedTimeDesc(account.getId()).stream().map(g->{
+//            Appointment appointment = new Appointment();
+//            appointment.setId(g.getId());
+//            if(g.getName().contains(">")){
+//                String []output = g.getName().split(">");
+//                appointment.setName(output[0]);
+//
+//            }else{appointment.setName(g.getName());}
+//            appointment.setTime(g.getTime());
+//            appointment.setRequest(g.getRequest());
+//            appointment.setClickRate(g.getClickRate());
+//            return appointment;
+//        }).collect(Collectors.toList());
+//        return appointmentList;
+
     }
 
     @GetMapping("/appointment/segment")

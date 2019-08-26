@@ -85,6 +85,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setEmail(dto.getEmail());
         subcriber.setFirstName(dto.getFirstName());
         subcriber.setType("Beginner Contacts");
+        subcriber.setPoint(Long.valueOf(0));
         Account account = accountRepository.findAccountById(1);
         subcriber.setAccount_id(account.getId());
         List<GroupContactSubcriber> groupContactSubcribers = new ArrayList<>();
@@ -318,7 +319,7 @@ public class SubcriberServiceImpl implements SubcriberService {
     @Override
     public List<SubcriberDTO> getAllSubcriberV2(int accountId) {
 
-        List<Subcriber> subcribers = groupContactSubcriberRepository.findAllSubcriberIsActiveOrderByCreatedTimeDesc(accountId);
+        List<Subcriber> subcribers = subcriberRepository.findAllByAccount_idOrderByCreatedTimeDesc(accountId);
 
         List<SubcriberDTO> dtos = new ArrayList<>();
         for (Subcriber subcriber : subcribers) {
@@ -523,9 +524,10 @@ public class SubcriberServiceImpl implements SubcriberService {
                     if (segmentDTO.getSelect3().equalsIgnoreCase("is equal to")) {
                         subcriberList = subcriberRepository.findAllByTypeContains(segmentDTO.getSelect4());
 
-                        if (segmentDTO.getSelect3().equalsIgnoreCase("is on")) {
-                            subcriberList = subcriberRepository.findAllByTypeNotLike(segmentDTO.getSelect4());
-                        }
+
+                    }
+                    if (segmentDTO.getSelect3().equalsIgnoreCase("is not equal to")) {
+                        subcriberList = subcriberRepository.findSubcriberByTypeIsNot(segmentDTO.getSelect4().trim());
                     }
                 }
                 //Group

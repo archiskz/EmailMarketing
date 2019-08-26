@@ -169,7 +169,7 @@ public class TemplateServiceImpl implements TemplateService {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try{
 //            ImageIO.write(image, "png", new File("aaaa.png"));
-            ImageIO.write(image, "png",new File("E:\\EmailMarketing\\Code\\Front-End\\mind-sending\\src\\assets\\img\\"+id+".png"));
+            ImageIO.write(image, "png",new File("E:\\EmailMarketing\\EmailMarketing\\Code\\Front-End\\mind-sending\\src\\assets\\img\\"+id+".png"));
              imgstr = Integer.toString(id);
             return imgstr;
         }catch(Exception e){
