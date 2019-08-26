@@ -262,6 +262,21 @@ class AddContactsFile extends Component {
     // this.setState({choose: event.target.value},()=>console.log(this.state.choose))
     
       }
+
+      addNotificationFail() {
+        this.notificationDOMRef.current.addNotification({
+          title: "Add contacts",
+          message: "Mail is existed!",
+          type: "warning",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: { duration: 2000 },
+          dismissable: { click: true }
+        });
+        
+      }
   handleData = (data) => {
     console.log("HEY")
     console.log(this.state.selectValue)
@@ -346,6 +361,7 @@ contacts: contacts
     })
     .catch((error) => {
       console.log(error);
+      this.addNotificationFail()
     });
 }
 
