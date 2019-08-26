@@ -227,7 +227,7 @@ return campaignList;
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
-        boolean flag = campaignService.checkDuplicatName(name, account.getId());
+        boolean flag = campaignService.checkDuplicatName(name, 1);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Fail ");
         }

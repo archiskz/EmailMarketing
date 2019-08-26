@@ -1011,3 +1011,7 @@ button.btn.btn-primarys {
     max-height: 240px;
     overflow: auto;
 }
+.entry.bpmn-icon-task.yellow {
+    display: none !important;
+    visibility: hidden;
+}

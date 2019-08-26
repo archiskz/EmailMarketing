@@ -55,6 +55,20 @@ class AddContact extends Component {
     });
     
   }
+  addNotificationFail() {
+    this.notificationDOMRef.current.addNotification({
+      title: "Add contacts",
+      message: "Mail is existed!",
+      type: "warning",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
+    
+  }
   onChangeListsSelect(args){
     var numbers = args.value;
     let selectValue = numbers.map((select)=>{
@@ -133,6 +147,7 @@ class AddContact extends Component {
       })
       .catch((error) => {
         console.log(error);
+        this.addNotificationFail()
       });
         })
     } else {
@@ -157,6 +172,7 @@ class AddContact extends Component {
       })
       .catch((error) => {
         console.log(error);
+        this.addNotificationFail()
       });
         })
     }

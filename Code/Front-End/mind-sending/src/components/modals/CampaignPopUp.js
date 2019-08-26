@@ -19,7 +19,8 @@ class CampaignPopUp extends Component {
        dropdown_visible: false,
        completed:"",
        isButtonActive:1,
-       selectValue:[{}]
+       selectValue:[{}],
+       isDuplicate: false
      };
      this.buttonClick = this.buttonClick.bind(this);
      this.fields = { text: 'name', value: 'id' };
@@ -81,6 +82,7 @@ class CampaignPopUp extends Component {
         <h1>{` ${this.props.automation == "automation" ? 'WORKFLOW': 'CAMPAIGN NAME'}`}</h1>
         </div>
         <p>Keep your subscribers engaged by sharing your latest news, promoting a line of products, or announcing an event.</p>
+        <p style={{"color":"red"}} className={`${this.state.isDuplicate ? '' : 'activeText'}`}>Your campaign name is existed</p>
         <input onChange={this.onChange.bind(this)} className="iput_pop_up" placeholder="Write down your campaign name" autocomplete="off"/> 
         {/* <p className={` ${this.props.automation == "automation" ? 'activeText': ''}`}>Your Campaign will use</p>
         <div className={` ${this.props.automation == "automation" ? 'activeText': ''}`} style={{"marginBottom":"20px","marginTop":"5px","textAlign":"center"}}>
@@ -137,13 +139,26 @@ class CampaignPopUp extends Component {
         }
     });
     } else {
-      this.props.history.push({
-        pathname:'/create-campaign',
-        state : {
-          campaignName: this.state.campaignName,
-          using: this.state.isButtonActive
-        }
-    });
+      const appState = JSON.parse(sessionStorage.getItem('appState'));
+      
+      var auth_token = appState.user.auth_token
+      axios.post(`${Config.API_URL}campaign/check/?name=${this.state.campaignName}`,{ 'headers': { 'Authorization': `${auth_token}` } })
+   .then(response => {
+    self.props.history.push({
+      pathname:'/create-campaign',
+      state : {
+        campaignName: self.state.campaignName,
+        using: self.state.isButtonActive
+      }
+  });
+   })
+   .catch(error => {
+     self.setState({
+      isDuplicate: true
+     })
+
+   });
+    
     }
     
     }
