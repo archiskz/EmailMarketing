@@ -65,6 +65,19 @@ class CreateContact extends Component {
         dismissable: { click: true }
       });
     }
+    addNotificationContact=()=> {
+      this.notificationDOMRef.current.addNotification({
+        title: `Add Contacts`,
+        message: `Add Contacts Successfully!`,
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: { duration: 2000 },
+        dismissable: { click: true }
+      });
+    }
    onToggleDropdown = () => {
      this.setState({
        dropdown_visible: !this.state.dropdown_visible
@@ -75,7 +88,7 @@ class CreateContact extends Component {
     componentDidMount(){
         if(this.props.history.location.state != null && this.props.history.location.state != undefined){
             if(this.props.history.location.state.success != null && this.props.history.location.state.success != undefined){
-            //   this.addNotification(this.props.history.location.state.success)
+              this.addNotificationContact()
               this.props.history.replace({});
               this.getAllContacts()
                     this.loadStatitic()
