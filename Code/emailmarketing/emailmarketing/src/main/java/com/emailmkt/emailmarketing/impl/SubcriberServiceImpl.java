@@ -51,6 +51,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setEmail(dto.getEmail());
         subcriber.setAddress(dto.getAddress());
         subcriber.setPhone(dto.getPhone());
+        subcriber.setPoint(Long.valueOf(0));
         subcriber.setFirstName(dto.getFirstName());
         subcriber.setLastName(dto.getLastName());
         subcriber.setType("0");

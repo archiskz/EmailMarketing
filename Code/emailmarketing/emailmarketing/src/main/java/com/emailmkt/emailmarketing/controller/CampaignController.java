@@ -4,6 +4,7 @@ import com.emailmkt.emailmarketing.Utils.Ultilities;
 import com.emailmkt.emailmarketing.dto.CampaignDTO;
 import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.dto.SegmentDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Campaign;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
@@ -55,6 +56,8 @@ public class CampaignController {
     static class MailAndCampaign {
         public MailObjectDTO mailObjectDTO;
         public CampaignDTO campaignDTO;
+        List<SegmentDTO> segmentDTOs;
+        String condition;
     }
 
     //    public AccountController(AccountService accountService) {
@@ -71,7 +74,7 @@ public class CampaignController {
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
-        boolean flag = campaignService.createCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, account);
+        boolean flag = campaignService.createCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, account,mailAndCampaign.segmentDTOs,mailAndCampaign.condition);
 
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign Existed");
