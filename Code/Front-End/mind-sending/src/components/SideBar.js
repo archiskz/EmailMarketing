@@ -5,6 +5,7 @@ import {
     Link
 } from "react-router-dom";
 import logo from './../assets/img/logo.png'
+import Modal from 'react-awesome-modal';
 class Sidebar extends Component {
 constructor(props) {
 
@@ -15,6 +16,10 @@ constructor(props) {
         activeClasses2: false,
         activeClasses3: false,
         activeClasses4: false,
+        role: "",
+        auth_token:"",
+        username:"",
+        modalLogout:false
     };
      this.addActiveClass = this.addActiveClass.bind(this);
 
@@ -56,21 +61,56 @@ addActiveClass = (index) => {
         
     }
 }
+componentDidMount(){
+        const appState = JSON.parse(sessionStorage.getItem('appState'));
+        this.setState({
+            auth_token: appState.user.auth_token,
+            role: appState.user.role,
+            username: appState.user.username
+        })
+
+       
+    } 
+    openModalLogout=()=>{
+        this.setState({
+            modalLogout: true
+        })
+    }
+
+    closeModalLogout=()=>{
+        this.setState({
+            modalLogout: false
+        })
+    }
+    onLogOut=()=>{
+        console.log("Log out")
+      sessionStorage.clear();
+      window.location.reload();
+    }
 
 
   render(){
      return (
     <div className="sidebar-menu">
-        <header className="logo1" style={{"textAlign":"center"}}>
+        <header className="logo1" style={{padding:"10px"}}>
         
             <Link to ="/" className="sidebar-icon"> <img src={logo} style={{"width":"100px", "height":"100px"}} /> </Link> 
+            {/* <p style={{"color":"white", "z-index":"100"}}>Hello, {this.state.username}</p> */}
         </header>
+        
         <div style={{borderTop: '1px ridge rgba(255, 255, 255, 0.15)'}} />
         <div className="menuside">
             <ul id="menuside">
-            
+            {/* <li id="menu-academico" >
+                    <a href="/">
+                        <i className="fa fa-home" /> 
+                        <span style={{position: 'relative'}}>Home</span>
+                        <div className="clearfix" />
+                    </a>
+
+                </li> */}
             {/* DASHBOARD */}
-                <li id="menu-academico">
+                <li id="menu-academico" className={this.state.role == "Admin" ? "activeText" : ""}>
                     <a href="/dashboard">
                         <i className="fa fa-chart-line" /> 
                         <span style={{position: 'relative'}}>Dashboard</span>
@@ -80,7 +120,7 @@ addActiveClass = (index) => {
                 </li>
             {/* DASHBOARD */}
              {/* CAMPAIGNS */}
-             <li id="menu-academico" className={this.state.activeClasses2? "opend" : "closed"}>
+             <li id="menu-academico" className={`${this.state.role == "Admin" ? " activeText" : ""} ${this.state.activeClasses2? " opend" : " closed"} `}>
                 <a onClick={() => this.addActiveClass(2)}>
                     <i className="fa fa-bullhorn" />
                     <span style={{position: 'relative'}}>Email Marketing</span>
@@ -106,7 +146,7 @@ addActiveClass = (index) => {
             </li>
 
             {/* END CAMPAIGNS */}
-            <li id="menu-academico" className={this.state.activeClasses3 ? "opend" : "closed"} >
+            <li id="menu-academico" className={`${this.state.role == "Admin" ? " activeText" : ""} ${this.state.activeClasses3? " opend" : " closed"} `} >
               
                     <Link to="/dashboard/contacts">
                     <i className="fa fa-user nav_icon" />
@@ -118,7 +158,7 @@ addActiveClass = (index) => {
                 
             </li>
 
-            <li id="menu-academico" className={this.state.activeClasses3? "opend" : "closed"}>
+            <li id="menu-academico" className={`${this.state.role == "Admin" ? " activeText" : ""} ${this.state.activeClasses3? " opend" : " closed"} `}>
                 {/* <a onClick={() => this.addActiveClass(3)}>
                     <i className="fa fa-users nav_icon" />
                     <span style={{position: 'relative'}}>Group Contact</span>
@@ -145,7 +185,7 @@ addActiveClass = (index) => {
             </li>
             
             {/* Embeded Form */}
-            <li  className={this.state.activeClasses5 ? "opend" : "closed"} >
+            <li  className={`${this.state.role == "Admin" ? " activeText" : ""} ${this.state.activeClasses3? " opend" : " closed"} `} >
                 <Link to="/dashboard/forms" >
                 <i className="fa fa-wpforms" />
                     <span style={{position: 'relative'}}>Embeded Form</span>
@@ -179,7 +219,7 @@ addActiveClass = (index) => {
             {/* END CONTACT */}
 
             {/* TEMPLATE */}
-            <li className={this.state.activeClasses1? "opend" : "closed"}>
+            <li className={` ${this.state.activeClasses1? " opend" : " closed"} `}>
                 <Link to="/dashboard/templates">
                     <i className="fa fa-image" aria-hidden="true" />
                     <span style={{position: 'relative'}}>Template</span>
@@ -193,12 +233,23 @@ addActiveClass = (index) => {
             
 
             {/* USERPROFILE */}
-                <li>
+                <li className={` ${this.state.activeClasses3? " opend" : " closed"} `}>
+                <a onClick={() => this.addActiveClass(3)}>
+                    <i className="fa fa-user" />
+                    <span style={{position: 'relative'}}>User</span>
+                    <span className="fa fa-angle-right" style={{float: 'right', position: 'relative'}} />
+                    <div className="clearfix" />
+                </a>
                     <Link to="/dashboard/profile">
-                        <i className="fa fa-address-card" /> 
+                        <i className="fa " /> 
                         <span style={{position: 'relative'}}>User Profile</span>
                         <div className="clearfix" />
                     </Link>
+                    <a onClick={this.onLogOut}>
+                        <i className="fa " /> 
+                        <span style={{position: 'relative'}}>Log out</span>
+                        <div className="clearfix" />
+                    </a>
 
                 </li>
             {/* USERPROFILE */}
@@ -206,8 +257,10 @@ addActiveClass = (index) => {
            
            
         </ul>
+        
         </div>
         <div className="sidebar-menu2">
+       
         </div>
 </div>
     );

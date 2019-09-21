@@ -25,7 +25,8 @@ class Templates extends Component {
       visibleCustom: false,
       visibleMs: false,
       auth_token:"",
-      templateType:0
+      templateType:0,
+      role:""
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -52,9 +53,22 @@ class Templates extends Component {
       }
     }
     const appState = JSON.parse(sessionStorage.getItem('appState'));
+    var type = 0;
+    var typeS = ""
+    if(appState.user.role == "Admin"){
+      type = 2
+      typeS="mindsending"
+    }
     this.setState({
-        auth_token: appState.user.auth_token
-    },()=> this.getAllTemplates() )
+        auth_token: appState.user.auth_token,
+        role: appState.user.role,
+    },()=> {
+      if(type == 0){
+        this.getAllTemplates(type);
+      } else if(type == 2){
+        this.getTemplateByType(typeS)
+      }
+    } )
    }	
 
    addNotification=(title)=>{
@@ -84,8 +98,9 @@ class Templates extends Component {
     });
   }
 	
-   getAllTemplates=()=>{
-     this.setState({templateType:0})
+   getAllTemplates=(type)=>{
+     this.setState({templateType:type})
+     
     axios.get(`${Config.API_URL}template`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data);
@@ -159,9 +174,9 @@ class Templates extends Component {
           <div className="filter">
             <ul className="">
             <li><a  className="text-muted">Filter By</a></li>
-              <li><button className={`${this.state.templateType == 0 ? 'activeTemplate' : 'inactiveTemplate'}`} style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getAllTemplates()} >All</button></li>
+              <li><button className={`${this.state.role == "Admin" ? " activeText" : ""} ${this.state.templateType == 0 ? 'activeTemplate' : 'inactiveTemplate'}`} style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getAllTemplates()} >All</button></li>
               <li><button className={`${this.state.templateType == 2 ? 'activeTemplate' : 'inactiveTemplate'}`} style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getTemplateByType("mindsending")}>MindSending templates</button></li>
-              <li><button className={`${this.state.templateType == 1 ? 'activeTemplate' : 'inactiveTemplate'}`} style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getTemplateByType("custom")}>Custom Templates</button></li>
+              <li><button className={`${this.state.role == "Admin" ? " activeText" : ""} ${this.state.templateType == 1 ? 'activeTemplate' : 'inactiveTemplate'}`} style={{"marginRight":"15px", "color":"green"}} onClick={()=>this.getTemplateByType("custom")}>Custom Templates</button></li>
             </ul>
           </div>
         </div>
@@ -171,6 +186,7 @@ class Templates extends Component {
       <div className="thumbnail-view">
           {this.state.templates.map(list=>(
                <OneTemplate
+               admin={this.state.role}
                content = {list.contentJson}
                update = {this.getAllTemplates}
                    key={list.index}
