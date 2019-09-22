@@ -49,6 +49,7 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
 
     long countByType(String type);
 
+    List<Subcriber> findAllByAccount_idOrderByCreatedTimeDesc(int accountId);
 
     //Segment
     List<Subcriber> findAllByLastNameContains(String name);
@@ -99,8 +100,10 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     //Level
     List<Subcriber> findAllByTypeContains(String type);
 
-    @Query("SELECT sub FROM Subcriber sub WHERE sub.type NOT LIKE  %:type%")
-    List<Subcriber> findAllByTypeNotLike(@Param("type") String type);
+//    @Query("SELECT sub FROM Subcriber sub WHERE sub.type NOT LIKE  %:type%")
+//    List<Subcriber> findAllByTypeNotLike(@Param("type") String type);
+
+    List<Subcriber>findSubcriberByTypeIsNot(String type);
 
     List<Subcriber> findAllByOrderByCreatedTimeDesc();
 

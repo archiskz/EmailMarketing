@@ -25,6 +25,7 @@ class CreateCampaign extends Component{
        canPass:false,
       validates:{},
        isChecked:false,
+       isCheckedSegment: false,
        using:this.props.history.location.state.using,
        height: 755,
       modalIsOpen: false,
@@ -35,6 +36,7 @@ class CreateCampaign extends Component{
        toVisible: true,
        fromVisible: true,
        subjectVisible: true,
+       condition: "or",
        contentVisible: true,
        campaignId: 0,
        templates:[],
@@ -63,6 +65,14 @@ class CreateCampaign extends Component{
         },
         auth_token:"" ,
         verified:[],
+        contacts: [{
+          select1:"Contact details",
+          select2:"Name",
+          select3:"is",
+          select4:"",
+        }],
+        listCampaigns:[],
+        listAppointments:[],
         canPass:false
      };
      this.fields = { text: 'name', value: 'id' };
@@ -81,6 +91,8 @@ class CreateCampaign extends Component{
       this.getAllGroupContacts();
       this.getAllTemplates();
       this.getAllFrom()
+      this.getAllAppointment()
+      this.getAllCampaign()
     });
      
      this.setState({height: this.refs.height.clientHeight})
@@ -88,6 +100,17 @@ class CreateCampaign extends Component{
     
 
    }
+   addClick(){
+    this.setState(prevState => ({ 
+    	contacts: [...prevState.contacts, {select1:"Contact details", select2:"Name" }]
+    }))
+    console.log(this.state.contacts)
+  }
+  removeClick(i){
+    let contacts = [...this.state.contacts];
+    contacts.splice(i, 1);
+    this.setState({ contacts });
+ }
 
    getAllGroupContacts=()=>{
     axios.get(`${Config.API_URL}groupContacts`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
@@ -100,6 +123,28 @@ class CreateCampaign extends Component{
       console.log(error);
     });
    }
+
+   getAllCampaign=()=>{
+    var self = this
+    axios.get(`${Config.API_URL}campaigns/segment`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+      console.log(res.data)
+      var listCampaigns = res.data
+      // listCampaigns = listCampaigns.filter(function(item){
+      //   return item.status == "Done";
+      // })
+      console.log(res.data);
+      this.setState({listCampaigns: listCampaigns});
+    }) 
+  }
+  getAllAppointment=()=>{
+    axios.get(`${Config.API_URL}appointment/segment`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+      console.log(res.data)
+      this.setState({listAppointments:res.data})
+    }).catch(function (error) {
+      });
+  }
 
    getAllTemplates=()=>{
     axios.get(`${Config.API_URL}template`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
@@ -214,6 +259,10 @@ class CreateCampaign extends Component{
     var selectDateTmp = new Date(this.state.newCampaign.campaignDTO.timeStart);
     var selectedDate = (selectDateTmp.getMonth()+1) + '/' + selectDateTmp.getDate() +'/'+selectDateTmp.getFullYear() + ' ' +  selectDateTmp.getHours()+':'+ selectDateTmp.getMinutes();
     var listFrom = this.state.verified
+    var listCampaigns = new Array;
+    listCampaigns = this.state.listCampaigns
+    var listAppointments =new Array;
+    listAppointments = this.state.listAppointments
   // const currDate = "Current Date= "+date;
      return (
        <div style={{"width":"100%","height":"100%"}}>
@@ -346,10 +395,17 @@ class CreateCampaign extends Component{
                           placeholder="Lists"/>
                           <ValidateField isValidate={false} isError = {this.state.validates.groupValidate} />
                       </div>
+                      <div className="control-styles">
+                        
+                      </div>
+                     
         					</div>
+                  
         				</div>
+                
         				
         				<div className="user_profile9_sub">
+                
         					<div className="user_profile8_sub1">
         					
         					</div>
@@ -357,6 +413,30 @@ class CreateCampaign extends Component{
         			</div>
         		
         		</div>	
+            <div className={`user_profile6 ${this.state.isCheckedSegment ? "" : ""}`}>
+            <p className="user_profile_w3_label" style={{"display":"flex"}}>Segment 
+            <div className="switch-container">
+                <label>
+                    <input ref="switch" checked={ this.state.isCheckedSegment } onChange={ this._handleChangeSegment } className="switch" type="checkbox" />
+                    <div>
+              
+                        <div></div>
+                    </div>
+                </label>
+            </div>
+            </p>
+            <div className={` ${this.state.isCheckedSegment ? "" : "activeText"}`} style={{fontSize:"14px",fontWeight:"600",display:"flex",justifyContent: "flex-start",alignItems:"baseline",marginLeft:"10px","marginTop":"10px"}}>
+                      Contacts match
+                      <select value={this.state.condition} onChange={this.handleChangeConditionSegment.bind(this)} style={{"width":"70px",marginLeft:"5px",marginRight:"5px"}} ref="selectCondition" name="select1" class="form-control"  id="exampleFormControlSelect1" >
+                        
+                        <option value="or">Any</option>
+                        <option value="and">All</option>
+                      </select>
+                      of the following conditions
+                       </div> 
+                       <br/>
+                {this.state.isCheckedSegment ?  this.createUI(listCampaigns,listAppointments,lists) :  null} 
+            </div>
             {/* END TO */}
             {/* FROM */}
             <div className="user_profile6">
@@ -434,11 +514,19 @@ class CreateCampaign extends Component{
 
       );
   }
+  handleChangeConditionSegment=(event)=>{
+    this.setState({
+      condition: event.target.value
+    },()=> console.log(this.state.condition))
+  }
 
   _handleChange=()=> {
 		this.setState( { isChecked: !this.state.isChecked }, ()=>console.log(this.state.isChecked));
     }
-    
+    _handleChangeSegment=()=> {
+      this.setState( { isCheckedSegment: !this.state.isCheckedSegment }, ()=>console.log(this.state.isCheckedSegment));
+      }
+      
 
 
 
@@ -592,7 +680,180 @@ class CreateCampaign extends Component{
    
   }
 
+  createUI(listCampaigns, listAppointments,lists){
+    console.log(listCampaigns)
+    console.log(listAppointments)
+     return this.state.contacts.map((el, i) => (
+       <tr key={i}>
+       <td style={{"alignItems":"baseline"}} className="pd5 border_bottom_none">
+       {/* <input className="form-control" placeholder="Email" name="email" value={el.email ||''} onChange={this.handleChange.bind(this, i)} />      */}
+       
+    <select ref="selectCondition" name="select1" value={el.select1 ||'Contact details'} class="form-control" id="exampleFormControlSelect1" 
+      onChange={this.handleChangeCondition.bind(this, i)}>
+        <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
+        <option>Contact details</option>
+        <option>Contact actions</option>
+      </select>
+  
+       </td>
+       <td className="pd5 border_bottom_none">
+       {/* <input   className={`form-control ${el.email == 'Contact details' ? '' : 'activeText'}`}  placeholder="First Name" name="firstName" value={el.firstName ||''} onChange={this.handleChange.bind(this, i)} />       */}
+       <select ref="selectFieldDetail"  name="select2" value={el.select2 ||'Name'} className={`form-control ${el.select1 == 'Contact details' ? '' : 'activeText'}`} id="exampleFormControlSelect2" 
+        onChange={this.handleChangeCondition.bind(this, i)}>
+      <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
+      <option>Name</option>
+      <option>Email</option>
+      <option>Birthday</option>
+      <option>Address</option>
+      <option>Subscription date</option>
+      <option>Engagement Score</option>
+      
+    </select>
+    <select ref="selectFieldAction" name="select2" value={el.select2 ||''} className={`form-control ${el.select1 == 'Contact actions' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+        onChange={this.handleChangeCondition.bind(this, i)}>
+        <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
+      <option>Mail not opened</option>
+      <option>Mail opened</option>
+      <option>Mail clicked</option>
+      <option>Mail not clicked</option>
+    </select>
+       </td>
+       <td className="pd5 border_bottom_none">
+      
+          <select ref="selectFieldAction1" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Email' || el.select2 == 'Name' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChangeCondition.bind(this, i)}>
+            <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
+          <option>is</option>
+          <option>is not</option>
+          <option>contains</option>
+          <option>doesn't contain</option>
+        </select>
+        <select ref="selectFieldAction1" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Address' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChangeCondition.bind(this, i)}>
+          <option value="" selected style={{display:"none"}}>---select an option---</option>
+          <option>contains</option>
+          {/* <option>doesn't contain</option> */}
+        </select>
+        <select ref="selectFieldAction2" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Birthday' || el.select2 == 'Subscription date' || el.select2 == 'Last click date' || el.select2 == 'Last open date' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChangeCondition.bind(this, i)}>
+            <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
+          <option>is before</option>
+          <option>is after</option>
+          <option>is on</option>
+        </select>
+        <select ref="selectFieldAction3" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Mail clicked' || el.select2 == 'Mail not opened' ||el.select2 == 'Mail opened' ||  el.select2 == 'Mail not clicked' || el.select2 == 'Last click date' || el.select2 == 'Last open date' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChangeCondition.bind(this, i)}>
+            <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
+          <option>campaign</option>
+          <option>appointment</option>
+        </select>
+        <select ref="selectFieldAction4" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Engagement Score'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChangeCondition.bind(this, i)}>
+            <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
+          <option>is equal to</option>
+          <option>is not equal to</option>
+        </select>
+        <select ref="selectFieldAction2" name="select3" value={el.select3 ||''} className={`form-control ${el.select2 == 'Group' ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChangeCondition.bind(this, i)}>
+            <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
+          <option>is group</option>
+          <option>is not group</option>
+        </select>
+       </td>
+       <td className=" border_bottom_none">
+          <input className={`form-control ${el.select3 == 'is' || el.select3 == "is not" || el.select3 == "contains" || el.select3 == "doesn't contain"  ? '' : 'activeText'}`}  placeholder="" name="select4" value={el.select4 ||''} onChange={this.handleChange.bind(this, i)} />      
+          <select ref="selectFieldAction5" name="select4" value={el.select4 ||'1 bar'} className={`form-control ${el.select3 == 'is equal to'||el.select3 == 'is not equal to'|| el.select3 == 'is not equal to'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChangeCondition.bind(this, i)}>
+            <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
+          <option value="1">1 bar</option>
+          <option value="2">2 bars</option>
+          <option value="3">3 bars</option>
+          <option value="4">4 bars</option>
+          <option value="5">5 bars</option>
+        </select>
+        <select ref="selectFieldAction5" name="select4" value={el.select4 ||''} className={`form-control ${el.select3 == 'is group'||el.select3 == 'is not group'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChangeCondition.bind(this, i)}>
+            <option value=""  selected style={{display:"none"}}>---select an option---</option>
+          {lists.map(list=>(
+            <option value={list.id}>{list.name}</option>  
+                                    ))}
+        </select>
 
+        <select ref="selectFieldAction6" name="select4" value={el.select4 ||''} className={`form-control ${el.select3 == 'campaign'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChangeCondition.bind(this, i)}>
+        <option value=""  selected style={{display:"none"}}>---select an option---</option>
+          {listCampaigns.map(list=>(
+            <option value={list.id}>{list.campaignName}</option>  
+                                    ))}
+           
+        </select>
+        <select ref="selectFieldAction7" name="select4" value={el.select4 ||''} className={`form-control ${el.select3 == 'appointment'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
+            onChange={this.handleChangeCondition.bind(this, i)}>
+        <option value=""  selected >---select an option---</option>
+          {listAppointments.map(list=>(
+            <option value={list.id}>{list.name}</option>  
+                                    ))}
+           
+        </select>
+
+        
+        <input className={`form-control ${el.select3 == 'is before'||el.select3 == 'is after'|| el.select3 == 'is on'  ? '' : 'activeText'}`} type="date"  placeholder="date" name="select4" value={el.select4 ||''} onChange={this.handleChange.bind(this, i)} />      
+        
+       
+       </td>
+       <td className=" border_bottom_none" style={{ height:'100%'}} >
+        <div style={{"alignItems":"baseline" , "display":"flex"}}  className="md_tablet6_tbody_td_add font_awsome_size">
+          <a className="fas fa-plus-square icon_sz_add margin_td_fontawsome font_awsome_size" title="Add more" onClick={this.addClick.bind(this)}/>
+          <a className={`fas fa-trash-alt icon_sz_add ${i == 0 ? 'activeText' : ''}`} title="Delete" onClick={this.removeClick.bind(this, i)} />
+          </div>
+        </td>
+     </tr>  
+      
+      
+          
+     ))
+  }
+
+  handleChangeCondition(i, e) {
+    const { name, value } = e.target;
+    if(name == "select1" && value =="Contact actions"){
+      let contacts = [...this.state.contacts];
+    contacts[i] = {select1: "Contact actions", select2: "Mail not opened", select3: "campaign",select4:""};
+    this.setState({ contacts });
+    console.log(this.state.contacts)
+    } else if(name == "select1" && value =="Contact details"){
+      let contacts = [...this.state.contacts];
+    contacts[i] = {select1: "Contact details", select2: "Name", select3: "is",select4:""};
+    this.setState({ contacts });
+    console.log(this.state.contacts)
+    }
+    else if((name == "select2" && value =="Birthday") || (name == "select2" && value =="Subscription date")){
+      let contacts = [...this.state.contacts];
+    contacts[i] = {select1: "Contact details", select2: value, select3: "is before",select4:""};
+    this.setState({ contacts });
+    console.log(this.state.contacts)
+    } else if(name == "select2" && value =="Engagement Score"){
+      let contacts = [...this.state.contacts];
+    contacts[i] = {select1: "Contact details", select2: value, select3: "is equal to",select4:""};
+    this.setState({ contacts });
+    console.log(this.state.contacts)
+    } else if(name == "select2" && value =="Group"){
+      let contacts = [...this.state.contacts];
+    contacts[i] = {select1: "Contact details", select2: value, select3: "is group",select4:""};
+    this.setState({ contacts });
+    console.log(this.state.contacts)
+    }
+    
+    else {
+      let contacts = [...this.state.contacts];
+      contacts[i] = {...contacts[i], [name]: value};
+      this.setState({ contacts },()=>{
+        console.log(this.state.contacts)
+      });
+      
+    }
+    
+ }
   openModal() {
     console.log("open now");
     this.setState({modalIsOpen: true});

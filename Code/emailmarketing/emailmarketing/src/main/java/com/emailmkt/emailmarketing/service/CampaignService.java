@@ -3,13 +3,14 @@ package com.emailmkt.emailmarketing.service;
 import com.emailmkt.emailmarketing.dto.CampaignDTO;
 import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.dto.SegmentDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Campaign;
 import com.emailmkt.emailmarketing.model.Template;
 import java.util.*;
 
 public interface CampaignService {
-    boolean createCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO, Account account);
+    boolean createCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO, Account account, List<SegmentDTO> segmentDTOs, String condition);
     void sendCampaign(int campaignId);
     boolean createCampaignWithTimer(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO, Account account);
     boolean createAutoResponseCampaign(MailObjectDTO mailObjectDTO, int groupId, Template template);

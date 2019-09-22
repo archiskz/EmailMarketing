@@ -191,7 +191,7 @@ handleChange = (event)=>{
 
   saveTemplate = () =>{
   this.exportHtml();
-  console.log(this.state.template)
+  console.log(this.state.auth_token)
   var self = this
  
   axios.post(`${Config.API_URL}template/create`,this.state.template,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })

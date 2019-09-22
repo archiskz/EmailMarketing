@@ -466,7 +466,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                                 Appointment tmpAppointment = appointmentRepository.findAppointmentById(tmp.getCampaignAppointment());
                                 AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(tmpAppointment.getId(), subcriber.getEmail());
                                 if (!appointmentSubcriber.isSend()
-                                        && concompareTwoTimes(appointmentSubcriberCheck.getCreatedTime(), 2)
+                                        && concompareTwoTimes(appointmentSubcriberCheck.getCreatedTime(), 3)
                                 ) {
 
                                     appointmentSubcriber.setSend(true);
@@ -480,14 +480,13 @@ public class WorkflowServiceImpl implements WorkflowService {
                                 // CAMPAIGN
                                 Campaign tmpCampaign = campaignRepository.findCampaignById(tmp.getCampaignAppointment());
                                 CampaignSubcriber campaignSubcriber = campaignSubcriberRepository.changeConfirmSend(tmpCampaign.getId(), subcriber.getEmail());
-                                campaignSubcriber.getCreatedTime();
                                 if (campaignSubcriberRepository.checkConfirmCampaign(tmpCampaign.getId(), subcriber.getEmail()) != null) {
                                     System.out.println("--------------------------------------------------------Clicked ?No");
 
                                     System.out.println("------ISSEND" + subcriber.getEmail() + tmpCampaign.getName());
                                     System.out.println("-----------ISSEND" + campaignSubcriber.isSend());
                                     if (!campaignSubcriber.isSend()
-                                            && concompareTwoTimes(appointmentSubcriberCheck.getCreatedTime(), 2)
+                                            && concompareTwoTimes(appointmentSubcriberCheck.getCreatedTime(), 3)
                                     ) {
                                         campaignSubcriber.setSend(true);
                                         campaignSubcriberRepository.save(campaignSubcriber);
@@ -570,7 +569,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                                 AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(tmpAppointment.getId(), subcriber.getEmail());
                                 if(appointmentSubcriber != null){
                                     if (!appointmentSubcriber.isSend()
-                                            && concompareTwoTimes(timeSend, 2) == true
+                                            && concompareTwoTimes(timeSend, 3) == true
                                     ) {
 
                                         appointmentSubcriber.setSend(true);
@@ -605,7 +604,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                                     System.out.println("------ISSEND" + subcriber.getEmail() + tmpCampaign.getName());
                                     System.out.println("-----------ISSEND" + campaignSubcriber.isSend() + concompareTwoTimes(timeSend, 2));
                                     if (!campaignSubcriber.isSend() && campaignSubcriber.getMessageId() != ""
-                                            && concompareTwoTimes(timeSend, 1) && timeSend != "" && timeSend != null
+                                            && concompareTwoTimes(timeSend, 3) && timeSend != "" && timeSend != null
                                     ) {
                                         System.out.println("IM HERE");
                                         campaignSubcriber.setSend(true);

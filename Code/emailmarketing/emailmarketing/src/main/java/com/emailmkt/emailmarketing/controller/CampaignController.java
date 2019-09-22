@@ -4,6 +4,7 @@ import com.emailmkt.emailmarketing.Utils.Ultilities;
 import com.emailmkt.emailmarketing.dto.CampaignDTO;
 import com.emailmkt.emailmarketing.dto.CampaignFullDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.dto.SegmentDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Campaign;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -53,6 +56,8 @@ public class CampaignController {
     static class MailAndCampaign {
         public MailObjectDTO mailObjectDTO;
         public CampaignDTO campaignDTO;
+        List<SegmentDTO> segmentDTOs;
+        String condition;
     }
 
     //    public AccountController(AccountService accountService) {
@@ -69,7 +74,7 @@ public class CampaignController {
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
-        boolean flag = campaignService.createCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, account);
+        boolean flag = campaignService.createCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, account,mailAndCampaign.segmentDTOs,mailAndCampaign.condition);
 
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign Existed");
@@ -140,7 +145,23 @@ public class CampaignController {
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
-        return campaignRepository.findCampaignByAccount_idAndAutomationIsFalseOrderByCreatedTimeDesc(account.getId());
+        List<Campaign> campaignList = campaignRepository.findCampaignByAccount_idOrderByCreatedTimeDesc(account.getId()).stream().map(g->{
+            Campaign campaign = new Campaign();
+            campaign.setId(g.getId());
+            if(g.getName().contains(">")){
+                String []output = g.getName().split(">");
+                campaign.setName(output[0]);
+            }else{
+            campaign.setName(g.getName());}
+
+            campaign.setStatus(g.getStatus());
+            campaign.setDelivery(g.getDelivery());
+            campaign.setOpenRate(g.getOpenRate());
+            campaign.setClickRate(g.getClickRate());
+            return campaign;
+        }).collect(Collectors.toList());
+return campaignList;
+
     }
 
     @GetMapping("/campaigns/segment")

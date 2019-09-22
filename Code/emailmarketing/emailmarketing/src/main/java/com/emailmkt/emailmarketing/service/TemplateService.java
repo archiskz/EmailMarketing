@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface TemplateService {
-    boolean  createTemplate(Template template, Account account);
+    boolean createTemplate(Template template, Account account);
 
 
     List<Template> getAllTemplates();

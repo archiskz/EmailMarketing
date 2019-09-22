@@ -115,7 +115,7 @@ class OneTemplate extends Component {
                     <i className="sg-icon sg-icon-contacts-alt"></i>
                     <span>Duplicate</span>
                   </Link>
-                  <a onClick={()=> this.toEditTemplate(this.props.id)} data-role="dropdown-link" className={`dropdown-link dropdown-link-with-icon ${this.props.type == "ct"? '' : "activeText"}`} >
+                  <a onClick={()=> this.toEditTemplate(this.props.id)} data-role="dropdown-link" className={`dropdown-link dropdown-link-with-icon ${this.props.type == "ct" && this.props.admin != "Admin"? '' : "activeText"}`} >
                     <i className="sg-icon sg-icon-contacts-alt"></i>
                     <span>Edit</span>
                   </a>
@@ -177,7 +177,7 @@ class OneTemplate extends Component {
                         
                         <div class="modal-footer">
                     <button type="button" onClick={()=>this.closeModal()} class="btn btn-info">Cancel</button>
-                    <button type="button" onClick={() => this.onDuplicate(this.props.id)}  className={`btn btn-danger ${this.state.newTemplate.name ? "" : "disabled"}`} >Save</button>
+                    <button type="button" onClick={() => this.onDuplicateTemplate(this.props.id)}  className={`btn btn-danger ${this.state.newTemplate.name ? "" : "disabled"}`} >Save</button>
                     
                   </div>
                     </form>
@@ -190,12 +190,11 @@ class OneTemplate extends Component {
        
   );
   }
-  onDuplicate = (id)=>{
-    // console.log(`${Config.API_URL}template/copy/${id}`);
+  onDuplicateTemplate = (id)=>{
     console.log(this.state.auth_token)
-    axios.post(`${Config.API_URL}template/copy/${id}?name=${this.state.newTemplate.name}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    axios.post(`${Config.API_URL}template/copy/${id}?name=${this.state.newTemplate.name}`,{'a':`${this.state.auth_token}`},{'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(response => {
-      console.log(response.data)
+      console.log(response)
       if(response.data == "Fail"){
         this.setState({
           existedTemplate: true
@@ -204,7 +203,7 @@ class OneTemplate extends Component {
         this.setState({
           existedTemplate: true
         },()=>{
-          this.props.update()
+          // this.props.update()
         this.closeModal()
         
         })
@@ -217,6 +216,16 @@ class OneTemplate extends Component {
       this.props.update()
       this.closeModal()
       this.props.notify()
+    });
+  }
+
+  onDuplicateTemplate1 = (id)=>{
+    axios.post(`${Config.API_URL}template/copy/${id}?name=${this.state.newTemplate.name}`,{'a':`${this.state.auth_token}`},{'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(response => {
+      console.log(response)
+    })
+    .catch(error => {
+      console.log(error);
     });
   }
 
