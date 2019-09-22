@@ -119,7 +119,10 @@ class OneTemplate extends Component {
                     <i className="sg-icon sg-icon-contacts-alt"></i>
                     <span>Edit</span>
                   </a>
-                  
+                  <a onClick={()=> this.toEditTemplate(this.props.id)} data-role="dropdown-link" className={`dropdown-link dropdown-link-with-icon ${this.props.admin == "Admin"? '' : "activeText"}`} >
+                    <i className="sg-icon sg-icon-contacts-alt"></i>
+                    <span>Edit</span>
+                  </a>
                 </ul>
               </div>
               <a>
