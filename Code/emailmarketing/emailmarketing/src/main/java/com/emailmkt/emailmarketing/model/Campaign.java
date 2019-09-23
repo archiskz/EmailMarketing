@@ -50,6 +50,9 @@ public class Campaign implements Serializable {
     @Column(name = "sender")
     private String sender;
 
+    @Column(name = "segment")
+    private String segment;
+
     @Basic
     @Column(name = "created_time")
     private String createdTime;
