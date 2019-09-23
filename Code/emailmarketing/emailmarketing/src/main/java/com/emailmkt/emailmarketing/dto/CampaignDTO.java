@@ -14,6 +14,7 @@ public class CampaignDTO implements Serializable {
     private String createdTime;
     private String timeStart;
 
+
     private String type;
 
     private List<GCCampaignDTO> gcCampaignDTOS;
