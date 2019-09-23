@@ -66,6 +66,7 @@ class CreateContact extends Component {
       });
     }
     addNotificationContact=()=> {
+      
       this.notificationDOMRef.current.addNotification({
         title: `Add Contacts`,
         message: `Add Contacts Successfully!`,
@@ -77,6 +78,7 @@ class CreateContact extends Component {
         dismiss: { duration: 2000 },
         dismissable: { click: true }
       });
+    
     }
    onToggleDropdown = () => {
      this.setState({
@@ -86,14 +88,6 @@ class CreateContact extends Component {
 
 
     componentDidMount(){
-        if(this.props.history.location.state != null && this.props.history.location.state != undefined){
-            if(this.props.history.location.state.success != null && this.props.history.location.state.success != undefined){
-              this.addNotificationContact()
-              this.props.history.replace({});
-              this.getAllContacts()
-                    this.loadStatitic()
-            }
-          }
             const appState = JSON.parse(sessionStorage.getItem('appState'));
             this.setState({
                 auth_token: appState.user.auth_token
@@ -121,7 +115,7 @@ class CreateContact extends Component {
 
 
    getAllContacts=()=>{
-    console.log(this.state.auth_token)
+    console.log(this.state.allCountries.length)
     const allCountries = [{}];
    axios.get(`${Config.API_URL}subcribersV2`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
    .then(response => {console.log(response.data)
@@ -136,6 +130,16 @@ class CreateContact extends Component {
           return user.blackList == false
         }).slice(0,8),
        listFilter: response.data
+     },()=>{
+      if(this.props.history.location.state != null && this.props.history.location.state != undefined){
+        if(this.props.history.location.state.success != null && this.props.history.location.state.success != undefined){
+          
+          this.props.history.replace({});
+          // this.getAllContacts()
+                this.loadStatitic()
+                this.addNotificationContact()
+        }
+      }
      });
    })
    .catch(error => {
@@ -224,19 +228,20 @@ toAddContactManual=()=>{
         blackLists
       } = this.state;
       var totalCountries = allCountries.length;
-      if(totalCountries == 0){
-        totalCountries = 1
-      }
-        if (totalCountries === 0) return null
+      
+      // if(this.state.allCountries.length == 0){
+      //   totalCountries = 1
+      // }
+        if (this.state.allCountries.length === 0) return  null
        return (
 	  <div className = "" >
-      <ReactNotification
-          types={[{
-            htmlClasses: ["notification-awesome"],
-            name: "awesome"
-          }]}
-          ref={this.notificationDOMRef}
-        />
+     <ReactNotification
+        types={[{
+          htmlClasses: ["notification-awesome"],
+          name: "awesome"
+        }]}
+        ref={this.notificationDOMRef}
+      />
    <div className="flash_notice">
         </div>
         <div className="container" data-role="main-app-container">
@@ -325,12 +330,12 @@ toAddContactManual=()=>{
                             <tbody>
                             {this.renderContacts(currentCountries)}
                             </tbody>
-                            <Pagination
-                totalRecords={totalCountries}
+                            {this.state.allCountries.length > 1 ?  <Pagination
+                totalRecords={this.state.allCountries.length}
                 pageLimit={10}
                 pageNeighbours={1}
                 onPageChanged={this.onPageChanged}
-              />
+              /> :  null}
                         </table>
                         </div>
                     </div>

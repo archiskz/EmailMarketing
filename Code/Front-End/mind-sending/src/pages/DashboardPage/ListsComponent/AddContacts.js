@@ -42,6 +42,7 @@ class AddContact extends Component {
   }
 
   addNotification() {
+    if(this.notificationDOMRef.current != null && this.notificationDOMRef.current != undefined){
     this.notificationDOMRef.current.addNotification({
       title: "Awesomeness",
       message: "Add Contact Success!",
@@ -53,20 +54,24 @@ class AddContact extends Component {
       dismiss: { duration: 2000 },
       dismissable: { click: true }
     });
+  }
     
   }
   addNotificationFail() {
-    this.notificationDOMRef.current.addNotification({
-      title: "Add contacts",
-      message: "Mail is existed!",
-      type: "warning",
-      insert: "top",
-      container: "top-right",
-      animationIn: ["animated", "fadeIn"],
-      animationOut: ["animated", "fadeOut"],
-      dismiss: { duration: 2000 },
-      dismissable: { click: true }
-    });
+    if(this.notificationDOMRef.current != null && this.notificationDOMRef.current != undefined){
+      this.notificationDOMRef.current.addNotification({
+        title: "Add contacts",
+        message: "Mail is existed!",
+        type: "warning",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: { duration: 2000 },
+        dismissable: { click: true }
+      });
+    }
+    
     
   }
   onChangeListsSelect(args){
