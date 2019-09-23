@@ -38,7 +38,9 @@ public class TemplateServiceImpl implements TemplateService {
 
             template.setAccount_id(account.getId());
             template.setNameTemplate(template.getNameTemplate());
-            template.setType("ct");
+            if(account.getRole().getRoleName().equalsIgnoreCase("Admin") ){
+                template.setType("tp");
+            } else template.setType("ct");
             template.setCreated_time(LocalDateTime.now().toString());
             template.setContentHtml(template.getContentHtml());
             template.setContentJson(template.getContentJson());
@@ -58,7 +60,7 @@ public class TemplateServiceImpl implements TemplateService {
         if(templateGallery != null && templateTemp == null) {
             System.out.println("Test Account");
 //            template.setAccount_id(account.getId());
-            template.setAccount_id(1);
+            template.setAccount_id(account.getId());
 
             //Lỗi dòng này nha m? sao nó k get dc account ne
             System.out.println("Not Account");
@@ -70,8 +72,10 @@ public class TemplateServiceImpl implements TemplateService {
 
             template.setCreated_time(LocalDateTime.now().toString());
             template.setNameTemplate(name);
-
-            template.setType("ct");
+            if(account.getRole().getRoleName().equalsIgnoreCase(("Admin"))){
+                template.setType("tp");
+            }
+            else template.setType("ct");
             templateRepository.save(template);
             java.lang.String previewImage = convertHtmlToString(template.getContentHtml(), template.getId());
             template.setPreview(previewImage);

@@ -6,10 +6,11 @@ import qaExtension from './../../../resources/qa';
 import customRulesModule from '../../../custom/custom-rules';
 import magicModdleDescriptor from '../../../custom/descriptors/magic.json';
 import BpmnModdle from 'bpmn-moddle';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import axios from 'axios';
 import * as Config from '../../../constants/Config';
 import { withRouter } from "react-router";
-
+import ContactRow from './../../../components/row/ContactRow'
 import Modal from 'react-awesome-modal';
 class BpmnModelerComponent extends Component {
     constructor(props) {
@@ -118,7 +119,25 @@ class BpmnModelerComponent extends Component {
             contacts:[],
             inTask: false,
             inComing: false,
-            isModalVisible:false
+            isModalVisible:false,
+            contactBounce: [
+              ""
+            ],
+            contactClicked: [
+              ""
+            ],
+            contactDelivery: [
+              ""
+            ],
+            contactOpened: [
+              ""
+            ],
+            contactRequest: [
+              ""
+            ],
+            contactSpam: [
+              ""
+            ]
         };
         this.setWrapperRef = this.setWrapperRef.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
@@ -171,6 +190,7 @@ events.forEach(function(event) {
     }
 
     getInfoATask(shapeId){
+      var self = this
       axios.get(`${Config.API_URL}workflow/view?shapeId=${shapeId}&workflowId=${this.props.history.location.state.id}`,
        this.state.updateList,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(res => {
@@ -178,6 +198,13 @@ events.forEach(function(event) {
           // this.getAllListContact();
           this.setState({
             workflowDTO: res.data
+          }, ()=>{
+            if(res.data.campaign != null){
+              self.getCampaign(this.state.workflowDTO.campaign.id)
+            } else if(res.data.appointment != null){
+              self.getAppointment(this.state.workflowDTO.appointment.id)
+            }
+            
           })
           // this.openModal();
           
@@ -185,6 +212,8 @@ events.forEach(function(event) {
         .catch(function (error) {
           console.log(error);
         });
+
+        
     }
 
     openModal(){
@@ -357,6 +386,12 @@ onClickToExport = () =>{
 
     render = () => {
       var contacts = this.state.workflowDTO
+      var bounces = this.state.contactBounce
+    var spams = this.state.contactSpam
+    var opens = this.state.contactOpened
+    var clicks = this.state.contactClicked
+    var deliverys = this.state.contactDelivery
+    var requests = this.state.contactRequest
         return(
             <div id="bpmncontainer">
             <div class="toolbar-css__header___WnN4N editor-css__nav-bar___1burD" data-toolbar="true">
@@ -371,26 +406,268 @@ onClickToExport = () =>{
     </span>
 </div>           
               
-                <div id="propview"  style={{marginTop:"30px", width: '30%', height: 'auto', float: 'right', maxHeight: '98vh' }}>
+                <div id="propviews"  style={{marginTop:"30px", width: '40%', height: 'auto', float: 'right', maxHeight: '98vh' }}>
                 <div style={{marginTop:"-20px", width:"100%",height:"70px", backgroundColor:"#2e3544", color:"white" }}>
-                  <h3 className={`${this.state.workflowDTO.campaign == null ? 'activeText' : ''}`} style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Campaign: {this.state.workflowDTO.campaign != null ? this.state.workflowDTO.campaign.name.substring(0,(this.state.workflowDTO.campaign.name.length - 41)) : ''}</h3>
-                  <h3 className={`${this.state.workflowDTO.campaign == null ? '' : 'activeText'}`} style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Appointment: {this.state.workflowDTO.appointment != null ? this.state.workflowDTO.appointment.name.substring(0,(this.state.workflowDTO.appointment.name.length - 41)) : ''}</h3>
+                  <h3 className={`${this.state.workflowDTO.campaign == null ? 'activeText' : ''}`} style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Campaign: {this.state.workflowDTO.campaign != null ? this.state.workflowDTO.campaign.name.substring(0,(this.state.workflowDTO.campaign.name.length - 37)) : ''}</h3>
+                  <h3 className={`${this.state.workflowDTO.campaign == null ? '' : 'activeText'}`} style={{ "padding":"10px", marginBottom:"30px", backgroundColor:"#2e3544", color:"white" }}>Appointment: {this.state.workflowDTO.appointment != null ? this.state.workflowDTO.appointment.name.substring(0,(this.state.workflowDTO.appointment.name.length - 37)) : ''}</h3>
                 </div>
                 <div className={`${this.state.workflowDTO.campaign == null && this.state.workflowDTO.appointment == null  ? 'activeText' : ''}`} style={{"padding":"10px" }}> 
-                <h4>Clicked: {this.state.workflowDTO.campaign != null ? this.state.workflowDTO.campaign.clickRate : ""} 
+                {/* <h4>Clicked: {this.state.workflowDTO.campaign != null ? this.state.workflowDTO.campaign.clickRate : ""} 
                 {this.state.workflowDTO.appointment != null ? this.state.workflowDTO.appointment.clickRate : ""}
                 </h4>
                 <h4>Opened: { this.state.workflowDTO.campaign != null ? this.state.workflowDTO.campaign.openRate:"" }
                 { this.state.workflowDTO.appointment != null ? this.state.workflowDTO.appointment.openRate : ""}
-                </h4>
+                </h4> */}
                   <span>Contacts have completed: {this.state.workflowDTO.subcriberInTask != null ? this.state.workflowDTO.subcriberInTask.length : '0'} contacts</span> <a onClick={this.getCompleted} style={{cursor:"pointer" }}> View</a>
                   <br/>
                   <span>Contacts incoming: {this.state.workflowDTO.subcriersComing != null ? this.state.workflowDTO.subcriersComing.length : '0'} contacts</span> <a onClick={this.getInComing} style={{cursor:"pointer" }}> View</a>
-                
+                  <Tabs style={{marginTop:"20px","backgroundColor":"white", boxShadow: "0 1px 2px 1px rgba(0,0,0,.2)", "boderRadius":"50px", position:"relative"}}>
+                  <TabList>
+                    <Tab>Request</Tab>
+                    <Tab>Delivery</Tab>
+                    <Tab>Bounce</Tab>
+                    <Tab>Spam</Tab>
+                    <Tab>Opened</Tab>
+                    <Tab>Clicked</Tab>
+                  </TabList>
+
+                  <TabPanel>
+                  {/* Request */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+                  {/* {this.state.request} */}
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                { requests.length > 0 ? 
+                  requests.map((list,index) => (
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Delivery */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+               
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                { deliverys.length > 0 ?
+                  deliverys.map((list,index) => (
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  
+                  {/* {this.state.delivery} */}
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Bounce */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+    
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                { bounces.length > 0 ? 
+                  bounces.map((list,index) => (
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  
+                  {/* {this.state.bounce} */}
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Spam */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+    
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {
+                  spams.length > 0 ? 
+                  spams.map((list,index) => (
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Opened */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {
+                  opens.length > 0 ? 
+                  opens.map((list,index) => (
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  
+                  {/* {this.state.open} */}
+                  </TabPanel>
+                  <TabPanel>
+                  {/* Clicked */}
+                  <div className="" style={{textAlign:"left", padding:"10px"}}>
+                  <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                { 
+                  clicks.length > 0 ? 
+                  clicks.map((list,index) => (
+                    <ContactRow
+            id = {list.id}
+            firstName={list.firstName}
+            key={list.index}
+            email={list.email}
+            lastName={list.lastName}
+            address={list.address}
+            dob={list.dob}
+            phone={list.dob}
+            createdTime={list.createdTime}
+            type={list.type}
+            update = {this.updatePage}
+            score={this.state.score}
+        />
+                )) : "No contact"
+                }
+                  
+                </tbody>
+              </table>
+                    </div>
+                  {/* {this.state.click} */}
+                  </TabPanel>
+            </Tabs>
+        
                 </div>  
                   
                 </div>
-                <div id="bpmnview" style={{ width: '70%', height: '98vh', float: 'right' }}>
+                <div id="bpmnview" style={{ width: '58%', height: '98vh', float: 'left' }}>
                   
                 </div>
                 
@@ -410,6 +687,76 @@ onClickToExport = () =>{
             </div>
         )
     }
+
+
+    getCampaign(id){
+    axios.get(`${Config.API_URL}campaign/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(response => {
+      console.log(response.data)
+      this.setState({
+        bounce: response.data.bounce,
+        click:  response.data.click,
+        delivery: response.data.delivery,
+        open: response.data.open,
+        request:response.data.request,
+        spam:response.data.spam,
+        data1:[
+          { x: "Clicked", y: response.data.click, text: "Clicked" },
+              { x: "Opened", y: response.data.open, text: "Opened" },
+               { x: "Delivery", y: response.data.delivery, text: "Delivery" },
+               { x: "Request", y: response.data.request, text: "Request" }
+        ],
+        contactBounce: response.data.contactBounce,
+        contactClicked:response.data.contactClicked,
+        contactDelivery: response.data.contactDelivery ,
+        contactOpened: response.data.contactOpened,
+        contactRequest: response.data.contactRequest
+        ,contactSpam: response.data.contactSpam
+        
+      },()=>{
+        console.log(this.state)
+      }
+      );
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+getAppointment(id){
+  axios.get(`${Config.API_URL}appointment/${id}`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+  .then(response => {
+    console.log(response.data)
+    this.setState({
+      bounce: response.data.bounce,
+      click:  response.data.click,
+      delivery: response.data.delivery,
+      open: response.data.open,
+      request:response.data.request,
+      spam:response.data.spam,
+      data1:[
+        { x: "Clicked", y: response.data.click, text: "Clicked" },
+            { x: "Opened", y: response.data.open, text: "Opened" },
+             { x: "Delivery", y: response.data.delivery, text: "Delivery" },
+             { x: "Request", y: response.data.request, text: "Request" }
+      ],
+      contactBounce: response.data.contactBounce,
+      contactClicked:response.data.contactClicked,
+      contactDelivery: response.data.contactDelivery ,
+      contactOpened: response.data.contactOpened,
+      contactRequest: response.data.contactRequest
+      ,contactSpam: response.data.contactSpam
+      
+    },()=>{
+      console.log(this.state)
+    }
+    );
+  })
+  .catch(error => {
+    console.log(error);
+  });
+}
+
 }
 
 export default withRouter(BpmnModelerComponent);

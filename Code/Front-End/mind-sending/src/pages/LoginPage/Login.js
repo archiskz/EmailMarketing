@@ -173,27 +173,38 @@ getPosts() {
     .then(response => {
 		  if(response.status == 200){
 			  console.log(response)
-			  let userData = {
-				  auth_token: response.headers.authorization,
-				  username: this.state.user.username
-			  };
-			  let appState = {
-				isLoggedIn: true,
-				user: userData
-			  }
-			  sessionStorage["appState"] = JSON.stringify(appState);
-			  this.setState({
-				login:{
-					isLoggedIn: appState.isLoggedIn,
-					user: appState.user
+			  axios.get(`${Config.API_URL}accountByToken`,{ 'headers': { 'Authorization': `${response.headers.authorization}` } })
+			  .then((res) => {
+				  console.log(res)
+				let userData = {
+					auth_token: response.headers.authorization,
+					username: this.state.user.username,
+					role: res.data
+				};
+				let appState = {
+				  isLoggedIn: true,
+				  user: userData
 				}
+				sessionStorage["appState"] = JSON.stringify(appState);
+				this.setState({
+				  login:{
+					  isLoggedIn: appState.isLoggedIn,
+					  user: appState.user
+				  }
+				});
+				this.setState({
+				  isLoading: false
 			  });
-			  this.setState({
-				isLoading: false
-			});
-			this.props.history.push({
-				pathname:`/dashboard`,
-			});
+			  this.props.history.push({
+				  pathname:`/dashboard`,
+			  });
+			  })
+			  .catch((error) => {
+				console.log(error);
+			  });
+
+
+			  
 		  } else alert("Login Failed!");
     })
     .catch(error => {

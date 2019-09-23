@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.emailmkt.emailmarketing.constants.SecurityConstant.HEADER_STRING;
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
@@ -101,9 +102,10 @@ public class TemplateController {
     }
 
     @PostMapping("template/copy/{id}")
-    public ResponseEntity copyTemplate(@PathVariable int id,@RequestParam String name,HttpServletRequest request) {
+    public ResponseEntity copyTemplate(@PathVariable int id,@RequestParam String name,@RequestBody String a,HttpServletRequest request) {
+        System.out.println(request.getHeader(HEADER_STRING));
         String username = Ultilities.getUsername(request);
-        System.out.println("USER NAME IS :" + request);
+        System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
         boolean flag = templateService.copyTemplateGallery(id,name,account);
         if (flag == true) {

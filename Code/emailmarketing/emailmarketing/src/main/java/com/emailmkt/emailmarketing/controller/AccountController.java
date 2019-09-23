@@ -6,7 +6,9 @@ import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import com.amazonaws.services.simpleemail.model.VerifyEmailAddressRequest;
 import com.amazonaws.services.simpleemail.model.VerifyEmailAddressResult;
+import com.emailmkt.emailmarketing.Utils.Ultilities;
 import com.emailmkt.emailmarketing.model.Account;
+import com.emailmkt.emailmarketing.repository.AccountRepository;
 import com.emailmkt.emailmarketing.service.AccountService;
 import com.emailmkt.emailmarketing.service.MailService;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static javax.security.auth.callback.ConfirmationCallback.OK;
@@ -46,6 +49,9 @@ public class AccountController {
     @Value("${cloud.aws.region.static}")
     private String awsRegion;
 
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @Autowired
      AccountService accountService;
@@ -126,6 +132,16 @@ public class AccountController {
             return true;
         }
     }
+
+    @GetMapping("accountByToken")
+    public String getAccountByToken(HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        System.out.println("ROLE IS " + account.getRole().getRoleName());
+        return account.getRole().getRoleName();
+    }
+
 //
 
 
