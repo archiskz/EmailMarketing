@@ -118,7 +118,7 @@ public class TemplateServiceImpl implements TemplateService {
         }
 
         templateEdit.setNameTemplate(template.getNameTemplate());
-        templateEdit.setType("ct");
+//        templateEdit.setType("ct");
         templateEdit.setContentHtml(template.getContentHtml());
         java.lang.String previewImage = convertHtmlToString(template.getContentHtml(), template.getId());
         template.setPreview(previewImage);

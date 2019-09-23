@@ -304,12 +304,12 @@ toAddContactManual=()=>{
                             <tbody>
                             {this.renderContacts(currentCountries)}
                             </tbody>
-                            <Pagination
-                totalRecords={totalCountries}
+                            {this.state.allCountries.length > 1 ?  <Pagination
+                totalRecords={this.state.allCountries.length >1 ? this.state.allCountries.length : 0}
                 pageLimit={10}
                 pageNeighbours={1}
                 onPageChanged={this.onPageChanged}
-              />
+              /> : null}
                         </table>
                         </div>
                     </div>

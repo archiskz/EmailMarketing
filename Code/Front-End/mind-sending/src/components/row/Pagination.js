@@ -19,7 +19,9 @@ const range = (from, to, step = 1) => {
 class Pagination extends Component {
  constructor(props) {
    super(props);
-   const { totalRecords = null, pageLimit = 10, pageNeighbours = 0 } = props;
+   const { pageLimit = 10, pageNeighbours = 0 } = props;
+   const totalRecords = this.props.totalRecords
+   console.log("total record:" + totalRecords)
 
    this.pageLimit = typeof pageLimit === "number" ? pageLimit : 10;
    this.totalRecords = typeof totalRecords === "number" ? totalRecords : 0;
@@ -31,7 +33,7 @@ class Pagination extends Component {
 
    this.totalPages = Math.ceil(this.totalRecords / this.pageLimit);
    if (this.totalPages == 1){
-     this.totalPages = 2
+     this.totalPages = 1
    }
    console.log(this.totalPages)
 
