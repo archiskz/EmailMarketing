@@ -56,8 +56,8 @@ public class CampaignController {
     static class MailAndCampaign {
         public MailObjectDTO mailObjectDTO;
         public CampaignDTO campaignDTO;
-        List<SegmentDTO> segmentDTOs;
-        String condition;
+        public List <SegmentDTO> segmentDTOs;
+        public String condition;
     }
 
     //    public AccountController(AccountService accountService) {
