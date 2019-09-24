@@ -15,7 +15,7 @@ public interface CampaignService {
     boolean createCampaignWithTimer(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO, Account account);
     boolean createAutoResponseCampaign(MailObjectDTO mailObjectDTO, int groupId, Template template);
 
-     boolean editCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO,int id);
+     boolean editCampaign(MailObjectDTO mailObjectDTO, CampaignDTO campaignDTO, int id, List<SegmentDTO> segmentDTOs, String condition);
     Campaign addContentToCampaign(Campaign campaign);
 
     CampaignFullDTO getCampaignById(int id);

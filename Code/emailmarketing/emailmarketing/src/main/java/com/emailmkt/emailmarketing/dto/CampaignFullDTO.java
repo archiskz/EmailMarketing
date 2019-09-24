@@ -33,6 +33,9 @@ public class CampaignFullDTO {
     private String spam;
     private String bounce;
 
+    private String segment;
+    private String conditon;
+
 
 //    private String[] groupContactName;
 private List<GCCampaignDTO> gcCampaignDTOS;
