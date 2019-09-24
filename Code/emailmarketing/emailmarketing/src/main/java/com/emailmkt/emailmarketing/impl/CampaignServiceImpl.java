@@ -329,17 +329,17 @@ public class CampaignServiceImpl implements CampaignService {
         String fromMail = campaign.getFromMail();
         String subject = campaign.getSubject();
         String content = campaign.getContent();
-        List<String> mailLists = campaignSubcriberRepository.findSubcriberMailByCampaignId(id);
+        List<String> mailLists = campaignSubcriberRepository.findSubcriberMailByCampaignIdNotSend(id);
         System.out.println("MAIL 1: " + mailLists.get(0));
 
-//        List<CampaignGroupContact> campaignGroupContacts = campaign.getCampaignGroupContacts().stream().map(g -> {
+//        List<CampaignGroupContact> ontact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContact().getId()));
+////            String[] mailList = groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
+////            List<CampaignSubcriber> campaignSubcribers = new ArrayList<>();
+////            for (int i = 0; i < mailList.length; i++) {
+////                mailLists.add(mailList[i]);
+////                CampaignSubccampaignGroupContacts = campaign.getCampaignGroupContacts().stream().map(g -> {
 //            CampaignGroupContact campaignGroupContact = new CampaignGroupContact();
-//            campaignGroupContact.setGroupContact(groupContactRepository.findGroupById(g.getGroupContact().getId()));
-//            String[] mailList = groupContactRepository.findSubcriberMailByGroupContactId(campaignGroupContact.getGroupContact().getId());
-//            List<CampaignSubcriber> campaignSubcribers = new ArrayList<>();
-//            for (int i = 0; i < mailList.length; i++) {
-//                mailLists.add(mailList[i]);
-//                CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
+//            campaignGroupCriber campaignSubcriber = new CampaignSubcriber();
 //                campaignSubcriber.setComfirmation(false);
 //                campaignSubcriber.setCreatedTime("");
 //                campaignSubcriber.setCampaignGroupContact(campaignGroupContact);
