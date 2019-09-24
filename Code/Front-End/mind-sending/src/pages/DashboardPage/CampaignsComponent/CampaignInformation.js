@@ -29,6 +29,7 @@ class CampaignInformation extends Component{
      this.isComponentMounted = false;
      this.isEditorLoaded = false;
      this.state = {
+      isCheckedSegment: false,
       bounce: "",
       click:  "",
       delivery: "",
@@ -109,7 +110,11 @@ class CampaignInformation extends Component{
     },()=> { this.getCampaign();
       this.getAllGroups();
       this.isComponentMounted = true; 
-      this.loadTemplate()} )
+      this.loadTemplate()
+      this.getAllFrom()
+      this.getAllAppointment()
+      this.getAllCampaign()
+    } )
     
    }
 
@@ -159,6 +164,8 @@ class CampaignInformation extends Component{
                 gcCampaignDTOS: response.data.gcCampaignDTOS,
                 status: response.data.status,
               },
+              condition: "and",
+              // segmentDTOs: response.data.
               mailObjectDTO: {
                 body: response.data.body,
                 bodyJson: response.data.bodyJson,
@@ -283,6 +290,11 @@ class CampaignInformation extends Component{
     var clicks = this.state.contactClicked
     var deliverys = this.state.contactDelivery
     var requests = this.state.contactRequest
+    var listFrom = this.state.verified
+    var listCampaigns = new Array;
+    listCampaigns = this.state.listCampaigns
+    var listAppointments =new Array;
+    listAppointments = this.state.listAppointments
     console.log(requests)
 
     console.log(requests)
@@ -372,13 +384,30 @@ class CampaignInformation extends Component{
         				
         				<div className="user_profile9_sub">
         					<div className="user_profile8_sub1">
-        						{/* <label className="user_profile_w3_label" data-shrink="false" for="username">Segment</label> */}
-        						
-        						{/* <input aria-invalid="false" className="user_profile_w3_input2" id="username" type="text" value="thangnguyen15297@gmail.com"/> */}
-        					
-                    {/* <select className="inputContact mt15" style={{"width": "250px", "borderBottom":"1px solid #ccc !important"}} value={this.state.selectValue} onChange={this.handleChange} type="text" tabindex="-1" readonly="readonly" role="presentation">
-                            {lists.map(list => <option value={list.name}  key={list.id}>{list.name}</option>)}
-                            </select> */}
+                  <div className={`user_profile6 ${this.state.isCheckedSegment ? "" : ""}`}>
+            <p className="user_profile_w3_label" style={{"display":"flex"}}>Segment 
+            <div className="switch-container">
+                <label>
+                    <input ref="switch" checked={ this.state.isCheckedSegment } onChange={ this._handleChangeSegment } className="switch" type="checkbox" />
+                    <div>
+              
+                        <div></div>
+                    </div>
+                </label>
+            </div>
+            </p>
+            <div className={` ${this.state.isCheckedSegment ? "" : "activeText"}`} style={{fontSize:"14px",fontWeight:"600",display:"flex",justifyContent: "flex-start",alignItems:"baseline",marginLeft:"10px","marginTop":"10px"}}>
+                      Contacts match
+                      <select value={this.state.newCampaign.condition} onChange={this.handleChangeConditionSegment.bind(this)} style={{"width":"70px",marginLeft:"5px",marginRight:"5px"}} ref="selectCondition" name="select1" class="form-control"  id="exampleFormControlSelect1" >
+                        
+                        <option value="or">Any</option>
+                        <option value="and">All</option>
+                      </select>
+                      of the following conditions
+                       </div> 
+                       <br/>
+                {this.state.isCheckedSegment ?  this.createUI(listCampaigns,listAppointments,lists) :  null} 
+            </div>
         					</div>
         				</div>
         			</div>
@@ -788,6 +817,11 @@ class CampaignInformation extends Component{
 
   }
 
+    _handleChangeSegment=()=> {
+      this.setState( { isCheckedSegment: !this.state.isCheckedSegment }, ()=>console.log(this.state.isCheckedSegment));
+      }
+      
+
   saveContent = ()=>{
     var self= this;
     this.editor.exportHtml(data => {
@@ -807,6 +841,44 @@ class CampaignInformation extends Component{
     })
   
     
+  }
+
+  getAllCampaign=()=>{
+    var self = this
+    axios.get(`${Config.API_URL}campaigns/segment`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+      console.log(res.data)
+      var listCampaigns = res.data
+      // listCampaigns = listCampaigns.filter(function(item){
+      //   return item.status == "Done";
+      // })
+      console.log(res.data);
+      this.setState({listCampaigns: listCampaigns});
+    }) 
+  }
+
+  getAllFrom=()=>{
+    axios.get(`${Config.API_URL}emailverified?accountId=1`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+    var listFrom = res.data
+    var listFinal = []
+    listFrom.forEach(element => {
+      if(element.verified){
+        listFinal.push(element)
+      }
+    });
+	  this.setState({verified: listFinal});
+    }).catch(error =>{
+      console.log(error)
+    })
+   }
+  getAllAppointment=()=>{
+    axios.get(`${Config.API_URL}appointment/segment`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
+    .then(res => {
+      console.log(res.data)
+      this.setState({listAppointments:res.data})
+    }).catch(function (error) {
+      });
   }
 
   saveDraft =()=>{

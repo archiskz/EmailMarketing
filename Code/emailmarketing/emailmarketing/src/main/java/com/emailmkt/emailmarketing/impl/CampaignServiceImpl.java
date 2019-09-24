@@ -326,6 +326,7 @@ public class CampaignServiceImpl implements CampaignService {
         String subject = campaign.getSubject();
         String content = campaign.getContent();
         List<String> mailLists = campaignSubcriberRepository.findSubcriberMailByCampaignId(id);
+        System.out.println("MAIL 1: " + mailLists.get(0));
 
 //        List<CampaignGroupContact> campaignGroupContacts = campaign.getCampaignGroupContacts().stream().map(g -> {
 //            CampaignGroupContact campaignGroupContact = new CampaignGroupContact();
