@@ -123,7 +123,7 @@ public class CampaignController {
 
     @PutMapping("campaign/edit/{id}")
     public ResponseEntity updateCampaign(@RequestBody MailAndCampaign mailAndCampaign, @PathVariable int id) {
-        boolean flag = campaignService.editCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, id);
+        boolean flag = campaignService.editCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, id,mailAndCampaign.segmentDTOs,mailAndCampaign.condition);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign can not edit");
         }
