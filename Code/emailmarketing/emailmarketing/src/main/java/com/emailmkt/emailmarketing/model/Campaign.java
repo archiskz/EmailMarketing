@@ -53,6 +53,9 @@ public class Campaign implements Serializable {
     @Column(name = "segment")
     private String segment;
 
+    @Column(name = "conditionsegment")
+    private String conditionsegment;
+
     @Basic
     @Column(name = "created_time")
     private String createdTime;

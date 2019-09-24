@@ -87,7 +87,7 @@ public class CampaignServiceImpl implements CampaignService {
             List<CampaignSubcriber> campaignSubcribers = new ArrayList<>();
 
             for (int i = 0; i < mailList.length; i++) {
-                if (segmentDTOs.isEmpty()) {
+                if (segmentDTOs.size() == 0) {
                     mailLists.add(mailList[i]);
                     CampaignSubcriber campaignSubcriber = new CampaignSubcriber();
                     campaignSubcriber.setComfirmation(false);
@@ -306,8 +306,12 @@ public class CampaignServiceImpl implements CampaignService {
         }).collect(Collectors.toList());
 
         campaign.setCampaignGroupContacts(campaignGroupContacts);
+
         String segmentString = new Gson().toJson(segmentDTOs);
         campaign.setSegment(segmentString);
+        campaign.setConditionsegment(condition);
+
+
         campaignRepository.save(campaign);
 
 
