@@ -54,6 +54,7 @@ class CreateCampaign extends Component{
               type: "z",
               timeStart:""
           },
+          condition: "or",
           mailObjectDTO:{
               body: "",
                from: "",
@@ -427,7 +428,7 @@ class CreateCampaign extends Component{
             </p>
             <div className={` ${this.state.isCheckedSegment ? "" : "activeText"}`} style={{fontSize:"14px",fontWeight:"600",display:"flex",justifyContent: "flex-start",alignItems:"baseline",marginLeft:"10px","marginTop":"10px"}}>
                       Contacts match
-                      <select value={this.state.condition} onChange={this.handleChangeConditionSegment.bind(this)} style={{"width":"70px",marginLeft:"5px",marginRight:"5px"}} ref="selectCondition" name="select1" class="form-control"  id="exampleFormControlSelect1" >
+                      <select value={this.state.newCampaign.condition} onChange={this.handleChangeConditionSegment.bind(this)} style={{"width":"70px",marginLeft:"5px",marginRight:"5px"}} ref="selectCondition" name="select1" class="form-control"  id="exampleFormControlSelect1" >
                         
                         <option value="or">Any</option>
                         <option value="and">All</option>
@@ -515,9 +516,15 @@ class CreateCampaign extends Component{
       );
   }
   handleChangeConditionSegment=(event)=>{
-    this.setState({
-      condition: event.target.value
-    },()=> console.log(this.state.condition))
+      this.setState({
+        newCampaign:{
+         ...this.state.newCampaign,
+         condition: event.target.value,
+         segmentDTOs: this.state.contacts
+        }
+      },()=>{
+        console.log(this.state.newCampaign)
+      })
   }
 
   _handleChange=()=> {
@@ -531,16 +538,40 @@ class CreateCampaign extends Component{
 
 
   onChooseTemplate = (id, content)=>{
-    this.props.history.push({
-      pathname:`/edit-content/:${id}`,
-      state : {
-        id: id,
-        campaignId: this.state.campaignId,
-        contentJson: content,
-        isChecked: this.state.isChecked,
-        newCampaign: this.state.newCampaign,
-      }
-  });
+    var self = this
+    if(this.state.isCheckedSegment){
+      this.props.history.push({
+        pathname:`/edit-content/:${id}`,
+        state : {
+          id: id,
+          campaignId: this.state.campaignId,
+          contentJson: content,
+          isChecked: this.state.isChecked,
+          newCampaign: this.state.newCampaign,
+        }
+    });
+    } else {
+      self.setState({
+          newCampaign:{
+            ...this.state.newCampaign,
+            segmentDTOs:[],
+          }
+      },()=>{
+        console.log(this.state.newCampaign);
+        
+      self.props.history.push({
+        pathname:`/edit-content/:${id}`,
+        state : {
+          id: id,
+          campaignId: this.state.campaignId,
+          contentJson: content,
+          isChecked: this.state.isChecked,
+          newCampaign: this.state.newCampaign,
+        }
+    });
+      })
+    }
+    
   }
 
   toUserProfile= ()=>{
@@ -761,7 +792,7 @@ class CreateCampaign extends Component{
         </select>
        </td>
        <td className=" border_bottom_none">
-          <input className={`form-control ${el.select3 == 'is' || el.select3 == "is not" || el.select3 == "contains" || el.select3 == "doesn't contain"  ? '' : 'activeText'}`}  placeholder="" name="select4" value={el.select4 ||''} onChange={this.handleChange.bind(this, i)} />      
+          <input className={`form-control ${el.select3 == 'is' || el.select3 == "is not" || el.select3 == "contains" || el.select3 == "doesn't contain"  ? '' : 'activeText'}`}  placeholder="" name="select4" value={el.select4 ||''} onChange={this.handleChangeCondition.bind(this, i)} />      
           <select ref="selectFieldAction5" name="select4" value={el.select4 ||'1 bar'} className={`form-control ${el.select3 == 'is equal to'||el.select3 == 'is not equal to'|| el.select3 == 'is not equal to'  ? '' : 'activeText'}`} id="exampleFormControlSelect1" 
             onChange={this.handleChangeCondition.bind(this, i)}>
             <option value="" disabled selected style={{display:"none"}}>---select an option---</option>
@@ -797,7 +828,7 @@ class CreateCampaign extends Component{
         </select>
 
         
-        <input className={`form-control ${el.select3 == 'is before'||el.select3 == 'is after'|| el.select3 == 'is on'  ? '' : 'activeText'}`} type="date"  placeholder="date" name="select4" value={el.select4 ||''} onChange={this.handleChange.bind(this, i)} />      
+        <input className={`form-control ${el.select3 == 'is before'||el.select3 == 'is after'|| el.select3 == 'is on'  ? '' : 'activeText'}`} type="date"  placeholder="date" name="select4" value={el.select4 ||''} onChange={this.handleChangeCondition.bind(this, i)} />      
         
        
        </td>
@@ -819,36 +850,76 @@ class CreateCampaign extends Component{
     if(name == "select1" && value =="Contact actions"){
       let contacts = [...this.state.contacts];
     contacts[i] = {select1: "Contact actions", select2: "Mail not opened", select3: "campaign",select4:""};
-    this.setState({ contacts });
+    this.setState({ contacts,
+      newCampaign:{
+       ...this.state.newCampaign,
+       segmentDTOs: contacts
+      }
+  },()=>{
+    console.log(this.state.newCampaign)
+  });
     console.log(this.state.contacts)
     } else if(name == "select1" && value =="Contact details"){
       let contacts = [...this.state.contacts];
     contacts[i] = {select1: "Contact details", select2: "Name", select3: "is",select4:""};
-    this.setState({ contacts });
+    this.setState({ contacts,
+      newCampaign:{
+       ...this.state.newCampaign,
+       segmentDTOs: contacts
+      }
+  },()=>{
+    console.log(this.state.newCampaign)
+  });
     console.log(this.state.contacts)
     }
     else if((name == "select2" && value =="Birthday") || (name == "select2" && value =="Subscription date")){
       let contacts = [...this.state.contacts];
     contacts[i] = {select1: "Contact details", select2: value, select3: "is before",select4:""};
-    this.setState({ contacts });
+    this.setState({ contacts,
+      newCampaign:{
+       ...this.state.newCampaign,
+       segmentDTOs: contacts
+      }
+  },()=>{
+    console.log(this.state.newCampaign)
+  });
     console.log(this.state.contacts)
     } else if(name == "select2" && value =="Engagement Score"){
       let contacts = [...this.state.contacts];
     contacts[i] = {select1: "Contact details", select2: value, select3: "is equal to",select4:""};
-    this.setState({ contacts });
+    this.setState({ contacts,
+      newCampaign:{
+       ...this.state.newCampaign,
+       segmentDTOs: contacts
+      }
+  },()=>{
+    console.log(this.state.newCampaign)
+  });
     console.log(this.state.contacts)
     } else if(name == "select2" && value =="Group"){
       let contacts = [...this.state.contacts];
     contacts[i] = {select1: "Contact details", select2: value, select3: "is group",select4:""};
-    this.setState({ contacts });
+    this.setState({ contacts,
+      newCampaign:{
+       ...this.state.newCampaign,
+       segmentDTOs: contacts
+      }
+  },()=>{
+    console.log(this.state.newCampaign)
+  });
     console.log(this.state.contacts)
     }
     
     else {
       let contacts = [...this.state.contacts];
       contacts[i] = {...contacts[i], [name]: value};
-      this.setState({ contacts },()=>{
-        console.log(this.state.contacts)
+      this.setState({ contacts,
+          newCampaign:{
+           ...this.state.newCampaign,
+           segmentDTOs: contacts
+          }
+      },()=>{
+        console.log(this.state.newCampaign)
       });
       
     }
