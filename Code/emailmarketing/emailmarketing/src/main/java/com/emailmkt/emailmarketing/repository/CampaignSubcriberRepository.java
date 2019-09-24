@@ -49,7 +49,10 @@ public interface CampaignSubcriberRepository extends JpaRepository<CampaignSubcr
 
     @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId and cp.send=true ")
     List<String> findSubcriberMailByCampaignId(@Param("campaignId") int campaignId);
-//
+
+    @Query("SELECT cp.subcriberEmail FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId ")
+    List<String> findSubcriberMailByCampaignIdNotSend(@Param("campaignId") int campaignId);
+
     @Query("SELECT cp.comfirmation FROM CampaignSubcriber cp WHERE cp.campaignGroupContact.campaign.id = :campaignId AND cp.subcriberEmail= :subcriberEmail")
     Boolean checkConfirmCampaign(@Param("campaignId") int campaignId, @Param("subcriberEmail") String subcriberEmail);
 
