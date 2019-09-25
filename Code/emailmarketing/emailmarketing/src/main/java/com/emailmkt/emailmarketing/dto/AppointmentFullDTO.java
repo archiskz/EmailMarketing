@@ -23,6 +23,9 @@ public class AppointmentFullDTO {
     private String from;
     private String fromMail;
 
+    private String segment;
+    private String conditon;
+
     private String updatedTime;
 
     //Statistic of Campaign

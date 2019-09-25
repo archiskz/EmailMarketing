@@ -4,6 +4,7 @@ import com.emailmkt.emailmarketing.Utils.Ultilities;
 import com.emailmkt.emailmarketing.dto.AppointmentDTO;
 import com.emailmkt.emailmarketing.dto.AppointmentFullDTO;
 import com.emailmkt.emailmarketing.dto.MailObjectDTO;
+import com.emailmkt.emailmarketing.dto.SegmentDTO;
 import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Appointment;
 import com.emailmkt.emailmarketing.repository.AccountRepository;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 import static javax.mail.event.FolderEvent.CREATED;
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -64,6 +66,8 @@ public class AppointmentController {
     static class MailAndAppointment {
         public MailObjectDTO mailObjectDTO;
         public AppointmentDTO appointmentDTO;
+        public List<SegmentDTO> segmentDTOs;
+        public String condition;
     }
 
 
@@ -76,7 +80,7 @@ public class AppointmentController {
     public ResponseEntity createAppointment(@RequestBody MailAndAppointment mailAndAppointment, HttpServletRequest request) throws IOException, TemplateException {
         String username = Ultilities.getUsername(request);
         Account account = accountRepository.findAccountByUsername(username);
-        boolean flag = appointmentService.createAppointment(mailAndAppointment.mailObjectDTO, mailAndAppointment.appointmentDTO, account);
+        boolean flag = appointmentService.createAppointment(mailAndAppointment.mailObjectDTO, mailAndAppointment.appointmentDTO, account,mailAndAppointment.segmentDTOs,mailAndAppointment.condition);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Appointment Existed");
         }
