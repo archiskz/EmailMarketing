@@ -8,7 +8,7 @@ import com.emailmkt.emailmarketing.model.Subcriber;
 import java.util.List;
 
 public interface SubcriberService {
-    boolean createSubcrbier(SubcriberDTO dto);
+    boolean createSubcrbier(SubcriberDTO dto, Account account);
 
     boolean createSubcriberForm(SubcriberFormDTO dto);
 

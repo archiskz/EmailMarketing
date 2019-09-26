@@ -38,9 +38,9 @@ public class SubcriberServiceImpl implements SubcriberService {
 
 
     @Override
-    public boolean createSubcrbier(SubcriberDTO dto) {
+    public boolean createSubcrbier(SubcriberDTO dto,Account account) {
         System.out.println(dto.getEmail());
-        Subcriber checkExistedSubcriber = subcriberRepository.findByEmail(dto.getEmail());
+        Subcriber checkExistedSubcriber = subcriberRepository.findByEmailAndAccount(dto.getEmail(),account);
         if (checkExistedSubcriber != null) {
 
             return false;
@@ -55,7 +55,6 @@ public class SubcriberServiceImpl implements SubcriberService {
         subcriber.setFirstName(dto.getFirstName());
         subcriber.setLastName(dto.getLastName());
         subcriber.setType("0");
-        Account account = accountRepository.findAccountById(1);
         subcriber.setAccount_id(account.getId());
         List<GroupContactSubcriber> groupContactSubcribers = dto.getGcSubcriberDTOS().stream().map(g -> {
             GroupContactSubcriber groupContactSubcriber = new GroupContactSubcriber();
@@ -105,7 +104,7 @@ public class SubcriberServiceImpl implements SubcriberService {
     public boolean createListSubcrbier(List<SubcriberDTO> subcriberDTOS,Account account) {
         for (SubcriberDTO subcriberDTO : subcriberDTOS) {
 
-            Subcriber result = subcriberRepository.findByEmail(subcriberDTO.getEmail());
+            Subcriber result = subcriberRepository.findByEmailAndAccount(subcriberDTO.getEmail(),account);
 
             if (result != null) {
                 List<GroupContactSubcriber> groupContactSubcriber1st = result.getGroupContactSubcribers();

@@ -1,5 +1,6 @@
 package com.emailmkt.emailmarketing.repository;
 
+import com.emailmkt.emailmarketing.model.Account;
 import com.emailmkt.emailmarketing.model.Subcriber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Repository
 public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
+    Subcriber findByEmailAndAccount(String email, Account account);
     Subcriber findByEmail(String email);
 
     @Query("SELECT su FROM Subcriber su where LOWER(su.email) in :searchMail")
