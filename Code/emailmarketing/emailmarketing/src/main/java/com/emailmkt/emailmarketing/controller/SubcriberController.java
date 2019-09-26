@@ -63,8 +63,11 @@ public class SubcriberController {
     }
 
     @PostMapping("subcriber/create")
-    public ResponseEntity createSubcriber(@RequestBody SubcriberDTO dto) {
-        boolean flag = subcriberService.createSubcrbier(dto);
+    public ResponseEntity createSubcriber(@RequestBody SubcriberDTO dto,HttpServletRequest request) {
+        String username = Ultilities.getUsername(request);
+        System.out.println("USER NAME IS :" + username);
+        Account account = accountRepository.findAccountByUsername(username);
+        boolean flag = subcriberService.createSubcrbier(dto,account);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Email Existed");
         }
