@@ -522,7 +522,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                     }
                     if (segmentDTO.getSelect3().equalsIgnoreCase("is on")) {
                         String dateTime = segmentDTO.getSelect4();
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         LocalDate dateTimeFormated = LocalDate.parse(dateTime,formatter);
                         subcriberList = subcriberRepository.findAllByCreatedTimeContains(dateTimeFormated.toString());
                     }
