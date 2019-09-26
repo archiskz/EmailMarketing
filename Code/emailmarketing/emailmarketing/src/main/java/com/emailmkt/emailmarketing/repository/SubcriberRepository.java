@@ -84,7 +84,7 @@ public interface SubcriberRepository extends JpaRepository<Subcriber, Integer> {
     List<Subcriber> findAllByDob(String date);
 
     //Created Time
-    List<Subcriber> findAllByCreatedTime(String date);
+    List<Subcriber> findAllByCreatedTimeContains(String date);
 
     List<Subcriber> findAllByCreatedTimeBefore(String date);
 

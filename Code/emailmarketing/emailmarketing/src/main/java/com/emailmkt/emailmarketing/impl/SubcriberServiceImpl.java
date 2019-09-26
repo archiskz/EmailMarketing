@@ -1,7 +1,10 @@
 package com.emailmkt.emailmarketing.impl;
 
 import com.emailmkt.emailmarketing.dto.*;
-import com.emailmkt.emailmarketing.model.*;
+import com.emailmkt.emailmarketing.model.Account;
+import com.emailmkt.emailmarketing.model.CampaignSubcriber;
+import com.emailmkt.emailmarketing.model.GroupContactSubcriber;
+import com.emailmkt.emailmarketing.model.Subcriber;
 import com.emailmkt.emailmarketing.repository.*;
 import com.emailmkt.emailmarketing.service.SubcriberService;
 import org.slf4j.Logger;
@@ -9,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -499,6 +503,7 @@ public class SubcriberServiceImpl implements SubcriberService {
                         subcriberList = subcriberRepository.findAllByDobAfter(segmentDTO.getSelect4());
                     }
                     if (segmentDTO.getSelect3().equalsIgnoreCase("is on")) {
+
                         subcriberList = subcriberRepository.findAllByDob(segmentDTO.getSelect4());
                     }
                 }
@@ -516,7 +521,10 @@ public class SubcriberServiceImpl implements SubcriberService {
                         subcriberList = subcriberRepository.findAllByCreatedTimeAfter(segmentDTO.getSelect4());
                     }
                     if (segmentDTO.getSelect3().equalsIgnoreCase("is on")) {
-                        subcriberList = subcriberRepository.findAllByCreatedTime(segmentDTO.getSelect4());
+                        String dateTime = segmentDTO.getSelect4();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                        LocalDate dateTimeFormated = LocalDate.parse(dateTime,formatter);
+                        subcriberList = subcriberRepository.findAllByCreatedTimeContains(dateTimeFormated.toString());
                     }
                 }
                 //Engagement Score

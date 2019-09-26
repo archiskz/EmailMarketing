@@ -18,7 +18,9 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.server.ResponseStatusException;
 import org.thymeleaf.TemplateEngine;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -186,8 +188,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
                                 }
                                 if (segmentDTO.getSelect3().equalsIgnoreCase("is on")) {
-                                    subcriberList = subcriberRepository.findAllByCreatedTime(segmentDTO.getSelect4());
-
+                                    String dateTime = segmentDTO.getSelect4();
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                                    LocalDate dateTimeFormated = LocalDate.parse(dateTime,formatter);
+                                    subcriberList = subcriberRepository.findAllByCreatedTimeContains(dateTimeFormated.toString());
 
                                 }
                             }

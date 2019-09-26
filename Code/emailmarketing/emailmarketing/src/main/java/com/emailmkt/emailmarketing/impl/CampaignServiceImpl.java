@@ -16,7 +16,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -162,7 +164,10 @@ public class CampaignServiceImpl implements CampaignService {
 
                                 }
                                 if (segmentDTO.getSelect3().equalsIgnoreCase("is on")) {
-                                    subcriberList = subcriberRepository.findAllByCreatedTime(segmentDTO.getSelect4());
+                                    String dateTime = segmentDTO.getSelect4();
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                                    LocalDate dateTimeFormated = LocalDate.parse(dateTime,formatter);
+                                    subcriberList = subcriberRepository.findAllByCreatedTimeContains(dateTimeFormated.toString());
 
 
                                 }
@@ -586,7 +591,7 @@ public class CampaignServiceImpl implements CampaignService {
 
                                 }
                                 if (segmentDTO.getSelect3().equalsIgnoreCase("is on")) {
-                                    subcriberList = subcriberRepository.findAllByCreatedTime(segmentDTO.getSelect4());
+                                    subcriberList = subcriberRepository.findAllByCreatedTimeContains(segmentDTO.getSelect4());
 
 
                                 }
