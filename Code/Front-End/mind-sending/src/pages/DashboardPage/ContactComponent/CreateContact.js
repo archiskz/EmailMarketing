@@ -228,11 +228,14 @@ toAddContactManual=()=>{
         blackLists
       } = this.state;
       var totalCountries = allCountries.length;
+      if(totalCountries == 0){
+        totalCountries = 1
+      }
       
       // if(this.state.allCountries.length == 0){
       //   totalCountries = 1
       // }
-        if (this.state.allCountries.length === 0) return  null
+        if (totalCountries === 0) return  null
        return (
 	  <div className = "" >
      <ReactNotification
