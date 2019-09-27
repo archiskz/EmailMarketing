@@ -50,7 +50,16 @@ class TestForm extends Component {
 
             console.log("id"+ id)
             this.getFormById(id)
-            console.log(window.location.href);     //yields: "https://stacksnippets.net/js"
+            console.log(window.location.href); 
+            let path = window.location.href;
+            let tkStart = path.indexOf("Bear");
+            console.log(path.substring(tkStart, path.length))
+            this.setState({
+                auth_token: path.substring(tkStart, path.length).replace("%20"," ")
+            },()=>{
+                console.log(this.state.auth_token)
+            })
+            //yields: "https://stacksnippets.net/js"
             console.log(this.props.location.pathname)
         }
 
@@ -143,7 +152,8 @@ class TestForm extends Component {
     }
     onSubcribe(event){
         event.preventDefault()
-        console.log("haha")
+        
+        console.log("Hi" + this.state.auth_token)
         axios.post(`${Config.API_URL}subcriber/create`,this.state.newSubcriber,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(response => {
           this.setState({

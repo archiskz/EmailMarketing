@@ -314,7 +314,9 @@ public class WorkflowServiceImpl implements WorkflowService {
     @Override
     public void runWorkflow() {
         System.out.println("RUN WORK FLOW");
-        ExecutorService executor = Executors.newFixedThreadPool(30);
+//        ExecutorService executor = Executors.newFixedThreadPool(30);
+        ExecutorService executor = Executors.newCachedThreadPool();
+
         List<Workflow> workflows = workflowRepository.findWorkflowByStatus("Starting");
         if (workflows != null) {
             for (Workflow workflow : workflows) {
@@ -423,6 +425,8 @@ public class WorkflowServiceImpl implements WorkflowService {
     }
 
     public void runTask(Task firstTask, Workflow workflow, Subcriber subcriber) {
+
+        int INTERVAL = 2;
         //clicked yes : 1
 //        clicked no : 0
 //                opened yes : 2
@@ -466,7 +470,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                                 Appointment tmpAppointment = appointmentRepository.findAppointmentById(tmp.getCampaignAppointment());
                                 AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(tmpAppointment.getId(), subcriber.getEmail());
                                 if (!appointmentSubcriber.isSend()
-                                        && concompareTwoTimes(appointmentSubcriberCheck.getCreatedTime(), 3)
+                                        && concompareTwoTimes(appointmentSubcriberCheck.getCreatedTime(), INTERVAL)
                                 ) {
 
                                     appointmentSubcriber.setSend(true);
@@ -486,7 +490,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                                     System.out.println("------ISSEND" + subcriber.getEmail() + tmpCampaign.getName());
                                     System.out.println("-----------ISSEND" + campaignSubcriber.isSend());
                                     if (!campaignSubcriber.isSend()
-                                            && concompareTwoTimes(appointmentSubcriberCheck.getCreatedTime(), 3)
+                                            && concompareTwoTimes(appointmentSubcriberCheck.getCreatedTime(), INTERVAL)
                                     ) {
                                         campaignSubcriber.setSend(true);
                                         campaignSubcriberRepository.save(campaignSubcriber);
@@ -569,7 +573,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                                 AppointmentSubcriber appointmentSubcriber = appointmentSubcriberRepository.changeConfirmSend(tmpAppointment.getId(), subcriber.getEmail());
                                 if(appointmentSubcriber != null){
                                     if (!appointmentSubcriber.isSend()
-                                            && concompareTwoTimes(timeSend, 3) == true
+                                            && concompareTwoTimes(timeSend, INTERVAL) == true
                                     ) {
 
                                         appointmentSubcriber.setSend(true);
@@ -602,9 +606,9 @@ public class WorkflowServiceImpl implements WorkflowService {
                                     System.out.println("--------------------------------------------------------Clicked ?No");
 
                                     System.out.println("------ISSEND" + subcriber.getEmail() + tmpCampaign.getName());
-                                    System.out.println("-----------ISSEND" + campaignSubcriber.isSend() + concompareTwoTimes(timeSend, 2));
+                                    System.out.println("-----------ISSEND" + campaignSubcriber.isSend() + concompareTwoTimes(timeSend, INTERVAL));
                                     if (!campaignSubcriber.isSend() && campaignSubcriber.getMessageId() != ""
-                                            && concompareTwoTimes(timeSend, 3) && timeSend != "" && timeSend != null
+                                            && concompareTwoTimes(timeSend, INTERVAL) && timeSend != "" && timeSend != null
                                     ) {
                                         System.out.println("IM HERE");
                                         campaignSubcriber.setSend(true);
