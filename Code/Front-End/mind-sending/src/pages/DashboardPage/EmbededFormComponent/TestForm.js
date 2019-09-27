@@ -143,7 +143,7 @@ class TestForm extends Component {
                     {/* <a style={{"marginLeft":"10px"}} onClick={this.closeIframe} id="close_btn_mindsending" class="btn btn-primary">Close</a> */}
                 </form>    
             </div>
-                     );
+                     ); 
     }
     closeIframe=()=>{
         // var number=document.getElementById("number");  
@@ -152,8 +152,12 @@ class TestForm extends Component {
     }
     onSubcribe(event){
         event.preventDefault()
+<<<<<<< HEAD
         
         console.log("Hi" + this.state.auth_token)
+=======
+        console.log(this.state.auth_token)
+>>>>>>> d5cf4e6ab97e541cf640f18d94d5b426baa4da6e
         axios.post(`${Config.API_URL}subcriber/create`,this.state.newSubcriber,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
         .then(response => {
           this.setState({
