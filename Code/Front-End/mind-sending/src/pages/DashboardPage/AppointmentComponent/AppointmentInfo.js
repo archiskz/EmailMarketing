@@ -466,8 +466,8 @@ class AppointmentInfo extends Component{
                     <tr>
                     <th scope="row">{index + 1}</th>
                     <td>{list.email}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>{list.firstName}</td>
+                    <td>{list.lastName}</td>
                   </tr>
                 )) : "No contact"
                 }
@@ -497,8 +497,8 @@ class AppointmentInfo extends Component{
                     <tr>
                     <th scope="row">{index + 1}</th>
                     <td>{list.email}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>{list.firstName}</td>
+                    <td>{list.lastName}</td>
                   </tr>
                 )) : "No contact"
                 }
@@ -529,8 +529,8 @@ class AppointmentInfo extends Component{
                     <tr>
                     <th scope="row">{index + 1}</th>
                     <td>{list.email}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>{list.firstName}</td>
+                    <td>{list.lastName}</td>
                   </tr>
                 )) : "No contact"
                 }
@@ -558,8 +558,8 @@ class AppointmentInfo extends Component{
                     <tr>
                     <th scope="row">{index + 1}</th>
                     <td>{list.email}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>{list.firstName}</td>
+                    <td>{list.lastName}</td>
                   </tr>
                 )) : "No contact"
                 }
@@ -589,8 +589,8 @@ class AppointmentInfo extends Component{
                     <tr>
                     <th scope="row">{index + 1}</th>
                     <td>{list.email}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>{list.firstName}</td>
+                    <td>{list.lastName}</td>
                   </tr>
                 )) : "No contact"
                 }
