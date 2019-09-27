@@ -68,7 +68,7 @@ public class Appointment implements Serializable {
 
 
     @Column(name = "automation")
-    private boolean automation;
+    private Boolean automation;
 
 
 
