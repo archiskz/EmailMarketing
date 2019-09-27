@@ -194,7 +194,7 @@ class AppointmentMails extends Component {
                                     time={list.time}
                                     invited={list.request}
                                     registed={list.clickRate}
-                                    group={list.appointmentGroupContacts.id}
+                                    // group={list.appointmentGroupContacts.id}
                                     contactDateAdded={list.totalContacts} />
                                     ))}
 

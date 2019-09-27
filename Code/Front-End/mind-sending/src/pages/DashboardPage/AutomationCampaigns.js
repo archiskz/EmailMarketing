@@ -96,8 +96,11 @@ class AutomationCampaigns extends Component {
     axios.get(`${Config.API_URL}campaigns`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       // this.setState({campaigns: res.data});
+      sessionStorage.removeItem("campaigns");
       res.data.forEach(element => {
-        selectOptions.push({value: element.name, name: element.name})
+        if(element.automation == false){
+          selectOptions.push({value: element.name, name: element.name})
+        }
       });
       sessionStorage["campaigns"] = JSON.stringify(selectOptions);
     }) 
@@ -108,10 +111,13 @@ class AutomationCampaigns extends Component {
     ];
     axios.get(`${Config.API_URL}appointments`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
+      sessionStorage.removeItem("appointments");
       console.log(res.data)
       this.setState({appointments: res.data});
       res.data.forEach(element => {
-        selectOptions.push({value: element.name, name: element.name})
+        if(element.automation == false){
+          selectOptions.push({value: element.name, name: element.name})
+        }
       });
       sessionStorage["appointments"] = JSON.stringify(selectOptions);
     }) 
