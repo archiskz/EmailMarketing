@@ -48,6 +48,7 @@ public class CampaignController {
 
     @Autowired
     AccountRepository accountRepository;
+
     @Autowired
     public CampaignController(CampaignRepository campaignRepository) {
         this.campaignRepository = campaignRepository;
@@ -56,7 +57,7 @@ public class CampaignController {
     static class MailAndCampaign {
         public MailObjectDTO mailObjectDTO;
         public CampaignDTO campaignDTO;
-        public List <SegmentDTO> segmentDTOs;
+        public List<SegmentDTO> segmentDTOs;
         public String condition;
     }
 
@@ -74,12 +75,12 @@ public class CampaignController {
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
-        boolean flag = campaignService.createCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, account,mailAndCampaign.segmentDTOs,mailAndCampaign.condition);
+        boolean flag = campaignService.createCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, account, mailAndCampaign.segmentDTOs, mailAndCampaign.condition);
 
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign Existed");
         }
-        Campaign temp = campaignRepository.findByNameAndAccount_id(mailAndCampaign.campaignDTO.getCampaignName(),account.getId());
+        Campaign temp = campaignRepository.findByNameAndAccount_id(mailAndCampaign.campaignDTO.getCampaignName(), account.getId());
         return ResponseEntity.status(CREATED).body(temp.getId());
 
     }
@@ -104,7 +105,7 @@ public class CampaignController {
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign Existed");
         }
-        Campaign temp = campaignRepository.findByNameAndAccount_id(mailAndCampaign.campaignDTO.getCampaignName(),account.getId());
+        Campaign temp = campaignRepository.findByNameAndAccount_id(mailAndCampaign.campaignDTO.getCampaignName(), account.getId());
 
         return ResponseEntity.status(CREATED).body(temp.getId());
 
@@ -116,14 +117,14 @@ public class CampaignController {
 //        .orElseThrow(() -> new RuntimeException("Not found"));
 //    }
 
-    @GetMapping(value="campaign/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "campaign/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     CampaignFullDTO read(@PathVariable int id) {
         return campaignService.getCampaignById(id);
     }
 
     @PutMapping("campaign/edit/{id}")
     public ResponseEntity updateCampaign(@RequestBody MailAndCampaign mailAndCampaign, @PathVariable int id) {
-        boolean flag = campaignService.editCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, id,mailAndCampaign.segmentDTOs,mailAndCampaign.condition);
+        boolean flag = campaignService.editCampaign(mailAndCampaign.mailObjectDTO, mailAndCampaign.campaignDTO, id, mailAndCampaign.segmentDTOs, mailAndCampaign.condition);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Campaign can not edit");
         }
@@ -145,22 +146,23 @@ public class CampaignController {
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
-        List<Campaign> campaignList = campaignRepository.findCampaignByAccount_idOrderByCreatedTimeDesc(account.getId()).stream().map(g->{
+        List<Campaign> campaignList = campaignRepository.findCampaignByAccount_idOrderByCreatedTimeDesc(account.getId()).stream().map(g -> {
             Campaign campaign = new Campaign();
             campaign.setId(g.getId());
-            if(g.getName().contains(">")){
-                String []output = g.getName().split(">");
+            if (g.getName().contains(">")) {
+                String[] output = g.getName().split(">");
                 campaign.setName(output[0]);
-            }else{
-            campaign.setName(g.getName());}
-
+            } else {
+                campaign.setName(g.getName());
+            }
+            campaign.setAutomation(g.getAutomation());
             campaign.setStatus(g.getStatus());
             campaign.setDelivery(g.getDelivery());
             campaign.setOpenRate(g.getOpenRate());
             campaign.setClickRate(g.getClickRate());
             return campaign;
         }).collect(Collectors.toList());
-return campaignList;
+        return campaignList;
 
     }
 
@@ -184,11 +186,11 @@ return campaignList;
 
 
     @PostMapping("campaign/copy/")
-    public ResponseEntity copyCampaign(@RequestParam int id, @RequestParam int workflowId,HttpServletRequest request) {
+    public ResponseEntity copyCampaign(@RequestParam int id, @RequestParam int workflowId, HttpServletRequest request) {
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
-        int number = campaignService.copyCampaign(id, workflowId,account);
+        int number = campaignService.copyCampaign(id, workflowId, account);
         if (number != 1) {
             return ResponseEntity.status(CREATED).body("Đã copy thành công ");
         }
@@ -216,7 +218,7 @@ return campaignList;
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
-        boolean flag = campaignService.copyCampaign(id, name,account);
+        boolean flag = campaignService.copyCampaign(id, name, account);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Fail ");
         }
@@ -226,7 +228,7 @@ return campaignList;
 
 
     @PostMapping("campaign/check/")
-    public ResponseEntity checkDuplicateName(@RequestParam String name,HttpServletRequest request ) {
+    public ResponseEntity checkDuplicateName(@RequestParam String name, HttpServletRequest request) {
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);

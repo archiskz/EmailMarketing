@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static javax.mail.event.FolderEvent.CREATED;
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -80,7 +81,7 @@ public class AppointmentController {
     public ResponseEntity createAppointment(@RequestBody MailAndAppointment mailAndAppointment, HttpServletRequest request) throws IOException, TemplateException {
         String username = Ultilities.getUsername(request);
         Account account = accountRepository.findAccountByUsername(username);
-        boolean flag = appointmentService.createAppointment(mailAndAppointment.mailObjectDTO, mailAndAppointment.appointmentDTO, account,mailAndAppointment.segmentDTOs,mailAndAppointment.condition);
+        boolean flag = appointmentService.createAppointment(mailAndAppointment.mailObjectDTO, mailAndAppointment.appointmentDTO, account, mailAndAppointment.segmentDTOs, mailAndAppointment.condition);
         if (flag == false) {
             return ResponseEntity.status(CONFLICT).body("Appointment Existed");
         }
@@ -92,19 +93,19 @@ public class AppointmentController {
 
     @PostMapping(value = "message/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public void createNotification() {
-         sqsService.getMessage();
+        sqsService.getMessage();
     }
 
     @RequestMapping(value = "/accept-appointment", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public String confirmAppointment(String confirmationToken, String subcriberEmail) {
-        return appointmentService.acceptAppointment(confirmationToken,subcriberEmail).getBody();
+        return appointmentService.acceptAppointment(confirmationToken, subcriberEmail).getBody();
     }
 
     @RequestMapping(value = "/deny-appointment", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public String denyAppointment(String confirmationToken, String subcriberEmail) {
-        return appointmentService.denyAppointment(confirmationToken,subcriberEmail).getBody();
+        return appointmentService.denyAppointment(confirmationToken, subcriberEmail).getBody();
     }
 
     @GetMapping("/appointments")
@@ -113,21 +114,24 @@ public class AppointmentController {
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
         System.out.println("ACCOUNTID IS :" + account.getId());
-        return appointmentRepository.findAppointmentByAccount_idOrderByCreatedTimeDesc(account.getId());
-//        List<Appointment> appointmentList =appointmentRepository.findAppointmentByAccount_idOrderByCreatedTimeDesc(account.getId()).stream().map(g->{
-//            Appointment appointment = new Appointment();
-//            appointment.setId(g.getId());
-//            if(g.getName().contains(">")){
-//                String []output = g.getName().split(">");
-//                appointment.setName(output[0]);
-//
-//            }else{appointment.setName(g.getName());}
-//            appointment.setTime(g.getTime());
-//            appointment.setRequest(g.getRequest());
-//            appointment.setClickRate(g.getClickRate());
-//            return appointment;
-//        }).collect(Collectors.toList());
-//        return appointmentList;
+//        return appointmentRepository.findAppointmentByAccount_idOrderByCreatedTimeDesc(account.getId());
+        List<Appointment> appointmentList = appointmentRepository.findAppointmentByAccount_idOrderByCreatedTimeDesc(account.getId()).stream().map(g -> {
+            Appointment appointment = new Appointment();
+            appointment.setId(g.getId());
+            if (g.getName().contains(">")) {
+                String[] output = g.getName().split(">");
+                appointment.setName(output[0]);
+
+            } else {
+                appointment.setName(g.getName());
+            }
+            appointment.setStatus(g.getStatus());
+            appointment.setTime(g.getTime());
+            appointment.setRequest(g.getRequest());
+            appointment.setClickRate(g.getClickRate());
+            return appointment;
+        }).collect(Collectors.toList());
+        return appointmentList;
 
     }
 
@@ -138,6 +142,7 @@ public class AppointmentController {
         Account account = accountRepository.findAccountByUsername(username);
         return appointmentService.getAppointmentSegment(account.getId());
     }
+
     @GetMapping("appointment/{id}")
     public AppointmentFullDTO getAppointmentById(@PathVariable(value = "id") int id) {
         return appointmentService.getAppointmentById(id);
@@ -146,11 +151,11 @@ public class AppointmentController {
 
     ///Test POST
     @PostMapping("appointment/copy/")
-    public ResponseEntity copyAppointment(@RequestParam int id,@RequestParam int workflowId, HttpServletRequest request) {
+    public ResponseEntity copyAppointment(@RequestParam int id, @RequestParam int workflowId, HttpServletRequest request) {
         String username = Ultilities.getUsername(request);
         System.out.println("USER NAME IS :" + username);
         Account account = accountRepository.findAccountByUsername(username);
-        int number = appointmentService.copyAppointment(id,workflowId,account);
+        int number = appointmentService.copyAppointment(id, workflowId, account);
         if (number != 1) {
             return ResponseEntity.status(CONFLICT).body("Đã copy thành công ");
         }
@@ -163,10 +168,6 @@ public class AppointmentController {
         appointmentService.getStatisticAppointment();
         return ResponseEntity.status(HttpStatus.OK).body("Successfully");
     }
-
-
-
-
 
 
 }
