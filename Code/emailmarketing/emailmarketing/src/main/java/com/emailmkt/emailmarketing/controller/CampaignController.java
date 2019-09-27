@@ -155,7 +155,7 @@ public class CampaignController {
             } else {
                 campaign.setName(g.getName());
             }
-
+            campaign.setAutomation(g.getAutomation());
             campaign.setStatus(g.getStatus());
             campaign.setDelivery(g.getDelivery());
             campaign.setOpenRate(g.getOpenRate());
