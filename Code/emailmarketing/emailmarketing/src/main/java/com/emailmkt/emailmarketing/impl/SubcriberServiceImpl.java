@@ -199,6 +199,7 @@ public class SubcriberServiceImpl implements SubcriberService {
             double totalOpen = campaignSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(), true)
                     + appointmentSubcriberRepository.countBySubcriberEmailAndOpened(subcriber.getEmail(), true);
             double totalClick = campaignSubcriberRepository.countBySubcriberEmailAndComfirmation(subcriber.getEmail(), true) + appointmentSubcriberRepository.countBySubcriberEmailAndConfirmation(subcriber.getEmail(), true);
+            subcriber.setTotalRequest(String.valueOf((int) total));
             subcriber.setOpenRate(String.valueOf((int) totalOpen));
             subcriber.setClickRate(String.valueOf((int) totalClick));
             if (subcriber.getPoint() >= 0 && subcriber.getPoint() < 30) {
@@ -367,7 +368,7 @@ public class SubcriberServiceImpl implements SubcriberService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 //        String formatTime = LocalDateTime.now().minusDays(7).format(formatter);
 //        String formatTime = LocalDateTime.now().format(formatter);
-        String formatTime = "08/22/2019";
+        String formatTime = "09/26/2019";
         for (Subcriber subcriber : subcriberRepository.findAll()) {
             Long point = subcriber.getPoint();
             if (point < 0) {

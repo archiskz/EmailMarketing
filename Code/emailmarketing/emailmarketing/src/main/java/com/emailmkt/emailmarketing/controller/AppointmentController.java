@@ -125,6 +125,7 @@ public class AppointmentController {
             } else {
                 appointment.setName(g.getName());
             }
+            appointment.setAutomation(g.getAutomation());
             appointment.setStatus(g.getStatus());
             appointment.setTime(g.getTime());
             appointment.setRequest(g.getRequest());
