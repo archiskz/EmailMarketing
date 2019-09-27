@@ -10,6 +10,7 @@ import {
 import Automations from './Automations';
 import CampaignPopUp from './../../components//modals/CampaignPopUp.js';
 import AutoRow from './../../components/row/AutoRow'
+import ReactNotification from "react-notifications-component";
 
 class AutomationCampaigns extends Component {
    constructor(props) {
@@ -21,6 +22,8 @@ class AutomationCampaigns extends Component {
        campaigns: [],
        auth_token:""
      };
+     this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
    }
    onToggleDropdown = () => {
      this.setState({
@@ -58,13 +61,35 @@ class AutomationCampaigns extends Component {
     axios.get(`${Config.API_URL}workflows`,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
     .then(res => {
       console.log(res.data);
-      this.setState({campaigns: res.data})
+      this.setState({campaigns: res.data},()=>{
+        if(this.props.history.location.state != null && this.props.history.location.state != undefined){
+          if(this.props.history.location.state.success != null && this.props.history.location.state.success !== undefined){
+            this.props.history.replace({});
+                  this.addNotification();
+          }
+        }
+      })
     }).catch(error => {
       console.log(error)
     }) 
    
   
    }
+
+   addNotification() {
+    this.notificationDOMRef.current.addNotification({
+      title: "Campaign",
+      message: "Create New Workflow Successfully!",
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
+    // this.props.history.goBack()
+  }
    getAllCampaign=()=>{
     var selectOptions = [
     ];
@@ -111,6 +136,13 @@ class AutomationCampaigns extends Component {
      return (
 	  <div className = "" >
    <div className="flash_notice">
+   <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
         </div>
         <div className="container" data-role="main-app-container">
             <div>

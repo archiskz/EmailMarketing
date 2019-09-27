@@ -155,7 +155,10 @@ onClickToExport = () =>{
       .then(res => {
         console.log("contact ID: " + res.data)
         self.props.history.push({
-          pathname: '/dashboard/automations'
+          pathname: '/dashboard/automations',
+          state:{
+            success: true
+          }
         })
         // this.setState({count: res.data})
        }).catch(function (error) {
