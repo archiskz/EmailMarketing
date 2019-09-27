@@ -27,13 +27,15 @@ class SubDashboard extends Component {
             contactStatitic:{},
             data1:[
               ],
-              dataPie:[]
+              dataPie:[],
+              username: ""
         };
     }
 componentDidMount(){
   const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
-        auth_token: appState.user.auth_token
+        auth_token: appState.user.auth_token,
+        username: appState.user.username
     },()=> { 
       this.getLatestContact()
       this.getContactByType()
@@ -148,7 +150,7 @@ loadSubscriberrStatitic=()=>{
           <div className="sub_dashboard">
           <div>
            <h1>
-                Hello Thắng Nguyễn!
+                Hello {this.state.username}!
             Here's your recent statistic.
             </h1>
             

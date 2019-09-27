@@ -31,6 +31,7 @@ class EmbededForm extends React.Component {
             groupId:0,
             isLoading:false,
             newForm:{
+                code:"",
                 form: "",
                 gcFormDTOS: [
                     {
@@ -79,6 +80,7 @@ class EmbededForm extends React.Component {
             }, () => { console.log('------------------', this.state.newForm)})
           }
           Validate = ()=>{
+              console.log(this.state.newForm)
             var validate = {};
       
                 if(this.state.newForm.name.length < 3){
@@ -86,6 +88,17 @@ class EmbededForm extends React.Component {
                   this.setState({isLoading:false})
                   
                 } else validate.nameValidate=""
+                if(this.state.newForm.code.length < 3){
+                    validate.codeValidate = "You need to enter form headline"; 
+                    this.setState({isLoading:false})
+                    
+                  } else validate.codeValidate=""
+
+                  if(this.state.newForm.gcFormDTOS[0].groupContactId == 0){
+                    validate.groupValidate = "You need to choose a group"; 
+                    this.setState({isLoading:false})
+                    
+                  } else validate.groupValidate=""
 
                 this.setState({
                   validates: validate
@@ -226,21 +239,24 @@ class EmbededForm extends React.Component {
                                 <span>Headline</span>
                                 <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
                             </div>
-                            <input onChange={this.handleChange} value={this.state.newForm.code} class="user_profile_w3_input" name="code" type="text" autocomplete="off" maxlength="64"/>
-                            {/* <ValidateField isValidate={false} isError = {this.state.validates.nameValidate} /> */}
+                            <input onBlur={this.Validate} onChange={this.handleChange} value={this.state.newForm.code} class="user_profile_w3_input" name="code" type="text" autocomplete="off" maxlength="64"/>
+                            <ValidateField isValidate={false} isError = {this.state.validates.codeValidate} />
                         </div>
                         <div class="FormFieldContainer-cVnFXD gVnSPE">
                             <div class="FormFieldLabel-jJcHUJ foZsFZ">
                                 <span>Group</span>
                                 <span class="InfoBoxContainer-hgOnVC chmwKn"></span>
                             </div>
-                            <DropDownListComponent ref={(scope) => { this.mulObj = scope; }}  
+                            <DropDownListComponent
+                            onBlur={this.Validate}
+                             ref={(scope) => { this.mulObj = scope; }}  
                           style={{"width": "250px !important", "borderBottom":"1px solid #ccc !important"}} 
                           id="defaultelement"  mode="Default"  
                           dataSource={lists} mode="Default" fields={this.fields}  
                           value={1}
                           change={this.onChangeListsSelect}
                           placeholder="Choose Group"/>  
+                          <ValidateField isValidate={false} isError = {this.state.validates.groupValidate} />
                                </div>
 {/*                          
                         <div class="FormFieldContainer-cVnFXD gVnSPE">
@@ -284,7 +300,7 @@ class EmbededForm extends React.Component {
         var self = this
         console.log(this.state.newForm)
         this.Validate()
-        if(this.state.validates.nameValidate == "" ){
+        if(this.state.validates.nameValidate == "" && this.state.validates.codeValidate == "" && this.state.validates.groupValidate == "" ){
             console.log("Validate right")
         axios.post(`${Config.API_URL}form/create`,this.state.newForm,{ 'headers': { 'Authorization': `${this.state.auth_token}` } })
             .then(response => {
@@ -293,7 +309,10 @@ class EmbededForm extends React.Component {
                     generated: true,
                 formId: response.data})
                 self.props.history.push({
-        pathname:`/dashboard/forms`,
+                pathname:`/dashboard/forms`,
+                state:{
+                    create: true
+                }
             })
             })
             .catch(error => {
