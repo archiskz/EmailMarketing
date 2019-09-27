@@ -7,8 +7,7 @@ import {
   Route,
   Switch
 } from "react-router-dom";
-
-
+import ReactNotification from "react-notifications-component";
 import FormRow from './../../../components/row/FormRow'
 
 class EmbeddedForms extends Component {
@@ -22,6 +21,8 @@ class EmbeddedForms extends Component {
        auth_token:"",
        forms:[],filter:[]
      };
+     this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
    }
    onToggleDropdown = () => {
      this.setState({
@@ -30,7 +31,6 @@ class EmbeddedForms extends Component {
    }
 
    componentDidMount(){
-    
     const appState = JSON.parse(sessionStorage.getItem('appState'));
     this.setState({
         auth_token: appState.user.auth_token
@@ -42,10 +42,32 @@ class EmbeddedForms extends Component {
     .then(res => {
       console.log(res.data);
       this.setState({forms: res.data,
-    filter: res.data});
+        filter: res.data},()=>{
+            if(this.props.history.location.state != null && this.props.history.location.state != undefined){
+                if(this.props.history.location.state.create != null && this.props.history.location.state.create !== undefined){
+                  this.props.history.replace({});
+                        this.addNotification();
+                }
+              }
+        });
     }) 
 
    }
+
+   addNotification() {
+    this.notificationDOMRef.current.addNotification({
+      title: "Campaign",
+      message: "Create New Form Successfully!",
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true }
+    });
+    // this.props.history.goBack()
+  }
    handleSearch = (event) => {
     var searchValue = event.target.value;
     var groupContactsList = this.state.filter
@@ -77,6 +99,13 @@ class EmbeddedForms extends Component {
      return (
 	  <div className = "" >
    <div className="flash_notice">
+        <ReactNotification
+          types={[{
+            htmlClasses: ["notification-awesome"],
+            name: "awesome"
+          }]}
+          ref={this.notificationDOMRef}
+        />
         </div>
         <div className="container" data-role="main-app-container">
             <div>

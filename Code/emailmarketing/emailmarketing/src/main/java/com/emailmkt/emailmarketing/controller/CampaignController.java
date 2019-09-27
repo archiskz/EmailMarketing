@@ -134,7 +134,7 @@ public class CampaignController {
     @PutMapping(value = "campaign/add", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity addContent(@RequestBody Campaign campaign) {
         Campaign accountEdited = campaignService.addContentToCampaign(campaign);
-        if (accountEdited != null) {
+        if (accountEdited != null) { 
             return ResponseEntity.status(ACCEPTED).body(accountEdited);
         }
         return ResponseEntity.status(NOT_ACCEPTABLE).body("Updated Fail");
